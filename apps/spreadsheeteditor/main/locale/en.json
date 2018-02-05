@@ -1499,6 +1499,8 @@
   "SSE.Views.PivotTable.tipRefresh": "Update the information from data source",
   "SSE.Views.PivotTable.tipGrandTotals": "Show or hide grand totals",
   "SSE.Views.PivotTable.tipSubtotals": "Show or hide subtotals",
+  "SSE.Views.PivotTable.txtSelect": "Select",
+  "SSE.Views.PivotTable.tipSelect": "Select entire pivot table",
   "SSE.Views.PrintSettings.btnPrint": "Save & Print",
   "SSE.Views.PrintSettings.cancelButtonText": "Cancel",
   "SSE.Views.PrintSettings.strBottom": "Bottom",
