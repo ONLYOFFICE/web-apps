@@ -1521,6 +1521,7 @@ define([
                         this.api.asc_registerCallback('asc_onDialogAddHyperlink',       onDialogAddHyperlink);
                         this.api.asc_registerCallback('asc_doubleClickOnChart',         onDoubleClickOnChart);
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
+                        this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
                     }
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',                      _.bind(onCoAuthoringDisconnect, this));
@@ -1633,6 +1634,7 @@ define([
 
             if (win) {
                 win.show();
+                return win;
             }
         },
 
@@ -1672,6 +1674,93 @@ define([
 
             if (win) {
                 win.show();
+            }
+        },
+
+        advancedTableClick: function(item, e, eOpt){
+            var win, me = this;
+            if (me.api){
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && _.isArray(selectedElements)){
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        var elType, elValue;
+
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Table == elType) {
+                            win = new DE.Views.TableSettingsAdvanced({
+                                tableStylerRows     : (elValue.get_CellBorders().get_InsideH()===null && elValue.get_CellSelect()==true) ? 1 : 2,
+                                tableStylerColumns  : (elValue.get_CellBorders().get_InsideV()===null && elValue.get_CellSelect()==true) ? 1 : 2,
+                                tableProps          : elValue,
+                                borderProps         : me.borderAdvancedProps,
+                                sectionProps        : me.api.asc_GetSectionProps(),
+                                handler             : function(result, value) {
+                                    if (result == 'ok') {
+                                        if (me.api) {
+                                            me.borderAdvancedProps = value.borderProps;
+                                            me.api.tblApply(value.tableProps);
+                                        }
+                                    }
+                                    me.fireEvent('editcomplete', me);
+                                }
+                            });
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (win) {
+                win.show();
+                return win;
+            }
+        },
+
+        onRulerDblClick: function(type) {
+            var win, me = this;
+            if (type == 'tables') {
+                win = this.advancedTableClick();
+                if (win)
+                    win.setActiveCategory(4);
+            } else if (type == 'indents' || type == 'tabs') {
+                win = this.advancedParagraphClick({isChart: false});
+                if (win)
+                    win.setActiveCategory(type == 'indents' ? 0 : 3);
+            } else if (type == 'margins') {
+                win = new DE.Views.PageMarginsDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            var props = dlg.getSettings();
+                            var mnu = DE.getController('Toolbar').toolbar.btnPageMargins.menu.items[0];
+                            mnu.setVisible(true);
+                            mnu.setChecked(true);
+                            mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
+                            $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                            Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
+                            Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
+                            Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
+                            Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+
+                            me.api.asc_SetSectionProps(props);
+                            me.fireEvent('editcomplete', me);
+                        }
+                    }
+                });
+                win.show();
+                win.setSettings(me.api.asc_GetSectionProps());
+            } else if (type == 'columns') {
+                win = new DE.Views.CustomColumnsDialog({
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            me.api.asc_SetColumnsProps(dlg.getSettings());
+                            me.fireEvent('editcomplete', me);
+                        }
+                    }
+                });
+                win.show();
+                win.setSettings(me.api.asc_GetColumnsProps());
             }
         },
 
@@ -1787,14 +1876,14 @@ define([
                                 me.api.asc_SetContentControlProperties(value, props.get_InternalId());
                             }
 
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            me.fireEvent('editcomplete', me);
                         }
                     })).show();
                 } else if (item.value == 'remove') {
                     this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
                 }
             }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            me.fireEvent('editcomplete', me);
         },
 
         createDelayedElementsViewer: function() {
@@ -2373,45 +2462,7 @@ define([
 
             var menuTableAdvanced = new Common.UI.MenuItem({
                 caption        : me.advancedTableText
-            }).on('click', function(item, e, eOpt){
-                var win;
-                if (me.api){
-                    var selectedElements = me.api.getSelectedElements();
-
-                    if (selectedElements && _.isArray(selectedElements)){
-                        for (var i = selectedElements.length - 1; i >= 0; i--) {
-                            var elType, elValue;
-
-                            elType  = selectedElements[i].get_ObjectType();
-                            elValue = selectedElements[i].get_ObjectValue();
-
-                            if (Asc.c_oAscTypeSelectElement.Table == elType) {
-                                win = new DE.Views.TableSettingsAdvanced({
-                                    tableStylerRows     : (elValue.get_CellBorders().get_InsideH()===null && elValue.get_CellSelect()==true) ? 1 : 2,
-                                    tableStylerColumns  : (elValue.get_CellBorders().get_InsideV()===null && elValue.get_CellSelect()==true) ? 1 : 2,
-                                    tableProps          : elValue,
-                                    borderProps         : me.borderAdvancedProps,
-                                    sectionProps        : me.api.asc_GetSectionProps(),
-                                    handler             : function(result, value) {
-                                        if (result == 'ok') {
-                                            if (me.api) {
-                                                me.borderAdvancedProps = value.borderProps;
-                                                me.api.tblApply(value.tableProps);
-                                            }
-                                        }
-                                        me.fireEvent('editcomplete', me);
-                                    }
-                                });
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (win) {
-                    win.show();
-                }
-            });
+            }).on('click', _.bind(me.advancedTableClick, me));
 
             var menuParagraphAdvancedInTable = new Common.UI.MenuItem({
                 caption     : me.advancedParagraphText
