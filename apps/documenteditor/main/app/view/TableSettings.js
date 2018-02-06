@@ -81,7 +81,9 @@ define([
                 CheckColBanded: false,
                 BackColor: '#000000',
                 RepeatRow: false,
-                DisabledControls: false
+                DisabledControls: false,
+                Width: null,
+                Height: null
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -440,14 +442,16 @@ define([
                 this._originalProps.put_CellSelect(true);
 
                 var value = props.get_ColumnWidth();
-                if ((this._state.Width === null || this._state.Width === undefined) ||
+                if ((this._state.Width === undefined || value === undefined)&&(this._state.Width!==value) ||
 					Math.abs(this._state.Width-value)>0.001) {
-                    this.numWidth.setValue((value !== null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this.numWidth.setValue((value !== null && value !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this._state.Width=value;
                 }
                 value = props.get_RowHeight();
-                if ((this._state.Height === null || this._state.Height === undefined) ||
+                if ((this._state.Height === undefined || value === undefined)&&(this._state.Height!==value) ||
 					Math.abs(this._state.Height-value)>0.001) {
-                    this.numHeight.setValue((value !== null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this.numHeight.setValue((value !== null && value !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this._state.Height=value;
                 }
 
                 //for table-template
