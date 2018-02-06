@@ -250,6 +250,10 @@ if (Common === undefined) {
                 _postMessage({ event: 'onDocumentReady' });
             },
 
+            requestClose: function() {
+                _postMessage({event: 'onRequestClose'});
+            },
+
             on: function(event, handler){
                 var localHandler = function(event, data){
                     handler.call(me, data)

@@ -54,14 +54,15 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                closable: false,
+                closable        : false,
                 width           : 250,
                 height          : (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 205 : 155,
                 contentWidth    : 390,
                 header          : true,
                 cls             : 'open-dlg',
                 contentTemplate : '',
-                title           : (options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? t.txtTitleProtected : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT')
+                title           : (options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? t.txtTitleProtected : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT'),
+                toolcallback    : _.bind(t.onToolClose, t)
 
             }, options);
 
@@ -84,18 +85,21 @@ define([
                     '<% } %>',
                     '</div>',
                 '</div>',
-
                 '<div class="separator horizontal"/>',
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">' + t.okButtonText + '</button>',
+                    '<% if (closable) { %>',
+                    '<button class="btn normal dlg-btn" result="cancel">' + t.closeButtonText + '</button>',
+                    '<% } %>',
                 '</div>'
             ].join('');
 
-            this.handler        =   options.handler;
-            this.type           =   options.type;
-            this.codepages      =   options.codepages;
-            this.settings       =   options.settings;
-            this.validatePwd    =   options.validatePwd || false;
+            this.handler        =   _options.handler;
+            this.type           =   _options.type;
+            this.closable       =   _options.closable;
+            this.codepages      =   _options.codepages;
+            this.settings       =   _options.settings;
+            this.validatePwd    =   _options.validatePwd || false;
 
             _options.tpl        =   _.template(this.template)(_options);
 
@@ -106,7 +110,8 @@ define([
 
             if (this.$window) {
                 var me = this;
-                this.$window.find('.tool').hide();
+                if (!this.closable)
+                    this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
                 if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     this.inputPwd = new Common.UI.InputField({
@@ -120,11 +125,11 @@ define([
                     this.$window.find('input').on('keypress', _.bind(this.onKeyPress, this));
                 } else {
                     this.initCodePages();
-                    this.onPrimary = function() {
-                        me.onBtnClick();
-                        return false;
-                    };
                 }
+                this.onPrimary = function() {
+                    me._handleInput('ok');
+                    return false;
+                };
             }
         },
 
@@ -141,23 +146,34 @@ define([
              }
         },
 
-        onBtnClick: function (event) {
+        onKeyPress: function(event) {
+            if (event.keyCode == Common.UI.Keys.RETURN) {
+                this._handleInput('ok');
+            } else if (this.closable && event.keyCode == Common.UI.Keys.ESC)
+                this._handleInput('cancel');
+        },
+
+        onBtnClick: function(event) {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onToolClose: function() {
+            this._handleInput('cancel');
+        },
+
+        _handleInput: function(state) {
             if (this.handler) {
                 if (this.cmbEncoding) {
                     var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                         delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
                     (delimiter == -1) && (delimiter = null);
                     this.handler.call(this, this.cmbEncoding.getValue(), delimiter, delimiterChar);
-                } else
-                    this.handler.call(this, this.inputPwd.getValue());
+                } else {
+                    this.handler.call(this, state, this.inputPwd.getValue());
+                }
             }
 
             this.close();
-        },
-
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN)
-                this.onBtnClick();
         },
 
         initCodePages: function () {
@@ -381,7 +397,8 @@ define([
         txtPassword        : "Password",
         txtTitleProtected  : "Protected File",
         txtOther: 'Other',
-        txtIncorrectPwd: 'Password is incorrect.'
+        txtIncorrectPwd: 'Password is incorrect.',
+        closeButtonText: 'Close File'
 
     }, Common.Views.OpenDialog || {}));
 });

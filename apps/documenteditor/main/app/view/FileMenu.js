@@ -221,7 +221,7 @@ define([
         },
 
         show: function(panel, opts) {
-            if (this.isVisible() && panel===undefined) return;
+            if (this.isVisible() && panel===undefined || !this.mode) return;
 
             var defPanel = (this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) ? 'saveas' : 'info';
             if (!panel)

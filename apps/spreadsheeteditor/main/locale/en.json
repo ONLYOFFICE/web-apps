@@ -102,6 +102,7 @@
   "Common.Views.OpenDialog.txtTab": "Tab",
   "Common.Views.OpenDialog.txtTitle": "Choose %1 options",
   "Common.Views.OpenDialog.txtTitleProtected": "Protected File",
+  "Common.Views.OpenDialog.closeButtonText": "Close File",
   "Common.Views.PasswordDialog.cancelButtonText": "Cancel",
   "Common.Views.PasswordDialog.okButtonText": "OK",
   "Common.Views.PasswordDialog.txtDescription": "A password is required to open this document",

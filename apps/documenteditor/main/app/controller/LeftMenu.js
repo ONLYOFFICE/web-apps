@@ -610,6 +610,8 @@ define([
         },
 
         onShortcut: function(s, e) {
+            if (!this.mode) return;
+
             switch (s) {
                 case 'replace':
                 case 'search':
