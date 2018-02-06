@@ -3101,12 +3101,12 @@ define([
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked);
 
                     // image properties
-                    menuImgOriginalSize.setVisible(_.isUndefined(value.shapeProps) && _.isUndefined(value.chartProps));
+                    menuImgOriginalSize.setVisible((_.isUndefined(value.shapeProps) || value.shapeProps.value.get_FromImage()) && _.isUndefined(value.chartProps));
 
                     if (menuImgOriginalSize.isVisible())
                         menuImgOriginalSize.setDisabled(disabled || _.isNull(value.imgProps.value.get_ImageUrl()) || _.isUndefined(value.imgProps.value.get_ImageUrl()));
 
-                    menuImageAdvanced.setVisible(_.isUndefined(value.shapeProps) && _.isUndefined(value.chartProps));
+                    menuImageAdvanced.setVisible((_.isUndefined(value.shapeProps) || value.shapeProps.value.get_FromImage()) && _.isUndefined(value.chartProps));
                     menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     menuImgShapeSeparator.setVisible(menuImageAdvanced.isVisible() || menuShapeAdvanced.isVisible() || menuChartEdit.isVisible());

@@ -137,6 +137,8 @@ define([
                         if (shapeprops) {
                             if (shapeprops.get_FromChart())
                                 menu_props.imgProps.isChart = true;
+                            else if (shapeprops.get_FromImage())
+                                menu_props.imgProps.isOnlyImg = true;
                             else
                                 menu_props.imgProps.isShape = true;
                         } else if ( chartprops )
@@ -2266,8 +2268,7 @@ define([
 
                     menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps);
 
-                    me.menuOriginalSize.setVisible(_.isNull(value.imgProps.value.get_ChartProperties()) && _.isNull(value.imgProps.value.get_ShapeProperties()) &&
-                                                  !onlyCommonProps);
+                    me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg);
                     me.pictureMenu.items[10].setVisible(menuChartEdit.isVisible() || me.menuOriginalSize.isVisible());
 
                     var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
