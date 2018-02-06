@@ -770,6 +770,10 @@ Common.Utils.InternalSettings = new(function() {
     }
 });
 
-Common.Utils.InternalSettings.set('toolbar-height-compact', 32);
-Common.Utils.InternalSettings.set('toolbar-height-normal', 32+67);
-Common.Utils.InternalSettings.set('doc-title-height', 28);
+Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
+Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
+Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
+Common.Utils.InternalSettings.set('document-title-height', 28);
+
+Common.Utils.InternalSettings.set('toolbar-height-compact', Common.Utils.InternalSettings.get('toolbar-height-tabs'));
+Common.Utils.InternalSettings.set('toolbar-height-normal', Common.Utils.InternalSettings.get('toolbar-height-tabs') + Common.Utils.InternalSettings.get('toolbar-height-controls'));

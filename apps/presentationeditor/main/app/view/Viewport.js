@@ -85,13 +85,11 @@ define([
             var items = $container.find(' > .layout-item');
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
-                items: [
-                {
+                items: [{
                     el: $container.find('> .layout-item#title').hide(),
                     alias: 'title',
-                    height: Common.Utils.InternalSettings.get('doc-title-height')
-                },
-                {
+                    height: Common.Utils.InternalSettings.get('document-title-height')
+                }, {
                     el: items[1],
                     alias: 'toolbar',
                     height: Common.localStorage.getBool('pe-compact-toolbar') ?

@@ -82,13 +82,11 @@ define([
             var $container = $('#viewport-vbox-layout', this.$el);
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
-                items: [
-                    {
+                items: [{
                         el: $container.find('> .layout-item#title').hide(),
                         alias: 'title',
-                        height: Common.Utils.InternalSettings.get('doc-title-height')
-                    },
-                    {
+                        height: Common.Utils.InternalSettings.get('document-title-height')
+                    }, {
                         el: $container.find(' > .layout-item#toolbar'),
                         alias: 'toolbar',
                         // rely: true

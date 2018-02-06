@@ -119,18 +119,31 @@ define([
             var me = this;
             me.appConfig = config;
 
+            var _intvars = Common.Utils.InternalSettings;
+            var $filemenu = $('.toolbar-fullview-panel');
+            $filemenu.css('top', _intvars.get('toolbar-height-tabs'));
+
             if ( !config.isEdit ||
                 ( !Common.localStorage.itemExists("pe-compact-toolbar") &&
                     config.customization && config.customization.compactToolbar ))
             {
-                me.viewport.vlayout.getItem('toolbar').height = Common.Utils.InternalSettings.get('toolbar-height-compact');
+                me.viewport.vlayout.getItem('toolbar').height = _intvars.get('toolbar-height-compact');
             }
 
             if ( config.isDesktopApp && config.isEdit ) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
 
-                $('.toolbar-fullview-panel').addClass('new-doctitle-offset');
+                var toolbar = me.viewport.vlayout.getItem('toolbar');
+                toolbar.el.addClass('top-title');
+                toolbar.height -= _intvars.get('toolbar-height-tabs') - _intvars.get('toolbar-height-tabs-top-title');
+
+                var _tabs_new_height = _intvars.get('toolbar-height-tabs-top-title');
+                _intvars.set('toolbar-height-tabs', _tabs_new_height);
+                _intvars.set('toolbar-height-compact', _tabs_new_height);
+                _intvars.set('toolbar-height-normal', _tabs_new_height + _intvars.get('toolbar-height-controls'));
+
+                $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
             }
         },
 
