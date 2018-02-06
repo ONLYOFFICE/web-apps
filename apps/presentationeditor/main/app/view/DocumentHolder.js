@@ -2116,6 +2116,22 @@ define([
                 })()
             });
 
+            var menuTableDistRows = new Common.UI.MenuItem({
+                caption : me.textDistributeRows
+            }).on('click', _.bind(function(){
+                if (me.api)
+                    me.api.asc_DistributeTableCells(false);
+                me.fireEvent('editcomplete', me);
+            }, me));
+
+            var menuTableDistCols = new Common.UI.MenuItem({
+                caption : me.textDistributeCols
+            }).on('click', _.bind(function(){
+                if (me.api)
+                    me.api.asc_DistributeTableCells(true);
+                me.fireEvent('editcomplete', me);
+            }, me));
+
             me.menuSpellTable = new Common.UI.MenuItem({
                 caption     : me.loadSpellText,
                 disabled    : true
@@ -2910,7 +2926,7 @@ define([
                         return;
 
                     var isEquation= (value.mathProps && value.mathProps.value);
-                    for (var i = 6; i < 16; i++) {
+                    for (var i = 6; i < 19; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -2924,6 +2940,8 @@ define([
                         mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());
                         mnuTableSplit.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeSplitCells());
                     }
+                    menuTableDistRows.setDisabled(value.tableProps.locked || disabled);
+                    menuTableDistCols.setDisabled(value.tableProps.locked || disabled);
 
                     me.tableMenu.items[7].setDisabled(value.tableProps.locked || disabled);
                     me.tableMenu.items[8].setDisabled(value.tableProps.locked || disabled);
@@ -3067,6 +3085,9 @@ define([
                     { caption: '--' },
                     mnuTableMerge,
                     mnuTableSplit,
+                    { caption: '--' },
+                    menuTableDistRows,
+                    menuTableDistCols,
                     { caption: '--' },
                     menuTableCellAlign,
                     { caption: '--' },
@@ -3375,7 +3396,9 @@ define([
         txtKeepTextOnly: 'Keep text only',
         txtPastePicture: 'Picture',
         txtPasteSourceFormat: 'Keep source formatting',
-        txtPasteDestFormat: 'Use destination theme'
+        txtPasteDestFormat: 'Use destination theme',
+        textDistributeRows: 'Distribute rows',
+        textDistributeCols: 'Distribute columns'
 
     }, PE.Views.DocumentHolder || {}));
 });

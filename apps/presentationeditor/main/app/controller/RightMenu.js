@@ -273,6 +273,7 @@ define([
             this.rightmenu.paragraphSettings.updateMetricUnit();
             this.rightmenu.chartSettings.updateMetricUnit();
             this.rightmenu.imageSettings.updateMetricUnit();
+            this.rightmenu.tableSettings.updateMetricUnit();
         },
 
         fillTextArt:  function() {
