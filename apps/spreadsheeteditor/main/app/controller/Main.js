@@ -913,8 +913,7 @@ define([
                     statusbarView   = app.getController('Statusbar').getView('Statusbar');
 
                 if (this.headerView) {
-                    this.headerView.setHeaderCaption(this.appOptions.isEdit ? 'Spreadsheet Editor' : 'Spreadsheet Viewer');
-                    this.headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isEditMailMerge && 
+                    this.headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isEditMailMerge &&
                             !this.appOptions.isDesktopApp && !this.appOptions.isEditDiagram);
                 }
 
