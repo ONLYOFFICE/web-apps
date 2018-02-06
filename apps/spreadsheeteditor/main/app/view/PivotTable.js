@@ -253,7 +253,7 @@ define([
 
                 this.btnSelectPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-update-pivot',
+                    iconCls: 'btn-select-pivot',
                     caption: this.txtSelect
                 });
                 this.lockedControls.push(this.btnSelectPivot);
