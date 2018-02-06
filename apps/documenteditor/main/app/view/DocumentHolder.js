@@ -1597,27 +1597,6 @@ define([
             window.currentStyleName = name;
         },
 
-        _applyTableWrap: function(wrap, align){
-            var selectedElements = this.api.getSelectedElements();
-            if (selectedElements && _.isArray(selectedElements)){
-                for (var i = selectedElements.length - 1; i >= 0; i--) {
-                    var elType, elValue;
-                    elType = selectedElements[i].get_ObjectType();
-                    elValue = selectedElements[i].get_ObjectValue();
-                    if (Asc.c_oAscTypeSelectElement.Table == elType) {
-                        var properties = new Asc.CTableProp();
-                        properties.put_TableWrap(wrap);
-                        if (wrap == c_tableWrap.TABLE_WRAP_NONE) {
-                            properties.put_TableAlignment(align);
-                            properties.put_TableIndent(0);
-                        }
-                        this.api.tblApply(properties);
-                        break;
-                    }
-                }
-            }
-        },
-
         advancedParagraphClick: function(item, e, eOpt){
             var win, me = this;
             if (me.api){
@@ -2328,51 +2307,6 @@ define([
 
             /* table menu*/
 
-            var tableAlign = function(item, e) {
-                me._applyTableWrap(c_tableWrap.TABLE_WRAP_NONE, item.options.align);
-            };
-
-            var menuTableWrapInline = new Common.UI.MenuItem({
-                caption     : me.inlineText,
-                toggleGroup : 'popuptablewrapping',
-                checkable   : true,
-                menu        : new Common.UI.Menu({
-                    menuAlign: 'tl-tr',
-                    items   : [
-                        me.menuTableAlignLeft = new Common.UI.MenuItem({
-                            caption     : me.textShapeAlignLeft,
-                            toggleGroup : 'popuptablealign',
-                            checkable   : true,
-                            checked     : false,
-                            align      : c_tableAlign.TABLE_ALIGN_LEFT
-                        }).on('click', _.bind(tableAlign, me)),
-                        me.menuTableAlignCenter = new Common.UI.MenuItem({
-                            caption     : me.textShapeAlignCenter,
-                            toggleGroup : 'popuptablealign',
-                            checkable   : true,
-                            checked     : false,
-                            align      : c_tableAlign.TABLE_ALIGN_CENTER
-                        }).on('click', _.bind(tableAlign, me)),
-                        me.menuTableAlignRight = new Common.UI.MenuItem({
-                            caption     : me.textShapeAlignRight,
-                            toggleGroup : 'popuptablealign',
-                            checkable   : true,
-                            checked     : false,
-                            align      : c_tableAlign.TABLE_ALIGN_RIGHT
-                        }).on('click', _.bind(tableAlign, me))
-                    ]
-                })
-            });
-
-            var menuTableWrapFlow = new Common.UI.MenuItem({
-                caption     : me.flowoverText,
-                toggleGroup : 'popuptablewrapping',
-                checkable   : true,
-                checked     : true
-            }).on('click', function(item) {
-                me._applyTableWrap(c_tableWrap.TABLE_WRAP_PARALLEL);
-            });
-
             var mnuTableMerge = new Common.UI.MenuItem({
                 caption     : me.mergeCellsText
             }).on('click', function(item) {
@@ -2642,6 +2576,22 @@ define([
                 caption     : '--'
             });
 
+            var menuTableDistRows = new Common.UI.MenuItem({
+                caption : me.textDistributeRows
+            }).on('click', _.bind(function(){
+                 if (me.api)
+                     me.api.asc_DistributeTableCells(false);
+                me.fireEvent('editcomplete', me);
+            }, me));
+
+            var menuTableDistCols = new Common.UI.MenuItem({
+                caption : me.textDistributeCols
+            }).on('click', _.bind(function(){
+                if (me.api)
+                    me.api.asc_DistributeTableCells(true);
+                me.fireEvent('editcomplete', me);
+            }, me));
+
             var tableDirection = function(item, e) {
                 if (me.api) {
                     var properties = new Asc.CTableProp();
@@ -2701,14 +2651,6 @@ define([
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
-                    var flow = (value.tableProps.value.get_TableWrap() == c_tableWrap.TABLE_WRAP_PARALLEL);
-                    (flow) ? menuTableWrapFlow.setChecked(true) : menuTableWrapInline.setChecked(true);
-
-                    align = value.tableProps.value.get_TableAlignment();
-                    me.menuTableAlignLeft.setChecked((flow) ? false : (align === c_tableAlign.TABLE_ALIGN_LEFT));
-                    me.menuTableAlignCenter.setChecked((flow) ? false : (align === c_tableAlign.TABLE_ALIGN_CENTER));
-                    me.menuTableAlignRight.setChecked((flow) ? false : (align === c_tableAlign.TABLE_ALIGN_RIGHT));
-
                     var dir = value.tableProps.value.get_CellsTextDirection();
                     me.menuTableDirectH.setChecked(dir == Asc.c_oAscCellTextDirection.LRTB);
                     me.menuTableDirect90.setChecked(dir == Asc.c_oAscCellTextDirection.TBRL);
@@ -2723,11 +2665,11 @@ define([
                         mnuTableSplit.setDisabled(disabled || !me.api.CheckBeforeSplitCells());
                     }
 
+                    menuTableDistRows.setDisabled(disabled);
+                    menuTableDistCols.setDisabled(disabled);
                     menuTableCellAlign.setDisabled(disabled);
                     menuTableDirection.setDisabled(disabled);
 
-                    menuTableWrapInline.setDisabled(disabled);
-                    menuTableWrapFlow.setDisabled(disabled || !value.tableProps.value.get_CanBeFlow());
                     menuTableAdvanced.setDisabled(disabled);
 
                     var cancopy = me.api && me.api.can_CopyCut();
@@ -2903,11 +2845,11 @@ define([
                     mnuTableMerge,
                     mnuTableSplit,
                     { caption: '--' },
+                    menuTableDistRows,
+                    menuTableDistCols,
+                    { caption: '--' },
                     menuTableCellAlign,
                     menuTableDirection,
-                    { caption: '--' },
-                    menuTableWrapInline,
-                    menuTableWrapFlow,
                     { caption: '--' },
                     menuTableAdvanced,
                     { caption: '--' },
@@ -3477,8 +3419,6 @@ define([
         mergeCellsText          : 'Merge Cells',
         splitCellsText          : 'Split Cell...',
         splitCellTitleText      : 'Split Cell',
-        flowoverText            : 'Wrapping Style - Flow',
-        inlineText              : 'Wrapping Style - Inline',
         originalSizeText        : 'Default Size',
         advancedText            : 'Advanced Settings',
         breakBeforeText         : 'Page break before',
@@ -3638,7 +3578,9 @@ define([
         textRemove: 'Remove',
         textSettings: 'Settings',
         textRemoveControl: 'Remove content control',
-        textEditControls: 'Content control settings'
+        textEditControls: 'Content control settings',
+        textDistributeRows: 'Distribute rows',
+        textDistributeCols: 'Distribute columns'
 
     }, DE.Views.DocumentHolder || {}));
 });
