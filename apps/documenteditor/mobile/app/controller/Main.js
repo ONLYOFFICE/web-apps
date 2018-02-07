@@ -867,7 +867,7 @@ define([
                     config.title = this.criticalErrorTitle;
 //                    config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '</br></br>' + this.criticalErrorExtText;
                         config.callback = function() {
                             Common.NotificationCenter.trigger('goback');
