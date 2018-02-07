@@ -1213,8 +1213,9 @@ define([
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
+                        style: 'min-width: 139px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 5px;"></div>')}
                         ]
                     })
                 );
@@ -1241,7 +1242,7 @@ define([
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
                     parentMenu: this.btnMarkers.menu,
-                    restoreHeight: 92,
+                    restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
                         {offsety: 0, data: {type: 0, subtype: -1}},
@@ -1251,7 +1252,8 @@ define([
                         {offsety: 152, data: {type: 0, subtype: 4}},
                         {offsety: 190, data: {type: 0, subtype: 5}},
                         {offsety: 228, data: {type: 0, subtype: 6}},
-                        {offsety: 266, data: {type: 0, subtype: 7}}
+                        {offsety: 266, data: {type: 0, subtype: 7}},
+                        {offsety: 684, data: {type: 0, subtype: 8}}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
                 });
