@@ -208,7 +208,8 @@ define([
             appConfig = mode;
 
             var me = this;
-            me.btnGoBack.updateHint(me.textBack);
+            if ( !me.branding.goback )
+                me.btnGoBack.updateHint(me.textBack);
             me.btnGoBack.on('click', function (e) {
                 Common.NotificationCenter.trigger('goback', true);
             });
@@ -475,11 +476,17 @@ define([
 
                 this.branding = value;
 
-                if (value && value.logo && value.logo.image) {
-                    element = $('#header-logo');
-                    if ( element ) {
-                        element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                        element.css({'background-image': 'none', width: 'auto'});
+                if ( value ) {
+                    if ( value.logo && value.logo.image ) {
+                        element = $('#header-logo');
+                        if (element) {
+                            element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            element.css({'background-image': 'none', width: 'auto'});
+                        }
+                    }
+
+                    if ( !!value.goback ) {
+                        this.btnGoBack.updateHint(value.goback.text);
                     }
                 }
             },
