@@ -208,7 +208,7 @@ define([
             appConfig = mode;
 
             var me = this;
-            if ( !me.branding.goback )
+            if ( !(me.branding && me.branding.goback && me.branding.goback.text) )
                 me.btnGoBack.updateHint(me.textBack);
             me.btnGoBack.on('click', function (e) {
                 Common.NotificationCenter.trigger('goback', true);
@@ -485,7 +485,7 @@ define([
                         }
                     }
 
-                    if ( !!value.goback ) {
+                    if ( !!value.goback && value.goback.text) {
                         this.btnGoBack.updateHint(value.goback.text);
                     }
                 }
