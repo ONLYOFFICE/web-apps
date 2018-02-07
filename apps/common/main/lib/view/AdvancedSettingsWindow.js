@@ -58,7 +58,7 @@ define([
                 '<div class="box" style="height:' + (_options.height-85) + 'px;">',
                     '<div class="menu-panel">',
                     '<% _.each(items, function(item) { %>',
-                        '<button class="btn btn-category" style="margin-bottom: 2px;" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
+                        '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
                     '<% }); %>',
                     '</div>',
                     '<div class="separator"/>',
