@@ -209,7 +209,11 @@ define([
             },
 
             _initTableOptionsView: function() {
-                $('#table-option-repeatasheader input').prop('checked', _tableObject.get_RowsInHeader());
+                $('#table-option-repeatasheader input').prop('checked', !!_tableObject.get_RowsInHeader());
+                if (_tableObject.get_RowsInHeader() === null)
+                    $('#table-option-repeatasheader').addClass('disabled');
+                else
+                    $('#table-option-repeatasheader').removeClass('disabled');
                 $('#table-option-resizetofit input').prop('checked', _tableObject.get_TableLayout()==Asc.c_oAscTableLayout.AutoFit);
 
                 var margins = _tableObject.get_CellMargins();
@@ -470,7 +474,7 @@ define([
                     $target = $(e.currentTarget),
                     properties = new Asc.CTableProp();
 
-                properties.put_RowsInHeader($target.is(':checked') ? 1 : 0);
+                properties.put_RowsInHeader($target.is(':checked'));
                 me.api.tblApply(properties);
             },
 
