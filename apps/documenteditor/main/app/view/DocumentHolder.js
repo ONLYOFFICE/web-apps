@@ -2816,7 +2816,6 @@ define([
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                     }
                     menuTableTOC.setVisible(in_toc);
-                    menuTableTOC.setDisabled(disabled);
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -3354,8 +3353,6 @@ define([
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
                     menuParaTOCSeparator.setVisible(in_toc);
-                    menuParaTOCSettings.setDisabled(disabled);
-                    menuParaTOCRefresh.setDisabled(disabled);
                 },
                 items: [
                     me.menuSpellPara,
