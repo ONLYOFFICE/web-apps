@@ -142,7 +142,6 @@ define([
                 if (this.isHandlerCalled) return;
                 this.isHandlerCalled = true;
                 externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
-                return true;
             },
 
             setChartData: function() {
@@ -210,6 +209,7 @@ define([
                             }
                             this.diagramEditorView.hide();
                         }
+                        this.isHandlerCalled = false;
                     } else
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {

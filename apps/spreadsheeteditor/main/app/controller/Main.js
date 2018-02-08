@@ -1734,7 +1734,8 @@ define([
                             this.api.asc_closeCellEditor();
                             Common.UI.Menu.Manager.hideAll();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
-                        }
+                        } else
+                            Common.Gateway.internalMessage('canClose', {answer: false});
                         break;
                     case 'window:drag':
                         this.isDiagramDrag = data.data;

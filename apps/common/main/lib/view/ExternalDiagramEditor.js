@@ -111,15 +111,18 @@ define([
         },
 
         onDlgBtnClick: function(event) {
-            var state = event.currentTarget.attributes['result'].value;
-            if ( this.handler && this.handler.call(this, state) )
+            if ( this.handler ) {
+                this.handler.call(this, event.currentTarget.attributes['result'].value);
                 return;
+            }
             this.hide();
         },
 
         onToolClose: function() {
-            if ( this.handler && this.handler.call(this, 'cancel') )
+            if ( this.handler ) {
+                this.handler.call(this, 'cancel');
                 return;
+            }
             this.hide();
         },
 
