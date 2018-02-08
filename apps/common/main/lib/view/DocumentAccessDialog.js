@@ -119,10 +119,11 @@ define([
         },
 
         _onMessage: function(msg) {
-            if (msg && msg.needUpdate) {
-                this.trigger('accessrights', this, msg.sharingSettings);
+            if (msg && msg.Referer == "onlyoffice") {
+                if (msg.needUpdate)
+                    this.trigger('accessrights', this, msg.sharingSettings);
+                Common.NotificationCenter.trigger('window:close', this);
             }
-            Common.NotificationCenter.trigger('window:close', this);
         },
 
         _onLoad: function() {
