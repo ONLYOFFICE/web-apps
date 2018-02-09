@@ -1849,8 +1849,10 @@ define([
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         type: type,
+                        preview: advOptions.asc_getOptions().asc_getData(),
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
+                        api: me.api,
                         handler: function (encoding) {
                             me.isShowOpenDialog = false;
                             if (me && me.api) {
