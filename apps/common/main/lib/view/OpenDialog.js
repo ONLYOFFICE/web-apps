@@ -131,6 +131,9 @@ define([
                 if (!this.closable)
                     this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
+                this.previewPanel = this.$window.find((this.type == Asc.c_oAscAdvancedOptionsID.CSV) ? '#id-preview-csv' : '#id-preview-txt');
+
                 if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
@@ -410,6 +413,11 @@ define([
         },
 
         updatePreview: function() {
+            if (!_.isUndefined(this.previewScroller)) {
+                this.previewScroller.destroy();
+                delete this.previewScroller;
+            }
+
             if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
                 var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                     delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
@@ -441,10 +449,54 @@ define([
                     tpl += '</tr>';
                 }
                 tpl += '</table>';
-                this.$window.find('#id-preview-csv').html(_.template(tpl));
+                this.previewPanel.html(tpl);
             } else {
-                this.$window.find('#id-preview-txt').text(data);
+                this.previewPanel.text(data);
             }
+            this.previewScroller = new Common.UI.Scroller({
+                el: this.previewPanel,
+                minScrollbarLength  : 10
+            });
+        },
+
+        startLoadData: function() {
+            if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                this.previewPanel.html('<table></table>');
+                this.previewInner = this.previewPanel.find('table');
+            } else {
+                this.previewPanel.html('');
+            }
+            this.previewScroller = new Common.UI.Scroller({
+                el: this.previewPanel,
+                minScrollbarLength  : 10
+            });
+        },
+
+        previewDataBlock: function(data) {
+            if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                var maxlength = 0;
+                for (var i=0; i<data.length; i++) {
+                    if (data[i].length>maxlength)
+                        maxlength = data[i].length;
+                }
+                var tpl = '';
+                for (var i=0; i<data.length; i++) {
+                    tpl += '<tr>';
+                    for (var j=0; j<data[i].length; j++) {
+                        tpl += '<td>' + Common.Utils.String.htmlEncode(data[i][j]) + '</td>';
+                    }
+                    for (j=data[i].length; j<maxlength; j++) {
+                        tpl += '<td></td>';
+                    }
+                    tpl += '</tr>';
+                }
+                this.previewInner.append($(tpl));
+            } else {
+                var span = $('<span/>');
+                span.text(data);
+                this.previewPanel.append(span);
+            }
+            this.previewScroller.update();
         },
 
         onCmbDelimiterSelect: function(combo, record){
