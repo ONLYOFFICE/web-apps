@@ -119,6 +119,65 @@ define([
 ], function () {
     'use strict';
 
+    window.createButtonSet = function() {
+        function ButtonsArray(args) {};
+        ButtonsArray.prototype = new Array;
+        ButtonsArray.prototype.constructor = ButtonsArray;
+
+        var _disabled = false;
+
+        ButtonsArray.prototype.add = function(button) {
+            button.setDisabled(_disabled);
+            this.push(button);
+        };
+
+        ButtonsArray.prototype.setDisabled = function(disable) {
+            if ( _disabled != disable ) {
+                _disabled = disable;
+
+                this.forEach( function(button) {
+                    button.setDisabled(disable);
+                });
+            }
+        };
+
+        ButtonsArray.prototype.toggle = function(state, suppress) {
+            this.forEach(function(button) {
+                button.toggle(state, suppress);
+            });
+        };
+
+        ButtonsArray.prototype.pressed = function() {
+            return this.some(function(button) {
+                return button.pressed;
+            });
+        };
+
+        ButtonsArray.prototype.contains = function(id) {
+            return this.some(function(button) {
+                return button.id == id;
+            });
+        };
+
+        ButtonsArray.prototype.concat = function () {
+            var args = Array.prototype.slice.call(arguments);
+            var result = Array.prototype.slice.call(this);
+
+            args.forEach(function(sub){
+                Array.prototype.push.apply(result, sub);
+            });
+
+            return result;
+        }
+
+        var _out_array = Object.create(ButtonsArray.prototype);
+        for ( var i in arguments ) {
+            _out_array.add(arguments[i]);
+        }
+
+        return _out_array;
+    };
+
     var templateBtnIcon =
             '<% if ( iconImg ) { %>' +
                 '<img src="<%= iconImg %>">' +

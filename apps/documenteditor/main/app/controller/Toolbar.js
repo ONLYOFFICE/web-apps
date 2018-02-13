@@ -734,7 +734,7 @@ define([
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote() || in_control;
-            toolbar.btnsPageBreak.disable(need_disable);
+            toolbar.btnsPageBreak.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
             toolbar.btnInsertImage.setDisabled(need_disable);
@@ -767,10 +767,8 @@ define([
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
             need_disable = (paragraph_locked || header_locked) && this.api.can_AddQuotedComment() || image_locked;
-            if (this.btnsComment && this.btnsComment.length>0 && need_disable != this.btnsComment[0].isDisabled())
-                _.each (this.btnsComment, function(item){
-                    item.setDisabled(need_disable);
-                }, this);
+            if ( this.btnsComment && this.btnsComment.length > 0 )
+                this.btnsComment.setDisabled(need_disable);
 
             this._state.in_equation = in_equation;
         },
@@ -922,11 +920,7 @@ define([
                 this.api.asc_Save();
             }
 
-            toolbar.btnsSave.forEach(function(button) {
-                if ( button ) {
-                    button.setDisabled(!toolbar.mode.forcesave);
-                }
-            });
+            toolbar.btnsSave.setDisabled(!toolbar.mode.forcesave);
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
@@ -2707,11 +2701,7 @@ define([
 
             toolbar._state.previewmode = reviewmode && disable;
             if (reviewmode) {
-                toolbar._state.previewmode && toolbar.btnsSave.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(true);
-                    }
-                });
+                toolbar._state.previewmode && toolbar.btnsSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
@@ -2797,7 +2787,7 @@ define([
             var me = this;
 
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = [];
+                this.btnsComment = createButtonSet();
                 var slots = me.toolbar.$el.find('.slot-comment');
                 slots.each(function(index, el) {
                     var _cls = 'btn-toolbar';
@@ -2810,7 +2800,7 @@ define([
                         caption: me.toolbar.capBtnComment
                     }).render( slots.eq(index) );
 
-                    me.btnsComment.push(button);
+                    me.btnsComment.add(button);
                 });
 
                 if ( this.btnsComment.length ) {

@@ -123,7 +123,7 @@ define([
                     iconCls: 'no-mask ' + this.btnSaveCls
                 });
                 this.toolbarControls.push(this.btnSave);
-                this.btnsSave = [this.btnSave];
+                me.btnsSave = createButtonSet( me.btnSave );
 
                 this.btnUndo = new Common.UI.Button({
                     id: 'id-toolbar-btn-undo',
@@ -1300,12 +1300,7 @@ define([
                 +function injectBreakButtons() {
                     var me = this;
 
-                    me.btnsPageBreak = [];
-                    me.btnsPageBreak.disable = function(status) {
-                        this.forEach(function(btn) {
-                            btn.setDisabled(status);
-                        });
-                    };
+                    me.btnsPageBreak = createButtonSet();
 
                     var $slots = $host.find('.btn-slot.btn-pagebreak');
                     $slots.each(function(index, el) {
@@ -1320,7 +1315,7 @@ define([
                             menu: true
                         }).render( $slots.eq(index) );
 
-                        me.btnsPageBreak.push(button);
+                        me.btnsPageBreak.add(button);
                     });
 
                     Array.prototype.push.apply(me.paragraphControls, me.btnsPageBreak);
@@ -1965,16 +1960,14 @@ define([
 
                 var btnsave = DE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
                 if (btnsave && this.btnsSave) {
-                    this.btnsSave.push(btnsave);
+                    this.btnsSave.add(btnsave);
                     this.toolbarControls.push(btnsave);
-                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
                 }
 
                 btnsave = DE.getController('Viewport').getView('Common.Views.Header').getButton('save');
                 if (btnsave && this.btnsSave) {
-                    this.btnsSave.push(btnsave);
+                    this.btnsSave.add(btnsave);
                     this.toolbarControls.push(btnsave);
-                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
                 }
             },
 
@@ -2059,11 +2052,7 @@ define([
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
-                    this.btnsSave.forEach(function(button) {
-                        if ( button ) {
-                            button.setDisabled(true);
-                        }
-                    });
+                    this.btnsSave.setDisabled(true);
                     if (mode.disableDownload)
                         this.btnPrint.setDisabled(true);
                 }
@@ -2154,11 +2143,7 @@ define([
                     this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnsSave.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(false);
-                    }
-                });
+                this.btnsSave.setDisabled(false);
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -2189,11 +2174,7 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(!me.mode.forcesave);
-                            }
-                        });
+                        this.btnsSave.setDisabled(!me.mode.forcesave);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

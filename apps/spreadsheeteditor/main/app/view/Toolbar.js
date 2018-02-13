@@ -372,7 +372,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'no-mask ' + me.btnSaveCls
                 });
-                me.btnsSave = [me.btnSave];
+                me.btnsSave = createButtonSet(me.btnSave);
 
                 me.btnIncFontSize = new Common.UI.Button({
                     id          : 'id-toolbar-btn-incfont',
@@ -1709,13 +1709,11 @@ define([
 
             var btnsave = SSE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
             if (btnsave && this.btnsSave) {
-                this.btnsSave.push(btnsave);
-                btnsave.setDisabled(this.btnsSave[0].isDisabled());
+                this.btnsSave.add(btnsave);
             }
             btnsave = SSE.getController('Viewport').getView('Common.Views.Header').getButton('save');
             if (btnsave && this.btnsSave) {
-                this.btnsSave.push(btnsave);
-                btnsave.setDisabled(this.btnsSave[0].isDisabled());
+                this.btnsSave.add(btnsave);
             }
         },
 
@@ -1853,11 +1851,7 @@ define([
                 this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
             }
 
-            this.btnsSave.forEach(function(button) {
-                if ( button ) {
-                    button.setDisabled(false);
-                }
-            });
+            this.btnsSave.setDisabled(false);
             Common.Gateway.collaborativeChanges();
         },
 
@@ -1888,11 +1882,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnsSave.forEach(function(button) {
-                        if ( button ) {
-                            button.setDisabled(!me.mode.forcesave);
-                        }
-                    });
+                    this.btnsSave.setDisabled(!me.mode.forcesave);
 
                     this._state.hasCollaborativeChanges = false;
                 }

@@ -83,45 +83,6 @@ define([
         commentLock: 'can-comment'
     };
 
-    var buttonsArray = function (opts) {
-        var arr = [];
-        arr.push.apply(arr, arguments);
-        arr.__proto__ = buttonsArray.prototype;
-        return arr;
-    };
-
-    buttonsArray.prototype = new Array;
-
-    buttonsArray.prototype.disable = function (state) {
-        this.forEach(function(btn) {
-            btn.setDisabled(state);
-        });
-    };
-
-    buttonsArray.prototype.toggle = function (state, suppress) {
-        this.forEach(function(btn) {
-            btn.toggle(state, suppress);
-        });
-    };
-
-    buttonsArray.prototype.pressed = function () {
-        return this.some(function(btn) {
-            return btn.pressed;
-        });
-    };
-
-    buttonsArray.prototype.on = function (event, func) {
-        this.forEach(function(btn) {
-            btn.on.apply(btn, arguments);
-        });
-    };
-
-    buttonsArray.prototype.contains = function (id) {
-        return this.some(function(btn) {
-            return btn.id == id;
-        });
-    };
-
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
 
         return {
@@ -211,7 +172,7 @@ define([
                     iconCls     : 'no-mask ' + me.btnSaveCls,
                     lock        : [_set.lostConnect]
                 });
-                me.btnsSave = [me.btnSave];
+                me.btnsSave = createButtonSet(me.btnSave);
 
                 me.btnUndo = new Common.UI.Button({
                     id          : 'id-toolbar-btn-undo',
@@ -983,7 +944,7 @@ define([
                 _injectComponent('#slot-btn-settings', this.btnAdvSettings);
 
                 function _injectBtns(opts) {
-                    var array = new buttonsArray;
+                    var array = createButtonSet();
                     var $slots = $host.find(opts.slot);
                     var id = opts.btnconfig.id;
                     $slots.each(function(index, el) {
@@ -992,7 +953,7 @@ define([
                         var button = new Common.UI.Button(opts.btnconfig);
                         button.render( $slots.eq(index) );
 
-                        array.push(button);
+                        array.add(button);
                     });
 
                     return array;
@@ -1381,15 +1342,13 @@ define([
 
                 var btnsave = PE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
                 if (btnsave && this.btnsSave) {
-                    this.btnsSave.push(btnsave);
+                    this.btnsSave.add(btnsave);
                     this.lockControls.push(btnsave);
-                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
                 }
                 btnsave = PE.getController('Viewport').getView('Common.Views.Header').getButton('save');
                 if (btnsave && this.btnsSave) {
-                    this.btnsSave.push(btnsave);
+                    this.btnsSave.add(btnsave);
                     this.lockControls.push(btnsave);
-                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
                 }
 
                 /** coauthoring begin **/
@@ -1540,11 +1499,7 @@ define([
                     this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnsSave.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(false);
-                    }
-                });
+                this.btnsSave.setDisabled(false);
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -1575,11 +1530,7 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(!me.mode.forcesave);
-                            }
-                        });
+                        this.btnsSave.setDisabled(!me.mode.forcesave);
 
                         this._state.hasCollaborativeChanges = false;
                     }
