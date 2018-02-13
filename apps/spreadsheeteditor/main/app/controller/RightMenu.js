@@ -196,12 +196,12 @@ define([
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
 
-            if (pivotInfo) {
-                settingsType = Common.Utils.documentSettingsType.Pivot;
-                this._settings[settingsType].props = pivotInfo;
-                this._settings[settingsType].locked = isCellLocked || true; // disable pivot settings
-                this._settings[settingsType].hidden = 0;
-            }
+            // if (pivotInfo) {
+            //     settingsType = Common.Utils.documentSettingsType.Pivot;
+            //     this._settings[settingsType].props = pivotInfo;
+            //     this._settings[settingsType].locked = isCellLocked || true; // disable pivot settings
+            //     this._settings[settingsType].hidden = 0;
+            // }
 
             var lastactive = -1, currentactive, priorityactive = -1,
                 activePane = this.rightmenu.GetActivePane();
