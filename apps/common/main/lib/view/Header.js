@@ -319,8 +319,6 @@ define([
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
             }
-
-            console.log('input keydown');
         }
 
         return {
