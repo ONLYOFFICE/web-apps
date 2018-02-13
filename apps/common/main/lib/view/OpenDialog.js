@@ -91,11 +91,19 @@ define([
                         '<% if (!!preview) { %>',
                             '<div style="">',
                                 '<label class="header">' + t.txtPreview + '</label>',
-                            '<% if (type == Asc.c_oAscAdvancedOptionsID.CSV) { %>',
-                                '<div><div id="id-preview-csv"></div></div>',
-                            '<% } else { %>',
-                                '<div><div id="id-preview-txt"></div></div>',
-                            '<% } %>',
+                                '<div style="position: relative;">',
+                                '<% if (type == Asc.c_oAscAdvancedOptionsID.CSV) { %>',
+                                    '<div style="width: 100%;">',
+                                        '<div id="id-preview-csv">',
+                                            '<div>',
+                                                '<div style="position: absolute; top: 0;"><div id="id-preview-csv-data"></div></div>',
+                                            '</div>',
+                                        '</div>',
+                                    '</div>',
+                                '<% } else { %>',
+                                    '<div><div id="id-preview-txt"></div></div>',
+                                '<% } %>',
+                                '</div>',
                             '</div>',
                         '<% } %>',
                     '<% } %>',
@@ -132,7 +140,12 @@ define([
                     this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
-                this.previewPanel = this.$window.find((this.type == Asc.c_oAscAdvancedOptionsID.CSV) ? '#id-preview-csv' : '#id-preview-txt');
+                this.previewPanel = this.$window.find((this.type == Asc.c_oAscAdvancedOptionsID.CSV) ? '#id-preview-csv-data' : '#id-preview-txt');
+                if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                    this.csvPreview = this.$window.find('#id-preview-csv');
+                    this.csvPreviewInner = this.csvPreview.find('div:first-child');
+                    this.previewParent = this.previewPanel.parent();
+                }
 
                 if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     this.inputPwd = new Common.UI.InputField({
@@ -413,90 +426,93 @@ define([
         },
 
         updatePreview: function() {
-            if (!_.isUndefined(this.previewScroller)) {
-                this.previewScroller.destroy();
-                delete this.previewScroller;
-            }
-
             if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
                 var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                     delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
                 (delimiter == -1) && (delimiter = null);
-                this.api.asc_decodeBuffer(this.preview, new Asc.asc_CCSVAdvancedOptions(this.cmbEncoding.getValue(), delimiter, delimiterChar), _.bind(this.previewCallback, this));
+                this.api.asc_decodeBuffer(this.preview, new Asc.asc_CCSVAdvancedOptions(this.cmbEncoding.getValue(), delimiter, delimiterChar), _.bind(this.previewCsvCallback, this));
             } else {
-                this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTXTAdvancedOptions(this.cmbEncoding.getValue()), _.bind(this.previewCallback, this));
+                if (!_.isUndefined(this.previewYScroller)) {
+                    this.previewYScroller.destroy();
+                    delete this.previewYScroller;
+                }
+                this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTXTAdvancedOptions(this.cmbEncoding.getValue()), _.bind(this.previewTxtCallback, this));
             }
         },
 
-        previewCallback: function(data) {
+        previewTxtCallback: function(data) {
             if (!data || !data.length) return;
 
-            if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
-                var maxlength = 0;
-                for (var i=0; i<data.length; i++) {
-                    if (data[i].length>maxlength)
-                        maxlength = data[i].length;
-                }
-                var tpl = '<table>';
-                for (var i=0; i<data.length; i++) {
-                    tpl += '<tr>';
-                    for (var j=0; j<data[i].length; j++) {
-                        tpl += '<td>' + Common.Utils.String.htmlEncode(data[i][j]) + '</td>';
-                    }
-                    for (j=data[i].length; j<maxlength; j++) {
-                        tpl += '<td></td>';
-                    }
-                    tpl += '</tr>';
-                }
-                tpl += '</table>';
-                this.previewPanel.html(tpl);
-            } else {
-                this.previewPanel.text(data);
-            }
-            this.previewScroller = new Common.UI.Scroller({
+            this.previewPanel.text(data);
+            this.previewYScroller = new Common.UI.Scroller({
                 el: this.previewPanel,
-                minScrollbarLength  : 10
+                minScrollbarLength  : 20,
+                alwaysVisibleY: true
             });
         },
 
-        startLoadData: function() {
-            if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
-                this.previewPanel.html('<table></table>');
-                this.previewInner = this.previewPanel.find('table');
-            } else {
-                this.previewPanel.html('');
-            }
-            this.previewScroller = new Common.UI.Scroller({
-                el: this.previewPanel,
-                minScrollbarLength  : 10
-            });
-        },
+        previewCsvCallback: function(data) {
+            if (!data || !data.length) return;
 
-        previewDataBlock: function(data) {
-            if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
-                var maxlength = 0;
-                for (var i=0; i<data.length; i++) {
-                    if (data[i].length>maxlength)
-                        maxlength = data[i].length;
-                }
-                var tpl = '';
-                for (var i=0; i<data.length; i++) {
-                    tpl += '<tr>';
-                    for (var j=0; j<data[i].length; j++) {
-                        tpl += '<td>' + Common.Utils.String.htmlEncode(data[i][j]) + '</td>';
+            this.data = data;
+            this.csvPreviewInner.height(data.length*17);
+
+            if (!this.previewScroller)
+                this.previewScroller = new Common.UI.Scroller({
+                el: this.csvPreview,
+                minScrollbarLength  : 20,
+                alwaysVisibleY: true,
+                onChange: _.bind(function(){
+                    if (this.previewScroller) {
+                        var startPos = this.previewScroller.getScrollTop(),
+                            start = Math.floor(startPos/17+0.5),
+                            end = start+Math.min(6, this.data.length);
+                        if (end>this.data.length) {
+                            end = this.data.length;
+                            start = this.data.length-6;
+                            startPos = start*17;
+                        }
+                        this.previewParent.height(108);
+                        this.previewParent.css({top: startPos});
+                        this.previewCsvDataBlock(this.data.slice(start, end));
                     }
-                    for (j=data[i].length; j<maxlength; j++) {
-                        tpl += '<td></td>';
-                    }
-                    tpl += '</tr>';
-                }
-                this.previewInner.append($(tpl));
-            } else {
-                var span = $('<span/>');
-                span.text(data);
-                this.previewPanel.append(span);
-            }
+                }, this)
+            });
             this.previewScroller.update();
+            this.previewScroller.scrollTop(0);
+        },
+
+        previewCsvDataBlock: function(data) {
+            if (!_.isUndefined(this.previewXScroller)) {
+                this.previewXScroller.destroy();
+                delete this.previewXScroller;
+            }
+
+            var maxlength = 0;
+            for (var i=0; i<data.length; i++) {
+                if (data[i].length>maxlength)
+                    maxlength = data[i].length;
+            }
+            var tpl = '<table>';
+            for (var i=0; i<data.length; i++) {
+                tpl += '<tr>';
+                for (var j=0; j<data[i].length; j++) {
+                    tpl += '<td>' + Common.Utils.String.htmlEncode(data[i][j]) + '</td>';
+                }
+                for (j=data[i].length; j<maxlength; j++) {
+                    tpl += '<td></td>';
+                }
+                tpl += '</tr>';
+            }
+            tpl += '</table>';
+            this.previewPanel.html(tpl);
+
+            this.previewXScroller = new Common.UI.Scroller({
+                el: this.previewPanel,
+                suppressScrollY: true,
+                alwaysVisibleX: true,
+                minScrollbarLength  : 20
+            });
         },
 
         onCmbDelimiterSelect: function(combo, record){
