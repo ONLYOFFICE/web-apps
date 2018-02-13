@@ -463,6 +463,8 @@ define([
         },
 
         onShortcut: function(s, e) {
+            if (!this.mode) return;
+
             var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
 
             switch (s) {

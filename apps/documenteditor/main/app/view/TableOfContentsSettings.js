@@ -358,6 +358,12 @@ define([
                 this.chLinks.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
                 value = props.get_StylesType();
                 this.cmbStyles.setValue((value!==null) ? value : Asc.c_oAscTOCStylesType.Current);
+                value = props.get_ShowPageNumbers();
+                this.chPages.setValue((value !== null && value !== undefined) ? value : 'indeterminate');
+                if (this.chPages.getValue() == 'checked') {
+                    value = props.get_RightAlignTab();
+                    this.chAlign.setValue((value !== null && value !== undefined) ? value : 'indeterminate');
+                }
 
                 var start = props.get_OutlineStart(),
                     end = props.get_OutlineEnd(),
@@ -446,11 +452,11 @@ define([
             if (!props) {
                 this._originalProps.put_OutlineRange(this.startLevel, this.endLevel);
                 this._originalProps.put_Hyperlink(this.chLinks.getValue() == 'checked');
-            }
-            this._originalProps.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
-            if (this.chPages.getValue() == 'checked') {
-                this._originalProps.put_RightAlignTab(this.chAlign.getValue() == 'checked');
-                this._originalProps.put_TabLeader(this.cmbLeader.getValue());
+                this._originalProps.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
+                if (this.chPages.getValue() == 'checked') {
+                    this._originalProps.put_RightAlignTab(this.chAlign.getValue() == 'checked');
+                    this._originalProps.put_TabLeader(this.cmbLeader.getValue());
+                }
             }
 
             // this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);

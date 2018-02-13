@@ -302,12 +302,10 @@ define([
         },
 
         disableMenu: function(menu, disable) {
-            this.btnSearch.setDisabled(disable);
             this.btnThumbs.setDisabled(disable);
             this.btnAbout.setDisabled(disable);
             this.btnSupport.setDisabled(disable);
             /** coauthoring begin **/
-            this.btnComments.setDisabled(disable);
             this.btnChat.setDisabled(disable);
             /** coauthoring end **/
             this.btnPlugins.setDisabled(disable);

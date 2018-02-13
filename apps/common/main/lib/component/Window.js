@@ -191,7 +191,10 @@ define([
                             event.preventDefault();
                             event.stopPropagation();
                             if (this.initConfig.closable !== false) {
-                                this.initConfig.toolclose=='hide' ? this.hide() : this.close();
+                                if (this.initConfig.toolcallback)
+                                    this.initConfig.toolcallback.call(this);
+                                else
+                                    (this.initConfig.toolclose=='hide') ? this.hide() : this.close();
                             }
                             return false;
                         }

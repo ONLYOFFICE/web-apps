@@ -662,6 +662,8 @@ define([
         /** coauthoring end **/
 
         onShortcut: function(s, e) {
+            if (!this.mode) return;
+
             if (this.mode.isEditDiagram && s!='escape') return false;
             if (this.mode.isEditMailMerge && s!='escape' && s!='search') return false;
 
