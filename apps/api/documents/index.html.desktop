@@ -55,7 +55,12 @@
                 height: '100%',
                 documentType: urlParams['doctype'] || 'text',
                 document: doc,
-                editorConfig: cfg
+                editorConfig: cfg,
+                events: {
+                    onInternalMessage: onInternalMessage,
+                    onDocumentReady: onDocumentReady
+
+                }
             });
 
 
@@ -92,7 +97,7 @@
             function getEditorConfig(urlParams) {
                 return {
                     customization   : {
-                        goback: { url:"https://onlyoffice.com" }
+                        goback: { url: "callback" }
                     },
                     mode            : urlParams["mode"] || 'edit',
                     lang            : urlParams["lang"] || 'en',
@@ -146,6 +151,21 @@
                     }
                 }
             };
+
+            function onInternalMessage(event) {
+                let info = event.data;
+                if ( info.type == 'goback' ) {
+                    if ( window.AscDesktopEditor ) {
+                        window.AscDesktopEditor.execCommand('go:folder', info.data.status);
+                    }
+                }
+            };
+
+            function onDocumentReady() {
+                if ( window.AscDesktopEditor ) {
+                    window.AscDesktopEditor.execCommand('doc:onready', '');
+                }
+            }
 
             if (isMobile()){
                 window.addEventListener('load', fixSize);

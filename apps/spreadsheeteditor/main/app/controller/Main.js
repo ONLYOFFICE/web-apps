@@ -428,11 +428,17 @@ define([
             },
 
             goBack: function(blank) {
-                var href = this.appOptions.customization.goback.url;
-                if (blank) {
-                    window.open(href, "_blank");
+                var me = this;
+                if ( me.appOptions.customization.goback.url == 'callback' ) {
+                    Common.Gateway.internalMessage( 'goback',
+                        {status: me.appOptions.isOffline ? 'offline' : 'online'} );
                 } else {
-                    parent.location.href = href;
+                    var href = me.appOptions.customization.goback.url;
+                    if (blank) {
+                        window.open(href, "_blank");
+                    } else {
+                        parent.location.href = href;
+                    }
                 }
             },
 
