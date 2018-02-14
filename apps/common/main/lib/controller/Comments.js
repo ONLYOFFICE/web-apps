@@ -571,6 +571,16 @@ define([
         },
 
         onUpdateFilter: function (filter, applyOnly) {
+            if (filter && !this.view.isVisible()) {
+                this.view.needUpdateFilter = filter;
+                this.filter = {
+                    property    :   filter.property,
+                    value       :   filter.value
+                };
+                return;
+            }
+            this.view.needUpdateFilter = false;
+
             if (filter) {
 
                 this.filter = {
@@ -589,11 +599,11 @@ define([
                 this.collection.each(function (model) {
                     var prop = model.get(t.filter.property);
                     if (prop) {
-                        model.set('hide', (null === prop.match(t.filter.value)));
+                        model.set('hide', (null === prop.match(t.filter.value)), {silent: !!applyOnly});
                     }
 
                     if (model.get('last')) {
-                        model.set('last', false);
+                        model.set('last', false, {silent:!!applyOnly});
                     }
 
                     if (!model.get('hide')) {
@@ -602,8 +612,10 @@ define([
                 });
 
                 if (endComment) {
-                    endComment.set('last', true);
+                    endComment.set('last', true, {silent: !!applyOnly});
                 }
+                if (!applyOnly)
+                    this.view.update();
             }
         },
         onAppAddComment: function (sender, to_doc) {
@@ -956,6 +968,12 @@ define([
         // internal
 
         updateComments: function (needRender, disableSort) {
+            if (needRender && !this.view.isVisible()) {
+                this.view.needRender = needRender;
+                return;
+            }
+            this.view.needRender = false;
+
             var me = this;
             me.updateCommentsTime = new Date();
             if (me.timerUpdateComments===undefined)
@@ -1291,7 +1309,10 @@ define([
                     if ('none' !== panel.css('display')) {
                         this.view.txtComment.focus();
                     }
-
+                    if (this.view.needRender)
+                        this.updateComments(true);
+                    else if (this.view.needUpdateFilter)
+                        this.onUpdateFilter(this.view.needUpdateFilter);
                     this.view.update();
                 }
             }
