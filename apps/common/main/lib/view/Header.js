@@ -211,7 +211,7 @@ define([
             if ( !(me.branding && me.branding.goback && me.branding.goback.text) )
                 me.btnGoBack.updateHint(me.textBack);
             me.btnGoBack.on('click', function (e) {
-                Common.NotificationCenter.trigger('goback', true);
+                Common.NotificationCenter.trigger('goback');
             });
 
             if ( me.logo )

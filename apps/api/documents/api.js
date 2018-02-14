@@ -104,7 +104,8 @@
                     },
                     goback: {
                         url: 'http://...',
-                        text: 'Go to London'
+                        text: 'Go to London',
+                        blank: true
                     },
                     chat: true,
                     comments: true,

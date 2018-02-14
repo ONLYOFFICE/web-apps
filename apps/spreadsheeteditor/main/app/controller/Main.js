@@ -426,9 +426,9 @@ define([
                 }
             },
 
-            goBack: function(blank) {
+            goBack: function() {
                 var href = this.appOptions.customization.goback.url;
-                if (blank) {
+                if (this.appOptions.customization.goback.blank!==false) {
                     window.open(href, "_blank");
                 } else {
                     parent.location.href = href;
