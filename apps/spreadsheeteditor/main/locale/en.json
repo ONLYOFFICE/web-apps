@@ -1194,7 +1194,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strForcesave": "Always save to server (otherwise save to server on document close)",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Formula Language",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strInputSogou": "Turn on Sogou Pinyin input",
+  "del_SSE.Views.FileMenuPanels.MainSettingsGeneral.strInputSogou": "Turn on Sogou Pinyin input",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strLiveComment": "Turn on display of the comments",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Regional Settings",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Example: ",

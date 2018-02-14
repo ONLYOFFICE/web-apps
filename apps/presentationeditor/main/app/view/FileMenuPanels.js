@@ -119,10 +119,6 @@ define([
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
                     '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="edit sogou">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-chb-input-sogou"/></td>',
-                '</tr>','<tr class="divider edit sogou"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
@@ -175,11 +171,6 @@ define([
             this.chInputMode = new Common.UI.CheckBox({
                 el: $('#fms-chb-input-mode'),
                 labelText: this.strInputMode
-            });
-
-            this.chInputSogou = new Common.UI.CheckBox({
-                el: $('#fms-chb-input-sogou'),
-                labelText: this.strInputSogou
             });
 
             this.cmbZoom = new Common.UI.ComboBox({
@@ -291,15 +282,12 @@ define([
             /** coauthoring begin **/
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
-
-            $('tr.sogou', this.el)[mode.isEdit && Common.Utils.isChrome ?'show':'hide']();
         },
 
         updateSettings: function() {
             this.chSpell.setValue(Common.Utils.InternalSettings.get("pe-settings-spellcheck"));
 
             this.chInputMode.setValue(Common.Utils.InternalSettings.get("pe-settings-inputmode"));
-            Common.Utils.isChrome && this.chInputSogou.setValue(Common.Utils.InternalSettings.get("pe-settings-inputsogou"));
 
             var value = Common.Utils.InternalSettings.get("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
@@ -331,7 +319,6 @@ define([
         applySettings: function() {
             Common.localStorage.setItem("pe-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
-            Common.Utils.isChrome && Common.localStorage.setItem("pe-settings-inputsogou", this.chInputSogou.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
             /** coauthoring begin **/
@@ -384,8 +371,7 @@ define([
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
         txtSpellCheck: 'Spell Checking',
-        strSpellCheckMode: 'Turn on spell checking option',
-        strInputSogou: 'Turn on Sogou Pinyin input'
+        strSpellCheckMode: 'Turn on spell checking option'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

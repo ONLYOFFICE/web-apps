@@ -856,12 +856,6 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
-                if (Common.Utils.isChrome) {
-                    value = Common.localStorage.getBool("de-settings-inputsogou");
-                    me.api.setInputParams({"SogouPinyin" : value});
-                    Common.Utils.InternalSettings.set("de-settings-inputsogou", value);
-                }
-
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");
