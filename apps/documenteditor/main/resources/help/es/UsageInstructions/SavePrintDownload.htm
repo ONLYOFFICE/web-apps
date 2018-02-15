@@ -3,35 +3,39 @@
 	<head>
 		<title>Guarde/imprima/descargue su documento</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Guarde/imprima/descargue su documento en varios formatos" />
+		<meta name="description" content="Save, download and print your documents in various formats" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Guarde/imprima/descargue su documento</h1>
-			<p>Cuando usted trabaja en su documento <b>el editor de documentos</b> guarda su archivo cada 2 segundos automáticamente preveniendo la pérdida de datos en caso de un cierre inesperado del programa.  Si el archivo se está editando por varias personas a la vez, los cambios se guardan cada 10 minutos. Se puede fácilmente desactivar la función <b>Autoguardado</b> en la página <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Ajustes avanzados</a>.</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
+			<h1>Guarde/imprima<span class="onlineDocumentFeatures">/descargue</span> su documento</h1>
+			<p>Cuando usted trabaja en su documento <b>el editor de documentos</b> guarda su archivo cada 2 segundos automáticamente preveniendo la pérdida de datos en caso de un cierre inesperado del programa.<span class="onlineDocumentFeatures"> Si co-edita el archivo en el modo <b>Rápido</b>, el tiempo requerido para actualizaciones es de 25 cada segundo y guarda los cambios si estos se han producido. Si el archivo se está editando por varias prsonas a la vez, los cambios se guardan cada 10 minutos. Se puede fácilmente desactivar la función <b>Autoguardado</b> en la página <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Ajustes avanzados</a>.</span></p>
 			<p>Para guardar su documento actual manualmente,</p>
 			<ul>
-				<li>pulse el icono <b>Guardar</b> <img alt="icono Guardar" src="../images/save.png" /> en la barra de herramientas superior, o</li>
+				<li>pulse el icono <b>Guardar</b>  en la barra de herramientas superior, o</li>
 				<li>use la combinación de las teclas <b>Ctrl+S</b>, o</li>
-				<li>pulse el icono <b>Archivo</b> <img alt="icono Archivo" src="../images/file.png" /> en la barra izquierda lateral y seleccione la opción <b>Guardar</b>.</li>
+				<li>pulse el icono <b>Archivo</b>  en la barra izquierda lateral y seleccione la opción <b>Guardar</b>.</li>
 			</ul>
-			
+			<div class="onlineDocumentFeatures">
 			<p>Para descargar el documento resultante en el disco duro de su ordenador,</p>
 			<ol>
-				<li>pulse el icono <b>Archivo</b> <img alt="icono Archivo" src="../images/file.png" /> en la barra izquierda lateral,</li>
-				<li>seleccione la opción <b>Descargar como</b>,</li>
-				<li>elija uno de los formatos disponibles: PDF, TXT, DOCX, DOC, ODT, RTF, HTML, EPUB.</li>
+				<li>haga clic en la pestaña <b>Archivo</b> de la barra de herramientas superior,</li>
+				<li>seleccione la opción <b>Descargar como...</b>,</li>
+				<li>elija uno de los formatos disponibles dependiendo en sus necesidades: PDF, TXT, DOCX, DOC, ODT, RTF, HTML, EPUB.</li>
 			</ol>
-			
+			</div>
 			<p>Para imprimir el documento corriente,</p>
 			<ul>
-				<li>pulse el icono <b>Imprimir</b> <img alt="icono Imprimir" src="../images/print.png" /> en la barra de herramientas superior, o</li>
+				<li>pulse el icono <b>Imprimir</b>  en la barra de herramientas superior, o</li>
 				<li>use la combinación de las teclas <b>Ctrl+P</b>, o</li>
-				<li>pulse el icono <b>Archivo</b> <img alt="icono Archivo" src="../images/file.png" /> en la barra izquierda lateral y seleccione la opción <b>Imprimir</b>.</li>
+				<li>pulse el icono <b>Archivo</b>  en la barra de herramientas y seleccione la opción <b>Imprimir</b>.</li>
 			</ul>
-			<p>Luego el archivo PDF, basándose en el documento editado, será creado. Usted puede abrirlo e imprimirlo , o guardarlo en el disco duro de su ordenador o en un medio extraíble para imprimirlo después.</p>
+			<p class="onlineDocumentFeatures">Luego el archivo PDF, basándose en el documento editado, será creado. Puede abrirlo e imprimirlo, o guardarlo en el disco duro de su ordenador o en un medio extraíble para imprimirlo más tarde.</p>
 		</div>
 	</body>
 </html>

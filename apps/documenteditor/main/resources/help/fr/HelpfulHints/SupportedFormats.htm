@@ -1,18 +1,20 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Formats des documents électroniques pris en charge </title>
+		<title>Formats des documents électroniques pris en charge</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="La liste des formats des documents pris en charge par Document Editor" />
+		<meta name="description" content="The list of document formats supported by Document Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 		<h1>Formats des documents électroniques pris en charge</h1>
-			<p>Les documents électroniques représentent l'un des types des fichiers les plus utilisés en informatique. 
-			Grâce à l'utilisation du réseau informatique tant développé aujourd'hui, il est possible et plus pratique de distribuer des documents électroniques que des versions imprimées. 
-			Les formats de fichier ouverts et propriétaires sont bien nombreux à cause de la variété des périphériques utilisés pour la présentation des documents.
-			<b>Document Editor</b> prend en charge les formats les plus populaires.</p>
+			<p>Les documents électroniques représentent l'un des types des fichiers les plus utilisés en informatique. Grâce à l'utilisation du réseau informatique tant développé aujourd'hui, il est possible et plus pratique de distribuer des documents électroniques que des versions imprimées. Les formats de fichier ouverts et propriétaires sont bien nombreux à cause de la variété des périphériques utilisés pour la présentation des documents. <b>Document Editor</b> prend en charge les formats les plus populaires.</p>
 			<table>
 				<tr>
 					<td><b>Formats</b></td>
@@ -58,7 +60,7 @@
 				</tr>
 				<tr>
 					<td>PDF</td>
-					<td>Portable Document Format<br />Le format de fichier utilisé pour représenter des documents d'une manière indépendante des logiciels d'application, du matériel et des systèmes d'exploitation</td>
+					<td>Portable Document Format<br />Format de fichier utilisé pour représenter les documents d'une manière indépendante du logiciel, du matériel et des systèmes d'exploitation</td>
 					<td>+</td>
 					<td></td>
 					<td>+</td>
@@ -79,7 +81,7 @@
 				</tr>
 				<tr>
 					<td>XPS</td>
-					<td>Open XML Paper Specification<br />Le format ouvert de la mise en page fixe, libre de redevance créé par Microsoft </td>
+					<td>Open XML Paper Specification<br />Le format ouvert de la mise en page fixe, libre de redevance créé par Microsoft</td>
 					<td>+</td>
 					<td></td>
 					<td></td>
@@ -90,22 +92,20 @@
 					<td>+</td>
 					<td></td>
 					<td></td>
-				</tr>
-				<!--<tr>
+				</tr><!--<tr>
 					<td>PPTX</td>
-					<td>Office Open XML Presentation<br />Le format de fichier XML compressé créé par Microsoft pour représenter les feuilles de calcul, les graphiques, les présentations, et les documents du traitement textuel</td>
+					<td>Office Open XML Presentation<br />Zipped, XML-based file format developed by Microsoft for representing spreadsheets, charts, presentations, and word processing documents</td>
 					<td>+</td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>PPT</td>
-					<td>Le format de fichier utilisé par Microsoft PowerPoint</td>
+					<td>File format used by Microsoft PowerPoint</td>
 					<td>+</td>
 					<td></td>
 					<td></td>
-				</tr>-->
-			</table>
+				</tr>--></table>
 		</div>
 	</body>
 </html>

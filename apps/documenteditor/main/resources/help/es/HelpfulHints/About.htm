@@ -1,20 +1,22 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Acerca del editor de documentos</title>
+		<title>Sobre el editor de documentos</title>
 		<meta charset="utf-8" />
-        <meta name="description" content="La descripción breve del editor de documentos" />
+		<meta name="description" content="The short description of Document Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-		<h1>Acerca del editor de documentos</h1>
-			<p><b>El editor de documentos</b> es una solicitud en línea que le ayuda recorrer 
-			y editar documentos directamente en su navegador.</p>
-			<p>Usando <b>el editor de documentos</b>, usted puede realizar las operaciones de edición variadas como en cualquier editor del escritorio,  
-			imprimir los documentos editados manteniendo todos los detalles del formato  o descargarlos a unidad de disco duro de su ordenador en formato de
-			PDF, TXT, DOCX, DOC, ODT, RTF, HTML, o EPUB.</p>
-			<p>Para ver la versión del software actual y detalles sobre licenciante, pulse el icono <img alt="icono Acerca" src="../images/about.png" /> en la barra lateral izquierda.</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
+		<h1>Sobre el editor de documentos</h1>
+			<p>El <b>Editor de documentos</b> es una aplicación <span class="onlineDocumentFeatures">en línea</span> que le permite revisar y editar documentos<span class="onlineDocumentFeatures"> directamente en su navegador</span>.</p>
+			<p>Cuando usa el <b>Editor de documentos</b>, puede realizar varias operaciones de edición como en cualquier editor desktop, imprimir los documentos editados manteniendo todos los detalles de formato o descargarlos en el disco duro de su ordenador como archivos PDF, TXT, DOCX, ODT o HTML.</p>
+			<p>Para ver la versión de software actual y los detalles de licenciador, haga clic en el icono <img alt="Icono Acerca de" src="../images/about.png" /> en la barra de menú a la izquierda.</p>
 		</div>
 	</body>
 </html>
