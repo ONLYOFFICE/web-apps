@@ -408,10 +408,11 @@ define([
             getPanel: function (role, config) {
                 var me = this;
 
-                function createTitleButton(iconid, slot) {
+                function createTitleButton(iconid, slot, disabled) {
                     return (new Common.UI.Button({
                         cls: 'btn-header',
-                        iconCls: 'svgicon ' + iconid
+                        iconCls: 'svgicon ' + iconid,
+                        disabled: disabled === true
                     })).render(slot);
                 }
 
@@ -493,9 +494,9 @@ define([
                         me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html));
                     }
 
-                    me.btnSave = createTitleButton('svg-btn-save', $('#slot-btn-dt-save', $html));
-                    me.btnUndo = createTitleButton('svg-btn-undo', $('#slot-btn-dt-undo', $html));
-                    me.btnRedo = createTitleButton('svg-btn-redo', $('#slot-btn-dt-redo', $html));
+                    me.btnSave = createTitleButton('svg-btn-save', $('#slot-btn-dt-save', $html), true);
+                    me.btnUndo = createTitleButton('svg-btn-undo', $('#slot-btn-dt-undo', $html), true);
+                    me.btnRedo = createTitleButton('svg-btn-redo', $('#slot-btn-dt-redo', $html), true);
 
                     return $html;
                 }
