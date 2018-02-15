@@ -571,17 +571,16 @@ define([
         },
 
         onUpdateFilter: function (filter, applyOnly) {
-            if (filter && !this.view.isVisible()) {
-                this.view.needUpdateFilter = filter;
-                this.filter = {
-                    property    :   filter.property,
-                    value       :   filter.value
-                };
-                return;
-            }
-            this.view.needUpdateFilter = false;
-
             if (filter) {
+                if (!this.view.isVisible()) {
+                    this.view.needUpdateFilter = filter;
+                    this.filter = {
+                        property    :   filter.property,
+                        value       :   filter.value
+                    };
+                    return;
+                }
+                this.view.needUpdateFilter = false;
 
                 this.filter = {
                     property    :   filter.property,
@@ -972,7 +971,6 @@ define([
                 this.view.needRender = needRender;
                 return;
             }
-            this.view.needRender = false;
 
             var me = this;
             me.updateCommentsTime = new Date();
@@ -1008,6 +1006,7 @@ define([
                 this.onUpdateFilter(this.filter, true);
 
                 this.view.render();
+                this.view.needRender = false;
             }
 
             this.view.update();
