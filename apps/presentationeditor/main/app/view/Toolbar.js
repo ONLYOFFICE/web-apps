@@ -170,15 +170,16 @@ define([
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
                     iconCls     : 'no-mask ' + me.btnSaveCls,
-                    lock        : [_set.lostConnect]
+                    lock        : [_set.lostConnect],
+                    signals     : ['disabled']
                 });
-                me.btnsSave = createButtonSet(me.btnSave);
 
                 me.btnUndo = new Common.UI.Button({
                     id          : 'id-toolbar-btn-undo',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-undo',
-                    lock        : [_set.undoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart]
+                    lock        : [_set.undoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
+                    signals     : ['disabled']
                 });
                 me.slideOnlyControls.push(me.btnUndo);
 
@@ -186,7 +187,8 @@ define([
                     id          : 'id-toolbar-btn-redo',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-redo',
-                    lock        : [_set.redoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart]
+                    lock        : [_set.redoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
+                    signals     : ['disabled']
                 });
                 me.slideOnlyControls.push(me.btnRedo);
 
@@ -1340,17 +1342,6 @@ define([
 //            // Enable none paragraph components
                 this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
 
-                var btnsave = PE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
-                if (btnsave && this.btnsSave) {
-                    this.btnsSave.add(btnsave);
-                    this.lockControls.push(btnsave);
-                }
-                btnsave = PE.getController('Viewport').getView('Common.Views.Header').getButton('save');
-                if (btnsave && this.btnsSave) {
-                    this.btnsSave.add(btnsave);
-                    this.lockControls.push(btnsave);
-                }
-
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
                 this.needShowSynchTip = false;
@@ -1499,7 +1490,7 @@ define([
                     this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnsSave.setDisabled(false);
+                this.btnSave.setDisabled(false);
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -1530,7 +1521,7 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnsSave.setDisabled(!me.mode.forcesave);
+                        this.btnSave.setDisabled(!me.mode.forcesave);
 
                         this._state.hasCollaborativeChanges = false;
                     }

@@ -417,12 +417,7 @@ define([
                         forcesave = this.appOptions.forcesave,
                         isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 
@@ -1271,12 +1266,7 @@ define([
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
             onDocumentCanSaveChanged: function (isCanSave) {
@@ -1285,12 +1275,7 @@ define([
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 

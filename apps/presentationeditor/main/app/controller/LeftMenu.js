@@ -89,7 +89,8 @@ define([
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
                     'file:open': this.clickToolbarTab.bind(this, 'file'),
-                    'file:close': this.clickToolbarTab.bind(this, 'other')
+                    'file:close': this.clickToolbarTab.bind(this, 'other'),
+                    'save:disabled' : this.changeToolbarSaveState.bind(this)
                 },
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
@@ -309,6 +310,11 @@ define([
             if (tab == 'file')
                 this.leftMenu.menuFile.show(); else
                 this.leftMenu.menuFile.hide();
+        },
+
+        changeToolbarSaveState: function (state) {
+            this.leftMenu.menuFile.getButton('save').setDisabled(state);
+            console.log('save: ' + state);
         },
 
         /** coauthoring begin **/

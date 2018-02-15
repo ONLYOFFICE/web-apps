@@ -217,10 +217,14 @@ define([
         },
 
         onLaunch: function() {
-            // Create toolbar view
-            this.toolbar = this.createView('Toolbar');
-
             var me = this;
+
+            // Create toolbar view
+            me.toolbar = me.createView('Toolbar');
+            me.toolbar.btnSave.on('disabled', _.bind(this.onBtnChangeState, this, 'save:disabled'));
+            me.toolbar.btnUndo.on('disabled', _.bind(this.onBtnChangeState, this, 'undo:disabled'));
+            me.toolbar.btnRedo.on('disabled', _.bind(this.onBtnChangeState, this, 'redo:disabled'));
+
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
             Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
 
@@ -920,6 +924,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('Save');
             Common.component.Analytics.trackEvent('ToolBar', 'Save');
+        },
+
+        onBtnChangeState: function(prop) {
+            if ( /\:disabled$/.test(prop) ) {
+                var _is_disabled = arguments[2];
+                this.toolbar.fireEvent(prop, [_is_disabled]);
+            }
         },
 
         onUndo: function(btn, e) {

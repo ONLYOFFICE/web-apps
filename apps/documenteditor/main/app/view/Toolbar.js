@@ -120,22 +120,24 @@ define([
                 this.btnSave = new Common.UI.Button({
                     id: 'id-toolbar-btn-save',
                     cls: 'btn-toolbar',
-                    iconCls: 'no-mask ' + this.btnSaveCls
+                    iconCls: 'no-mask ' + this.btnSaveCls,
+                    signals: ['disabled']
                 });
                 this.toolbarControls.push(this.btnSave);
-                me.btnsSave = createButtonSet( me.btnSave );
 
                 this.btnUndo = new Common.UI.Button({
                     id: 'id-toolbar-btn-undo',
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-undo'
+                    iconCls: 'btn-undo',
+                    signals: ['disabled']
                 });
                 this.toolbarControls.push(this.btnUndo);
 
                 this.btnRedo = new Common.UI.Button({
                     id: 'id-toolbar-btn-redo',
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-redo'
+                    iconCls: 'btn-redo',
+                    signals: ['disabled']
                 });
                 this.toolbarControls.push(this.btnRedo);
 
@@ -1957,18 +1959,6 @@ define([
                     maxRows: 8,
                     maxColumns: 10
                 });
-
-                var btnsave = DE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
-                if (btnsave && this.btnsSave) {
-                    this.btnsSave.add(btnsave);
-                    this.toolbarControls.push(btnsave);
-                }
-
-                btnsave = DE.getController('Viewport').getView('Common.Views.Header').getButton('save');
-                if (btnsave && this.btnsSave) {
-                    this.btnsSave.add(btnsave);
-                    this.toolbarControls.push(btnsave);
-                }
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -2052,7 +2042,7 @@ define([
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
-                    this.btnsSave.setDisabled(true);
+                    this.btnSave.setDisabled(true);
                     if (mode.disableDownload)
                         this.btnPrint.setDisabled(true);
                 }
@@ -2143,7 +2133,7 @@ define([
                     this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnsSave.setDisabled(false);
+                this.btnSave.setDisabled(false);
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -2174,7 +2164,7 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnsSave.setDisabled(!me.mode.forcesave);
+                        this.btnSave.setDisabled(!me.mode.forcesave);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

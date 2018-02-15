@@ -1417,12 +1417,7 @@ define([
                         forcesave = this.appOptions.forcesave,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (this.toolbarView.btnSave.isDisabled() !== isDisabled)
-                        this.toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        this.toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 
@@ -1431,12 +1426,7 @@ define([
                     var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (this.toolbarView.btnSave.isDisabled() !== isDisabled)
-                        this.toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                    this.toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 

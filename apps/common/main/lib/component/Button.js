@@ -595,6 +595,13 @@ define([
                         }
                     }
                 }
+
+                if ( !!me.options.signals ) {
+                    var opts = me.options.signals;
+                    if ( !(opts.indexOf('disabled') < 0) ) {
+                        me.trigger('disabled', me, disabled);
+                    }
+                }
             }
 
             this.disabled = disabled;

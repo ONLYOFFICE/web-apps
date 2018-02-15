@@ -231,8 +231,11 @@ define([
 
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+            toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+            toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+            toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
             toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
@@ -920,12 +923,19 @@ define([
                 this.api.asc_Save();
             }
 
-            toolbar.btnsSave.setDisabled(!toolbar.mode.forcesave);
+            toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
             Common.component.Analytics.trackEvent('Save');
             Common.component.Analytics.trackEvent('ToolBar', 'Save');
+        },
+
+        onBtnChangeState: function(prop) {
+            if ( /\:disabled$/.test(prop) ) {
+                var _is_disabled = arguments[2];
+                this.toolbar.fireEvent(prop, [_is_disabled]);
+            }
         },
 
         onUndo: function(btn, e) {
@@ -2701,7 +2711,7 @@ define([
 
             toolbar._state.previewmode = reviewmode && disable;
             if (reviewmode) {
-                toolbar._state.previewmode && toolbar.btnsSave.setDisabled(true);
+                toolbar._state.previewmode && toolbar.btnSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;

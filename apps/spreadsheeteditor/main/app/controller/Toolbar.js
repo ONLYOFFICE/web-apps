@@ -247,8 +247,11 @@ define([
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
                 toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+                toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+                toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
                 toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+                toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
                 toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
                 toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
                 toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncreaseFontSize, this));
@@ -394,6 +397,13 @@ define([
 
             Common.component.Analytics.trackEvent('Save');
             Common.component.Analytics.trackEvent('ToolBar', 'Save');
+        },
+
+        onBtnChangeState: function(prop) {
+            if ( /\:disabled$/.test(prop) ) {
+                var _is_disabled = arguments[2];
+                this.toolbar.fireEvent(prop, [_is_disabled]);
+            }
         },
 
         onUndo: function(btn, e) {
@@ -3039,6 +3049,9 @@ define([
                 me.toolbar.setMode(config);
 
                 if ( config.isEdit ) {
+                    me.toolbar.btnSave && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+                    me.toolbar.btnUndo && me.toolbar.btnUndo.on('disabled', _.bind(me.onBtnChangeState, me, 'undo:disabled'));
+                    me.toolbar.btnRedo && me.toolbar.btnRedo.on('disabled', _.bind(me.onBtnChangeState, me, 'redo:disabled'));
                     me.toolbar.setApi(me.api);
 
                     if ( !config.isEditDiagram && !config.isEditMailMerge ) {

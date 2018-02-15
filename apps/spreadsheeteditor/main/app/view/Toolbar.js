@@ -157,7 +157,8 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-undo',
                 disabled    : true,
-                lock        : [_set.lostConnect]
+                lock        : [_set.lostConnect],
+                signals     : ['disabled']
             });
 
             me.btnRedo = new Common.UI.Button({
@@ -165,7 +166,8 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-redo',
                 disabled    : true,
-                lock        : [_set.lostConnect]
+                lock        : [_set.lostConnect],
+                signals     : ['disabled']
             });
 
             return this;
@@ -370,9 +372,9 @@ define([
                 me.btnSave = new Common.UI.Button({
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'no-mask ' + me.btnSaveCls
+                    iconCls     : 'no-mask ' + me.btnSaveCls,
+                    signals     : ['disabled']
                 });
-                me.btnsSave = createButtonSet(me.btnSave);
 
                 me.btnIncFontSize = new Common.UI.Button({
                     id          : 'id-toolbar-btn-incfont',
@@ -1233,7 +1235,7 @@ define([
                 me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                 me.btnInsertChart, me.btnColorSchemas,
                 me.btnAutofilter, me.btnCopy, me.btnPaste, me.btnSettings, me.listStyles, me.btnPrint, me.btnShowMode,
-                /*me.btnSave, */me.btnClearStyle, me.btnCopyStyle
+                me.btnSave, me.btnClearStyle, me.btnCopyStyle
             ];
 
             var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
@@ -1706,15 +1708,6 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
             }
-
-            var btnsave = SSE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
-            if (btnsave && this.btnsSave) {
-                this.btnsSave.add(btnsave);
-            }
-            btnsave = SSE.getController('Viewport').getView('Common.Views.Header').getButton('save');
-            if (btnsave && this.btnsSave) {
-                this.btnsSave.add(btnsave);
-            }
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -1758,8 +1751,6 @@ define([
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
                     {array:[this.btnEditChart,this.btnUndo,this.btnRedo]} );
-                this.lockToolbar( SSE.enumLock.lostConnect, true,
-                    {array:this.btnsSave} );
                 this.lockToolbar(SSE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
             } else {
                 this.mode = mode;
@@ -1851,7 +1842,7 @@ define([
                 this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
             }
 
-            this.btnsSave.setDisabled(false);
+            this.btnSave.setDisabled(false);
             Common.Gateway.collaborativeChanges();
         },
 
@@ -1882,7 +1873,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnsSave.setDisabled(!me.mode.forcesave);
+                    this.btnSave.setDisabled(!me.mode.forcesave);
 
                     this._state.hasCollaborativeChanges = false;
                 }

@@ -77,6 +77,18 @@ define([
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.getItem('toolbar').height = state ?
                                 Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
+                    },
+                    'undo:disabled' : function (state) {
+                        if ( me.header.btnUndo )
+                            me.header.btnUndo.setDisabled(state);
+                    },
+                    'redo:disabled' : function (state) {
+                        if ( me.header.btnRedo )
+                            me.header.btnRedo.setDisabled(state);
+                    },
+                    'save:disabled' : function (state) {
+                        if ( me.header.btnSave )
+                            me.header.btnSave.setDisabled(state);
                     }
                 }
             });
