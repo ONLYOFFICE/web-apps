@@ -1543,9 +1543,7 @@ define([
                 /** coauthoring end **/
             },
             onDocumentCanSaveChanged: function (isCanSave) {
-                var application = this.getApplication(),
-                    toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView();
+                var toolbarView = this.getApplication().getController('Toolbar').getView();
 
                 if (toolbarView && this.api && !toolbarView._state.previewmode) {
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),

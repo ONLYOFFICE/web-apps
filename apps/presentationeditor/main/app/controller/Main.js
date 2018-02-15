@@ -409,8 +409,7 @@ define([
 
             onEditComplete: function(cmp) {
                 var application = this.getApplication(),
-                    toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView('Toolbar');
+                    toolbarView = application.getController('Toolbar').getView('Toolbar');
 
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
                 if (this.api && this.api.asc_isDocumentCanSave) {
@@ -1281,10 +1280,8 @@ define([
                 }
             },
             onDocumentCanSaveChanged: function (isCanSave) {
-                var application = this.getApplication(),
-                    toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView('Toolbar');
-                if (toolbarView) {
+                var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
+                if ( toolbarView ) {
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;

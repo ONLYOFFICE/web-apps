@@ -2762,7 +2762,7 @@ define([
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                    // hide 'undo' and 'redo' buttons and get container
+                    // hide 'undo' and 'redo' buttons and retrieve parent container
                     var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
                     // move 'paste' button to the container instead of 'undo' and 'redo'
