@@ -2434,7 +2434,7 @@ define([
             textSurface: 'Surface',
             textTabCollaboration: 'Collaboration',
             textTabProtect: 'Protection',
-            textTabLinks: 'Links',
+            textTabLinks: 'References',
             capBtnInsControls: 'Content Control',
             textRichControl: 'Rich text',
             textPlainControl: 'Plain text',
