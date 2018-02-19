@@ -3,34 +3,23 @@
 	<head>
 		<title>Función de búsqueda</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="La descripción de función  de búsqueda en el editor de presentaciones" />
+		<meta name="description" content="The description of the search function in Presentation Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+        </div>
 		<h1>Función de búsqueda</h1>
-			<p>Para <b>buscar</b> los caracteres necesarios, palabras o frases usadas en la presentación actualmente editada, 
-			pulse el icono <img alt="Icono búsqueda" src="../images/searchicon.png" /> que se sitúa en la barra izquierda lateral.</p>
-			<p>Se abrirá la ventana <b>Búsqueda</b>:</p>
-			<img alt="Ventana de búsqueda" src="../images/search_window.png" />
-			<ol>
-			<li>Introduzca su solicitud en el campo correspondiente.</li> 
-			<!--<li>Specify search options: press the <img alt="Search Options button" src="../images/SearchOptions.png" /> button and check the necessary option clicking on it in the drop-down list:
-			<ul>
-			<li><b>Case sensitive</b> - is used to find only the occurrences typed in the same case as your inquiry (e.g. if your inquiry is 'Editor' and this option is selected, such words as 'editor' or 'EDITOR' etc. will not be found).</li>
-			<li><b>Whole words only</b> - is used to find only the occurrences that are the complete words, not parts of another word (e.g. if your inquiry is 'edit' and this option is selected, such words as 'editor' or 'editing' etc. will not be found).</li>
-			</ul>
-			</li>-->
-			<li>Pulse uno de los <b>botones de flecha</b> a la derecha. 
-			La búsqueda se realizará hacia arriba (si pulsa el botón <img alt="botón de flecha" src="../images/searchupbutton.png" />) o hacia abajo (si pulsa el botón <img alt="botón de flecha" src="../images/searchdownbutton.png" />) de la posición actual de cursor.</li>
+			<p><b>Para buscar</b> los caracteres necesarios, palabras o frases usadas en la presentación actualmente editada, haga clic en el <img alt="Icono Buscar" src="../images/searchicon.png" /> icono situado en la barra izquierda lateral.</p>
+			<p>La ventana <b>Búsqueda</b> se abrirá:</p><img alt="Ventana de búsqueda" src="../images/search_window.png" /><ol>
+			<li>Introduzca su consulta en el campo correspondiente.</li>
+			<li>Pulse uno de los <b>botones de flecha</b> a la derecha. La búsqueda se realizará o hacia el principio de la presentación (si pulsa el botón <img alt="Botón de flecha izquierda" src="../images/searchupbutton.png" />) o hacia el final de la presentación (si pulsa el botón <img alt="Botón de flecha derecha" src="../images/searchdownbutton.png" />) de la posición actual de cursor.</li>
 			</ol>
-			<p>La primera diapositiva en la dirección seleccionada que contiene los caracteres introducidos será resaltada en la lista de diapositivas y mostrada en el área de trabajo con los requeridos caracteres resaltados. Si no es la diapositiva que está buscando, pulse el botón necesario otra vez para encontrar la siguiente diapositiva que contiene los caracteres introducidos.</p> 
-		    <!--<p><b>To replace</b> one or more occurrences of the found characters click the <b>Replace</b> button below the <b>Search</b> buttons. The <b>Search</b> window will change:</p>
-			<img alt="Search Window" src="../images/search_replace_window.png" />
-			<ol>
-			<li>Type in the replacement text into the bottom data entry field.</li>			
-			<li>Click the <b>Replace</b> button to replace the currently selected occurrence or the <b>Replace All</b> button to replace all the found occurrences.</li>
-			</ol>-->
+			<p>La primera diapositiva en la dirección seleccionada que contiene los caracteres introducidos se resaltará en la lista de diapositivas y se mostrará en el área de trabajo con los caracteres necesarios resaltados. Si no es la diapositiva que está buscando, haga clic en el botón de nuevo para encontrar la siguiente diapositiva que contiene los caracteres introducidos.</p> 
 		</div>
 	</body>
 </html>
