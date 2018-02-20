@@ -133,7 +133,7 @@ text-decoration: none;
     width: 250px;
     height: 25px;
     box-sizing: border-box;
-    padding: 7px 10px 7px 25px;
+    padding: 4px 10px 4px 25px;
     border: 1px solid #e1e1e1;
     border-radius: 6px;
     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAQVJREFUGBl1j71KxUAQhe8uJkZcC/ERfADBRsheCSkFwcLKxkbuM1jaa2+l1pZ6FW2EJJgUdqYOdinsAuIfRDZ+E24qceAw55w5O7urRlRRFKtt2x5DQ/AGrn3fPwrD8Avel5qFnlEOTMFK13Vb9CcwjuP4hz6aY9MJ3Xmet26tfREzy7ID59yZ1nofeSGeBhZcDSExoyg6V0o1bN4ULSXBd7AsYqgkSQL4AvgcPM2pG8R2mqZ7YlZVNc+2U/yAq+XNfak8z5d45yNqjcAr3RAyMkXfwXf50LcSQ7bUdT2Bjhl+0G8JHNI30A/GmJ0+iPGnZjfdM7CEp/8G5WRZlotN01xCg18HsWi9HzrHEgAAAABJRU5ErkJggg==') center left 9px no-repeat;
@@ -146,4 +146,10 @@ text-decoration: none;
 .subtitle {
     font-size: 0.9em;
     font-style: italic;
+}
+#search-results a {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    color: #444;
 }

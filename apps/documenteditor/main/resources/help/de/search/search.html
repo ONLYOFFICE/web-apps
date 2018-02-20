@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Search results</title>
+        <title>Suchergebnisse</title>
         <meta charset="utf-8" />
-        <meta name="description" content="Search results" />
+        <meta name="description" content="Suchergebnisse" />
         <link type="text/css" rel="stylesheet" href="../editor.css" />
         <script src="js/jquery.min.js"></script>
         <script src="indexes.js"></script>
@@ -200,15 +200,15 @@
                                     }
                                 })
                             )
-                            $(".subtitle").html("Search results: " + resultsCount);
+                            $(".subtitle").html("Suchergebnisse: " + resultsCount);
                         } else {
-                            $(".subtitle").html("No search results");
+                            $(".subtitle").html("Keine Suchergebnisse");
                         }
 
-                        $("h1").text("Search results");
+                        $("h1").text("Suchergebnisse");
                     } else {
-                        $("h1").text("Search results");
-                        $(".subtitle").html("No search results");
+                        $("h1").text("Suchergebnisse");
+                        $(".subtitle").html("Keine Suchergebnisse");
                     }
                 }
 
@@ -225,9 +225,9 @@
         </script>
         <div class="mainpart">
             <div class="search-field">
-                <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+                <input id="search" class="searchBar" placeholder="Suche" type="search" onkeypress="doSearch(event)">
             </div>
-            <h1>Searching...</h1>
+            <h1>Suche...</h1>
             <span class="subtitle"></span>
             <ul id="search-results"></ul>
         </div>
