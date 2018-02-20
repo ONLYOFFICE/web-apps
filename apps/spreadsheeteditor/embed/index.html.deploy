@@ -190,7 +190,7 @@
             check = function(regex){ return regex.test(userAgent); };
        if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
             var m = /msie (\d+\.\d+)/.exec(userAgent);
-            if (m && parseFloat(m[1]) < 9.0) {
+            if (m && parseFloat(m[1]) < 10.0) {
                 document.write(
                     '<div id="id-error-mask" class="errormask">',
                         '<div class="error-body" align="center">',
@@ -326,7 +326,7 @@
       <script type="text/javascript" src="../../../apps/spreadsheeteditor/embed/app-all.js"></script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
-              return  ($.browser.msie     && parseFloat($.browser.version) > 8)     ||
+              return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
