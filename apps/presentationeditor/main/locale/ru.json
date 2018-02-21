@@ -943,7 +943,6 @@
   "PE.Views.FileMenuPanels.Settings.strFast": "Быстрый",
   "PE.Views.FileMenuPanels.Settings.strForcesave": "Всегда сохранять на сервере (в противном случае сохранять на сервере при закрытии документа)",
   "PE.Views.FileMenuPanels.Settings.strInputMode": "Включить иероглифы",
-  "PE.Views.FileMenuPanels.Settings.strInputSogou": "Включить метод ввода Sogou Pinyin",
   "PE.Views.FileMenuPanels.Settings.strShowChanges": "Отображать изменения при совместной работе",
   "PE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Включить проверку орфографии",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Строгий",

@@ -1101,7 +1101,6 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strForcesave": "Vždy uložiť na server (inak uložiť na server pri zatvorení dokumentu)",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocale": "Jazyk vzorcov",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFuncLocaleEx": "Príklad: SÚČET; MIN; MAX; POČET",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strInputSogou": "Zapnúť vstup Sogou Pinyin",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strLiveComment": "Zapnúť zobrazovanie komentárov",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Miestne nastavenia",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Príklad:",
