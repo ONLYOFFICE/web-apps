@@ -1865,10 +1865,10 @@ define([
         },
 
         onControlsSelect: function(item, e) {
+            var me = this;
             var props = this.api.asc_GetContentControlProperties();
             if (props) {
                 if (item.value == 'settings') {
-                    var me = this;
                     (new DE.Views.ControlSettingsDialog({
                         props: props,
                         handler: function (result, value) {
