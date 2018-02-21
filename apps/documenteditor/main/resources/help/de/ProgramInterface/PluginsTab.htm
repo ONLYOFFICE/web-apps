@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Registerkarte Plug-in</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Introducing the Document Editor user interface - Plugins tab" />
+		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="search" onkeypress="doSearch(event)">
+        </div>
+			<h1>Registerkarte Plug-in</h1>
+            <p>Die Registerkarte <b>Plugins</b> ermöglicht den Zugriff auf erweiterte Bearbeitungsfunktionen mit verfügbaren Komponenten von Drittanbietern.</p>
+            <p><img alt="Registerkarte Plug-in" src="../images/interface/pluginstab.png" /></p>
+            <p>Derzeit stehen folgende Plug-ins zur Verfügung:</p>		
+            <ul>
+                <li><b>ClipArt</b> ermöglicht das Hinzufügen von Bildern aus der ClipArt-Sammlung.</li>
+                <li><b>OCR</b> ermöglicht es, in einem Bild enthaltene Texte zu erkennen und in den Dokumenttext einzufügen.</li>
+                <li><b>PhotoEditor</b> ermöglicht das Bearbeiten von Bildern: Zuschneiden, Größe ändern, Effekte anwenden usw.</li>
+                <li><b>Speech</b> ermöglicht es, ausgewählten Text in Sprache zu konvertieren.</li>
+                <li><b>Symbol Table</b> ermöglicht das Einfügen spezieller Symbole in Ihren Text.</li>
+                <li><b>Translator</b> ermöglicht das Übersetzen von ausgewählten Textabschnitten in andere Sprachen.</li>
+                <li><b>YouTube</b> ermöglicht das Einbetten von YouTube-Videos in Ihr Dokument.</li>
+            </ul>
+            <p>Um mehr über Plug-ins zu erfahren lesen Sie bitte unsere <a target="_blank" href="https://api.onlyoffice.com/plugin/basic" onclick="onhyperlinkclick(this)">API Dokumentation</a>. Alle derzeit als Open-Source verfügbaren Plug-in-Beispiele sind auf <a target="_blank" href="https://github.com/ONLYOFFICE/sdkjs-plugins" onclick="onhyperlinkclick(this)">GitHub</a> verfügbar.</p>
+		</div>
+	</body>
+</html>

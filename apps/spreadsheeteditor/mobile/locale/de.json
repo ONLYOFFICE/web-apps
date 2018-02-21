@@ -256,6 +256,7 @@
   "SSE.Controllers.Main.uploadImageTitleText": "Bild wird hochgeladen",
   "SSE.Controllers.Main.warnLicenseExp": "Ihre Lizenz ist abgelaufen.<br>Bitte aktualisieren Sie Ihre Lizenz und laden Sie die Seite neu.",
   "SSE.Controllers.Main.warnNoLicense": "Diese Version von ONLYOFFICE Editoren hat gewisse Einschränkungen für gleichzeitige Verbindungen zu Dokumentenserver.<br>Wenn Sie mehr Verbindungen benötigen, aktualisieren Sie diese Version oder erwerben Sie eine kommerzielle Lizenz.",
+  "SSE.Controllers.Main.warnNoLicenseUsers": "Diese Version von ONLYOFFICE Editoren hat bestimmte Einschränkungen für gleichzeitige Benutzer. <br> Wenn Sie mehr Nutzer benötigen, achten Sie bitte darauf, dass Sie entweder Ihre derzeitige Lizenz aktualisieren oder eine kommerzielle erwerben müssen.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Das Recht, die Datei zu bearbeiten, wurde Ihnen verweigert.",
   "SSE.Controllers.Search.textNoTextFound": "Der Text wurde nicht gefunden.",
   "SSE.Controllers.Search.textReplaceAll": "Alle ersetzen",
