@@ -23,7 +23,7 @@
   {
     "src": "UsageInstructions/OpenCreateNew.htm",
     "name": "Créer une nouvelle présentation ou ouvrir une présentation existante",
-    "headername": "Onglet Modules complémentaires"
+    "headername": "Opérations de base"
   },
   {
     "src": "UsageInstructions/CopyPasteUndoRedo.htm",
@@ -66,7 +66,7 @@
   {
     "src": "UsageInstructions/InsertAutoshapes.htm",
     "name": "Insérer et mettre en forme des formes automatiques",
-    "headername": "Opérations sur les objets"
+    "headername": "Opérations sur des objets"
   },
   {
     "src": "UsageInstructions/InsertImages.htm",
@@ -130,7 +130,7 @@
   {
     "src": "HelpfulHints/About.htm",
     "name": "A propos de Presentation Editor",
-    "headername": "Astuces"
+    "headername": "Astuces utiles"
   },
   {
     "src": "HelpfulHints/SupportedFormats.htm",
