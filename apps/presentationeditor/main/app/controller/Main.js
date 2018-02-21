@@ -295,6 +295,8 @@ define([
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                Common.Controllers.Desktop.init(this.appOptions);
             },
 
             loadDocument: function(data) {
@@ -394,10 +396,7 @@ define([
 
             goBack: function(blank) {
                 var me = this;
-                if ( me.appOptions.customization.goback.url == 'callback' ) {
-                    Common.Gateway.internalMessage( 'goback',
-                            {status: me.appOptions.isOffline ? 'offline' : 'online'} );
-                } else {
+                if ( !Common.Controllers.Desktop.process('goback') ) {
                     var href = me.appOptions.customization.goback.url;
                     if (blank) {
                         window.open(href, "_blank");

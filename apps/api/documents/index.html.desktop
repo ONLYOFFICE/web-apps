@@ -58,8 +58,6 @@
                 editorConfig: cfg,
                 events: {
                     onInternalMessage: onInternalMessage,
-                    onDocumentReady: onDocumentReady
-
                 }
             });
 
@@ -97,7 +95,7 @@
             function getEditorConfig(urlParams) {
                 return {
                     customization   : {
-                        goback: { url: "callback" }
+                        goback: { url: "onlyoffice.com" }
                     },
                     mode            : urlParams["mode"] || 'edit',
                     lang            : urlParams["lang"] || 'en',
