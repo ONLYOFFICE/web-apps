@@ -1092,7 +1092,6 @@
   "DE.Views.FileMenuPanels.Settings.strFontRender": "Hinting dei caratteri",
   "DE.Views.FileMenuPanels.Settings.strForcesave": "Salva sempre sul server (altrimenti salva sul server alla chiusura del documento)",
   "DE.Views.FileMenuPanels.Settings.strInputMode": "Attiva geroglifici",
-  "DE.Views.FileMenuPanels.Settings.strInputSogou": "Attiva l'input Sogou Pinyin",
   "DE.Views.FileMenuPanels.Settings.strLiveComment": "Attivare visualizzazione dei commenti",
   "DE.Views.FileMenuPanels.Settings.strResolvedComment": "Attiva la visualizzazione dei commenti risolti",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Evidenzia modifiche di collaborazione",

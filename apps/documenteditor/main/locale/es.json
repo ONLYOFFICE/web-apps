@@ -1031,7 +1031,6 @@
   "DE.Views.FileMenuPanels.Settings.strFontRender": "Hinting",
   "DE.Views.FileMenuPanels.Settings.strForcesave": "Siempre guardar en el servidor (de lo contrario guardar en el servidor al cerrar documento)",
   "DE.Views.FileMenuPanels.Settings.strInputMode": "Activar jeroglíficos",
-  "DE.Views.FileMenuPanels.Settings.strInputSogou": "Encender entrar Sogou Pinyin",
   "DE.Views.FileMenuPanels.Settings.strLiveComment": "Activar opción de demostración de comentarios",
   "DE.Views.FileMenuPanels.Settings.strResolvedComment": "Activar la visualización de los comentarios resueltos",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Cambios de colaboración en tiempo real",

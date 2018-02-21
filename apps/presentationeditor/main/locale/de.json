@@ -943,7 +943,6 @@
   "PE.Views.FileMenuPanels.Settings.strFast": "Schnell",
   "PE.Views.FileMenuPanels.Settings.strForcesave": "Immer auf dem Server speichern (ansonsten auf dem Server beim Schließen des Dokuments speichern)",
   "PE.Views.FileMenuPanels.Settings.strInputMode": "Hieroglyphen einschalten",
-  "PE.Views.FileMenuPanels.Settings.strInputSogou": "Sogou Pinyin einschalten",
   "PE.Views.FileMenuPanels.Settings.strShowChanges": "Änderungen bei der Echtzeit-Zusammenarbeit zeigen",
   "PE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Rechtschreibprüfung einschalten",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Formal",

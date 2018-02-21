@@ -892,7 +892,6 @@
   "PE.Views.FileMenuPanels.Settings.strFast": "Rapide",
   "PE.Views.FileMenuPanels.Settings.strForcesave": "Toujours enregistrer sur le serveur ( sinon enregistrer sur le serveur lors de la fermeture du document )",
   "PE.Views.FileMenuPanels.Settings.strInputMode": "Activer les hiéroglyphes",
-  "PE.Views.FileMenuPanels.Settings.strInputSogou": "Activer la transcription Sogou Pinyin",
   "PE.Views.FileMenuPanels.Settings.strShowChanges": "Visibilité des modifications en co-édition",
   "PE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Activer l'option de vérification de l’orthographe",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strict",
