@@ -181,7 +181,7 @@
             stopLoading = false;
         if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
             var m = /msie (\d+\.\d+)/.exec(userAgent);
-            if (m && parseFloat(m[1]) < 9.0) {
+            if (m && parseFloat(m[1]) < 10.0) {
                 document.write(
                     '<div class="app-error-panel">' +
                         '<div class="message-block">' +

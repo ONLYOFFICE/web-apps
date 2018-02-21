@@ -1865,10 +1865,10 @@ define([
         },
 
         onControlsSelect: function(item, e) {
+            var me = this;
             var props = this.api.asc_GetContentControlProperties();
             if (props) {
                 if (item.value == 'settings') {
-                    var me = this;
                     (new DE.Views.ControlSettingsDialog({
                         props: props,
                         handler: function (result, value) {
@@ -2515,6 +2515,30 @@ define([
                 })
             });
 
+            var menuTableTOC = new Common.UI.MenuItem({
+                caption     : me.textTOC,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        {
+                            caption: me.textSettings,
+                            value: 'settings'
+                        },
+                        {
+                            caption: me.textUpdateAll,
+                            value: 'all'
+                        },
+                        {
+                            caption: me.textUpdatePages,
+                            value: 'pages'
+                        }
+                    ]
+                })
+            });
+            menuTableTOC.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent((item.value=='settings') ? 'links:contents' : 'links:update', [item.value, true]);
+            });
+
             /** coauthoring begin **/
             var menuAddCommentTable = new Common.UI.MenuItem({
                 caption     : me.addCommentText
@@ -2783,13 +2807,15 @@ define([
                         me.clearEquationMenu(false, 6);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
 
-                    var in_control = me.api.asc_IsContentControl();
+                    var in_toc = me.api.asc_GetTableOfContentsPr(true),
+                        in_control = !in_toc && me.api.asc_IsContentControl();
                     menuTableControl.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                     }
+                    menuTableTOC.setVisible(in_toc);
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -2911,6 +2937,7 @@ define([
                     menuHyperlinkTable,
                     menuHyperlinkSeparator,
                     menuTableControl,
+                    menuTableTOC,
                     menuParagraphAdvancedInTable
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
@@ -3181,6 +3208,37 @@ define([
                 caption     : '--'
             });
 
+            var menuParaTOCSettings = new Common.UI.MenuItem({
+                caption: me.textTOCSettings,
+                value: 'settings'
+            }).on('click', function (item, e) {
+                me.fireEvent('links:contents', [item.value, true]);
+            });
+
+            var menuParaTOCRefresh = new Common.UI.MenuItem({
+                caption     : me.textUpdateTOC,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        {
+                            caption: me.textUpdateAll,
+                            value: 'all'
+                        },
+                        {
+                            caption: me.textUpdatePages,
+                            value: 'pages'
+                        }
+                    ]
+                })
+            });
+            menuParaTOCRefresh.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('links:update', [item.value, true]);
+            });
+
+            var menuParaTOCSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
@@ -3282,7 +3340,8 @@ define([
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
 
-                    var in_control = me.api.asc_IsContentControl();
+                    var in_toc = me.api.asc_GetTableOfContentsPr(true),
+                        in_control = !in_toc && me.api.asc_IsContentControl() ;
                     menuParaRemoveControl.setVisible(in_control);
                     menuParaControlSettings.setVisible(in_control);
                     menuParaControlSeparator.setVisible(in_control);
@@ -3291,6 +3350,9 @@ define([
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                     }
+                    menuParaTOCSettings.setVisible(in_toc);
+                    menuParaTOCRefresh.setVisible(in_toc);
+                    menuParaTOCSeparator.setVisible(in_toc);
                 },
                 items: [
                     me.menuSpellPara,
@@ -3308,6 +3370,9 @@ define([
                     menuParaRemoveControl,
                     menuParaControlSettings,
                     menuParaControlSeparator,
+                    menuParaTOCSettings,
+                    menuParaTOCRefresh,
+                    menuParaTOCSeparator,
                     menuParagraphBreakBefore,
                     menuParagraphKeepLines,
                     menuParagraphVAlign,
@@ -3631,7 +3696,12 @@ define([
         textRemoveControl: 'Remove content control',
         textEditControls: 'Content control settings',
         textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns'
+        textDistributeCols: 'Distribute columns',
+        textUpdateTOC: 'Refresh table of contents',
+        textUpdateAll: 'Refresh entire table',
+        textUpdatePages: 'Refresh page numbers only',
+        textTOCSettings: 'Table of contents settings',
+        textTOC: 'Table of contents'
 
     }, DE.Views.DocumentHolder || {}));
 });

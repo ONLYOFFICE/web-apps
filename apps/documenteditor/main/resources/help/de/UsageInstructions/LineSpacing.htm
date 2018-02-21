@@ -1,30 +1,36 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Bestimmen Sie den Zeilenabstand in den Absätzen</title>
+		<title>Zeilenabstand in Absätzen festlegen</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Bestimmen Sie den Zeilenabstand in den Absätzen Ihres Dokuments" />
+		<meta name="description" content="Set paragraph line spacing in your document" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Bestimmen Sie den Zeilenabstand in den Absätzen</h1>
-			<p>Im TeamLab Document Editor können Sie die Zeilenhöhe für den Text innerhalb der Absätze sowie den Abstand zwischen dem aktuellen Absatz und dem vorherigen oder nächsten Absatz festlegen.</p>
-			<p>Dafür führen Sie die folgenden Schritte aus:</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="search" onkeypress="doSearch(event)">
+        </div>
+			<h1>Zeilenabstand in Absätzen festlegen</h1>
+			<p>Der Dokumenteneditor ermöglicht Ihnen die Zeilenhöhe für die Textzeilen innerhalb des Absatzes sowie die Abstände zwischen den einzelnen Absätzen festzulegen.</p>
+			<p>Gehen Sie dazu wie folgt vor:</p>
 			<ol>
-				<li>Setzen Sie den Cursor innerhalb des gewünschten Absatzes oder wählen Sie mehrere Absätze mit der Maus bzw. den ganzen Text mithilfe der Tastenkombination <b>Strg+A</b>.</li>
-				<li>Nutzen Sie die entsprechenden Felder im rechten Seitenbereich, um das gewünschte Ergebnis zu erzielen:
-					<ul>
-						<li><b>Zeilenabstand</b> - bestimmen Sie die Zeilenhöhe für den Text im Absatz. Sie können unter drei Optionen wählen: <b>mindestens</b> (mithilfe dieser Option wird der für das größte Schriftzeichen oder eine Grafik auf einer Zeile erforderliche Mindestabstand zwischen den Zeilen festgelegt), <b>mehrfach</b> (mithilfe dieser Option wird ein Zeilenabstand festgelegt, der ausgehend vom einfachen Zeilenabstand um einen angegebenen Prozentsatz vergrößert oder verkleinert wird), <b>genau</b> (mithilfe dieser Option wird ein fester Zeilenabstand festgelegt). Im Feld <b>Von</b> können Sie den gewünschten Wert angeben.</li>
-						<li><b>Vor Absatz</b> - bestimmen Sie den Raum vor dem Absatz.</li>
-						<li><b>Nach Absatz</b> - bestimmen Sie den Raum nach dem Absatz.</li>
-						<li><b>Kein Abstand zwischen Absätzen gleicher Formatierung</b> - aktivieren Sie dieses Feld, wenn Sie keinen zusätzlichen Raum zwischen den Absätzen gleicher Formatierung einfügen möchten.
-							<p><img alt="Rechter Seitenbereich - Absatzeinstellungen" src="../images/right_paragraph.png" /></p>
-						</li>
+				<li>Postitionieren Sie den Cursor innerhalb des gewünschten Absatzes oder wählen Sie mehrere Absätze mit der Maus aus oder markieren Sie den gesamten Text mithilfe der Tastenkombination <b>STRG+A</b>.</li>
+				<li>Nutzen Sie die entsprechenden Felder in der rechten Seitenleiste, um das gewünschte Ergebnis zu erzielen:<ul>
+						<li><b>Zeilenabstand</b> - Zeilenhöhe für die Textzeilen im Absatz festlegen Sie haben drei Optionen zur Auswahl: <b>mindestens</b> (mithilfe dieser Option wird der für das größte Schriftzeichen oder eine Grafik auf einer Zeile erforderliche Mindestabstand zwischen den Zeilen festgelegt), <b>mehrfach</b> (mithilfe dieser Option wird der Zeilenabstand in Zahlen größer als 1 festgelegt), <b>genau</b> (unabhängig von der Größe der eingegebenen Zeichen oder Objekte wird der voreingestellte Abstandswert genau eingehalten). Sie können den gewünschten Wert im Feld rechts angeben.</li>
+						<li><b>Absatzabstand</b> - Auswählen wie groß die Absätze sind, die zwischen Textzeilen und Abständen angezeigt werden.<ul>
+                                <li><b>Vor</b> - Abstand vor dem Absatz.</li>
+                                <li><b>Nach</b> - Abstand nach dem Absatz.</li>
+                                <li><b>Kein Abstand zwischen Absätzen gleicher Formatierung</b> - aktivieren Sie dieses Feld, wenn Sie keinen zusätzlichen Abstand zwischen Absätzen gleicher Formatierung einfügen möchten.<p><img alt="Rechte Seitenleiste - Absatzeinstellungen" src="../images/right_paragraph.png" /></p>
+                                </li>
+                            </ul>
+                        </li>                        
 					</ul>
 				</li>
 			</ol>
-			<p>Um den aktuellen Zeilenabstand zu ändern, können Sie auch das Symbol <b>Zeilenabstand</b> <img alt="Zeilenabstand" src="../images/linespacing.png" /> auf der oberen Symbolleiste verwenden und eine der gewünschten Optionen aus der Liste wählen: 1.0, 1.15, 1.5, 2.0, 2.5 oder 3.0.</p>
+			<p>Um den aktuellen Zeilenabstand zu ändern, können Sie auch auf der Registerkarte <b>Start</b> das Symbol <b>Zeilenabstand</b> <img alt="Zeilenabstand" src="../images/linespacing.png" /> anklicken und den gewünschten Wert aus der Liste auswählen: 1,0; 1,15; 1,5; 2,0; 2,5; oder 3,0.</p>
 		</div>
 	</body>
 </html>

@@ -394,11 +394,11 @@ define([
                 }
             },
 
-            goBack: function(blank) {
+            goBack: function() {
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     var href = me.appOptions.customization.goback.url;
-                    if (blank) {
+                    if (me.appOptions.customization.goback.blank!==false) {
                         window.open(href, "_blank");
                     } else {
                         parent.location.href = href;
@@ -627,12 +627,6 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
-                if (Common.Utils.isChrome) {
-                    value = Common.localStorage.getBool("pe-settings-inputsogou");
-                    me.api.setInputParams({"SogouPinyin" : value});
-                    Common.Utils.InternalSettings.set("pe-settings-inputsogou", value);
-                }
-
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("pe-settings-coauthmode");
@@ -846,7 +840,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
-                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
+                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
 
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
@@ -1134,7 +1128,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.fn = function(btn) {
                             if (btn == 'ok') {
@@ -1836,10 +1830,10 @@ define([
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             resetPluginsList: function() {

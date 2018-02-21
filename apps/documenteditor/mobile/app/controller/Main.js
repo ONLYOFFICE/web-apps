@@ -301,9 +301,9 @@ define([
                 }
             },
 
-            goBack: function(blank) {
+            goBack: function() {
                 var href = this.appOptions.customization.goback.url;
-                if (blank) {
+                if (this.appOptions.customization.goback.blank!==false) {
                     window.open(href, "_blank");
                 } else {
                     parent.location.href = href;
@@ -867,7 +867,7 @@ define([
                     config.title = this.criticalErrorTitle;
 //                    config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '</br></br>' + this.criticalErrorExtText;
                         config.callback = function() {
                             Common.NotificationCenter.trigger('goback');

@@ -840,7 +840,6 @@
   "PE.Views.FileMenuPanels.Settings.strFast": "rápido",
   "PE.Views.FileMenuPanels.Settings.strForcesave": "Siempre guardar en el servidor (de lo contrario guardar en el servidor al cerrar documento)",
   "PE.Views.FileMenuPanels.Settings.strInputMode": "Activar jeroglíficos",
-  "PE.Views.FileMenuPanels.Settings.strInputSogou": "Encender entrada Sogou Pinyin",
   "PE.Views.FileMenuPanels.Settings.strShowChanges": "Cambios de colaboración en tiempo real",
   "PE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Activar corrección ortográfica",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Estricto",

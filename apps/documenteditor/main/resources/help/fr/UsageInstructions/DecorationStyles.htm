@@ -3,29 +3,23 @@
 	<head>
 		<title>Appliquer les styles de police</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Appliquer les styles de police: les valeurs incrément/decrement, gras, italique, souligné, barré, exposant/indice" />
+		<meta name="description" content="Apply font decoration styles: increment/decrement values, bold, italic, underline, strikeout, superscript/subscript" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Recherche" type="search" onkeypress="doSearch(event)">
+        </div>
 			<h1>Appliquer les styles de police</h1>
-			<p>Vous pouvez appliquer de différents styles de police en utilisant les icônes correspondantes situées sur la barre d'outils supérieure.</p>
+			<p>Vous pouvez appliquer différents styles de police à l'aide des icônes correspondantes situées dans l'onglet <b>Accueil</b> de la barre d'outils supérieure.</p>
 			<p class="note"><b>Remarque</b> : si vous voulez appliquer la mise en forme au texte déjà saisi, sélectionnez-le avec la souris ou <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">en utilisant le clavier</a> et appliquez la mise en forme.</p>
 			<table>
-				<!--<tr>
-					<td>Incrément de la taille de la police </td>
-					<td><img alt="La taille de la police d'un incrément" src="../images/larger.png" /></td>
-					<td>Sert à modifier la taille de la police en la rendant plus grosse chaque fois que l'icône est cliquée.</td>
-				</tr>
-				<tr>
-					<td>Decrement de la taille de la police </td>
-					<td><img alt="Decrement de la taille de la police" src="../images/smaller.png" /></td>
-					<td>Sert à modifier la taille de la police en la rendant plus petite chaque fois que l'icône est cliquée.</td>
-				</tr>-->
 				<tr>
 					<td>Gras</td>
-					<td><img alt="Bold" src="../images/bold.png" /></td>
+					<td><img alt="Gras" src="../images/bold.png" /></td>
 					<td>Sert à mettre la police en gras pour lui donner plus de poids.</td>
 				</tr>
 				<tr>
@@ -36,7 +30,7 @@
 				<tr>
 					<td>Souligné</td>
 					<td><img alt="Souligné" src="../images/underline.png" /></td>
-					<td>Sert à souligner le texte par la ligne passant sous les lettres.</td>
+					<td>Sert à souligner le texte avec la ligne qui passe sous les lettres.</td>
 				</tr>
 				<tr>
 					<td>Barré</td>
@@ -54,7 +48,7 @@
 					<td>Sert à rendre le texte plus petit et le déplacer vers la partie inférieure de la ligne du texte, par exemple comme dans les formules chimiques.</td>
 				</tr>
 			</table>
-		<p>Pour accéder aux paramètres avancés de la police, cliquez avec le bouton droit de la souris et sélectionnez l'option <b>Paramètres avancés du paragraphe</b> du menu contextuel ou utilisez le lien <b>Afficher les paramètres avancés</b> sur la barre latérale droite. Dans la fenêtre <b>Paragraphe - Paramètres avancés</b> ouverte passez à l'onglet <b>Police</b>.</p>
+			<p>Pour accéder aux paramètres avancés de la police, cliquez avec le bouton droit de la souris et sélectionnez l'option <b>Paramètres avancés du paragraphe</b> du menu contextuel ou utilisez le lien <b>Afficher les paramètres avancés</b> sur la barre latérale droite. Dans la fenêtre <b>Paragraphe - Paramètres avancés</b> ouverte passez à l'onglet <b>Police</b>.</p>
 			<p>Ici vous pouvez utiliser les styles de décoration de police et les paramètres suivants :</p>
 			<ul>
 				<li><b>Barré</b> sert à barrer le texte par la ligne passant par les lettres.</li>

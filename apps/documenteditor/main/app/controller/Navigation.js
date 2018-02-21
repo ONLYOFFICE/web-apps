@@ -62,7 +62,7 @@ define([
                         me.updateNavigation();
                     },
                     'hide': function() {
-                        me.api.asc_HideDocumentOutline();
+                        me.api && me.api.asc_HideDocumentOutline();
                     }
                 }
             });

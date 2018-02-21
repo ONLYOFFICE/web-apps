@@ -1,27 +1,31 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Unterstützte Formate elektronischer Präsentationen</title>
+		<title>Unterstützte Formate von elektronischen Präsentationen</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="The list of presentation formats supported by TeamLab Presentation Editor" />
+		<meta name="description" content="The list of presentation formats supported by Presentation Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="search" onkeypress="doSearch(event)">
+        </div>
 		<h1>Unterstützte Formate elektronischer Präsentationen</h1>
-			<p>Eine Präsentation ist ein Satz von Folien, die unterschiedliche Typen des Inhalts einschließen können, wie Bilder, Mediadateien, Text, Effekte usw. 
-			Der <b>TeamLab Presentation Editor</b> unterstützt die folgenden Formate:</p>
+			<p>Eine Präsentation besteht aus einer Reihe von Folien, die verschiedene Arten von Inhalten enthalten können, z. B. Bilder, Mediendateien, Text, Effekte etc. Der <b>Präsentationseditor</b> unterstützt die folgenden Formate:</p>
 			<table>
 				<tr>
-					<td><b>Format</b></td>
+					<td><b>Formate</b></td>
 					<td><b>Beschreibung</b></td>
-					<td>Durchsehen</td>
+					<td>Anzeigen</td>
 					<td>Bearbeiten</td>
-					<td>Herunterladen</td>
+					<td>Download</td>
 				</tr>
 				<tr>
 					<td>PPTX</td>
-					<td>Office Open XML Presentation<br />Gezipptes, XML-basiertes, von Microsoft entwickeltes Dateiformat zur Präsentation der Kalkulationstabellen, Diagramme, Präsentationen und Textverarbeitungsdokumente</td>
+					<td>Office Open XML Presentation<br />Gezipptes, XML-basiertes, von Microsoft entwickeltes Dateiformat zur Präsentation von Kalkulationstabellen, Diagrammen, Präsentationen und Textverarbeitungsdokumenten</td>
 					<td>+</td>
 					<td>+</td>
 					<td>+</td>
@@ -35,10 +39,10 @@
 				</tr>
 				<tr>
 					<td>ODP</td>
-					<td>OpenDocument Presentation<br />Dateiformat, das mit der Anwendung Impress erstellte Präsentationen darstellt, diese Anwendung ist ein Bestandteil des OpenOffice-Pakets</td>
+					<td>OpenDocument Presentation<br />Dateiformat, das mit der Anwendung Impress erstellte Präsentationen darstellt; diese Anwendung ist ein Bestandteil des OpenOffice-Pakets</td>
 					<td>+</td>
 					<td>+</td>
-					<td></td>
+					<td>+</td>
 				</tr>
 				<tr>
 					<td>PDF</td>

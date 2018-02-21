@@ -1,39 +1,40 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Such- und Ersatzfunktion</title>
+		<title>Suchen und Ersetzen</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Beschreibung der Such- und Ersatzfunktion in den Dokumenten im TeamLab Document Editor" />
+		<meta name="description" content="The description of the document search and replace function in Document Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-		<h1>Such- und Ersatzfunktion</h1>
-			<p>Um nach den gewünschten Zeichen, Wörtern oder Phrasen, die im aktuellen Dokument verwendet wurden, zu suchen, 
-			klicken Sie aufs Symbol <img alt="Symbol &quot;Suche&quot;" src="../images/searchicon.png" /> auf dem linken Seitenbereich. 
-				<p>Das Fenster <b>Finden und ersetzen</b> wird geöffnet:</p>
-			<img alt="Fenster Finden und ersetzen" src="../images/search_window.png" />
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="search" onkeypress="doSearch(event)">
+        </div>
+		<h1>Suchen und Ersetzen</h1>
+			<p>Wenn Sie im aktuellen Dokument nach Zeichen, Wörtern oder Phrasen suchen möchten, klicken Sie auf das <img alt="Suche" src="../images/searchicon.png" /> Symbol in der linken Seitenleiste.</p>
+			<p>Die Dialogbox <b>Suchen und Ersetzen</b> wird geöffnet:</p>
+            <p><img alt="Dialogbox Suchen und Ersetzen" src="../images/search_window.png" /></p>
 			<ol>
-			<li>Geben Sie Ihre Abfrage ins entsprechende Eingabefeld ein.</li>
-			<!--<li>(Optional) If you want the search to be <b>Case sensitive</b>, press the <img alt="Search Options button" src="../images/SearchOptions.png" /> button and click the corresponding option in the drop-down menu. When this option is selected, only the occurrences typed in the same case as your inquiry will be found (e.g. if your inquiry is 'Editor', such words as 'editor' or 'EDITOR' etc. will not be found). To disable this option click it once again.</li>-->
-			<li>Geben Sie die Suchoptionen an: drücken Sie den Button <img alt="Button Suchoptionen" src="../images/searchoptions.png" /> und aktivieren Sie die gewünschte Option, klicken Sie dafür auf sie im Listenmenü:
-			<ul>
-			<li><b>Groß-/Kleinschreibung beachten</b> - wird genutzt, um nur die Vorkommen in derselbe Zeichenfolge wie Ihre Abfrage (z.B. wenn Ihre Abfrage ist 'Editor' und diese Option ist gewählt, solche Wörter wie 'editor' oder 'EDITOR' usw. werden nicht gefunden) zu finden. Um diese Option auszuschalten, deaktivieren Sie das Kontrollkästchen.</li>
-			<li><b>Ergebnisse markieren</b> - wird genutzt, um alle gefundenen Vorkommen auf einmal zu markieren. Um diese Option auszuschalten und die Markierung zu entfernen, deaktivieren Sie das Kontrollkästchen.</li>
+			<li>Geben Sie Ihre Suchanfrage in das entsprechende Eingabefeld ein.</li>
+			<li>Legen Sie Ihre Suchparameter fest, klicken Sie dazu auf das <img alt="Symbol Suchoptionen" src="../images/search_options.png" /> Symbol und markieren Sie die gewünschten Optionen:<ul>
+			<li><b>Groß-/Kleinschreibung beachten</b> - ist diese Funktion aktiviert, werden nur Ergebnisse mit der selben Schreibweise wie in Ihrer Suchanfrage gefiltert (lautet Ihre Anfrage z.B. 'Editor' und diese Option ist markiert, werden Wörter wie 'editor' oder 'EDITOR' usw. nicht gefunden). Um die Option auszuschalten, deaktivieren Sie das Kontrollkästchen.</li>
+			<li><b>Ergebnisse markieren</b> - alle gefundenen Vorkommen auf einmal markiert. Um diese Option auszuschalten und die Markierung zu entfernen, deaktivieren Sie das Kontrollkästchen.</li>
 			</ul>
 			</li>			
-			<li>Klicken Sie auf einen der <b>Pfeiltasten</b> rechts. 
-			Die Suche wird entweder in Richtung des Dokumentenanfangs (falls Sie auf den Button <img alt="Linke Pfeil-Taste" src="../images/searchupbutton.png" /> klicken) oder in Richtung des Dokumentenendes (falls Sie auf den Button <img alt="Rechte Pfeil-Taste" src="../images/searchdownbutton.png" /> klicken) von der aktuellen Position durchgeführt.
-			<p class="note"><b>Hinweis</b>: wenn die Option <b>Ergebnisse markieren</b> aktiviert ist, nutzen Sie diese Buttons, um durch die markierten Ergebnisse zu navigieren.</p>
+			<li>Klicken Sie auf einen der <b>Pfeiltasten</b> in der unteren rechten Ecke der Dialogbox. Die Suche wird entweder in Richtung des Dokumentenanfangs (klicken Sie auf <img alt="Linkspfeil" src="../images/searchupbutton.png" />) oder in Richtung des Dokumentenendes (klicken Sie auf <img alt="Rechtspfeil" src="../images/searchdownbutton.png" />) durchgeführt.<p class="note"><b>Hinweis</b>: wenn die Option <b>Ergebnisse markieren</b> aktiviert ist, können Sie mit den Pfeilen durch die markierten Ergebnisse navigieren.</p>
 			</li>
 			</ol>
-			<p>Das erste Vorkommen der benötigten Zeichen in der ausgewählten Richtung wird auf der Seite markiert. Falls es nicht das gewünschte Wort ist, klicken Sie auf den gewählten Button noch einmal, um das nächste Vorkommen der eingegebenen Zeichen zu finden.</p> 
-			<p>Um ein oder mehrere Vorkommen der gefundenen Zeichen <b>zu ersetzen</b>, klicken Sie auf den Button <b>Ersetzen</b> unter den <b>Pfeiltasten</b>. Das Fenster <b>Finden und ersetzen</b> wird geändert:</p>
-			<img alt="Fenster Finden und ersetzen" src="../images/search_replace_window.png" />
+			<p>Das erste Ergebnis der Suchanfrage in der ausgewählten Richtung, wird auf der Seite markiert. Falls es sich dabei nicht um die gewünschte Textstelle handelt, klicken Sie den Pfeil erneut an, um das nächste Vorkommen der eingegebenen Zeichen zu finden.</p> 
+			<p>Um ein oder mehrere Ergebnisse <b>zu ersetzen</b>, klicken Sie unter den Pfeiltasten auf die Schaltfläche <b>Ersetzen</b>. Die Dialogbox <b>Suchen und Ersetzen</b> öffnet sich:</p>
+            <p><img alt="Dialogbox Suchen und Ersetzen" src="../images/search_replace_window.png" /></p>
 			<ol>
-			<li>Geben Sie den geänderten Text ins untere Eingabefeld ein.</li>			
-			<li>Klicken Sie auf den Button <b>Ersetzen</b>, um das aktuell ausgewählte Vorkommen zu ersetzen oder den Button <b>Alle ersetzen</b>, um alle gefundenen Vorkommen zu ersetzen.</li>
+			<li>Geben Sie den gewünschten Ersatztext in das untere Eingabefeld ein.</li>			
+			<li>Klicken Sie auf <b>Ersetzen</b>, um das aktuell ausgewählte Ergebnis zu ersetzen oder auf <b>Alle ersetzen</b>, um alle gefundenen Ergebnisse zu ersetzen.</li>
 			</ol>
-           </div>
+            <p>Um das Feld ersetzen zu verbergen, klicken Sie auf den Link <b>Ersetzen verbergen</b>.</p>
+		</div>
 	</body>
 </html>

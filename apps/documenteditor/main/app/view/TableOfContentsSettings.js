@@ -159,7 +159,7 @@ define([
                         properties.put_RightAlignTab(this.chAlign.getValue() == 'checked');
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -177,7 +177,7 @@ define([
                     if (checked) {
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -199,7 +199,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_TabLeader(record.value);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -212,7 +212,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_Hyperlink(field.getValue()=='checked');
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -269,7 +269,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_StylesType(record.value);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -293,7 +293,7 @@ define([
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.clear_Styles();
                     properties.put_OutlineRange(this.startLevel, this.endLevel);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -331,6 +331,11 @@ define([
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        },
+
+        close: function() {
+            this.api.SetDrawImagePlaceContents(null);
+            Common.Views.AdvancedSettingsWindow.prototype.close.apply(this);
         },
 
         _setDefaults: function (props) {
@@ -459,7 +464,7 @@ define([
                 }
             }
 
-            // this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
+            this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
 
             this._noApply = false;
         },

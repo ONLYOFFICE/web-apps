@@ -1,141 +1,151 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Tastaturkürzel</title>
+		<title>Tastenkombinationen</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="The keyboard shortcut list used for a faster and easier access to the features of TeamLab Presentation Editor using the keyboard." />
+		<meta name="description" content="The keyboard shortcut list used for a faster and easier access to the features of Presentation Editor using the keyboard." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Tastaturkürzel</h1>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="search" onkeypress="doSearch(event)">
+        </div>
+			<h1>Tastenkombinationen</h1>
 			<table>
 				<tr>
-					<th colspan="3">Arbeit mit einer Präsentation</th>
+					<th colspan="3">Eine Präsentation bearbeiten</th>
 				</tr>
 				<tr>
-					<td class="function">Leiste 'Datei' öffnen</td>
+					<td class="function">Dateimenü öffnen</td>
 					<td class="combination">ALT+F</td>
-					<td class="description">Öffnet die Leiste <b>Datei</b>, damit Sie die aktuelle Präsentation speichern, drucken, herunterladen, die Informationen darüber durchsehen, eine neue Präsentation erstellen oder eine vorhandene öffnen, auf die Hilfe für TeamLab Presentation Editor oder seine erweiterten Einstellungen zugreifen könnten.</td>
+					<td class="description">Über das <b>Dateimenü</b> können Sie die aktuelle Präsentation speichern, drucken, herunterladen, Informationen einsehen, eine neue Präsentation erstellen oder eine vorhandene öffnen, auf die Hilfefunktion zugreifen oder die erweiterten Einstellungen öffnen.</td>
 				</tr>
 				<tr>
-					<td>Leiste 'Suche' öffnen</td>
+					<td>Suchmaske öffnen</td>
 					<td>STRG+F</td>
-					<td>Öffnet die Leiste <b>Suche</b>, um die Suche nach einem/einer Zeichen/Wort/Phrase in der aktuellen Präsentation durchzuführen.</td>
+					<td>Über die <b>Suchmaske</b> können Sie in der aktuellen Präsentation nach Zeichen/Wörtern/Phrasen suchen.</td>
 				</tr>
 				<tr>
-					<td>Open 'Comments' panel</td>
+					<td>Kommentarleiste öffnen</td>
 					<td>STRG+UMSCHALT+H</td>
-					<td>Open the <b>Comments</b> panel to add your own comment or reply to other users' comments.</td>
+					<td>Über die <b>Kommentarleiste</b> können Sie Kommentare hinzufügen oder auf bestehende Kommentare antworten.</td>
 				</tr>
 				<tr>
-					<td>Open comment field</td>
+					<td>Kommentarfeld öffnen</td>
 					<td>ALT+H</td>
-					<td>Open a data entry field where you can add the text of your comment.</td>
+					<td>Ein Textfeld zum Eingeben eines Kommentars öffnen.</td>
 				</tr>
-				<tr>
-					<td>Leiste 'Chat' öffnen</td>
+				<tr class="onlineDocumentFeatures">
+					<td>Chatleiste öffnen</td>
 					<td>ALT+Q</td>
-					<td>Öffnet die Leiste <b>Chat</b>, damit Sie eine Nachricht senden können.</td>
+					<td><b>Chatleiste</b> öffnen, um eine Nachricht zu senden.</td>
 				</tr>
 				<tr>
 					<td>Präsentation speichern</td>
 					<td>STRG+S</td>
-					<td>Speichert alle Änderungen in die Präsentation, die momentan im TeamLab Presentation Editor bearbeitet wird.</td>
+					<td>Alle Änderungen in der aktuellen Präsentation werden gespeichert.</td>
 				</tr>
 				<tr>
 					<td>Präsentation drucken</td>
 					<td>STRG+P</td>
-					<td>Druckt die Präsentation mit einem der verfügbaren Drucker oder speichert in eine Datei.</td>
+					<td>Ausdrucken mit einem verfügbaren Drucker oder speichern als Datei.</td>
 				</tr>
 				<tr>
-					<td>Speichern unter (Herunterladen als)</td>
+					<td>Herunterladen als</td>
 					<td>STRG+UMSCHALT+S</td>
-					<td>Öffnet die Leiste <b>Herunterladen als</b>, um die aktuelle Präsentation auf die Festplatte Ihres Rechners in eines der unterstützten Formate zu speichern: PDF, PPTX.</td>
+					<td>Die aktuelle Präsentation wird in einem der unterstützten Dateiformate auf der Festplatte gespeichert: PDF, PPTX.</td>
 				</tr>
 				<tr>
 					<td>Vollbild</td>
 					<td>F11</td>
-					<td>Schaltet auf die Vollbildansicht um, damit TeamLab Presentation Editor an den Bildschirm angepasst wird.</td>
+					<td>Der Präsentationseditor wird an Ihren Bildschirm angepasst und im Vollbildmodus ausgeführt.</td>
 				</tr>
+                <tr>
+                    <td>Hilfemenü</td>
+                    <td>F1</td>
+                    <td>Das <b>Hilfemenü</b> wird geöffnet.</td>
+                </tr>
 				<tr>
 					<th colspan="3">Navigation</th>
 				</tr>
 				<tr>
 					<td>Erste Folie</td>
 					<td>POS1</td>
-					<td>Geht auf die erste Folie der aktuellen Präsentation.</td>
+					<td>Auf die erste Folie der aktuellen Präsentation wechseln.</td>
 				</tr>
 				<tr>
 					<td>Letzte Folie</td>
 					<td>ENDE</td>
-					<td>Geht auf die letzte Folie der aktuellen Präsentation.</td>
+					<td>Auf die letzte Folie der aktuellen Präsentation wechseln.</td>
 				</tr>
 				<tr>
 					<td>Nächste Folie</td>
 					<td>BILD NACH UNTEN</td>
-					<td>Geht auf die nächste Folie der aktuellen Präsentation.</td>
+					<td>Auf die nächste Folie der aktuellen Präsentation wechseln.</td>
 				</tr>
 				<tr>
 					<td>Vorherige Folie</td>
 					<td>BILD NACH OBEN</td>
-					<td>Geht auf die vorherige Folie der aktuellen Präsentation.</td>
+					<td>Auf die vorherige Folie der aktuellen Präsentation wechseln.</td>
 				</tr>
 				<tr>
 					<td>Nächste Form wählen</td>
 					<td>TAB</td>
-					<td>Wählt die nächste Form nach der gewählten Form.</td>
+					<td>Die nächste Form auswählen</td>
 				</tr>
 				<tr>
 					<td>Vorherige Form wählen</td>
 					<td>UMSCHALT+TAB</td>
-					<td>Wählt die vorherige Form vor der gewählten Form.</td>
+					<td>Die vorherige Form auswählen</td>
 				</tr>
 				<tr>
 					<td>Vergrößern</td>
 					<td>STRG++</td>
-					<td>Vergrößert die Ansicht der aktuellen Präsentation.</td>
+					<td>Die Ansicht der aktuellen Präsentation vergrößern.</td>
 				</tr>
 				<tr>
 					<td>Verkleinern</td>
 					<td>STRG+-</td>
-					<td>Verkleinert die Ansicht der aktuellen Präsentation.</td>
+					<td>Die Ansicht der aktuellen Präsentation verkleinern.</td>
 				</tr>
-				<tr>
-					<th colspan="3">Durchführung der Aktionen mit den Folien</th>
+				<tr id="manageslides">
+					<th colspan="3">Folien bearbeiten</th>
 				</tr>
 				<tr>
 					<td>Neue Folie</td>
 					<td>STRG+M</td>
-					<td>Erstellt eine neue Folie und fügt sie nach der gewählten Folie in der Liste ein.</td>
+					<td>Eine neue Folie erstellen und nach der ausgewählten Folie in der Liste einfügen.</td>
 				</tr>
 				<tr>
 					<td>Folie verdoppeln</td>
 					<td>STRG+D</td>
-					<td>Verdoppelt die gewählte Folie in der Liste.</td>
+					<td>Die ausgewählte Folie wird verdoppelt.</td>
 				</tr>
 				<tr>
 					<td>Folie nach oben verschieben</td>
 					<td>STRG+PFEIL NACH OBEN</td>
-					<td>Verschiebt die gewählte Folie über die vorherige Folie in der Liste.</td>
+					<td>Die ausgewählte Folie in der Liste hinter die vorherige Folie verschieben.</td>
 				</tr>
 				<tr>
 					<td>Folie nach unten verschieben</td>
 					<td>STRG+PFEIL NACH UNTEN</td>
-					<td>Verschiebt die gewählte Folie unter die nächste Folie in der Liste.</td>
+					<td>Die ausgewählte Folie in der Liste hinter die nachfolgende Folie verschieben.</td>
 				</tr>
 				<tr>
 					<td>Folie zum Anfang verschieben</td>
 					<td>STRG+UMSCHALT+PFEIL NACH OBEN</td>
-					<td>Verschiebt die gewählte Folie zur ersten Stelle in der Liste.</td>
+					<td>Verschiebt die gewählte Folie an die erste Position in der Liste.</td>
 				</tr>
 				<tr>
 					<td>Folie zum Ende verschieben</td>
 					<td>STRG+UMSCHALT+PFEIL NACH UNTEN</td>
-					<td>Verschiebt die gewählte Folie zur letzten Stelle in der Liste.</td>
+					<td>Verschiebt die gewählte Folie an die letzte Position in der Liste.</td>
 				</tr>
 				<tr>
-				<th colspan="3">Durchführung der Aktionen mit den Objekten</th>
+				<th colspan="3">Objekte bearbeiten</th>
 				</tr>
 				<tr>
 					<td>Kopie erstellen</td>
@@ -145,43 +155,43 @@
 				<tr>
 					<td>Gruppieren</td>
 					<td>STRG+G</td>
-					<td>Gruppiert die gewählten Objekte.</td>
+					<td>Die ausgewählten Objekte gruppieren.</td>
 				</tr>
 				<tr>
 					<td>Gruppierung aufheben</td>
 					<td>STRG+UMSCHALT+G</td>
-					<td>Hebt die Gruppierung der gewählten Objekte auf.</td>
+					<td>Die Gruppierung der gewählten Objekte wird aufgehoben.</td>
 				</tr>
 				<tr>
-					<th colspan="3">Änderung der Objekte</th>
+					<th colspan="3">Objekte ändern</th>
 				</tr>
 				<tr>
 					<td>Verschiebung begrenzen</td>
 					<td>UMSCHALT+ziehen</td>
-					<td>Begrenzt die Verschiebung des gewählten Objekts horizontal oder vertikal.</td>
+					<td>Die Verschiebung des gewählten Objekts wird horizontal oder vertikal begrenzt.</td>
 				</tr>
 				<tr>
 					<td>15-Grad-Drehung einschalten</td>
 					<td>UMSCHALT+ziehen (beim Drehen)</td>
-					<td>Begrenzt den Drehungswinkel auf 15-Grad-Stufen.</td>
+					<td>Die Drehung wird auf 15-Grad-Stufen begrenzt.</td>
 				</tr>
 				<tr>
-					<td>Seitenverhältnis beibehalten</td>
+					<td>Seitenverhältnis sperren</td>
 					<td>UMSCHALT+ziehen (beim Ändern der Größe)</td>
-					<td>Behält den Seitenverhältnis des gewählten Objekts bei der Größenänderung bei.</td>
+					<td>Das Seitenverhältnis des gewählten Objekts wird bei der Größenänderung beibehalten.</td>
 				</tr>
 				<tr>
 					<td>Bewegung Pixel für Pixel</td>
 					<td>STRG</td>
-					<td>Halten Sie die STRG-Taste gedrückt und nutzen Sie die Pfeile auf der Tastatur, um das gewählte Objekt um ein Pixel auf einmal zu verschieben.</td>
+					<td>Halten Sie die Taste gedrückt und nutzen Sie die Pfeile auf der Tastatur, um das gewählte Objekt jeweils um ein Pixel zu verschieben.</td>
 				</tr>
 				<tr>
-					<th colspan="3"><a id="preview"></a>Vorschau einer Präsentation</th>
+					<th colspan="3"><a id="preview"></a>Vorschau der Präsentation</th>
 				</tr>
 				<tr>
-					<td>Vorschau von Anfang an starten</td>
+					<td>Vorschau von Beginn an starten</td>
 					<td>STRG+F5</td>
-					<td>Startet die Vorschau der Präsentation von Anfang an.</td>
+					<td>Die Vorschau wird von Beginn an Präsentation gestartet</td>
 				</tr>
 				<tr>
 					<td>Vorwärts navigieren</td>
@@ -190,67 +200,57 @@
 				</tr>
 				<tr>
 					<td>Rückwärts navigieren</td>
-					<td>BILD NACH OBEN, LINKER PFEIL, BILD NACH OBEN</td>
-					<td>Startet die Vorschau der vorherigen Animation oder geht zur vorherigen Folie über.</td>
-				</tr>
-				<tr>
-					<td>Auf Folie gehen</td>
-					<td>Nummer+ENTER</td>
-					<td>Geht auf die Folie unter der angegebenen Nummer.</td>
-				</tr>
-				<tr>
-					<td>Vorschau stoppen oder neu starten</td>
-					<td>S</td>
-					<td>Stoppt oder startet die automatische Vorschau der Präsentation erneut.</td>
+					<td>BILD NACH OBEN, LINKER PFEIL, PFEIL NACH OBEN</td>
+					<td>Vorschau der vorherigen Animation oder zur vorherigen Folie übergehen.</td>
 				</tr>
 				<tr>
 					<td>Vorschau beenden</td>
 					<td>ESC</td>
-					<td>Beendet die Vorschau.</td>
+					<td>Die Vorschau wird beendet.</td>
 				</tr>
 				<tr>
-					<th colspan="3">Rückgängig- und Wiederholaktionen</th>
+					<th colspan="3">Rückgängig machen und Wiederholen</th>
 				</tr>
 				<tr>
 					<td>Rückgängig machen</td>
 					<td>STRG+Z</td>
-					<td>Macht die zuletzt durchgeführte Aktion rückgängig.</td>
+					<td>Die zuletzt durchgeführte Aktion wird rückgängig gemacht.</td>
 				</tr>
 				<tr>
 					<td>Wiederholen</td>
 					<td>STRG+Y</td>
-					<td>Wiederholt die letzte rückgängig gemachte Aktion.</td>
+					<td>Die zuletzt durchgeführte Aktion wird rückgängig gemacht.</td>
 				</tr>
 				<tr>
-					<th colspan="3">Ausschneiden, Kopieren und Einfügen</th>
+					<th colspan="3">Ausschneiden, Kopieren, Einfügen</th>
 				</tr>
 				<tr>
 					<td>Ausschneiden</td>
-					<td>STRG+X, UMSCHALT+ENTF</td>
-					<td>Schneidet das gewählte Objekt aus und sendet es in die Zwischenablage des Rechners. Das kopierte Objekt kann später an einer anderen Stelle in derselben Präsentation<!--, in einem anderen Dokument oder einem anderen Programm--> eingefügt werden.</td>
+					<td>Strg+X</td>
+					<td>Das gewählte Objekt wird ausgeschnitten und in der Zwischenablage des Rechners abgelegt. Das kopierte Objekt kann später an einer anderen Stelle in derselben Präsentation, in eine andere Präsentation oder in ein anderes Programm eingefügt werden.</td>
 				</tr>
 				<tr>
 					<td>Kopieren</td>
-					<td>STRG+C, STRG+ENTF</td>
-					<td>Sendet das gewählte Objekt in die Zwischenablage des Rechners. Das kopierte Objekt kann später an einer anderen Stelle in derselben Präsentation<!--, in einem anderen Dokument oder einem anderen Programm--> eingefügt werden.</td>
+					<td>STRG+C, STRG+EINFG</td>
+					<td>Das gewählte Objekt wird in der Zwischenablage des Rechners abgelegt. Das kopierte Objekt kann später an einer anderen Stelle in derselben Präsentation, in eine andere Präsentation oder in ein anderes Programm eingefügt werden.</td>
 				</tr>
 				<tr>
 					<td>Einfügen</td>
-					<td>STRG+V, UMSCHALT+ENTF</td>
-					<td>Fügt das vorher kopierte Objekt aus der Zwischenablage des Rechners an der aktuellen Cursorposition. Das Objekt kann aus derselben Präsentation<!--, aus einem anderen Dokument bzw. Programm--> vorher kopiert werden.</td>
+					<td>STRG+V, UMSCHALT+EINFG</td>
+					<td>Das vorher kopierte Objekt wird aus der Zwischenablage des Rechners an der aktuellen Cursorposition eingefügt. Das Objekt kann vorher aus derselben Präsentation kopiert werden oder auch aus einem anderen Dokument oder Programm oder von einer Webseite.</td>
 				</tr>
 				<tr>
-					<td>Hyperlink einf[gen</td>
+					<td>Hyperlink einfügen</td>
 					<td>STRG+K</td>
-					<td>Fügen Sie einen Hyperlink ein, der für die Leitung zu einer Webadresse oder zu einer bestimmten Folie in der Präsentation dienen kann.</td>
+					<td>Einen Hyperlink einfügen der an eine Webadresse oder eine bestimmte Stelle in der Funktion weiterleitet.</td>
 				</tr>
 				<tr>
-					<td>Stil kopieren</td>
+					<td>Format übertragen</td>
 					<td>STRG+UMSCHALT+C</td>
-					<td>Kopiert die Formatierung des gewählten Textabschnitts. Die kopierte Formatierung kann später auf einen anderen Textabschnitt in derselben Präsentation angewandt werden.</td>
+					<td>Die Formatierung des gewählten Textabschnitts wird kopiert. Die kopierte Formatierung kann später auf einen anderen Textabschnitt in derselben Präsentation angewendet werden.</td>
 				</tr>
 				<tr>
-					<td>Stil anwenden</td>
+					<td>Format übertragen</td>
 					<td>STRG+UMSCHALT+V</td>
 					<td>Wendet die vorher kopierte Formatierung auf den Text in der aktuellen Präsentation an.</td>
 				</tr>
@@ -268,22 +268,22 @@
 				<tr>
 					<td>Alles auswählen</td>
 					<td>STRG+A</td>
-					<td>Wählt alle Folien (in der Folienliste) oder alle Objekte auf einer Folie (im Bereich für die Folienbearbeitung) oder den ganzen Text (im Textblock) aus - abhängig von der Cursorposition.</td>
+					<td>Alle Folien (in der Folienliste) auswählen oder alle Objekte auf einer Folie (im Bereich für die Folienbearbeitung) oder den ganzen Text (im Textblock) - abhängig von der Cursorposition.</td>
 				</tr>
 				<tr>
 					<td>Textabschnitt auswählen</td>
 					<td>UMSCHALT+Pfeil</td>
-					<td>Wählt einen Text Zeichen für Zeichen aus.</td>
+					<td>Den Text Zeichen für Zeichen auswählen.</td>
 				</tr>
 				<tr>
-					<td>Text ab der Cursorposition bis Anfang der Zeile auswählen</td>
+					<td>Text von der aktuellen Cursorposition bis zum Zeilenanfang auswählen</td>
 					<td>UMSCHALT+POS1</td>
-					<td>Wählt einen Textabschnitt ab der Cursorposition bis Anfang der aktuellen Zeile aus.</td>
+					<td>Einen Textabschnitt von der aktuellen Cursorposition bis zum Anfang der aktuellen Zeile auswählen.</td>
 				</tr>
 				<tr>
 					<td>Text ab der Cursorposition bis Ende der Zeile auswählen</td>
 					<td>UMSCHALT+ENDE</td>
-					<td>Wählt einen Textabschnitt ab der Cursorposition bis Ende der aktuellen Zeile aus.</td>
+					<td>Einen Textabschnitt von der aktuellen Cursorposition bis zum Ende der aktuellen Zeile auswählen.</td>
 				</tr>
 				<tr>
 					<th colspan="3">Textformatierung</th>
@@ -291,32 +291,32 @@
 				<tr>
 					<td>Fett</td>
 					<td>STRG+B</td>
-					<td>Hebt den gewählten Textabschnitt durch fette Schrift hervor.</td>
+					<td>Zuweisung der Formatierung Fett im gewählten Textabschnitt.</td>
 				</tr>
 				<tr>
 					<td>Kursiv</td>
 					<td>STRG+I</td>
-					<td>Hebt den gewählten Textabschnitt durch die Schrägstellung der Zeichen hervor.</td>
+					<td>Zuweisung der Formatierung Kursiv im gewählten Textabschnitt.</td>
 				</tr>
 				<tr>
 					<td>Unterstrichen</td>
 					<td>STRG+U</td>
-					<td>Unterstreicht den gewählten Textabschnitt mit einer Linie.</td>
-				</tr>
-				<tr>
-					<td>Hochgestellt</td>
-					<td>STRG+.(Punkt)</td>
-					<td>Macht den gewählten Textabschnitt kleiner und bringt ihn im oberen Teil der Textzeile unter, wie in Brüchen.</td>
+					<td>Der gewählten Textabschnitt wird mit einer Linie unterstrichen.</td>
 				</tr>
 				<tr>
 					<td>Tiefgestellt</td>
-					<td>STRG+,(Komma)</td>
-					<td>Macht den gewählten Textabschnitt kleiner und bringt ihn im unteren Teil der Textzeile unter, wie in chemischen Formeln.</td>
+					<td>STRG+.(Punkt)</td>
+					<td>Der gewählte Textabschnitt wird verkleinert und tiefgestellt.</td>
+				</tr>
+				<tr>
+					<td>Hochgestellt</td>
+					<td>STRG+, (Komma)</td>
+					<td>Der gewählte Textabschnitt wird verkleinert und hochgestellt.</td>
 				</tr>
 				<tr>
 					<td>Aufzählungsliste</td>
 					<td>STRG+UMSCHALT+L</td>
-					<td>Erstellt eine Aufzählungsliste anhand des gewählten Textabschnitts oder beginnt eine neue Liste.</td>
+					<td>Baiserend auf dem gewählten Textabschnitt wird eine Aufzählungsliste erstellt oder eine neue Liste begonnen.</td>
 				</tr>
 				<tr>
 					<td>Formatierung entfernen</td>
@@ -352,18 +352,16 @@
 					<td>Linksbündig ausrichten</td>
 					<td>STRG+L</td>
 					<td>Lässt den linken Textrand parallel zum linken Seitenrand verlaufen, der rechte Textrand bleibt unausgerichtet.</td>
-				</tr>
-				<!--<tr>
+				</tr><!--<tr>
 					<td>Increase indent</td>
-					<td>STRG+M</td>
+					<td>Ctrl+M</td>
 					<td>Indent a paragraph from the left incrementally.</td>
 				</tr>
 				<tr>
 					<td>Decrease indent</td>
-					<td>STRG+UMSCHALT+M</td>
+					<td>Ctrl+Shift+M</td>
 					<td>Remove a paragraph indent from the left incrementally.</td>
-				</tr>-->
-			</table>
+				</tr>--></table>
 		</div>
 	</body>
 </html>

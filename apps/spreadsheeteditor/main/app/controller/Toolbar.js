@@ -1492,7 +1492,7 @@ define([
                         e.stopPropagation();
                     },
                     'command+k,ctrl+k': function (e) {
-                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect)
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot)
                             me.onHyperlink();
                         e.preventDefault();
                     },
@@ -2173,8 +2173,8 @@ define([
                 this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
 
-                need_disable = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, need_disable, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
+                this._state.inpivot = !!info.asc_getPivotTableInfo();
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
 
                 need_disable = !this.appConfig.canModifyFilter;
                 toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA, toolbar.btnSetAutofilter,

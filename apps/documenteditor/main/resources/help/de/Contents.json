@@ -1,36 +1,213 @@
 ﻿[
-    {"src":"UsageInstructions/SetPageParameters.htm", "name": "Bestimmen Sie die Seitenparameter", "headername": "Gebrauchsanweisung"},
-    {"src":"UsageInstructions/CopyPasteUndoRedo.htm", "name": "Kopieren/fügen Sie den Text ein, machen Sie Ihre Aktionen rückgängig"},
-    {"src":"UsageInstructions/NonprintingCharacters.htm", "name": "Blenden Sie die Formatierungszeichen ein und aus"},
-    {"src":"UsageInstructions/AlignText.htm", "name": "Richten Sie Ihren Text in der Zeile oder im Absatz aus"},
-    {"src":"UsageInstructions/FormattingPresets.htm", "name": "Wenden Sie die Formatvorlagen an"},
-    {"src":"UsageInstructions/BackgroundColor.htm", "name": "Wählen Sie die Hintergrundfarbe für einen Absatz"},
-    {"src":"UsageInstructions/ParagraphIndents.htm", "name": "Ändern Sie die Absatzeinzüge"},
-    {"src":"UsageInstructions/LineSpacing.htm", "name": "Bestimmen Sie den Zeilenabstand in den Absätzen"},
-    {"src":"UsageInstructions/PageBreaks.htm", "name": "Fügen Sie die Setenumbrüche ein"},
-    {"src":"UsageInstructions/AddBorders.htm", "name": "Fügen Sie einen Rahmen hinzu"},
-    {"src":"UsageInstructions/FontTypeSizeColor.htm", "name": "Bestimmen Sie die Schriftart, -größe und -farbe"},
-    {"src":"UsageInstructions/DecorationStyles.htm", "name": "Wenden Sie die Schriftstile an"},
-    {"src":"UsageInstructions/CopyClearFormatting.htm", "name": "Kopieren/entfernen Sie die Textformatierung"},
-	{"src": "UsageInstructions/SetTabStops.htm", "name": "Legen Sie die Tabstopps fest"},
-    {"src":"UsageInstructions/CreateLists.htm", "name": "Erstellen Sie die Listen"},
-    {"src":"UsageInstructions/InsertTables.htm", "name": "Fügen Sie die Tabellen ein"},
-    {"src":"UsageInstructions/InsertImages.htm", "name": "Fügen Sie die Bilder ein"},
-    {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Fügen Sie die AutoFormen ein"},
-    {"src": "UsageInstructions/InsertCharts.htm", "name": "Fügen Sie die Diagramme ein"},
-    {"src":"UsageInstructions/AddHyperlinks.htm", "name": "Fügen Sie die Hyperlinks hinzu"},
-	{"src": "UsageInstructions/InsertDropCap.htm", "name": "Fügen Sie das Initial ein"},
-    {"src":"UsageInstructions/InsertHeadersFooters.htm", "name": "Fügen Sie die Kopf- und Fußzeilen ein"},
-    {"src":"UsageInstructions/InsertPageNumbers.htm", "name": "Fügen Sie die Seitenzahlen ein"},
-    {"src":"UsageInstructions/ViewDocInfo.htm", "name": "Sehen Sie die Informationen über Ihr Dokument"},
-    {"src":"UsageInstructions/SavePrintDownload.htm", "name": "Speichern/drucken/laden Sie Ihr Dokument herunter"},
-    {"src":"UsageInstructions/OpenCreateNew.htm", "name": "Erstellen Sie ein neues oder öffnen Sie ein vorhandenes Dokument"},
-    {"src":"HelpfulHints/About.htm", "name": "Über den TeamLab-Dokumenteneditor", "headername": "Hilfreiche Hinweise"},
-    {"src":"HelpfulHints/SupportedFormats.htm", "name": "Unterstützte Formate elektronischer Dokumente"},
-    {"src": "HelpfulHints/AdvancedSettings.htm", "name": "Erweiterte Einstellungen vom TeamLab Document Editor"},
-    {"src":"HelpfulHints/Navigation.htm", "name": "Navigation durch Ihr Dokument"},
-    {"src":"HelpfulHints/Search.htm", "name": "Suchfunktion"},
-    {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Kollaboratives Editieren der Dokumente"},
-	{"src": "HelpfulHints/SpellChecking.htm", "name": "Rechtschreibprüfung"},
-    {"src":"HelpfulHints/KeyboardShortcuts.htm", "name": "Tastaturkürzel"}
+  {
+    "src": "ProgramInterface/ProgramInterface.htm",
+    "name": "Einführung in die Benutzeroberfläche des Dokumenteneditors",
+    "headername": "Benutzeroberfläche"
+  },
+  {
+    "src": "ProgramInterface/FileTab.htm",
+    "name": "Registerkarte Datei"
+  },
+  {
+    "src": "ProgramInterface/HomeTab.htm",
+    "name": "Registerkarte Start"
+  },
+  {
+    "src": "ProgramInterface/InsertTab.htm",
+    "name": "Registerkarte Einfügen"
+  },
+  {
+    "src": "ProgramInterface/LayoutTab.htm",
+    "name": "Registerkarte Layout"
+  },
+  {
+    "src": "ProgramInterface/ReviewTab.htm",
+    "name": "Registerkarte Überprüfen"
+  },
+  {
+    "src": "ProgramInterface/PluginsTab.htm",
+    "name": "Registerkarte Plug-in"
+  },
+  {
+    "src": "UsageInstructions/ChangeColorScheme.htm",
+    "name": "Farbschema ändern",
+    "headername": "Grundfunktionen"
+  },
+  {
+    "src": "UsageInstructions/CopyPasteUndoRedo.htm",
+    "name": "Textpassagen kopieren/einfügen, Aktionen rückgängig machen/wiederholen"
+  },
+  {
+    "src": "UsageInstructions/OpenCreateNew.htm",
+    "name": "Ein neues Dokument erstellen oder ein vorhandenes öffnen"
+  },
+  {
+    "src": "UsageInstructions/SetPageParameters.htm",
+    "name": "Seitenparameter festlegen",
+    "headername": "Seitenparameter festlegen"
+  },
+  {
+    "src": "UsageInstructions/NonprintingCharacters.htm",
+    "name": "Formatierungszeichen ein-/ausblenden"
+  },
+  {
+    "src": "UsageInstructions/SectionBreaks.htm",
+    "name": "Abschnittsumbrüche einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertHeadersFooters.htm",
+    "name": "Kopf- und Fußzeilen einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertPageNumbers.htm",
+    "name": "Seitenzahlen einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertFootnotes.htm",
+    "name": "Fußnoten einfügen"
+  },
+  {
+    "src": "UsageInstructions/AlignText.htm",
+    "name": "Text in einem Absatz ausrichten",
+    "headername": "Absatzformatierung"
+  },
+  {
+    "src": "UsageInstructions/BackgroundColor.htm",
+    "name": "Hintergrundfarbe für einen Absatz festlegen"
+  },
+  {
+    "src": "UsageInstructions/ParagraphIndents.htm",
+    "name": "Absatzeinzüge ändern"
+  },
+  {
+    "src": "UsageInstructions/LineSpacing.htm",
+    "name": "Zeilenabstand in Absätzen festlegen"
+  },
+  {
+    "src": "UsageInstructions/PageBreaks.htm",
+    "name": "Seitenumbrüche einfügen"
+  },
+  {
+    "src": "UsageInstructions/AddBorders.htm",
+    "name": "Rahmen hinzufügen"
+  },
+  {
+    "src": "UsageInstructions/SetTabStops.htm",
+    "name": "Tabstopps setzen"
+  },
+  {
+    "src": "UsageInstructions/CreateLists.htm",
+    "name": "Listen erstellen"
+  },
+  {
+    "src": "UsageInstructions/FormattingPresets.htm",
+    "name": "Formatvorlagen anwenden",
+    "headername": "Textformatierung"
+  },
+  {
+    "src": "UsageInstructions/FontTypeSizeColor.htm",
+    "name": "Schriftart, -größe und -farbe festlegen"
+  },
+  {
+    "src": "UsageInstructions/DecorationStyles.htm",
+    "name": "Dekoschriften anwenden"
+  },
+  {
+    "src": "UsageInstructions/CopyClearFormatting.htm",
+    "name": "Textformatierung übernehmen/entfernen"
+  },
+  {
+    "src": "UsageInstructions/AddHyperlinks.htm",
+    "name": "Hyperlink einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertDropCap.htm",
+    "name": "Initialbuchstaben einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertTables.htm",
+    "name": "Tabellen einfügen",
+    "headername": "Objekte bearbeiten"
+  },
+  {
+    "src": "UsageInstructions/InsertImages.htm",
+    "name": "Bilder einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertAutoshapes.htm",
+    "name": "AutoFormen einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertCharts.htm",
+    "name": "Diagramme einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertTextObjects.htm",
+    "name": "Textobjekte einfügen"
+  },
+  {
+    "src": "UsageInstructions/AlignArrangeObjects.htm",
+    "name": "Objekte auf einer Seite anordnen und ausrichten"
+  },
+  {
+    "src": "UsageInstructions/ChangeWrappingStyle.htm",
+    "name": "Umbruchstil ändern"
+  },
+  {
+    "src": "UsageInstructions/UseMailMerge.htm",
+    "name": "Seriendruck verwenden",
+    "headername": "Seriendruck"
+  },
+  {
+    "src": "UsageInstructions/InsertEquation.htm",
+    "name": "Formeln einfügen",
+    "headername": "Mathematische Formeln"
+  },
+  {
+    "src": "HelpfulHints/CollaborativeEditing.htm",
+    "name": "Gemeinsame Bearbeitung von Dokumenten",
+    "headername": "Co-Bearbeitung"
+  },
+  {
+    "src": "HelpfulHints/Review.htm",
+    "name": "Dokumentenprüfung"
+  },
+  {
+    "src": "UsageInstructions/ViewDocInfo.htm",
+    "name": "Dokumenteigenschaften anzeigen",
+    "headername": "Werkzeuge und Einstellungen"
+  },
+  {
+    "src": "UsageInstructions/SavePrintDownload.htm",
+    "name": "Dokument speichern/runterladen/drucken"
+  },
+  {
+    "src": "HelpfulHints/AdvancedSettings.htm",
+    "name": "Erweiterte Einstellungen des Dokumenteneditors"
+  },
+  {
+    "src": "HelpfulHints/Navigation.htm",
+    "name": "Einstellungen und Navigationswerkzeuge anzeigen"
+  },
+  {
+    "src": "HelpfulHints/Search.htm",
+    "name": "Suchen und Ersetzen"
+  },
+  {
+    "src": "HelpfulHints/SpellChecking.htm",
+    "name": "Rechtschreibprüfung"
+  },
+  {
+    "src": "HelpfulHints/About.htm",
+    "name": "Über den Dokumenteneditor",
+    "headername": "Nützliche Hinweise"
+  },
+  {
+    "src": "HelpfulHints/SupportedFormats.htm",
+    "name": "Unterstützte Formate von elektronischen Dokumenten"
+  },
+  {
+    "src": "HelpfulHints/KeyboardShortcuts.htm",
+    "name": "Tastenkombinationen"
+  }
 ]
