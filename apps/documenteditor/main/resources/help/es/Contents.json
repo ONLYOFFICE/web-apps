@@ -68,7 +68,7 @@
   },
   {
     "src": "UsageInstructions/AlignText.htm",
-    "name": "Alinee su texto en un párrafo",
+    "name": "Alinee su texto a una línea o un párrafo",
     "headername": "Formato de párrafo"
   },
   {
@@ -118,7 +118,7 @@
   },
   {
     "src": "UsageInstructions/AddHyperlinks.htm",
-    "name": "Añadir hiperenlace"
+    "name": "Añada hiperenlaces"
   },
   {
     "src": "UsageInstructions/InsertDropCap.htm",
@@ -199,7 +199,7 @@
   },
   {
     "src": "HelpfulHints/About.htm",
-    "name": "Sobre Document Editor",
+    "name": "Sobre el editor de documentos",
     "headername": "Consejos útiles"
   },
   {
