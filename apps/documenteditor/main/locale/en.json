@@ -1102,7 +1102,7 @@
   "DE.Views.FileMenuPanels.Settings.strFontRender": "Font Hinting",
   "DE.Views.FileMenuPanels.Settings.strForcesave": "Always save to server (otherwise save to server on document close)",
   "DE.Views.FileMenuPanels.Settings.strInputMode": "Turn on hieroglyphs",
-  "DE.Views.FileMenuPanels.Settings.strInputSogou": "Turn on Sogou Pinyin input",
+  "del_DE.Views.FileMenuPanels.Settings.strInputSogou": "Turn on Sogou Pinyin input",
   "DE.Views.FileMenuPanels.Settings.strLiveComment": "Turn on display of the comments",
   "DE.Views.FileMenuPanels.Settings.strResolvedComment": "Turn on display of the resolved comments",
   "DE.Views.FileMenuPanels.Settings.strShowChanges": "Realtime Collaboration Changes",
