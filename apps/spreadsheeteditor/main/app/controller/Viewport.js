@@ -67,6 +67,10 @@ define([
 
             // This most important part when we will tell our controller what events should be handled
             this.addListeners({
+                'FileMenu': {
+                    'menu:hide': me.onFileMenu.bind(me, 'hide'),
+                    'menu:show': me.onFileMenu.bind(me, 'show')
+                },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
@@ -78,12 +82,18 @@ define([
                             Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     },
                     'undo:disabled' : function (state) {
-                        if ( me.header.btnUndo )
-                            me.header.btnUndo.setDisabled(state);
+                        if ( me.header.btnUndo ) {
+                            if ( me.header.btnUndo.keepState )
+                                me.header.btnUndo.keepState.disabled = state;
+                            else me.header.btnUndo.setDisabled(state);
+                        }
                     },
                     'redo:disabled' : function (state) {
-                        if ( me.header.btnRedo )
-                            me.header.btnRedo.setDisabled(state);
+                        if ( me.header.btnRedo ) {
+                            if ( me.header.btnRedo.keepState )
+                                me.header.btnRedo.keepState.disabled = state;
+                            else me.header.btnRedo.setDisabled(state);
+                        }
                     },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
@@ -205,6 +215,14 @@ define([
         onWindowResize: function(e) {
             this.onLayoutChanged('window');
             Common.NotificationCenter.trigger('window:resize');
+        },
+
+        onFileMenu: function (opts) {
+            var me = this;
+            var _need_disable =  opts == 'show';
+
+            me.header.lockHeaderBtns( 'undo', _need_disable );
+            me.header.lockHeaderBtns( 'redo', _need_disable );
         }
     });
 });

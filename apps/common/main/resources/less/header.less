@@ -168,6 +168,11 @@
         cursor: pointer;
         font-size: 14px;
     }
+
+    &.disabled {
+        opacity: 0.65;
+        pointer-events: none;
+    }
 }
 
 .cousers-menu {
@@ -179,6 +184,12 @@
     padding: 14px;
     width: 285px;
     font-size: 12px;
+
+    z-index: 1042;
+
+    .top-title & {
+        top: @height-title + @height-tabs - 8px;
+    }
 
     > label {
         white-space: normal;

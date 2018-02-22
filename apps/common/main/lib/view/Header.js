@@ -630,6 +630,35 @@ define([
                     return this.btnSave;
             },
 
+            lockHeaderBtns: function (alias, lock) {
+                var me = this;
+                if ( alias == 'users' ) {
+                    if ( lock )
+                        $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
+                        $btnUsers.removeClass('disabled').attr('disabled', '');
+                } else {
+                    function _lockButton(btn) {
+                        if ( btn ) {
+                            if ( lock ) {
+                                btn.keepState = {
+                                    disabled: btn.isDisabled()
+                                };
+                            } else {
+                                btn.setDisabled( btn.keepState.disabled );
+                                delete me.btnUndo.keepState;
+                            }
+                        }
+                    }
+
+                    if ( alias == 'undo' ) {
+                        _lockButton(me.btnUndo);
+                    } else
+                    if ( alias == 'redo' ) {
+                        _lockButton(me.btnRedo);
+                    }
+                }
+            },
+
             textBack: 'Go to Documents',
             txtRename: 'Rename',
             textSaveBegin: 'Saving...',
