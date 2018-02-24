@@ -524,14 +524,9 @@ define([
 
                 var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
-                if (btnHorizontalAlign.rendered) {
-                    var iconEl = $('.icon', btnHorizontalAlign.cmpEl);
-
-                    if (iconEl) {
-                        iconEl.removeClass(btnHorizontalAlign.options.icls);
-                        btnHorizontalAlign.options.icls = align;
-                        iconEl.addClass(btnHorizontalAlign.options.icls);
-                    }
+                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
+                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                    btnHorizontalAlign.options.icls = align;
                 }
 
                 if (v === null || v===undefined) {
@@ -917,7 +912,7 @@ define([
             var toolbar = this.toolbar;
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.icon', toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                var isSyncButton = toolbar.btnSave.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
                     return;
 
@@ -1077,14 +1072,11 @@ define([
 
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
+            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
-            if (iconEl) {
-                iconEl.removeClass(btnHorizontalAlign.options.icls);
-                btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-                iconEl.addClass(btnHorizontalAlign.options.icls);
-            }
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
 
             if (this.api && item.checked)
                 this.api.put_PrAlign(item.value);

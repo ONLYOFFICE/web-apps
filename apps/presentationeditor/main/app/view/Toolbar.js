@@ -1012,6 +1012,8 @@ define([
                     }
                 });
 
+                me.btnSave.$icon = $('.icon', me.btnSave.cmpEl);
+
                 var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape, me.btnsAddSlide);
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
 
@@ -1479,9 +1481,7 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                var iconEl = $('.icon', this.btnSave.cmpEl);
-                iconEl.removeClass(this.btnSaveCls);
-                iconEl.addClass('btn-synch');
+                this.btnSave.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
                 if (this.showSynchTip) {
                     this.btnSave.updateHint('');
                     if (this.synchTooltip === undefined)
@@ -1514,12 +1514,10 @@ define([
 
             synchronizeChanges: function () {
                 if (this.btnSave.rendered) {
-                    var iconEl = $('.icon', this.btnSave.cmpEl),
-                        me = this;
+                    var me = this;
 
-                    if (iconEl.hasClass('btn-synch')) {
-                        iconEl.removeClass('btn-synch');
-                        iconEl.addClass(this.btnSaveCls);
+                    if ( me.btnSave.$icon.hasClass('btn-synch') ) {
+                        me.btnSave.$icon.removeClass('btn-synch').addClass(this.btnSaveCls);
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnSave.updateHint(this.btnSaveTip);
@@ -1542,10 +1540,8 @@ define([
                 if (cls !== this.btnSaveCls && this.btnSave.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
 
-                    var iconEl = $('.icon', this.btnSave.cmpEl);
-                    if (!iconEl.hasClass('btn-synch')) {
-                        iconEl.removeClass(this.btnSaveCls);
-                        iconEl.addClass(cls);
+                    if ( !this.btnSave.$icon.hasClass('btn-synch') ) {
+                        this.btnSave.$icon.removeClass(this.btnSaveCls).addClass(cls);
                         this.btnSave.updateHint(this.btnSaveTip);
                     }
                     this.btnSaveCls = cls;

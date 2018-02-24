@@ -386,7 +386,7 @@ define([
         onSave: function(e) {
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                var isSyncButton = this.toolbar.btnSave.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
