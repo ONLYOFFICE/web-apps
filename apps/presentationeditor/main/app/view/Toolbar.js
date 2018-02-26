@@ -1012,8 +1012,6 @@ define([
                     }
                 });
 
-                me.btnSave.$icon = $('.icon', me.btnSave.cmpEl);
-
                 var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape, me.btnsAddSlide);
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
 

@@ -514,14 +514,9 @@ define([
                     btnHorizontalAlign.menu.clearAll();
                 }
 
-                if (btnHorizontalAlign.rendered) {
-                    var iconEl = $('.icon', btnHorizontalAlign.cmpEl);
-
-                    if (iconEl) {
-                        iconEl.removeClass(btnHorizontalAlign.options.icls);
-                        btnHorizontalAlign.options.icls = align;
-                        iconEl.addClass(btnHorizontalAlign.options.icls);
-                    }
+                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
+                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                    btnHorizontalAlign.options.icls = align;
                 }
             }
         },
@@ -547,14 +542,9 @@ define([
                     btnVerticalAlign.menu.clearAll();
                 }
 
-                if (btnVerticalAlign.rendered) {
-                    var iconEl = $('.icon', btnVerticalAlign.cmpEl);
-
-                    if (iconEl) {
-                        iconEl.removeClass(btnVerticalAlign.options.icls);
-                        btnVerticalAlign.options.icls = align;
-                        iconEl.addClass(btnVerticalAlign.options.icls);
-                    }
+                if ( btnVerticalAlign.rendered && btnVerticalAlign.$icon ) {
+                    btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls).addClass(align);
+                    btnVerticalAlign.options.icls = align;
                 }
             }
         },
@@ -912,7 +902,7 @@ define([
             var toolbar = this.toolbar;
             if (this.api && this.api.asc_isDocumentCanSave) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                var isSyncButton = this.toolbar.btnSave.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
@@ -1046,14 +1036,11 @@ define([
 
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
+            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
-            if (iconEl) {
-                iconEl.removeClass(btnHorizontalAlign.options.icls);
-                btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-                iconEl.addClass(btnHorizontalAlign.options.icls);
-            }
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
 
             if (this.api && item.checked)
                 this.api.put_PrAlign(item.value);
@@ -1063,14 +1050,11 @@ define([
         },
 
         onMenuVerticalAlignSelect: function(menu, item) {
-            var btnVerticalAlign = this.toolbar.btnVerticalAlign,
-                iconEl = $('.icon', btnVerticalAlign.cmpEl);
+            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
 
-            if (iconEl) {
-                iconEl.removeClass(btnVerticalAlign.options.icls);
-                btnVerticalAlign.options.icls = !item.checked ? 'btn-align-middle' : item.options.icls;
-                iconEl.addClass(btnVerticalAlign.options.icls);
-            }
+            btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls);
+            btnVerticalAlign.options.icls = !item.checked ? 'btn-align-middle' : item.options.icls;
+            btnVerticalAlign.$icon.addClass(btnVerticalAlign.options.icls);
 
             this._state.vtextalign = undefined;
             if (this.api && item.checked)

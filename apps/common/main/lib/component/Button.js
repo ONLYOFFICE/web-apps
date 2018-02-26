@@ -350,6 +350,7 @@ define([
                         me.menu.render(me.cmpEl);
 
                     parentEl.html(me.cmpEl);
+                    me.$icon = me.$el.find('.icon');
                 }
             }
 

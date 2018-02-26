@@ -1323,8 +1323,6 @@ define([
                     Array.prototype.push.apply(me.paragraphControls, me.btnsPageBreak);
                 }.call(this);
 
-                this.btnSave.$icon = $('.icon', this.btnSave.cmpEl);
-                this.btnHorizontalAlign.$icon = $('.icon', this.btnHorizontalAlign.cmpEl);
                 return $host;
             },
 

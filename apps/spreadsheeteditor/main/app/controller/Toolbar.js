@@ -495,8 +495,7 @@ define([
         },
 
         onSubscriptMenu: function(menu, item) {
-            var btnSubscript = this.toolbar.btnSubscript,
-                iconEl = $('.icon', btnSubscript.cmpEl);
+            var btnSubscript = this.toolbar.btnSubscript;
 
             if (item.value == 'sub') {
                 this._state.subscript = undefined;
@@ -506,9 +505,8 @@ define([
                 this.api.asc_setCellSuperscript(item.checked);
             }
             if (item.checked) {
-                iconEl.removeClass(btnSubscript.options.icls);
+                btnSubscript.$icon.removeClass(btnSubscript.options.icls).addClass(item.options.icls);
                 btnSubscript.options.icls = item.options.icls;
-                iconEl.addClass(btnSubscript.options.icls);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -612,14 +610,9 @@ define([
                     bordersWidth = btnBorders.options.borderswidth,
                     bordersColor = btnBorders.options.borderscolor;
 
-                if (btnBorders.rendered) {
-                    var iconEl = $('.icon', btnBorders.cmpEl);
-
-                    if (iconEl) {
-                        iconEl.removeClass(btnBorders.options.icls);
-                        btnBorders.options.icls = item.options.icls;
-                        iconEl.addClass(btnBorders.options.icls);
-                    }
+                if ( btnBorders.rendered ) {
+                    btnBorders.$icon.removeClass(btnBorders.options.icls).addClass(item.options.icls);
+                    btnBorders.options.icls = item.options.icls;
                 }
 
                 btnBorders.options.borderId = item.options.borderId;
@@ -681,14 +674,11 @@ define([
         },
 
         onHorizontalAlignMenu: function(menu, item) {
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
+            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
-            if (iconEl) {
-                iconEl.removeClass(btnHorizontalAlign.options.icls);
-                btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-                iconEl.addClass(btnHorizontalAlign.options.icls);
-            }
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
 
             this._state.pralign = undefined;
             if (this.api)
@@ -701,14 +691,11 @@ define([
         },
 
         onVerticalAlignMenu: function(menu, item) {
-            var btnVerticalAlign = this.toolbar.btnVerticalAlign,
-                iconEl = $('.icon', btnVerticalAlign.cmpEl);
+            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
 
-            if (iconEl) {
-                iconEl.removeClass(btnVerticalAlign.options.icls);
-                btnVerticalAlign.options.icls = !item.checked ? 'btn-valign-bottom' : item.options.icls;
-                iconEl.addClass(btnVerticalAlign.options.icls);
-            }
+            btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls);
+            btnVerticalAlign.options.icls = !item.checked ? 'btn-valign-bottom' : item.options.icls;
+            btnVerticalAlign.$icon.addClass(btnVerticalAlign.options.icls);
 
             this._state.valign = undefined;
             if (this.api)
@@ -1792,13 +1779,10 @@ define([
                         btnSubscript.menu.clearAll();
                     } else {
                         btnSubscript.menu.items[index].setChecked(true);
-                        if (btnSubscript.rendered) {
-                            var iconEl = $('.icon', btnSubscript.cmpEl);
-                            if (iconEl) {
-                                iconEl.removeClass(btnSubscript.options.icls);
-                                btnSubscript.options.icls = btnSubscript.menu.items[index].options.icls;
-                                iconEl.addClass(btnSubscript.options.icls);
-                            }
+                        if ( btnSubscript.rendered && btnSubscript.$icon ) {
+                            btnSubscript.$icon.removeClass(btnSubscript.options.icls);
+                            btnSubscript.options.icls = btnSubscript.menu.items[index].options.icls;
+                            btnSubscript.$icon.addClass(btnSubscript.options.icls);
                         }
                     }
 
@@ -1933,13 +1917,10 @@ define([
                         btnSubscript.menu.clearAll();
                     } else {
                         btnSubscript.menu.items[index].setChecked(true);
-                        if (btnSubscript.rendered) {
-                            var iconEl = $('.icon', btnSubscript.cmpEl);
-                            if (iconEl) {
-                                iconEl.removeClass(btnSubscript.options.icls);
-                                btnSubscript.options.icls = btnSubscript.menu.items[index].options.icls;
-                                iconEl.addClass(btnSubscript.options.icls);
-                            }
+                        if ( btnSubscript.rendered ) {
+                            btnSubscript.$icon.removeClass(btnSubscript.options.icls);
+                            btnSubscript.options.icls = btnSubscript.menu.items[index].options.icls;
+                            btnSubscript.$icon.addClass(btnSubscript.options.icls);
                         }
                     }
 
@@ -2068,14 +2049,9 @@ define([
                         }
 
                         var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-                        if (btnHorizontalAlign.rendered) {
-                            var hIconEl = $('.icon', btnHorizontalAlign.cmpEl);
-
-                            if (hIconEl) {
-                                hIconEl.removeClass(btnHorizontalAlign.options.icls);
-                                btnHorizontalAlign.options.icls = align;
-                                hIconEl.addClass(btnHorizontalAlign.options.icls);
-                            }
+                        if ( btnHorizontalAlign.rendered ) {
+                            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                            btnHorizontalAlign.options.icls = align;
                         }
                     }
 
@@ -2103,14 +2079,9 @@ define([
                             toolbar.btnVerticalAlign.menu.items[index].setChecked(true, false);
 
                             var btnVerticalAlign = this.toolbar.btnVerticalAlign;
-                            if (btnVerticalAlign.rendered) {
-                                var vIconEl = $('.icon', btnVerticalAlign.cmpEl);
-
-                                if (vIconEl) {
-                                    vIconEl.removeClass(btnVerticalAlign.options.icls);
-                                    btnVerticalAlign.options.icls = align;
-                                    vIconEl.addClass(btnVerticalAlign.options.icls);
-                                }
+                            if ( btnVerticalAlign.rendered ) {
+                                btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls).addClass(align);
+                                btnVerticalAlign.options.icls = align;
                             }
                         }
                     }

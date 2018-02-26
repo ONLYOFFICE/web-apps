@@ -1388,7 +1388,6 @@ define([
             // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
             // replacePlacholder('#id-toolbar-short-placeholder-btn-filter',                this.btnAutofilter);
 
-            this.btnSave.$icon = $('.icon', this.btnSave.cmpEl);
             return $host;
         },
 
