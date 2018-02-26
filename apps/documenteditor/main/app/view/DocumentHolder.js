@@ -3239,6 +3239,17 @@ define([
                 caption     : '--'
             });
 
+            var menuParaRefreshField = new Common.UI.MenuItem({
+                caption: me.textRefreshField
+            }).on('click', function(item, e){
+                me.api.asc_UpdateComplexField(item.options.fieldProps);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuParaFieldSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
@@ -3353,6 +3364,14 @@ define([
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
                     menuParaTOCSeparator.setVisible(in_toc);
+
+                    var in_field = me.api.asc_GetCurrentComplexField();
+                    menuParaRefreshField.setVisible(!!in_field);
+                    menuParaRefreshField.setDisabled(disabled);
+                    menuParaFieldSeparator.setVisible(!!in_field);
+                    if (in_field) {
+                        menuParaRefreshField.options.fieldProps = in_field;
+                    }
                 },
                 items: [
                     me.menuSpellPara,
@@ -3370,6 +3389,8 @@ define([
                     menuParaRemoveControl,
                     menuParaControlSettings,
                     menuParaControlSeparator,
+                    menuParaRefreshField,
+                    menuParaFieldSeparator,
                     menuParaTOCSettings,
                     menuParaTOCRefresh,
                     menuParaTOCSeparator,
@@ -3701,7 +3722,8 @@ define([
         textUpdateAll: 'Refresh entire table',
         textUpdatePages: 'Refresh page numbers only',
         textTOCSettings: 'Table of contents settings',
-        textTOC: 'Table of contents'
+        textTOC: 'Table of contents',
+        textRefreshField: 'Refresh field'
 
     }, DE.Views.DocumentHolder || {}));
 });
