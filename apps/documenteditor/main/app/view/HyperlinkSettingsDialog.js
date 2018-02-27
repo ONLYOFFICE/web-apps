@@ -42,6 +42,11 @@
 if (Common === undefined)
     var Common = {};
 
+var c_oHyperlinkType = {
+    InternalLink:0,
+    WebLink: 1
+};
+
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/InputField',
@@ -61,11 +66,20 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box">',
-                    '<div class="input-row">',
-                        '<label>' + this.textUrl + ' *</label>',
+                '<div class="box" style="height: 260px;">',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternal,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternal,'</button>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-external-link">',
+                        '<div class="input-row">',
+                            '<label>' + this.textUrl + ' *</label>',
+                        '</div>',
+                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '</div>',
+                    '<div id="id-internal-link">',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 130px;"></div>',
+                    '</div>',
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
                     '</div>',
@@ -93,6 +107,23 @@ define([
 
             var me = this,
                 $window = this.getChild();
+
+            me.btnExternal = new Common.UI.Button({
+                el: $('#id-dlg-hyperlink-external'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false,
+                pressed: true
+            });
+            me.btnExternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.WebLink));
+
+            me.btnInternal = new Common.UI.Button({
+                el: $('#id-dlg-hyperlink-internal'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false
+            });
+            me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
 
             me.inputUrl = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-url'),
@@ -124,6 +155,17 @@ define([
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+            me.externalPanel = $window.find('#id-external-link');
+            me.internalPanel = $window.find('#id-internal-link');
+        },
+
+        ShowHideElem: function(value) {
+            this.externalPanel.toggleClass('hidden', value !== c_oHyperlinkType.WebLink);
+            this.internalPanel.toggleClass('hidden', value !== c_oHyperlinkType.InternalLink);
+        },
+
+        onLinkTypeClick: function(type, btn, event) {
+            this.ShowHideElem(type);
         },
 
         show: function() {
@@ -138,6 +180,10 @@ define([
         setSettings: function (props) {
             if (props) {
                 var me = this;
+
+                var type = c_oHyperlinkType.WebLink;//props.get_Type();
+                (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
+                me.ShowHideElem(type);
 
                 if (props.get_Value()) {
                     me.inputUrl.setValue(props.get_Value().replace(new RegExp(" ",'g'), "%20"));
@@ -225,6 +271,8 @@ define([
         txtNotUrl:          'This field should be a URL in the format \"http://www.example.com\"',
         textTooltip:        'ScreenTip text',
         textDefault:        'Selected text',
-        textTitle:          'Hyperlink Settings'
+        textTitle:          'Hyperlink Settings',
+        textExternal:       'External Link',
+        textInternal:       'Place in Document'
     }, DE.Views.HyperlinkSettingsDialog || {}))
 });
