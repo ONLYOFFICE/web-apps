@@ -289,6 +289,25 @@
 
     svg.icon {
         fill: #fff;
+
+        &.icon-save {
+            &.btn-save-coauth, &.btn-synch {
+                use:first-child {
+                    display: none;
+                }
+            }
+
+            &:not(.btn-save-coauth) {
+                use#coauth {
+                    display: none;
+                }
+            }
+            &:not(.btn-synch) {
+                use#sync {
+                    display: none;
+                }
+            }
+        }
     }
 
     #title-doc-name {

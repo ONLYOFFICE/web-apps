@@ -35,8 +35,24 @@
     <symbol id="svg-btn-save" viewBox="0 0 20 20">
         <rect x="7" y="13" width="6" height="1"/>
 	    <rect x="7" y="11" width="6" height="1"/>
-	    <path fill="#FFFFFF" d="M13,4H5C4.447,4,4,4.447,4,5v10c0,0.553,0.447,1,1,1h10c0.553,0,1-0.447,1-1V7L13,4z M11,5v2h-1V5H11z
+	    <path d="M13,4H5C4.447,4,4,4.447,4,5v10c0,0.553,0.447,1,1,1h10c0.553,0,1-0.447,1-1V7L13,4z M11,5v2h-1V5H11z
 		 M15,15H5V5h2v3h5V5h0.5L15,7.5V15z"/>
+    </symbol>
+    <symbol id="svg-btn-save-coauth" viewBox="0 0 20 20">
+        <path d="M14,9c-2.209,0-4,1.791-4,4c0,0.348,0.059,0.679,0.142,1h1.043C11.072,13.686,11,13.353,11,13
+            c0-1.654,1.346-3,3-3s3,1.346,3,3s-1.346,3-3,3v-1l-2,1.5l2,1.5v-1c2.209,0,4-1.791,4-4S16.209,9,14,9z"/>
+        <rect x="6" y="13" width="3" height="1"/>
+        <rect x="6" y="11" width="3" height="1"/>
+        <path d="M9,15H4V5h2v3h3h2V5h0.5L14,7.5V8h1V7l-3-3H4C3.447,4,3,4.447,3,5v10c0,0.553,0.447,1,1,1h5V15z M9,5h1v2H9 V5z"/>
+    </symbol>
+    <symbol id="svg-btn-save-sync" viewBox="0 0 20 20">
+        <path fill="#FFD112" d="M18,16c0.553,0,1-0.447,1-1v-5c0-0.553-0.447-1-1-1h-7c-0.553,0-1,0.447-1,1v5c0,0.553,0.447,1,1,1h1
+                l1.5,2l1.5-2H18z"/>
+        <rect x="12" y="11" fill="#444444" width="5" height="1"/>
+        <rect x="12" y="13" fill="#444444" width="5" height="1"/>
+        <rect x="6" y="13" width="3" height="1"/>
+        <rect x="6" y="11" width="3" height="1"/>
+        <path d="M9,15H4V5h2v3h3h2V5h0.5L14,7.5V8h1V7l-3-3H4C3.447,4,3,4.447,3,5v10c0,0.553,0.447,1,1,1h5V15z M9,5h1v2H9 V5z"/>
     </symbol>
     <symbol id="svg-btn-undo" viewBox="0 0 20 20">
         <path d="M11.355,7.625c-1.965,0-3.864,0.777-5.151,2.033L4,7.625V14h6.407l-2.091-2.219

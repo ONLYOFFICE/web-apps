@@ -496,6 +496,19 @@ define([
                     me.btnUndo = createTitleButton('svg-btn-undo', $('#slot-btn-dt-undo', $html), true);
                     me.btnRedo = createTitleButton('svg-btn-redo', $('#slot-btn-dt-redo', $html), true);
 
+                    if ( me.btnSave.$icon.is('svg') ) {
+                        me.btnSave.$icon.addClass('icon-save');
+                        var _create_use = function (extid, intid) {
+                            var _use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+                            _use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', extid);
+                            _use.setAttribute('id', intid);
+
+                            return $(_use);
+                        };
+
+                        _create_use('#svg-btn-save-coauth', 'coauth').appendTo(me.btnSave.$icon);
+                        _create_use('#svg-btn-save-sync', 'sync').appendTo(me.btnSave.$icon);
+                    }
                     return $html;
                 }
             },
