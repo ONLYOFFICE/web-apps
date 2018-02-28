@@ -67,7 +67,7 @@ define([
                                         '<div id="tableofcontents-chb-pages"></div>',
                                         '</td>',
                                         '<td rowspan="5" class="padding-small" style="vertical-align: top;">',
-                                        '<div style="border: 1px solid #cbcbcb;width: 230px; height: 172px; float: right;">',
+                                        '<div style="border: 1px solid #cbcbcb;width: 241px; height: 182px; float: right;padding: 5px;">',
                                             '<div id="tableofcontents-img" style="width: 100%; height: 100%;"></div>',
                                         '</div>',
                                         '</td>',
@@ -112,7 +112,7 @@ define([
                                             '</div>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                            '<label class="input-label" style="margin-left: 15px;">' + me.textStyles + '</label>',
+                                            '<label class="input-label" style="margin-left: 9px;">' + me.textStyles + '</label>',
                                             '<div id="tableofcontents-combo-styles" class="input-group-nr" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
                                         '</td>',
                                     '</tr>',
@@ -278,7 +278,7 @@ define([
                 step: 1,
                 width: 85,
                 defaultUnit : "",
-                value: 3,
+                value: this.endLevel,
                 maxValue: 9,
                 minValue: 1,
                 allowDecimal: false,
@@ -442,6 +442,14 @@ define([
 
                 this.spnLevels.setValue(new_end>0 ? new_end : '', true);
                 this.spnLevels.setDisabled(disable_outlines || new_start>1 );
+            } else {
+                for (var i=this.startLevel; i<=this.endLevel; i++) {
+                    var rec = _.findWhere(styles, {headerLevel: i});
+                    if (rec) {
+                        rec.checked = true;
+                        rec.value = i;
+                    }
+                }
             }
             this.stylesLevels.reset(styles);
             if (this.spnLevels.isDisabled()) {
@@ -588,7 +596,7 @@ define([
                         properties.put_OutlineRange(-1, -1);
                     else
                         properties.put_OutlineRange(1, 9);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    me.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
 
             });
