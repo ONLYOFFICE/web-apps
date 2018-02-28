@@ -49,6 +49,9 @@ define([
         'use strict';
 
         function _onCountPages(count){
+            if (this.pages.get('count')<0)
+                $('#status-label-pages').css('display', 'inline-block');
+
             this.pages.set('count', count);
             var isDisabled = (count<=0);
             if (this.btnPreview.isDisabled() !== isDisabled)
@@ -90,7 +93,7 @@ define([
 
             initialize: function (options) {
                 _.extend(this, options);
-                this.pages = new PE.Models.Pages({current:1, count:1});
+                this.pages = new PE.Models.Pages({current:1, count:-1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
                 this._state = {no_paragraph: true};
             },

@@ -137,6 +137,7 @@
   "SSE.Controllers.Main.errorLockedWorksheetRename": "В настоящее время лист нельзя переименовать, так как его переименовывает другой пользователь",
   "SSE.Controllers.Main.errorMailMergeLoadFile": "Сбой при загрузке",
   "SSE.Controllers.Main.errorMailMergeSaveFile": "Не удалось выполнить слияние.",
+  "SSE.Controllers.Main.errorMaxPoints": "Максимальное число точек в серии для диаграммы составляет 4096.",
   "SSE.Controllers.Main.errorMoveRange": "Нельзя изменить часть объединенной ячейки",
   "SSE.Controllers.Main.errorOpenWarning": "Длина одной из формул в файле превышала<br>допустимое количество символов, и формула была удалена.",
   "SSE.Controllers.Main.errorOperandExpected": "Синтаксис введенной функции некорректен. Проверьте, не пропущена ли одна из скобок - '(' или ')'.",
