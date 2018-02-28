@@ -173,6 +173,7 @@ define([
                     lock        : [_set.lostConnect],
                     signals     : ['disabled']
                 });
+                me.btnCollabChanges = me.btnSave;
 
                 me.btnUndo = new Common.UI.Button({
                     id          : 'id-toolbar-btn-undo',
@@ -1467,7 +1468,7 @@ define([
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
                 if (this._state.hasCollaborativeChanges) return;
-                if (!this.btnSave.rendered) {
+                if (!this.btnCollabChanges.rendered) {
                     this.needShowSynchTip = true;
                     return;
                 }
@@ -1479,15 +1480,15 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                this.btnSave.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
+                this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
                 if (this.showSynchTip) {
-                    this.btnSave.updateHint('');
+                    this.btnCollabChanges.updateHint('');
                     if (this.synchTooltip === undefined)
                         this.createSynchTip();
 
                     this.synchTooltip.show();
                 } else {
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
                 this.btnSave.setDisabled(false);
@@ -1496,29 +1497,29 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    target: $('#id-toolbar-btn-save')
+                    target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
                     this.synchTooltip.hide();
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                     Common.localStorage.setItem("pe-hide-synch", 1);
                 }, this);
                 this.synchTooltip.on('closeclick', function () {
                     this.synchTooltip.hide();
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }, this);
             },
 
             synchronizeChanges: function () {
-                if (this.btnSave.rendered) {
+                if (this.btnCollabChanges.rendered) {
                     var me = this;
 
-                    if ( me.btnSave.$icon.hasClass('btn-synch') ) {
-                        me.btnSave.$icon.removeClass('btn-synch').addClass(this.btnSaveCls);
+                    if ( me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
+                        me.btnCollabChanges.$icon.removeClass('btn-synch').addClass(this.btnSaveCls);
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
-                        this.btnSave.updateHint(this.btnSaveTip);
+                        this.btnCollabChanges.updateHint(this.btnSaveTip);
                         this.btnSave.setDisabled(!me.mode.forcesave);
 
                         this._state.hasCollaborativeChanges = false;
@@ -1535,12 +1536,12 @@ define([
 
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
-                if (cls !== this.btnSaveCls && this.btnSave.rendered) {
+                if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
 
-                    if ( !this.btnSave.$icon.hasClass('btn-synch') ) {
-                        this.btnSave.$icon.removeClass(this.btnSaveCls).addClass(cls);
-                        this.btnSave.updateHint(this.btnSaveTip);
+                    if ( !this.btnCollabChanges.$icon.hasClass('btn-synch') ) {
+                        this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
+                        this.btnCollabChanges.updateHint(this.btnSaveTip);
                     }
                     this.btnSaveCls = cls;
                 }

@@ -902,7 +902,7 @@ define([
             var toolbar = this.toolbar;
             if (this.api && this.api.asc_isDocumentCanSave) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = this.toolbar.btnSave.$icon.hasClass('btn-synch');
+                var isSyncButton = this.toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
