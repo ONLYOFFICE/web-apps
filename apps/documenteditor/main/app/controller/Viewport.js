@@ -163,6 +163,9 @@ define([
                 _intvars.set('toolbar-height-normal', _tabs_new_height + _intvars.get('toolbar-height-controls'));
 
                 $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
+
+                toolbar = me.getApplication().getController('Toolbar').getView();
+                toolbar.btnCollabChanges = me.header.btnSave;
             }
         },
 

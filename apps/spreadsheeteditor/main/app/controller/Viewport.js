@@ -76,6 +76,11 @@ define([
                         var config = SSE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         toolbar.setExtra('left', me.header.getPanel('left', config));
+
+                        if ( me.appConfig && me.appConfig.isDesktopApp &&
+                                me.appConfig.isEdit && toolbar.btnCollabChanges )
+                            toolbar.btnCollabChanges = me.header.btnSave;
+
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.getItem('toolbar').height = state ?
