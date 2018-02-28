@@ -282,6 +282,7 @@
     display: flex;
     height: 100%;
     color:#fff;
+    position: relative;
 
     .btn-slot {
         display: inline-block;
@@ -311,13 +312,14 @@
     }
 
     #title-doc-name {
-        flex-grow: 1;
+        position: absolute;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
         text-align: center;
         font-size: 12px;
         height: 100%;
+        width: 100%;
         background-color: transparent;
         border: 0 none;
         cursor: default;
@@ -333,4 +335,8 @@
         padding: 0 12px;
         line-height: @height-title;
    }
+
+    .lr-separator {
+        flex-grow: 1;
+    }
 }

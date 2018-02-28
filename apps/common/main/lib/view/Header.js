@@ -109,6 +109,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
+                                '<div class="lr-separator"></div>' +
                                 '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
                                 '<label id="title-user-name" style="pointer-events: none;"></label>' +
                             '</section>';
