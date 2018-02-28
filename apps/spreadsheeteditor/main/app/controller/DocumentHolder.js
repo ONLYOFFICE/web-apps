@@ -1385,9 +1385,6 @@ define([
                     this.clearEquationMenu(4);
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
-                documentHolder.textInShapeMenu.items[3].setVisible( documentHolder.menuHyperlinkShape.isVisible() ||
-                                                                    documentHolder.menuAddHyperlinkShape.isVisible() ||
-                                                                    documentHolder.menuParagraphVAlign.isVisible() || isEquation);
             } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
             seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText)) {
                 if (!showMenu && !documentHolder.ssMenu.isVisible()) return;
@@ -1502,8 +1499,7 @@ define([
                 documentHolder.menuParagraphVAlign.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.menuParagraphDirection.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.pmiTextAdvanced.setVisible(false);
-                documentHolder.textInShapeMenu.items[3].setVisible(false);
-                documentHolder.textInShapeMenu.items[8].setVisible(false);
+                documentHolder.textInShapeMenu.items[9].setVisible(false);
                 documentHolder.pmiTextCopy.setDisabled(false);
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             }
