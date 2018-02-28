@@ -146,7 +146,7 @@ define([
                         scope       : me
                     }));
                     if (this.itemsTemplate)
-                        this.cmpEl.find('ul').append(
+                        this.cmpEl.find('ul').html(
                             $(this.itemsTemplate({
                                 items       : items,
                                 scope       : me
