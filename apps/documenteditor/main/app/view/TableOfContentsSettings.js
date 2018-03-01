@@ -67,8 +67,8 @@ define([
                                         '<div id="tableofcontents-chb-pages"></div>',
                                         '</td>',
                                         '<td rowspan="5" class="padding-small" style="vertical-align: top;">',
-                                        '<div style="border: 1px solid #cbcbcb;width: 241px; height: 182px; float: right;padding: 5px;">',
-                                            '<div id="tableofcontents-img" style="width: 100%; height: 100%;"></div>',
+                                        '<div style="border: 1px solid #cbcbcb;width: 240px; height: 182px; float: right;position:relative;overflow:hidden;">',
+                                            '<div id="tableofcontents-img" style="width: 230px; height: 100%;"></div>',
                                         '</div>',
                                         '</td>',
                                     '</tr>',
@@ -112,7 +112,7 @@ define([
                                             '</div>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                            '<label class="input-label" style="margin-left: 9px;">' + me.textStyles + '</label>',
+                                            '<label class="input-label" style="margin-left: 10px;">' + me.textStyles + '</label>',
                                             '<div id="tableofcontents-combo-styles" class="input-group-nr" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
                                         '</td>',
                                     '</tr>',
@@ -160,6 +160,7 @@ define([
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
                     this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -178,6 +179,7 @@ define([
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
                     this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -200,6 +202,7 @@ define([
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_TabLeader(record.value);
                     this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -213,6 +216,7 @@ define([
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_Hyperlink(field.getValue()=='checked');
                     this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -270,6 +274,7 @@ define([
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_StylesType(record.value);
                     this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -294,6 +299,7 @@ define([
                     properties.clear_Styles();
                     properties.put_OutlineRange(this.startLevel, this.endLevel);
                     this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -322,6 +328,14 @@ define([
 
             this.levelsContainer = $('#tableofcontents-from-levels');
             this.stylesContainer = $('#tableofcontents-from-styles');
+
+            this.scrollerY = new Common.UI.Scroller({
+                el: this.$window.find('#tableofcontents-img').parent(),
+                minScrollbarLength  : 20
+            });
+            this.scrollerY.update();
+            this.scrollerY.scrollTop(0);
+
             this.afterRender();
         },
 
@@ -335,6 +349,7 @@ define([
 
         close: function() {
             this.api.SetDrawImagePlaceContents(null);
+            this.scrollerY.update();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this);
         },
 
@@ -473,6 +488,7 @@ define([
             }
 
             this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
+            this.scrollerY.update();
 
             this._noApply = false;
         },
@@ -597,6 +613,7 @@ define([
                     else
                         properties.put_OutlineRange(1, 9);
                     me.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
 
             });
