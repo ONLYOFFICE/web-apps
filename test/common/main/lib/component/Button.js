@@ -4,7 +4,7 @@
  *  Unit test
  *
  *  Created by Alexander Yuzhin on 6/20/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
