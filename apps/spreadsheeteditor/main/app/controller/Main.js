@@ -1285,7 +1285,7 @@ define([
                         break;
 
                     default:
-                        config.msg = this.errorDefaultMessage.replace('%1', id);
+                        config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
 
@@ -1296,7 +1296,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
