@@ -40,21 +40,29 @@
  *
  */
 
+if (Common === undefined)
+    var Common = {};
+
+Common.Models = Common.Models || {};
+
 define([
-    'backbone'
-], function(Backbone){
+    'underscore',
+    'backbone',
+    'common/main/lib/component/BaseView'
+], function(_, Backbone){
     'use strict';
 
-    Common.Models = Common.Models || {};
-
     Common.Models.User = Backbone.Model.extend({
-        defaults: {
-            id          : undefined,
-            username    : 'Guest',
-            color       : '#fff',
-            colorval    : null,
-            online      : false,
-            view        : false
+        defaults: function() {
+            return {
+                iid         : Common.UI.getId(), // internal id for rendering
+                id          : undefined,
+                username    : 'Guest',
+                color       : '#fff',
+                colorval    : null,
+                online      : false,
+                view        : false
+            }
         }
     });
 });

@@ -59,7 +59,7 @@ define([
         storeUsers: undefined,
         storeMessages: undefined,
 
-        tplUser: ['<li id="chat-user-<%= user.get("id") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
+        tplUser: ['<li id="<%= user.get("iid") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
                         '<div class="color" style="background-color: <%= user.get("color") %>;" >',
                             '<label class="name"><%= scope.getUserName(user.get("username")) %></label>',
                         '</div>',
@@ -169,7 +169,7 @@ define([
 
         _onUsersChanged: function(m) {
             if (m.changed.online != undefined && this.panelUsers) {
-                this.panelUsers.find('#chat-user-'+ m.get('id'))[m.changed.online?'removeClass':'addClass']('offline');
+                this.panelUsers.find('#' + m.get('iid'))[m.changed.online?'removeClass':'addClass']('offline');
                 this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
             }
         },

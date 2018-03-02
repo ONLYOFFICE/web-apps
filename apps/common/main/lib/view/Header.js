@@ -56,7 +56,7 @@ define([
         var $saveStatus;
 
         var templateUserItem =
-                '<li id="status-chat-user-<%= user.get("id") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
+                '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="color" style="background-color: <%= user.get("color") %>;" >' +
                         '<label class="name"><%= fnEncode(user.get("username")) %></label>' +
                     '</div>' +
@@ -127,7 +127,7 @@ define([
 
         function onUsersChanged(model, collection) {
             if (model.changed.online != undefined && $userList) {
-                $userList.find('#status-chat-user-'+ model.get('id'))[model.changed.online ? 'removeClass' : 'addClass']('offline');
+                $userList.find('#'+ model.get('iid'))[model.changed.online ? 'removeClass' : 'addClass']('offline');
                 $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
             }
 
