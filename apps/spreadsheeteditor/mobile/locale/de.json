@@ -137,6 +137,7 @@
   "SSE.Controllers.Main.errorLockedWorksheetRename": "Umbenennen des Sheets ist derzeit nicht möglich, denn es wird gleichzeitig von einem anderen Benutzer umbenannt.",
   "SSE.Controllers.Main.errorMailMergeLoadFile": "Fehler beim Laden\t",
   "SSE.Controllers.Main.errorMailMergeSaveFile": "Verbinden ist fehlgeschlagen.",
+  "SSE.Controllers.Main.errorMaxPoints": "Die maximale Punktzahl pro eine Tabelle beträgt 4096 Punkte.",
   "SSE.Controllers.Main.errorMoveRange": "Es ist unmöglich, den Teil einer verbundenen Zelle zu ändern",
   "SSE.Controllers.Main.errorOpenWarning": "Die Länge einer der Formeln in der Datei hat<br>die zugelassene Anzahl von Zeichen überschritten und sie wurde entfernt.",
   "SSE.Controllers.Main.errorOperandExpected": "Die Syntax der eingegeben Funktion ist nicht korrekt. Bitte überprüfen Sie, ob eine der Klammern - '(' oder ')' fehlt.",

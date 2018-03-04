@@ -81,8 +81,11 @@ define([
             this.$btnfunc = $('#ce-func-label', this.el);
 
             var me = this;
-            this.$cellname.on('focusin', function(e){
-                me.$cellname.select().one('mouseup', function (e) {e.preventDefault();});
+            this.$cellname.on('focus', function(e){
+                var txt = me.$cellname[0];
+                txt.selectionStart = 0;
+                txt.selectionEnd = txt.value.length;
+                txt.scrollLeft = txt.scrollWidth;
             });
 
             this.$btnfunc.addClass('disabled');
