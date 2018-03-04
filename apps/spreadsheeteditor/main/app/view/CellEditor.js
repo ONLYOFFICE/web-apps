@@ -74,15 +74,18 @@ define([
             });
             this.btnNamedRanges.render($('#ce-cell-name-menu'));
             this.btnNamedRanges.setVisible(false);
-            this.btnNamedRanges.menu.setOffset(-52);
+            this.btnNamedRanges.menu.setOffset(-81);
 
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);
             this.$btnfunc = $('#ce-func-label', this.el);
 
             var me = this;
-            this.$cellname.on('focusin', function(e){
-                me.$cellname.select().one('mouseup', function (e) {e.preventDefault();});
+            this.$cellname.on('focus', function(e){
+                var txt = me.$cellname[0];
+                txt.selectionStart = 0;
+                txt.selectionEnd = txt.value.length;
+                txt.scrollLeft = txt.scrollWidth;
             });
 
             this.$btnfunc.addClass('disabled');

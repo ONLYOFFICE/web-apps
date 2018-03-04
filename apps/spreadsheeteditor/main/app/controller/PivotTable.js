@@ -59,6 +59,7 @@ define([
                     'pivottable:rowscolumns':   _.bind(this.onCheckTemplateChange, this),
                     'pivottable:create':        _.bind(this.onCreateClick, this),
                     'pivottable:refresh':       _.bind(this.onRefreshClick, this),
+                    'pivottable:select':        _.bind(this.onSelectClick, this),
                     'pivottable:style':         _.bind(this.onPivotStyleSelect, this),
                     'pivottable:layout':        _.bind(this.onPivotLayout, this),
                     'pivottable:blankrows':     _.bind(this.onPivotBlankRows, this),
@@ -140,6 +141,13 @@ define([
         },
 
         onRefreshClick: function(btn, opts){
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onSelectClick: function(btn, opts){
+            if (this.api) {
+                this._originalProps.asc_select(this.api);
+            }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 

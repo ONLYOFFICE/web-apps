@@ -95,10 +95,10 @@ Common.Utils = _.extend(new(function() {
         documentSettingsType = {
         	Paragraph  : 0,
             Table      : 1,
-            Image      : 2,
-            Header     : 3,
-            TextArt    : 4,
-            Shape      : 5,
+            Header     : 2,
+            TextArt    : 3,
+            Shape      : 4,
+            Image      : 5,
             Slide      : 6,
             Chart      : 7,
             MailMerge  : 8,
@@ -578,7 +578,7 @@ Common.Utils.String = new (function() {
 })();
 
 Common.Utils.isBrowserSupported = function() {
-    return !((Common.Utils.ieVersion != 0 && Common.Utils.ieVersion < 9.0) ||
+    return !((Common.Utils.ieVersion != 0 && Common.Utils.ieVersion < 10.0) ||
              (Common.Utils.safariVersion != 0 && Common.Utils.safariVersion < 5.0) ||
              (Common.Utils.firefoxVersion != 0 && Common.Utils.firefoxVersion < 4.0) ||
              (Common.Utils.chromeVersion != 0 && Common.Utils.chromeVersion < 7.0) ||

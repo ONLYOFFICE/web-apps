@@ -1249,7 +1249,7 @@ define([
         },
 
         fillMenuProps: function(cellinfo, showMenu, event){
-            var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu,
+            var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly,
                 documentHolder      = this.documentHolder,
                 seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
@@ -1285,6 +1285,8 @@ define([
                         if (shapeprops) {
                             if (shapeprops.asc_getFromChart())
                                 ischartmenu = true;
+                            else if (shapeprops.asc_getFromImage())
+                                isimageonly = true;
                             else {
                                 documentHolder.mnuShapeAdvanced.shapeInfo = elValue;
                                 isshapemenu = true;
@@ -1310,7 +1312,7 @@ define([
                 documentHolder.mnuChartEdit.setDisabled(isObjLocked);
                 documentHolder.pmiImgCut.setDisabled(isObjLocked);
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
-                documentHolder.mnuImgAdvanced.setVisible(isimagemenu && !isshapemenu && !ischartmenu);
+                documentHolder.mnuImgAdvanced.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
                 documentHolder.mnuImgAdvanced.setDisabled(isObjLocked);
 
                 var isInSign = !!signGuid;
@@ -1477,11 +1479,12 @@ define([
                 });
                 documentHolder.pmiCopy.setDisabled(false);
                 documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
                 documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiDeleteEntire.setDisabled(isCellLocked || isTableLocked);
-                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiDeleteCells.setDisabled(isCellLocked || isTableLocked || inPivot);
                 documentHolder.pmiDeleteTable.setDisabled(isCellLocked || isTableLocked);
+                documentHolder.pmiClear.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter);
                 documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter);
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));

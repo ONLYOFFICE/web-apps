@@ -137,6 +137,7 @@
   "SSE.Controllers.Main.errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
   "SSE.Controllers.Main.errorMailMergeLoadFile": "Loading failed",
   "SSE.Controllers.Main.errorMailMergeSaveFile": "Merge failed.",
+  "SSE.Controllers.Main.errorMaxPoints": "The maximum number of points in series per chart is 4096.",
   "SSE.Controllers.Main.errorMoveRange": "Cannot change part of a merged cell",
   "SSE.Controllers.Main.errorOpenWarning": "The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.",
   "SSE.Controllers.Main.errorOperandExpected": "The entered function syntax is not correct. Please check if you are missing one of the parentheses - '(' or ')'.",

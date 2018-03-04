@@ -153,12 +153,6 @@ define([
                 });
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
-                if (Common.Utils.isChrome) {
-                    value = Common.localStorage.getBool("sse-settings-inputsogou");
-                    this.api.setInputParams({"SogouPinyin" : value});
-                    Common.Utils.InternalSettings.set("sse-settings-inputsogou", value);
-                }
-
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError',                 _.bind(this.onError, this));
@@ -426,9 +420,9 @@ define([
                 }
             },
 
-            goBack: function(blank) {
+            goBack: function() {
                 var href = this.appOptions.customization.goback.url;
-                if (blank) {
+                if (this.appOptions.customization.goback.blank!==false) {
                     window.open(href, "_blank");
                 } else {
                     parent.location.href = href;
@@ -556,6 +550,11 @@ define([
 
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText;
+                        break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                        }
                         break;
                 }
 
@@ -861,7 +860,7 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
-                    this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
+                    this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -876,6 +875,7 @@ define([
                     this.appOptions.canModifyFilter = true;
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = (this.appOptions.canLicense || this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && this.permissions.edit !== false && this.editorConfig.mode !== 'view';
@@ -1158,6 +1158,10 @@ define([
                         config.msg = this.errorDataRange;
                         break;
 
+                    case Asc.c_oAscError.ID.MaxDataPointsError:
+                        config.msg = this.errorMaxPoints;
+                        break;
+
                     case Asc.c_oAscError.ID.VKeyEncrypt:
                         config.msg = this.errorToken;
                         break;
@@ -1292,7 +1296,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
@@ -1515,8 +1519,10 @@ define([
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         type: type,
+                        preview: advOptions.asc_getOptions().asc_getData(),
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
+                        api: me.api,
                         handler: function (encoding, delimiter, delimiterChar) {
                             me.isShowOpenDialog = false;
                             if (me && me.api) {
@@ -1528,14 +1534,18 @@ define([
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
+                        closable: me.appOptions.canRequestClose,
                         type: type,
                         validatePwd: !!me._state.isDRM,
-                        handler: function (value) {
+                        handler: function (result, value) {
                             me.isShowOpenDialog = false;
-                            if (me && me.api) {
-                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
-                                me.loadMask && me.loadMask.show();
-                            }
+                            if (result == 'ok') {
+                                if (me && me.api) {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                    me.loadMask && me.loadMask.show();
+                                }
+                            } else
+                                Common.Gateway.requestClose();
                             me._state.openDlg = null;
                         }
                     });
@@ -1724,7 +1734,8 @@ define([
                             this.api.asc_closeCellEditor();
                             Common.UI.Menu.Manager.hideAll();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
-                        }
+                        } else
+                            Common.Gateway.internalMessage('canClose', {answer: false});
                         break;
                     case 'window:drag':
                         this.isDiagramDrag = data.data;
@@ -2026,10 +2037,10 @@ define([
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             resetPluginsList: function() {
@@ -2187,7 +2198,8 @@ define([
             txtStyle_Percent: 'Percent',
             txtStyle_Comma: 'Comma',
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
-            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
+            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+            errorMaxPoints: "The maximum number of points in series per chart is 4096."
         }
     })(), SSE.Controllers.Main || {}))
 });

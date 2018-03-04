@@ -271,12 +271,6 @@ define([
             Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
             this.api.asc_setFontRenderingMode(parseInt(value));
 
-            if (Common.Utils.isChrome) {
-                value = Common.localStorage.getBool("sse-settings-inputsogou");
-                Common.Utils.InternalSettings.set("sse-settings-inputsogou", value);
-                this.api.setInputParams({"SogouPinyin" : value});
-            }
-
             /** coauthoring begin **/
             value = Common.localStorage.getBool("sse-settings-livecomment", true);
             Common.Utils.InternalSettings.set("sse-settings-livecomment", value);
@@ -662,6 +656,8 @@ define([
         /** coauthoring end **/
 
         onShortcut: function(s, e) {
+            if (!this.mode) return;
+
             if (this.mode.isEditDiagram && s!='escape') return false;
             if (this.mode.isEditMailMerge && s!='escape' && s!='search') return false;
 

@@ -580,9 +580,9 @@ define([
                 app.getController('LeftMenu').SetDisabled(disable, true);
             },
 
-            goBack: function(blank) {
+            goBack: function() {
                 var href = this.appOptions.customization.goback.url;
-                if (blank) {
+                if (this.appOptions.customization.goback.blank!==false) {
                     window.open(href, "_blank");
                 } else {
                     parent.location.href = href;
@@ -754,6 +754,12 @@ define([
                         title   = this.loadingDocumentTitleText;
                         text    = this.loadingDocumentTextText;
                         break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                            text    = action.id;
+                        }
+                        break;
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
@@ -850,12 +856,6 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
 
-                if (Common.Utils.isChrome) {
-                    value = Common.localStorage.getBool("de-settings-inputsogou");
-                    me.api.setInputParams({"SogouPinyin" : value});
-                    Common.Utils.InternalSettings.set("de-settings-inputsogou", value);
-                }
-
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("de-settings-coauthmode");
@@ -900,6 +900,8 @@ define([
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
+                navigationController.setApi(me.api);
+
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
@@ -908,8 +910,6 @@ define([
                 me.requestPlugins('../../../../plugins.json');
                 me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
                 me.api.asc_registerCallback('asc_onPluginsReset', _.bind(me.resetPluginsList, me));
-
-                navigationController.setApi(me.api);
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -1062,6 +1062,7 @@ define([
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.isReviewOnly   = this.permissions.review === true && this.permissions.edit === false;
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canEdit        = (this.permissions.edit !== false || this.permissions.review === true) && // can edit or review
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
@@ -1083,7 +1084,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
-                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
+                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1391,7 +1392,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok')
@@ -1845,8 +1846,10 @@ define([
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         type: type,
+                        preview: advOptions.asc_getOptions().asc_getData(),
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
+                        api: me.api,
                         handler: function (encoding) {
                             me.isShowOpenDialog = false;
                             if (me && me.api) {
@@ -1858,14 +1861,18 @@ define([
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
+                        closable: me.appOptions.canRequestClose,
                         type: type,
                         validatePwd: !!me._state.isDRM,
-                        handler: function (value) {
+                        handler: function (result, value) {
                             me.isShowOpenDialog = false;
-                            if (me && me.api) {
-                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
-                                me.loadMask && me.loadMask.show();
-                            }
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                    me.loadMask && me.loadMask.show();
+                                }
+                            } else
+                                Common.Gateway.requestClose();
                             me._state.openDlg = null;
                         }
                     });
@@ -2087,10 +2094,10 @@ define([
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             resetPluginsList: function() {

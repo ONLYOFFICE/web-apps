@@ -191,7 +191,10 @@ define([
                             event.preventDefault();
                             event.stopPropagation();
                             if (this.initConfig.closable !== false) {
-                                this.initConfig.toolclose=='hide' ? this.hide() : this.close();
+                                if (this.initConfig.toolcallback)
+                                    this.initConfig.toolcallback.call(this);
+                                else
+                                    (this.initConfig.toolclose=='hide') ? this.hide() : this.close();
                             }
                             return false;
                         }
@@ -782,7 +785,7 @@ define([
 
             isLocked: function() {
                 return this.$window.hasClass('dethrone') ||
-                            (!this.options.modal && this.$window.parent().find('.asc-window.modal:visible').length);
+                            (!this.initConfig.modal && this.$window.parent().find('.asc-window.modal:visible').length);
             },
 
             getChild: function(selector) {

@@ -354,6 +354,7 @@ define([
             this.api.asc_registerCallback('asc_onColumnsProps',         _.bind(this.onColumnsProps, this));
             this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+            this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -611,6 +612,12 @@ define([
             }
         },
 
+        onShowParaMarks: function(v) {
+            this.toolbar.mnuNonPrinting.items[0].setChecked(v, true);
+            this.toolbar.btnShowHidenChars.toggle(v, true);
+            Common.localStorage.setItem("de-show-hiddenchars", v);
+        },
+
         onApiFocusObject: function(selectedObjects) {
             if (!this.editMode) return;
 
@@ -728,14 +735,15 @@ define([
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled() || control_plain;
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote() || in_control;
+            var in_footnote = this.api.asc_IsCursorInFootnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
             toolbar.btnsPageBreak.disable(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
             toolbar.btnInsertImage.setDisabled(need_disable);
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
-            toolbar.btnInsertTextArt.setDisabled(need_disable || in_image);
+            toolbar.btnInsertTextArt.setDisabled(need_disable || in_image || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);

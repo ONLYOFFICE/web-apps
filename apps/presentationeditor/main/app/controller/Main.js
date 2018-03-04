@@ -146,7 +146,8 @@ define([
                         'Table': this.txtSldLtTTbl,
                         'Slide title': this.txtSlideTitle,
                         'Loading': this.txtLoading,
-                        'Click to add notes': this.txtAddNotes
+                        'Click to add notes': this.txtAddNotes,
+                        'Click to add first slide': this.txtAddFirstSlide
                     }
                 });
 
@@ -391,9 +392,9 @@ define([
                 }
             },
 
-            goBack: function(blank) {
+            goBack: function() {
                  var href = this.appOptions.customization.goback.url;
-                 if (blank) {
+                 if (this.appOptions.customization.goback.blank!==false) {
                      window.open(href, "_blank");
                  } else {
                      parent.location.href = href;
@@ -540,6 +541,12 @@ define([
                         title   = this.loadingDocumentTitleText;
                         text    = this.loadingDocumentTextText;
                         break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                            text    = action.id;
+                        }
+                        break;
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
@@ -620,12 +627,6 @@ define([
                 value = Common.localStorage.getBool("pe-settings-inputmode");
                 Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
                 me.api.SetTextBoxInputMode(value);
-
-                if (Common.Utils.isChrome) {
-                    value = Common.localStorage.getBool("pe-settings-inputsogou");
-                    me.api.setInputParams({"SogouPinyin" : value});
-                    Common.Utils.InternalSettings.set("pe-settings-inputsogou", value);
-                }
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -825,6 +826,7 @@ define([
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                 /** coauthoring end **/
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
@@ -839,7 +841,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
-                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
+                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
 
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
@@ -1127,7 +1129,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.fn = function(btn) {
                             if (btn == 'ok') {
@@ -1705,14 +1707,18 @@ define([
                     me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
+                        closable: me.appOptions.canRequestClose,
                         type: type,
                         validatePwd: !!me._state.isDRM,
-                        handler: function (value) {
+                        handler: function (result, value) {
                             me.isShowOpenDialog = false;
-                            if (me && me.api) {
-                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
-                                me.loadMask && me.loadMask.show();
-                            }
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                    me.loadMask && me.loadMask.show();
+                                }
+                            } else
+                                Common.Gateway.requestClose();
                             me._state.openDlg = null;
                         }
                     });
@@ -1837,10 +1843,10 @@ define([
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             resetPluginsList: function() {
@@ -2001,7 +2007,8 @@ define([
             txtLoading: 'Loading...',
             txtAddNotes: 'Click to add notes',
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
-            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
+            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+            txtAddFirstSlide: 'Click to add first slide'
         }
     })(), PE.Controllers.Main || {}))
 });

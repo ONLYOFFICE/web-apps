@@ -95,14 +95,9 @@
         </td>
     </tr>
     <tr>
-        <td colspan=2>
-            <label class="header"><%= scope.textWrap %></label>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div id="table-button-wrap-none" style="display: inline-block; margin-right:5px;"></div>
-            <div id="table-button-wrap-parallel" style="display: inline-block; margin-right:5px;"></div>
+        <td class="padding-small" colspan=2>
+            <label class="header" style="margin-top: 3px;"><%= scope.textEdit %></label>
+            <div id="table-btn-edit" style="display: inline-block; float:right;"></div>
         </td>
     </tr>
     <tr>
@@ -111,9 +106,30 @@
         </td>
     </tr>
     <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textCellSize %></label>
+        </td>
+    </tr>
+    <tr>
         <td class="padding-small" colspan=2>
-            <label class="header" style="margin-top: 3px;"><%= scope.textEdit %></label>
-            <div id="table-btn-edit" style="display: inline-block; float:right;"></div>
+            <label style="margin-top: 3px;"><%= scope.textHeight %></label>
+            <div id="table-spin-cell-height" style="display: inline-block; float:right;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label style="margin-top: 3px;"><%= scope.textWidth %></label>
+            <div id="table-spin-cell-width" style="display: inline-block; float:right;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-distrub-rows" style="width:100%;"><%= scope.textDistributeRows %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-distrub-cols" style="width:100%;"><%= scope.textDistributeCols %></button>
         </td>
     </tr>
     <tr>

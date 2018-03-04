@@ -159,7 +159,7 @@ define([
                         properties.put_RightAlignTab(this.chAlign.getValue() == 'checked');
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -177,7 +177,7 @@ define([
                     if (checked) {
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -199,7 +199,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_TabLeader(record.value);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -212,7 +212,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_Hyperlink(field.getValue()=='checked');
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -269,7 +269,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_StylesType(record.value);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -293,7 +293,7 @@ define([
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.clear_Styles();
                     properties.put_OutlineRange(this.startLevel, this.endLevel);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 }
             }, this));
 
@@ -333,6 +333,11 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
         },
 
+        close: function() {
+            this.api.SetDrawImagePlaceContents(null);
+            Common.Views.AdvancedSettingsWindow.prototype.close.apply(this);
+        },
+
         _setDefaults: function (props) {
             this._noApply = true;
 
@@ -358,6 +363,12 @@ define([
                 this.chLinks.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
                 value = props.get_StylesType();
                 this.cmbStyles.setValue((value!==null) ? value : Asc.c_oAscTOCStylesType.Current);
+                value = props.get_ShowPageNumbers();
+                this.chPages.setValue((value !== null && value !== undefined) ? value : 'indeterminate');
+                if (this.chPages.getValue() == 'checked') {
+                    value = props.get_RightAlignTab();
+                    this.chAlign.setValue((value !== null && value !== undefined) ? value : 'indeterminate');
+                }
 
                 var start = props.get_OutlineStart(),
                     end = props.get_OutlineEnd(),
@@ -446,14 +457,14 @@ define([
             if (!props) {
                 this._originalProps.put_OutlineRange(this.startLevel, this.endLevel);
                 this._originalProps.put_Hyperlink(this.chLinks.getValue() == 'checked');
-            }
-            this._originalProps.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
-            if (this.chPages.getValue() == 'checked') {
-                this._originalProps.put_RightAlignTab(this.chAlign.getValue() == 'checked');
-                this._originalProps.put_TabLeader(this.cmbLeader.getValue());
+                this._originalProps.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
+                if (this.chPages.getValue() == 'checked') {
+                    this._originalProps.put_RightAlignTab(this.chAlign.getValue() == 'checked');
+                    this._originalProps.put_TabLeader(this.cmbLeader.getValue());
+                }
             }
 
-            // this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
+            this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
 
             this._noApply = false;
         },

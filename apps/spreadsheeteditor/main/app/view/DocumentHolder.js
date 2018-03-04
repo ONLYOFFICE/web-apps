@@ -594,7 +594,7 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
                     items   : [
-                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 325px; margin: 0 4px;"></div>') },
+                        { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 184px; margin: 0 4px;"></div>') },
                         {caption: '--'},
                         me.menuParagraphBulletNone = new Common.UI.MenuItem({
                             caption     : me.textNone,
@@ -615,6 +615,7 @@ define([
                     {offsety: 190, type: 0, subtype: 5},
                     {offsety: 228, type: 0, subtype: 6},
                     {offsety: 266, type: 0, subtype: 7},
+                    {offsety: 684, type: 0, subtype: 8},
                     {offsety: 570, type: 1, subtype: 4},
                     {offsety: 532, type: 1, subtype: 5},
                     {offsety: 608, type: 1, subtype: 6},

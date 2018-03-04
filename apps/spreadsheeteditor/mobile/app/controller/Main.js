@@ -296,9 +296,9 @@ define([
                 this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
             },
 
-            goBack: function(blank) {
+            goBack: function() {
                 var href = this.appOptions.customization.goback.url;
-                if (blank) {
+                if (this.appOptions.customization.goback.blank!==false) {
                     window.open(href, "_blank");
                 } else {
                     parent.location.href = href;
@@ -439,6 +439,12 @@ define([
                     case LoadingDocument:
                         title   = me.loadingDocumentTitleText;
                         text    = me.loadingDocumentTextText;
+                        break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                            text    = action.id;
+                        }
                         break;
                 }
 
@@ -821,6 +827,10 @@ define([
                         config.msg = this.errorDataRange;
                         break;
 
+                    case Asc.c_oAscError.ID.MaxDataPointsError:
+                        config.msg = this.errorMaxPoints;
+                        break;
+
                     case Asc.c_oAscError.ID.FrmlOperandExpected:
                         config.msg = this.errorOperandExpected;
                         config.closable = true;
@@ -954,7 +964,7 @@ define([
                     config.title = this.criticalErrorTitle;
 //                    config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '</br></br>' + this.criticalErrorExtText;
                         config.callback = function() {
                             Common.NotificationCenter.trigger('goback');
@@ -1439,7 +1449,8 @@ define([
             txtStyle_Currency: 'Currency',
             txtStyle_Percent: 'Percent',
             txtStyle_Comma: 'Comma',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -80,7 +80,7 @@
       // Or generate new perfectScrollbar
 
       // Set class to the container
-      $this.addClass('ps-container');
+      $this.addClass('ps-container oo');
 
       var $scrollbarXRail = $("<div class='ps-scrollbar-x-rail'></div>").appendTo($this),
           $scrollbarYRail = $("<div class='ps-scrollbar-y-rail'></div>").appendTo($this),

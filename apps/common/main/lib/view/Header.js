@@ -211,9 +211,10 @@ define([
             appConfig = mode;
 
             var me = this;
-            me.btnGoBack.updateHint(me.textBack);
+            if ( !(me.branding && me.branding.goback && me.branding.goback.text) )
+                me.btnGoBack.updateHint(me.textBack);
             me.btnGoBack.on('click', function (e) {
-                Common.NotificationCenter.trigger('goback', true);
+                Common.NotificationCenter.trigger('goback');
             });
 
             if ( me.logo )
@@ -321,8 +322,6 @@ define([
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
             }
-
-            console.log('input keydown');
         }
 
         return {
@@ -478,11 +477,17 @@ define([
 
                 this.branding = value;
 
-                if (value && value.logo && value.logo.image) {
-                    element = $('#header-logo');
-                    if ( element ) {
-                        element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                        element.css({'background-image': 'none', width: 'auto'});
+                if ( value ) {
+                    if ( value.logo && value.logo.image ) {
+                        element = $('#header-logo');
+                        if (element) {
+                            element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            element.css({'background-image': 'none', width: 'auto'});
+                        }
+                    }
+
+                    if ( !!value.goback && value.goback.text) {
+                        this.btnGoBack.updateHint(value.goback.text);
                     }
                 }
             },

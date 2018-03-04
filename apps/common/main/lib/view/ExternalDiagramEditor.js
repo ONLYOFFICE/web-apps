@@ -82,11 +82,9 @@ define([
                 disabled: true
             });
             this.btnCancel = new Common.UI.Button({
-                el: $('#id-btn-diagram-editor-cancel'),
-                disabled: true
+                el: $('#id-btn-diagram-editor-cancel')
             });
 
-            this.$window.find('.tool.close').addClass('disabled');
             this.$window.find('.dlg-btn').on('click', _.bind(this.onDlgBtnClick, this));
         },
 
@@ -111,15 +109,18 @@ define([
         },
 
         onDlgBtnClick: function(event) {
-            var state = event.currentTarget.attributes['result'].value;
-            if ( this.handler && this.handler.call(this, state) )
+            if ( this.handler ) {
+                this.handler.call(this, event.currentTarget.attributes['result'].value);
                 return;
+            }
             this.hide();
         },
 
         onToolClose: function() {
-            if ( this.handler && this.handler.call(this, 'cancel') )
+            if ( this.handler ) {
+                this.handler.call(this, 'cancel');
                 return;
+            }
             this.hide();
         },
 

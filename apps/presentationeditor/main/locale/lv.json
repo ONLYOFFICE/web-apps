@@ -895,7 +895,6 @@
   "PE.Views.FileMenuPanels.Settings.strFast": "Fast",
   "PE.Views.FileMenuPanels.Settings.strForcesave": "Vienmēr noglabāt serverī (pretējā gadījumā noglabāt serverī dokumenta aizvēršanas laikā)",
   "PE.Views.FileMenuPanels.Settings.strInputMode": "Turn on hieroglyphs",
-  "PE.Views.FileMenuPanels.Settings.strInputSogou": "Ieslēgt Sogou Pinyin ievades metodi",
   "PE.Views.FileMenuPanels.Settings.strShowChanges": "Realtime Collaboration Changes",
   "PE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Ieslēgt pareizrakstības pārbaudi",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strict",

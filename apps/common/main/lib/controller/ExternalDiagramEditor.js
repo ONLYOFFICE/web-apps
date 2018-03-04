@@ -141,8 +141,12 @@ define([
             handler: function(result, value) {
                 if (this.isHandlerCalled) return;
                 this.isHandlerCalled = true;
-                externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
-                return true;
+                if (this.diagramEditorView._isExternalDocReady)
+                    externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
+                else {
+                    this.diagramEditorView.hide();
+                    this.isHandlerCalled = false;
+                }
             },
 
             setChartData: function() {
@@ -210,6 +214,7 @@ define([
                             }
                             this.diagramEditorView.hide();
                         }
+                        this.isHandlerCalled = false;
                     } else
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {

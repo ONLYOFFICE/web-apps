@@ -755,11 +755,17 @@ define([
                 this._noApply = true;
 
                 this.disableControls(this._locked, !shapeprops.get_CanFill());
-                this.hideShapeOnlySettings(shapeprops.get_FromChart());
-                this.hideChangeTypeSettings(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
-                                            || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
-                                            || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
-                                            || shapetype=='straightConnector1');
+                this.hideShapeOnlySettings(shapeprops.get_FromChart() || shapeprops.get_FromImage());
+
+                var hidechangetype = shapeprops.get_FromChart() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                    || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
+                    || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
+                    || shapetype=='straightConnector1';
+                this.hideChangeTypeSettings(hidechangetype);
+                if (!hidechangetype) {
+                    this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage());
+                    this.btnChangeShape.menu.items[1].setVisible(!shapeprops.get_FromImage());
+                }
 
                 var value = props.get_WrappingStyle();
                 if (this._state.WrappingStyle!==value) {
@@ -1522,22 +1528,27 @@ define([
                 shapesStore = this.application.getCollection('ShapeGroups');
 
             var count = shapesStore.length;
-            for (var i=0; i<count-1; i++) {
-                var shapeGroup = shapesStore.at(i);
+            for (var i=-1; i<count-1 && count>0; i++) {
+                var shapeGroup = shapesStore.at(i>-1 ? i : i+1);
                 var menuItem = new Common.UI.MenuItem({
                     caption: shapeGroup.get('groupName'),
                     menu: new Common.UI.Menu({
                         menuAlign: 'tr-tl',
                         items: [
-                            { template: _.template('<div id="id-shape-menu-shapegroup' + i + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
+                            { template: _.template('<div id="id-shape-menu-shapegroup' + (i+1) + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
                         ]
                     })
                 });
                 me.btnChangeShape.menu.addItem(menuItem);
 
+                var store = shapeGroup.get('groupStore');
+                if (i<0) {
+                    store = store.clone();
+                    store.shift();
+                }
                 var shapePicker = new Common.UI.DataView({
-                    el: $('#id-shape-menu-shapegroup' + i),
-                    store: shapeGroup.get('groupStore'),
+                    el: $('#id-shape-menu-shapegroup' + (i+1)),
+                    store: store,
                     parentMenu: menuItem.menu,
                     showLast: false,
                     itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')

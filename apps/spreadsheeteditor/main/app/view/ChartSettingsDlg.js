@@ -1521,7 +1521,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     Common.UI.warning({msg: this.errorStockChart});
                 } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
                     Common.UI.warning({msg: this.errorMaxRows});
-                } else
+                } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
+                    Common.UI.warning({msg: this.errorMaxPoints});
+                else
                     this.txtDataRange.cmpEl.find('input').focus();
                 return false;
             } else
@@ -1773,7 +1775,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textAltTitle: 'Title',
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
-        textSurface: 'Surface'
+        textSurface: 'Surface',
+        errorMaxPoints: 'ERROR! The maximum number of points in series per chart is 4096.'
 
     }, SSE.Views.ChartSettingsDlg || {}));
 });

@@ -54,14 +54,15 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                closable: false,
-                width           : 250,
-                height          : (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 205 : 155,
-                contentWidth    : 390,
+                closable        : false,
+                width           : (options.preview) ? 414 : 262,
+                height          : (options.preview) ? 291 : ((options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 205 : 155),
                 header          : true,
+                preview         : options.preview,
                 cls             : 'open-dlg',
                 contentTemplate : '',
-                title           : (options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? t.txtTitleProtected : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT')
+                title           : (options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? t.txtTitleProtected : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT'),
+                toolcallback    : _.bind(t.onToolClose, t)
 
             }, options);
 
@@ -72,30 +73,55 @@ define([
                         '<label class="header">' + t.txtPassword + '</label>',
                         '<div id="id-password-txt" style="margin-bottom:15px;"></div>',
                     '<% } else { %>',
-                        '<label class="header">' + t.txtEncoding + '</label>',
-                        '<div id="id-codepages-combo" class="input-group-nr" style="margin-bottom:15px;"></div>',
-                        '<% if (type == Asc.c_oAscAdvancedOptionsID.CSV) { %>',
-                        '<label class="header">' + t.txtDelimiter + '</label>',
-                        '<div>',
-                            '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 110px;display: inline-block; vertical-align: middle;"></div>',
-                            '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
+                        '<div style="display: inline-block; margin-bottom:15px;margin-right: 10px;">',
+                            '<label class="header">' + t.txtEncoding + '</label>',
+                            '<div>',
+                            '<div id="id-codepages-combo" class="input-group-nr" style="display: inline-block; vertical-align: middle;"></div>',
+                            '</div>',
                         '</div>',
+                        '<% if (type == Asc.c_oAscAdvancedOptionsID.CSV) { %>',
+                        '<div style="display: inline-block; margin-bottom:15px;">',
+                            '<label class="header">' + t.txtDelimiter + '</label>',
+                            '<div>',
+                                '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
+                                '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
+                            '</div>',
+                        '</div>',
+                        '<% } %>',
+                        '<% if (!!preview) { %>',
+                            '<div style="">',
+                                '<label class="header">' + t.txtPreview + '</label>',
+                                '<div style="position: relative;">',
+                                    '<div style="width: 100%;">',
+                                        '<div id="id-preview">',
+                                            '<div>',
+                                                '<div style="position: absolute; top: 0;"><div id="id-preview-data"></div></div>',
+                                            '</div>',
+                                        '</div>',
+                                    '</div>',
+                                '</div>',
+                            '</div>',
                         '<% } %>',
                     '<% } %>',
                     '</div>',
                 '</div>',
-
                 '<div class="separator horizontal"/>',
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">' + t.okButtonText + '</button>',
+                    '<% if (closable) { %>',
+                    '<button class="btn normal dlg-btn" result="cancel">' + t.closeButtonText + '</button>',
+                    '<% } %>',
                 '</div>'
             ].join('');
 
-            this.handler        =   options.handler;
-            this.type           =   options.type;
-            this.codepages      =   options.codepages;
-            this.settings       =   options.settings;
-            this.validatePwd    =   options.validatePwd || false;
+            this.handler        =   _options.handler;
+            this.type           =   _options.type;
+            this.preview        =   _options.preview;
+            this.closable       =   _options.closable;
+            this.codepages      =   _options.codepages;
+            this.settings       =   _options.settings;
+            this.api            =   _options.api;
+            this.validatePwd    =   _options.validatePwd || false;
 
             _options.tpl        =   _.template(this.template)(_options);
 
@@ -106,8 +132,15 @@ define([
 
             if (this.$window) {
                 var me = this;
-                this.$window.find('.tool').hide();
+                if (!this.closable)
+                    this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
+                this.previewPanel = this.$window.find('#id-preview-data');
+                this.previewParent = this.previewPanel.parent();
+                this.previewScrolled = this.$window.find('#id-preview');
+                this.previewInner = this.previewScrolled.find('div:first-child');
+
                 if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
@@ -120,11 +153,12 @@ define([
                     this.$window.find('input').on('keypress', _.bind(this.onKeyPress, this));
                 } else {
                     this.initCodePages();
-                    this.onPrimary = function() {
-                        me.onBtnClick();
-                        return false;
-                    };
+                    this.updatePreview();
                 }
+                this.onPrimary = function() {
+                    me._handleInput('ok');
+                    return false;
+                };
             }
         },
 
@@ -141,23 +175,34 @@ define([
              }
         },
 
-        onBtnClick: function (event) {
+        onKeyPress: function(event) {
+            if (event.keyCode == Common.UI.Keys.RETURN) {
+                this._handleInput('ok');
+            } else if (this.closable && event.keyCode == Common.UI.Keys.ESC)
+                this._handleInput('cancel');
+        },
+
+        onBtnClick: function(event) {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onToolClose: function() {
+            this._handleInput('cancel');
+        },
+
+        _handleInput: function(state) {
             if (this.handler) {
                 if (this.cmbEncoding) {
                     var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                         delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
                     (delimiter == -1) && (delimiter = null);
                     this.handler.call(this, this.cmbEncoding.getValue(), delimiter, delimiterChar);
-                } else
-                    this.handler.call(this, this.inputPwd.getValue());
+                } else {
+                    this.handler.call(this, state, this.inputPwd.getValue());
+                }
             }
 
             this.close();
-        },
-
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN)
-                this.onBtnClick();
         },
 
         initCodePages: function () {
@@ -330,18 +375,22 @@ define([
 
                 this.cmbEncoding = new Common.UI.ComboBox({
                     el: $('#id-codepages-combo', this.$window),
-                    menuStyle: 'min-width: 218px; max-height: 200px;',
+                    style: 'width: 230px;',
+                    menuStyle: 'min-width: 230px; max-height: 200px;',
                     cls: 'input-group-nr',
                     menuCls: 'scrollable-menu',
                     data: listItems,
                     editable: false
                 });
                 this.cmbEncoding.setValue( (this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : encodedata[0][0]);
+                if (this.preview)
+                    this.cmbEncoding.on('selected', _.bind(this.onCmbEncodingSelect, this));
 
                 if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     this.cmbDelimiter = new Common.UI.ComboBox({
                         el: $('#id-delimiters-combo', this.$window),
-                        menuStyle: 'min-width: 110px;',
+                        style: 'width: 100px;',
+                        menuStyle: 'min-width: 100px;',
                         cls: 'input-group-nr',
                         data: [
                             {value: 4, displayValue: ','},
@@ -359,16 +408,108 @@ define([
                         el          : $('#id-delimiter-other'),
                         style       : 'width: 30px;',
                         maxLength: 1,
+                        validateOnChange: true,
+                        validateOnBlur: false,
                         value: (this.settings && this.settings.asc_getDelimiterChar()) ? this.settings.asc_getDelimiterChar() : ''
                     });
                     this.inputDelimiter.setVisible(false);
-
+                    if (this.preview)
+                        this.inputDelimiter.on ('changing', _.bind(this.updatePreview, this));
                 }
             }
         },
 
+        updatePreview: function() {
+            if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                var delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
+                    delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
+                (delimiter == -1) && (delimiter = null);
+                this.api.asc_decodeBuffer(this.preview, new Asc.asc_CCSVAdvancedOptions(this.cmbEncoding.getValue(), delimiter, delimiterChar), _.bind(this.previewCallback, this));
+            } else {
+                this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTXTAdvancedOptions(this.cmbEncoding.getValue()), _.bind(this.previewCallback, this));
+            }
+        },
+
+        previewCallback: function(data) {
+            if (!data || !data.length) return;
+
+            this.data = data;
+            this.previewInner.height(data.length*17);
+
+            if (!this.scrollerY)
+                this.scrollerY = new Common.UI.Scroller({
+                el: this.previewScrolled,
+                minScrollbarLength  : 20,
+                alwaysVisibleY: true,
+                onChange: _.bind(function(){
+                    if (this.scrollerY) {
+                        var startPos = this.scrollerY.getScrollTop(),
+                            start = Math.floor(startPos/17+0.5),
+                            end = start+Math.min(6, this.data.length);
+                        if (end>this.data.length) {
+                            end = this.data.length;
+                            start = this.data.length-6;
+                            startPos = start*17;
+                        }
+                        this.previewParent.height(108);
+                        this.previewParent.css({top: startPos});
+                        this.previewDataBlock(this.data.slice(start, end));
+                    }
+                }, this)
+            });
+            this.scrollerY.update();
+            this.scrollerY.scrollTop(0);
+        },
+
+        previewDataBlock: function(data) {
+            if (!_.isUndefined(this.scrollerX)) {
+                this.scrollerX.destroy();
+                delete this.scrollerX;
+            }
+
+            if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {
+                var maxlength = 0;
+                for (var i=0; i<data.length; i++) {
+                    if (data[i].length>maxlength)
+                        maxlength = data[i].length;
+                }
+                var tpl = '<table>';
+                for (var i=0; i<data.length; i++) {
+                    tpl += '<tr>';
+                    for (var j=0; j<data[i].length; j++) {
+                        tpl += '<td>' + Common.Utils.String.htmlEncode(data[i][j]) + '</td>';
+                    }
+                    for (j=data[i].length; j<maxlength; j++) {
+                        tpl += '<td></td>';
+                    }
+                    tpl += '</tr>';
+                }
+                tpl += '</table>';
+            } else {
+                var tpl = '<table>';
+                for (var i=0; i<data.length; i++) {
+                    tpl += '<tr><td>' + Common.Utils.String.htmlEncode(data[i]) + '</td></tr>';
+                }
+                tpl += '</table>';
+            }
+            this.previewPanel.html(tpl);
+
+            this.scrollerX = new Common.UI.Scroller({
+                el: this.previewPanel,
+                suppressScrollY: true,
+                alwaysVisibleX: true,
+                minScrollbarLength  : 20
+            });
+        },
+
         onCmbDelimiterSelect: function(combo, record){
             this.inputDelimiter.setVisible(record.value == -1);
+            if (this.preview)
+                this.updatePreview();
+        },
+
+        onCmbEncodingSelect: function(combo, record){
+            this.updatePreview();
         },
 
         okButtonText       : "OK",
@@ -381,7 +522,9 @@ define([
         txtPassword        : "Password",
         txtTitleProtected  : "Protected File",
         txtOther: 'Other',
-        txtIncorrectPwd: 'Password is incorrect.'
+        txtIncorrectPwd: 'Password is incorrect.',
+        closeButtonText: 'Close File',
+        txtPreview: 'Preview'
 
     }, Common.Views.OpenDialog || {}));
 });

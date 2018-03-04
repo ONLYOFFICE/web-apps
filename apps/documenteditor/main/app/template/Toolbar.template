@@ -108,7 +108,6 @@
                 <div class="group">
                     <span class="btn-slot text x-huge btn-pagebreak"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
-                    <span class="btn-slot text x-huge btn-contents"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -123,7 +122,6 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge slot-inshyperlink"></span>
-                    <span class="btn-slot text x-huge slot-notes"></span>
                     <span class="btn-slot text x-huge slot-comment"></span>
                 </div>
                 <div class="separator long"></div>

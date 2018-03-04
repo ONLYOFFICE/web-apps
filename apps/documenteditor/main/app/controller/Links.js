@@ -65,6 +65,10 @@ define([
                     'links:update': this.onTableContentsUpdate,
                     'links:notes': this.onNotesClick,
                     'links:hyperlink': this.onHyperlinkClick
+                },
+                'DocumentHolder': {
+                    'links:contents': this.onTableContents,
+                    'links:update': this.onTableContentsUpdate
                 }
             });
         },
@@ -201,7 +205,7 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Hyperlink');
         },
 
-        onTableContents: function(type){
+        onTableContents: function(type, currentTOC){
             switch (type) {
                 case 0:
                     var props = this.api.asc_GetTableOfContentsPr(),
@@ -229,7 +233,8 @@ define([
                     this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 'settings':
-                    var props = this.api.asc_GetTableOfContentsPr(),
+                    currentTOC = !!currentTOC;
+                    var props = this.api.asc_GetTableOfContentsPr(currentTOC),
                         me = this;
                     var win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
@@ -249,8 +254,10 @@ define([
             }
         },
 
-        onTableContentsUpdate: function(type){
-            this.api.asc_UpdateTableOfContents(type == 'pages');
+        onTableContentsUpdate: function(type, currentTOC){
+            if (currentTOC)
+                currentTOC = this.api.asc_GetTableOfContentsPr(currentTOC).get_InternalClass();
+            this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
         },
 
         onNotesClick: function(type) {
