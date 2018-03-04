@@ -308,7 +308,6 @@ define([
 
         changeToolbarSaveState: function (state) {
             this.leftMenu.menuFile.getButton('save').setDisabled(state);
-            console.log('save: ' + state);
         },
 
         /** coauthoring begin **/
