@@ -231,7 +231,6 @@ define([
 
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
-            toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
@@ -2762,6 +2761,8 @@ define([
                     me.toolbar.addTab(tab, $panel, 4);
 
                 if ( config.isDesktopApp ) {
+                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
