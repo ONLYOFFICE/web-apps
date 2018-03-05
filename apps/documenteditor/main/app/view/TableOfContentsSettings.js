@@ -613,7 +613,7 @@ define([
                     else
                         properties.put_OutlineRange(1, 9);
                     me.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
-                    this.scrollerY.update();
+                    me.scrollerY.update();
                 }
 
             });
