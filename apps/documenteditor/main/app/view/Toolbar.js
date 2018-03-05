@@ -1227,6 +1227,9 @@ define([
                 }
 
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
+
+                if ( me.isTabActive('home'))
+                    me.fireEvent('home:open');
             },
 
             rendererComponents: function (html) {

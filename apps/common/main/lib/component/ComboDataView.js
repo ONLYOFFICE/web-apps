@@ -401,7 +401,7 @@ define([
 
         fillComboView: function(record, forceSelect, forceFill) {
             if (!_.isUndefined(record) && record instanceof Backbone.Model){
-                this.needFillComboView = false;
+                this.needFillComboView = !this.isVisible();
 
                 var me              = this,
                     store           = me.menuPicker.store,

@@ -106,7 +106,8 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'insert:break'      : this.onClickPageBreak,
-                    'change:compact'    : this.onClickChangeCompact
+                    'change:compact'    : this.onClickChangeCompact,
+                    'home:open'         : this.onHomeOpen
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -2606,6 +2607,15 @@ define([
             } else if (listStyles.rendered)
                 listStyles.clearComboView();
             window.styles_loaded = true;
+        },
+
+        onHomeOpen: function() {
+            var listStyles = this.toolbar.listStyles;
+            if (listStyles && listStyles.needFillComboView &&  listStyles.menuPicker.store.length > 0 && listStyles.rendered){
+                var styleRec;
+                if (this._state.prstyle) styleRec = listStyles.menuPicker.store.findWhere({title: this._state.prstyle});
+                listStyles.fillComboView((styleRec) ? styleRec : listStyles.menuPicker.store.at(0), true);
+            }
         },
 
         _setMarkerColor: function(strcolor, h) {
