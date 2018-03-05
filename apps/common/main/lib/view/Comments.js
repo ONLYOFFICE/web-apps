@@ -292,6 +292,7 @@ define([
                             arr.push($(item).data('bs.tooltip').tip());
                         });
                         view.tipsArray = arr;
+                        this.autoHeightTextBox();
                     };
 
                     var onCommentsViewMouseOver = function() {
