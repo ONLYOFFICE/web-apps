@@ -77,6 +77,7 @@ define([
             });
             this.panelNavigation.on('render:after', _.bind(this.onAfterRender, this));
             this._navigationObject = null;
+            this._isDisabled = false;
         },
 
         setApi: function(api) {
@@ -90,6 +91,8 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
+            return this;
         },
 
         onAfterRender: function(panelNavigation) {
@@ -163,10 +166,16 @@ define([
                 top = e.clientY*Common.Utils.zoom();
             showPoint = [e.clientX*Common.Utils.zoom() + 5, top - parentOffset.top + 5];
 
+            for (var i=0; i<7; i++) {
+                menu.items[i].setVisible(this.mode.isEdit);
+            }
+
             var isNotHeader = record.get('isNotHeader');
-            menu.items[0].setDisabled(isNotHeader);
-            menu.items[1].setDisabled(isNotHeader);
-            menu.items[3].setDisabled(isNotHeader);
+            menu.items[0].setDisabled(isNotHeader || this._isDisabled);
+            menu.items[1].setDisabled(isNotHeader || this._isDisabled);
+            menu.items[3].setDisabled(isNotHeader || this._isDisabled);
+            menu.items[4].setDisabled(this._isDisabled);
+            menu.items[5].setDisabled(this._isDisabled);
             menu.items[7].setDisabled(isNotHeader);
 
             if (showPoint != undefined) {
@@ -222,6 +231,10 @@ define([
 
         onMenuLevelsItemClick: function (menu, item) {
             this.panelNavigation.viewNavigationList.expandToLevel(item.value-1);
+        },
+
+        SetDisabled: function(state) {
+            this._isDisabled = state;
         },
 
         txtBeginning: 'Beginning of document',

@@ -361,6 +361,7 @@ define([
                 DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 DE.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
 
                 var leftMenu = DE.getController('LeftMenu').leftMenu;
                 leftMenu.btnComments.setDisabled(disable);

@@ -112,7 +112,8 @@ define([
                         hidden: true,
                         autohide: false,
                         min: 300,
-                        max: 600
+                        max: 600,
+                        offset: 4
                     }
                 }, {
                     el: items[1],

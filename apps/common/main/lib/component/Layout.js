@@ -152,7 +152,8 @@ define([
                         fmin        : panel.resize.fmin,
                         fmax        : panel.resize.fmax,
                         behaviour   : panel.behaviour,
-                        index       : this.splitters.length
+                        index       : this.splitters.length,
+                        offset      : panel.resize.offset || 0
                     };
 
                     if (!stretch) {
@@ -492,7 +493,10 @@ define([
                 if ( !panel.stretch ) {
                     style = panel.el.is(':visible');
                     if ( style ) {
-                        width += (panel.rely!==true ? panel.width : this.getElementWidth(panel.el));
+                        if (panel.isresizer)
+                            width += panel.offset;
+                        else
+                            width += (panel.rely!==true ? panel.width : this.getElementWidth(panel.el));
                     }
 
                     if (panel.resize && panel.resize.autohide !== false && panel.resize.el) {
@@ -514,10 +518,13 @@ define([
             width = 0;
             this.panels.forEach(function(panel){
                 if (panel.el.is(':visible')) {
-                    style = {left: width};
+                    style = {left: width - (panel.isresizer ? panel.width : 0)};
                     panel.rely!==true && (style.width = panel.width);
                     panel.el.css(style);
-                    width += this.getElementWidth(panel.el);
+                    if (panel.isresizer)
+                        width += panel.offset;
+                    else
+                        width += this.getElementWidth(panel.el);
                 }
             },this);
         }
