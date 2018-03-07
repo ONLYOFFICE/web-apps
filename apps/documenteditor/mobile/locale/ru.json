@@ -138,6 +138,8 @@
   "DE.Controllers.Main.txtStyle_Title": "Название",
   "DE.Controllers.Main.txtXAxis": "Ось X",
   "DE.Controllers.Main.txtYAxis": "Ось Y",
+  "DE.Controllers.Main.txtFooter": "Нижний колонтитул",
+  "DE.Controllers.Main.txtHeader": "Верхний колонтитул",
   "DE.Controllers.Main.unknownErrorText": "Неизвестная ошибка.",
   "DE.Controllers.Main.unsupportedBrowserErrorText": "Ваш браузер не поддерживается.",
   "DE.Controllers.Main.uploadImageExtMessage": "Неизвестный формат изображения.",
