@@ -900,7 +900,7 @@ define([
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
-                navigationController.setApi(me.api);
+                navigationController.setApi(me.api).setMode(this.appOptions);
 
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
