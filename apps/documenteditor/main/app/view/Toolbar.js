@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Toolbar view
  *
  *  Created by Maxim.Kadushkin on 2/13/17
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -1227,6 +1227,9 @@ define([
                 }
 
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
+
+                if ( me.isTabActive('home'))
+                    me.fireEvent('home:open');
             },
 
             rendererComponents: function (html) {

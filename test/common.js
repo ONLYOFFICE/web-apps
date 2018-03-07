@@ -2,7 +2,7 @@
  *  common.js
  *
  *  Created by Alexander Yuzhin on 5/7/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
