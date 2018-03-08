@@ -86,7 +86,7 @@ define([
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
                 items: [{
-                    el: $container.find('> .layout-item#title').hide(),
+                    el: $container.find('> .layout-item#app-title').hide(),
                     alias: 'title',
                     height: Common.Utils.InternalSettings.get('document-title-height')
                 }, {
