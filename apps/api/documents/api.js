@@ -363,7 +363,6 @@
                 if (result[1] == 'desktop') {
                     _config.editorConfig.targetApp = result[1];
                     // _config.editorConfig.canBackToFolder = false;
-                    _config.editorConfig.canUseHistory = false;
                     if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
                     _config.editorConfig.customization.about = false;
                 }
