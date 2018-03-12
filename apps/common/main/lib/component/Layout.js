@@ -370,7 +370,7 @@ define([
 
         setResizeValue: function (index, value) {
             if (index >= this.splitters.length)
-                return;
+                return false;
 
             var panel = null, next = null, oldValue = 0,
                 resize = this.splitters[index].resizer,
@@ -405,6 +405,7 @@ define([
             if (resize.value != value) {
                 this.doLayout();
             }
+            return (Math.abs(oldValue-value)>0.99);
         }
     });
 

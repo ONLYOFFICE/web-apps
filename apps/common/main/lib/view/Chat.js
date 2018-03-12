@@ -389,6 +389,7 @@ define([
             if (event && 0 == textBox.val().length) {
                 this.layout.setResizeValue(1, Math.max(this.addMessageBoxHeight, height - this.addMessageBoxHeight));
                 this.textBoxAutoSizeLocked = undefined;
+                this.updateScrolls();
                 return;
             }
 
@@ -409,9 +410,8 @@ define([
 
             height = this.panelBox.height();
 
-            this.layout.setResizeValue(1,
-                Math.max(this.addMessageBoxHeight,
-                    Math.min(height - contentHeight - textBoxMinHeightIndent, height - this.addMessageBoxHeight)));
+            if (this.layout.setResizeValue(1, Math.max(this.addMessageBoxHeight, Math.min(height - contentHeight - textBoxMinHeightIndent, height - this.addMessageBoxHeight))))
+                this.updateScrolls(); // update when resize position changed
         },
 
         updateScrolls: function () {
