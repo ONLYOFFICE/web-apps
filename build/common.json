@@ -15,7 +15,7 @@
                         "expand": true,
                         "cwd": "../../sdkjs/common/",
                         "src": [
-                            "Images/*.cur",
+                            "Images/*",
                             "Native/*.js"
                         ],
                         "dest": "../deploy/sdkjs/common/"
