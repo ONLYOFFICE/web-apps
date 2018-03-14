@@ -191,6 +191,10 @@ function clearMenus(isFromInputControl) {
     $('.dropdown-toggle').each(function (e) {
         var $parent = ($(this)).parent();
         if (!$parent.hasClass('open')) return;
+        if ($parent.attr('data-value') == 'prevent-canvas-click') {
+            $parent.attr('data-value','');
+            return;
+        }
         $parent.trigger(e = $.Event('hide.bs.dropdown'));
         if (e.isDefaultPrevented()) return;
         $parent.removeClass('open').trigger('hidden.bs.dropdown', isFromInputControl);

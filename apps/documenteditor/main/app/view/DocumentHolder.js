@@ -316,7 +316,10 @@ define([
                     });
                     meEl.on('click', function(e){
                         if (e.target.localName == 'canvas') {
-                            meEl.focus();
+                            if (me._preventClick)
+                                me._preventClick = false;
+                            else
+                                meEl.focus();
                         }
                     });
                     meEl.on('mousedown', function(e){
