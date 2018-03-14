@@ -216,10 +216,6 @@
                     .replace(/>/g, '&gt;');
         }
 
-        if ( window.AscDesktopEditor ) {
-            window.AscDesktopEditor.execCommand('doc:onload', '');
-        }
-
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',

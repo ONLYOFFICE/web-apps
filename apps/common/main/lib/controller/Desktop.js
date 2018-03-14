@@ -45,10 +45,6 @@ define([
         var config = {};
         var app = window.AscDesktopEditor;
 
-        // if ( app ) {
-            // app.execCommand('doc:onload', '');
-        // }
-
         return {
             init: function (opts) {
                 _.extend(config, opts);
