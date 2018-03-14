@@ -568,6 +568,8 @@ define([
         },
 
         onApiPageSize: function(w, h) {
+            if (this._state.pgorient===undefined) return;
+
             var width = this._state.pgorient ? w : h,
                 height = this._state.pgorient ? h : w;
             if (Math.abs(this._state.pgsize[0] - w) > 0.01 ||

@@ -146,7 +146,6 @@ define([
         ChangeSettings: function(props) {
         },
 
-        strNavigate: 'Table of Contents',
         txtPromote: 'Promote',
         txtDemote: 'Demote',
         txtHeadingBefore: 'New heading before',
