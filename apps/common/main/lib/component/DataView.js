@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  A mechanism for displaying data using custom layout templates and formatting.
  *
  *  Created by Alexander Yuzhin on 1/24/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -575,11 +575,11 @@ define([
             if (div.length<=0) return;
             
             var div_top = div.offset().top;
-            if (div_top < inner_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
+            if (div_top < inner_top+div[0].offsetTop || div_top+div.outerHeight() > inner_top + innerEl.height()) {
                 if (this.scroller && this.allowScrollbar) {
-                    this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top, 0);
+                    this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div[0].offsetTop, 0);
                 } else {
-                    innerEl.scrollTop(innerEl.scrollTop() + div_top - inner_top);
+                    innerEl.scrollTop(innerEl.scrollTop() + div_top - inner_top - div[0].offsetTop);
                 }
             }
         },

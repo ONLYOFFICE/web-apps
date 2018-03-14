@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  Links.js
  *
  *  Created by Julia Radzhabova on 22.12.2017
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -85,6 +85,9 @@ define([
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+
             }
             return this;
         },
@@ -252,12 +255,14 @@ define([
                     this.api.asc_RemoveTableOfContents();
                     break;
             }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onTableContentsUpdate: function(type, currentTOC){
             if (currentTOC)
                 currentTOC = this.api.asc_GetTableOfContentsPr(currentTOC).get_InternalClass();
             this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onNotesClick: function(type) {
@@ -306,6 +311,48 @@ define([
                     }, 50);
                     break;
             }
+        },
+
+        onShowContentControlsActions: function(action, x, y) {
+            var menu = (action==1) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
+                documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
+                me = this;
+
+            if (!menu) return;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu.rendered) {
+                // Prepare menu container
+                if (menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    documentHolderView.cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            documentHolderView._preventClick = true;
+            menu.show();
+
+            menu.alignPosition();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onHideContentControlsActions: function() {
+            this.view.contentsMenu && this.view.contentsMenu.hide();
+            this.view.contentsUpdateMenu && this.view.contentsUpdateMenu.hide();
         }
 
     }, DE.Controllers.Links || {}));

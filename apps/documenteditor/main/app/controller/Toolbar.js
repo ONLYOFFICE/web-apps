@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Toolbar Controller
  *
  *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -106,7 +106,8 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'insert:break'      : this.onClickPageBreak,
-                    'change:compact'    : this.onClickChangeCompact
+                    'change:compact'    : this.onClickChangeCompact,
+                    'home:open'         : this.onHomeOpen
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -568,6 +569,8 @@ define([
         },
 
         onApiPageSize: function(w, h) {
+            if (this._state.pgorient===undefined) return;
+
             var width = this._state.pgorient ? w : h,
                 height = this._state.pgorient ? h : w;
             if (Math.abs(this._state.pgsize[0] - w) > 0.01 ||
@@ -2613,6 +2616,15 @@ define([
             } else if (listStyles.rendered)
                 listStyles.clearComboView();
             window.styles_loaded = true;
+        },
+
+        onHomeOpen: function() {
+            var listStyles = this.toolbar.listStyles;
+            if (listStyles && listStyles.needFillComboView &&  listStyles.menuPicker.store.length > 0 && listStyles.rendered){
+                var styleRec;
+                if (this._state.prstyle) styleRec = listStyles.menuPicker.store.findWhere({title: this._state.prstyle});
+                listStyles.fillComboView((styleRec) ? styleRec : listStyles.menuPicker.store.at(0), true);
+            }
         },
 
         _setMarkerColor: function(strcolor, h) {

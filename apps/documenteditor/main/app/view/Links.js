@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  Links.js
  *
  *  Created by Julia Radzhabova on 22.12.2017
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -57,12 +57,22 @@ define([
                     me.fireEvent('links:contents', [0]);
                 });
             });
+            this.contentsMenu.on('item:click', function (menu, item, e) {
+                setTimeout(function(){
+                    me.fireEvent('links:contents', [item.value, true]);
+                }, 10);
+            });
 
             this.btnContentsUpdate.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('links:update', [item.value]);
             });
             this.btnContentsUpdate.on('click', function (b, e) {
                 me.fireEvent('links:update', ['all']);
+            });
+            this.contentsUpdateMenu.on('item:click', function (menu, item, e) {
+                setTimeout(function(){
+                    me.fireEvent('links:update', [item.value, true]);
+                }, 10);
             });
 
             this.btnsNotes.forEach(function(button) {
@@ -180,6 +190,15 @@ define([
                         btn.setMenu(_menu);
                     });
 
+                    me.contentsMenu = new Common.UI.Menu({
+                        items: [
+                            {template: contentsTemplate, offsety: 0, value: 0},
+                            {template: contentsTemplate, offsety: 72, value: 1},
+                            {caption: me.textContentsSettings, value: 'settings'},
+                            {caption: me.textContentsRemove, value: 'remove'}
+                        ]
+                    });
+
                     me.btnContentsUpdate.updateHint(me.tipContentsUpdate);
                     me.btnContentsUpdate.setMenu(new Common.UI.Menu({
                         items: [
@@ -187,6 +206,13 @@ define([
                             {caption: me.textUpdatePages, value: 'pages'}
                         ]
                     }));
+
+                    me.contentsUpdateMenu = new Common.UI.Menu({
+                        items: [
+                            {caption: me.textUpdateAll, value: 'all'},
+                            {caption: me.textUpdatePages, value: 'pages'}
+                        ]
+                    });
 
                     me.btnsNotes.forEach( function(btn, index) {
                         btn.updateHint( me.tipNotes );

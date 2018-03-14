@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Main controller
  *
  *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -129,7 +129,7 @@ define([
                 window["flat_desine"] = true;
 
                 var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
-                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph'],
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
@@ -148,11 +148,14 @@ define([
                         "Odd Page ": this.txtOddPage,
                         "Same as Previous": this.txtSameAsPrev,
                         "Current Document": this.txtCurrentDocument,
-                        "No table of contents entries found.": this.txtNoTableOfContents
+                        "No table of contents entries found.": this.txtNoTableOfContents,
+                        "Table of Contents": this.txtTableOfContents
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
+                me.translationTable['Header'] = this.txtHeader;
+                me.translationTable['Footer'] = this.txtFooter;
 
                 this.api = new Asc.asc_docs_api({
                     'id-view'  : 'editor_sdk',
@@ -900,7 +903,7 @@ define([
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
-                navigationController.setApi(me.api);
+                navigationController.setApi(me.api).setMode(this.appOptions);
 
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
@@ -1376,10 +1379,9 @@ define([
                         break;
 
                     default:
-                        config.msg = this.errorDefaultMessage.replace('%1', id);
+                        config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
-
 
                 if (level == Asc.c_oAscError.Level.Critical) {
 
@@ -1389,7 +1391,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok')
@@ -2225,6 +2227,7 @@ define([
             txtStyle_Quote: 'Quote',
             txtStyle_Intense_Quote: 'Intense Quote',
             txtStyle_List_Paragraph: 'List Paragraph',
+            txtStyle_footnote_text: 'Footnote Text',
             saveTextText: 'Saving document...',
             saveTitleText: 'Saving Document',
             txtBookmarkError: "Error! Bookmark not defined.",
@@ -2241,6 +2244,7 @@ define([
             txtCurrentDocument: "Current Document",
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             txtNoTableOfContents: "No table of contents entries found.",
+            txtTableOfContents: "Table of Contents",
             errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
         }
     })(), DE.Controllers.Main || {}))

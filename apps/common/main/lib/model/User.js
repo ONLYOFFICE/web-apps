@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,25 +36,33 @@
  *    Model
  *
  *    Created by Maxim Kadushkin on 27 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
+if (Common === undefined)
+    var Common = {};
+
+Common.Models = Common.Models || {};
+
 define([
-    'backbone'
-], function(Backbone){
+    'underscore',
+    'backbone',
+    'common/main/lib/component/BaseView'
+], function(_, Backbone){
     'use strict';
 
-    Common.Models = Common.Models || {};
-
     Common.Models.User = Backbone.Model.extend({
-        defaults: {
-            id          : undefined,
-            username    : 'Guest',
-            color       : '#fff',
-            colorval    : null,
-            online      : false,
-            view        : false
+        defaults: function() {
+            return {
+                iid         : Common.UI.getId(), // internal id for rendering
+                id          : undefined,
+                username    : 'Guest',
+                color       : '#fff',
+                colorval    : null,
+                online      : false,
+                view        : false
+            }
         }
     });
 });
