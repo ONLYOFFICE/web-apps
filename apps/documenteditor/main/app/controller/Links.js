@@ -316,10 +316,11 @@ define([
         onShowContentControlsActions: function(action, x, y) {
             var menu = (action==1) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
                 documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
-                menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
+                menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
+                me = this;
 
             if (!menu) return;
-
+            this._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
 
             if (!menu.rendered) {
@@ -331,6 +332,10 @@ define([
 
                 menu.render(menuContainer);
                 menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
             }
 
             menuContainer.css({left: x, top : y});
@@ -342,6 +347,7 @@ define([
             _.delay(function() {
                 menu.cmpEl.focus();
             }, 10);
+            this._fromShowContentControls = false;
         },
 
         onHideContentControlsActions: function() {
