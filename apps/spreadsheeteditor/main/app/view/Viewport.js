@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    View for viewport
  *
  *    Created by Maxim Kadushkin on 24 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -114,7 +114,8 @@ define([
                         hidden: true,
                         autohide: false,
                         min: 300,
-                        max: 600
+                        max: 600,
+                        offset: 4
                     }
                 }, {
                     el: items[1],

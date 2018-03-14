@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  Toolbar.js
  *
  *  Created by Alexander Yuzhin on 3/31/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -1618,7 +1618,7 @@ define([
             listStyles.menuPicker.store.reset([]); // remove all
 
             var mainController = this.getApplication().getController('Main');
-            var merged_array = styles.asc_getDefaultStyles().concat(styles.asc_getDocStyles());
+            var merged_array = styles.asc_getDocStyles().concat(styles.asc_getDefaultStyles());
             _.each(merged_array, function(style){
                 listStyles.menuPicker.store.add({
                     imageUrl: style.asc_getImage(),

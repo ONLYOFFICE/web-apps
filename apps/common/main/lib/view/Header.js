@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  Header.js
  *
  *  Created by Alexander Yuzhin on 2/14/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -56,7 +56,7 @@ define([
         var $saveStatus;
 
         var templateUserItem =
-                '<li id="status-chat-user-<%= user.get("id") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
+                '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="color" style="background-color: <%= user.get("color") %>;" >' +
                         '<label class="name"><%= fnEncode(user.get("username")) %></label>' +
                     '</div>' +
@@ -139,7 +139,7 @@ define([
 
         function onUsersChanged(model, collection) {
             if (model.changed.online != undefined && $userList) {
-                $userList.find('#status-chat-user-'+ model.get('id'))[model.changed.online ? 'removeClass' : 'addClass']('offline');
+                $userList.find('#'+ model.get('iid'))[model.changed.online ? 'removeClass' : 'addClass']('offline');
                 $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
             }
 

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Main controller
  *
  *    Created by Maxim Kadushkin on 24 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -1289,7 +1289,7 @@ define([
                         break;
 
                     default:
-                        config.msg = this.errorDefaultMessage.replace('%1', id);
+                        config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
 
@@ -1300,7 +1300,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
