@@ -91,8 +91,8 @@ define([
                                     '<tr>',
                                         '<td class="padding-small">',
                                             '<label class="input-label padding-small" style="display: block;">' + me.textBuildTable + '</label>',
-                                            '<div id="tableofcontents-radio-styles" class="padding-small" style="display: block;"></div>',
-                                            '<div id="tableofcontents-radio-levels" class="" style="display: block;"></div>',
+                                            '<div id="tableofcontents-radio-levels" class="padding-small" style="display: block;"></div>',
+                                            '<div id="tableofcontents-radio-styles" class="" style="display: block;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -466,6 +466,13 @@ define([
                     }
                 }
             }
+            styles.sort(function(a, b){
+                var aname = a.name.toLocaleLowerCase(),
+                    bname = b.name.toLocaleLowerCase();
+                if (aname < bname) return -1;
+                if (aname > bname) return 1;
+                return 0;
+            });
             this.stylesLevels.reset(styles);
             if (this.spnLevels.isDisabled()) {
                 this.radioStyles.setValue(true);
