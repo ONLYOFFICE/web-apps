@@ -555,7 +555,7 @@ define([
         },
 
         getSettings: function () {
-            var props = new Asc.CTableOfContentsPr();
+            var props = this._originalProps;
 
             props.put_Hyperlink(this.chLinks.getValue() == 'checked');
             props.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
