@@ -320,6 +320,13 @@ define([
             },
 
             onApiChangeFont: function(font) {
+                var me = this;
+                setTimeout(function () {
+                    me.onApiChangeFontInternal(font);
+                }, 100);
+            },
+
+            onApiChangeFontInternal: function(font) {
                 if (this.inFormControl) return;
 
                 var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName());
