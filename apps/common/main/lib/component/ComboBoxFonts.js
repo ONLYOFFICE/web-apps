@@ -112,6 +112,8 @@ define([
 
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
+                this._input.on('focus',     _.bind(function() {this.inFormControl = true;}, this));
+                this._input.on('blur',      _.bind(function() {this.inFormControl = false;}, this));
 
                 this._modalParents = this.cmpEl.closest('.asc-window');
 
@@ -318,6 +320,8 @@ define([
             },
 
             onApiChangeFont: function(font) {
+                if (this.inFormControl) return;
+
                 var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName());
 
                 if (this.getRawValue() !== name) {
