@@ -574,12 +574,14 @@ define([
                 div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
             
-            var div_top = div.offset().top;
-            if (div_top < inner_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
+            var div_top = div.offset().top,
+                div_first = $(this.dataViewItems[0].el),
+                div_first_top = (div_first.length>=0) ? div_first[0].offsetTop : 0;
+            if (div_top < inner_top + div_first_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
                 if (this.scroller && this.allowScrollbar) {
-                    this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top, 0);
+                    this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);
                 } else {
-                    innerEl.scrollTop(innerEl.scrollTop() + div_top - inner_top);
+                    innerEl.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top);
                 }
             }
         },
