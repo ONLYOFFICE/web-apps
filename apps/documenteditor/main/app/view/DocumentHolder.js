@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  DocumentHolder view
  *
  *  Created by Alexander Yuzhin on 1/11/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -316,7 +316,10 @@ define([
                     });
                     meEl.on('click', function(e){
                         if (e.target.localName == 'canvas') {
-                            meEl.focus();
+                            if (me._preventClick)
+                                me._preventClick = false;
+                            else
+                                meEl.focus();
                         }
                     });
                     meEl.on('mousedown', function(e){
@@ -1865,10 +1868,10 @@ define([
         },
 
         onControlsSelect: function(item, e) {
+            var me = this;
             var props = this.api.asc_GetContentControlProperties();
             if (props) {
                 if (item.value == 'settings') {
-                    var me = this;
                     (new DE.Views.ControlSettingsDialog({
                         props: props,
                         handler: function (result, value) {
@@ -3239,6 +3242,17 @@ define([
                 caption     : '--'
             });
 
+            var menuParaRefreshField = new Common.UI.MenuItem({
+                caption: me.textRefreshField
+            }).on('click', function(item, e){
+                me.api.asc_UpdateComplexField(item.options.fieldProps);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuParaFieldSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
@@ -3353,6 +3367,14 @@ define([
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
                     menuParaTOCSeparator.setVisible(in_toc);
+
+                    var in_field = me.api.asc_GetCurrentComplexField();
+                    menuParaRefreshField.setVisible(!!in_field);
+                    menuParaRefreshField.setDisabled(disabled);
+                    menuParaFieldSeparator.setVisible(!!in_field);
+                    if (in_field) {
+                        menuParaRefreshField.options.fieldProps = in_field;
+                    }
                 },
                 items: [
                     me.menuSpellPara,
@@ -3370,6 +3392,8 @@ define([
                     menuParaRemoveControl,
                     menuParaControlSettings,
                     menuParaControlSeparator,
+                    menuParaRefreshField,
+                    menuParaFieldSeparator,
                     menuParaTOCSettings,
                     menuParaTOCRefresh,
                     menuParaTOCSeparator,
@@ -3701,7 +3725,8 @@ define([
         textUpdateAll: 'Refresh entire table',
         textUpdatePages: 'Refresh page numbers only',
         textTOCSettings: 'Table of contents settings',
-        textTOC: 'Table of contents'
+        textTOC: 'Table of contents',
+        textRefreshField: 'Refresh field'
 
     }, DE.Views.DocumentHolder || {}));
 });

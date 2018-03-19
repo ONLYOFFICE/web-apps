@@ -1,5 +1,5 @@
 
-@tabs-bg-color: #4f6279;
+@tabs-bg-color: #446995;
 
 .toolbar {
     &:not(.cover) {
@@ -49,41 +49,35 @@
 }
 
 .item-markerlist {
-    .background-ximage('@{app-image-path}/toolbar/bullets-and-numbering.png', '@{app-image-path}/toolbar/bullets-and-numbering@2x.png', 38px);
+    .background-ximage('@{common-image-path}/toolbar/bullets-and-numbering.png', '@{common-image-path}/toolbar/bullets-and-numbering@2x.png', 38px);
     width: 38px;
     height: 38px;
 }
 
-a.item-contents {
-}
+.dropdown-menu {
+    > li > a.item-contents {
+        div {
+            .background-ximage('@{app-image-path}/toolbar/contents.png', '@{app-image-path}/toolbar/contents@2x.png', 246px);
+            width: 246px;
+            height: 72px;
 
-.btn-contents {
-    .dropdown-menu {
-        > li > a.item-contents {
-            div {
-                .background-ximage('@{app-image-path}/toolbar/contents.png', '@{app-image-path}/toolbar/contents@2x.png', 246px);
-                width: 246px;
-                height: 72px;
+            .box-shadow(0 0 0 1px @gray);
 
-                .box-shadow(0 0 0 1px @gray);
-
-                &:hover,
-                &.selected {
-                    .box-shadow(0 0 0 2px @primary);
-                }
+            &:hover,
+            &.selected {
+                .box-shadow(0 0 0 2px @primary);
             }
+        }
 
-            &:hover, &:focus {
-                background-color: transparent;
+        &:hover, &:focus {
+            background-color: transparent;
 
-                div {
-                    .box-shadow(0 0 0 2px @primary);
-                }
+            div {
+                .box-shadow(0 0 0 2px @primary);
             }
         }
     }
 }
-
 
 .color-schemas-menu {
     span {
@@ -163,7 +157,7 @@ a.item-contents {
 }
 
 .item-chartlist {
-    .background-ximage('@{app-image-path}/toolbar/charttypes.png', '@{app-image-path}/toolbar/charttypes@2x.png', 250px);
+    .background-ximage('@{common-image-path}/toolbar/charttypes.png', '@{common-image-path}/toolbar/charttypes@2x.png', 250px);
     width: 50px;
     height: 50px;
 }
@@ -418,7 +412,7 @@ a.item-contents {
 
 .item-equation {
     border: 1px solid @gray;
-    .background-ximage('@{app-image-path}/toolbar/math.png', '@{app-image-path}/toolbar/math@2x.png', 1500px);
+    .background-ximage('@{common-image-path}/toolbar/math.png', '@{common-image-path}/toolbar/math@2x.png', 1500px);
 }
 
 .save-style-container {

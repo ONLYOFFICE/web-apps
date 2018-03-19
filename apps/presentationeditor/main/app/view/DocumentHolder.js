@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -559,7 +559,7 @@ define([
                     src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
                              'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                     src.text(getUserName(UserId));
-                    $('#id_main_view').append(src);
+                    $('#id_main_parent').append(src);
                     me.fastcoauthtips.push(src);
                     src.fadeIn(150);
                 }

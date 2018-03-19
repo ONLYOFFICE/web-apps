@@ -1,30 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Kopieren/fügen Sie die Daten ein, machen Sie Ihre Aktionen rückgängig</title>
+		<title>Daten kopieren/einfügen, Aktionen rückgängig machen/wiederholen</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="Perform the basic operations with the presentation: copy, paste, undo, redo" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Kopieren/fügen Sie die Daten ein, machen Sie Ihre Aktionen rückgängig</h1>
-			<p>Um gewählte Objekte (Folien, Textabschnitte, AutoFormen) in Ihrer Präsentation auszuschneiden, zu kopieren, einzufügen oder die Aktionen rückgängig zu machen und zu wiederholen, nutzen Sie die entsprechenden Symbole auf der oberen Symbolleiste:</p>
-			<ul>
-				<li><b>Kopieren</b> – wählen Sie ein Objekt und nutzen Sie das Symbol <b>Kopieren</b> <img alt="Symbol Kopieren" src="../images/copy.png" />, um die Auswahl in die Zwischenablage Ihres Computers zu kopieren. Das kopierte Objekt kann später an einer anderen Stelle in derselben Präsentation<!--, into another presentation, or into some other program--> eingefügt werden.</li>
-				<li><b>Einfügen</b> – finden Sie die Stelle in Ihrer Präsentation, wo Sie das vorher kopierte Objekt einfügen möchten, und nutzen Sie das Symbol <b>Einfügen</b> <img alt="Symbol Einfügen" src="../images/paste.png" />. Das Objekt wird an der aktuellen Cursorpositionn eingefügt. Das Objekt kann aus derselben Präsentation<!--, from another presentation or from some other program--> vorher kopiert werden.
-			    <p>Sie können auch die folgenden Tastenkombinationen nutzen, um die gewünschten Operationen durchzuführen:</p>
-			    <ul>
-			    <li><b>STRG+C</b> zum Kopieren;</li>
-			    <li><b>STRG+V</b> zum Einfügen;</li>
-			    <li><b>STRG+X</b> zum Ausschneiden.</li>
-			    </ul>
-				</li>
-				<li><b>Rückgängig</b> – verwenden Sie das Symbol <b>Rückgängig</b> <img alt="Symbol &quot;Rückgängig&quot;" src="../images/undo.png" />, um die zuletzt durchgeführte Aktion rückgängig zu machen.</li>
-				<li><b>Wiederholen</b> – verwenden Sie das Symbol <b>Wiederholen</b> <img alt="Symbol &quot;Wiederholen&quot;" src="../images/redo.png" />, um die letzte rückgängig gemachte Aktion zu wiederholen.
-				<p>Sie können auch die Tastenkombination <b>STRG+Z</b> zum Rückgängig-Machen und die Tastenkombination <b>STRG+Y</b> zum Wiederholen nutzen.</p>
-				</li>
-			</ul>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Daten kopieren/einfügen, Aktionen rückgängig machen/wiederholen</h1>
+			<p>Um gewählte Objekte (Folien, Textabschnitte, AutoFormen) in Ihrer Präsentation auszuschneiden, zu kopieren, einzufügen oder Aktionen rückgängig zu machen bzw. zu wiederholen, nutzen Sie die Optionen aus dem Rechtsklickmenü oder die entsprechenden Tastenkombinationen oder die Symbole die auf jeder beliebigen Registerkarte in der oberen Symbolleiste verfügbar sind:</p>
+            <ul>
+                <li><b>Ausschneiden</b> - wählen Sie ein Objekt aus und nutzen Sie die Option <b>Ausschneiden</b> im Rechtsklickmenü, um die Auswahl zu löschen und in der Zwischenablage des Rechners zu speichern. Die ausgeschnittenen Daten können später an anderen Stelle in derselben Präsentation wieder eingefügt werden.</li>
+                <li><b>Kopieren</b> – wählen Sie ein Objekt aus und klicken Sie im Rechtsklickmenü auf <b>Kopieren</b> oder klicken Sie in der oberen Symbolleiste auf das Symbol <b>Kopieren</b>, <img alt="Kopieren" src="../images/copy.png" /> um die Auswahl in die Zwischenablage Ihres Computers zu kopieren. Das kopierte Objekt kann später an einer anderen Stelle in derselben Präsentation eingefügt werden.</li>
+                <li><b>Einfügen</b> – platzieren Sie den Cursor an der Stelle in Ihrer Präsentation, an der Sie das zuvor kopierte Objekt einfügen möchten und wählen Sie im Rechtsklickmenü die Option <b>Einfügen</b> oder klicken Sie in der oberen Symbolleiste auf <b>Einfügen</b> <img alt="Einfügen" src="../images/paste.png" />. Das Objekt wird an der aktuellen Cursorpositionn eingefügt. Das Objekt kann vorher aus derselben Präsentation kopiert werden oder auch aus einem anderen Dokument oder Programm oder von einer Webseite.</li>
+            </ul>    
+            <p>Alternativ können Sie auch die folgenden Tastenkombinationen verwenden, um Daten aus bzw. in eine andere Präsentation oder ein anderes Programm zu kopieren oder einzufügen:</p>
+                    <ul>
+                        <li><b>STRG+C</b> - Kopieren;</li>
+                        <li><b>STRG+V</b> - Einfügen;</li>
+                        <li><b>Strg+X</b> - Ausschneiden;</li>
+                    </ul>
+            <p>Um Aktionen rückgängig zu machen/zu wiederholen, nutzen Sie die entsprechenden Symbole auf den Registerkarten in der oberen Symbolleiste oder alternativ die folgenden Tastenkombinationen:</p>
+            <ul>
+                <li><b>Rückgängig</b> – klicken Sie auf das Symbol <b>Rückgängig</b> <img alt="Rückgängig" src="../images/undo.png" />, um den zuletzt durchgeführten Vorgang rückgängig zu machen.</li>
+                <li><b>Wiederholen</b> – klicken Sie auf das Symbol <b>Wiederholen</b> <img alt="Wiederholen" src="../images/redo.png" />, um den zuletzt rückgängig gemachten Vorgang zu wiederholen.<p>Alternativ können Si Vorgänge auch mit der Tastenkombination <b>STRG+Z</b> rückgängig machen bzw. mit <b>STRG+Y</b> wiederholen.</p>
+                </li>
+            </ul>
+			
 		</div>
 	</body>
 </html>

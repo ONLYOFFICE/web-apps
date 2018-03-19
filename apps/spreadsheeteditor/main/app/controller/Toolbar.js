@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  Toolbar.js
  *
  *  Created by Alexander Yuzhin on 3/31/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -1477,7 +1477,7 @@ define([
                         e.stopPropagation();
                     },
                     'command+k,ctrl+k': function (e) {
-                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect)
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot)
                             me.onHyperlink();
                         e.preventDefault();
                     },
@@ -1616,7 +1616,7 @@ define([
             listStyles.menuPicker.store.reset([]); // remove all
 
             var mainController = this.getApplication().getController('Main');
-            var merged_array = styles.asc_getDefaultStyles().concat(styles.asc_getDocStyles());
+            var merged_array = styles.asc_getDocStyles().concat(styles.asc_getDefaultStyles());
             _.each(merged_array, function(style){
                 listStyles.menuPicker.store.add({
                     imageUrl: style.asc_getImage(),
@@ -2158,8 +2158,8 @@ define([
                 this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
 
-                need_disable = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, need_disable, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
+                this._state.inpivot = !!info.asc_getPivotTableInfo();
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
 
                 need_disable = !this.appConfig.canModifyFilter;
                 toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA, toolbar.btnSetAutofilter,

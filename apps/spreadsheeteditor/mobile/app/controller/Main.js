@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Spreadsheet Editor
  *
  *  Created by Maxim Kadushkin on 11/15/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -827,6 +827,10 @@ define([
                         config.msg = this.errorDataRange;
                         break;
 
+                    case Asc.c_oAscError.ID.MaxDataPointsError:
+                        config.msg = this.errorMaxPoints;
+                        break;
+
                     case Asc.c_oAscError.ID.FrmlOperandExpected:
                         config.msg = this.errorOperandExpected;
                         config.closable = true;
@@ -1445,7 +1449,8 @@ define([
             txtStyle_Currency: 'Currency',
             txtStyle_Percent: 'Percent',
             txtStyle_Comma: 'Comma',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
         }
     })(), SSE.Controllers.Main || {}))
 });

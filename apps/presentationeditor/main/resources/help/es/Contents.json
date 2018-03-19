@@ -1,28 +1,143 @@
 ﻿[
-    {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Cree una presentación nueva o abra la existente", "headername": "Instrucciones de uso"},
-    {"src": "UsageInstructions/ManageSlides.htm", "name": "Gestione diapositivas"},
-    {"src": "UsageInstructions/SetSlideParameters.htm", "name": "Establezca parámetros de diapositiva"},
-    {"src": "UsageInstructions/ApplyTransitions.htm", "name": "Aplique transiciones"},
-    {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Inserte autoformas y deles formato"},
-    {"src": "UsageInstructions/InsertImages.htm", "name": "Inserte y ajuste imágenes"},
-    {"src": "UsageInstructions/InsertCharts.htm", "name": "Inserte y edite gráficos"},
-    {"src": "UsageInstructions/ManipulateObjects.htm", "name": "Maneje objetos en una diapositiva"},
-    {"src": "UsageInstructions/InsertText.htm", "name": "Inserte su texto y dele formato"},
-    {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Añada hiperenlaces"},
-    {"src": "UsageInstructions/CreateLists.htm", "name": "Cree listas"},
-    {"src": "UsageInstructions/InsertTables.htm", "name": "Inserte tablas y deles formato"},
-    {"src": "UsageInstructions/FillObjectsSelectColor.htm", "name": "Rellene objetos y seleccione colores"},
-    {"src": "UsageInstructions/AlignArrangeObjects.htm", "name": "Alinee y arregle objetos en una diapositiva"},
-	{"src": "UsageInstructions/CopyPasteUndoRedo.htm", "name": "Copie/pegue datos, deshaga/rehaga sus acciones"},
-	{"src": "UsageInstructions/CopyClearFormatting.htm", "name": "Copie/limpie formato"},
-	{"src": "UsageInstructions/PreviewPresentation.htm", "name": "Obtenga vista previa de su presentación"},
-	{"src": "UsageInstructions/ViewPresentationInfo.htm", "name": "Vea información sobre presentación"},
-	{"src": "UsageInstructions/SavePrintDownload.htm", "name": "Guarde/imprima/descargue su presentación"},
-	{"src": "HelpfulHints/About.htm", "name": "Sobre el editor de presentaciones", "headername": "Pistas útiles"},
-	{"src": "HelpfulHints/SupportedFormats.htm", "name": "Formatos soportados de presentaciones electrónicas"},
-	{"src": "HelpfulHints/AdvancedSettings.htm", "name": "Ajustes avanzados del editor de presentaciones"},
-	{"src": "HelpfulHints/Navigation.htm", "name": "Configuración de la vista y harramientas de navegación"},
-	{"src": "HelpfulHints/Search.htm", "name": "Función de búsqueda"},
-	{"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Edición de presentación colaborativa"},
-	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Atajos de teclado"}
+  {
+    "src": "ProgramInterface/ProgramInterface.htm",
+    "name": "Introduciendo el interfaz de usuario de Editor de Presentación",
+    "headername": "Interfaz de usuario"
+  },
+  {
+    "src": "ProgramInterface/FileTab.htm",
+    "name": "Pestaña de archivo"
+  },
+  {
+    "src": "ProgramInterface/HomeTab.htm",
+    "name": "Pestaña de Inicio"
+  },
+  {
+    "src": "ProgramInterface/InsertTab.htm",
+    "name": "Pestaña de Insertar"
+  },
+  {
+    "src": "ProgramInterface/PluginsTab.htm",
+    "name": "Pestaña de Puglins"
+  },
+  {
+    "src": "UsageInstructions/OpenCreateNew.htm",
+    "name": "Cree una presentación nueva o abra la existente",
+    "headername": "Operaciones básicas"
+  },
+  {
+    "src": "UsageInstructions/CopyPasteUndoRedo.htm",
+    "name": "Copie/pegue datos, deshaga/rehaga sus acciones"
+  },
+  {
+    "src": "UsageInstructions/ManageSlides.htm",
+    "name": "Gestione diapositivas",
+    "headername": "Trabaje con diapositivas"
+  },
+  {
+    "src": "UsageInstructions/SetSlideParameters.htm",
+    "name": "Establezca parámetros de diapositiva"
+  },
+  {
+    "src": "UsageInstructions/ApplyTransitions.htm",
+    "name": "Aplique transiciones"
+  },
+  {
+    "src": "UsageInstructions/PreviewPresentation.htm",
+    "name": "Obtenga vista previa de su presentación"
+  },
+  {
+    "src": "UsageInstructions/InsertText.htm",
+    "name": "Inserte su texto y dele formato",
+    "headername": "Formato de texto"
+  },
+  {
+    "src": "UsageInstructions/AddHyperlinks.htm",
+    "name": "Añada hiperenlaces"
+  },
+  {
+    "src": "UsageInstructions/CreateLists.htm",
+    "name": "Cree listas"
+  },
+  {
+    "src": "UsageInstructions/CopyClearFormatting.htm",
+    "name": "Copie/elimine formato"
+  },
+  {
+    "src": "UsageInstructions/InsertAutoshapes.htm",
+    "name": "Inserte y dé formato a autoformas",
+    "headername": "Operaciones en objetos"
+  },
+  {
+    "src": "UsageInstructions/InsertImages.htm",
+    "name": "Inserte y ajuste imágenes"
+  },
+  {
+    "src": "UsageInstructions/InsertCharts.htm",
+    "name": "Inserte y edite gráficos"
+  },
+  {
+    "src": "UsageInstructions/InsertTables.htm",
+    "name": "Inserte y formatee tablas"
+  },
+  {
+    "src": "UsageInstructions/FillObjectsSelectColor.htm",
+    "name": "Rellene objetos y seleccione colores"
+  },
+  {
+    "src": "UsageInstructions/ManipulateObjects.htm",
+    "name": "Maneje objetos en una diapositiva"
+  },
+  {
+    "src": "UsageInstructions/AlignArrangeObjects.htm",
+    "name": "Alinee y arregle objetos en una diapositiva"
+  },
+  {
+    "src": "UsageInstructions/InsertEquation.htm",
+    "name": "Inserte ecuación",
+    "headername": "Ecuaciones matemáticas"
+  },
+  {
+    "src": "HelpfulHints/CollaborativeEditing.htm",
+    "name": "Edición de presentación colaborativa",
+    "headername": "Co-edición de presentaciones"
+  },
+  {
+    "src": "UsageInstructions/ViewPresentationInfo.htm",
+    "name": "Vea información sobre presentación",
+    "headername": "Herramientas y configuraciones"
+  },
+  {
+    "src": "UsageInstructions/SavePrintDownload.htm",
+    "name": "Guarde/imprima/descargue su presentación"
+  },
+  {
+    "src": "HelpfulHints/AdvancedSettings.htm",
+    "name": "Ajustes avanzados del editor de presentaciones"
+  },
+  {
+    "src": "HelpfulHints/Navigation.htm",
+    "name": "Configuración de la vista y herramientas de navegación"
+  },
+  {
+    "src": "HelpfulHints/Search.htm",
+    "name": "Función de búsqueda"
+  },
+  {
+    "src": "HelpfulHints/SpellChecking.htm",
+    "name": "Corrección ortográfica"
+  },
+  {
+    "src": "HelpfulHints/About.htm",
+    "name": "Acerca del editor de presentaciones",
+    "headername": "Consejos útiles"
+  },
+  {
+    "src": "HelpfulHints/SupportedFormats.htm",
+    "name": "Formatos compatibles de presentaciones electrónicas"
+  },
+  {
+    "src": "HelpfulHints/KeyboardShortcuts.htm",
+    "name": "Atajos de teclado"
+  }
 ]

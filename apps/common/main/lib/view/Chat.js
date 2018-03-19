@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    View
  *
  *    Created by Maxim Kadushkin on 27 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -59,7 +59,7 @@ define([
         storeUsers: undefined,
         storeMessages: undefined,
 
-        tplUser: ['<li id="chat-user-<%= user.get("id") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
+        tplUser: ['<li id="<%= user.get("iid") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
                         '<div class="color" style="background-color: <%= user.get("color") %>;" >',
                             '<label class="name"><%= scope.getUserName(user.get("username")) %></label>',
                         '</div>',
@@ -169,7 +169,7 @@ define([
 
         _onUsersChanged: function(m) {
             if (m.changed.online != undefined && this.panelUsers) {
-                this.panelUsers.find('#chat-user-'+ m.get('id'))[m.changed.online?'removeClass':'addClass']('offline');
+                this.panelUsers.find('#' + m.get('iid'))[m.changed.online?'removeClass':'addClass']('offline');
                 this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
             }
         },
@@ -389,6 +389,7 @@ define([
             if (event && 0 == textBox.val().length) {
                 this.layout.setResizeValue(1, Math.max(this.addMessageBoxHeight, height - this.addMessageBoxHeight));
                 this.textBoxAutoSizeLocked = undefined;
+                this.updateScrolls();
                 return;
             }
 
@@ -409,9 +410,8 @@ define([
 
             height = this.panelBox.height();
 
-            this.layout.setResizeValue(1,
-                Math.max(this.addMessageBoxHeight,
-                    Math.min(height - contentHeight - textBoxMinHeightIndent, height - this.addMessageBoxHeight)));
+            if (this.layout.setResizeValue(1, Math.max(this.addMessageBoxHeight, Math.min(height - contentHeight - textBoxMinHeightIndent, height - this.addMessageBoxHeight))))
+                this.updateScrolls(); // update when resize position changed
         },
 
         updateScrolls: function () {

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ReviewChanges.js
  *
  *  Created by Julia.Radzhabova on 05.08.15
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -557,6 +557,7 @@ define([
             app.getController('RightMenu').SetDisabled(disable, false);
             app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
             app.getController('DocumentHolder').getView().SetDisabled(disable);
+            app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
             app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
 
             var leftMenu = app.getController('LeftMenu').leftMenu;

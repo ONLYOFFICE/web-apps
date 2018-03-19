@@ -1,36 +1,41 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Speichern/downloaden/drucken Sie Ihr Dokument</title>
+		<title>Dokument speichern/runterladen/drucken</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Speichern/downloaden/drucken Sie Ihr Dokument" />
+		<meta name="description" content="Save, download and print your documents in various formats" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Speichern/downloaden/drucken Sie Ihr Dokument</h1>
-			<p>Standardmäßig, speichert <b>TeamLab Document Editor</b> Ihre Datei bei der Arbeit jede 10 Minuten automatisch, um den Datenverlust beim unerwarteten Programmabschluss zu vermeiden. Sie können die Periodizität der automatischen Speicherung nach Bedarf ändern oder sogar diese Funktion auf der Seite <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Erweiterte Einstellungen</a> ausschalten.</p>
-            <p>Um das aktuelle Dokument manuell zu speichern, führen Sie die folgenden Schritte aus:</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Dokument speichern/<span class="onlineDocumentFeatures">runterladen</span>/drucken</h1>
+			<p>Standardmäßig speichert der <b>Dokumenteneditor</b> Ihre Datei während der Bearbeitung automatisch alle 2 Sekunden, um Datenverluste im Falle eines unerwarteten Programmabschlusses zu verhindern.<span class="onlineDocumentFeatures"> Wenn Sie die Datei im <b>Schnellmodus</b> bearbeiten, fordert der Timer 25 Mal pro Sekunde Aktualisierungen an und speichert vorgenommene Änderungen. </span><span class="onlineDocumentFeatures">Wenn Sie die Datei im Modus <b>Strikt</b> bearbeiten, werden Änderungen automatisch alle 10 Minuten gespeichert. </span><span class="onlineDocumentFeatures">Sie können den bevorzugten Co-Bearbeitungs-Modus nach Belieben auswählen oder die Funktion <b>AutoSave</b> auf der Seite <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Erweiterte Einstellungen</a> deaktivieren.</span></p>
+			<p>Aktuelles Dokument manuell speichern:</p>
 			<ul>
-				<li>Klicken Sie aufs Symbol <b>Speichern</b> <img alt="Speichern" src="../images/save.png" /> auf der oberen Symbolleiste.</li>
-				<li>Oder nutzen Sie die Tastenkombination <b>Strg+S</b>.</li>
-				<li>Oder klicken Sie aufs Symbol <b>Datei</b> <img alt="Datei" src="../images/file.png" /> im linken Seitenbereich und wählen Sie die Option <b>Speichern</b>.</li>
+				<li>Klicken Sie in der oberen Symbolleiste auf das Symbol <b>Speichern</b> <img alt="Speichern" src="../images/save.png" /> oder</li>
+				<li>nutzen Sie die Tastenkombination <b>STRG+S</b> oder</li>
+				<li>wechseln Sie die Registerkarte <b>Datei</b> und wählen Sie die Option <b>Speichern</b>.</li>
 			</ul>
-			<p>Um das aktuelle Dokument auf die Festplatte Ihres Rechners herunterzuladen, führen Sie die folgenden Schritte aus:</p>
+			<div class="onlineDocumentFeatures">
+			<p>Aktuelles Dokument auf dem PC speichern</p>
 			<ol>
-				<li>Klicken Sie aufs Symbol <b>Datei</b> <img alt="Datei" src="../images/file.png" /> im linken Seitenbereich.</li>
+				<li>Klicken Sie in der oberen Menüleiste auf die Registerkarte <b>Datei</b>.</li>
 				<li>Wählen Sie die Option <b>Herunterladen als</b>.</li>
-				<li>Wählen Sie eines der verfügbaren Formate nach Ihrem Bedarf: PDF, TXT, DOCX, DOC, ODT, RTF, HTML, EPUB.</li>
+				<li>Wählen Sie nach Bedarf eines der verfügbaren Formate aus: PDF, TXT, DOCX, ODT, HTML.</li>
 			</ol>
-			<p>Um das aktuelle Dokument zu drucken, führen Sie die folgenden Schritte aus:</p>
+			</div>
+			<p>Aktuelles Dokument drucken</p>
 			<ul>
-				<li>Klicken Sie aufs Symbol <b>Drucken</b> <img alt="Drucken" src="../images/print.png" /> auf der oberen Symbolleiste.</li>
-				<li>Oder nutzen Sie die Tastenkombination <b>Strg+P</b>.</li>
-				<li>Oder klicken Sie aufs Symbol <b>Datei</b> <img alt="Datei" src="../images/file.png" /> im linken Seitenbereich und wählen Sie die Option <b>Drucken</b>.</li>
+				<li>Klicken Sie in der oberen Symbolleiste auf das Symbol <b>Drucken</b> <img alt="Drucken" src="../images/print.png" /> oder</li>
+				<li>nutzen Sie die Tastenkombination <b>STRG+P</b> oder</li>
+				<li>wechseln Sie in der oberen Menüleiste in die Registerkarte <b>Datei</b> und wählen Sie die Option <b>Drucken</b>.</li>
 			</ul>
-			<p>Danach wird eine PDF-Datei aufgrund des bearbeiteten Dokuments erstellt. Sie können diese öffnen und ausdrucken oder auf die Festplatte Ihres Rechners bzw. einen Datenträger speichern, um das Dokument später auszudrucken.</p>
-			
+			<p class="onlineDocumentFeatures">Danach wird basierend auf dem Dokument eine PDF-Datei erstellt. Diese können Sie öffnen und drucken oder auf der Festplatte des Computers oder einem Wechseldatenträger speichern und später drucken.</p>
 		</div>
 	</body>
 </html>

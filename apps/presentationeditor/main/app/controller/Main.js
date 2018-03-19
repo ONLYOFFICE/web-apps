@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Main controller
  *
  *    Created by Julia Radzhabova on 26 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -146,7 +146,8 @@ define([
                         'Table': this.txtSldLtTTbl,
                         'Slide title': this.txtSlideTitle,
                         'Loading': this.txtLoading,
-                        'Click to add notes': this.txtAddNotes
+                        'Click to add notes': this.txtAddNotes,
+                        'Click to add first slide': this.txtAddFirstSlide
                     }
                 });
 
@@ -190,6 +191,8 @@ define([
                                 me.dontCloseDummyComment = true;
                             else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = true;
+                            else if (/form-control/.test(e.target.className))
+                                me.inFormControl = true;
                         }
                     });
 
@@ -206,6 +209,8 @@ define([
                                     me.dontCloseDummyComment = false;
                                 else if (/chat-msg-text/.test(e.target.id))
                                     me.dontCloseChat = false;
+                                else if (/form-control/.test(e.target.className))
+                                    me.inFormControl = false;
                             }
                         }
                     }).on('dragover', function(e) {
@@ -455,7 +460,7 @@ define([
                 if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ))) {
+               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl))) {
                     this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
@@ -840,7 +845,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
-                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
+                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
 
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
@@ -1115,7 +1120,7 @@ define([
                         break;
 
                     default:
-                        config.msg = this.errorDefaultMessage.replace('%1', id);
+                        config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
 
@@ -1128,7 +1133,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.fn = function(btn) {
                             if (btn == 'ok') {
@@ -2006,7 +2011,8 @@ define([
             txtLoading: 'Loading...',
             txtAddNotes: 'Click to add notes',
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
-            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
+            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+            txtAddFirstSlide: 'Click to add first slide'
         }
     })(), PE.Controllers.Main || {}))
 });

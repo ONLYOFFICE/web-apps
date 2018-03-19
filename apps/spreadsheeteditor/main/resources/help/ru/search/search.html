@@ -200,7 +200,7 @@
                                     }
                                 })
                             )
-                            $(".subtitle").html("Надено результатов: " + resultsCount);
+                            $(".subtitle").html("Найдено результатов: " + resultsCount);
                         } else {
                             $(".subtitle").html("Результаты поиска отсутствуют");
                         }
@@ -225,7 +225,7 @@
         </script>
         <div class="mainpart">
             <div class="search-field">
-                <input id="search" class="searchBar" placeholder="Поиск" type="search" onkeypress="doSearch(event)">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
             </div>
             <h1>Поиск...</h1>
             <span class="subtitle"></span>

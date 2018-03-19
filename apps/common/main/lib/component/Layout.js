@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *    Layout.js
  *
  *    Created by Maxim Kadushkin on 10 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  *
  *      Configuration
@@ -152,7 +152,8 @@ define([
                         fmin        : panel.resize.fmin,
                         fmax        : panel.resize.fmax,
                         behaviour   : panel.behaviour,
-                        index       : this.splitters.length
+                        index       : this.splitters.length,
+                        offset      : panel.resize.offset || 0
                     };
 
                     if (!stretch) {
@@ -224,6 +225,8 @@ define([
         },
 
         resizeStart: function(e) {
+            if (this.freeze) return;
+
             this.clearSelection();
             this.addHandler(window.document, 'selectstart', this.onSelectStart);
 
@@ -369,7 +372,7 @@ define([
 
         setResizeValue: function (index, value) {
             if (index >= this.splitters.length)
-                return;
+                return false;
 
             var panel = null, next = null, oldValue = 0,
                 resize = this.splitters[index].resizer,
@@ -404,6 +407,7 @@ define([
             if (resize.value != value) {
                 this.doLayout();
             }
+            return (Math.abs(oldValue-value)>0.99);
         }
     });
 
@@ -492,7 +496,10 @@ define([
                 if ( !panel.stretch ) {
                     style = panel.el.is(':visible');
                     if ( style ) {
-                        width += (panel.rely!==true ? panel.width : this.getElementWidth(panel.el));
+                        if (panel.isresizer)
+                            width += panel.offset;
+                        else
+                            width += (panel.rely!==true ? panel.width : this.getElementWidth(panel.el));
                     }
 
                     if (panel.resize && panel.resize.autohide !== false && panel.resize.el) {
@@ -514,10 +521,13 @@ define([
             width = 0;
             this.panels.forEach(function(panel){
                 if (panel.el.is(':visible')) {
-                    style = {left: width};
+                    style = {left: width - (panel.isresizer ? panel.width : 0)};
                     panel.rely!==true && (style.width = panel.width);
                     panel.el.css(style);
-                    width += this.getElementWidth(panel.el);
+                    if (panel.isresizer)
+                        width += panel.offset;
+                    else
+                        width += this.getElementWidth(panel.el);
                 }
             },this);
         }
