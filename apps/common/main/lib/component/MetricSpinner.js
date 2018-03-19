@@ -448,7 +448,7 @@ define([
                     if (isNaN(val))
                         val = this.oldValue;
                 } else {
-                    val = me.options.defaultValue;
+                    val = me.options.defaultValue - me.options.step;
                 }
                 me.setValue((this._add(val, me.options.step, (me.options.allowDecimal) ? 3 : 0) + ' ' + this.options.defaultUnit).trim(), suspend);
             }

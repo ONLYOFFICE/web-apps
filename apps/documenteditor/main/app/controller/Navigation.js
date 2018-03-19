@@ -136,6 +136,7 @@ define([
                 arr[0].set('tip', this.txtGotoBeginning);
             }
             this.getApplication().getCollection('Navigation').reset(arr);
+            this.onChangeOutlinePosition(this._navigationObject.get_CurrentPosition());
         },
 
         updateChangeNavigation: function(index) {
@@ -152,7 +153,7 @@ define([
         },
 
         onChangeOutlinePosition: function(index) {
-            this.panelNavigation.viewNavigationList.selectByIndex(index);
+            this.panelNavigation.viewNavigationList.scrollToRecord(this.panelNavigation.viewNavigationList.selectByIndex(index));
         },
 
         onItemContextMenu: function(picker, item, record, e){

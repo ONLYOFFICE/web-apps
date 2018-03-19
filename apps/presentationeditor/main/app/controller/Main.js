@@ -191,6 +191,8 @@ define([
                                 me.dontCloseDummyComment = true;
                             else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = true;
+                            else if (/form-control/.test(e.target.className))
+                                me.inFormControl = true;
                         }
                     });
 
@@ -207,6 +209,8 @@ define([
                                     me.dontCloseDummyComment = false;
                                 else if (/chat-msg-text/.test(e.target.id))
                                     me.dontCloseChat = false;
+                                else if (/form-control/.test(e.target.className))
+                                    me.inFormControl = false;
                             }
                         }
                     }).on('dragover', function(e) {
@@ -456,7 +460,7 @@ define([
                 if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ))) {
+               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl))) {
                     this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }

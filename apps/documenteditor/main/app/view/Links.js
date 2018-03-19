@@ -57,12 +57,22 @@ define([
                     me.fireEvent('links:contents', [0]);
                 });
             });
+            this.contentsMenu.on('item:click', function (menu, item, e) {
+                setTimeout(function(){
+                    me.fireEvent('links:contents', [item.value, true]);
+                }, 10);
+            });
 
             this.btnContentsUpdate.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('links:update', [item.value]);
             });
             this.btnContentsUpdate.on('click', function (b, e) {
                 me.fireEvent('links:update', ['all']);
+            });
+            this.contentsUpdateMenu.on('item:click', function (menu, item, e) {
+                setTimeout(function(){
+                    me.fireEvent('links:update', [item.value, true]);
+                }, 10);
             });
 
             this.btnsNotes.forEach(function(button) {
@@ -180,13 +190,29 @@ define([
                         btn.setMenu(_menu);
                     });
 
-                    me.btnContentsUpdate.updateHint(me.tipContentsUpdate);
+                    me.contentsMenu = new Common.UI.Menu({
+                        items: [
+                            {template: contentsTemplate, offsety: 0, value: 0},
+                            {template: contentsTemplate, offsety: 72, value: 1},
+                            {caption: me.textContentsSettings, value: 'settings'},
+                            {caption: me.textContentsRemove, value: 'remove'}
+                        ]
+                    });
+
+                    me.btnContentsUpdate.updateHint([me.textUpdateAll, me.tipContentsUpdate]);
                     me.btnContentsUpdate.setMenu(new Common.UI.Menu({
                         items: [
                             {caption: me.textUpdateAll, value: 'all'},
                             {caption: me.textUpdatePages, value: 'pages'}
                         ]
                     }));
+
+                    me.contentsUpdateMenu = new Common.UI.Menu({
+                        items: [
+                            {caption: me.textUpdateAll, value: 'all'},
+                            {caption: me.textUpdatePages, value: 'pages'}
+                        ]
+                    });
 
                     me.btnsNotes.forEach( function(btn, index) {
                         btn.updateHint( me.tipNotes );
