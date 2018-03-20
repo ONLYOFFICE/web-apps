@@ -133,12 +133,13 @@ define([
 
             var need_disable = info.asc_getLocked(),
                 need_disable_table = (info.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter),
-                need_disable_spark = (info.asc_getLockedSparkline()===true);
+                need_disable_spark = (info.asc_getLockedSparkline()===true),
+                need_disable_pivot = (info.asc_getLockedPivotTable()===true);
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, need_disable, need_disable_table, need_disable_spark);
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, need_disable, need_disable_table, need_disable_spark, need_disable_pivot);
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, isCellLocked, isTableLocked, isSparkLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, isCellLocked, isTableLocked, isSparkLocked, isPivotLocked) {
             if (!this.editMode)
                 return;
 
@@ -199,7 +200,7 @@ define([
             // if (pivotInfo) {
             //     settingsType = Common.Utils.documentSettingsType.Pivot;
             //     this._settings[settingsType].props = pivotInfo;
-            //     this._settings[settingsType].locked = isCellLocked || true; // disable pivot settings
+            //     this._settings[settingsType].locked = isPivotLocked || true; // disable pivot settings
             //     this._settings[settingsType].hidden = 0;
             // }
 
