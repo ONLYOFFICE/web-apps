@@ -387,12 +387,12 @@ define([
         },
 
         onApiCountPages: function(count) {
-            if (this._state.no_slides !== (count<=0) && this.mode.isEdit) {
+            if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
                 /** coauthoring begin **/
-                this.leftMenu.btnComments.setDisabled(this._state.no_slides);
+                this.leftMenu.btnComments && this.leftMenu.btnComments.setDisabled(this._state.no_slides);
                 /** coauthoring end **/
-                this.leftMenu.btnSearch.setDisabled(this._state.no_slides);
+                this.leftMenu.btnSearch && this.leftMenu.btnSearch.setDisabled(this._state.no_slides);
             }
         },
 
