@@ -95,6 +95,7 @@ define([
                             '</div>' +
                             '<div class="hedset">' +
                                 '<div class="btn-slot" id="slot-btn-back"></div>' +
+                                '<div class="btn-slot" id="slot-btn-options"></div>' +
                             '</div>' +
                         '</section>';
 
@@ -216,6 +217,8 @@ define([
             }
         }
 
+        function onAppShowed(config) {}
+
         function onAppReady(mode) {
             appConfig = mode;
 
@@ -318,6 +321,9 @@ define([
                     });
                 }
             }
+
+            if ( me.btnOptions )
+                me.btnOptions.updateHint(me.tipViewSettings);
         }
 
         function onDocNameKeyDown(e) {
@@ -393,8 +399,17 @@ define([
                     reset   : onResetUsers
                 });
 
+                me.btnOptions = new Common.UI.Button({
+                    cls: 'btn-header no-caret',
+                    iconCls: 'svgicon svg-btn-options',
+                    menu: true
+                });
+
                 Common.NotificationCenter.on('app:ready', function(mode) {
                     Common.Utils.asyncCall(onAppReady, me, mode);
+                });
+                Common.NotificationCenter.on('app:face', function(mode) {
+                    Common.Utils.asyncCall(onAppShowed, me, mode);
                 });
             },
 
@@ -468,6 +483,8 @@ define([
 
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('svg-btn-edit', $html.find('#slot-hbtn-edit'));
+                    } else {
+                        me.btnOptions.render($html.find('#slot-btn-options'));
                     }
 
                     $userList = $html.find('.cousers-list');
@@ -657,18 +674,19 @@ define([
                                 btn.keepState = {
                                     disabled: btn.isDisabled()
                                 };
+                                btn.setDisabled( true );
                             } else {
                                 btn.setDisabled( btn.keepState.disabled );
-                                delete me.btnUndo.keepState;
+                                delete btn.keepState;
                             }
                         }
                     }
 
-                    if ( alias == 'undo' ) {
-                        _lockButton(me.btnUndo);
-                    } else
-                    if ( alias == 'redo' ) {
-                        _lockButton(me.btnRedo);
+                    switch ( alias ) {
+                    case 'undo': _lockButton(me.btnUndo); break;
+                    case 'redo': _lockButton(me.btnRedo); break;
+                    case 'opts': _lockButton(me.btnOptions); break;
+                    default: break;
                     }
                 }
             },

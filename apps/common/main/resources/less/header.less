@@ -62,6 +62,12 @@
         color: #fff;
     }
 
+    .dropdown-menu {
+        label {
+            color: @gray-deep;
+        }
+    }
+
     .btn-users,
     .btn-header {
         &:hover {
@@ -70,7 +76,7 @@
             }
         }
 
-        &:active {
+        &:active, &.active {
             &:not(.disabled) {
                 background-color: rgba(0,0,0,0.2);
             }
@@ -242,6 +248,11 @@
 .hedset {
     font-size: 0;
     display: flex;
+
+    .btn-group {
+        height: 100%;
+    }
+
 }
 
 .btn-header {
@@ -273,6 +284,12 @@
     &:active {
         &:not(.disabled) {
             background-color: rgba(0,0,0,0.2);
+        }
+    }
+
+    &.no-caret {
+        .inner-box-caret {
+            display: none;
         }
     }
 }
