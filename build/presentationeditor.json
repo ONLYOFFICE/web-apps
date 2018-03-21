@@ -147,15 +147,9 @@
             "help": [
                 {
                     "expand": true,
-                    "cwd": "../apps/presentationeditor/main/resources/help/en/",
-                    "src": "**",
-                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/en/"
-                },
-                {
-                    "expand": true,
-                    "cwd": "../apps/presentationeditor/main/resources/help/ru/",
-                    "src": "**",
-                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/ru/"
+                    "cwd": "../apps/presentationeditor/main/resources/help/",
+                    "src": ["**","!*_/**"],
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/"
                 }
             ],
             "index-page": [
