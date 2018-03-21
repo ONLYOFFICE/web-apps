@@ -1475,6 +1475,8 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
+                documentHolder.pmiCut.setDisabled(isCellLocked || inPivot); // can't edit pivot cells
+                documentHolder.pmiPaste.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
                 documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
@@ -1487,6 +1489,7 @@ define([
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
                 documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {

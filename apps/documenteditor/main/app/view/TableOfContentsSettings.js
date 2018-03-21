@@ -91,8 +91,8 @@ define([
                                     '<tr>',
                                         '<td class="padding-small">',
                                             '<label class="input-label padding-small" style="display: block;">' + me.textBuildTable + '</label>',
-                                            '<div id="tableofcontents-radio-styles" class="padding-small" style="display: block;"></div>',
-                                            '<div id="tableofcontents-radio-levels" class="" style="display: block;"></div>',
+                                            '<div id="tableofcontents-radio-levels" class="padding-small" style="display: block;"></div>',
+                                            '<div id="tableofcontents-radio-styles" class="" style="display: block;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -358,7 +358,8 @@ define([
 
             var me = this,
                 docStyles = this.api.asc_GetStylesArray(),
-                styles = [];
+                styles = [],
+                checkStyles = false;
             _.each(docStyles, function (style) {
                     var name = style.get_Name(),
                         level = me.api.asc_GetHeadingLevel(name);
@@ -456,7 +457,7 @@ define([
                 }
 
                 this.spnLevels.setValue(new_end>0 ? new_end : '', true);
-                this.spnLevels.setDisabled(disable_outlines || new_start>1 );
+                checkStyles = (disable_outlines || new_start>1);
             } else {
                 for (var i=this.startLevel; i<=this.endLevel; i++) {
                     var rec = _.findWhere(styles, {headerLevel: i});
@@ -466,8 +467,15 @@ define([
                     }
                 }
             }
+            styles.sort(function(a, b){
+                var aname = a.name.toLocaleLowerCase(),
+                    bname = b.name.toLocaleLowerCase();
+                if (aname < bname) return -1;
+                if (aname > bname) return 1;
+                return 0;
+            });
             this.stylesLevels.reset(styles);
-            if (this.spnLevels.isDisabled()) {
+            if (checkStyles) {
                 this.radioStyles.setValue(true);
                 this.stylesList.scroller.update({alwaysVisibleY: true});
                 var rec = this.stylesLevels.findWhere({checked: true});
@@ -550,12 +558,11 @@ define([
             this.endLevel = new_end;
 
             this.spnLevels.setValue(new_end>0 ? new_end : '', true);
-            this.spnLevels.setDisabled(disable_outlines || new_start>1 );
             this._needUpdateOutlineLevels = false;
         },
 
         getSettings: function () {
-            var props = new Asc.CTableOfContentsPr();
+            var props = this._originalProps;
 
             props.put_Hyperlink(this.chLinks.getValue() == 'checked');
             props.put_ShowPageNumbers(this.chPages.getValue() == 'checked');

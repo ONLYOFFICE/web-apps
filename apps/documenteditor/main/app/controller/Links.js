@@ -209,10 +209,10 @@ define([
         },
 
         onTableContents: function(type, currentTOC){
+            currentTOC = !!currentTOC;
+            var props = this.api.asc_GetTableOfContentsPr(currentTOC);
             switch (type) {
                 case 0:
-                    var props = this.api.asc_GetTableOfContentsPr(),
-                        hasTable = !!props;
                     if (!props) {
                         props = new Asc.CTableOfContentsPr();
                         props.put_OutlineRange(1, 9);
@@ -221,11 +221,9 @@ define([
                     props.put_ShowPageNumbers(true);
                     props.put_RightAlignTab(true);
                     props.put_TabLeader( Asc.c_oAscTabLeader.Dot);
-                    this.api.asc_AddTableOfContents(null, props);
+                    (currentTOC) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 1:
-                    var props = this.api.asc_GetTableOfContentsPr(),
-                        hasTable = !!props;
                     if (!props) {
                         props = new Asc.CTableOfContentsPr();
                         props.put_OutlineRange(1, 9);
@@ -233,13 +231,11 @@ define([
                     props.put_Hyperlink(true);
                     props.put_ShowPageNumbers(false);
                     props.put_TabLeader( Asc.c_oAscTabLeader.None);
-                    this.api.asc_AddTableOfContents(null, props);
+                    (currentTOC) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 'settings':
-                    currentTOC = !!currentTOC;
-                    var props = this.api.asc_GetTableOfContentsPr(currentTOC),
-                        me = this;
-                    var win = new DE.Views.TableOfContentsSettings({
+                    var me = this,
+                        win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
                         props: props,
                         handler: function(result, value) {
@@ -252,7 +248,9 @@ define([
                     win.show();
                     break;
                 case 'remove':
-                    this.api.asc_RemoveTableOfContents();
+                    if (currentTOC)
+                        currentTOC = props.get_InternalClass();
+                    this.api.asc_RemoveTableOfContents(currentTOC);
                     break;
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

@@ -197,6 +197,8 @@ define([
                             me.dontCloseDummyComment = true;
                         else if (/chat-msg-text/.test(e.target.id))
                             me.dontCloseChat = true;
+                        else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                            me.inFormControl = true;
                     }
                 });
 
@@ -215,6 +217,8 @@ define([
                                 me.dontCloseDummyComment = false;
                             else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = false;
+                            else if (/form-control/.test(e.target.className))
+                                me.inFormControl = false;
                         }
                     }
                 }).on('dragover', function(e) {
@@ -481,12 +485,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed )
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed && !this.inFormControl)
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
