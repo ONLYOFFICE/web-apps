@@ -49,7 +49,7 @@ define([
 ], function (Viewport) {
     'use strict';
 
-    DE.Controllers.Viewport = Backbone.Controller.extend({
+    DE.Controllers.Viewport = Backbone.Controller.extend(_.assign({
         // Specifying a Viewport model
         models: [],
 
@@ -366,4 +366,5 @@ define([
 
         textFitPage: 'Fit to Page',
         textFitWidth: 'Fit to Width'
+    }, DE.Controllers.Viewport));
 });

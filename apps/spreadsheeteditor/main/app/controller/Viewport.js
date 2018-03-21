@@ -48,7 +48,7 @@ define([
 ], function (Viewport) {
     'use strict';
 
-    SSE.Controllers.Viewport = Backbone.Controller.extend({
+    SSE.Controllers.Viewport = Backbone.Controller.extend(_.assign({
         // Specifying a Viewport model
         models: [],
 
@@ -413,4 +413,5 @@ define([
         textHideHeadings: 'Hide Headings',
         textHideGridlines: 'Hide Gridlines',
         textFreezePanes: 'Freeze Panes'
+    }, SSE.Controllers.Viewport));
 });
