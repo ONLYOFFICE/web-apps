@@ -909,15 +909,12 @@ define([
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
-                var value = Common.localStorage.getItem("sse-hidden-title");
-                value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
-
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar');
 
                 if (this.headerView) {
-                    this.headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isEditMailMerge &&
+                    this.headerView.setVisible(!this.appOptions.nativeApp && !this.appOptions.isEditMailMerge &&
                             !this.appOptions.isDesktopApp && !this.appOptions.isEditDiagram);
                 }
 

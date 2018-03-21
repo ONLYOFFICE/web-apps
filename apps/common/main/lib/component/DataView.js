@@ -140,9 +140,10 @@ define([
             el.html(this.template(this.model.toJSON()));
             el.addClass('item');
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
-            el.off('click').on('click', _.bind(this.onClick, this));
-            el.off('dblclick').on('dblclick', _.bind(this.onDblClick, this));
-            el.off('contextmenu').on('contextmenu', _.bind(this.onContextMenu, this));
+            el.off('click dblclick contextmenu');
+            el.on({ 'click': _.bind(this.onClick, this),
+                'dblclick': _.bind(this.onDblClick, this),
+                'contextmenu': _.bind(this.onContextMenu, this) });
             el.toggleClass('disabled', !!this.model.get('disabled'));
 
             if (!_.isUndefined(this.model.get('cls')))
