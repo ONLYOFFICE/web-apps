@@ -92,16 +92,7 @@
                         <span class="btn-slot" id="slot-btn-mailrecepients"></span>
                     </div>
                 </div>
-                <div class="group" id="slot-field-styles">
-                </div>
-                <div class="group no-mask">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-hidebars"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot" id="slot-btn-settings"></span>
-                    </div>
-                </div>
+                <div class="group" id="slot-field-styles"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">

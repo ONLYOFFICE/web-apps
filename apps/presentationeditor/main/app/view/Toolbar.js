@@ -576,31 +576,6 @@ define([
                 });
                 me.slideOnlyControls.push(me.btnColorSchemas);
 
-                me.btnHide = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-hidebars',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-hidebars no-mask',
-                    lock        : [_set.menuFileOpen, _set.slideDeleted, _set.disableOnStart],
-                    menu        : true
-                });
-                me.slideOnlyControls.push(me.btnHide);
-
-                this.btnFitPage = {
-                    conf: {checked:false},
-                    setChecked: function(val) { this.conf.checked = val;},
-                    isChecked: function () { return this.conf.checked; }
-                };
-                this.btnFitWidth = clone(this.btnFitPage);
-                this.mnuZoom = {options: {value: 100}};
-
-                me.btnAdvSettings = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-settings',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-settings no-mask',
-                    lock        : [_set.slideDeleted, _set.disableOnStart]
-                });
-                me.slideOnlyControls.push(me.btnAdvSettings);
-
                 me.btnShapeAlign = new Common.UI.Button({
                     id          : 'id-toolbar-btn-shape-align',
                     cls         : 'btn-toolbar',
@@ -875,9 +850,9 @@ define([
                     }
                 });
 
+                me.setTab('home');
                 if ( me.isCompactView )
-                    me.setFolded(true); else
-                    me.setTab('home');
+                    me.setFolded(true);
 
                 return this;
             },
@@ -943,8 +918,6 @@ define([
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-slidesize', this.btnSlideSize);
                 _injectComponent('#slot-field-styles', this.listTheme);
-                _injectComponent('#slot-btn-hidebars', this.btnHide);
-                _injectComponent('#slot-btn-settings', this.btnAdvSettings);
 
                 function _injectBtns(opts) {
                     var array = createButtonSet();
@@ -1105,8 +1078,6 @@ define([
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
-                this.btnHide.updateHint(this.tipViewSettings);
-                this.btnAdvSettings.updateHint(this.tipAdvSettings);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);
@@ -1114,66 +1085,6 @@ define([
                 // set menus
 
                 var me = this;
-
-                this.btnHide.setMenu(
-                    new Common.UI.Menu({
-                        cls: 'pull-right',
-                        style: 'min-width: 180px;',
-                        items: [
-                            this.mnuitemCompactToolbar = new Common.UI.MenuItem({
-                                caption: this.textCompactView,
-                                checkable: true,
-                                checked: me.isCompactView
-                            }),
-                            this.mnuitemHideStatusBar = new Common.UI.MenuItem({
-                                caption: this.textHideStatusBar,
-                                checkable: true
-                            }),
-                            this.mnuitemHideRulers = new Common.UI.MenuItem({
-                                caption: this.textHideLines,
-                                checkable: true
-                            }),
-                            {caption: '--'},
-                            this.btnFitPage = new Common.UI.MenuItem({
-                                caption: this.textFitPage,
-                                checkable: true,
-                                checked: this.btnFitPage.isChecked()
-                            }),
-                            this.btnFitWidth = new Common.UI.MenuItem({
-                                caption: this.textFitWidth,
-                                checkable: true,
-                                checked: this.btnFitWidth.isChecked()
-                            }),
-                            this.mnuZoom = new Common.UI.MenuItem({
-                                template: _.template([
-                                    '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
-                                    '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                    'data-stopPropagation="true"',
-                                    '<% } %>',
-                                    '>',
-                                    '<label class="title">' + this.textZoom + '</label>',
-                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon btn-zoomin"></i></button>',
-                                    '<label class="zoom"><%= options.value %>%</label>',
-                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon btn-zoomout"></i></button>',
-                                    '</div>'
-                                ].join('')),
-                                stopPropagation: true,
-                                value: this.mnuZoom.options.value
-                            })
-                        ]
-                    })
-                );
-                if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar === false)
-                    this.mnuitemHideStatusBar.hide();
-
-                this.mnuZoomOut = new Common.UI.Button({
-                    el: $('#id-menu-zoom-out'),
-                    cls: 'btn-toolbar'
-                });
-                this.mnuZoomIn = new Common.UI.Button({
-                    el: $('#id-menu-zoom-in'),
-                    cls: 'btn-toolbar'
-                });
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -1338,9 +1249,6 @@ define([
                     if (me.mnuChangeSlidePicker)
                         me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
                 });
-
-                this.mnuitemHideStatusBar.setChecked(Common.localStorage.getBool('pe-hidden-status'), true);
-                this.mnuitemHideRulers.setChecked(Common.localStorage.getBool("pe-hidden-rulers", true), true);
 
 //            // Enable none paragraph components
                 this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
@@ -1747,15 +1655,6 @@ define([
             mniSlideWide: 'Widescreen (16:9)',
             mniSlideAdvanced: 'Advanced Settings',
             tipSlideSize: 'Select Slide Size',
-            tipViewSettings: 'View Settings',
-            tipAdvSettings: 'Advanced Settings',
-            textCompactView: 'Hide Toolbar',
-            textHideTitleBar: 'Hide Title Bar',
-            textHideStatusBar: 'Hide Status Bar',
-            textHideLines: 'Hide Rulers',
-            textFitPage: 'Fit to Slide',
-            textFitWidth: 'Fit to Width',
-            textZoom: 'Zoom',
             tipInsertChart: 'Insert Chart',
             textLine: 'Line',
             textColumn: 'Column',

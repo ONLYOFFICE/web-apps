@@ -405,6 +405,8 @@ define([
                     menu: true
                 });
 
+                me.mnuZoom = {options: {value: 100}};
+
                 Common.NotificationCenter.on('app:ready', function(mode) {
                     Common.Utils.asyncCall(onAppReady, me, mode);
                 });
@@ -691,6 +693,14 @@ define([
                 }
             },
 
+            fakeMenuItem: function() {
+                return {
+                    conf: {checked: false},
+                    setChecked: function (val) { this.conf.checked = val; },
+                    isChecked: function () { return this.conf.checked; }
+                };
+            },
+
             textBack: 'Go to Documents',
             txtRename: 'Rename',
             textSaveBegin: 'Saving...',
@@ -706,7 +716,13 @@ define([
             tipGoEdit: 'Edit current file',
             tipSave: 'Save',
             tipUndo: 'Undo',
-            tipRedo: 'Redo'
+            tipRedo: 'Redo',
+            textCompactView: 'Hide Toolbar',
+            textHideStatusBar: 'Hide Status Bar',
+            textHideLines: 'Hide Rulers',
+            textZoom: 'Zoom',
+            textAdvSettings: 'Advanced Settings',
+            tipViewSettings: 'View Settings'
         }
     }(), Common.Views.Header || {}))
 });

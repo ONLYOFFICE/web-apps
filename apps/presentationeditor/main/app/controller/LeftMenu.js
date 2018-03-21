@@ -61,6 +61,7 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'Common.Views.Plugins': {

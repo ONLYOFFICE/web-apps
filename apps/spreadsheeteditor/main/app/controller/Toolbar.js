@@ -80,6 +80,7 @@ define([
                     'settings:apply': _.bind(this.applyFormulaSettings, this)
                 },
                 'Common.Views.Header': {
+                    'toolbar:setcompact': this.onChangeViewMode.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
@@ -305,7 +306,6 @@ define([
                 toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
                 toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
                 toolbar.btnInsertFormula.on('click',                        _.bind(this.onInsertFormulaMenu, this));
-                toolbar.btnSettings.on('click',                             _.bind(this.onAdvSettingsClick, this));
                 toolbar.btnInsertFormula.menu.on('item:click',              _.bind(this.onInsertFormulaMenu, this));
                 toolbar.btnNamedRange.menu.on('item:click',                 _.bind(this.onNamedRangeMenu, this));
                 toolbar.btnNamedRange.menu.on('show:after',                 _.bind(this.onNamedRangeMenuOpen, this));
@@ -326,16 +326,12 @@ define([
                 toolbar.cmbFontSize.on('hide:after',                        _.bind(this.onHideMenus, this));
                 toolbar.cmbFontSize.on('combo:blur',                        _.bind(this.onComboBlur, this));
                 toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
-                if (toolbar.mnuZoomIn)  toolbar.mnuZoomIn.on('click',       _.bind(this.onZoomInClick, this));
-                if (toolbar.mnuZoomOut) toolbar.mnuZoomOut.on('click',      _.bind(this.onZoomOutClick, this));
-                if (toolbar.btnShowMode.rendered) toolbar.btnShowMode.menu.on('item:click', _.bind(this.onHideMenu, this));
                 toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
                 toolbar.cmbNumberFormat.on('selected',                      _.bind(this.onNumberFormatSelect, this));
                 toolbar.cmbNumberFormat.on('show:before',                   _.bind(this.onNumberFormatOpenBefore, this, true));
                 if (toolbar.cmbNumberFormat.cmpEl)
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
                 toolbar.btnCurrencyStyle.menu.on('item:click',              _.bind(this.onNumberFormatMenu, this));
-                if (toolbar.mnuitemCompactToolbar) toolbar.mnuitemCompactToolbar.on('toggle', _.bind(this.onChangeViewMode, this));
                 $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewTextColor, this));
                 $('#id-toolbar-menu-new-paracolor').on('click',             _.bind(this.onNewBackColor, this));
                 $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));
@@ -1361,53 +1357,6 @@ define([
             }
         },
 
-        onAdvSettingsClick: function(btn, e) {
-            this.toolbar.fireEvent('file:settings', this);
-            btn.cmpEl.blur();
-        },
-
-        onZoomInClick: function(btn) {
-            if (this.api) {
-                var f = Math.floor(this.api.asc_getZoom() * 10)/10;
-                f += .1;
-                if (f > 0 && !(f > 2.)) {
-                    this.api.asc_setZoom(f);
-                }
-            }
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomOutClick: function(btn) {
-            if (this.api) {
-                var f = Math.ceil(this.api.asc_getZoom() * 10)/10;
-                f -= .1;
-                if (!(f < .5)) {
-                    this.api.asc_setZoom(f);
-                }
-            }
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHideMenu: function(menu, item) {
-            var params = {},
-                option;
-
-            switch(item.value) {
-                case 'title':       params.title = item.checked;      option = 'sse-hidden-title';      break;
-                case 'formula':     params.formula = item.checked;    option = 'sse-hidden-formula';    break;
-                case 'headings':    params.headings = item.checked;   break;
-                case 'gridlines':   params.gridlines = item.checked;  break;
-                case 'freezepanes': params.freezepanes = item.checked;  break;
-            }
-
-            this.hideElements(params);
-            option && Common.localStorage.setBool(option, item.checked);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
         onListStyleSelect: function(combo, record) {
             this._state.prstyle = undefined;
             if (this.api) {
@@ -1513,7 +1462,6 @@ define([
             if ( from != 'file' ) {
                 Common.Utils.asyncCall(function () {
                     this.onChangeViewMode(null, !this.toolbar.isCompact());
-                    this.toolbar.mnuitemCompactToolbar.setChecked(this.toolbar.isCompact(), true);
                 }, this);
             }
         },
@@ -1711,26 +1659,9 @@ define([
             this.checkInsertAutoshape({action:'cancel'});
         },
 
-        onApiZoomChange: function(zf, type){
-            switch (type) {
-                case 1: // FitWidth
-                case 2: // FitPage
-                case 0:
-                default: {
-                    this.toolbar.mnuZoom.options.value = Math.floor((zf + .005) * 100);
-                    $('.menu-zoom .zoom', this.toolbar.el).html(Math.floor((zf + .005) * 100) + '%');
-                }
-            }
-        },
+        onApiZoomChange: function(zf, type){},
 
-        onApiSheetChanged: function() {
-            if ( this.api && !this.appConfig.isEditDiagram && !this.appConfig.isEditMailMerge ) {
-                var params  = this.api.asc_getSheetViewSettings();
-                this.toolbar.mnuitemHideHeadings.setChecked(!params.asc_getShowRowColHeaders());
-                this.toolbar.mnuitemHideGridlines.setChecked(!params.asc_getShowGridLines());
-                this.toolbar.mnuitemFreezePanes.setChecked(params.asc_getIsFreezePane());
-            }
-        },
+        onApiSheetChanged: function() {},
 
         onApiEditorSelectionChanged: function(fontobj) {
             if (!this.editMode) return;
@@ -2411,13 +2342,6 @@ define([
         },
 
         hideElements: function(opts) {
-            if (!_.isUndefined(opts.title)) {
-                var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                headerView && headerView.setVisible(!opts.title);
-
-                Common.NotificationCenter.trigger('layout:changed', 'header');
-            }
-
             if (!_.isUndefined(opts.compact)) {
                 this.onChangeViewMode(opts.compact);
             }
@@ -2981,7 +2905,7 @@ define([
             var toolbar = this.toolbar;
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
-            this.toolbar.lockToolbar(SSE.enumLock.menuFileOpen, disable, {array: [toolbar.btnShowMode]});
+            this.toolbar.lockToolbar(SSE.enumLock.menuFileOpen, disable);
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 Common.util.Shortcuts.suspendEvents('command+l, ctrl+l, command+shift+l, ctrl+shift+l, command+k, ctrl+k, command+alt+h, ctrl+alt+h, command+1, ctrl+1');

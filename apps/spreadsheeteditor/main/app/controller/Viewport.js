@@ -71,6 +71,9 @@ define([
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show')
                 },
+                'Statusbar': {
+                    'sheet:changed': me.onApiSheetChanged.bind(me)
+                },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
@@ -83,6 +86,7 @@ define([
 
                     },
                     'view:compact'  : function (toolbar, state) {
+                        me.header.mnuitemCompactToolbar.setChecked(state, true);
                         me.viewport.vlayout.getItem('toolbar').height = state ?
                             Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     },
@@ -108,10 +112,16 @@ define([
             });
 
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('cells:range', this.onCellsRange.bind(this));
         },
 
         setApi: function(api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onZoomChanged',              this.onApiZoomChange.bind(this));
+            this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
+            this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
+            this.api.asc_registerCallback('asc_onEditCell',                 this.onApiEditCell.bind(this));
         },
 
         onAppShowed: function (config) {
@@ -149,6 +159,123 @@ define([
             }
         },
 
+        onAppReady: function (config) {
+            var me = this;
+            if ( me.header.btnOptions ) {
+                var compactview = !config.isEdit;
+                if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge ) {
+                    if ( Common.localStorage.itemExists("sse-compact-toolbar") ) {
+                        compactview = Common.localStorage.getBool("sse-compact-toolbar");
+                    } else
+                    if ( config.customization && config.customization.compactToolbar )
+                        compactview = true;
+                }
+
+                me.header.mnuitemCompactToolbar = new Common.UI.MenuItem({
+                    caption     : me.header.textCompactView,
+                    checked     : compactview,
+                    checkable   : true,
+                    value       : 'toolbar'
+                });
+
+                var mnuitemHideFormulaBar = new Common.UI.MenuItem({
+                    caption     : me.textHideFBar,
+                    checked     : Common.localStorage.getBool('sse-hidden-formula'),
+                    checkable   : true,
+                    value       : 'formula'
+                });
+
+                me.header.mnuitemHideHeadings = new Common.UI.MenuItem({
+                    caption     : me.textHideHeadings,
+                    checkable   : true,
+                    checked     : me.header.mnuitemHideHeadings.isChecked(),
+                    value       : 'headings'
+                });
+
+                me.header.mnuitemHideGridlines = new Common.UI.MenuItem({
+                    caption     : me.textHideGridlines,
+                    checkable   : true,
+                    checked     : me.header.mnuitemHideGridlines.isChecked(),
+                    value       : 'gridlines'
+                });
+
+                me.header.mnuitemFreezePanes = new Common.UI.MenuItem({
+                    caption     : me.textFreezePanes,
+                    checkable   : true,
+                    checked     : me.header.mnuitemFreezePanes.isChecked(),
+                    value       : 'freezepanes'
+                });
+
+                me.header.mnuZoom = new Common.UI.MenuItem({
+                    template: _.template([
+                        '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 25px;" ',
+                            '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                            'data-stopPropagation="true"',
+                            '<% } %>', '>',
+                            '<label class="title">' + me.header.textZoom + '</label>',
+                            '<button id="hdr-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon btn-zoomin">&nbsp;</i></button>',
+                            '<label class="zoom"><%= options.value %>%</label>',
+                            '<button id="hdr-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon btn-zoomout">&nbsp;</i></button>',
+                        '</div>'
+                    ].join('')),
+                    stopPropagation: true,
+                    value: me.header.mnuZoom.options.value
+                });
+
+                var mnuitemAdvSettings = new Common.UI.MenuItem({
+                    caption: me.header.textAdvSettings,
+                    value: 'advanced'
+                });
+
+                me.header.btnOptions.setMenu(new Common.UI.Menu({
+                        cls: 'pull-right',
+                        style: 'min-width: 180px;',
+                        items: [
+                            me.header.mnuitemCompactToolbar,
+                            mnuitemHideFormulaBar,
+                            {caption:'--'},
+                            me.header.mnuitemHideHeadings,
+                            me.header.mnuitemHideGridlines,
+                            {caption:'--'},
+                            me.header.mnuitemFreezePanes,
+                            {caption:'--'},
+                            me.header.mnuZoom,
+                            {caption:'--'},
+                            mnuitemAdvSettings
+                        ]
+                    })
+                );
+
+                var _on_btn_zoom = function (btn) {
+                    if ( btn == 'up' ) {
+                        var _f = Math.floor(this.api.asc_getZoom() * 10)/10;
+                        _f += .1;
+                        if (_f > 0 && !(_f > 2.))
+                            this.api.asc_setZoom(_f);
+                    } else {
+                        _f = Math.ceil(this.api.asc_getZoom() * 10)/10;
+                        _f -= .1;
+                        if (!(_f < .5))
+                            this.api.asc_setZoom(_f);
+                    }
+
+                    Common.NotificationCenter.trigger('edit:complete', me.header);
+                };
+
+                (new Common.UI.Button({
+                    el      : $('#hdr-menu-zoom-out', me.header.mnuZoom.$el),
+                    cls     : 'btn-toolbar'
+                })).on('click', _on_btn_zoom.bind(me, 'down'));
+
+                (new Common.UI.Button({
+                    el      : $('#hdr-menu-zoom-in', me.header.mnuZoom.$el),
+                    cls     : 'btn-toolbar'
+                })).on('click', _on_btn_zoom.bind(me, 'up'));
+
+                me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
+            }
+        },
+
         // When our application is ready, lets get started
         onLaunch: function() {
             // Create and render main view
@@ -176,6 +303,10 @@ define([
             this.boxFormula = $('#cell-editing-box');
             this.boxSdk.css('border-left', 'none');
             this.boxFormula.css('border-left', 'none');
+
+            this.header.mnuitemHideHeadings = this.header.fakeMenuItem();
+            this.header.mnuitemHideGridlines = this.header.fakeMenuItem();
+            this.header.mnuitemFreezePanes = this.header.fakeMenuItem();
         },
 
         onLayoutChanged: function(area) {
@@ -228,6 +359,58 @@ define([
 
             me.header.lockHeaderBtns( 'undo', _need_disable );
             me.header.lockHeaderBtns( 'redo', _need_disable );
-        }
-    });
+            me.header.lockHeaderBtns( 'opts', _need_disable );
+        },
+
+        onApiZoomChange: function(zf, type){
+            switch (type) {
+                case 1: // FitWidth
+                case 2: // FitPage
+                case 0:
+                default: {
+                    this.header.mnuZoom.options.value = Math.floor((zf + .005) * 100);
+                    $('.menu-zoom .zoom', this.header.mnuZoom.$el).html(Math.floor((zf + .005) * 100) + '%');
+                }
+            }
+        },
+
+        onApiSheetChanged: function() {
+            var me = this;
+            var appConfig = me.viewport.mode;
+            if ( !!appConfig && !appConfig.isEditDiagram && !appConfig.isEditMailMerge ) {
+                var params  = me.api.asc_getSheetViewSettings();
+                me.header.mnuitemHideHeadings.setChecked(!params.asc_getShowRowColHeaders());
+                me.header.mnuitemHideGridlines.setChecked(!params.asc_getShowGridLines());
+                me.header.mnuitemFreezePanes.setChecked(params.asc_getIsFreezePane());
+            }
+        },
+
+        onApiEditCell: function(state) {
+            if ( state == Asc.c_oAscCellEditorState.editStart )
+                this.header.lockHeaderBtns('opts', true); else
+            if ( state == Asc.c_oAscCellEditorState.editEnd )
+                this.header.lockHeaderBtns('opts', false);
+        },
+
+        onCellsRange: function(status) {
+            this.onApiEditCell(status != Asc.c_oAscSelectionDialogType.None ? Asc.c_oAscCellEditorState.editStart : Asc.c_oAscCellEditorState.editEnd);
+        },
+
+        onOptionsItemClick: function (menu, item, e) {
+            var me = this;
+
+            switch ( item.value ) {
+            case 'toolbar': me.header.fireEvent('toolbar:setcompact', [menu, item.isChecked()]); break;
+            case 'formula': me.header.fireEvent('formulabar:hide', [item.isChecked()]); break;
+            case 'headings': me.api.asc_setDisplayHeadings(!item.isChecked()); break;
+            case 'gridlines': me.api.asc_setDisplayGridlines(!item.isChecked()); break;
+            case 'freezepanes': me.api.asc_freezePane(); break;
+            case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            }
+        },
+
+        textHideFBar: 'Hide Formula Bar',
+        textHideHeadings: 'Hide Headings',
+        textHideGridlines: 'Hide Gridlines',
+        textFreezePanes: 'Freeze Panes'
 });

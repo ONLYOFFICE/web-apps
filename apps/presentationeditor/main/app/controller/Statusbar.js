@@ -56,12 +56,22 @@ define([
         ],
 
         initialize: function() {
+            var me = this;
             this.addListeners({
                 'FileMenu': {
                     'settings:apply': _.bind(this.applySettings, this)
                 },
                 'Statusbar': {
                     'langchanged': this.onLangMenu
+                },
+                'Common.Views.Header': {
+                    'statusbar:hide': function (view, status) {
+                        me.statusbar.setVisible(!status);
+                        Common.localStorage.setBool('pe-hidden-status', status);
+
+                        Common.NotificationCenter.trigger('layout:changed', 'status');
+                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+                    }
                 }
             });
             this._state = {

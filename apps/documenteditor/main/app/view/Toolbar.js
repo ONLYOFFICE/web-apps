@@ -944,33 +944,6 @@ define([
                     iconCls: 'btn-mailrecepients'
                 });
 
-                this.btnHide = new Common.UI.Button({
-                    id: 'id-toolbar-btn-hidebars',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-hidebars no-mask',
-                    menu: true
-                });
-                this.toolbarControls.push(this.btnHide);
-
-                this.btnFitPage = {
-                    conf: {checked: false},
-                    setChecked: function (val) {
-                        this.conf.checked = val;
-                    },
-                    isChecked: function () {
-                        return this.conf.checked;
-                    }
-                };
-                this.btnFitWidth = clone(this.btnFitPage);
-                this.mnuZoom = {options: {value: 100}};
-
-                this.btnAdvSettings = new Common.UI.Button({
-                    id: 'id-toolbar-btn-settings',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-settings no-mask'
-                });
-                this.toolbarControls.push(this.btnAdvSettings);
-
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
@@ -1198,9 +1171,9 @@ define([
                     }
                 });
 
+                me.setTab('home');
                 if ( me.isCompactView )
-                    me.setFolded(true); else
-                    me.setTab('home');
+                    me.setFolded(true);
 
                 var top = Common.localStorage.getItem("de-pgmargins-top"),
                     left = Common.localStorage.getItem("de-pgmargins-left"),
@@ -1291,8 +1264,6 @@ define([
                 _injectComponent('#slot-btn-clearstyle', this.btnClearStyle);
                 _injectComponent('#slot-btn-copystyle', this.btnCopyStyle);
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
-                _injectComponent('#slot-btn-hidebars', this.btnHide);
-                _injectComponent('#slot-btn-settings', this.btnAdvSettings);
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
                 _injectComponent('#slot-field-styles', this.listStyles);
                 _injectComponent('#slot-btn-halign', this.btnHorizontalAlign);
@@ -1539,66 +1510,13 @@ define([
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnMailRecepients.updateHint(this.tipMailRecepients);
-                this.btnHide.updateHint(this.tipViewSettings);
-                this.btnAdvSettings.updateHint(this.tipAdvSettings);
 
                 // set menus
 
                 var me = this;
 
-                this.btnHide.setMenu(new Common.UI.Menu({
-                        cls: 'pull-right',
-                        style: 'min-width: 180px;',
-                        items: [
-                            this.mnuitemCompactToolbar = new Common.UI.MenuItem({
-                                caption: this.textCompactView,
-                                checked: me.isCompactView,
-                                checkable: true
-                            }),
-                            this.mnuitemHideStatusBar = new Common.UI.MenuItem({
-                                caption: this.textHideStatusBar,
-                                checked: Common.localStorage.getBool("de-hidden-status"),
-                                checkable: true
-                            }),
-                            this.mnuitemHideRulers = new Common.UI.MenuItem({
-                                caption: this.textHideLines,
-                                checked: Common.localStorage.getBool("de-hidden-rulers"),
-                                checkable: true
-                            }),
-                            {caption: '--'},
-                            this.btnFitPage = new Common.UI.MenuItem({
-                                caption: this.textFitPage,
-                                checkable: true,
-                                checked: this.btnFitPage.isChecked()
-                            }),
-                            this.btnFitWidth = new Common.UI.MenuItem({
-                                caption: this.textFitWidth,
-                                checkable: true,
-                                checked: this.btnFitWidth.isChecked()
-                            }),
-                            this.mnuZoom = new Common.UI.MenuItem({
-                                template: _.template([
-                                    '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
-                                    '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                    'data-stopPropagation="true"',
-                                    '<% } %>', '>',
-                                    '<label class="title">' + this.textZoom + '</label>',
-                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon btn-zoomup">&nbsp;</i></button>',
-                                    '<label class="zoom"><%= options.value %>%</label>',
-                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon btn-zoomdown">&nbsp;</i></button>',
-                                    '</div>'
-                                ].join('')),
-                                stopPropagation: true,
-                                value: this.mnuZoom.options.value
-                            })
-                        ]
-                    })
-                );
                 // if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
                 //     this.mnuitemHideTitleBar.hide();
-
-                if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar===false)
-                    this.mnuitemHideStatusBar.hide();
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -1656,15 +1574,6 @@ define([
                 );
                 this.paragraphControls.push(this.mnuPageNumCurrentPos);
                 this.paragraphControls.push(this.mnuInsertPageCount);
-
-                this.mnuZoomOut = new Common.UI.Button({
-                    el: $('#id-menu-zoom-out'),
-                    cls: 'btn-toolbar'
-                });
-                this.mnuZoomIn = new Common.UI.Button({
-                    el: $('#id-menu-zoom-in'),
-                    cls: 'btn-toolbar'
-                });
 
                 // set dataviews
 
@@ -2305,15 +2214,6 @@ define([
             tipInsertText: 'Insert Text',
             tipInsertTextArt: 'Insert Text Art',
             tipHAligh: 'Horizontal Align',
-            tipViewSettings: 'View Settings',
-            tipAdvSettings: 'Advanced Settings',
-            textCompactView: 'Hide Toolbar',
-            textHideTitleBar: 'Hide Title Bar',
-            textHideStatusBar: 'Hide Status Bar',
-            textHideLines: 'Hide Rulers',
-            textFitPage: 'Fit to Page',
-            textFitWidth: 'Fit to Width',
-            textZoom: 'Zoom',
             mniEditDropCap: 'Drop Cap Settings',
             textNone: 'None',
             textInText: 'In Text',

@@ -129,6 +129,7 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
@@ -293,18 +294,10 @@ define([
             toolbar.btnInsertTable.menu.on('item:click',                _.bind(this.onInsertTableClick, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
-            toolbar.btnAdvSettings.on('click',                          _.bind(this.onAdvSettingsClick, this));
             toolbar.btnColorSchemas.menu.on('item:click',               _.bind(this.onColorSchemaClick, this));
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
             toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
-            toolbar.mnuitemHideStatusBar.on('toggle',                   _.bind(this.onHideStatusBar, this));
-            toolbar.mnuitemHideRulers.on('toggle',                      _.bind(this.onHideRulers, this));
-            toolbar.mnuitemCompactToolbar.on('toggle',                  _.bind(this.onChangeCompactView, this));
-            toolbar.btnFitPage.on('toggle',                             _.bind(this.onZoomToPageToggle, this));
-            toolbar.btnFitWidth.on('toggle',                            _.bind(this.onZoomToWidthToggle, this));
-            toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
-            toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
         },
 
@@ -369,7 +362,6 @@ define([
                 var me = this;
                 Common.Utils.asyncCall(function () {
                     me.onChangeCompactView(null, !me.toolbar.isCompact());
-                    me.toolbar.mnuitemCompactToolbar.setChecked(me.toolbar.isCompact(), true);
                 });
             }
         },
@@ -775,18 +767,7 @@ define([
             this.editMode = false;
         },
 
-        onApiZoomChange: function(percent, type) {
-            if (this._state.zoom_type !== type) {
-                this.toolbar.btnFitPage.setChecked(type == 2, true);
-                this.toolbar.btnFitWidth.setChecked(type == 1, true);
-                this._state.zoom_type = type;
-            }
-            if (this._state.zoom_percent !== percent) {
-                $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
-                this._state.zoom_percent = percent;
-            }
-            this.toolbar.mnuZoom.options.value = percent;
-        },
+        onApiZoomChange: function(percent, type) {},
 
         onApiInitEditorStyles: function(themes) {
             if (themes) {
@@ -1441,11 +1422,6 @@ define([
             this.modeAlwaysSetStyle = state;
         },
 
-        onAdvSettingsClick: function(btn, e) {
-            this.toolbar.fireEvent('file:settings', this);
-            btn.cmpEl.blur();
-        },
-
         onColorSchemaClick: function(menu, item) {
             if (this.api) {
                 this.api.ChangeColorScheme(item.value);
@@ -1556,69 +1532,6 @@ define([
             Common.localStorage.setItem('pe-hidden-title', checked ? 1 : 0);
 
             Common.NotificationCenter.trigger('layout:changed', 'header');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHideStatusBar: function(item, checked) {
-            var headerView  = this.getApplication().getController('Statusbar').getView('Statusbar');
-            headerView  && headerView.setVisible(!checked);
-
-            Common.localStorage.setBool('pe-hidden-status', checked);
-
-            Common.NotificationCenter.trigger('layout:changed', 'status');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHideRulers: function(item, checked) {
-            if (this.api) {
-                this.api.asc_SetViewRulers(!checked);
-            }
-
-            Common.localStorage.setBool('pe-hidden-rulers', checked);
-
-            Common.NotificationCenter.trigger('layout:changed', 'rulers');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomToPageToggle: function(item, state) {
-            if (this.api) {
-                this._state.zoom_type = undefined;
-                this._state.zoom_percent = undefined;
-                if (state)
-                    this.api.zoomFitToPage();
-                else
-                    this.api.zoomCustomMode();
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomToWidthToggle: function(item, state) {
-            if (this.api) {
-                this._state.zoom_type = undefined;
-                this._state.zoom_percent = undefined;
-                if (state)
-                    this.api.zoomFitToWidth();
-                else
-                    this.api.zoomCustomMode();
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomInClick: function(btn) {
-            this._state.zoom_type = undefined;
-            this._state.zoom_percent = undefined;
-            if (this.api)
-                this.api.zoomIn();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomOutClick: function(btn) {
-            this._state.zoom_type = undefined;
-            this._state.zoom_percent = undefined;
-            if (this.api)
-                this.api.zoomOut();
-
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

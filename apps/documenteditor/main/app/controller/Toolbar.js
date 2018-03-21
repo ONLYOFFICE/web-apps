@@ -114,6 +114,7 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
@@ -296,7 +297,6 @@ define([
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
-            toolbar.btnAdvSettings.on('click',                          _.bind(this.onAdvSettingsClick, this));
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
@@ -308,13 +308,6 @@ define([
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
-            toolbar.mnuitemHideStatusBar.on('toggle',                   _.bind(this.onHideStatusBar, this));
-            toolbar.mnuitemHideRulers.on('toggle',                      _.bind(this.onHideRulers, this));
-            toolbar.mnuitemCompactToolbar.on('toggle',                  _.bind(this.onChangeCompactView, this));
-            toolbar.btnFitPage.on('toggle',                             _.bind(this.onZoomToPageToggle, this));
-            toolbar.btnFitWidth.on('toggle',                            _.bind(this.onZoomToWidthToggle, this));
-            toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
-            toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
@@ -379,7 +372,6 @@ define([
                 var me = this;
                 setTimeout(function () {
                     me.onChangeCompactView(null, !me.toolbar.isCompact());
-                    me.toolbar.mnuitemCompactToolbar.setChecked(me.toolbar.isCompact(), true);
                 }, 0);
             }
         },
@@ -845,12 +837,7 @@ define([
             this.toolbar.mnuInsertPageNum.setDisabled(false);
         },
 
-        onApiZoomChange: function(percent, type) {
-            this.toolbar.btnFitPage.setChecked(type == 2, true);
-            this.toolbar.btnFitWidth.setChecked(type == 1, true);
-            this.toolbar.mnuZoom.options.value = percent;
-            $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
-        },
+        onApiZoomChange: function(percent, type) {},
 
         onApiStartHighlight: function(pressed) {
             this.toolbar.btnHighlightColor.toggle(pressed, true);
@@ -1413,11 +1400,6 @@ define([
                 this.api.SetPaintFormat(state ? 1 : 0);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             this.modeAlwaysSetStyle = state;
-        },
-
-        onAdvSettingsClick: function(btn, e) {
-            this.toolbar.fireEvent('file:settings', this);
-            btn.cmpEl.blur();
         },
 
         onPageSizeClick: function(menu, item, state) {
@@ -1992,61 +1974,6 @@ define([
         //     Common.NotificationCenter.trigger('layout:changed', 'header');
         //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         // },
-
-        onHideStatusBar: function(item, checked) {
-            var headerView  = this.getApplication().getController('Statusbar').getView('Statusbar');
-            headerView  && headerView.setVisible(!checked);
-
-            Common.localStorage.setBool('de-hidden-status', checked);
-
-            Common.NotificationCenter.trigger('layout:changed', 'status');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHideRulers: function(item, checked) {
-            if (this.api) {
-                this.api.asc_SetViewRulers(!checked);
-            }
-
-            Common.localStorage.setBool('de-hidden-rulers', checked);
-
-            Common.NotificationCenter.trigger('layout:changed', 'rulers');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomToPageToggle: function(item, state) {
-            if (this.api) {
-                if (state)
-                    this.api.zoomFitToPage();
-                else
-                    this.api.zoomCustomMode();
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomToWidthToggle: function(item, state) {
-            if (this.api) {
-                if (state)
-                    this.api.zoomFitToWidth();
-                else
-                    this.api.zoomCustomMode();
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomInClick: function(btn) {
-            if (this.api)
-                this.api.zoomIn();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomOutClick: function(btn) {
-            if (this.api)
-                this.api.zoomOut();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
 
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
@@ -2716,7 +2643,6 @@ define([
 
             disable = disable || (reviewmode ? toolbar_mask.length>0 : group_mask.length>0);
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
-            toolbar.btnHide.setDisabled(disable);
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
 

@@ -62,6 +62,7 @@ define([
                 },
                 'Common.Views.Header': {
                     'click:users': _.bind(this.clickStatusbarUsers, this),
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
