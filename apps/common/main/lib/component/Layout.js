@@ -225,6 +225,8 @@ define([
         },
 
         resizeStart: function(e) {
+            if (this.freeze) return;
+
             this.clearSelection();
             this.addHandler(window.document, 'selectstart', this.onSelectStart);
 
