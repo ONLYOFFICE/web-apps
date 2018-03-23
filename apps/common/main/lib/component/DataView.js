@@ -552,7 +552,7 @@ define([
 
             window._event = e;  //  for FireFox only
 
-            this.selectRecord(record);
+            if (this.showLast) this.selectRecord(record);
             this.lastSelectedRec = null;
 
             if (!this.isSuspendEvents) {
