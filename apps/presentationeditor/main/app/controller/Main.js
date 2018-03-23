@@ -292,7 +292,7 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                appHeader.setCanBack(this.appOptions.canBackToFolder === true);
+                appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
