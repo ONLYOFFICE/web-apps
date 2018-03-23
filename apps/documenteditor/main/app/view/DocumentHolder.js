@@ -617,6 +617,7 @@ define([
                 if (pasteContainer.length < 1) {
                     me._arrSpecialPaste = [];
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = me.textNest;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = me.txtOverwriteCells;
@@ -3726,7 +3727,8 @@ define([
         textUpdatePages: 'Refresh page numbers only',
         textTOCSettings: 'Table of contents settings',
         textTOC: 'Table of contents',
-        textRefreshField: 'Refresh field'
+        textRefreshField: 'Refresh field',
+        txtPasteSourceFormat: 'Keep source formatting'
 
     }, DE.Views.DocumentHolder || {}));
 });
