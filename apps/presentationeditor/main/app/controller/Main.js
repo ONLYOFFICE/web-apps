@@ -191,7 +191,7 @@ define([
                                 me.dontCloseDummyComment = true;
                             else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = true;
-                            else if (/form-control/.test(e.target.className))
+                            else if (!me.isModalShowed && /form-control/.test(e.target.className))
                                 me.inFormControl = true;
                         }
                     });

@@ -328,9 +328,7 @@ define([
             var selectType = info.asc_getFlags().asc_getSelectionType(),
                 pivotInfo = info.asc_getPivotTableInfo();
 
-            var need_disable = info.asc_getLocked();
-
-            this.view.SetDisabled(!pivotInfo);
+            this.view.SetDisabled(!pivotInfo || info.asc_getLockedPivotTable());
             if (pivotInfo)
                 this.ChangeSettings(pivotInfo);
         },

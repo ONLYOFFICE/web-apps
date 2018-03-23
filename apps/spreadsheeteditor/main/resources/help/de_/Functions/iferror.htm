@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>IFERROR-Funktion</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../editor.css" />
+	</head>
+	<body>
+		<div class="mainpart">
+			<h1>IFERROR-Funktion</h1>
+			<p>Die <b>IFERROR</b>-Funktion ist eine der logischen Funktionen. Sie wird genutzt, um zu überprüfen, ob es einen Fehler in der Formel im ersten Argument gibt. Die Funktion gibt das Ergebnis der Formel zurück, falls es keinen Fehler gibt, oder den Wert value_if_error, falls es einen Fehler gibt.</p>
+			<p>Die <b>IFERROR</b>-Funktionssyntax ist:</p> 
+			<p style="text-indent: 150px;"><b><em>IFERROR(value, value_if_error,)</em></b></p> 
+			<p>wo <b><em>value</em></b> und <b><em>value_if_error</em></b> Werte sind, die manuell eingegeben werden oder in die Zelle eingeschlossen sind, auf die Sie Bezug nehmen.</p>
+			<p>Um die <b>IFERROR</b>-Funktion anzuwenden,</p>
+			<ol>
+			<li>Wählen Sie die Zelle, wo Sie das Ergebnis einblenden möchten.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Symbol Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste,
+				<br />Oder klicken Sie mit der rechten Maustaste in einer gewählten Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Menü.
+				<br />Oder klicken Sie auf das Symbol <img alt="Symbol Funktion" src="../images/function.png" /> auf der Formelleiste.
+			</li>
+			<li>Wählen Sie die Funktionsgruppe <b>Logisch</b> aus der Liste.</li>
+			<li>Klicken Sie die Funktion <b>IFERROR</b>.</li>
+			<li>Geben Sie die gewünschten Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Enter</b>-Taste.</li>
+			</ol>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p><em>Zum Beispiel:</em></p>
+			<p>Es gibt 2 Argumente: <em>value</em> = <b>A1/B1</b>, <em>value_if_error</em> = <b>"error"</b>, wo <b>A1</b> <b>12</b> ist, <b>B1</b> <b>3</b> ist. Die Formel im ersten Argument hat keinen Fehler. Also gibt die Funktion das Ergebnis der Berechnung zurück.</p>
+			<p style="text-indent: 150px;"><img alt="IFERROR-Funktion: no error" src="../images/noerror.png" /></p>
+			<p>Falls man den Wert <b>B1</b> von <b>3</b> nach <b>0</b> ändert, weil Division durch Null nicht möglich ist, gibt die Funktion den Wert <b>error</b> zurück:</p>
+			<p style="text-indent: 150px;"><img alt="IFERROR-Funktion: if error" src="../images/iferror.png" /></p>
+		</div>
+	</body>
+</html>

@@ -1044,7 +1044,7 @@ define([
                         iconCls     : 'btn-addslide',
                         split       : true,
                         caption     : me.capAddSlide,
-                        lock        : [PE.enumLock.menuFileOpen, PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.disableOnStart],
+                        lock        : [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart],
                         menu        : true
                     }
                 });
