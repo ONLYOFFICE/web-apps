@@ -137,6 +137,7 @@
   "SSE.Controllers.Main.errorLockedWorksheetRename": "Lapu nevar pārdēvēt, jo to jau pārdēvē cits lietotājs.",
   "SSE.Controllers.Main.errorMailMergeLoadFile": "Ielāde neizdevās",
   "SSE.Controllers.Main.errorMailMergeSaveFile": "Sapludināšana neizdevās.",
+  "SSE.Controllers.Main.errorMaxPoints": "Maksimālais punktu sērijas skaits diagrammā ir 4096.",
   "SSE.Controllers.Main.errorMoveRange": "Nevar mainīt apvienotas šūnas daļu",
   "SSE.Controllers.Main.errorOpenWarning": "Vienas formulas garums failā pārsniedzis <br> atļauto zīmju skaitu, un tā tika noņemta.",
   "SSE.Controllers.Main.errorOperandExpected": "Ievadītā funkcijas sintakse nav pareiza. Lūdzu, pārbaudiet, vai netrūkst kādas no iekavām '(' vai ')'.",
