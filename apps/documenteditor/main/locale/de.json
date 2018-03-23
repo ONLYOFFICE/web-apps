@@ -978,6 +978,7 @@
   "DE.Views.DocumentHolder.txtMatrixAlign": "Matrixausrichtung",
   "DE.Views.DocumentHolder.txtOverbar": "Linie über dem Text",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Zellen überschreiben",
+  "DE.Views.DocumentHolder.txtPasteSourceFormat": "Ursprüngliche Formatierung beibehalten",
   "DE.Views.DocumentHolder.txtPressLink": "Drücken Sie STRG und klicken Sie auf den Link",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Bruchstrich entfernen",
   "DE.Views.DocumentHolder.txtRemLimit": "Grenzwert entfernen",
