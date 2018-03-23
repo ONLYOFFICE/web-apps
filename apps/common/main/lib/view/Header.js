@@ -208,8 +208,6 @@ define([
             appConfig = mode;
 
             var me = this;
-            if ( !(me.branding && me.branding.goback && me.branding.goback.text) )
-                me.btnGoBack.updateHint(me.textBack);
             me.btnGoBack.on('click', function (e) {
                 Common.NotificationCenter.trigger('goback');
             });
@@ -482,10 +480,6 @@ define([
                             element.css({'background-image': 'none', width: 'auto'});
                         }
                     }
-
-                    if ( !!value.goback && value.goback.text) {
-                        this.btnGoBack.updateHint(value.goback.text);
-                    }
                 }
             },
 
@@ -527,10 +521,12 @@ define([
                 this.labelDocName.text(_name);
             },
 
-            setCanBack: function (value) {
+            setCanBack: function (value, text) {
                 this.canBack = value;
 
                 this.btnGoBack[value ? 'show' : 'hide']();
+                if (value)
+                    this.btnGoBack.updateHint((text && typeof text == 'string') ? text : this.textBack);
             },
 
             getCanBack: function () {
