@@ -142,7 +142,7 @@ define([
                 me.viewport.vlayout.getItem('toolbar').height = 41;
             }
 
-            if ( config.isDesktopApp && config.isEdit ) {
+            if ( config.isDesktopApp && config.isEdit && !config.isEditDiagram && !config.isEditMailMerge ) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
 
