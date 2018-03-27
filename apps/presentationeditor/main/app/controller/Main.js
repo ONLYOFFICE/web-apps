@@ -198,6 +198,8 @@ define([
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
+                            if (/form-control/.test(e.target.className))
+                                me.inFormControl = false;
                             if (!e.relatedTarget ||
                                 !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
@@ -209,8 +211,6 @@ define([
                                     me.dontCloseDummyComment = false;
                                 else if (/chat-msg-text/.test(e.target.id))
                                     me.dontCloseChat = false;
-                                else if (/form-control/.test(e.target.className))
-                                    me.inFormControl = false;
                             }
                         }
                     }).on('dragover', function(e) {
