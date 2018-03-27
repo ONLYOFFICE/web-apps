@@ -130,21 +130,21 @@ define([
                 name: 'asc-radio-bookmark-sort',
                 checked: true
             });
-            // this.radioName.on('change', _.bind(this.onRadioNameChange, this));
+            this.radioName.on('change', _.bind(this.onRadioSort, this));
 
             this.radioLocation = new Common.UI.RadioBox({
                 el: $('#bookmarks-radio-location'),
                 labelText: this.textLocation,
                 name: 'asc-radio-bookmark-sort'
             });
-            // this.radioName.on('change', _.bind(this.onRadioNameChange, this));
+            this.radioLocation.on('change', _.bind(this.onRadioSort, this));
 
             this.bookmarksList = new Common.UI.ListView({
                 el: $('#bookmarks-list', this.$window),
                 store: new Common.UI.DataViewStore()
             });
             this.bookmarksList.store.comparator = function(rec) {
-                return (me.radioName.getValue() ? rec.get("name") : rec.get("location"));
+                return (me.radioName.getValue() ? rec.get("value") : rec.get("location"));
             };
             // this.bookmarksList.on('item:dblclick', _.bind(this.onDblClickFunction, this));
             // this.bookmarksList.on('entervalue', _.bind(this.onPrimary, this));
@@ -158,10 +158,12 @@ define([
             this.btnGoto = new Common.UI.Button({
                 el: $('#bookmarks-btn-goto')
             });
+            this.btnGoto.on('click', _.bind(this.gotoBookmark, this));
 
             this.btnDelete = new Common.UI.Button({
                 el: $('#bookmarks-btn-delete')
             });
+            this.btnDelete.on('click', _.bind(this.deleteBookmark, this));
 
             this.afterRender();
         },
@@ -176,6 +178,19 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
+                var store = this.bookmarksList.store,
+                    count = props.get_Count(),
+                    arr = [];
+                for (var i=0; i<count; i++) {
+                    var rec = new Common.UI.DataViewModel();
+                    rec.set({
+                        value: props.get_Name(i),
+                        location: i
+                    });
+                    arr.push(rec);
+                }
+                store.reset(arr, {silent: false});
+                this.bookmarksList.selectByIndex(0);
             }
         },
 
@@ -194,6 +209,30 @@ define([
 
         onPrimary: function() {
             return true;
+        },
+
+        gotoBookmark: function(btn, eOpts){
+            var rec = this.bookmarksList.getSelectedRec();
+            if (rec.length>0) {
+                // this.api.gotoBookmark(rec.get('value'));
+            }
+        },
+
+        deleteBookmark: function(btn, eOpts){
+            var rec = this.bookmarksList.getSelectedRec();
+            if (rec.length>0) {
+                // this.api.deleteBookmark(rec.get('value'));
+                var store = this.bookmarksList.store;
+                var idx = _.indexOf(store.models, rec[0]);
+                store.remove(rec[0]);
+            }
+        },
+
+        onRadioSort: function(field, newValue, eOpts) {
+            if (newValue) {
+                this.bookmarksList.store.sort();
+                this.bookmarksList.onResetItems();
+            }
         },
 
         textTitle:    'Bookmarks',

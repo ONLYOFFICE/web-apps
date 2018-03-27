@@ -316,12 +316,13 @@ define([
         onBookmarksClick: function(btn) {
             var me = this;
             (new DE.Views.BookmarksDialog({
+                api: me.api,
+                props: me.api.asc_GetBookmarksManager(),
                 handler: function (result, settings) {
                     if (settings) {
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                },
-                props: {}
+                }
             })).show();
         },
 
