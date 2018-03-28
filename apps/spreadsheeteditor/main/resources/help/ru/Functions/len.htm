@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция LEN/LENB (ДЛСТР/ДЛИНБ)</h1>
 			<p>Функция <b>LEN/LENB</b> - это одна из функций для работы с текстом и данными. Анализирует заданную строку и возвращает количество символов, которые она содержит. Функция <b>LEN</b> предназначена для языков, использующих однобайтовую кодировку (SBCS), в то время как <b>LENB</b> - для языков, использующих двухбайтовую кодировку (DBCS), таких как японский, китайский, корейский и т.д.</p>
 			<p>Синтаксис функции <b>LEN/LENB</b>:</p> 

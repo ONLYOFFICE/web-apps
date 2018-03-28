@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ThemeColorPalette.js
  *
  *  Created by Julia Radzhabova on 1/28/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -146,6 +146,13 @@ define([
         updateCustomColors: function() {
             var el = $(this.el);
             if (el) {
+                var selected = el.find('a.' + this.selectedCls),
+                    color = (selected.length>0 && /color-dynamic/.test(selected[0].className)) ? selected.attr('color') : undefined;
+                if (color) { // custom color was selected
+                    color = color.toUpperCase();
+                    selected.removeClass(this.selectedCls);
+                }
+
                 var colors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
                 colors = colors ? colors.split(',') : [];
 
@@ -156,6 +163,10 @@ define([
                     colorEl.find('span').css({
                         'background-color': '#'+colors[i]
                     });
+                    if (colors[i] == color) {
+                        colorEl.addClass(this.selectedCls);
+                        color = undefined; //select only first found color
+                    }
                 }
             }
         },

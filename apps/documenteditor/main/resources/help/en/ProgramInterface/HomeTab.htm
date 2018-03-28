@@ -6,9 +6,13 @@
         <meta name="description" content="Introducing the Document Editor user interface - Home tab" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Home tab</h1>
             <p>The <b>Home</b> tab opens by default when you open a document. It allows to format font and paragraphs. Some other options are also available here, such as Mail Merge, color schemes, view settings.</p>
             <p><img alt="Home tab" src="../images/interface/hometab.png" /></p>

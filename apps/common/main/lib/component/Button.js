@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  Button.js
  *
  *  Created by Alexander Yuzhin on 1/20/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -160,8 +160,8 @@ define([
                 '</span>' +
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown">' +
-                '<span class="caption"><%= caption %></span>' +
                 '<span class="btn-fixflex-vcenter">' +
+                    '<span class="caption"><%= caption %></span>' +
                     '<i class="caret img-commonctrl"></i>' +
                 '</span>' +
             '</button>' +

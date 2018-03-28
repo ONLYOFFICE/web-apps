@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>TTEST Function</h1>
 			<p>The <b>TTEST</b> function is one of the statistical functions. It is used to return the probability associated with a Student's t-Test. Use <b>TTEST</b> to determine whether two samples are likely to have come from the same two underlying populations that have the same mean.</p>
 			<p>The <b>TTEST</b> function syntax is:</p> 

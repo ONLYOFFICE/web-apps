@@ -26,6 +26,9 @@
 
         /**menuSignature*/
         .toolbar-btn-icon(btn-menu-signature, 83, @toolbar-icon-size);
+
+        /*menuPivot*/
+        .toolbar-btn-icon(btn-menu-pivot,   87, @toolbar-icon-size);
     }
 }
 
@@ -101,7 +104,7 @@
 
 .btn-edit-table,
 .btn-change-shape {
-    .background-ximage('@{app-image-path}/right-panels/rowscols_icon.png', '@{app-image-path}/right-panels/rowscols_icon@2x.png', 84px);
+    .background-ximage('@{common-image-path}/right-panels/rowscols_icon.png', '@{common-image-path}/right-panels/rowscols_icon@2x.png', 84px);
     margin-right: 2px !important;
     margin-bottom: 1px !important;
 }
@@ -119,7 +122,7 @@ button.active:not(.disabled) .btn-change-shape,
 button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -16px;}
 
 .combo-pattern-item {
-    .background-ximage('@{app-image-path}/right-panels/patterns.png', '@{app-image-path}/right-panels/patterns@2x.png', 112px);
+    .background-ximage('@{common-image-path}/right-panels/patterns.png', '@{common-image-path}/right-panels/patterns@2x.png', 112px);
 }
 
 .combo-dataview-menu {
@@ -135,7 +138,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 }
 
 .item-gradient {
-    .background-ximage('@{app-image-path}/right-panels/gradients.png', '@{app-image-path}/right-panels/gradients@2x.png', 150px);
+    .background-ximage('@{common-image-path}/right-panels/gradients.png', '@{common-image-path}/right-panels/gradients@2x.png', 150px);
     width:50px;
     height:50px;
 }
@@ -199,7 +202,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 }
 
 .item-chartlist {
-    .background-ximage('@{app-image-path}/charttypes.png', '@{app-image-path}/charttypes@2x.png', 250px);
+    .background-ximage('@{common-image-path}/toolbar/charttypes.png', '@{common-image-path}/toolbar/charttypes@2x.png', 250px);
     width: 50px;
     height: 50px;
 }
@@ -334,6 +337,62 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
 #table-combo-template .combo-dataview {
     .combo-template(60px);
+}
+
+.pivot-check-listview {
+    background-color: #fff;
+    width: 100%;
+    height: 250px;
+
+    .item {
+        padding-right: 3px;
+    }
+
+    .list-item {
+        width: 146px;
+        margin-left:20px;
+        display: inline-block;
+        white-space: pre;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+
+    .listitem-icon {
+        vertical-align: middle;
+        width: 16px;
+        height: 16px;
+        background-position: -1px -274px;
+        display: inline-block;
+    }
+}
+
+.pivot-listview {
+    background-color: #fff;
+    width: 95px;
+    height: 130px;
+
+    .item {
+        padding: 3px;
+    }
+
+    .list-item > div:nth-child(1) {
+        width:70px;
+        padding-right: 5px;
+        display: inline-block;
+        white-space: pre;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+
+    .listitem-icon {
+        vertical-align: middle;
+        width: 16px;
+        height: 16px;
+        background-position: -1px -274px;
+        display: inline-block;
+    }
 }
 
 #signature-requested-sign,

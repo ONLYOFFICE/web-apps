@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>COVARIANCE.P Function</h1>
 			<p>The <b>COVARIANCE.P</b> function is one of the statistical functions. It is used to return population covariance, the average of the products of deviations for each data point pair in two data sets; use covariance to determine the relationship between two data sets.</p>
 			<p>The <b>COVARIANCE.P</b> function syntax is:</p> 

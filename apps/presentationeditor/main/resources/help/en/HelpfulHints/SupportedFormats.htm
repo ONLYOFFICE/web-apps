@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="The list of presentation formats supported by Presentation Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 		<h1>Supported Formats of Electronic Presentation</h1>
 			<p>Presentation is a set of slides that may include different type of content such as images, media files, text, effects etc. 
 			<b>Presentation Editor</b> handles the following presentation formats:</p>

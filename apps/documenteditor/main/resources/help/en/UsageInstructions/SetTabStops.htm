@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Set tab stops" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Set tab stops</h1>
 			<p>In Document Editor, you can change tab stops i.e. the position the cursor advances to when you press the <b>Tab</b> key on the keyboard.</p>
 			<p>To set tab stops you can use the horizontal ruler:</p>

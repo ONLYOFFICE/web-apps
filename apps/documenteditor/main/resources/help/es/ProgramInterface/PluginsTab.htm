@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pestaña Puglins</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Introducing the Document Editor user interface - Plugins tab" />
+		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Buscar" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Pestaña Puglins</h1>
+            <p>La pestaña <b>Puglins</b> permite acceso a características de edición avanzadas usando componentes disponibles de terceros.</p>
+            <p><img alt="Pestaña Puglins" src="../images/interface/pluginstab.png" /></p>
+            <p>Actualmente, estos son los puglins disponibles:</p>		
+            <ul>
+                <li><b>ArteClip</b> permite añadir imágenes de la colección de arteclip a su documento,</li>
+                <li><b>OCR</b> permite reconocer el texto incluido en una imagen e insertarlo en el texto de un documento,</li>
+                <li><b>EditordeImágenes</b> permite editar imágenes: cortar, cambiar el tamaño, aplicar efectos etc.,</li>
+                <li><b>Discurso</b> permite convertir el texto seleccionado en un discurso,</li>
+                <li><b>Tabla de Símbolos</b> permite insertar símbolos especiales en su texto,</li>
+                <li><b>Traductor</b> permite traducir el texto seleccionado en otros idiomas,</li>
+                <li><b>YouTube</b> permite incorporar vídeos en su documento.</li>
+            </ul>
+            <p>Para aprender más sobre los puglins refiérase a nuestra <a target="_blank" href="https://api.onlyoffice.com/plugin/basic" onclick="onhyperlinkclick(this)">Documentación API</a>. Todos los ejemplos actuales que existen están disponibles en <a target="_blank" href="https://github.com/ONLYOFFICE/sdkjs-plugins" onclick="onhyperlinkclick(this)">GitHub</a>.</p>
+		</div>
+	</body>
+</html>

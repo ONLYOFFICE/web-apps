@@ -67,12 +67,42 @@
 }
 
 .img-arrows {
-    .background-ximage('@{app-image-path}/right-panels/Begin-EndStyle.png', '@{app-image-path}/right-panels/Begin-EndStyle@2x.png', 480px);
+    .background-ximage('@{common-image-path}/right-panels/Begin-EndStyle.png', '@{common-image-path}/right-panels/Begin-EndStyle@2x.png', 480px);
 }
 
 .item-arrow {
     width:44px;
     height:20px;
+}
+
+.header-styles-tableview {
+    .list-item > div{
+        &:nth-child(1) {
+            width:160px;
+            height: 16px;
+            padding-left:16px;
+            padding-right: 5px;
+
+            &.checked {
+                &:before {
+                    content: '';
+                    width: 16px;
+                    height: 16px;
+                    display: inline-block;
+                    float: left;
+                    margin-left: -18px;
+                    background-position: @menu-check-offset-x @menu-check-offset-y;
+                }
+            }
+        }
+
+        padding-right: 6px;
+        vertical-align: middle;
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: pre;
+    }
 }
 
 

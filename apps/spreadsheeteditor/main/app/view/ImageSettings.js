@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ImageSettings.js
  *
  *  Created by Julia Radzhabova on 3/28/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -181,8 +181,11 @@ define([
             this.spnHeight.on('change', _.bind(this.onHeightChange, this));
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnInsertFromFile.on('click', _.bind(function(btn){
+                if (this._isFromFile) return;
+                this._isFromFile = true;
                 if (this.api) this.api.asc_changeImageFromFile();
                 Common.NotificationCenter.trigger('edit:complete', this);
+                this._isFromFile = false;
             }, this));
             this.btnEditObject.on('click', _.bind(function(btn){
                 if (this.api) this.api.asc_startEditCurrentOleObject();

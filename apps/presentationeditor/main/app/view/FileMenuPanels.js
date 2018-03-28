@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Contains views for menu 'File'
  *
  *    Created by Maxim Kadushkin on 20 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -53,8 +53,8 @@ define([
         menu: undefined,
 
         formats: [[
+            {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'PPTX',   imgCls: 'pptx',   type: Asc.c_oAscFileType.PPTX},
             {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP}
         ]],
 
@@ -119,10 +119,6 @@ define([
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
                     '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="edit sogou">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-chb-input-sogou"/></td>',
-                '</tr>','<tr class="divider edit sogou"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
@@ -175,11 +171,6 @@ define([
             this.chInputMode = new Common.UI.CheckBox({
                 el: $('#fms-chb-input-mode'),
                 labelText: this.strInputMode
-            });
-
-            this.chInputSogou = new Common.UI.CheckBox({
-                el: $('#fms-chb-input-sogou'),
-                labelText: this.strInputSogou
             });
 
             this.cmbZoom = new Common.UI.ComboBox({
@@ -291,55 +282,45 @@ define([
             /** coauthoring begin **/
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
-
-            $('tr.sogou', this.el)[mode.isEdit && Common.Utils.isChrome ?'show':'hide']();
         },
 
         updateSettings: function() {
-            this.chSpell.setValue(Common.localStorage.getBool("pe-settings-spellcheck", true));
+            this.chSpell.setValue(Common.Utils.InternalSettings.get("pe-settings-spellcheck"));
 
-            this.chInputMode.setValue(Common.localStorage.getBool("pe-settings-inputmode"));
-            Common.Utils.isChrome && this.chInputSogou.setValue(Common.localStorage.getBool("pe-settings-inputsogou"));
+            this.chInputMode.setValue(Common.Utils.InternalSettings.get("pe-settings-inputmode"));
 
-            var value = Common.localStorage.getItem("pe-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("pe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : -1);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            value = Common.localStorage.getItem("pe-settings-coauthmode");
-            if (value===null && !Common.localStorage.itemExists("pe-settings-autosave") &&
-                this.mode.customization && this.mode.customization.autosave===false)
-                value = 0; // use customization.autosave only when pe-settings-coauthmode and pe-settings-autosave are null
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
-
-            item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
+            var fast_coauth = Common.Utils.InternalSettings.get("pe-settings-coauthmode");
+            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("pe-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: parseInt(value)});
+            value = Common.Utils.InternalSettings.get("pe-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
-            value = Common.localStorage.getItem("pe-settings-autosave");
-            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
-                value = 0;
-            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+            value = Common.Utils.InternalSettings.get("pe-settings-autosave");
+            this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave) {
-                this.chForcesave.setValue(Common.localStorage.getBool("pe-settings-forcesave", this.mode.canForcesave));
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("pe-settings-forcesave"));
             }
 
-            this.chAlignGuides.setValue(Common.localStorage.getBool("pe-settings-showsnaplines", true));
+            this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("pe-settings-showsnaplines"));
         },
 
         applySettings: function() {
             Common.localStorage.setItem("pe-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
-            Common.Utils.isChrome && Common.localStorage.setItem("pe-settings-inputsogou", this.chInputSogou.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 Common.localStorage.setItem("pe-settings-coauthmode", this.cmbCoAuthMode.getValue());
@@ -349,7 +330,8 @@ define([
             Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("pe-settings-showsnaplines", this.chAlignGuides.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
+
             Common.localStorage.save();
 
             if (this.menu) {
@@ -389,8 +371,7 @@ define([
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
         txtSpellCheck: 'Spell Checking',
-        strSpellCheckMode: 'Turn on spell checking option',
-        strInputSogou: 'Turn on Sogou Pinyin input'
+        strSpellCheckMode: 'Turn on spell checking option'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -670,6 +651,8 @@ define([
                 });
             }
 
+            Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
+
             return this;
         },
 
@@ -747,8 +730,8 @@ define([
 
         template: _.template([
             '<div style="width:100%; height:100%; position: relative;">',
-                '<div id="id-help-contents" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
-                '<div id="id-help-frame" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-contents" style="position: absolute; width:220px; top: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-frame" style="position: absolute; left: 220px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
             '</div>'
         ].join('')),
 
@@ -759,20 +742,39 @@ define([
             this.urlPref = 'resources/help/en/';
 
             this.en_data = [
-                {src: "UsageInstructions/SetPageParameters.htm", name: "Set page parameters", headername: "Usage Instructions"},
-                {src: "UsageInstructions/CopyPasteUndoRedo.htm", name: "Copy/paste text passages, undo/redo your actions"},
-                {src: "UsageInstructions/LineSpacing.htm", name: "Set paragraph line spacing"},
-                {src: "UsageInstructions/CopyClearFormatting.htm", name: "Copy/clear text formatting"},
-                {src: "UsageInstructions/CreateLists.htm", name: "Create lists"},
-                {src: "UsageInstructions/InsertImages.htm", name: "Insert images"},
-                {src: "UsageInstructions/ViewDocInfo.htm", name: "View document information"},
-                {src: "UsageInstructions/SavePrintDownload.htm", name: "Save/print/download your document"},
-                {src: "UsageInstructions/OpenCreateNew.htm", name: "Create a new document or open an existing one"},
-                {src: "HelpfulHints/About.htm", name: "About ONLYOFFICE Document Editor", headername: "Helpful Hints"},
-                {src: "HelpfulHints/SupportedFormats.htm", name: "Supported Formats of Electronic Documents"},
-                {src: "HelpfulHints/Navigation.htm", name: "Navigation through Your Document"},
-                {src: "HelpfulHints/Search.htm", name: "Search Function"},
-                {src: "HelpfulHints/KeyboardShortcuts.htm", name: "Keyboard Shortcuts"}
+                {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Presentation Editor user interface", "headername": "Program Interface"},
+                {"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
+                {"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
+                {"src": "ProgramInterface/InsertTab.htm", "name": "Insert tab"},
+                {"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
+                {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Create a new presentation or open an existing one", "headername": "Basic operations" },
+                {"src": "UsageInstructions/CopyPasteUndoRedo.htm", "name": "Copy/paste data, undo/redo your actions"},
+                {"src": "UsageInstructions/ManageSlides.htm", "name": "Manage slides", "headername": "Working with slides"},
+                {"src": "UsageInstructions/SetSlideParameters.htm", "name": "Set slide parameters"},
+                {"src": "UsageInstructions/ApplyTransitions.htm", "name": "Apply transitions" },
+                {"src": "UsageInstructions/PreviewPresentation.htm", "name": "Preview your presentation" },
+                {"src": "UsageInstructions/InsertText.htm", "name": "Insert and format your text", "headername": "Text formatting"},
+                {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Add hyperlinks"},
+                {"src": "UsageInstructions/CreateLists.htm", "name": "Create lists" },
+                {"src": "UsageInstructions/CopyClearFormatting.htm", "name": "Copy/clear formatting"},
+                {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Insert and format autoshapes", "headername": "Operations on objects"},
+                {"src": "UsageInstructions/InsertImages.htm", "name": "Insert and adjust images"},
+                {"src": "UsageInstructions/InsertCharts.htm", "name": "Insert and edit charts" },
+                {"src": "UsageInstructions/InsertTables.htm", "name": "Insert and format tables" },
+                {"src": "UsageInstructions/FillObjectsSelectColor.htm", "name": "Fill objects and select colors"},
+                {"src": "UsageInstructions/ManipulateObjects.htm", "name": "Manipulate objects on a slide"},
+                {"src": "UsageInstructions/AlignArrangeObjects.htm", "name": "Align and arrange objects on a slide"},
+                {"src": "UsageInstructions/InsertEquation.htm", "name": "Insert equations", "headername": "Math equations" },
+                {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Collaborative presentation editing", "headername": "Presentation co-editing" },
+                {"src": "UsageInstructions/ViewPresentationInfo.htm", "name": "View presentation information", "headername": "Tools and settings"},
+                {"src": "UsageInstructions/SavePrintDownload.htm", "name": "Save/print/download your presentation" },
+                {"src": "HelpfulHints/AdvancedSettings.htm", "name": "Advanced settings of Presentation Editor"},
+                {"src": "HelpfulHints/Navigation.htm", "name": "View settings and navigation tools"},
+                {"src": "HelpfulHints/Search.htm", "name": "Search function"},
+                {"src": "HelpfulHints/SpellChecking.htm", "name": "Spell-checking"},
+                {"src": "HelpfulHints/About.htm", "name": "About Presentation Editor", "headername": "Helpful hints"},
+                {"src": "HelpfulHints/SupportedFormats.htm", "name": "Supported formats of electronic presentations"},
+                {"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard shortcuts"}
             ];
 
             if (Common.Utils.isIE) {
@@ -833,7 +835,7 @@ define([
             var me = this;
             var store = this.viewHelpPicker.store;
             if (lang) {
-                lang = lang.split("-")[0];
+                lang = lang.split(/[\-\_]/)[0];
                 var config = {
                     dataType: 'json',
                     error: function () {
@@ -878,7 +880,7 @@ define([
                 '<div id="fms-btn-add-pwd" style="width:190px;"></div>',
                 '<table id="id-fms-view-pwd" cols="2" width="300">',
                     '<tr>',
-                        '<td colspan="2"><span><%= scope.txtEncrypted %></span></td>',
+                        '<td colspan="2"><span style="cursor: default;"><%= scope.txtEncrypted %></span></td>',
                     '</tr>',
                     '<tr>',
                         '<td><div id="fms-btn-change-pwd" style="width:190px;"></div></td>',
@@ -902,7 +904,7 @@ define([
             this.templateSignature = _.template([
                 '<table cols="2" width="300" class="<% if (!hasSigned) { %>hidden<% } %>"">',
                     '<tr>',
-                        '<td colspan="2"><span><%= tipText %></span></td>',
+                        '<td colspan="2"><span style="cursor: default;"><%= tipText %></span></td>',
                     '</tr>',
                     '<tr>',
                         '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',

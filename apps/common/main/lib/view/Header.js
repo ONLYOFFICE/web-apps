@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  Header.js
  *
  *  Created by Alexander Yuzhin on 2/14/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -56,7 +56,7 @@ define([
         var $saveStatus;
 
         var templateUserItem =
-                '<li id="status-chat-user-<%= user.get("id") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
+                '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="color" style="background-color: <%= user.get("color") %>;" >' +
                         '<label class="name"><%= fnEncode(user.get("username")) %></label>' +
                     '</div>' +
@@ -70,7 +70,9 @@ define([
                 '</ul>');
 
         var templateRightBox = '<section>' +
-                            '<section id="box-doc-name"><input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false"></input></section>' +
+                            '<section id="box-doc-name">' +
+                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false"></input>' +
+                            '</section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
                                 '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -125,7 +127,7 @@ define([
 
         function onUsersChanged(model, collection) {
             if (model.changed.online != undefined && $userList) {
-                $userList.find('#status-chat-user-'+ model.get('id'))[model.changed.online ? 'removeClass' : 'addClass']('offline');
+                $userList.find('#'+ model.get('iid'))[model.changed.online ? 'removeClass' : 'addClass']('offline');
                 $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
             }
 
@@ -206,9 +208,8 @@ define([
             appConfig = mode;
 
             var me = this;
-            me.btnGoBack.updateHint(me.textBack);
             me.btnGoBack.on('click', function (e) {
-                Common.NotificationCenter.trigger('goback', true);
+                Common.NotificationCenter.trigger('goback');
             });
 
             if ( me.logo )
@@ -316,8 +317,6 @@ define([
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
             }
-
-            console.log('input keydown');
         }
 
         return {
@@ -394,12 +393,13 @@ define([
 
                     if ( this.labelDocName ) this.labelDocName.off();
                     this.labelDocName = $html.find('#rib-doc-name');
-                    this.labelDocName.on({
-                        'keydown': onDocNameKeyDown.bind(this)
-                    });
+                    // this.labelDocName.attr('maxlength', 50);
+                    this.labelDocName.text = function (text) {
+                        this.val(text).attr('size', text.length);
+                    }
 
                     if ( this.documentCaption ) {
-                        this.labelDocName.val( this.documentCaption );
+                        this.labelDocName.text( this.documentCaption );
                     }
 
                     if ( !_.isUndefined(this.options.canRename) ) {
@@ -472,11 +472,13 @@ define([
 
                 this.branding = value;
 
-                if (value && value.logo && value.logo.image) {
-                    element = $('#header-logo');
-                    if ( element ) {
-                        element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                        element.css({'background-image': 'none', width: 'auto'});
+                if ( value ) {
+                    if ( value.logo && value.logo.image ) {
+                        element = $('#header-logo');
+                        if (element) {
+                            element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            element.css({'background-image': 'none', width: 'auto'});
+                        }
                     }
                 }
             },
@@ -497,8 +499,8 @@ define([
                 this.documentCaption = value;
                 this.isModified && (value += '*');
                 if ( this.labelDocName ) {
-                    this.labelDocName.val( value );
-                    this.labelDocName.attr('size', value.length);
+                    this.labelDocName.text( value );
+                    // this.labelDocName.attr('size', value.length);
 
                     this.setCanRename(true);
                 }
@@ -516,13 +518,15 @@ define([
                 var _name = this.documentCaption;
                 changed && (_name += '*');
 
-                this.labelDocName.val(_name);
+                this.labelDocName.text(_name);
             },
 
-            setCanBack: function (value) {
+            setCanBack: function (value, text) {
                 this.canBack = value;
 
                 this.btnGoBack[value ? 'show' : 'hide']();
+                if (value)
+                    this.btnGoBack.updateHint((text && typeof text == 'string') ? text : this.textBack);
             },
 
             getCanBack: function () {
@@ -541,7 +545,16 @@ define([
                             title: me.txtRename,
                             placement: 'cursor'}
                         );
+
+                        label.on({
+                            'keydown': onDocNameKeyDown.bind(this),
+                            'blur': function (e) {
+
+                            }
+                        });
+
                     } else {
+                        label.off();
                         label.attr('disabled', true);
                         var tip = label.data('bs.tooltip');
                         if ( tip ) {

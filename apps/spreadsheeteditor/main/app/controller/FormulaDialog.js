@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Formula Dialog Controller
  *
  *    Created by Alexey.Musinov on  14/04/2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -137,10 +137,7 @@ define([
                 allFunctionsGroup = null;
 
             if (store) {
-                var value = Common.localStorage.getItem("sse-settings-func-locale");
-                if (value===null)
-                    value = ((this.mode.lang) ? this.mode.lang : 'en').split("-")[0].toLowerCase();
-                value = SSE.Views.FormulaLang.getDescription(value);
+                var value = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
 
                 allFunctionsGroup = new SSE.Models.FormulaGroup ({
                     name    : 'All',

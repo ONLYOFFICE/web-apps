@@ -6,9 +6,13 @@
         <meta name="description" content="Знакомство с пользовательским интерфейсом редактора документов - Вкладка Главная" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Вкладка Главная</h1>
             <p>Вкладка <b>Главная</b> открывается по умолчанию при открытии документа. Она позволяет форматировать шрифт и абзацы. Здесь также доступны некоторые другие опции, такие как cлияние, цветовые схемы, параметры представления.</p>
             <p><img alt="Вкладка Главная" src="../images/interface/hometab.png" /></p>

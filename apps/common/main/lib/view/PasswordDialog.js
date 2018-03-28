@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Select Codepage for open CSV/TXT format file.
  *
  *  Created by Alexey.Musinov on 29/04/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -54,7 +54,6 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                closable: false,
                 width           : 350,
                 height          : 220,
                 header          : true,
@@ -97,7 +96,6 @@ define([
 
             if (this.$window) {
                 var me = this;
-                this.$window.find('.tool').hide();
                 this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),

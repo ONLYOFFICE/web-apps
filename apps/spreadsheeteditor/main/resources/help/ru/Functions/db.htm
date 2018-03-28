@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
         <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
             <h1>Функция DB (ФУО)</h1>
             <p>Функция <b>DB</b> - это одна из финансовых функций. Используется для вычисления величины амортизации имущества за указанный отчетный период методом фиксированного убывающего остатка.</p>
             <p>Синтаксис функции <b>DB</b>:</p>

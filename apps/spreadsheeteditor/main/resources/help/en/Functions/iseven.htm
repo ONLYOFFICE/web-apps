@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>ISEVEN Function</h1>
 			<p>The <b>ISEVEN</b> function is one of the information functions. It is used to check for an even value. If the cell contains an even value, the function returns TRUE. If the value is odd, it returns FALSE.</p>
 			<p>The <b>ISEVEN</b> function syntax is:</p> 

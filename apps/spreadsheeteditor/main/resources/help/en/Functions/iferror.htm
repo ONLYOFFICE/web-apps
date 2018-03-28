@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>IFERROR Function</h1>
 			<p>The <b>IFERROR</b> function is one of the logical functions. It is used to check if there is an error in the formula in the first argument. The function returns the result of the formula if there is no error, or the value_if_error if there is one.</p>
 			<p>The <b>IFERROR</b> function syntax is:</p> 

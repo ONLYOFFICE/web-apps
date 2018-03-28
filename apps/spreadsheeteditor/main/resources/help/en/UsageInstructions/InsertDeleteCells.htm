@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Insert or delete cells, rows, and columns, hide or show rows or columns, change row height and column width" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Manage cells, rows, and columns</h1>
 			<p>You can insert blank cells above or to the left of the selected cell on a worksheet. You can also insert an entire row above the selected one or a column to the left of the selected column. To make it easy to view a large amount of information, you can hide some rows or columns and display them again. It's also possible to specify a certain row height and column width.</p>
 			<h3>Insert cells, rows, columns</h3>

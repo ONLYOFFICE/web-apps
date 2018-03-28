@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *    app.js
  *
  *    Created by Julia Radzhabova on 26 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -155,6 +155,7 @@ require([
             /** coauthoring end **/
             ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
+            ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
         ]
     });
@@ -187,6 +188,7 @@ require([
         'common/main/lib/controller/Plugins',
         'presentationeditor/main/app/view/ChartSettings',
         'common/main/lib/controller/ExternalDiagramEditor'
+        ,'common/main/lib/controller/ReviewChanges'
         ,'common/main/lib/controller/Protection'
     ], function() {
         app.start();

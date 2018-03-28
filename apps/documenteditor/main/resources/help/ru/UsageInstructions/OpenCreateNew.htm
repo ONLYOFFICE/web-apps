@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Откройте документ, который Вы недавно редактировали, создайте новый или вернитесь к списку существующих документов" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Создание нового документа или открытие существующего</h1>
 			<p>После того как вы закончите работу над одним документом, можно сразу же перейти к уже существующему документу, который вы недавно редактировали, создать новый, или вернуться к списку существующих документов.</p>
 			<p>Чтобы создать новый документ,</p>

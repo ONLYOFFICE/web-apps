@@ -6,9 +6,13 @@
 		<meta name="description" content="Добавьте в презентацию изображение и настройте его размер и положение." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Вставка и настройка изображений</h1>
             <h3>Вставка изображения</h3>
 			<p>В онлайн-редакторе презентаций можно вставлять в презентацию изображения самых популярных форматов. Поддерживаются следующие форматы изображений: <b>BMP</b>, <b>GIF</b>, <b>JPEG</b>, <b>JPG</b>, <b>PNG</b>.</p>

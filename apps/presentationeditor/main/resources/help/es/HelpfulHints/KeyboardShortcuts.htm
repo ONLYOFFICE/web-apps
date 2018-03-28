@@ -3,46 +3,50 @@
 	<head>
 		<title>Atajos de teclado</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="La lista de atajos de teclado para el acceso sencillo y rápido a las funciones del editor de presentaciones." />
+		<meta name="description" content="The keyboard shortcut list used for a faster and easier access to the features of Presentation Editor using the keyboard." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Buscar" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Atajos de teclado</h1>
 			<table>
 				<tr>
 					<th colspan="3">Trabajando con presentación</th>
 				</tr>
 				<tr>
-					<td class="function">Abrir el panel 'Archivo'</td>
+					<td class="function">Abrir panel 'Archivo'</td>
 					<td class="combination">Alt+F</td>
-					<td class="description">Abre el panel <b>Archivo</b> para guardar, descargar, imprimir la presentación corriente, ver la información, crear una presentación nueva o abrir la existente, acceder a la ayuda o los ajustes avanzados de el editor de presentaciones.</td>
+					<td class="description">Abre el panel <b>Archivo</b> para guardar, descargar, imprimir la presentación actual, ver su información, crear una presentación nueva o abrir la existente, acceder a la ayuda o los ajustes avanzados de el Editor de Presentaciones.</td>
 				</tr>
 				<tr>
-					<td>Abrir el panel 'Búsqueda'</td>
+					<td>Abrir panel de 'Búsqueda'</td>
 					<td>Ctrl+F</td>
-					<td>Abre el panel <b>Búsqueda</b> para empezar a buscar el carácter/palabra/frase en la presentación corriente editada.</td>
+					<td>Abre el panel <b>Búsqueda</b> para empezar a buscar el carácter/palabra/frase en la presentación editada recientemente.</td>
 				</tr>
 				<tr>
-					<td>Open 'Comments' panel<a class="sup_link" href="../HelpfulHints/KeyboardShortcuts.htm#footnote" onclick="onhyperlinkclick(this)"><sup>1</sup></a></td>
+					<td>Abrir panel 'Comentarios'</td>
 					<td>Ctrl+Shift+H</td>
-					<td>Open the <b>Comments</b> panel to add your own comment or reply to other users' comments.</td>
+					<td>Abre el panel <b>Comentarios</b> para añadir su comentario propio o contestar a comentarios de otros usuarios.</td>
 				</tr>
 				<tr>
-					<td>Open comment field<a class="sup_link" href="../HelpfulHints/KeyboardShortcuts.htm#footnote" onclick="onhyperlinkclick(this)"><sup>2</sup></a></td>
+					<td>Abrir campo de comentarios</td>
 					<td>Alt+H</td>
-					<td>Open a data entry field where you can add the text of your comment.</td>
+					<td>Abre un campo en el cual usted puede añadir un texto o su comentario.</td>
 				</tr>
-				<tr>
-					<td>Abrir el panel 'Chat'</td>
+				<tr class="onlineDocumentFeatures">
+					<td>Abrir panel 'Chat'</td>
 					<td>Alt+Q</td>
 					<td>Abre el panel <b>Chat</b> y envía un mensaje.</td>
 				</tr>
 				<tr>
 					<td>Guardar presentación</td>
 					<td>Ctrl+S</td>
-					<td>Guarda todos los cambios en la presentación actualmente editada con el editor de presentaciones.</td>
+					<td>Guarda todos los cambios en la presentación editada actualmente con el Editor de Presentaciones.</td>
 				</tr>
 				<tr>
 					<td>Imprimir presentación</td>
@@ -50,46 +54,46 @@
 					<td>Imprime la presentación o la guarda en un archivo.</td>
 				</tr>
 				<tr>
-					<td>Guardar como(Descargar como)</td>
+					<td>Descargar como...</td>
 					<td>Ctrl+Shift+S</td>
-					<td>Guarda la presentación actualmente editada al disco duro de su ordenador en uno de los formatos soportados: PDF, PPTX.</td>
+					<td>Guarda la presentación actualmente editada al disco duro de su ordenador en uno de los formatos compatibles: PDF, PPTX.</td>
 				</tr>
 				<tr>
 					<td>Pantalla completa</td>
 					<td>F11</td>
 					<td>Cambia a la vista de pantalla completa para ajustar el editor de presentaciones a su pantalla.</td>
 				</tr>
-				<tr>
+                <tr>
                     <td>Menú de ayuda</td>
                     <td>F1</td>
-                    <td>Abre el menú de <b>ayuda</b> de el editor de presentaciones.</td>
+                    <td>Abre el menú de <b>Ayuda</b> del editor de presentaciones.</td>
                 </tr>
 				<tr>
 					<th colspan="3">Navegación</th>
 				</tr>
 				<tr>
 					<td>La primera diapositiva</td>
-					<td>Home</td>
+					<td>Inicio</td>
 					<td>Abre la primera diapositiva de la presentación actualmente editada.</td>
 				</tr>
 				<tr>
 					<td>La última diapositiva</td>
-					<td>End</td>
+					<td>Fin</td>
 					<td>Abre la última diapositiva de la presentación actualmente editada.</td>
 				</tr>
 				<tr>
-					<td>Diapositiva siguiente</td>
+					<td>Siguiente diapositiva</td>
 					<td>PgDn</td>
-					<td>Abre la diapositiva siguiente de la presentación actualmente editada.</td>
+					<td>Abre la diapositiva siguiente de la presentación que está editando.</td>
 				</tr>
 				<tr>
 					<td>Diapositiva anterior</td>
 					<td>PgUp</td>
-					<td>Abre la diapositiva anterior de la presentación actualmente editada.</td>
+					<td>Abre la diapositiva anterior de la presentación que esta editando.</td>
 				</tr>
 				<tr>
 					<td>Seleccionar la forma siguiente</td>
-					<td>Tab</td>
+					<td>Tabulación</td>
 					<td>Elije la forma que va después de la seleccionada.</td>
 				</tr>
 				<tr>
@@ -100,14 +104,14 @@
 				<tr>
 					<td>Acercar</td>
 					<td>Ctrl++</td>
-					<td>Acerca la presentación actualmente editada.</td>
+					<td>Acerca la presentación que se está editando.</td>
 				</tr>
 				<tr>
 					<td>Alejar</td>
 					<td>Ctrl+-</td>
-					<td>Aleja la presentación actualmente editada.</td>
+					<td>Aleja la presentación que se está editando.</td>
 				</tr>
-				<tr>
+				<tr id="manageslides">
 					<th colspan="3">Acciones con diapositivas</th>
 				</tr>
 				<tr>
@@ -123,10 +127,10 @@
 				<tr>
 					<td>Desplazar diapositiva hacia arriba</td>
 					<td>Ctrl+flecha hacia arriba</td>
-					<td>Desplaca la diapositiva seleccionada arriba de la anterior en la lista.</td>
+					<td>Desplaza la diapositiva seleccionada arriba de la anterior en la lista.</td>
 				</tr>
 				<tr>
-					<td>Desplazar diapisitiva hacia abajo</td>
+					<td>Desplazar diapositiva hacia abajo</td>
 					<td>Ctrl+flecha hacia abajo</td>
 					<td>Desplaza la diapositiva seleccionada debajo de la siguiente en la lista.</td>
 				</tr>
@@ -136,7 +140,7 @@
 					<td>Desplaza la diapositiva seleccionada a la primera posición en la lista.</td>
 				</tr>
 				<tr>
-					<td>Desplazar diapositiva al fin</td>
+					<td>Desplazar diapositiva al final</td>
 					<td>Ctrl+Shift+flecha hacia abajo</td>
 					<td>Desplaza la diapositiva seleccionada a la última posición en la lista.</td>
 				</tr>
@@ -164,25 +168,25 @@
 				<tr>
 					<td>Limitar movimiento</td>
 					<td>Shift+drag</td>
-					<td>Limita el movimiento del objeto seleccionado para que se desplace horizontalmente o verticalmente.</td>
+					<td>Limita el movimiento horizontal y vertical del objeto seleccionado.</td>
 				</tr>
 				<tr>
-					<td>Estableсer rotación en 15 grados</td>
-					<td>Shift+arrastrar(mientras rotación)</td>
-					<td>Limita el ángulo de rotación al incremento de 15 grados.</td>
+					<td>Establecer rotación de 15 grados</td>
+					<td>Shift+arrastrar(mientras rota)</td>
+					<td>Limita el ángulo de rotación a incrementos de 15 grados.</td>
 				</tr>
 				<tr>
 					<td>Mantener proporciones</td>
-					<td>Shift+arrastrar(mientras redimensionamiento)</td>
-					<td>Mantiene las proporciones del objeto seleccionado mientras redimensionamiento.</td>
+					<td>Shift+arrastrar (mientras redimensiona)</td>
+					<td>Mantiene las proporciones del objeto seleccionado mientras este cambia de tamaño.</td>
 				</tr>
 				<tr>
 					<td>Desplazar píxel a píxel</td>
 					<td>Ctrl</td>
-					<td>Mantenga apretada la tecla Ctrl y use las flechas del teclado para desplazar el objeto seleccionado por un píxel a la vez.</td>
+					<td>Mantenga apretada la tecla Ctrl y use las flechas del teclado para desplazar el objeto seleccionado de un píxel a un píxel cada vez.</td>
 				</tr>
 				<tr>
-					<th colspan="3"><a id="preview"></a>Obtener vista previa de presentación</th>
+					<th colspan="3"><a id="preview"></a>Obtener vista previa de la presentación</th>
 				</tr>
 				<tr>
 					<td>Obtener una vista previa desde el principio</td>
@@ -190,7 +194,7 @@
 					<td>Muestra la vista previa de una presentación empezando con la primera diapositiva.</td>
 				</tr>
 				<tr>
-					<td>Navegar  hacia delante</td>
+					<td>Navegar hacia delante</td>
 					<td>ENTER, PAGE DOWN, FLECHA DERECHA, FLECHA HACIA ABAJO, o SPACEBAR</td>
 					<td>Realiza la animación siguiente o abre la diapositiva siguiente.</td>
 				</tr>
@@ -200,65 +204,55 @@
 					<td>Realiza la animación anterior o abre la diapositiva anterior.</td>
 				</tr>
 				<tr>
-					<td>Ir al número de diapositiva</td>
-					<td>número+ENTER</td>
-					<td>Abre la diapositiva con el número especificado.</td>
-				</tr>
-				<tr>
-					<td>Terminar o reiniciar vista previa</td>
-					<td>S</td>
-					<td>Termina o reinicia la presentación automáticamente.</td>
-				</tr>
-				<tr>
 					<td>Cerrar vista previa</td>
 					<td>ESC</td>
-					<td>Cierra la vista previa.</td>
+					<td>Finalizar una presentación.</td>
 				</tr>
 				<tr>
-					<th colspan="3">Deshacer y rehacer</th>
+					<th colspan="3">Deshacer y Rehacer</th>
 				</tr>
 				<tr>
 					<td>Deshacer</td>
 					<td>Ctrl+Z</td>
-					<td>Cancela la última acción realizada.</td>
+					<td>Invierte las últimas acciones realizadas.</td>
 				</tr>
 				<tr>
 					<td>Rehacer</td>
 					<td>Ctrl+Y</td>
-					<td>Repite la última acción inacabada.</td>
+					<td>Repite la última acción deshecha.</td>
 				</tr>
 				<tr>
-					<th colspan="3">Cortar, Copiar, y Pegar</th>
+					<th colspan="3">Cortar, copiar, y pegar</th>
 				</tr>
 				<tr>
 					<td>Cortar</td>
 					<td>Ctrl+X, Shift+Delete</td>
-					<td>Corta el objeto seleccionado y la envía al portapapeles de su ordenador. Después el objeto cortado puede ser insertado al otro lugar en la misma presentación<!--, into another presentation, or into some other program-->.</td>
+					<td>Corta el objeto seleccionado y lo envía al portapapeles de su ordenador. El objeto que se ha cortado se puede insertar en otro lugar en la misma presentación<!--, into another presentation, or into some other program-->.</td>
 				</tr>
 				<tr>
 					<td>Copiar</td>
 					<td>Ctrl+C, Ctrl+Insert</td>
-					<td>Envía el objeto seleccionado al portapapeles de su ordenador. Después el objeto copiado puede ser insertado al otro lugar en la misma presentación<!--, into another presentation, or into some other program-->.</td>
+					<td>Envía el objeto seleccionado al portapapeles de su ordenador. Después el objeto copiado se puede insertar en otro lugar de la misma presentación<!--, into another presentation, or into some other program-->.</td>
 				</tr>
 				<tr>
 					<td>Pegar</td>
 					<td>Ctrl+V, Shift+Insert</td>
-					<td>Inserta el objeto anteriormente copiado del portapapeles de su ordenador a la posición corriente del cursor. Puede ser que el objeto ha sido copiado anteriormente de la misma presentación<!--, from another presentation, or from some other program-->.</td>
+					<td>Inserta el objeto anteriormente copiado del portapapeles de su ordenador a la posición actual del cursor. El objeto se puede copiar anteriormente de la misma presentación<!--, from another presentation, or from some other program-->.</td>
 				</tr>
 				<tr>
 					<td>Insertar hiperenlace</td>
 					<td>Ctrl+K</td>
-					<td>Inserta un hiperenlace que puede usarse para pasar a la dirección web o una cierta diapositiva de la presentación.</td>
+					<td>Inserta un hiperenlace que puede usarse para ir a una dirección web o a una diapositiva en concreto de la presentación.</td>
 				</tr>
 				<tr>
 					<td>Copiar estilo</td>
 					<td>Ctrl+Shift+C</td>
-					<td>Copia el formato del fragmento seleccionado del texto actualmente editado. Después el formato copiado puede ser aplicado a cualquier fragmento de la misma presentación.</td>
+					<td>Copia el formato del fragmento seleccionado del texto que se está editando actualmente. Después el formato copiado se puede aplicar a cualquier fragmento de la misma presentación.</td>
 				</tr>
 				<tr>
 					<td>Aplicar estilo</td>
 					<td>Ctrl+Shift+V</td>
-					<td>Aplica el formato anteriormente copiado al texto actualmente editado.</td>
+					<td>Aplica el formato anteriormente copiado al texto en el cuadro de texto que se está editando.</td>
 				</tr>
 				<tr>
 					<th colspan="3">Seleccionar con el ratón</th>
@@ -274,22 +268,22 @@
 				<tr>
 					<td>Seleccionar todo</td>
 					<td>Ctrl+A</td>
-					<td>Selecciona todas las diapositivas (en la lista de diapositivas) o todos los objetos en la diapositiva (en la área de edición de diapositiva) o todo el texto (en el bloque de texto) - en función de la posición del cursor de ratón.</td>
+					<td>Selecciona todas las diapositivas (en la lista de diapositivas) o todos los objetos en la diapositiva (en el área de edición de diapositiva) o todo el texto (en el bloque de texto) - en función de la posición del cursor de ratón.</td>
 				</tr>
 				<tr>
 					<td>Seleccionar fragmento de texto</td>
-					<td>Shift+Flecha</td>
-					<td>Selecciona el fragmento de texto necesario.</td>
+					<td>Shift+Arrow</td>
+					<td>Selecciona el texto carácter por carácter.</td>
 				</tr>
 				<tr>
-					<td>Seleccionar texto desde cursor hasta principio de línea</td>
+					<td>Seleccionar texto desde el cursor hasta principio de línea</td>
 					<td>Shift+Home</td>
-					<td>Selecciona un fragmento de texto desde el cursor hasta el principio de la línea corriente.</td>
+					<td>Selecciona un fragmento del texto del cursor hasta el principio de la línea actual.</td>
 				</tr>
 				<tr>
-					<td>Seleccionar texto desde cursor hasta final de línea</td>
+					<td>Seleccionar texto desde el cursor hasta el final de línea</td>
 					<td>Shift+End</td>
-					<td>Selecciona un fragmento de texto desde el cursor hasta el final de la línea corriente.</td>
+					<td>Selecciona un fragmento del texto desde el cursor al final de la línea actual.</td>
 				</tr>
 				<tr>
 					<th colspan="3">Estilo de texto</th>
@@ -310,56 +304,55 @@
 					<td>Subraya un fragmento del texto seleccionado.</td>
 				</tr>
 				<tr>
-					<td>Subíndice</td>
+					<td>Sobreíndice</td>
 					<td>Ctrl+.(punto)</td>
-					<td>Pone un fragmento del texto seleccionado en letras pequeñas y lo mete en la parte baja de la línea del texto, por ejemplo como en fórmulas químicas.</td>
+					<td>Pone un fragmento del texto seleccionado en letras pequeñas y lo coloca en la parte baja de la línea del texto, por ejemplo como en formulas químicas.</td>
 				</tr>
 				<tr>
-					<td>Superíndice</td>
+					<td>Subíndice</td>
 					<td>Ctrl+,(coma)</td>
-					<td>Pone un fragmento del texto seleccionado en letras pequeñas y lo mete en la parte superior del texto, por ejemplo como en fracciones.</td>
+					<td>Pone un fragmento del texto seleccionado en letras pequeñas y lo coloca en la parte superior de la línea del texto, por ejemplo como en fracciones.</td>
 				</tr>
 				<tr>
-					<td>Lista con viñetas</td>
+					<td>Lista con puntos</td>
 					<td>Ctrl+Shift+L</td>
-					<td>Crea una lista con viñetas desordenada de un fragmento del texto seleccionado o inicia el otro.</td>
+					<td>Crea una lista con puntos desordenada de un fragmento del texto seleccionado o inicia una nueva.</td>
 				</tr>
 				<tr>
 					<td>Eliminar formato</td>
 					<td>Ctrl+Spacebar</td>
-					<td>Elimina el formato de un fragmento del texto seleccionado.</td>
+					<td>Elimine el formato de un fragmento del texto seleccionado.</td>
 				</tr>
 				<tr>
-					<td>Aumentar tamaño de letra</td>
+					<td>Aumentar tipo de letra</td>
 					<td>Ctrl+]</td>
 					<td>Aumenta el tamaño de las letras de un fragmento del texto seleccionado en un punto.</td>
 				</tr>
 				<tr>
-					<td>Disminuir tamaño de letra</td>
+					<td>Disminuir tipo de letra</td>
 					<td>Ctrl+[</td>
 					<td>Disminuye el tamaño de las letras de un fragmento del texto seleccionado en un punto.</td>
 				</tr>
 				<tr>
-					<td>Alinear al centro/izquierda</td>
+					<td>Alinear centro/izquierda</td>
 					<td>Ctrl+E</td>
 					<td>Alterna un párrafo entre el centro y alineado a la izquierda.</td>
 				</tr>
 				<tr>
-					<td>Alinear a la izquierda/justificado</td>
+					<td>Alinear justificado/izquierda</td>
 					<td>Ctrl+J</td>
 					<td>Alterna un párrafo entre justificado y alineado a la izquierda.</td>
 				</tr>
 				<tr>
-					<td>Alinear a la derecha/izquierda</td>
+					<td>Alinear derecha /izquierda</td>
 					<td>Ctrl+R</td>
 					<td>Alterna un párrafo entre alineado a la derecha y alineado a la izquierda.</td>
 				</tr>
 				<tr>
 					<td>Alinear a la izquierda</td>
 					<td>Ctrl+L</td>
-					<td>Alinea el fragmento de texto a la izquierda, la parte derecha permanece sin cambios.</td>
-				</tr>
-				<!--<tr>
+					<td>Alinea el fragmento de texto a la izquierda, la parte derecha permanece sin alinear.</td>
+				</tr><!--<tr>
 					<td>Increase indent</td>
 					<td>Ctrl+M</td>
 					<td>Indent a paragraph from the left incrementally.</td>
@@ -368,8 +361,7 @@
 					<td>Decrease indent</td>
 					<td>Ctrl+Shift+M</td>
 					<td>Remove a paragraph indent from the left incrementally.</td>
-				</tr>-->
-			</table>
+				</tr>--></table>
 		</div>
 	</body>
 </html>

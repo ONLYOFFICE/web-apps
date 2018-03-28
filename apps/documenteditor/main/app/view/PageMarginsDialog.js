@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  PageMarginsDialog.js
  *
  *  Created by Julia Radzhabova on 2/12/16
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -108,7 +108,7 @@ define([
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: -55.87
             });
             this.spinners.push(this.spnTop);
 
@@ -119,7 +119,7 @@ define([
                 defaultUnit : "cm",
                 value: '1 cm',
                 maxValue: 55.88,
-                minValue: 0
+                minValue: -55.87
             });
             this.spinners.push(this.spnBottom);
 
@@ -158,7 +158,7 @@ define([
                     var errmsg = null;
                     if (this.spnLeft.getNumberValue() + this.spnRight.getNumberValue() > this.maxMarginsW )
                         errmsg = this.txtMarginsW;
-                    else if (this.spnTop.getNumberValue() + this.spnBottom.getNumberValue() > this.maxMarginsH )
+                    else if (Math.abs(this.spnTop.getNumberValue() + this.spnBottom.getNumberValue()) > this.maxMarginsH )
                         errmsg = this.txtMarginsH;
                     if (errmsg) {
                         Common.UI.warning({

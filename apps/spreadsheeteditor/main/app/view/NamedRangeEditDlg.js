@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  NamedRangeEditDlg.js
  *
  *  Created by Julia.Radzhabova on 27.05.15
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *  
  */
 
@@ -303,9 +303,8 @@ define([
         },
 
         onRefreshDefNameList: function(name) {
-            var value = Common.localStorage.getItem("sse-settings-coauthmode"),
-                me = this;
-            if (this.isEdit && (value===null || parseInt(value) == 1)) { // fast co-editing
+            var me = this;
+            if (this.isEdit && Common.Utils.InternalSettings.get("sse-settings-coauthmode")) { // fast co-editing
                 if (name && name.asc_getIsLock() && name.asc_getName().toLowerCase() == this.props.asc_getName().toLowerCase() &&
                     (name.asc_getScope() === null && this.props.asc_getScope() === null || name.asc_getScope().toLowerCase() == this.props.asc_getScope().toLowerCase()) && !this._listRefreshed) {
                     this._listRefreshed = true;

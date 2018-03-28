@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  AddFunction.js
  *
  *  Created by Maxim Kadushkin on 12/14/2016
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -87,7 +87,7 @@ define([
 
                 _.defer(function () {
                     var editorLang = SSE.getController("Main").editorConfig.lang;
-                    editorLang = (editorLang ? editorLang : 'en').split("-")[0].toLowerCase();
+                    editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
 
                     var localizationFunctions = function(data) {
                         fc = data;
@@ -108,7 +108,7 @@ define([
                     functions = {},
                     editorLang = SSE.getController("Main").editorConfig.lang;
 
-                editorLang = (editorLang ? editorLang : 'en').split("-")[0].toLowerCase();
+                editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
 
                 var localizationFunctionsDesc = function (data) {
                     var jsonDesc = {},

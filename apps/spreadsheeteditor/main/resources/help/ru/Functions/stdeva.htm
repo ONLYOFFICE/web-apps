@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция STDEVA (СТАНДОТКЛОНА)</h1>
 			<p>Функция <b>STDEVA</b> - это одна из статистических функций. Анализирует диапазон данных и возвращает стандартное отклонение по выборке, содержащей числа, текст и логические значения (TRUE или FALSE). Текст и логические значения FALSE (ЛОЖЬ) интерпретируются как 0, а логические значения TRUE (ИСТИНА) - как 1.</p>
 			<p>Синтаксис функции <b>STDEVA</b>:</p> 

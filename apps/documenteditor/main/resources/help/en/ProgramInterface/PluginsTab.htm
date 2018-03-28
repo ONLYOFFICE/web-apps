@@ -6,9 +6,13 @@
         <meta name="description" content="Introducing the Document Editor user interface - Plugins tab" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Plugins tab</h1>
             <p>The <b>Plugins</b> tab allows to access advanced editing features using available third-party components.</p>
             <p><img alt="Plugins tab" src="../images/interface/pluginstab.png" /></p>

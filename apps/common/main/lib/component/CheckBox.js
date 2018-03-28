@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  CheckBox.js
  *
  *  Created by Julia Radzhabova on 1/24/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -99,10 +99,32 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
+            if (this.options.el)
+                this.render();
+        },
+
+        render: function (parentEl) {
             var me = this,
                 el = $(this.el);
+            if (!me.rendered) {
+                if (parentEl) {
+                    this.setElement(parentEl, false);
+                    parentEl.html(this.template({
+                        labelText: this.options.labelText
+                    }));
+                    el = $(this.el);
+                } else {
+                    el.html(this.template({
+                        labelText: this.options.labelText
+                    }));
+                }
 
-            this.render();
+                this.$chk = el.find('input[type=button]');
+                this.$label = el.find('label');
+                this.$chk.on('click', _.bind(this.onItemCheck, this));
+            }
+
+            this.rendered = true;
 
             if (this.options.disabled)
                 this.setDisabled(this.options.disabled);
@@ -111,20 +133,6 @@ define([
                 this.setValue(this.options.value, true);
 
             // handle events
-            this.$chk.on('click', _.bind(this.onItemCheck, this));
-        },
-
-        render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-                labelText: this.options.labelText
-            }));
-
-            this.$chk = el.find('input[type=button]');
-            this.$label = el.find('label');
-
-            this.rendered = true;
-
             return this;
         },
 

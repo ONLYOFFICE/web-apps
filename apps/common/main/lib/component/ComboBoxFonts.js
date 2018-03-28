@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ComboBoxFonts.js
  *
  *  Created by Alexander Yuzhin on 2/11/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -112,6 +112,8 @@ define([
 
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
+                this._input.on('focus',     _.bind(function() {this.inFormControl = true;}, this));
+                this._input.on('blur',      _.bind(function() {this.inFormControl = false;}, this));
 
                 this._modalParents = this.cmpEl.closest('.asc-window');
 
@@ -141,7 +143,7 @@ define([
                         me.onAfterHideMenu(e);
                     }, 10);
                     return false;
-                } else if ((e.keyCode == Common.UI.Keys.HOME || e.keyCode == Common.UI.Keys.END || e.keyCode == Common.UI.Keys.BACKSPACE) && this.isMenuOpen()) {
+                } else if ((e.keyCode == Common.UI.Keys.HOME && !e.shiftKey || e.keyCode == Common.UI.Keys.END && !e.shiftKey || e.keyCode == Common.UI.Keys.BACKSPACE && !me._input.is(':focus')) && this.isMenuOpen()) {
                     me._input.focus();
                     setTimeout(function() {
                         me._input[0].selectionStart = me._input[0].selectionEnd = (e.keyCode == Common.UI.Keys.HOME) ? 0 : me._input[0].value.length;
@@ -318,6 +320,15 @@ define([
             },
 
             onApiChangeFont: function(font) {
+                var me = this;
+                setTimeout(function () {
+                    me.onApiChangeFontInternal(font);
+                }, 100);
+            },
+
+            onApiChangeFontInternal: function(font) {
+                if (this.inFormControl) return;
+
                 var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName());
 
                 if (this.getRawValue() !== name) {

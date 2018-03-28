@@ -6,9 +6,13 @@
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция EOMONTH (КОНМЕСЯЦА)</h1>
 			<p>Функция <b>EOMONTH</b> - это одна из функций даты и времени. Возвращает порядковый номер последнего дня месяца, который идет на заданное число месяцев до или после заданной начальной даты. </p>
 			<p>Синтаксис функции <b>EOMONTH</b>:</p> 

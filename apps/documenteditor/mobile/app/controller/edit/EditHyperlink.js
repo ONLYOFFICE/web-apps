@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Document Editor
  *
  *  Created by Alexander Yuzhin on 11/7/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -129,6 +129,8 @@ define([
                 props.put_Value(url);
                 props.put_Text(_.isEmpty(display) ? url : display);
                 props.put_ToolTip(tip);
+                if (_linkObject)
+                    props.put_InternalHyperlink(_linkObject.get_InternalHyperlink());
 
                 me.api.change_Hyperlink(props);
 
@@ -136,7 +138,7 @@ define([
             },
 
             onRemoveLink: function () {
-                this.api && this.api.remove_Hyperlink();
+                this.api && this.api.remove_Hyperlink(_linkObject);
                 DE.getController('EditContainer').hideModal();
             },
 

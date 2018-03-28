@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Perform the basic operations with the presentation: copy, paste, undo, redo" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Copy/paste data, undo/redo your actions</h1>
 			<p>To cut, copy and paste selected objects (slides, text passages, autoshapes) in the current presentation or undo/redo your actions use the corresponding options from the right-click menu, or keyboard shortcuts, or icons available at any tab of the top toolbar:</p>
             <ul>

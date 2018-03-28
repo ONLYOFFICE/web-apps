@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Controller
  *
  *    Created by Maxim Kadushkin on 27 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -112,7 +112,7 @@ define([
             return this;
         },
 
-        onUsersChanged: function(users){
+        onUsersChanged: function(users, currentUserId){
             if (!this.mode.canLicense || !this.mode.canCoAuthoring) {
                 var len = 0;
                 for (name in users) {
@@ -146,13 +146,14 @@ define([
                     if (undefined !== name) {
                         user = users[name];
                         if (user) {
-                            arrUsers.push(new Common.Models.User({
+                            var usermodel = new Common.Models.User({
                                 id          : user.asc_getId(),
                                 username    : user.asc_getUserName(),
                                 online      : true,
                                 color       : user.asc_getColor(),
                                 view        : user.asc_getView()
-                            }));
+                            });
+                            arrUsers[(user.asc_getId() == currentUserId ) ? 'unshift' : 'push'](usermodel);
                         }
                     }
                 }

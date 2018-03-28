@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Main controller
  *
  *    Created by Julia Radzhabova on 26 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -92,6 +92,9 @@ define([
                 this.addListeners({
                     'FileMenu': {
                         'settings:apply': _.bind(this.applySettings, this)
+                    },
+                    'Common.Views.ReviewChanges': {
+                        'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
             },
@@ -142,7 +145,9 @@ define([
                         'Slide subtitle': this.txtSlideSubtitle,
                         'Table': this.txtSldLtTTbl,
                         'Slide title': this.txtSlideTitle,
-                        'Loading': this.txtLoading
+                        'Loading': this.txtLoading,
+                        'Click to add notes': this.txtAddNotes,
+                        'Click to add first slide': this.txtAddFirstSlide
                     }
                 });
 
@@ -186,11 +191,15 @@ define([
                                 me.dontCloseDummyComment = true;
                             else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = true;
+                            else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                                me.inFormControl = true;
                         }
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
+                            if (/form-control/.test(e.target.className))
+                                me.inFormControl = false;
                             if (!e.relatedTarget ||
                                 !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
@@ -283,7 +292,7 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                appHeader.setCanBack(this.appOptions.canBackToFolder === true);
+                appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
@@ -361,8 +370,17 @@ define([
                 }
             },
 
-            onDownloadAs: function() {
-               this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
+            onDownloadAs: function(format) {
+                var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
+                    _supported = [
+                        Asc.c_oAscFileType.PPTX,
+                        Asc.c_oAscFileType.ODP,
+                        Asc.c_oAscFileType.PDF
+                    ];
+
+                if ( !_format || _supported.indexOf(_format) < 0 )
+                    _format = Asc.c_oAscFileType.PPTX;
+                this.api.asc_DownloadAs(_format, true);
             },
 
             onProcessMouse: function(data) {
@@ -378,9 +396,9 @@ define([
                 }
             },
 
-            goBack: function(blank) {
+            goBack: function() {
                  var href = this.appOptions.customization.goback.url;
-                 if (blank) {
+                 if (this.appOptions.customization.goback.blank!==false) {
                      window.open(href, "_blank");
                  } else {
                      parent.location.href = href;
@@ -442,7 +460,7 @@ define([
                 if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
-               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ))) {
+               if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl))) {
                     this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
@@ -527,6 +545,12 @@ define([
                         title   = this.loadingDocumentTitleText;
                         text    = this.loadingDocumentTextText;
                         break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                            text    = action.id;
+                        }
+                        break;
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
@@ -574,10 +598,13 @@ define([
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 value = Common.localStorage.getItem("pe-settings-zoom");
+                Common.Utils.InternalSettings.set("pe-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                me.api.asc_setSpellCheck(Common.localStorage.getBool("pe-settings-spellcheck", true));
+                value = Common.localStorage.getBool("pe-settings-spellcheck", true);
+                Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
+                me.api.asc_setSpellCheck(value);
 
                 function checkWarns() {
                     if (!window['AscDesktopEditor']) {
@@ -601,12 +628,9 @@ define([
                 appHeader.setDocumentCaption( me.api.asc_getDocumentName() );
                 me.updateWindowTitle(true);
 
-                me.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
-
-                if (Common.Utils.isChrome) {
-                    value = Common.localStorage.getBool("pe-settings-inputsogou");
-                    me.api.setInputParams({"SogouPinyin" : value});
-                }
+                value = Common.localStorage.getBool("pe-settings-inputmode");
+                Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
+                me.api.SetTextBoxInputMode(value);
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -618,12 +642,16 @@ define([
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else {
                     me._state.fastCoauth = (!me.appOptions.isEdit && me.appOptions.canComments);
-                    me._state.fastCoauth && me.api.asc_setAutoSaveGap(1);
+                    if (me._state.fastCoauth) {
+                        me.api.asc_setAutoSaveGap(1);
+                        Common.Utils.InternalSettings.set("pe-settings-autosave", 1);
+                    }
                 }
                 me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                Common.Utils.InternalSettings.set("pe-settings-coauthmode", me._state.fastCoauth);
                 /** coauthoring end **/
 
-                Common.localStorage.setBool("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
+                Common.Utils.InternalSettings.set("pe-settings-showsnaplines", me.api.get_ShowSnapLines());
 
                 var application = me.getApplication();
                 var toolbarController           = application.getController('Toolbar'),
@@ -665,9 +693,11 @@ define([
                         value = 0;
                     value = (!me._state.fastCoauth && value!==null) ? parseInt(value) : (me.appOptions.canCoAuthoring ? 1 : 0);
                     me.api.asc_setAutoSaveGap(value);
+                    Common.Utils.InternalSettings.set("pe-settings-autosave", value);
 
                     if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("pe-settings-forcesave", me.appOptions.canForcesave);
+                        Common.Utils.InternalSettings.set("pe-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
@@ -800,6 +830,7 @@ define([
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                 /** coauthoring end **/
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
@@ -814,7 +845,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
-                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.api.asc_isSignaturesSupport();
+                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
 
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
@@ -879,13 +910,16 @@ define([
                         application         = this.getApplication(),
                         toolbarController   = application.getController('Toolbar'),
                         rightmenuController = application.getController('RightMenu'),
-                            fontsControllers    = application.getController('Common.Controllers.Fonts');
+                        fontsControllers    = application.getController('Common.Controllers.Fonts'),
+                        reviewController    = application.getController('Common.Controllers.ReviewChanges');
 
 //                    me.getStore('SlideLayouts');
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
 
                     rightmenuController && rightmenuController.setApi(me.api);
+
+                    reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (me.appOptions.isDesktopApp && me.appOptions.isOffline)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
@@ -918,6 +952,7 @@ define([
                     var value = Common.localStorage.getItem('pe-settings-unit');
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                     Common.Utils.Metric.setCurrentMetric(value);
+                    Common.Utils.InternalSettings.set("pe-settings-unit", value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(!Common.localStorage.getBool('pe-hidden-rulers', true));
@@ -1075,8 +1110,17 @@ define([
                         config.msg = this.errorBadImageUrl;
                         break;
 
+                    case Asc.c_oAscError.ID.ForceSaveButton:
+                        config.msg = this.errorForceSave;
+                        break;
+
+                    case Asc.c_oAscError.ID.ForceSaveTimeout:
+                        config.msg = this.errorForceSave;
+                        console.warn(config.msg);
+                        break;
+
                     default:
-                        config.msg = this.errorDefaultMessage.replace('%1', id);
+                        config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
 
@@ -1089,7 +1133,7 @@ define([
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
 
-                    if (this.appOptions.canBackToFolder) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.fn = function(btn) {
                             if (btn == 'ok') {
@@ -1108,13 +1152,28 @@ define([
                         if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
                             (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.api.asc_DownloadAs() : this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
+                        } else if (id == Asc.c_oAscError.ID.SplitCellMaxRows || id == Asc.c_oAscError.ID.SplitCellMaxCols || id == Asc.c_oAscError.ID.SplitCellRowsDivider) {
+                            var me = this;
+                            setTimeout(function(){
+                                (new Common.Views.InsertTableDialog({
+                                    split: true,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api)
+                                                me.api.SplitCell(value.columns, value.rows);
+                                        }
+                                        me.onEditComplete();
+                                    }
+                                })).show();
+                            },10);
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
                     }, this);
                 }
 
-                Common.UI.alert(config);
+                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout)
+                    Common.UI.alert(config);
 
                 Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
@@ -1397,6 +1456,7 @@ define([
                 var value = Common.localStorage.getItem("pe-settings-unit");
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("pe-settings-unit", value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
                 this.getApplication().getController('RightMenu').updateMetricUnit();
             },
@@ -1564,6 +1624,7 @@ define([
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("pe-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
+                                Common.Utils.InternalSettings.set("pe-settings-coauthmode", false);
                                 this._state.fastCoauth = false;
                             }
                             this.onEditComplete();
@@ -1589,6 +1650,7 @@ define([
                 }
                 if (this.appOptions.canForcesave) {
                     this.appOptions.forcesave = Common.localStorage.getBool("pe-settings-forcesave", this.appOptions.canForcesave);
+                    Common.Utils.InternalSettings.set("pe-settings-forcesave", this.appOptions.forcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
                 }
             },
@@ -1649,14 +1711,18 @@ define([
                     me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
+                        closable: me.appOptions.canRequestClose,
                         type: type,
                         validatePwd: !!me._state.isDRM,
-                        handler: function (value) {
+                        handler: function (result, value) {
                             me.isShowOpenDialog = false;
-                            if (me && me.api) {
-                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
-                                me.loadMask && me.loadMask.show();
-                            }
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
+                                    me.loadMask && me.loadMask.show();
+                                }
+                            } else
+                                Common.Gateway.requestClose();
                             me._state.openDlg = null;
                         }
                     });
@@ -1689,18 +1755,11 @@ define([
                 var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
                 if (!pluginsData || pluginsData.length<1) return;
 
-                var arr = [],
-                    baseUrl = _.isEmpty(plugins.url) ? "" : plugins.url;
-
-                if (baseUrl !== "")
-                    console.warn("Obsolete: The url parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-
+                var arr = [];
                 pluginsData.forEach(function(item){
-                    item = baseUrl + item; // for compatibility with previouse version of server, where plugins.url is used.
                     var value = Common.Utils.getConfigJson(item);
                     if (value) {
                         value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
-                        value.oldVersion = (baseUrl !== "");
                         arr.push(value);
                     }
                 });
@@ -1740,14 +1799,6 @@ define([
                             var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'slide');
                             if ( visible ) pluginVisible = true;
 
-                            var icons = itemVar.icons;
-                            if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
-                                icons = [];
-                                itemVar.icons.forEach(function(icon){
-                                    icons.push(icon.substring(icon.lastIndexOf("\/")+1));
-                                });
-                            }
-
                             if ( item.isUICustomizer ) {
                                 visible && arrUI.push(item.baseUrl + itemVar.url);
                             } else {
@@ -1755,8 +1806,8 @@ define([
 
                                 model.set({
                                     index: variationsArr.length,
-                                    url: (item.oldVersion) ? (itemVar.url.substring(itemVar.url.lastIndexOf("\/") + 1) ) : itemVar.url,
-                                    icons: icons,
+                                    url: itemVar.url,
+                                    icons: itemVar.icons,
                                     visible: visible
                                 });
 
@@ -1796,10 +1847,10 @@ define([
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
                 }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             resetPluginsList: function() {
@@ -1958,7 +2009,10 @@ define([
             saveTitleText: 'Saving Document',
             saveTextText: 'Saving document...',
             txtLoading: 'Loading...',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            txtAddNotes: 'Click to add notes',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+            txtAddFirstSlide: 'Click to add first slide'
         }
     })(), PE.Controllers.Main || {}))
 });

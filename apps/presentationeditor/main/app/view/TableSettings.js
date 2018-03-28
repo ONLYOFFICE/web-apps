@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  TableSettings.js
  *
  *  Created by Julia Radzhabova on 4/11/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -80,8 +80,11 @@ define([
                 CheckLast: false,
                 CheckColBanded: false,
                 BackColor: '#000000',
-                DisabledControls: false
+                DisabledControls: false,
+                Width: null,
+                Height: null
             };
+            this.spinners = [];
             this.lockedControls = [];
             this._locked = false;
             this._originalLook = new Asc.CTablePropLook();
@@ -209,8 +212,8 @@ define([
                         if (me.api) {
                             me.api.SplitCell(value.columns, value.rows);
                         }
-                        me.fireEvent('editcomplete', me);
                     }
+                    me.fireEvent('editcomplete', me);
                 }
             })).show();
         },
@@ -350,6 +353,56 @@ define([
             this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
             this.lockedControls.push(this.btnEdit);
 
+            this.numHeight = new Common.UI.MetricSpinner({
+                el: $('#table-spin-cell-height'),
+                step: .1,
+                width: 115,
+                defaultUnit : "cm",
+                value: '1 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var _props = new Asc.CTableProp();
+                _props.put_RowHeight(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                this.api.tblApply(_props);
+            }, this));
+            this.lockedControls.push(this.numHeight);
+            this.spinners.push(this.numHeight);
+
+            this.numWidth = new Common.UI.MetricSpinner({
+                el: $('#table-spin-cell-width'),
+                step: .1,
+                width: 115,
+                defaultUnit : "cm",
+                value: '1 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.numWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var _props = new Asc.CTableProp();
+                _props.put_ColumnWidth(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                this.api.tblApply(_props);
+            }, this));
+            this.lockedControls.push(this.numWidth);
+            this.spinners.push(this.numWidth);
+
+            this.btnDistributeRows = new Common.UI.Button({
+                el: $('#table-btn-distrub-rows')
+            });
+            this.lockedControls.push(this.btnDistributeRows);
+            this.btnDistributeRows.on('click', _.bind(function(btn){
+                this.api.asc_DistributeTableCells(false);
+            }, this));
+
+            this.btnDistributeCols = new Common.UI.Button({
+                el: $('#table-btn-distrub-cols')
+            });
+            this.lockedControls.push(this.btnDistributeCols);
+            this.btnDistributeCols.on('click', _.bind(function(btn){
+                this.api.asc_DistributeTableCells(true);
+            }, this));
+
             this.linkAdvanced = $('#table-advanced-link');
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -365,8 +418,21 @@ define([
                 this._originalProps = new Asc.CTableProp(props);
                 this._originalProps.put_CellSelect(true);
 
+                var value = props.get_ColumnWidth();
+                if ((this._state.Width === undefined || value === undefined)&&(this._state.Width!==value) ||
+                    Math.abs(this._state.Width-value)>0.001) {
+                    this.numWidth.setValue((value !== null && value !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this._state.Width=value;
+                }
+                value = props.get_RowHeight();
+                if ((this._state.Height === undefined || value === undefined)&&(this._state.Height!==value) ||
+                    Math.abs(this._state.Height-value)>0.001) {
+                    this.numHeight.setValue((value !== null && value !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                    this._state.Height=value;
+                }
+
                 //for table-template
-                var value = props.get_TableStyle();
+                value = props.get_TableStyle();
                 if (this._state.TemplateId!==value || this._isTemplatesChanged) {
                     this.cmbTableTemplate.suspendEvents();
                     var rec = this.cmbTableTemplate.menuPicker.store.findWhere({
@@ -473,6 +539,16 @@ define([
             }
         },
 
+        updateMetricUnit: function() {
+            if (this.spinners) {
+                for (var i=0; i<this.spinners.length; i++) {
+                    var spinner = this.spinners[i];
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
+                }
+            }
+        },
+
         _UpdateBordersStyle: function(border) {
             this.CellBorders = new Asc.CBorders();
             var updateBorders = this.CellBorders;
@@ -530,6 +606,7 @@ define([
         createDelayedElements: function() {
             this.createDelayedControls();
             this.UpdateThemeColors();
+            this.updateMetricUnit();
             this._initSettings = false;
         },
 
@@ -707,7 +784,12 @@ define([
         tipInner:           'Set Inner Lines Only',
         tipInnerVert:       'Set Vertical Inner Lines Only',
         tipInnerHor:        'Set Horizontal Inner Lines Only',
-        tipOuter:           'Set Outer Border Only'
+        tipOuter:           'Set Outer Border Only',
+        textCellSize: 'Cell Size',
+        textHeight: 'Height',
+        textWidth: 'Width',
+        textDistributeRows: 'Distribute rows',
+        textDistributeCols: 'Distribute columns'
 
     }, PE.Views.TableSettings || {}));
 });

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Controller
  *
  *    Created by Maxim Kadushkin on 10 April 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -95,8 +95,12 @@ define([
                     'hide': _.bind(this.onSearchDlgHide, this),
                     'search:back': _.bind(this.onQuerySearch, this, 'back'),
                     'search:next': _.bind(this.onQuerySearch, this, 'next')
+                },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:chat': _.bind(this.onShowHideChat, this)
                 }
             });
+            Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
         },
 
         onLaunch: function() {
@@ -239,27 +243,29 @@ define([
         },
 
         applySettings: function(menu) {
-            this.api.SetTextBoxInputMode(Common.localStorage.getBool("pe-settings-inputmode"));
-
-            if (Common.Utils.isChrome) {
-                value = Common.localStorage.getBool("pe-settings-inputsogou");
-                this.api.setInputParams({"SogouPinyin" : value});
-            }
+            var value = Common.localStorage.getBool("pe-settings-inputmode");
+            Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
+            this.api.SetTextBoxInputMode(value);
 
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                this.api.asc_SetFastCollaborative(Common.localStorage.getBool("pe-settings-coauthmode", true));
+                value = Common.localStorage.getBool("pe-settings-coauthmode", true);
+                Common.Utils.InternalSettings.set("pe-settings-coauthmode", value);
+                this.api.asc_SetFastCollaborative(value);
             }
             /** coauthoring end **/
 
             if (this.mode.isEdit) {
-                var value = Common.localStorage.getItem("pe-settings-autosave");
-                this.api.asc_setAutoSaveGap(parseInt(value));
+                value = parseInt(Common.localStorage.getItem("pe-settings-autosave"));
+                Common.Utils.InternalSettings.set("pe-settings-autosave", value);
+                this.api.asc_setAutoSaveGap(value);
 
-                this.api.asc_setSpellCheck(Common.localStorage.getBool("pe-settings-spellcheck", true));
+                value = Common.localStorage.getBool("pe-settings-spellcheck", true);
+                Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
+                this.api.asc_setSpellCheck(value);
             }
 
-            this.api.put_ShowSnapLines( Common.localStorage.getBool("pe-settings-showsnaplines") );
+            this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("pe-settings-showsnaplines"));
 
             menu.hide();
         },
@@ -381,12 +387,12 @@ define([
         },
 
         onApiCountPages: function(count) {
-            if (this._state.no_slides !== (count<=0) && this.mode.isEdit) {
+            if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
                 /** coauthoring begin **/
-                this.leftMenu.btnComments.setDisabled(this._state.no_slides);
+                this.leftMenu.btnComments && this.leftMenu.btnComments.setDisabled(this._state.no_slides);
                 /** coauthoring end **/
-                this.leftMenu.btnSearch.setDisabled(this._state.no_slides);
+                this.leftMenu.btnSearch && this.leftMenu.btnSearch.setDisabled(this._state.no_slides);
             }
         },
 
@@ -451,6 +457,8 @@ define([
         },
 
         onShortcut: function(s, e) {
+            if (!this.mode) return;
+
             var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
 
             switch (s) {
@@ -546,6 +554,30 @@ define([
                     this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
                 } else {
                     this.leftMenu.close();
+                }
+            }
+        },
+
+        onMenuChange: function (value) {
+            if ('hide' === value) {
+                if (this.leftMenu.btnComments.isActive() && this.api) {
+                    this.leftMenu.btnComments.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
+
+                    // focus to sdk
+                    this.api.asc_enableKeyEvents(true);
+                }
+            }
+        },
+
+        onShowHideChat: function(state) {
+            if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
+                if (state) {
+                    Common.UI.Menu.Manager.hideAll();
+                    this.leftMenu.showMenu('chat');
+                } else {
+                    this.leftMenu.btnChat.toggle(false, true);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
             }
         },

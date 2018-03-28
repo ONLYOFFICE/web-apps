@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция PERCENTILE.INC (ПРОЦЕНТИЛЬ.ВКЛ)</h1>
 			<p>Функция <b>PERCENTILE.INC</b> - это одна из статистических функций. Возвращает <b><em>k</em></b>-ю процентиль для значений диапазона, где <b><em>k</em></b> — число от 0 и 1 (включая эти числа).</p>
 			<p>Синтаксис функции <b>PERCENTILE.INC</b>:</p> 

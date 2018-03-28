@@ -6,9 +6,13 @@
         <meta name="description" content="Задайте параметры страницы: измените ориентацию и размер страницы, настройте поля и вставьте колонки" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Задание параметров страницы</h1>
             <p>Чтобы изменить разметку страницы, а именно задать ориентацию и размер страницы, настроить поля и вставить колонки, используйте соответствующие значки на вкладке <b>Макет</b> верхней панели инструментов.</p>
             <p class="note"><b>Примечание</b>: все эти параметры применяются ко всему документу. Если вам нужно установить разные поля, ориентацию, размер страниц или количество колонок в разных частях документа, обратитесь к <a href="../UsageInstructions/SectionBreaks.htm" onclick="onhyperlinkclick(this)">этой странице</a>.</p>

@@ -6,9 +6,13 @@
 		<meta name="description" content="Измените следующие параметры форматирования: тип, размер, стиль и цвета шрифта" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Задание типа, размера, стиля и цветов шрифта</h1>
 			<p>Можно выбрать тип шрифта и его размер, применить один из стилей оформления и изменить цвета шрифта и фона, используя соответствующие значки, расположенные на вкладке <b>Главная</b> верхней панели инструментов.</p>
 			<p class="note"><b>Примечание</b>: если необходимо применить форматирование к данным, которые уже есть в электронной таблице, выделите их мышью или <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">с помощью клавиатуры</a>, а затем примените форматирование. Если форматирование требуется применить к нескольким ячейкам или диапазонам ячеек, которые не являются смежными, удерживайте клавишу <b>Ctrl</b> при выделении ячеек и диапазонов с помощью мыши.</p>

@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция DELTA (ДЕЛЬТА)</h1>
 			<p>Функция <b>DELTA</b> - это одна из инженерных функций. Используется для проверки равенства двух чисел. Функция возвращает 1, если числа равны, в противном случае возвращает 0.</p>
 			<p>Синтаксис функции <b>DELTA</b>:</p> 

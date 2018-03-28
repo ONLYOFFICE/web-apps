@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Statusbar controller
  *
  *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -86,7 +86,7 @@ define([
                 me.statusbar.render(cfg);
                 me.statusbar.$el.css('z-index', 1);
 
-                $('.statusbar #label-zoom').css('min-width', 70);
+                $('.statusbar #label-zoom').css('min-width', 80);
 
                 if ( cfg.isEdit ) {
                     var review = DE.getController('Common.Controllers.ReviewChanges').getView();
@@ -99,6 +99,8 @@ define([
 
                     me.btnSpelling = review.getButton('spelling', 'statusbar');
                     me.btnSpelling.render( me.statusbar.$layout.find('#btn-doc-spell') );
+                    me.btnDocLang = review.getButton('doclang', 'statusbar');
+                    me.btnDocLang.render( me.statusbar.$layout.find('#btn-doc-lang') );
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }

@@ -137,6 +137,7 @@
   "SSE.Controllers.Main.errorLockedWorksheetRename": "Il foglio non può essere rinominato perché è stato rinominato da un altro utente.",
   "SSE.Controllers.Main.errorMailMergeLoadFile": "Caricamento non riuscito",
   "SSE.Controllers.Main.errorMailMergeSaveFile": "Unione non riuscita",
+  "SSE.Controllers.Main.errorMaxPoints": "Il numero massimo di punti in serie per grafico è di 4096.",
   "SSE.Controllers.Main.errorMoveRange": "Impossibile modificare parte della cella unita",
   "SSE.Controllers.Main.errorOpenWarning": "La lunghezza di una delle formule nel file ha superato<br>il numero consentito di caratteri ed è stato rimosso.",
   "SSE.Controllers.Main.errorOperandExpected": "La sintassi per la funzione inserita non è corretta. Controlla se hai dimenticato una delle parentesi - '(' oppure ')'",

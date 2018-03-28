@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -95,14 +95,15 @@ Common.Utils = _.extend(new(function() {
         documentSettingsType = {
         	Paragraph  : 0,
             Table      : 1,
-            Image      : 2,
-            Header     : 3,
-            TextArt    : 4,
-            Shape      : 5,
+            Header     : 2,
+            TextArt    : 3,
+            Shape      : 4,
+            Image      : 5,
             Slide      : 6,
             Chart      : 7,
             MailMerge  : 8,
-            Signature   : 9
+            Signature  : 9,
+            Pivot      : 10
         },
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
@@ -576,7 +577,7 @@ Common.Utils.String = new (function() {
 })();
 
 Common.Utils.isBrowserSupported = function() {
-    return !((Common.Utils.ieVersion != 0 && Common.Utils.ieVersion < 9.0) ||
+    return !((Common.Utils.ieVersion != 0 && Common.Utils.ieVersion < 10.0) ||
              (Common.Utils.safariVersion != 0 && Common.Utils.safariVersion < 5.0) ||
              (Common.Utils.firefoxVersion != 0 && Common.Utils.firefoxVersion < 4.0) ||
              (Common.Utils.chromeVersion != 0 && Common.Utils.chromeVersion < 7.0) ||
@@ -701,7 +702,23 @@ Common.Utils.createXhr = function () {
     }
 
     return xmlhttp;
-}
+};
+
+Common.Utils.getConfigJson = function (url) {
+    if ( url ) {
+        try {
+            var xhrObj = Common.Utils.createXhr();
+            if ( xhrObj ) {
+                xhrObj.open('GET', url, false);
+                xhrObj.send('');
+
+                return JSON.parse(xhrObj.responseText);
+            }
+        } catch (e) {}
+    }
+
+    return null;
+};
 
 Common.Utils.getConfigJson = function (url) {
     if ( url ) {
@@ -725,7 +742,7 @@ Common.Utils.asyncCall = function (callback, scope, args) {
     })).then(function () {
         callback.call(scope, args);
     });
-}
+};
 
 // Extend javascript String type
 String.prototype.strongMatch = function(regExp){
@@ -736,3 +753,19 @@ String.prototype.strongMatch = function(regExp){
 
     return false;
 };
+
+Common.Utils.InternalSettings = new(function() {
+    var settings = {};
+
+    var _get = function(name) {
+        return settings[name];
+    },
+    _set = function(name, value) {
+        settings[name] = value;
+    };
+
+    return {
+        get: _get,
+        set: _set
+    }
+});

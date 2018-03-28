@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  HeaderFooterSettings.js
  *
  *  Created by Julia Radzhabova on 02/03/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -45,7 +45,8 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/component/RadioBox'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -72,7 +73,8 @@ define([
                 DiffFirst: false,
                 DiffOdd: false,
                 SameAs: false,
-                DisabledControls: false
+                DisabledControls: false,
+                Numbering: undefined
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -129,9 +131,20 @@ define([
 
                 value = prop.get_LinkToPrevious();
                 if ( this._state.SameAs!==value ) {
-                    this.chSameAs.setDisabled(value===null);
+                    this.chSameAs.setDisabled(value===null || this._locked);
                     this.chSameAs.setValue(value==true, true);
                     this._state.SameAs=value;
+                }
+
+                value = prop.get_StartPageNumber();
+                if ( this._state.Numbering!==value && value !== null) {
+                    if (value<0)
+                        this.radioPrev.setValue(true, true);
+                    else {
+                        this.radioFrom.setValue(true, true);
+                        this.numFrom.setValue(value, true);
+                    }
+                    this._state.Numbering=value;
                 }
             }
         },
@@ -163,6 +176,36 @@ define([
         onSameAsChange: function(field, newValue, oldValue, eOpts){
             if (this.api)
                 this.api.HeadersAndFooters_LinkToPrevious((field.getValue()=='checked'));
+            this.fireEvent('editcomplete', this);
+        },
+
+        onInsertCurrentClick: function() {
+            if (this.api)
+                this.api.put_PageNum(-1);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onRadioPrev: function(field, newValue, eOpts) {
+            if (newValue && this.api) {
+                this.api.asc_SetSectionStartPage(-1);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onRadioFrom: function(field, newValue, eOpts) {
+            if (newValue && this.api) {
+                if (_.isEmpty(this.numFrom.getValue()))
+                    this.numFrom.setValue(1, true);
+                this.api.asc_SetSectionStartPage(this.numFrom.getNumberValue());
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onNumFromChange: function(field, newValue, oldValue, eOpts){
+            if (this.api) {
+                this.radioFrom.setValue(true, true);
+                this.api.asc_SetSectionStartPage(field.getNumberValue());
+            }
             this.fireEvent('editcomplete', this);
         },
 
@@ -231,12 +274,45 @@ define([
                 el: $('#headerfooter-check-same-as'),
                 labelText: this.textSameAs
             });
-            this.lockedControls.push(this.chSameAs);
 
             this.numPosition.on('change', _.bind(this.onNumPositionChange, this));
             this.chDiffFirst.on('change', _.bind(this.onDiffFirstChange, this));
             this.chDiffOdd.on('change', _.bind(this.onDiffOddChange, this));
             this.chSameAs.on('change', _.bind(this.onSameAsChange, this));
+
+            this.btnInsertCurrent = new Common.UI.Button({
+                el: $('#headerfooter-button-current')
+            });
+            this.lockedControls.push(this.btnInsertCurrent);
+            this.btnInsertCurrent.on('click', _.bind(this.onInsertCurrentClick, this));
+
+            this.radioPrev = new Common.UI.RadioBox({
+                el: $('#headerfooter-radio-prev'),
+                labelText: this.textPrev,
+                name: 'asc-radio-header-numbering',
+                checked: true
+            }).on('change', _.bind(this.onRadioPrev, this));
+            this.lockedControls.push(this.radioPrev);
+
+            this.radioFrom = new Common.UI.RadioBox({
+                el: $('#headerfooter-radio-from'),
+                labelText: this.textFrom,
+                name: 'asc-radio-header-numbering'
+            }).on('change', _.bind(this.onRadioFrom, this));
+            this.lockedControls.push(this.radioFrom);
+
+            this.numFrom = new Common.UI.MetricSpinner({
+                el: $('#headerfooter-spin-from'),
+                step: 1,
+                width: 85,
+                value: '1',
+                defaultUnit : "",
+                maxValue: 2147483646,
+                minValue: 0,
+                allowDecimal: false
+            });
+            this.lockedControls.push(this.numFrom);
+            this.numFrom.on('change', _.bind(this.onNumFromChange, this));
         },
         
         createDelayedElements: function() {
@@ -257,6 +333,7 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
+                this.chSameAs.setDisabled(disable || (this._state.SameAs===null));
             }
         },
 
@@ -273,6 +350,12 @@ define([
         textBottomLeft:         'Bottom Left',
         textBottomRight:        'Bottom Right',
         textBottomCenter:       'Bottom Center',
-        textSameAs:             'Link to Previous'
+        textSameAs:             'Link to Previous',
+        textInsertCurrent: 'Insert to Current Position',
+        textTopPage: 'Top of Page',
+        textBottomPage: 'Bottom of Page',
+        textPageNumbering: 'Page Numbering',
+        textPrev: 'Continue from previous section',
+        textFrom: 'Start at'
     }, DE.Views.HeaderFooterSettings || {}));
 });

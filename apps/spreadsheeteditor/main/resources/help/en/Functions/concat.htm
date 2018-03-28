@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>CONCAT Function</h1>
 			<p>The <b>CONCAT</b> function is one of the text and data functions. Is used to combine the data from two or more cells into a single one. This function replaces the <b>CONCATENATE</b> function. </p>
 			<p>The <b>CONCAT</b> function syntax is:</p> 

@@ -5,9 +5,14 @@
     <meta charset="utf-8" />
     <meta name="description" content="Советы по работе с функцией рецензирования документа" />
     <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../search/js/page-search.js"></script>
 </head>
 <body>
     <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
         <h1>Рецензирование документа</h1>
         <p>Когда кто-то предоставляет вам доступ к файлу с правами на рецензирование, используйте функцию <b>Рецензирования</b> документа.</p>
         <p>Если вы рецензент, то вы можете использовать опцию <b>Рецензирование</b> для проверки документа, изменения предложений, фраз, других элементов страницы, исправления опечаток и выполнения других действий, не редактируя документ непосредственно. Все ваши исправления будут зафиксированы и показаны тому, кто отправил вам документ.</p>

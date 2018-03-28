@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция TIME (ВРЕМЯ)</h1>
 			<p>Функция <b>TIME</b> - это одна из функций даты и времени. Используется для добавления определенного времени в выбранном формате (по умолчанию <em>чч:мм tt (указатель половины дня a.m./p.m.)</em>).</p>
 			<p>Синтаксис функции <b>TIME</b>:</p> 

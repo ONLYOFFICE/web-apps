@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Cut/copy/paste data using the keyboard shortcuts" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
         <div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
             <h1>Cut/copy/paste data</h1>
             <h3>Use basic clipboard operations</h3>
             <p>To cut, copy and paste data in the current spreadsheet make use of the right-click menu or use the corresponding icons available at any tab of the top toolbar,</p>

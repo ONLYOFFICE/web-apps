@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
         <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
             <h1>Функция NOMINAL (НОМИНАЛ)</h1>
             <p>Функция <b>NOMINAL</b> - это одна из финансовых функций. Используется для вычисления номинальной годовой процентной ставки по ценной бумаге исходя из указанной эффективной (фактической) годовой процентной ставки и количества периодов в году, за которые начисляются сложные проценты.</p>
             <p>Синтаксис функции <b>NOMINAL</b>:</p>

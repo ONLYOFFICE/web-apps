@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Everything that pertains to the data alignment in cells" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Align data in cells</h1>
 			<p>You can align your data horizontally and vertically or even rotate data within a cell. To do that, select a cell, a range of cells with the mouse or the whole worksheet by pressing the <b>Ctrl+A</b> key combination. You can also select multiple non-adjacent cells or cell ranges holding down the <b>Ctrl</b> key while selecting cells/ranges with the mouse. Then perform one of the following operations using the icons situated at the <b>Home</b> tab of the top toolbar.</p>
 			<ul>

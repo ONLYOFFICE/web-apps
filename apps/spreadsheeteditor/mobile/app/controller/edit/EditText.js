@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Spreadsheet Editor
  *
  *  Created by Alexander Yuzhin on 12/21/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -156,28 +156,28 @@ define([
                 // Align
                 $('#edit-text-align-block').css('display', (_textIn == TextType.inShape) ? 'block' : 'none');
 
-                var hAlign = _cellInfo.asc_getHorAlign() || 'left',
-                    vAlign = _cellInfo.asc_getVertAlign() || 'bottom';
+                var hAlign = _cellInfo.asc_getHorAlign(),
+                    vAlign = _cellInfo.asc_getVertAlign();
 
-                $('#font-left').toggleClass('active', hAlign==='left');
-                $('#font-center').toggleClass('active', hAlign==='center');
-                $('#font-right').toggleClass('active', hAlign==='right');
-                $('#font-just').toggleClass('active', hAlign==='justify');
-                $('#font-top').toggleClass('active', vAlign==='top');
-                $('#font-middle').toggleClass('active', vAlign==='center');
-                $('#font-bottom').toggleClass('active', vAlign==='bottom');
+                $('#font-left').toggleClass('active', hAlign===AscCommon.align_Left);
+                $('#font-center').toggleClass('active', hAlign===AscCommon.align_Center);
+                $('#font-right').toggleClass('active', hAlign===AscCommon.align_Right);
+                $('#font-just').toggleClass('active', hAlign===AscCommon.align_Justify);
+                $('#font-top').toggleClass('active', vAlign===Asc.c_oAscVAlign.Top);
+                $('#font-middle').toggleClass('active', vAlign===Asc.c_oAscVAlign.Center);
+                $('#font-bottom').toggleClass('active', vAlign===Asc.c_oAscVAlign.Bottom);
 
                 // Handlers
                 $('#font-bold').single('click',                 _.bind(me.onBold, me));
                 $('#font-italic').single('click',               _.bind(me.onItalic, me));
                 $('#font-underline').single('click',            _.bind(me.onUnderline, me));
-                $('#font-left').single('click',                 _.bind(me.onHAlign, me, 'left'));
-                $('#font-center').single('click',               _.bind(me.onHAlign, me, 'center'));
-                $('#font-right').single('click',                _.bind(me.onHAlign, me, 'right'));
-                $('#font-just').single('click',                 _.bind(me.onHAlign, me, 'justify'));
-                $('#font-top').single('click',                  _.bind(me.onVAlign, me, 'top'));
-                $('#font-middle').single('click',               _.bind(me.onVAlign, me, 'center'));
-                $('#font-bottom').single('click',               _.bind(me.onVAlign, me, 'bottom'));
+                $('#font-left').single('click',                 _.bind(me.onHAlign, me, AscCommon.align_Left));
+                $('#font-center').single('click',               _.bind(me.onHAlign, me, AscCommon.align_Center));
+                $('#font-right').single('click',                _.bind(me.onHAlign, me, AscCommon.align_Right));
+                $('#font-just').single('click',                 _.bind(me.onHAlign, me, AscCommon.align_Justify));
+                $('#font-top').single('click',                  _.bind(me.onVAlign, me, Asc.c_oAscVAlign.Top));
+                $('#font-middle').single('click',               _.bind(me.onVAlign, me, Asc.c_oAscVAlign.Center));
+                $('#font-bottom').single('click',               _.bind(me.onVAlign, me, Asc.c_oAscVAlign.Bottom));
             },
 
             initFontsPage: function () {
@@ -283,14 +283,29 @@ define([
 
             onHAlignChange: function (e) {
                 var $target = $(e.currentTarget),
-                    type = $target.prop('value');
+                    value = $target.prop('value'),
+                    type = AscCommon.align_Left;
+
+                if (value == 'center')
+                    type = AscCommon.align_Center;
+                else if (value == 'right')
+                    type = AscCommon.align_Right;
+                else if (value == 'justify')
+                    type = AscCommon.align_Justify;
 
                 this.api.asc_setCellAlign(type);
             },
 
             onVAlignChange: function (e) {
                 var $target = $(e.currentTarget),
-                    type = $target.prop('value');
+                    value = $target.prop('value'),
+                    type = Asc.c_oAscVAlign.Bottom;
+
+                if (value == 'top') {
+                    type = Asc.c_oAscVAlign.Top;
+                } else if (value == 'center') {
+                    type = Asc.c_oAscVAlign.Center;
+                }
 
                 this.api.asc_setCellVertAlign(type);
             },

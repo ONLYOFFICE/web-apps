@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  HyperlinkSettingsDialog.js
  *
  *  Created by Alexander Yuzhin on 2/20/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -83,6 +83,7 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
+            this._originalProps = null;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -155,6 +156,7 @@ define([
                 this.isTextChanged = false;
 
                 me.inputTip.setValue(props.get_ToolTip());
+                me._originalProps = props;
             }
         },
 
@@ -178,6 +180,7 @@ define([
             }
 
             props.put_ToolTip(me.inputTip.getValue());
+            props.put_InternalHyperlink(me._originalProps.get_InternalHyperlink());
 
             return props;
         },

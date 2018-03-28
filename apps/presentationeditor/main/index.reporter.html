@@ -187,7 +187,7 @@
             stopLoading = false;
         if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
             var m = /msie (\d+\.\d+)/.exec(userAgent);
-            if (m && parseFloat(m[1]) < 9.0) {
+            if (m && parseFloat(m[1]) < 10.0) {
                 document.write('<div class="app-error-panel">' +
                                 '<div class="message-block">' +
                                     '<div class="message-inner">' +
@@ -222,7 +222,7 @@
         }
 
         var params = getUrlParams(),
-            lang = (params["lang"] || 'en').split("-")[0],
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
             margin = (customer !== '') ? 50 : 20,
             loading = 'Loading...',

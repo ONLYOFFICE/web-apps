@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ShapeSettings.js
  *
  *  Created by Julia Radzhabova on 3/28/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -711,11 +711,17 @@ define([
                 this._noApply = true;
 
                 this.disableControls(this._locked, !shapeprops.asc_getCanFill());
-                this.hideShapeOnlySettings(shapeprops.asc_getFromChart());
-                this.hideChangeTypeSettings(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
-                                            || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
-                                            || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
-                                            || shapetype=='straightConnector1');
+                this.hideShapeOnlySettings(shapeprops.asc_getFromChart() || shapeprops.asc_getFromImage());
+
+                var hidechangetype = shapeprops.get_FromChart() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                    || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
+                    || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
+                    || shapetype=='straightConnector1';
+                this.hideChangeTypeSettings(hidechangetype);
+                if (!hidechangetype) {
+                    this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage());
+                    this.btnChangeShape.menu.items[1].setVisible(!shapeprops.get_FromImage());
+                }
 
                 // background colors
                 var rec = null;
@@ -916,7 +922,8 @@ define([
                 // border colors
                 var stroke = shapeprops.asc_getStroke(),
                     strokeType = stroke.asc_getType(),
-                    borderType;
+                    borderType,
+                    update = (this._state.StrokeColor == 'transparent' && this.BorderColor.Color !== 'transparent'); // border color was changed for shape without line and then shape was reselected (or apply other settings)
 
                 if (stroke) {
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
@@ -942,7 +949,7 @@ define([
                 type1 = typeof(this.BorderColor.Color);
                 type2 = typeof(this._state.StrokeColor);
 
-                if ( (type1 !== type2) || (type1=='object' &&
+                if ( update || (type1 !== type2) || (type1=='object' &&
                     (this.BorderColor.Color.effectValue!==this._state.StrokeColor.effectValue || this._state.StrokeColor.color.indexOf(this.BorderColor.Color.color)<0)) ||
                     (type1!='object' && (this._state.StrokeColor.indexOf(this.BorderColor.Color)<0 || typeof(this.btnBorderColor.color)=='object'))) {
 
@@ -1138,7 +1145,7 @@ define([
             this.fillControls.push(this.btnInsertFromUrl);
 
             this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.asc_changeShapeImageFromFile();
+                if (this.api) this.api.asc_changeShapeImageFromFile(this.BlipFillType);
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
@@ -1419,22 +1426,27 @@ define([
                 shapesStore = this.application.getCollection('ShapeGroups');
 
             var count = shapesStore.length;
-            for (var i=0; i<count-1; i++) {
-                var shapeGroup = shapesStore.at(i);
+            for (var i=-1; i<count-1 && count>0; i++) {
+                var shapeGroup = shapesStore.at(i>-1 ? i : i+1);
                 var menuItem = new Common.UI.MenuItem({
                     caption: shapeGroup.get('groupName'),
                     menu: new Common.UI.Menu({
                         menuAlign: 'tr-tl',
                         items: [
-                            { template: _.template('<div id="id-shape-menu-shapegroup' + i + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
+                            { template: _.template('<div id="id-shape-menu-shapegroup' + (i+1) + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
                         ]
                     })
                 });
                 me.btnChangeShape.menu.addItem(menuItem);
 
+                var store = shapeGroup.get('groupStore');
+                if (i<0) {
+                    store = store.clone();
+                    store.shift();
+                }
                 var shapePicker = new Common.UI.DataView({
-                    el: $('#id-shape-menu-shapegroup' + i),
-                    store: shapeGroup.get('groupStore'),
+                    el: $('#id-shape-menu-shapegroup' + (i+1)),
+                    store: store,
                     parentMenu: menuItem.menu,
                     showLast: false,
                     itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')

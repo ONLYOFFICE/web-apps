@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  RightMenu.js
  *
  *  Created by Julia Radzhabova on 3/27/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -85,6 +85,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt] =   {panelId: "id-textart-settings",    panel: rightMenu.textartSettings,  btn: rightMenu.btnTextArt,     hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Chart] =     {panelId: "id-chart-settings",      panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Pivot] =     {panelId: "id-pivot-settings",      panel: rightMenu.pivotSettings,    btn: rightMenu.btnPivot,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
         },
 
@@ -116,27 +117,29 @@ define([
             var SelectedObjects = [],
                 selectType = info.asc_getFlags().asc_getSelectionType(),
                 formatTableInfo = info.asc_getFormatTableInfo(),
-                sparkLineInfo = info.asc_getSparklineInfo();
+                sparkLineInfo = info.asc_getSparklineInfo(),
+                pivotInfo = null;//info.asc_getPivotTableInfo();
 
             if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
             
-            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !this.rightmenu.minimizedMode &&
+            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !pivotInfo && !this.rightmenu.minimizedMode &&
                 this.rightmenu.GetActivePane() !== 'id-signature-settings') {
                 this.rightmenu.clearSelection();
                 this._openRightMenu = true;
             }
 
             var need_disable = info.asc_getLocked(),
-                need_disable_table = (info.asc_getLockedTable()===true),
-                need_disable_spark = (info.asc_getLockedSparkline()===true);
+                need_disable_table = (info.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter),
+                need_disable_spark = (info.asc_getLockedSparkline()===true),
+                need_disable_pivot = (info.asc_getLockedPivotTable()===true);
 
-            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, need_disable, need_disable_table, need_disable_spark);
+            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, need_disable, need_disable_table, need_disable_spark, need_disable_pivot);
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, isCellLocked, isTableLocked, isSparkLocked) {
+        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, isCellLocked, isTableLocked, isSparkLocked, isPivotLocked) {
             if (!this.editMode)
                 return;
 
@@ -193,6 +196,13 @@ define([
                 this._settings[settingsType].hidden = 0;
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
+
+            // if (pivotInfo) {
+            //     settingsType = Common.Utils.documentSettingsType.Pivot;
+            //     this._settings[settingsType].props = pivotInfo;
+            //     this._settings[settingsType].locked = isPivotLocked || true; // disable pivot settings
+            //     this._settings[settingsType].hidden = 0;
+            // }
 
             var lastactive = -1, currentactive, priorityactive = -1,
                 activePane = this.rightmenu.GetActivePane();
@@ -343,6 +353,11 @@ define([
                 this.rightmenu.imageSettings.disableControls(disabled);
                 this.rightmenu.chartSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
+                this.rightmenu.pivotSettings.disableControls(disabled);
+
+                if (!allowSignature && this.rightmenu.signatureSettings) {
+                    this.rightmenu.btnSignature.setDisabled(disabled);
+                }
 
                 if (!allowSignature && this.rightmenu.signatureSettings) {
                     this.rightmenu.btnSignature.setDisabled(disabled);
@@ -355,6 +370,7 @@ define([
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.btnPivot.setDisabled(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }

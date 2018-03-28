@@ -1,0 +1,55 @@
+<table cols="2">
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textFields %></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-large">
+            <div id="pivot-list-fields" class="pivot-check-listview"></div>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <label class="header"><%= scope.textFilters %></label>
+        </td>
+        <td width="50%">
+            <label class="header"><%= scope.textColumns %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="pivot-list-filters" class="pivot-listview"></div>
+        </td>
+        <td class="padding-small">
+            <div id="pivot-list-columns" class="pivot-listview" style="margin-left: 3px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <label class="header"><%= scope.textRows %></label>
+        </td>
+        <td width="50%">
+            <label class="header"><%= scope.textValues %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large">
+            <div id="pivot-list-rows" class="pivot-listview"></div>
+        </td>
+        <td class="padding-large">
+            <div id="pivot-list-values" class="pivot-listview" style="margin-left: 3px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan=2>
+            <label class="link" id="pivot-advanced-link"><%= scope.textAdvanced %></label>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

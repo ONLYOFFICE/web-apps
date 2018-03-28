@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *    app.js
  *
  *    Created by Maxim Kadushkin on 21 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -155,10 +155,12 @@ require([
             'RightMenu',
             'LeftMenu',
             'Main',
+            'PivotTable',
             'Common.Controllers.Fonts',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Plugins'
+            ,'Common.Controllers.ReviewChanges'
             ,'Common.Controllers.Protection'
         ]
     });
@@ -175,12 +177,16 @@ require([
         'spreadsheeteditor/main/app/controller/LeftMenu',
         'spreadsheeteditor/main/app/controller/Main',
         'spreadsheeteditor/main/app/controller/Print',
+        'spreadsheeteditor/main/app/controller/PivotTable',
         'spreadsheeteditor/main/app/view/FileMenuPanels',
         'spreadsheeteditor/main/app/view/ParagraphSettings',
         'spreadsheeteditor/main/app/view/ImageSettings',
         'spreadsheeteditor/main/app/view/ChartSettings',
         'spreadsheeteditor/main/app/view/ShapeSettings',
         'spreadsheeteditor/main/app/view/TextArtSettings',
+        'spreadsheeteditor/main/app/view/PivotSettings',
+        'spreadsheeteditor/main/app/view/FieldSettingsDialog',
+        'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
         'spreadsheeteditor/main/app/view/SignatureSettings',
         'common/main/lib/util/utils',
         'common/main/lib/util/LocalStorage',
@@ -188,6 +194,7 @@ require([
         'common/main/lib/controller/Comments',
         'common/main/lib/controller/Chat',
         'common/main/lib/controller/Plugins'
+        ,'common/main/lib/controller/ReviewChanges'
         ,'common/main/lib/controller/Protection'
     ], function() {
         app.start();

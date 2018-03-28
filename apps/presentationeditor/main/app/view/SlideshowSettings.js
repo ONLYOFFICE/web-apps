@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  SlideshowSettings.js
  *
  *  Created by Julia Radzhabova on 6/17/16
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -105,6 +105,11 @@ define([
             if (event.keyCode == Common.UI.Keys.RETURN) {
                 this._handleInput('ok');
             }
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         setSettings: function (loop) {

@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция SIGN (ЗНАК)</h1>
 			<p>Функция <b>SIGN</b> - это одна из математических и тригонометрических функций. Она определяет знак числа. Если число положительное, функция возвращает значение <b>1</b>. Если число отрицательное, функция возвращает значение <b>-1</b>. Если число равно <b>0</b>, функция возвращает значение <b>0</b>.</p>
 			<p>Синтаксис функции <b>SIGN</b>:</p> 

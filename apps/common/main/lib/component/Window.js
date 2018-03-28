@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *    Window.js
  *
  *    Created by Maxim Kadushkin on 24 January 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -191,7 +191,10 @@ define([
                             event.preventDefault();
                             event.stopPropagation();
                             if (this.initConfig.closable !== false) {
-                                this.initConfig.toolclose=='hide' ? this.hide() : this.close();
+                                if (this.initConfig.toolcallback)
+                                    this.initConfig.toolcallback.call(this);
+                                else
+                                    (this.initConfig.toolclose=='hide') ? this.hide() : this.close();
                             }
                             return false;
                         }
@@ -293,6 +296,13 @@ define([
                 this.$window.css({left: left, top: top});
             }
         }
+
+        function _onProcessMouse(data) {
+            if (data.type == 'mouseup' && this.dragging.enabled) {
+                _mouseup.call(this);
+            }
+        }
+
 
         /* window resize functions */
         function _resizestart(event) {
@@ -580,6 +590,9 @@ define([
                     };
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
+
+                    if (!this.initConfig.modal)
+                        Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
                 } else {
                     this.$window.find('.body').css({
                         top:0,

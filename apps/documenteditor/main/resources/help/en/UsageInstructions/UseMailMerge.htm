@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Use Mail Merge to create a lot of personalized letters and send them to recipients" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Use Mail Merge</h1>
             <p class="note"><b>Note</b>: this option is available for paid versions only.</p>
 			<p>The <b>Mail Merge</b> feature is used to create a set of documents combining a common content which is taken from a text document and some individual components (variables, such as names, greetings etc.) taken from a spreadsheet (for example, a customer list). It can be useful if you need to create a lot of personalized letters and send them to recipients.</p>

@@ -6,9 +6,13 @@
         <meta name="description" content="Set page parameters: change page orientation and size, adjust margins and insert columns" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Set page parameters</h1>
 			<p>To change page layout, i.e. set page orientation and size, adjust margins and insert columns, use the corresponding icons at the <b>Layout</b> tab of the top toolbar.</p>
             <p class="note"><b>Note</b>: all these parameters are applied to the entire document. If you need to set different page margins, orientation, size, or column number for the separate parts of your document, please refer to <a href="../UsageInstructions/SectionBreaks.htm" onclick="onhyperlinkclick(this)">this page</a>.</p>

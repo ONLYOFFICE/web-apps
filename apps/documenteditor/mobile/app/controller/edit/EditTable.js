@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Document Editor
  *
  *  Created by Alexander Yuzhin on 10/20/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -209,7 +209,11 @@ define([
             },
 
             _initTableOptionsView: function() {
-                $('#table-option-repeatasheader input').prop('checked', _tableObject.get_RowsInHeader());
+                $('#table-option-repeatasheader input').prop('checked', !!_tableObject.get_RowsInHeader());
+                if (_tableObject.get_RowsInHeader() === null)
+                    $('#table-option-repeatasheader').addClass('disabled');
+                else
+                    $('#table-option-repeatasheader').removeClass('disabled');
                 $('#table-option-resizetofit input').prop('checked', _tableObject.get_TableLayout()==Asc.c_oAscTableLayout.AutoFit);
 
                 var margins = _tableObject.get_CellMargins();
@@ -470,7 +474,7 @@ define([
                     $target = $(e.currentTarget),
                     properties = new Asc.CTableProp();
 
-                properties.put_RowsInHeader($target.is(':checked') ? 1 : 0);
+                properties.put_RowsInHeader($target.is(':checked'));
                 me.api.tblApply(properties);
             },
 

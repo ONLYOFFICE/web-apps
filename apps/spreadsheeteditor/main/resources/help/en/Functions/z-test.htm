@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Z.TEST Function</h1>
 			<p>The <b>Z.TEST</b> function is one of the statistical functions. It is used to return the one-tailed P-value of a z-test. For a given hypothesized population mean, x, <b>Z.TEST</b> returns the probability that the sample mean would be greater than the average of observations in the data set (array) — that is, the observed sample mean.</p>
 			<p>The <b>Z.TEST</b> function syntax is:</p> 

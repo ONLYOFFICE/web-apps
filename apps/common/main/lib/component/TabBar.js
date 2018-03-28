@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *    TabBar.js
  *
  *    Created by Maxim Kadushkin on 28 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -207,7 +207,7 @@ define([
                     function dragComplete() {
                         if (!_.isUndefined(me.drag)) {
                             me.drag.tab.$el.css('z-index', '');
-
+                            me.bar.dragging = false;
                             var tab = null;
                             for (var i = me.bar.tabs.length - 1; i >= 0; --i) {
                                 tab = me.bar.tabs[i].$el;
@@ -254,6 +254,7 @@ define([
                             _clientX = e.clientX*Common.Utils.zoom();
                         me.bar      = bar;
                         me.drag     = {tab: tab, index: index};
+                        bar.dragging = true;
 
                         this.calculateBounds();
                         this.setAbsTabs();
@@ -343,6 +344,8 @@ define([
             this.insert(-1, this.saved);
             delete this.saved;
 
+            Common.Gateway.on('processmouse', _.bind(this.onProcessMouse, this));
+
             this.rendered = true;
             return this;
         },
@@ -359,6 +362,14 @@ define([
                 if (hidden.first) {
                     this.setTabVisible('backward');
                 }
+            }
+        },
+
+        onProcessMouse: function(data) {
+            if (data.type == 'mouseup' && this.dragging) {
+                var tab = this.getActive(true);
+                if (tab)
+                    tab.mouseup();
             }
         },
 

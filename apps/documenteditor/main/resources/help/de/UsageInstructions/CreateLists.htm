@@ -1,30 +1,33 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Erstellen Sie die Listen</title>
+		<title>Listen erstellen</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Erstellen Sie Aufzählungs- und Nummerierungslisten im Dokument, ändern Sie ihren Gliederungtyp" />
+		<meta name="description" content="Create bulleted and numbered lists in the document changing the lists outline" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Erstellen Sie die Listen</h1>
-			<p>Um eine Liste in Ihrem Dokument zu erstellen, führen Sie die folgenden Schritte aus:</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Listen erstellen</h1>
+			<p>Liste in einem Dokument erstellen:</p>
 			<ol>
-				<li>Bewegen Sie den Cursor zur Stelle, wo Sie eine Liste beginnen möchten (das könnte eine neue Zeile sein oder der bereits eingegebene Text).</li>
-				<li>Wählen Sie einen Listentyp:
-					<ul>
-						<li>Eine <b>Aufzählungsliste</b> mit den Markierungen wird mit einem Klick aufs Symbol <b>Aufzählungszeichen</b> <img alt="Aufzählungszeichen" src="../images/bullets.png" /> auf der oberen Symbolleiste erstellt.</li>
-						<li>Eine <b>Nummerierungsliste</b> mit den Zahlen oder Buchstaben wird mit einem Klick aufs Symbol <b>Nummerierung</b> <img alt="Nummerierung" src="../images/numbering.png" /> auf der oberen Symbolleiste erstellt.
-							<p class="note"><b>Hinweis</b>: Klicken Sie auf den schwarzen Pfeil neben dem Symbol <b>Aufzählungszeichen</b> oder <b>Nummerierung</b>, um zu wählen, wie die Liste aussehen wird.</p>
+				<li>Bewegen Sie den Cursor an die Stelle, wo Sie die Liste beginnen möchten (dabei kann es sich um eine neue Zeile handeln oder eine bereits vorhandene).</li>
+                <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Start</b>.</li>
+				<li>Wählen Sie einen Listentyp:<ul>
+						<li><b>Aufzählung</b> mit Markern - klicken Sie in der Menüleiste auf das Symbol <b>Aufzählungszeichen</b> <img alt="Aufzählung" src="../images/bullets.png" /></li>
+						<li><b>Nummerierte Liste</b> mit Zahlen oder Buchstaben - klicken Sie in der Menüleiste auf das Symbol <b>Nummerierte Liste</b> <img alt="Nummerierte Liste" src="../images/numbering.png" /><p class="note"><b>Hinweis</b>: Über den schwarzen Pfeil neben dem Symbol <b>Aufzählungszeichen</b> oder <b>Nummerierte Liste</b>, können Sie das Format der Liste näher bestimmen.</p>
 						</li>
 					</ul>
 				</li>
-				<li>Ab jetzt wird jedes Mal, wenn Sie die <b>Eingabetaste</b> am Ende der Zeile drücken, ein neuer Eintrag in der Aufzählungs- oder Nummerierungsliste erscheinen. Um es zu beenden, drücken Sie die <b>Rücktaste</b> und fangen Sie einen üblichen Textabsatz an.</li>
+				<li>Jedes Mal, wenn Sie nun zum Ende der Zeile die <b>Eingabetaste</b> drücken, erscheint eine neue Aufzählung oder eine neue Position der Nummerierten Liste. Um die Liste zu beenden, drücken Sie die <b>Rücktaste</b> und fahren Sie mit einem üblichen Textabsatz fort.</li>
 			</ol>
-			<p>Sie können auch den Texteinzug in den Listen und die Verschachtelung mit einem Klick auf die Symbole <b>Gliederung</b> <img alt="Gliederung" src="../images/outline.png" />, <b>Einzug verkleinern</b> <img alt="Einzug verkleinern" src="../images/decreaseindent.png" /> und <b>Einzug vergrößern</b> <img alt="Einzug vergrößern" src="../images/increaseindent.png" /> auf der oberen Symbolleiste ändern.</p>
-			<p class="note"><b>Hinweis</b>: Die zusätzlichen Einzugs- und Abstandparameter können im rechten Seitenbereich und im Fenster mit den erweiterten Einstellungen geändert werden. Um darüber mehr zu erfahren, lesen Sie die Seiten <a href="ParagraphIndents.htm" onclick="onhyperlinkclick(this)">Ändern Sie die Absatzeinzüge</a> und <a href="LineSpacing.htm" onclick="onhyperlinkclick(this)">Bestimmen Sie den Zeilenabstand in den Absätzen</a>.</p>
+			<p>Sie können den Texteinzug in den Listen und die dazugehörigen Verschachtelung ändern. Klicken Sie dazu auf <b>Listeneinzug anpassen</b> <img alt="Listeneinzug anpassen" src="../images/outline.png" />, <b>Einzug verkleinern</b> <img alt="Einzug verkleinern" src="../images/decreaseindent.png" /> und <b>Einzug vergrößern</b> <img alt="Einzug vergrößern" src="../images/increaseindent.png" /> in der Registerkarte <b>Start</b>.</p>
+			<p class="note"><b>Hinweis</b>: Die zusätzlichen Einzugs- und Abstandparameter können im rechten Seitenbereich und im Fenster mit den erweiterten Einstellungen geändert werden. Weitere Informationen dazu erhalten in den Abschnitten <a href="ParagraphIndents.htm" onclick="onhyperlinkclick(this)">Absatzeinzüge ändern</a> und <a href="LineSpacing.htm" onclick="onhyperlinkclick(this)">Zeilenabstand festlegen</a>.</p>
 		</div>
 	</body>
 </html>

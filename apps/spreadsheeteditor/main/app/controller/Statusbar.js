@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Statusbar controller
  *
  *    Created by Maxim Kadushkin on 27 March 2014
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -81,7 +81,7 @@ define([
         onLaunch: function() {
             this.statusbar = this.createView('Statusbar').render();
             this.statusbar.$el.css('z-index', 10);
-            this.statusbar.labelZoom.css('min-width', 70);
+            this.statusbar.labelZoom.css('min-width', 80);
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
 
             this.bindViewEvents(this.statusbar, this.events);
@@ -244,15 +244,21 @@ define([
         },
 
         onTabMenu: function(obj, item, e) {
+            var me = this;
             switch (item.value){
             case 'ins':
-                this.api.asc_insertWorksheet(this.createSheetName());
+                setTimeout(function(){
+                    me.api.asc_insertWorksheet(me.createSheetName());
+                }, 1);
                 break;
             case 'del':     this.deleteWorksheet(); break;
             case 'ren':     this.renameWorksheet(); break;
             case 'copy':    this.moveWorksheet(false); break;
             case 'move':    this.moveWorksheet(true); break;
-            case 'hide':    this.hideWorksheet(true); break;
+            case 'hide':
+                setTimeout(function(){
+                    me.hideWorksheet(true);}, 1);
+                break;
             }
         },
 
@@ -329,8 +335,8 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem("sse-settings-coauthmode");
-                if (value!==null && parseInt(value) == 0) {
+                var value = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
+                if (!value) {
                     items = [];
                     while (wc--) {
                         if (sindex !== wc) {

@@ -1,0 +1,30 @@
+#navigation-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    #navigation-header {
+        position: absolute;
+        height: 38px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        font-weight: bold;
+        padding: 10px 12px;
+        border-bottom: 1px solid @gray-dark;
+    }
+
+    #navigation-list {
+        height: 100%;
+        overflow: hidden;
+        font-size: 12px;
+
+        .treeview {
+            padding: 8px 0;
+        }
+
+        .name.not-header {
+            font-style: italic;
+        }
+    }
+}

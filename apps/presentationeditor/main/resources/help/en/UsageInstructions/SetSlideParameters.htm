@@ -6,9 +6,13 @@
 		<meta name="description" content="Set slide parameters: select background fill, themes, color schemes, slide layouts" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Set slide parameters</h1>
 			<p>To customize your presentation, you can select a theme, color scheme, slide size and orientation for the entire presentation, change the background fill or slide layout for each separate slide, apply transitions between the slides. It's also possible to add explanatory notes to each slide that can be helpful when demonstrating the presentation in the <b>Presenter</b> mode.</p>
 			<ul>

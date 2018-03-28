@@ -6,9 +6,13 @@
 		<meta name="description" content="Сортируйте данные в электронной таблице по возрастанию или по убыванию" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Сортировка и фильтрация данных</h1>
 			<h3>Сортировка данных</h3>
 			<p>Данные в электронной таблице можно быстро отсортировать, используя одну из доступных опций:</p>

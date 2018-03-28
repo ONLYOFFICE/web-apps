@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *    CellEdit.js
  *
  *    Created by Maxim Kadushkin on 04 April 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -74,7 +74,7 @@ define([
             });
             this.btnNamedRanges.render($('#ce-cell-name-menu'));
             this.btnNamedRanges.setVisible(false);
-            this.btnNamedRanges.menu.setOffset(-52);
+            this.btnNamedRanges.menu.setOffset(-81);
 
             this.$cellname = $('#ce-cell-name', this.el);
             this.$btnexpand = $('#ce-btn-expand', this.el);

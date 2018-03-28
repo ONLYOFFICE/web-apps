@@ -80,7 +80,7 @@
       // Or generate new perfectScrollbar
 
       // Set class to the container
-      $this.addClass('ps-container');
+      $this.addClass('ps-container oo');
 
       var $scrollbarXRail = $("<div class='ps-scrollbar-x-rail'></div>").appendTo($this),
           $scrollbarYRail = $("<div class='ps-scrollbar-y-rail'></div>").appendTo($this),
@@ -317,7 +317,7 @@
           var deltaX = e.deltaX * e.deltaFactor || deprecatedDeltaX,
               deltaY = e.deltaY * e.deltaFactor || deprecatedDeltaY;
 
-            if (e && e.target && (e.target.type === 'textarea' || e.target.type === 'input')) {
+            if (e && e.target && (e.target.type === 'textarea' && !e.target.hasAttribute('readonly') || e.target.type === 'input')) {
                 e.stopImmediatePropagation();
                 e.preventDefault();
 

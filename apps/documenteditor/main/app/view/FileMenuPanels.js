@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Contains views for menu 'File'
  *
  *    Created by Maxim Kadushkin on 20 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -52,9 +52,9 @@ define([
         menu: undefined,
 
         formats: [[
+            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
-            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX}
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
         ],[
 //            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
@@ -128,10 +128,6 @@ define([
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
                     '<td class="right"><div id="fms-chb-input-mode"/></td>',
                 '</tr>','<tr class="divider edit"></tr>',
-                '<tr class="edit sogou">',
-                    '<td class="left"></td>',
-                    '<td class="right"><div id="fms-chb-input-sogou"/></td>',
-                '</tr>','<tr class="divider edit sogou"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
@@ -187,11 +183,6 @@ define([
             this.chInputMode = new Common.UI.CheckBox({
                 el: $('#fms-chb-input-mode'),
                 labelText: this.strInputMode
-            });
-
-            this.chInputSogou = new Common.UI.CheckBox({
-                el: $('#fms-chb-input-sogou'),
-                labelText: this.strInputSogou
             });
 
             /** coauthoring begin **/
@@ -348,65 +339,56 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
             /** coauthoring end **/
-
-            $('tr.sogou', this.el)[mode.isEdit && Common.Utils.isChrome ?'show':'hide']();
         },
 
         updateSettings: function() {
-            this.chInputMode.setValue(Common.localStorage.getBool("de-settings-inputmode"));
-            Common.Utils.isChrome && this.chInputSogou.setValue(Common.localStorage.getBool("de-settings-inputsogou"));
+            this.chInputMode.setValue(Common.Utils.InternalSettings.get("de-settings-inputmode"));
 
-            var value = Common.localStorage.getItem("de-settings-zoom");
+            var value = Common.Utils.InternalSettings.get("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
 
             /** coauthoring begin **/
-            this.chLiveComment.setValue(Common.localStorage.getBool("de-settings-livecomment", true));
-            this.chResolvedComment.setValue(Common.localStorage.getBool("de-settings-resolvedcomment", true));
+            this.chLiveComment.setValue(Common.Utils.InternalSettings.get("de-settings-livecomment"));
+            this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("de-settings-resolvedcomment"));
 
-            value = Common.localStorage.getItem("de-settings-coauthmode");
-            if (value===null && !Common.localStorage.itemExists("de-settings-autosave") &&
-                this.mode.customization && this.mode.customization.autosave===false)
-                value = 0; // use customization.autosave only when de-settings-coauthmode and de-settings-autosave are null
-            var fast_coauth = (value===null || parseInt(value) == 1) && !(this.mode.isDesktopApp && this.mode.isOffline) && this.mode.canCoAuthoring;
-
-            item = this.cmbCoAuthMode.store.findWhere({value: parseInt(value)});
+            var fast_coauth = Common.Utils.InternalSettings.get("de-settings-coauthmode");
+            item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
             this.cmbCoAuthMode.setValue(item ? item.get('value') : 1);
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
 
             this.fillShowChanges(fast_coauth);
 
-            value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+            value = Common.Utils.InternalSettings.get((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
             item = this.cmbShowChanges.store.findWhere({value: value});
             this.cmbShowChanges.setValue(item ? item.get('value') : (fast_coauth) ? 'none' : 'last');
             /** coauthoring end **/
 
-            value = Common.localStorage.getItem("de-settings-fontrender");
+            value = Common.Utils.InternalSettings.get("de-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
             this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? 1 : 0));
 
-            value = Common.localStorage.getItem("de-settings-unit");
-            item = this.cmbUnit.store.findWhere({value: parseInt(value)});
+            value = Common.Utils.InternalSettings.get("de-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
             this._oldUnits = this.cmbUnit.getValue();
 
-            value = Common.localStorage.getItem("de-settings-autosave");
-            if (value===null && this.mode.customization && this.mode.customization.autosave===false)
-                value = 0;
-            this.chAutosave.setValue(fast_coauth || (value===null ? this.mode.canCoAuthoring : parseInt(value) == 1));
+            value = Common.Utils.InternalSettings.get("de-settings-autosave");
+            this.chAutosave.setValue(value == 1);
 
             if (this.mode.canForcesave)
-                this.chForcesave.setValue(Common.localStorage.getBool("de-settings-forcesave", this.mode.canForcesave));
+                this.chForcesave.setValue(Common.Utils.InternalSettings.get("de-settings-forcesave"));
 
-            this.chSpell.setValue(Common.localStorage.getBool("de-settings-spellcheck", true));
-            this.chAlignGuides.setValue(Common.localStorage.getBool("de-settings-showsnaplines", true));
+            this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
+            this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
         },
 
         applySettings: function() {
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
-            Common.Utils.isChrome && Common.localStorage.setItem("de-settings-inputsogou", this.chInputSogou.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
+            Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
+
             /** coauthoring begin **/
             Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
@@ -421,7 +403,7 @@ define([
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("de-settings-showsnaplines", this.chAlignGuides.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
             Common.localStorage.save();
 
             if (this.menu) {
@@ -483,8 +465,7 @@ define([
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments',
-        strInputSogou: 'Turn on Sogou Pinyin input'
+        strResolvedComment: 'Turn on display of the resolved comments'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -875,6 +856,8 @@ define([
                 });
             }
 
+            Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
+
             return this;
         },
 
@@ -956,8 +939,8 @@ define([
 
         template: _.template([
             '<div style="width:100%; height:100%; position: relative;">',
-                '<div id="id-help-contents" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
-                '<div id="id-help-frame" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-contents" style="position: absolute; width:220px; top: 0; bottom: 0;" class="no-padding"></div>',
+                '<div id="id-help-frame" style="position: absolute; left: 220px; top: 0; right: 0; bottom: 0;" class="no-padding"></div>',
             '</div>'
         ].join('')),
 
@@ -968,33 +951,56 @@ define([
             this.urlPref = 'resources/help/en/';
 
             this.en_data = [
-                {src: "UsageInstructions/SetPageParameters.htm", name: "Set page parameters", headername: "Usage Instructions", selected: true},
-                {src: "UsageInstructions/CopyPasteUndoRedo.htm", name: "Copy/paste text passages, undo/redo your actions"},
-                {src: "UsageInstructions/NonprintingCharacters.htm", name: "Show/hide nonprinting characters"},
-                {src: "UsageInstructions/AlignText.htm", name: "Align your text in a line or paragraph"},
-                {src: "UsageInstructions/FormattingPresets.htm", name: "Apply formatting presets"},
-                {src: "UsageInstructions/BackgroundColor.htm", name: "Select background color for a paragraph"},
-                {src: "UsageInstructions/ParagraphIndents.htm", name: "Change paragraph indents"},
-                {src: "UsageInstructions/LineSpacing.htm", name: "Set paragraph line spacing"},
-                {src: "UsageInstructions/PageBreaks.htm", name: "Insert page breaks"},
-                {src: "UsageInstructions/AddBorders.htm", name: "Add Borders"},
-                {src: "UsageInstructions/FontTypeSizeColor.htm", name: "Set font type, size, and color"},
-                {src: "UsageInstructions/DecorationStyles.htm", name: "Apply font decoration styles"},
-                {src: "UsageInstructions/CopyClearFormatting.htm", name: "Copy/clear text formatting"},
-                {src: "UsageInstructions/CreateLists.htm", name: "Create lists"},
-                {src: "UsageInstructions/InsertTables.htm", name: "Insert tables"},
-                {src: "UsageInstructions/InsertImages.htm", name: "Insert images"},
-                {src: "UsageInstructions/AddHyperlinks.htm", name: "Add hyperlinks"},
-                {src: "UsageInstructions/InsertHeadersFooters.htm", name: "Insert headers and footers"},
-                {src: "UsageInstructions/InsertPageNumbers.htm", name: "Insert page numbers"},
-                {src: "UsageInstructions/ViewDocInfo.htm", name: "View document information"},
-                {src: "UsageInstructions/SavePrintDownload.htm", name: "Save/print/download your document"},
-                {src: "UsageInstructions/OpenCreateNew.htm", name: "Create a new document or open an existing one"},
-                {src: "HelpfulHints/About.htm", name: "About ONLYOFFICE Document Editor", headername: "Helpful Hints"},
-                {src: "HelpfulHints/SupportedFormats.htm", name: "Supported Formats of Electronic Documents"},
-                {src: "HelpfulHints/Navigation.htm", name: "Navigation through Your Document"},
-                {src: "HelpfulHints/Search.htm", name: "Search Function"},
-                {src: "HelpfulHints/KeyboardShortcuts.htm", name: "Keyboard Shortcuts"}
+                {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Document Editor user interface", "headername": "Program Interface"},
+                {"src": "ProgramInterface/FileTab.htm", "name": "File tab"},
+                {"src": "ProgramInterface/HomeTab.htm", "name": "Home Tab"},
+                {"src": "ProgramInterface/InsertTab.htm", "name": "Insert tab"},
+                {"src": "ProgramInterface/LayoutTab.htm", "name": "Layout tab"},
+                {"src": "ProgramInterface/ReviewTab.htm", "name": "Review tab"},
+                {"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
+                {"src": "UsageInstructions/ChangeColorScheme.htm", "name": "Change color scheme", "headername": "Basic operations"},
+                {"src": "UsageInstructions/CopyPasteUndoRedo.htm", "name": "Copy/paste text passages, undo/redo your actions"},
+                {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Create a new document or open an existing one"},
+                {"src": "UsageInstructions/SetPageParameters.htm", "name": "Set page parameters", "headername": "Page formatting"},
+                {"src": "UsageInstructions/NonprintingCharacters.htm", "name": "Show/hide nonprinting characters" },
+                {"src": "UsageInstructions/SectionBreaks.htm", "name": "Insert section breaks" },
+                {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Insert headers and footers"},
+                {"src": "UsageInstructions/InsertPageNumbers.htm", "name": "Insert page numbers"},
+                {"src": "UsageInstructions/InsertFootnotes.htm", "name": "Insert footnotes"},
+                {"src": "UsageInstructions/AlignText.htm", "name": "Align your text in a paragraph", "headername": "Paragraph formatting"},
+                {"src": "UsageInstructions/BackgroundColor.htm", "name": "Select background color for a paragraph"},
+                {"src": "UsageInstructions/ParagraphIndents.htm", "name": "Change paragraph indents"},
+                {"src": "UsageInstructions/LineSpacing.htm", "name": "Set paragraph line spacing"},
+                {"src": "UsageInstructions/PageBreaks.htm", "name": "Insert page breaks"},
+                {"src": "UsageInstructions/AddBorders.htm", "name": "Add borders"},
+                {"src": "UsageInstructions/SetTabStops.htm", "name": "Set tab stops"},
+                {"src": "UsageInstructions/CreateLists.htm", "name": "Create lists"},
+                {"src": "UsageInstructions/FormattingPresets.htm", "name": "Apply formatting styles", "headername": "Text formatting"},
+                {"src": "UsageInstructions/FontTypeSizeColor.htm", "name": "Set font type, size, and color"},
+                {"src": "UsageInstructions/DecorationStyles.htm", "name": "Apply font decoration styles"},
+                {"src": "UsageInstructions/CopyClearFormatting.htm", "name": "Copy/clear text formatting" },
+                {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Add hyperlinks"},
+                {"src": "UsageInstructions/InsertDropCap.htm", "name": "Insert a drop cap"},
+                {"src": "UsageInstructions/InsertTables.htm", "name": "Insert tables", "headername": "Operations on objects"},
+                {"src": "UsageInstructions/InsertImages.htm", "name": "Insert images"},
+                {"src": "UsageInstructions/InsertAutoshapes.htm", "name": "Insert autoshapes"},
+                {"src": "UsageInstructions/InsertCharts.htm", "name": "Insert charts" },
+                {"src": "UsageInstructions/InsertTextObjects.htm", "name": "Insert text objects" },
+                {"src": "UsageInstructions/AlignArrangeObjects.htm", "name": "Align and arrange objects on a page" },
+                {"src": "UsageInstructions/ChangeWrappingStyle.htm", "name": "Change wrapping style" },
+                {"src": "UsageInstructions/UseMailMerge.htm", "name": "Use mail merge", "headername": "Mail Merge"},
+                {"src": "UsageInstructions/InsertEquation.htm", "name": "Insert equations", "headername": "Math equations"},
+                {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Collaborative document editing", "headername": "Document co-editing"},
+                {"src": "HelpfulHints/Review.htm", "name": "Document Review"},
+                {"src": "UsageInstructions/ViewDocInfo.htm", "name": "View document information", "headername": "Tools and settings"},
+                {"src": "UsageInstructions/SavePrintDownload.htm", "name": "Save/download/print your document" },
+                {"src": "HelpfulHints/AdvancedSettings.htm", "name": "Advanced settings of Document Editor"},
+                {"src": "HelpfulHints/Navigation.htm", "name": "View settings and navigation tools"},
+                {"src": "HelpfulHints/Search.htm", "name": "Search and replace function"},
+                {"src": "HelpfulHints/SpellChecking.htm", "name": "Spell-checking"},
+                {"src": "HelpfulHints/About.htm", "name": "About Document Editor", "headername": "Helpful hints"},
+                {"src": "HelpfulHints/SupportedFormats.htm", "name": "Supported formats of electronic documents" },
+                {"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Keyboard shortcuts"}
             ];
 
             if (Common.Utils.isIE) {
@@ -1055,7 +1061,7 @@ define([
             var me = this;
             var store = this.viewHelpPicker.store;
             if (lang) {
-                lang = lang.split("-")[0];
+                lang = lang.split(/[\-\_]/)[0];
                 var config = {
                     dataType: 'json',
                     error: function () {
@@ -1109,7 +1115,7 @@ define([
                 '<div id="fms-btn-add-pwd" style="width:190px;"></div>',
                 '<table id="id-fms-view-pwd" cols="2" width="300">',
                     '<tr>',
-                        '<td colspan="2"><span><%= scope.txtEncrypted %></span></td>',
+                        '<td colspan="2"><span style="cursor: default;"><%= scope.txtEncrypted %></span></td>',
                     '</tr>',
                     '<tr>',
                         '<td><div id="fms-btn-change-pwd" style="width:190px;"></div></td>',
@@ -1133,7 +1139,7 @@ define([
             this.templateSignature = _.template([
                 '<table cols="2" width="300" class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>"">',
                     '<tr>',
-                        '<td colspan="2"><span><%= tipText %></span></td>',
+                        '<td colspan="2"><span style="cursor: default;"><%= tipText %></span></td>',
                     '</tr>',
                     '<tr>',
                         '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',

@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция AVERAGEA (СРЗНАЧА)</h1>
 			<p>Функция <b>AVERAGEA</b> - это одна из статистических функций. Анализирует диапазон данных, включая текстовые и логические значения, и вычисляет среднее значение. Функция <b>AVERAGEA</b> интерпретирует текст и логическое значение FALSE (ЛОЖЬ) как числовое значение 0, а логическое значение TRUE (ИСТИНА) как числовое значение 1. </p>
 			<p>Синтаксис функции <b>AVERAGEA</b>:</p> 

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  TextArtSettings.js
  *
  *  Created by Julia Radzhabova on 7/10/15
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -871,7 +871,8 @@ define([
                 // border colors
                 var stroke = shapeprops.asc_getLine(),
                     strokeType = (stroke) ? stroke.get_type() : null,
-                    borderType;
+                    borderType,
+                    update = (this._state.StrokeColor == 'transparent' && this.BorderColor.Color !== 'transparent'); // border color was changed for shape without line and then shape was reselected (or apply other settings)
 
                 if (stroke) {
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
@@ -896,7 +897,7 @@ define([
                 type1 = typeof(this.BorderColor.Color);
                 type2 = typeof(this._state.StrokeColor);
 
-                if ( (type1 !== type2) || (type1=='object' &&
+                if ( update || (type1 !== type2) || (type1=='object' &&
                     (this.BorderColor.Color.effectValue!==this._state.StrokeColor.effectValue || this._state.StrokeColor.color.indexOf(this.BorderColor.Color.color)<0)) ||
                     (type1!='object' && (this._state.StrokeColor.indexOf(this.BorderColor.Color)<0 || typeof(this.btnBorderColor.color)=='object'))) {
 
@@ -1104,7 +1105,7 @@ define([
             this.lockedControls.push(this.btnInsertFromUrl);
 
             this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeArtImageFromFile();
+                if (this.api) this.api.ChangeArtImageFromFile(this.BlipFillType);
                 this.fireEvent('editcomplete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));

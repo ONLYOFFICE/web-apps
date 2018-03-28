@@ -106,6 +106,38 @@
         </td>
     </tr>
     <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textCellSize %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label style="margin-top: 3px;"><%= scope.textHeight %></label>
+            <div id="table-spin-cell-height" style="display: inline-block; float:right;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label style="margin-top: 3px;"><%= scope.textWidth %></label>
+            <div id="table-spin-cell-width" style="display: inline-block; float:right;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-distrub-rows" style="width:100%;"><%= scope.textDistributeRows %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-distrub-cols" style="width:100%;"><%= scope.textDistributeCols %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
         <td align="center" colspan=2>
             <label class="link" id="table-advanced-link"><%= scope.textAdvanced %></label>
         </td>

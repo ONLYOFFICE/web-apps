@@ -204,6 +204,7 @@
   "PE.Controllers.Main.uploadImageTitleText": "Subiendo imagen",
   "PE.Controllers.Main.warnLicenseExp": "Su licencia ha expirado.<br>Por favor, actualice su licencia y después recargue la página.",
   "PE.Controllers.Main.warnNoLicense": "Esta versión de ONLYOFFICE Editors tiene ciertas limitaciones respecto a la cantidad de conexiones concurrentes al servidor de documentos.<br>Si requiere más, considere mejorar su licencia actual o adquirir una comercial. ",
+  "PE.Controllers.Main.warnNoLicenseUsers": "Esta versión de ONLYOFFICE Editors tiene varias limitaciones para usuarios actuales.<br>Si necesita más, por favor considere actualizar su licencia actual o comprar una licencia comercial.",
   "PE.Controllers.Main.warnProcessRightsChange": "El derecho de edición del archivo es denegado.",
   "PE.Controllers.Search.textNoTextFound": "Texto no es encontrado",
   "PE.Controllers.Settings.notcriticalErrorTitle": "Aviso",

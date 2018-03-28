@@ -6,9 +6,13 @@
         <meta name="description" content="Знакомство с пользовательским интерфейсом редактора документов - Вкладка Рецензирование" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Вкладка Рецензирование</h1>
             <p>Вкладка <b>Рецензирование</b> позволяет проверить документ: убедиться в отсутствии орфографических ошибок, управлять комментариями, отслеживать изменения, внесенные рецензентом.</p>
             <p><img alt="Вкладка Рецензирование" src="../images/interface/reviewtab.png" /></p>	

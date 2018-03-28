@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ParagraphSettingsAdvanced.js
  *
  *  Created by Julia Radzhabova on 2/21/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -42,7 +42,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
     'common/main/lib/component/ListView',
@@ -410,24 +409,35 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.listenTo(this.tabList.store, 'remove', storechanged);
             this.listenTo(this.tabList.store, 'reset',  storechanged);
 
-            this.radioLeft = new Common.UI.RadioBox({
-                el: $('#paragraphadv-radio-left'),
-                labelText: this.textTabLeft,
-                name: 'asc-radio-tab',
-                checked: true
+            this.cmbAlign = new Common.UI.ComboBox({
+                el          : $('#paraadv-cmb-align'),
+                style       : 'width: 85px;',
+                menuStyle   : 'min-width: 85px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 1, displayValue: this.textTabLeft },
+                    { value: 3, displayValue: this.textTabCenter },
+                    { value: 2, displayValue: this.textTabRight }
+                ]
             });
+            this.cmbAlign.setValue(1);
 
-            this.radioCenter = new Common.UI.RadioBox({
-                el: $('#paragraphadv-radio-center'),
-                labelText: this.textTabCenter,
-                name: 'asc-radio-tab'
+            this.cmbLeader = new Common.UI.ComboBox({
+                el          : $('#paraadv-cmb-leader'),
+                style       : 'width: 85px;',
+                menuStyle   : 'min-width: 85px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: Asc.c_oAscTabLeader.None,      displayValue: this.textNone },
+                    { value: Asc.c_oAscTabLeader.Dot,       displayValue: '....................' },
+                    { value: Asc.c_oAscTabLeader.Hyphen,    displayValue: '-----------------' },
+                    { value: Asc.c_oAscTabLeader.MiddleDot, displayValue: '·················' },
+                    { value: Asc.c_oAscTabLeader.Underscore,displayValue: '__________' }
+                ]
             });
-
-            this.radioRight = new Common.UI.RadioBox({
-                el: $('#paragraphadv-radio-right'),
-                labelText: this.textTabRight,
-                name: 'asc-radio-tab'
-            });
+            this.cmbLeader.setValue(Asc.c_oAscTabLeader.None);
 
             this.btnAddTab = new Common.UI.Button({
                 el: $('#paraadv-button-add-tab')
@@ -562,7 +572,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 if (this._changedProps.get_Tabs()===null || this._changedProps.get_Tabs()===undefined)
                     this._changedProps.put_Tabs(new Asc.asc_CParagraphTabs());
                 this.tabList.store.each(function (item, index) {
-                    var tab = new Asc.asc_CParagraphTab(Common.Utils.Metric.fnRecalcToMM(item.get('tabPos')), item.get('tabAlign'));
+                    var tab = new Asc.asc_CParagraphTab(Common.Utils.Metric.fnRecalcToMM(item.get('tabPos')), item.get('tabAlign'), item.get('tabLeader'));
                     this._changedProps.get_Tabs().add_Tab(tab);
                 }, this);
             }
@@ -663,7 +673,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                         rec.set({
                             tabPos: pos,
                             value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.getCurrentMetricName(),
-                            tabAlign: tab.get_Value()
+                            tabAlign: tab.get_Value(),
+                            tabLeader: tab.asc_getLeader()
                         });
                         arr.push(rec);
                     }
@@ -1054,8 +1065,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         addTab: function(btn, eOpts){
-            var val = this.numTab.getNumberValue();
-            var align = this.radioLeft.getValue() ? 1 : (this.radioCenter.getValue() ? 3 : 2);
+            var val = this.numTab.getNumberValue(),
+                align = this.cmbAlign.getValue(),
+                leader = this.cmbLeader.getValue();
 
             var store = this.tabList.store;
             var rec = store.find(function(record){
@@ -1063,13 +1075,15 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             });
             if (rec) {
                 rec.set('tabAlign', align);
+                rec.set('tabLeader', leader);
                 this._tabListChanged = true;
             } else {
                 rec = new Common.UI.DataViewModel();
                 rec.set({
                     tabPos: val,
                     value: val + ' ' + Common.Utils.Metric.getCurrentMetricName(),
-                    tabAlign: align
+                    tabAlign: align,
+                    tabLeader: leader
                 });
                 store.add(rec);
             }
@@ -1110,8 +1124,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 rawData = record;
             }
             this.numTab.setValue(rawData.tabPos);
-            (rawData.tabAlign==1) ? this.radioLeft.setValue(true) : ((rawData.tabAlign==3) ? this.radioCenter.setValue(true) : this.radioRight.setValue(true));
-
+            this.cmbAlign.setValue(rawData.tabAlign);
+            this.cmbLeader.setValue(rawData.tabLeader);
         },
 
         hideTextOnlySettings: function(value) {
@@ -1173,6 +1187,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         tipNone:            'Set No Borders',
         tipInner:           'Set Horizontal Inner Lines Only',
         tipOuter:           'Set Outer Border Only',
-        noTabs:             'The specified tabs will appear in this field'
+        noTabs:             'The specified tabs will appear in this field',
+        textLeader: 'Leader',
+        textNone: 'None'
     }, DE.Views.ParagraphSettingsAdvanced || {}));
 });

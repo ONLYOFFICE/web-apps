@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Toolbar view
  *
  *  Created by Alexander Yuzhin on 4/16/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -165,17 +165,6 @@ define([
              * UI Components
              */
                 var _set = PE.enumLock;
-
-                me.btnAddSlide = new Common.UI.Button({
-                    id          : 'id-toolbar-button-add-slide',
-                    cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-addslide',
-                    split       : true,
-                    caption     : me.capAddSlide,
-                    lock        : [_set.menuFileOpen, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
-                    menu        : true
-                });
-                me.slideOnlyControls.push(me.btnAddSlide);
 
                 me.btnChangeSlide =  new Common.UI.Button({
                     id          : 'id-toolbar-button-change-slide',
@@ -610,8 +599,8 @@ define([
                     lock        : [_set.themeLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                     menu        : new Common.UI.Menu({
                         items       : [],
-                        maxHeight   : 600,
-                        restoreHeight: 600
+                        maxHeight   : 560,
+                        restoreHeight: 560
                         }).on('show:before', function(mnu) {
                             this.scroller = new Common.UI.Scroller({
                                 el: $(this.el).find('.dropdown-menu '),
@@ -619,24 +608,7 @@ define([
                             minScrollbarLength  : 40,
                             alwaysVisibleY: true
                         });
-                        }).on('show:after', function(btn, e) {
-                            var mnu = $(this.el).find('.dropdown-menu '),
-                                docH = Common.Utils.innerHeight(),
-                                menuH = mnu.outerHeight(),
-                                top = parseInt(mnu.css('top'));
-
-                            if (menuH > docH) {
-                            mnu.css('max-height', (docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5) + 'px');
-                            this.scroller.update({minScrollbarLength  : 40});
-                        } else if ( mnu.height() < this.options.restoreHeight ) {
-                            mnu.css('max-height', (Math.min(docH - parseInt(mnu.css('padding-top')) - parseInt(mnu.css('padding-bottom'))-5, this.options.restoreHeight)) + 'px');
-                            menuH = mnu.outerHeight();
-                            if (top+menuH > docH) {
-                                mnu.css('top', 0);
-                            }
-                            this.scroller.update({minScrollbarLength  : 40});
-                        }
-                    })
+                        })
                 });
                 me.slideOnlyControls.push(me.btnColorSchemas);
 
@@ -766,7 +738,7 @@ define([
                     id          : 'id-toolbar-btn-slide-size',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-slidesize',
-                    lock        : [_set.docPropsLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                    lock        : [_set.docPropsLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
@@ -846,7 +818,7 @@ define([
                     '</div>'
                 ].join(''));
 
-                this.lockControls = [ this.btnAddSlide, this.btnChangeSlide, this.btnSave,
+                this.lockControls = [ this.btnChangeSlide, this.btnSave,
                     this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize,
                     this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript,
                     this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
@@ -932,16 +904,6 @@ define([
                 this.fireEvent('render:after', [this]);
                 Common.UI.Mixtbar.prototype.afterRender.call(this);
 
-                me.$tabs.parent().on('click', '.ribtab', function (e) {
-                    var tab = $(e.target).data('tab');
-                    if (tab == 'file') {
-                        me.fireEvent('file:open');
-                    } else
-                    if ( me.isTabActive('file') )
-                        me.fireEvent('file:close');
-
-                    me.setTab(tab);
-                });
 
                 Common.NotificationCenter.on({
                     'window:resize': function() {
@@ -956,6 +918,21 @@ define([
                 return this;
             },
 
+            onTabClick: function (e) {
+                var tab = $(e.target).data('tab'),
+                    me = this;
+
+                if ( !me.isTabActive(tab) ) {
+                    if ( tab == 'file' ) {
+                        me.fireEvent('file:open');
+                    } else
+                    if ( me.isTabActive('file') )
+                        me.fireEvent('file:close');
+                }
+
+                Common.UI.Mixtbar.prototype.onTabClick.apply(this, arguments);
+            },
+
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
@@ -968,7 +945,6 @@ define([
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
-                _injectComponent('#slot-btn-addslide', this.btnAddSlide);
                 _injectComponent('#slot-btn-changeslide', this.btnChangeSlide);
                 _injectComponent('#slot-btn-preview', this.btnPreview);
                 _injectComponent('#slot-btn-print', this.btnPrint);
@@ -1060,7 +1036,20 @@ define([
                     }
                 });
 
-                var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape);
+                me.btnsAddSlide = _injectBtns({
+                    slot: '.slot-addslide',
+                    btnconfig: {
+                        id          : 'tlbtn-addslide-',
+                        cls         : 'btn-toolbar x-huge icon-top',
+                        iconCls     : 'btn-addslide',
+                        split       : true,
+                        caption     : me.capAddSlide,
+                        lock        : [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart],
+                        menu        : true
+                    }
+                });
+
+                var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape, me.btnsAddSlide);
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
 
                 Array.prototype.push.apply(me.slideOnlyControls, created);
@@ -1104,11 +1093,24 @@ define([
                         })
                     );
                 });
+
+                me.btnsAddSlide.forEach(function (btn, index) {
+                    btn.updateHint(me.tipAddSlide + Common.Utils.String.platformKey('Ctrl+M'));
+                    btn.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-addslide-' + index + '" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')}
+                            ]
+                        })
+                    );
+                    btn.on('click', function (btn, e) {
+                        me.fireEvent('add:slide');
+                    });
+                });
             },
 
             createDelayedElements: function () {
                 // set hints
-                this.btnAddSlide.updateHint(this.tipAddSlide + Common.Utils.String.platformKey('Ctrl+M'));
                 this.btnChangeSlide.updateHint(this.tipChangeSlide);
                 this.btnPreview.updateHint(this.tipPreview);
                 this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
@@ -1211,8 +1213,9 @@ define([
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
+                        style: 'min-width: 139px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 5px;"></div>')}
                         ]
                     })
                 );
@@ -1221,14 +1224,6 @@ define([
                     new Common.UI.Menu({
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>')}
-                        ]
-                    })
-                );
-
-                this.btnAddSlide.setMenu(
-                    new Common.UI.Menu({
-                        items: [
-                            {template: _.template('<div id="id-toolbar-menu-addslide" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')}
                         ]
                     })
                 );
@@ -1247,7 +1242,7 @@ define([
                 this.mnuMarkersPicker = new Common.UI.DataView({
                     el: $('#id-toolbar-menu-markers'),
                     parentMenu: this.btnMarkers.menu,
-                    restoreHeight: 92,
+                    restoreHeight: 138,
                     allowScrollbar: false,
                     store: new Common.UI.DataViewStore([
                         {offsety: 0, data: {type: 0, subtype: -1}},
@@ -1257,7 +1252,8 @@ define([
                         {offsety: 152, data: {type: 0, subtype: 4}},
                         {offsety: 190, data: {type: 0, subtype: 5}},
                         {offsety: 228, data: {type: 0, subtype: 6}},
-                        {offsety: 266, data: {type: 0, subtype: 7}}
+                        {offsety: 266, data: {type: 0, subtype: 7}},
+                        {offsety: 684, data: {type: 0, subtype: 8}}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
                 });
@@ -1340,34 +1336,10 @@ define([
                     maxColumns: 10
                 });
 
-                this.mnuAddSlidePicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-addslide'),
-                    parentMenu: this.btnAddSlide.menu,
-                    showLast: false,
-                    restoreHeight: 300,
-                    style: 'max-height: 300px;',
-                    store: PE.getCollection('SlideLayouts'),
-                    itemTemplate: _.template([
-                        '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
-                        '<div class="title"><%= title %></div> ',
-                        '</div>'
-                    ].join(''))
-                });
-                if (this.btnAddSlide.menu) {
-                    this.btnAddSlide.menu.on('show:after', function () {
-                        me.onSlidePickerShowAfter(me.mnuAddSlidePicker);
-                        me.mnuAddSlidePicker.scroller.update({alwaysVisibleY: true});
-                        me.mnuAddSlidePicker.scroller.scrollTop(0);
-                    });
-                }
-                this.mnuAddSlidePicker._needRecalcSlideLayout = true;
-
                 var createDataPicker = function (btn) {
                     me.mnuChangeSlidePicker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-changeslide'),
                         parentMenu: me.btnChangeSlide.menu,
-                        showLast: false,
                         restoreHeight: 300,
                         style: 'max-height: 300px;',
                         store: PE.getCollection('SlideLayouts'),
@@ -1382,7 +1354,12 @@ define([
                         me.btnChangeSlide.menu.on('show:after', function () {
                             me.onSlidePickerShowAfter(me.mnuChangeSlidePicker);
                             me.mnuChangeSlidePicker.scroller.update({alwaysVisibleY: true});
-                            me.mnuChangeSlidePicker.scroller.scrollTop(0);
+
+                            var record = me.mnuChangeSlidePicker.store.findLayoutByIndex(me.mnuChangeSlidePicker.options.layout_index);
+                            if (record) {
+                                me.mnuChangeSlidePicker.selectRecord(record, true);
+                                me.mnuChangeSlidePicker.scrollToRecord(record);
+                            }
                         });
                     }
                     me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
@@ -1394,7 +1371,6 @@ define([
                     this.btnChangeSlide.on('render:after', createDataPicker);
 
                 this.listenTo(PE.getCollection('SlideLayouts'), 'reset', function () {
-                    me.mnuAddSlidePicker._needRecalcSlideLayout = true;
                     if (me.mnuChangeSlidePicker)
                         me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
                 });
@@ -1484,8 +1460,8 @@ define([
 
                     if (mnuColorSchema == null) {
                         mnuColorSchema = new Common.UI.Menu({
-                            maxHeight: 600,
-                            restoreHeight: 600
+                            maxHeight: 560,
+                            restoreHeight: 560
                         }).on('render:after', function (mnu) {
                             this.scroller = new Common.UI.Scroller({
                                 el: $(this.el).find('.dropdown-menu '),
@@ -1722,6 +1698,43 @@ define([
                 }
             },
 
+            updateAddSlideMenu: function(collection) {
+                if (collection.size()<1) return;
+
+                var me = this;
+                me.btnsAddSlide.forEach(function (btn, index) {
+                    if ( !btn.mnuAddSlidePicker ) {
+                        btn.mnuAddSlidePicker = new Common.UI.DataView({
+                            el: $('#id-toolbar-menu-addslide-' + index),
+                            parentMenu: btn.menu,
+                            showLast: false,
+                            restoreHeight: 300,
+                            style: 'max-height: 300px;',
+                            store: PE.getCollection('SlideLayouts'),
+                            itemTemplate: _.template([
+                                '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
+                                '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
+                                '<div class="title"><%= title %></div> ',
+                                '</div>'
+                            ].join(''))
+                        });
+                        btn.mnuAddSlidePicker.on('item:click', function (picker, item, record, e) {
+                            if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
+                            if (record)
+                                me.fireEvent('add:slide', [record.get('data').idx]);
+                        });
+                        if (btn.menu) {
+                            btn.menu.on('show:after', function () {
+                                me.onSlidePickerShowAfter(btn.mnuAddSlidePicker);
+                                btn.mnuAddSlidePicker.scroller.update({alwaysVisibleY: true});
+                                btn.mnuAddSlidePicker.scroller.scrollTop(0);
+                            });
+                        }
+                    }
+                    btn.mnuAddSlidePicker._needRecalcSlideLayout = true;
+                });
+            },
+
             textBold: 'Bold',
             textItalic: 'Italic',
             textUnderline: 'Underline',
@@ -1856,6 +1869,7 @@ define([
             textTabInsert: 'Insert',
             textSurface: 'Surface',
             textShowPresenterView: 'Show presenter view',
+            textTabCollaboration: 'Collaboration',
             textTabProtect: 'Protection'
         }
     }()), PE.Views.Toolbar || {}));

@@ -6,9 +6,13 @@
 		<meta name="description" content="Сохраните, распечатайте и скачайте презентацию в разных форматах" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Сохранение / печать <span class="onlineDocumentFeatures">/ скачивание</span> презентации</h1>
       <p>
         По умолчанию онлайн-редактор презентаций автоматически сохраняет файл каждые 2 секунды, когда Вы работаете над ним, чтобы не допустить потери данных в случае непредвиденного закрытия программы. <span class="onlineDocumentFeatures">Если вы совместно редактируете файл в <b>Быстром</b> режиме, таймер запрашивает наличие изменений 25 раз в секунду и сохраняет их, если они были внесены. При совместном редактировании файла в <b>Строгом</b> режиме изменения автоматически сохраняются каждые 10 минут. При необходимости можно легко выбрать предпочтительный режим совместного редактирования или отключить функцию автоматического сохранения на странице <a href="../HelpfulHints/AdvancedSettings.htm" onclick="onhyperlinkclick(this)">Дополнительные параметры</a>.</span></p>

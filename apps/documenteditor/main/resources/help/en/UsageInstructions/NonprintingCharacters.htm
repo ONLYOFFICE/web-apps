@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Show or hide nonprinting characters while formatting text, creating tables, and editing documents" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Show/hide nonprinting characters</h1>
 			<p>Nonprinting characters help you edit a document. They indicate the presence of various types of formatting, but they do not print with the document, even when they are displayed on the screen.</p>
 			<p>To show or hide nonprinting characters, click the <b>Nonprinting characters</b> <img alt="Nonprinting characters" src="../images/nonprintingcharacters.png" /> icon at the <b>Home</b> tab of the top toolbar.</p>

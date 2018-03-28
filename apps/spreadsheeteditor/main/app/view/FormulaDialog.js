@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Add formula to cell dialog
  *
  *  Created by Alexey.Musinov on 11/04/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -228,7 +228,7 @@ define([
         fillFormulasGroups: function () {
             if (this.formulasGroups) {
 
-                var lang = Common.localStorage.getItem("sse-settings-func-locale");
+                var lang = Common.Utils.InternalSettings.get("sse-settings-func-locale");
                 if (_.isEmpty(lang)) lang = 'en';
 
                 var i, groupsListItems = [], length =  this.formulasGroups.length;

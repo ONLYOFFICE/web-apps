@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Перемещайте, поворачивайте автофигуры и изображения, изменяйте их размер и форму автофигур." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Манипулирование объектами на слайде</h1>
 			<p>Можно изменять размер различных объектов, перемещать и поворачивать их на слайде вручную при помощи специальных маркеров. Можно также точно задать размеры некоторых объектов и их положение с помощью правой боковой панели или окна <b>Дополнительные параметры</b>.</p>			
 			<h3>Изменение размера объектов</h3>

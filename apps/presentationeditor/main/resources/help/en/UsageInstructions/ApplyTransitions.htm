@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Add animation effects between slides" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Apply transitions</h1>
 			<p>A <b>transition</b> is an effect that appears between two slides when one slide advances to the next one during a demonstration. You can apply the same transition to all slides or apply different transitions to each separate slide and adjust the transition properties.</p>
 			<p><b>To apply a transition to a single slide</b> or several selected slides:</p>

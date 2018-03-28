@@ -1,26 +1,30 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Erstellen Sie die Listen</title>
+		<title>Nummerierte Listen erstellen</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="Create bulleted and numbered lists in the presentation" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Erstellen Sie die Listen</h1>
-			<p>Um eine Liste in einem Textbereich zu erstellen, führen Sie die folgenden Schritte aus:</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Nummerierte Listen erstellen</h1>
+			<p>Nummerierte Liste in einer Präsentation erstellen:</p>
 			<ol>
-				<li>Bewegen Sie den Cursor zur Stelle, wo Sie eine Liste beginnen möchten (das könnte eine neue Zeile sein oder der bereits eingegebene Text).</li>
-				<li>Wählen Sie einen Listentyp:
-					<ul>
-						<li>Eine <b>Aufzählungsliste</b> mit den Markierungen wird mit einem Klick aufs Symbol <b>Aufzählungszeichen</b> <img alt="Aufzählungszeichen" src="../images/bullets.png" /> auf der oberen Symbolleiste erstellt.</li>
-						<li>Eine <b>Nummerierungsliste</b> mit den Zahlen oder Buchstaben wird mit einem Klick aufs Symbol <b>Nummerierung</b> <img alt="Nummerierung" src="../images/numbering.png" /> auf der oberen Symbolleiste erstellt.
-							<p class="note"><b>Hinweis</b>: Klicken Sie auf den schwarzen Pfeil neben dem Symbol <b>Aufzählungszeichen</b> oder <b>Nummerierung</b>, um zu wählen, wie die Liste aussehen wird.</p>
+				<li>Positionieren Sie den Cursor an der Stelle, wo Sie die Liste beginnen möchten (dabei kann es sich um eine neue Zeile handeln oder eine bereits vorhandene).</li>
+                <li>Wechseln Sie in der oberen Symbolleiste auf die Registerkarte <b>Start</b>.</li>
+                <li>Wählen Sie einen Listentyp:<ul>
+						<li><b>Aufzählung</b> mit Markern - klicken Sie in der oberen Symbolleiste auf das Symbol <b>Aufzählungszeichen</b> <img alt="Aufzählungszeichen" src="../images/bullets.png" /></li>
+						<li><b>Nummerierte Liste</b> mit Zahlen oder Buchstaben - klicken Sie in der oberen Symbolleiste auf das Symbol <b>Nummerierte Liste</b> <img alt="Nummerierung" src="../images/numbering.png" /><p class="note"><b>Hinweis</b>: Mit dem schwarzen Pfeil neben dem Symbol <b>Aufzählungszeichen</b> oder <b>Nummerierung</b>, können Sie das Format der Liste näher bestimmen.</p>
 						</li>
 					</ul>
 				</li>
-				<li>Ab jetzt wird jedes Mal, wenn Sie die <b>Eingabetaste</b> am Ende der Zeile drücken, ein neuer Eintrag in der Aufzählungs- oder Nummerierungsliste erscheinen. Um es zu beenden, drücken Sie die <b>Rücktaste</b> und fangen Sie einen üblichen Textabsatz an.</li>
+				<li>Jedes Mal, wenn Sie nun zum Ende der Zeile die <b>Eingabetaste</b> drücken, erscheint eine neue Aufzählung oder eine neue Position der nummerierten Liste. Um die Liste zu beenden, drücken Sie die <b>Rücktaste</b> und fahren Sie mit einem üblichen Textabsatz fort.</li>
 			</ol>
 		</div>
 	</body>

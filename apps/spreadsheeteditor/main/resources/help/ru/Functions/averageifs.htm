@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция AVERAGEIFS (СРЗНАЧЕСЛИМН)</h1>
 			<p>Функция <b>AVERAGEIFS</b> (СРЗНАЧЕСЛИМН) - это одна из статистических функций. Анализирует диапазон данных и вычисляет среднее значение всех чисел в диапазоне ячеек, которые соответствуют нескольким заданным условиями.</p>
 			<p>Синтаксис функции <b>AVERAGEIFS</b>:</p> 

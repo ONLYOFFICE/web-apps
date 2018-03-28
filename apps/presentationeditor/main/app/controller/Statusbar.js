@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Statusbar controller
  *
  *  Created by Maxim Kadushkin on 8 April 2014
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -84,7 +84,7 @@ define([
 
             this.bindViewEvents(this.statusbar, this.events);
 
-            $('#status-label-zoom').css('min-width', 70);
+            $('#status-label-zoom').css('min-width', 80);
 
             this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
             this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));
@@ -208,6 +208,7 @@ define([
 
         onBtnSpelling: function(d, b, e) {
             Common.localStorage.setItem("pe-settings-spellcheck", d.pressed ? 1 : 0);
+            Common.Utils.InternalSettings.set("pe-settings-spellcheck", d.pressed);
             this.api.asc_setSpellCheck(d.pressed);
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },

@@ -6,9 +6,13 @@
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция WEEKNUM (НОМНЕДЕЛИ)</h1>
 			<p>Функция <b>WEEKNUM</b> - это одна из функций даты и времени. Возвращает порядковый номер той недели в течение года, на которую приходится заданная дата.</p>
 			<p>Синтаксис функции <b>WEEKNUM</b>:</p> 

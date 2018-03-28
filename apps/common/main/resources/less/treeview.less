@@ -1,0 +1,69 @@
+.treeview {
+  &.inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+
+    .empty-text {
+      text-align: center;
+      height: 100%;
+      width: 100%;
+      color: #b2b2b2;
+    }
+  }
+
+  > .item {
+    display: block;
+    width: 100%;
+    .box-shadow(none);
+    margin: 0;
+
+    &:hover,
+    &.over {
+      background-color: @secondary;
+    }
+
+    &.selected {
+      background-color: #cbcdcf;
+    }
+
+    &.selected .empty {
+      display: none;
+    }
+
+  }
+
+  .tree-item {
+    width: 100%;
+    min-height: 28px;
+    padding: 0px 6px 0 24px;
+  }
+
+  .name {
+    width: 100%;
+    padding: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &.empty {
+      color: #999;
+      font-style: italic;
+    }
+  }
+
+  .tree-caret {
+    width: 24px;
+    height: 24px;
+    background-position: 3px -270px;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    cursor: pointer;
+
+    &.up {
+      transform: rotate(270deg);
+    }
+  }
+}

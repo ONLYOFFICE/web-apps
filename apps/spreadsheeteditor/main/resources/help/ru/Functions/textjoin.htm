@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
         <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
             <h1>Функция TEXTJOIN (ОБЪЕДИНИТЬ)</h1>
             <p>Функция <b>TEXTJOIN</b> - это одна из функций для работы с текстом и данными. Объединяет текст из нескольких диапазонов и (или) строк, вставляя между текстовыми значениями указанный разделитель. Если в качестве разделителя используется пустая текстовая строка, функция эффективно объединит диапазоны. Эта функция аналогична функции <b>CONCAT</b>, но разница заключается в том, что функция <b>CONCAT</b> не принимает разделитель.</p>
             <p>Синтаксис функции <b>TEXTJOIN</b>:</p>

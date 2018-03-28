@@ -6,9 +6,13 @@
 		<meta name="description" content="Learn how to select background color for a paragraph" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Select background color for a paragraph</h1>
 			<p>Background color is applied to the whole paragraph and completely fills all the paragraph space from the left page margin to the right page margin.</p>
 			<p>To apply a background color to a certain paragraph or change the current one,</p>

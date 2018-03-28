@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Spell check the text in your language while editing a document" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 		<h1>Spell-checking</h1>
 			<p><b>Document Editor</b> allows you to check the spelling of your text in a certain language and correct mistakes while editing.</p>
 			<p>First of all, <b>choose a language</b> for your document. Switch to the <b>Review</b> tab of the top toolbar and click the <img alt="Set Document Language icon" src="../images/document_language.png" /> <b>Language</b> icon. In the window that appears, select the necessary language and click <b>OK</b>. The selected language will be applied to the whole document. </p>

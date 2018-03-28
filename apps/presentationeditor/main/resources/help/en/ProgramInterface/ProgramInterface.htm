@@ -6,9 +6,13 @@
         <meta name="description" content="Introducing the Presentation Editor user interface" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Introducing the Presentation Editor user interface</h1>
 			<p><b>Presentation Editor</b> uses a tabbed interface where editing commands are grouped into tabs by functionality.</p>
             <p><img alt="Editor window" src="../images/interface/editorwindow.png" /></p>

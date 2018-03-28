@@ -6,9 +6,13 @@
 		<meta name="description" content="Вставка разрывов раздела для использования особого форматирования в каждой части документа" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Вставка разрывов раздела</h1>
 			<p>
         Разрывы раздела дают возможность применять разные виды форматирования к определенным разделам вашего документа. Например, вы можете применить особые 

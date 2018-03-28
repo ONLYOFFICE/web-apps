@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  Comments.js
  *
  *  Created by Alexey Musinov on 16.01.14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -572,6 +572,15 @@ define([
 
         onUpdateFilter: function (filter, applyOnly) {
             if (filter) {
+                if (!this.view.isVisible()) {
+                    this.view.needUpdateFilter = filter;
+                    this.filter = {
+                        property    :   filter.property,
+                        value       :   filter.value
+                    };
+                    return;
+                }
+                this.view.needUpdateFilter = false;
 
                 this.filter = {
                     property    :   filter.property,
@@ -589,11 +598,11 @@ define([
                 this.collection.each(function (model) {
                     var prop = model.get(t.filter.property);
                     if (prop) {
-                        model.set('hide', (null === prop.match(t.filter.value)));
+                        model.set('hide', (null === prop.match(t.filter.value)), {silent: !!applyOnly});
                     }
 
                     if (model.get('last')) {
-                        model.set('last', false);
+                        model.set('last', false, {silent:!!applyOnly});
                     }
 
                     if (!model.get('hide')) {
@@ -602,8 +611,10 @@ define([
                 });
 
                 if (endComment) {
-                    endComment.set('last', true);
+                    endComment.set('last', true, {silent: !!applyOnly});
                 }
+                if (!applyOnly)
+                    this.view.update();
             }
         },
         onAppAddComment: function (sender, to_doc) {
@@ -956,6 +967,11 @@ define([
         // internal
 
         updateComments: function (needRender, disableSort) {
+            if (needRender && !this.view.isVisible()) {
+                this.view.needRender = needRender;
+                return;
+            }
+
             var me = this;
             me.updateCommentsTime = new Date();
             if (me.timerUpdateComments===undefined)
@@ -990,6 +1006,7 @@ define([
                 this.onUpdateFilter(this.filter, true);
 
                 this.view.render();
+                this.view.needRender = false;
             }
 
             this.view.update();
@@ -1291,7 +1308,10 @@ define([
                     if ('none' !== panel.css('display')) {
                         this.view.txtComment.focus();
                     }
-
+                    if (this.view.needRender)
+                        this.updateComments(true);
+                    else if (this.view.needUpdateFilter)
+                        this.onUpdateFilter(this.view.needUpdateFilter);
                     this.view.update();
                 }
             }

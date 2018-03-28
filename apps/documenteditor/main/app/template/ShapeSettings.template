@@ -134,18 +134,18 @@
     <tr class="shape-only">
         <td class="padding-small"></td>
     </tr>
-    <tr class="shape-only">
+    <tr class="change-type">
         <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr class="shape-only change-type">
+    <tr class="change-type">
         <td class="padding-small">
             <label class="header" style="margin-top: 3px;"><%= scope.strChange %></label>
             <div id="shape-btn-change" style="display: inline-block; float:right;"></div>
         </td>
     </tr>
-    <tr class="shape-only change-type">
+    <tr class="shape-only">
         <td class="padding-small">
             <div class="separator horizontal"></div>
         </td>

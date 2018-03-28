@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Функция OCT2DEC (ВОСЬМ.В.ДЕС)</h1>
 			<p>Функция <b>OCT2DEC</b> - это одна из инженерных функций. Преобразует восьмеричное число в десятичное.</p>
 			<p>Синтаксис функции <b>OCT2DEC</b>:</p>

@@ -197,7 +197,7 @@
                check = function(regex){ return regex.test(userAgent); };
           if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
                var m = /msie (\d+\.\d+)/.exec(userAgent);
-               if (m && parseFloat(m[1]) < 9.0) {
+               if (m && parseFloat(m[1]) < 10.0) {
                    document.write(
                        '<div id="id-error-mask" class="errormask">',
                            '<div class="error-body" align="center">',
@@ -232,7 +232,7 @@
           }
 
           var params = getUrlParams(),
-              lang = (params["lang"] || 'en').split("-")[0],
+              lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
               customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
               margin = (customer !== '') ? 50 : 20,
               loading = 'Loading...',
@@ -342,7 +342,7 @@
       <script type="text/javascript" src="js/application.js"></script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
-              return  ($.browser.msie     && parseFloat($.browser.version) > 8)     ||
+              return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||

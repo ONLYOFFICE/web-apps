@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Change the number format to display the numbers in the most convenient way" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Change number format</h1>
             <h3>Apply a number format</h3>
 			<p>You can easily change the number format, i.e. the way the numbers you enter appear in your spreadsheet. To do that, </p>

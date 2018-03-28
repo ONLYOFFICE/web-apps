@@ -5,9 +5,14 @@
 		<meta charset="utf-8" />
         <meta name="description" content="Измените стиль обтекания текстом, чтобы определить способ размещения объекта относительно текста." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Изменение стиля обтекания текстом</h1>
             <p>Опция <b>Стиль обтекания</b> определяет способ размещения объекта относительно текста. Можно изменить стиль обтекания текстом для вставленных объектов, таких как <a href="../UsageInstructions/InsertAutoshapes.htm" onclick="onhyperlinkclick(this)">фигуры</a>, <a href="../UsageInstructions/InsertImages.htm" onclick="onhyperlinkclick(this)">изображения</a>, <a href="../UsageInstructions/InsertCharts.htm#" onclick="onhyperlinkclick(this)">диаграммы</a>, <a href="../UsageInstructions/InsertTextObjects.htm" onclick="onhyperlinkclick(this)">текстовые поля</a> или <a href="../UsageInstructions/InsertTables.htm" onclick="onhyperlinkclick(this)">таблицы</a>.</p>
             <h3>Изменение стиля обтекания текстом для фигур, изображений, диаграмм, текстовых полей</h3>

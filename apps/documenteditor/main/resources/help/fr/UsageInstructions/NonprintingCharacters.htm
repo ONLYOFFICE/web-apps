@@ -3,29 +3,34 @@
 	<head>
 		<title>Afficher/masquer les caractères non imprimables</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Afficher ou masquer les caractères non imprimables lors de la mise en forme du texte, la création de tableau, et d'édition de documents" />
+		<meta name="description" content="Show or hide nonprinting characters while formatting text, creating tables, and editing documents" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+        </div>
 			<h1>Afficher/masquer les caractères non imprimables</h1>
 			<p>Les caractères non imprimables aident à éditer le document. Ils indiquent la présence de différents types de mises en forme, mais ils ne sont pas imprimés, même quand ils sont affichés à l'écran.</p>
-			<p>Pour afficher ou masquer les caractères non imprimables, cliquez sur l'icône de la barre d'outils supérieure <b>Caractères non imprimables</b> <img alt="Caractères non imprimables" src="../images/nonprintingcharacters.png" />.</p>
+			<p>Pour afficher ou masquer les caractères non imprimables, cliquez sur l'icône <b>Caractères non imprimables</b> <img alt="Caractères non imprimables" src="../images/nonprintingcharacters.png" /> dans l'onglet <b>Accueil</b> de la barre d'outils supérieure.</p>
 			<p>Les caractères non imprimables sont les suivants :</p>
 			<table>
 				<tr>
 					<td>Espaces</td>
 					<td><img alt="Espaces" src="../images/space.png" /></td>
-					<td>Il est inséré lorsque vous appuyez sur la <b>Barre d'espacement </b> sur le clavier. Il crée un espace entre les caractères.</td>
+					<td>Il est inséré lorsque vous appuyez sur la <b>Barre d'espacement</b> sur le clavier. Il crée un espace entre les caractères.</td>
 				</tr>
 				<tr>
 					<td>Tabulations</td>
-					<td><img alt="Tabulations" src="../images/tab.png" /></td>
+					<td><img alt="Tab" src="../images/tab.png" /></td>
 					<td>Il est inséré lorsque vous appuyez sur la touche <b>Tabulation</b>. Il est utilisé pour faire avancer le curseur sur le prochain taquet de tabulation.</td>
 				</tr>
 				<tr>
 					<td>Marques de paragraphe</td>
-					<td><img alt="Retour chariot " src="../images/hard.png" /></td>
+					<td><img alt="Retour chariot" src="../images/hard.png" /></td>
 					<td>Il est inséré lorsque vous appuyez sur la touche <b>Entrée</b>. Il est utilisé pour terminer un paragraphe et ajouter un peu d'espace après. Il contient des informations sur la mise en forme du paragraphe.</td>
 				</tr>
 				<tr>
@@ -41,17 +46,17 @@
 				<tr>
 					<td>Sauts de page</td>
 					<td><img alt="Sauts de page" src="../images/pagebreak.png" /></td>
-					<td>Il est inséré lorsque vous utilisez l'icône de la barre d'outils supérieure <b>Insérer un saut de page ou de section</b> <img alt="Insérer un saut de page ou de section" src="../images/pagebreak1.png" /> et sélectionnez l'option <b>Insérer un saut de page</b> ou sélectionnez l'option <b>Saut de page avant</b> du menu contextuel ou de la fenêtre des paramètres avancés.</td>
+					<td>Il est inséré lorsque vous utilisez l'icône <img alt="icône Sauts de page" src="../images/pagebreak1.png" /> <b>Sauts de page</b> dans l'onglet <b>Insertion</b> de la barre d'outils supérieure et sélectionnez l'option <b>Insérer un saut de page</b> ou sélectionnez l'option <b>Saut de page avant</b> du menu contextuel ou de la fenêtre des paramètres avancés.</td>
+				</tr>
+				<tr>
+					<td>Sauts de section</td>
+					<td><img alt="Section break" src="../images/sectionbreak.png" /></td>
+					<td>Il est inséré lorsque vous utilisez l'icône <img alt="icône Sauts de page" src="../images/pagebreak1.png" /> <b>Sauts de page</b> dans l'onglet <b>Insertion</b> ou <b>Mise en page</b> de la barre d'outils supérieure puis sélectionnez une des options du sous-menu <b>Insérer un saut de section</b> (l’indicateur de saut de section diffère selon l'option choisie : Page suivante, Page continue, Page paire ou Page impaire).</td>
 				</tr>
                 <tr>
-                    <td>Sauts de section</td>
-                    <td><img alt="Section break" src="../images/sectionbreak.png" /></td>
-                    <td>Il est inséré lorsque vous utilisez l'icône de la barre d'outils supérieure <b>Insérer un saut de page ou de section</b> <img alt="Insérer un saut de page ou de section" src="../images/pagebreak1.png" /> et sélectionnez une des options du sous-menu <b>Insérer un saut de section</b> (l’indicateur de saut de section diffère selon l'option choisie: Page suivante, Page continue, Page paire ou Page impaire).</td>
-                </tr>
-                <tr>
                     <td>Sauts de colonne</td>
-                    <td><img alt="Column break" src="../images/columnbreak.png" /></td>
-                    <td>Il est inséré lorsque vous utilisez l'icône de la barre d'outils supérieure <b>Insérer un saut de page ou de section</b> <img alt="Insérer un saut de page ou de section" src="../images/pagebreak1.png" /> et sélectionnez l'option <b>Insérer un saut de colonne</b>.</td>
+                    <td><img alt="Saut de colonne" src="../images/columnbreak.png" /></td>
+                    <td>Il est inséré lorsque vous utilisez l'icône <img alt="icône Sauts de page" src="../images/pagebreak1.png" /> <b>Sauts de page</b> dans l'onglet <b>Insertion</b> ou <b>Mise en page</b> de la barre d'outils supérieure puis sélectionnez l'option <b>Insérer un saut de colonne</b>.</td>
                 </tr>
 				<tr>
 					<td>Marquers des tableaux Fin de cellule et Fin de ligne</td>
