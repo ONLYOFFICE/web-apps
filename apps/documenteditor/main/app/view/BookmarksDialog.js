@@ -157,17 +157,20 @@ define([
             this.bookmarksList.on('item:select', _.bind(this.onSelectBookmark, this));
 
             this.btnAdd = new Common.UI.Button({
-                el: $('#bookmarks-btn-add')
+                el: $('#bookmarks-btn-add'),
+                disabled: true
             });
             this.$window.find('#bookmarks-btn-add').on('click', _.bind(this.onDlgBtnClick, this));
 
             this.btnGoto = new Common.UI.Button({
-                el: $('#bookmarks-btn-goto')
+                el: $('#bookmarks-btn-goto'),
+                disabled: true
             });
             this.btnGoto.on('click', _.bind(this.gotoBookmark, this));
 
             this.btnDelete = new Common.UI.Button({
-                el: $('#bookmarks-btn-delete')
+                el: $('#bookmarks-btn-delete'),
+                disabled: true
             });
             this.btnDelete.on('click', _.bind(this.deleteBookmark, this));
 
@@ -215,17 +218,19 @@ define([
             if (this.props) {
                 var store = this.bookmarksList.store,
                     count = this.props.asc_GetCount(),
+                    showHidden = this.chHidden.getValue()=='checked',
                     arr = [];
                 for (var i=0; i<count; i++) {
-                    // if (this.chHidden.getValue()=='checked' || !this.props.asc_GetHidden(i)) {
+                    var name = this.props.asc_GetName(i);
+                    if (!this.props.asc_IsInternalUseBookmark(name) && (showHidden || !this.props.asc_IsHiddenBookmark(name))) {
                         var rec = new Common.UI.DataViewModel();
                         rec.set({
-                            value: this.props.asc_GetName(i),
+                            value: name,
                             location: i
                         });
                         arr.push(rec);
                     }
-                // }
+                }
                 store.reset(arr, {silent: false});
             }
         },
@@ -233,6 +238,7 @@ define([
         onSelectBookmark: function(listView, itemView, record) {
             var value = record.get('value');
             this.txtName.setValue(value);
+            this.btnAdd.setDisabled(false);
             this.btnGoto.setDisabled(false);
             this.btnDelete.setDisabled(false);
         },
@@ -270,9 +276,11 @@ define([
         },
 
         onNameChanging: function (input, value) {
+            var exist = this.props.asc_HaveBookmark(value);
             this.bookmarksList.deselectAll();
-            // this.btnGoto.setDisabled(true);
-            // this.btnDelete.setDisabled(true);
+            this.btnAdd.setDisabled(!this.props.asc_CheckNewBookmarkName(value) && !exist);
+            this.btnGoto.setDisabled(!exist);
+            this.btnDelete.setDisabled(!exist);
         },
 
         textTitle:    'Bookmarks',
