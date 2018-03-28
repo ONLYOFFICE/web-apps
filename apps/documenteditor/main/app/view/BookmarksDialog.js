@@ -51,7 +51,7 @@ define([
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 340
+            height: 360
         },
 
         initialize : function(options) {
@@ -88,9 +88,14 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-small">',
+                                        '<td class="padding-large">',
                                             '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 10px;">', me.textGoto,'</button>',
                                             '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="">', me.textDelete,'</button>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr>',
+                                        '<td>',
+                                            '<div id="bookmarks-checkbox-hidden"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -120,9 +125,9 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false,
                 style       : 'width: 195px;',
-                value       : ''
-            }).on ('changing', function (input, value) {
-            });
+                value       : '',
+                maxLength: 40
+            }).on('changing', _.bind(this.onNameChanging, this));
 
             this.radioName = new Common.UI.RadioBox({
                 el: $('#bookmarks-radio-name'),
@@ -141,14 +146,15 @@ define([
 
             this.bookmarksList = new Common.UI.ListView({
                 el: $('#bookmarks-list', this.$window),
-                store: new Common.UI.DataViewStore()
+                store: new Common.UI.DataViewStore(),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= value %></div>')
             });
             this.bookmarksList.store.comparator = function(rec) {
                 return (me.radioName.getValue() ? rec.get("value") : rec.get("location"));
             };
-            // this.bookmarksList.on('item:dblclick', _.bind(this.onDblClickFunction, this));
-            // this.bookmarksList.on('entervalue', _.bind(this.onPrimary, this));
-            // this.bookmarksList.on('item:select', _.bind(this.onSelectBookmark, this));
+            this.bookmarksList.on('item:dblclick', _.bind(this.onDblClickBookmark, this));
+            this.bookmarksList.on('entervalue', _.bind(this.onPrimary, this));
+            this.bookmarksList.on('item:select', _.bind(this.onSelectBookmark, this));
 
             this.btnAdd = new Common.UI.Button({
                 el: $('#bookmarks-btn-add')
@@ -165,6 +171,12 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.deleteBookmark, this));
 
+            this.chHidden = new Common.UI.CheckBox({
+                el: $('#bookmarks-checkbox-hidden'),
+                labelText: this.textHidden
+            });
+            this.chHidden.on('change', _.bind(this.onChangeHidden, this));
+
             this.afterRender();
         },
 
@@ -177,21 +189,8 @@ define([
         },
 
         _setDefaults: function (props) {
-            if (props) {
-                var store = this.bookmarksList.store,
-                    count = props.asc_GetCount(),
-                    arr = [];
-                for (var i=0; i<count; i++) {
-                    var rec = new Common.UI.DataViewModel();
-                    rec.set({
-                        value: props.asc_GetName(i),
-                        location: i
-                    });
-                    arr.push(rec);
-                }
-                store.reset(arr, {silent: false});
-                this.bookmarksList.selectByIndex(0);
-            }
+            this.refreshBookmarks();
+            this.bookmarksList.scrollToRecord(this.bookmarksList.selectByIndex(0));
         },
 
         getSettings: function () {
@@ -201,7 +200,8 @@ define([
         onDlgBtnClick: function(event) {
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'add') {
-                this.handler && this.handler.call(this, state,  (state == 'add') ? this.getSettings() : undefined);
+                this.props.asc_AddBookmark(this.txtName.getValue());
+                // this.handler && this.handler.call(this, state,  (state == 'add') ? this.getSettings() : undefined);
             }
 
             this.close();
@@ -211,11 +211,41 @@ define([
             return true;
         },
 
+        refreshBookmarks: function() {
+            if (this.props) {
+                var store = this.bookmarksList.store,
+                    count = this.props.asc_GetCount(),
+                    arr = [];
+                for (var i=0; i<count; i++) {
+                    // if (this.chHidden.getValue()=='checked' || !this.props.asc_GetHidden(i)) {
+                        var rec = new Common.UI.DataViewModel();
+                        rec.set({
+                            value: this.props.asc_GetName(i),
+                            location: i
+                        });
+                        arr.push(rec);
+                    }
+                // }
+                store.reset(arr, {silent: false});
+            }
+        },
+
+        onSelectBookmark: function(listView, itemView, record) {
+            var value = record.get('value');
+            this.txtName.setValue(value);
+            this.btnGoto.setDisabled(false);
+            this.btnDelete.setDisabled(false);
+        },
+
         gotoBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
             if (rec.length>0) {
                 this.props.asc_GoToBookmark(rec[0].get('value'));
             }
+        },
+
+        onDblClickBookmark: function(listView, itemView, record) {
+            this.props.asc_GoToBookmark(record.get('value'));
         },
 
         deleteBookmark: function(btn, eOpts){
@@ -235,6 +265,16 @@ define([
             }
         },
 
+        onChangeHidden: function(field, newValue, oldValue, eOpts){
+            this.refreshBookmarks();
+        },
+
+        onNameChanging: function (input, value) {
+            this.bookmarksList.deselectAll();
+            // this.btnGoto.setDisabled(true);
+            // this.btnDelete.setDisabled(true);
+        },
+
         textTitle:    'Bookmarks',
         textLocation: 'Location',
         textBookmarkName: 'Bookmark name',
@@ -243,7 +283,8 @@ define([
         textAdd: 'Add',
         textGoto: 'Go to',
         textDelete: 'Delete',
-        textClose: 'Close'
+        textClose: 'Close',
+        textHidden: 'Hidden bookmarks'
 
     }, DE.Views.BookmarksDialog || {}))
 });
