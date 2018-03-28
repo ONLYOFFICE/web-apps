@@ -379,7 +379,7 @@ define([
 
             initialize: function (options) {
                 var me = this;
-                this.options = this.options ? _({}).extend(this.options, options) : options;
+                this.options = this.options ? _.extend(this.options, options) : options;
 
                 this.documentCaption = this.options.documentCaption;
                 this.branding = this.options.customization;

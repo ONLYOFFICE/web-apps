@@ -46,6 +46,7 @@ define([
         var Common = {};
 
     Common.Collections = Common.Collections || {};
+    DE.Collections = DE.Collections || {};
 
     DE.Collections.ShapeGroups = Backbone.Collection.extend({
         model: DE.Models.ShapeGroup
