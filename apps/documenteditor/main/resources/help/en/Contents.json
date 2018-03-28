@@ -5,7 +5,7 @@
     {"src": "ProgramInterface/InsertTab.htm", "name": "Insert tab"},
     {"src": "ProgramInterface/LayoutTab.htm", "name": "Layout tab" },
     {"src": "ProgramInterface/ReferencesTab.htm", "name": "References tab"},
-    {"src": "ProgramInterface/ReviewTab.htm", "name": "Review tab"},
+    {"src": "ProgramInterface/ReviewTab.htm", "name": "Collaboration tab"},
     {"src": "ProgramInterface/PluginsTab.htm", "name": "Plugins tab"},
     {"src": "UsageInstructions/ChangeColorScheme.htm", "name": "Change color scheme", "headername": "Basic operations"},
     {"src": "UsageInstructions/CopyPasteUndoRedo.htm", "name": "Copy/paste text passages, undo/redo your actions"},
