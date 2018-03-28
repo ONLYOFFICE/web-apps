@@ -197,6 +197,8 @@ define([
                             me.dontCloseDummyComment = true;
                         else if (/chat-msg-text/.test(e.target.id))
                             me.dontCloseChat = true;
+                        else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                            me.inFormControl = true;
                     }
                 });
 
@@ -204,6 +206,8 @@ define([
                     if (me.isAppDisabled === true || me.isFrameClosed) return;
 
                     if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
+                        if (/form-control/.test(e.target.className))
+                            me.inFormControl = false;
                         if (!e.relatedTarget ||
                             !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
                             && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
@@ -303,7 +307,7 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.headerView.setCanBack(this.appOptions.canBackToFolder === true);
+                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
 
                 var value = Common.localStorage.getItem("sse-settings-reg-settings");
                 if (value!==null)
@@ -476,12 +480,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed )
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed && !this.inFormControl)
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },

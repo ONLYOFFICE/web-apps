@@ -158,6 +158,7 @@ define([
                 handleSelect: true,
                 showLast: true,
                 allowScrollbar: true,
+                scrollAlwaysVisible: true,
                 emptyItemText: ''
             },
 
@@ -245,24 +246,24 @@ define([
                     var isExpanded = !record.get('isExpanded');
                     record.set('isExpanded', isExpanded);
                     this.store[(isExpanded) ? 'expandSubItems' : 'collapseSubItems'](record);
-                    this.scroller.update({minScrollbarLength: 40});
+                    this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
             },
 
             expandAll: function() {
                 this.store.expandAll();
-                this.scroller.update({minScrollbarLength: 40});
+                this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
             },
 
             collapseAll: function() {
                 this.store.collapseAll();
-                this.scroller.update({minScrollbarLength: 40});
+                this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
             },
 
             expandToLevel: function(expandLevel) {
                 this.store.expandToLevel(expandLevel);
-                this.scroller.update({minScrollbarLength: 40});
+                this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
             }
         }
     })());

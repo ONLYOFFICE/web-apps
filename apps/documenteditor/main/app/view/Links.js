@@ -199,7 +199,7 @@ define([
                         ]
                     });
 
-                    me.btnContentsUpdate.updateHint(me.tipContentsUpdate);
+                    me.btnContentsUpdate.updateHint([me.textUpdateAll, me.tipContentsUpdate]);
                     me.btnContentsUpdate.setMenu(new Common.UI.Menu({
                         items: [
                             {caption: me.textUpdateAll, value: 'all'},

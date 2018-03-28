@@ -161,15 +161,9 @@
             "help": [
                 {
                     "expand": true,
-                    "cwd": "../apps/spreadsheeteditor/main/resources/help/en/",
-                    "src": "**",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/en/"
-                },
-                {
-                    "expand": true,
-                    "cwd": "../apps/spreadsheeteditor/main/resources/help/ru/",
-                    "src": "**",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/ru/"
+                    "cwd": "../apps/spreadsheeteditor/main/resources/help/",
+                    "src": ["**","!*_/**"],
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/"
                 }
             ],
             "index-page": [

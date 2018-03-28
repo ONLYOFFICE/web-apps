@@ -1,35 +1,45 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Paramètres avancés de TeamLab Spreadsheet Editor</title>
+		<title>Paramètres avancés de Spreadsheet Editor</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Paramètres avancés de TeamLab Spreadsheet Editor" />
+		<meta name="description" content="The advanced settings of Spreadsheet Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-		<h1>Paramètres avancés de TeamLab Spreadsheet Editor</h1>
-			<p><b>TeamLab Spreadsheet Editor</b> vous permet de modifier ses paramètres avancés. Pour y accéder, cliquez sur l'icône <b>Fichier</b> <img alt="Fichier" src="../images/file.png" /> sur la barre latérale gauche et sélectionez l'option <b>Paramètres avancés...</b> ou utilisez l'icône <img alt="Paramètres avancés" src="../images/advanced_settings_icon.png" /> dans le coin supérieur droit de la barre d'outils.</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+        </div>
+		<h1>Paramètres avancés de Spreadsheet Editor</h1>
+			<p><b>Spreadsheet Editor</b> vous permet de modifier ses paramètres avancés. Pour y accéder, ouvrez l'onglet <b>Fichier</b> de la barre d'outils supérieure et sélectionnez l'option <b>Paramètres avancés...</b>. Vous pouvez également utiliser l'icône <img alt="Paramètres avancés" src="../images/advanced_settings_icon.png" /> dans le coin supérieur droit de l'onglet <b>Accueil</b> de la barre d'outils supérieure.</p>
 			<p>Les paramètres avancés sont les suivants :</p>
 			<ul>
-				<li><b>Commentaires en temps réel</b> sert à activer / désactiver les commentaires en temps réel. Si cette option est désactivée, les cellules commentées seront mis en surbrillance uniquement après un clic sur l'icône <b>Commentaires</b> <img alt="Commentaires" src="../images/commentsicon.png" />.</li>
-				<li><b>Valeur du zoom par défaut</b> sert à définir la valeur de zoom par défaut en la sélectionnant de la liste des options disponibles de 50% à 200%.</li>
-				<li><b>Hinting</b> sert à sélectionner le type d'affichage de la police dans <b>TeamLab Spreadsheet Editor</b> :
-					<ul>
+                <li><b>Commentaires en temps réel</b> sert à activer / désactiver les commentaires en temps réel.<ul>
+                        <li><b>Activer l'affichage des commentaires</b> - Si cette option est désactivée, les cellules commentées seront mises en surbrillance uniquement si vous cliquez sur l'icône <b>Commentaires</b> <img alt="Icône Commentaires" src="../images/commentsicon.png" /> de la barre latérale gauche.</li>
+                        <li><b>Activer l'affichage des commentaires résolus</b> - si vous désactivez cette fonctionnalité, les commentaires résolus seront masqués sur la feuille. Vous ne pourrez voir ces commentaires que si vous cliquez sur l'icône <b>Commentaires</b> <img alt="Icône Commentaires" src="../images/commentsicon.png" /> dans la barre latérale de gauche.</li>
+                    </ul>
+                </li>
+                <li class="onlineDocumentFeatures"><b>Enregistrement automatique</b> sert à spécifier la fréquence de l'enregistrement des changements apportés lors de l'édition.</li>
+                <li class="onlineDocumentFeatures">Le <b>Mode de co-édition</b> permet de sélectionner l'affichage des modifications effectuées lors de la co-édition :<ul>
+                        <li>Par défaut, le mode <b>Rapide</b> est sélectionné, les utilisateurs qui participent à la co-édition du document verront les changements en temps réel une fois qu'ils sont faits par d'autres utilisateurs.</li>
+                        <li>Si vous préférez ne pas voir d'autres changements d'utilisateur (pour ne pas vous déranger, ou pour toute autre raison), sélectionnez le mode <b>Strict</b> et tous les changements apparaîtront seulement après avoir cliqué sur l'icône <b>Enregistrer</b> <img alt="Icône Enregistrer" src="../images/saveupdate.png" /> pour vous informer qu'il y a des changements effectués par d'autres utilisateurs.</li>
+                    </ul>
+                </li>
+                <li><b>Valeur du zoom par défaut</b> sert à définir la valeur de zoom par défaut en la sélectionnant de la liste des options disponibles de 50% à 200%.</li>
+				<li><b>Hinting</b> sert à sélectionner le type d'affichage de la police dans Spreadsheet Editor :<ul>
 						<li>Choisissez <b>comme Windows</b> si vous aimez la façon dont les polices sont habituellement affichées sous Windows, c'est à dire en utilisant la police de Windows.</li>
 						<li>Choisissez <b>comme OS X</b> si vous aimez la façon dont les polices sont habituellement affichées sous Mac, c'est à dire sans hinting.</li>
 						<li>Choisissez <b>Natif</b> si vous voulez que votre texte sera affiché avec les hintings intégrés dans les fichiers de polices.</li>
 					</ul>
 				</li>
-				<li><b>Enregistrement automatique</b> sert à spécifier la fréquence de l'enregistrement des changements apportés lors de l'édition. 
-					<ul>
-						<li>Sélectionnez un des intervalles disponibles : <b>Toutes les 10 minutes</b>, <b>Toutes les 30 minutes</b> ou <b>Chaque heure</b>.</li>
-						<li>Sélectionnez l'option <b>Désactivé</b>, si vous ne voulez pas que <b>TeamLab Spreadsheet Editor</b> enregistre les changements automatiquement.</li>
-					</ul>
-				</li>
 				<li><b>Unité de mesure</b> sert à spécifier les unités de mesure utilisées pour mesurer les paramètres tels que largeur, hauteur, espacement, marges etc. Vous pouvez choisir l'option <b>Centimètre</b> ou <b>Point</b>.</li>
+                <li><b>Langue des formules</b> est utilisé pour sélectionner la langue d'affichage et de saisie des noms de formules.</li>
+                <li><b>Paramètres régionaux</b> est utilisé pour sélectionner le format d'affichage par défaut pour la devise, la date et l'heure.</li>
 			</ul>
-			<p>Pour enregistrer les modifications effectuées, cliquez sur le bouton <b>Appliquer</b>.</p>
+			<p>Pour enregistrer les paramètres modifiés, cliquez sur le bouton <b>Appliquer</b>.</p>
 		</div>
 	</body>
 </html>
