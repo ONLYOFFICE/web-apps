@@ -3,42 +3,62 @@
 	<head>
 		<title>Raccourcis clavier</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="La liste de raccourci clavier est utilisée pour un accès rapide et plus facile aux fonctionnalités de TeamLab Spreadsheet Editor à l'aide du clavier." />
+		<meta name="description" content="The keyboard shortcut list used for a faster and easier access to the features of Spreadsheet Editor using the keyboard." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            </div>
 			<h1>Raccourcis clavier</h1>
 			<table>
 				<tr>
 					<th colspan="3">En travaillant sur le classeur</th>
 				</tr>
 				<tr>
-					<td class="function">Ouvrir le panneau 'Fichier'</td>
+					<td class="function">Ouvrir le panneau "Fichier"</td>
 					<td class="combination">Alt+F</td>
-					<td class="description">Ouvrir le panneau <b>Fichier</b> pour enregistrer, télécharger, imprimer le classeur actuel, voir ses informations, créer un nouveau classeur ou ouvrir un classeur existant, accéder à l'aide de TeamLab Spreadsheet Editor ou aux paramètres avancés.</td>
+					<td class="description">Ouvrir le panneau <b>Fichier</b> pour enregistrer, télécharger, imprimer le classeur actuel, voir ses informations, créer un nouveau classeur ou ouvrir un classeur existant, accéder à l'aide de Spreadsheet Editor ou aux paramètres avancés.</td>
 				</tr>
 				<tr>
-					<td>Ouvrir la fenêtre 'Recherche'</td>
+					<td>Ouvrir la fenêtre "Rechercher et remplacer"</td>
 					<td>Ctrl+F</td>
-					<td>Ouvrir la fenêtre <b>Recherche</b> pour commencer à chercher une cellule contenant les caractères nécessaires.</td>
+					<td>Ouvrir la fenêtre <b>Rechercher et remplacer</b> pour commencer à rechercher une cellule contenant les caractères requis.</td>
 				</tr>
-				<tr>
-					<td>Ouvrir le panneau 'Chat'</td>
+                <tr>
+                    <td>Ouvrir la fenêtre "Rechercher et remplacer" avec le champ de remplacement</td>
+                    <td>Ctrl+H</td>
+                    <td>Ouvrir la fenêtre <b>Rechercher et remplacer</b> avec le champ de remplacement pour remplacer une ou plusieurs occurrences des caractères trouvés.</td>
+                </tr>
+                <tr>
+                    <td>Ouvir le panneau "Commentaires"</td>
+                    <td>Ctrl+Shift+H</td>
+                    <td>Ouvrir le volet <b>Commentaires</b> pour ajouter votre commentaire ou pour répondre aux commentaires des autres utilisateurs.</td>
+                </tr>
+                <tr>
+                    <td>Ouvrir le champ de commentaires</td>
+                    <td>Alt+H</td>
+                    <td>Ouvrir un champ de saisie où vous pouvez ajouter le texte de votre commentaire.</td>
+                </tr>
+				<tr class="onlineDocumentFeatures">
+					<td>Ouvrir le panneau "Chat"</td>
 					<td>Alt+Q</td>
 					<td>Ouvrir le panneau <b>Chat</b> et envoyer un message.</td>
 				</tr>
-				<tr>
+                <tr>
 					<td>Enregistrer le classeur</td>
 					<td>Ctrl+S</td>
-					<td>Enregistrer toutes les modifications dans le classeur en cours d'édition dans TeamLab Spreadsheet Editor.</td>
+					<td>Enregistrer toutes les modifications dans le classeur en cours d'édition dans Spreadsheet Editor.</td>
 				</tr>
 				<tr>
 					<td>Imprimer le classeur</td>
 					<td>Ctrl+P</td>
 					<td>Imprimer le claseur avec l'une des imprimantes disponibles ou l'enregistrer sous forme de fichier.</td>
 				</tr>
-				<tr>
+				<tr class="onlineDocumentFeatures">
 					<td>Télécharger comme</td>
 					<td>Ctrl+Maj+S</td>
 					<td>Ouvrir l'onglet <b>Télécharger comme</b> pour enregistrer le classeur actuellement affiché sur le disque dur de l'ordinateur dans l'un des formats pris en charge: XLSX, ODS, CSV, HTML.</td>
@@ -46,8 +66,13 @@
 				<tr>
 					<td>Plein écran</td>
 					<td>F11</td>
-					<td>Passer à l'affichage en plein écran pour adapter TeamLab Spreadsheet Editor à votre écran.</td>
+					<td>Passer à l'affichage en plein écran pour adapter Spreadsheet Editor à votre écran.</td>
 				</tr>
+                <tr>
+                    <td>Menu d'aide</td>
+                    <td>F1</td>
+                    <td>Ouvrir le menu <b>Aide</b> Spreadsheet Editor.</td>
+                </tr>
 				<tr>
 					<th colspan="3">Navigation</th>
 				</tr>
@@ -69,9 +94,8 @@
 				<tr>
 					<td>Sauter à la fin de la feuille de calcul</td>
 					<td>Ctrl+Fin</td>
-					<td>Activer la dernière cellule de la feuille de calcul.</td>
-				</tr>
-				<!--<tr>
+					<td>Activer la dernière cellule de la feuille de calcul située à la ligne la plus basse à comporter des données de la colonne la plus à droite à comporter des données. Si le curseur est sur la ligne de la formule, il sera placé à la fin du texte.</td>
+				</tr><!--<tr>
 					<td>Scroll down</td>
 					<td>PgDn</td>
 					<td>Scroll the spreadsheet one screan down.</td>
@@ -80,8 +104,7 @@
 					<td>Scroll up</td>
 					<td>PgUp</td>
 					<td>Scroll the spreadsheet one screan up.</td>
-				</tr>-->
-				<tr>
+				</tr>--><tr>
 					<td>Passer à la feuille précédente</td>
 					<td>Alt+Pg.préc</td>
 					<td>Passer à la feuille précédente de votre classeur.</td>
@@ -110,8 +133,7 @@
 					<td>Se déplacer d’une colonne vers la droite</td>
 					<td>Flèche droite, ou <br />Tab+Maj</td>
 					<td>Activer la cellule suivante de la ligne actuelle.</td>
-				</tr>
-				<!--<tr>
+				</tr><!--<tr>
 					<td>Zoom In</td>
 					<td>Ctrl++</td>
 					<td>Zoom in the currently viewed spreadsheet.</td>
@@ -120,8 +142,7 @@
 					<td>Zoom Out</td>
 					<td>Ctrl+-</td>
 					<td>Zoom out the currently viewed spreadsheet.</td>
-				</tr>-->
-				<tr>
+				</tr>--><tr>
 					
 					<th colspan="3">Sélection de données</th>
 				</tr>
@@ -160,6 +181,11 @@
 					<td>Ctrl+Maj+Début</td>
 					<td>Sélectionner une plage à partir des cellules sélectionnées jusqu'au début de la feuille de calcul.</td>
 				</tr>
+                <tr>
+                    <td>Étendre la sélection à la dernière cellule utilisée</td>
+                    <td>Ctrl+Maj+Fin</td>
+                    <td>Sélectionner une plage à partir des cellules sélectionnées jusqu'à la dernière cellule utilisée de la feuille de calcul.</td>
+                </tr>
 				<tr>
 				<th colspan="3">Annuler et Rétablir</th>
 				</tr>
@@ -178,17 +204,17 @@
 				</tr>
 				<tr>
 					<td>Couper</td>
-					<td>Ctrl+X</td>
+					<td>Ctrl+X, Maj+Suppr</td>
 					<td>Couper les données sélectionnées et les envoyer vers le presse-papiers. Les données sélectionnées peuvent être insérées ensuite dans un autre endroit du même classeur, dans un autre classeur, ou dans un autre programme.</td>
 				</tr>
 				<tr>
 					<td>Copier</td>
-					<td>Ctrl+C</td>
+					<td>Ctrl+C, Ctrl+Inser</td>
 					<td>Envoyer les données sélectionnées vers le presse-papiers. Les données copiées peuvent être insérées ensuite dans un autre endroit du même classeur, dans un autre classeur, ou dans un autre programme.</td>
 				</tr>
 				<tr>
 					<td>Coller</td>
-					<td>Ctrl+V</td>
+					<td>Ctrl+V, Maj+Inser</td>
 					<td>Insérer les données précédemment copiées/coupées depuis le presse-papiers à la position actuelle du curseur. Les données peuvent être copiées à partir du même classeur, à partir d'un autre classeur, ou provenant d'un autre programme.</td>
 				</tr>
 				<tr>
@@ -209,13 +235,31 @@
 					<td>Ctrl+U</td>
 					<td>Souligner le fragment de texte sélectionné avec la ligne qui passe sous les lettres ou supprimer le soulignage.</td>
 				</tr>
+                <tr>
+                    <td>Barré</td>
+                    <td>Ctrl+</td>
+                    <td>Barrer le fragment de texte sélectionné avec une ligne qui passe à travers les lettres ou supprimer la barre.</td>
+                </tr>
 				<tr>
 					<td>Ajouter un lien hypertexte</td>
 					<td>Ctrl+K</td>
 					<td>Insérer un lien hypertexte vers un site Web externe ou une autre feuille de calcul.</td>
 				</tr>
+                <tr>
+                    <th colspan="3">Filtrage de données</th>
+                </tr>
+                <tr>
+                    <td>Activer/Supprimer le filtre</td>
+                    <td>Ctrl+Maj+L</td>
+                    <td>Activer un filtre pour une plage de cellules sélectionnée ou supprimer le filtre.</td>
+                </tr>
+                <tr>
+                    <td>Formater en tant que modèle de table</td>
+                    <td>Ctrl+L</td>
+                    <td>Appliquez un modèle de table à une plage de cellules sélectionnée.</td>
+                </tr>
 				<tr>
-				<th colspan="3">Entrée de données</th>
+				<th colspan="3">Saisie des données</th>
 				</tr>
 				<tr>
 					<td>Valider la saisie de données dans une cellule et se déplacer vers le bas</td>
@@ -257,8 +301,16 @@
 				</tr>
 				<tr>
 					<td>Fonction SOMME</td>
-					<td>Alt+'+'</td>
+					<td>Alt+égal (=)</td>
 					<td>Inserer la fonction <b>SOMME</b> dans la cellule active.</td>
+				</tr>
+				<tr>
+				<th colspan="3">Modification des objets</th>
+				</tr>
+				<tr>
+					<td>Mouvement par incréments de 1 pixel</td>
+					<td>Ctrl</td>
+					<td>Maintenez la touche Ctrl enfoncée en faisant glisser et utilisez les flèches pour déplacer l'objet sélectionné d'un pixel à la fois.</td>
 				</tr>
 			</table>
 		</div>

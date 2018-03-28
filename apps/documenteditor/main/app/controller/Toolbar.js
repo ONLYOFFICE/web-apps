@@ -355,6 +355,7 @@ define([
             this.api.asc_registerCallback('asc_onColumnsProps',         _.bind(this.onColumnsProps, this));
             this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+            this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -612,6 +613,12 @@ define([
                     }
                 }
             }
+        },
+
+        onShowParaMarks: function(v) {
+            this.toolbar.mnuNonPrinting.items[0].setChecked(v, true);
+            this.toolbar.btnShowHidenChars.toggle(v, true);
+            Common.localStorage.setItem("de-show-hiddenchars", v);
         },
 
         onApiFocusObject: function(selectedObjects) {

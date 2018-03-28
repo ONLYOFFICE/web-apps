@@ -974,6 +974,7 @@
   "DE.Views.DocumentHolder.txtMatrixAlign": "Matrix alignment",
   "DE.Views.DocumentHolder.txtOverbar": "Barra sopra al testo",
   "DE.Views.DocumentHolder.txtOverwriteCells": "Sovrascrivi celle",
+  "DE.Views.DocumentHolder.txtPasteSourceFormat": "Mantieni la formattazione sorgente",
   "DE.Views.DocumentHolder.txtPressLink": "Premi CTRL e clicca sul collegamento",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Rimuovi la barra di frazione",
   "DE.Views.DocumentHolder.txtRemLimit": "Remove limit",

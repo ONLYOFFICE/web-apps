@@ -52,22 +52,24 @@
         }
 
         .color {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin-top: 1px;
             width: 12px;
             height: 12px;
-            display: inline-block;
-            vertical-align: middle;
             border: 1px solid @gray-dark;
         }
 
         .name {
             display: block;
-            padding-left: 16px;
+            position: relative;
+            padding: 0 10px 0 16px;
             margin-top: -2px;
             white-space: nowrap;
             text-overflow: ellipsis;
+            overflow: hidden;
             font-weight: bold;
-            vertical-align: middle;
-
         }
     }
 
@@ -76,6 +78,7 @@
         top: 70px;
         right: 0;
         bottom: 110px;
+        font-size: 12px;
 
         ul {
             margin: 0;
@@ -93,6 +96,8 @@
                 .user {
                     font-weight: bold;
                     white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
 
                 .message {
@@ -122,6 +127,7 @@
             resize: none;
             margin-bottom: 5px;
             border: 1px solid @gray-dark;
+            font-size: 12px;
         }
     }
 }

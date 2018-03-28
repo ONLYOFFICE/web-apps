@@ -785,7 +785,7 @@ define([
 
             isLocked: function() {
                 return this.$window.hasClass('dethrone') ||
-                            (!this.options.modal && this.$window.parent().find('.asc-window.modal:visible').length);
+                            (!this.initConfig.modal && this.$window.parent().find('.asc-window.modal:visible').length);
             },
 
             getChild: function(selector) {

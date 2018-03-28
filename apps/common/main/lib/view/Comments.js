@@ -1370,7 +1370,7 @@ define([
             return Common.Utils.String.ellipsis(Common.Utils.String.htmlEncode(quote), 120, true);
         },
         getUserName: function (username) {
-            return Common.Utils.String.ellipsis(Common.Utils.String.htmlEncode(username), 22, true);
+            return Common.Utils.String.htmlEncode(username);
         },
 
         pickLink: function (message) {

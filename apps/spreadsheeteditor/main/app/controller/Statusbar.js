@@ -244,15 +244,21 @@ define([
         },
 
         onTabMenu: function(obj, item, e) {
+            var me = this;
             switch (item.value){
             case 'ins':
-                this.api.asc_insertWorksheet(this.createSheetName());
+                setTimeout(function(){
+                    me.api.asc_insertWorksheet(me.createSheetName());
+                }, 1);
                 break;
             case 'del':     this.deleteWorksheet(); break;
             case 'ren':     this.renameWorksheet(); break;
             case 'copy':    this.moveWorksheet(false); break;
             case 'move':    this.moveWorksheet(true); break;
-            case 'hide':    this.hideWorksheet(true); break;
+            case 'hide':
+                setTimeout(function(){
+                    me.hideWorksheet(true);}, 1);
+                break;
             }
         },
 

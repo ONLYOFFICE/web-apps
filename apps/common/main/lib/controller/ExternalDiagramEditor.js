@@ -141,7 +141,12 @@ define([
             handler: function(result, value) {
                 if (this.isHandlerCalled) return;
                 this.isHandlerCalled = true;
-                externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
+                if (this.diagramEditorView._isExternalDocReady)
+                    externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
+                else {
+                    this.diagramEditorView.hide();
+                    this.isHandlerCalled = false;
+                }
             },
 
             setChartData: function() {
