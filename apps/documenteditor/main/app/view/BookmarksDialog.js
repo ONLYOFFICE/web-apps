@@ -179,12 +179,12 @@ define([
         _setDefaults: function (props) {
             if (props) {
                 var store = this.bookmarksList.store,
-                    count = props.get_Count(),
+                    count = props.asc_GetCount(),
                     arr = [];
                 for (var i=0; i<count; i++) {
                     var rec = new Common.UI.DataViewModel();
                     rec.set({
-                        value: props.get_Name(i),
+                        value: props.asc_GetName(i),
                         location: i
                     });
                     arr.push(rec);
@@ -214,14 +214,14 @@ define([
         gotoBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
             if (rec.length>0) {
-                // this.api.gotoBookmark(rec.get('value'));
+                this.props.asc_GoToBookmark(rec[0].get('value'));
             }
         },
 
         deleteBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
             if (rec.length>0) {
-                // this.api.deleteBookmark(rec.get('value'));
+                this.props.asc_RemoveBookmark(rec[0].get('value'));
                 var store = this.bookmarksList.store;
                 var idx = _.indexOf(store.models, rec[0]);
                 store.remove(rec[0]);
