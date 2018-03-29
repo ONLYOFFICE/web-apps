@@ -157,7 +157,12 @@ define([
             me.internalList = new Common.UI.TreeView({
                 el: $('#id-dlg-hyperlink-list'),
                 store: new Common.UI.TreeViewStore(),
-                enableKeyEvents: false
+                enableKeyEvents: true
+            });
+            me.internalList.on('item:select', _.bind(this.onSelectItem, this));
+
+            me.btnOk = new Common.UI.Button({
+                el: $window.find('.primary')
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -170,84 +175,95 @@ define([
             this.externalPanel.toggleClass('hidden', value !== c_oHyperlinkType.WebLink);
             this.internalPanel.toggleClass('hidden', value !== c_oHyperlinkType.InternalLink);
             var store = this.internalList.store;
-            if (value==c_oHyperlinkType.InternalLink && store.length<1) {
-                var anchors = this.api.asc_GetHyperlinkAnchors(),
-                    count = anchors.length,
-                    prev_level = 0,
-                    header_level = 0,
-                    arr = [];
-                arr.push(new Common.UI.TreeViewModel({
-                    name : this.txtBeginning,
-                    level: 0,
-                    index: 0,
-                    hasParent: false,
-                    isEmptyItem: false,
-                    isNotHeader: true,
-                    hasSubItems: false
-                }));
-                arr.push(new Common.UI.TreeViewModel({
-                    name : this.txtHeadings,
-                    level: 0,
-                    index: 1,
-                    hasParent: false,
-                    isEmptyItem: false,
-                    isNotHeader: false,
-                    hasSubItems: false
-                }));
+            if (value==c_oHyperlinkType.InternalLink) {
+                if (store.length<1) {
+                    var anchors = this.api.asc_GetHyperlinkAnchors(),
+                        count = anchors.length,
+                        prev_level = 0,
+                        header_level = 0,
+                        arr = [];
+                    arr.push(new Common.UI.TreeViewModel({
+                        name : this.txtBeginning,
+                        level: 0,
+                        index: 0,
+                        hasParent: false,
+                        isEmptyItem: false,
+                        isNotHeader: true,
+                        hasSubItems: false
+                    }));
+                    arr.push(new Common.UI.TreeViewModel({
+                        name : this.txtHeadings,
+                        level: 0,
+                        index: 1,
+                        hasParent: false,
+                        isEmptyItem: false,
+                        isNotHeader: false,
+                        hasSubItems: false
+                    }));
 
-                for (var i=0; i<count; i++) {
-                    var anchor = anchors[i],
-                        level = anchors[i].asc_GetHeadingLevel(),
-                        hasParent = true;
-                    if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Heading){
-                        if (level>prev_level)
-                            arr[arr.length-1].set('hasSubItems', true);
-                        if (level<=header_level) {
-                            header_level = level;
-                            hasParent = false;
+                    for (var i=0; i<count; i++) {
+                        var anchor = anchors[i],
+                            level = anchors[i].asc_GetHeadingLevel(),
+                            hasParent = true;
+                        if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Heading){
+                            if (level>prev_level)
+                                arr[arr.length-1].set('hasSubItems', true);
+                            if (level<=header_level) {
+                                header_level = level;
+                                hasParent = false;
+                            }
+                            arr.push(new Common.UI.TreeViewModel({
+                                name : anchor.asc_GetHeadingText(),
+                                level: level,
+                                index: i+2,
+                                hasParent: hasParent
+                            }));
+                            prev_level = level;
                         }
-                        arr.push(new Common.UI.TreeViewModel({
-                            name : anchor.asc_GetHeadingText(),
-                            level: level,
-                            index: i+2,
-                            hasParent: hasParent
-                        }));
-                        prev_level = level;
                     }
-                }
-                arr.push(new Common.UI.TreeViewModel({
-                    name : this.txtBookmarks,
-                    level: 0,
-                    index: arr.length,
-                    hasParent: false,
-                    isEmptyItem: false,
-                    isNotHeader: false,
-                    hasSubItems: false
-                }));
+                    arr.push(new Common.UI.TreeViewModel({
+                        name : this.txtBookmarks,
+                        level: 0,
+                        index: arr.length,
+                        hasParent: false,
+                        isEmptyItem: false,
+                        isNotHeader: false,
+                        hasSubItems: false
+                    }));
 
-                prev_level = 0;
-                for (var i=0; i<count; i++) {
-                    var anchor = anchors[i],
-                        hasParent = true;
-                    if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Bookmark){
-                        if (prev_level<1)
-                            arr[arr.length-1].set('hasSubItems', true);
-                        arr.push(new Common.UI.TreeViewModel({
-                            name : anchor.asc_GetBookmarkName(),
-                            level: 1,
-                            index: arr.length,
-                            hasParent: false
-                        }));
-                        prev_level = 1;
+                    prev_level = 0;
+                    for (var i=0; i<count; i++) {
+                        var anchor = anchors[i],
+                            hasParent = true;
+                        if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Bookmark){
+                            if (prev_level<1)
+                                arr[arr.length-1].set('hasSubItems', true);
+                            arr.push(new Common.UI.TreeViewModel({
+                                name : anchor.asc_GetBookmarkName(),
+                                level: 1,
+                                index: arr.length,
+                                hasParent: false
+                            }));
+                            prev_level = 1;
+                        }
                     }
+                    store.reset(arr);
                 }
-                store.reset(arr);
-            }
+                var rec = this.internalList.getSelectedRec();
+                this.btnOk.setDisabled(rec.length<1 || rec[0].get('level')==0 && rec[0].get('index')>0);
+
+            } else
+                this.btnOk.setDisabled(false);
+
             this.linkType = value;
         },
 
         onLinkTypeClick: function(type, btn, event) {
             this.ShowHideElem(type);
+        },
+
+        onSelectItem: function(picker, item, record, e){
+            this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
         },
 
         show: function() {
