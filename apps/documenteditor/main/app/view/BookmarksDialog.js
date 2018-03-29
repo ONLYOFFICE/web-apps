@@ -176,7 +176,8 @@ define([
 
             this.chHidden = new Common.UI.CheckBox({
                 el: $('#bookmarks-checkbox-hidden'),
-                labelText: this.textHidden
+                labelText: this.textHidden,
+                value: Common.Utils.InternalSettings.get("de-bookmarks-hidden") || false
             });
             this.chHidden.on('change', _.bind(this.onChangeHidden, this));
 
@@ -189,6 +190,11 @@ define([
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        },
+
+        close: function() {
+            Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
+            Common.Utils.InternalSettings.set("de-bookmarks-hidden", this.chHidden.getValue()=='checked');
         },
 
         _setDefaults: function (props) {
@@ -204,7 +210,6 @@ define([
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'add') {
                 this.props.asc_AddBookmark(this.txtName.getValue());
-                // this.handler && this.handler.call(this, state,  (state == 'add') ? this.getSettings() : undefined);
             }
 
             this.close();
