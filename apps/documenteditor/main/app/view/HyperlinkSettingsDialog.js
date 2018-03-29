@@ -78,7 +78,7 @@ define([
                         '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
                     '<div id="id-internal-link">',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 130px;"></div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 130px;border: 1px solid #cfcfcf;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
@@ -98,6 +98,7 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
             this._originalProps = null;
+            this.linkType = c_oHyperlinkType.WebLink;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -153,6 +154,12 @@ define([
                 maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
+            me.internalList = new Common.UI.TreeView({
+                el: $('#id-dlg-hyperlink-list'),
+                store: new Common.UI.TreeViewStore(),
+                enableKeyEvents: false
+            });
+
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
             me.externalPanel = $window.find('#id-external-link');
@@ -162,6 +169,81 @@ define([
         ShowHideElem: function(value) {
             this.externalPanel.toggleClass('hidden', value !== c_oHyperlinkType.WebLink);
             this.internalPanel.toggleClass('hidden', value !== c_oHyperlinkType.InternalLink);
+            var store = this.internalList.store;
+            if (value==c_oHyperlinkType.InternalLink && store.length<1) {
+                var anchors = this.api.asc_GetHyperlinkAnchors(),
+                    count = anchors.length,
+                    prev_level = 0,
+                    header_level = 0,
+                    arr = [];
+                arr.push(new Common.UI.TreeViewModel({
+                    name : this.txtBeginning,
+                    level: 0,
+                    index: 0,
+                    hasParent: false,
+                    isEmptyItem: false,
+                    isNotHeader: true,
+                    hasSubItems: false
+                }));
+                arr.push(new Common.UI.TreeViewModel({
+                    name : this.txtHeadings,
+                    level: 0,
+                    index: 1,
+                    hasParent: false,
+                    isEmptyItem: false,
+                    isNotHeader: false,
+                    hasSubItems: false
+                }));
+
+                for (var i=0; i<count; i++) {
+                    var anchor = anchors[i],
+                        level = anchors[i].asc_GetHeadingLevel(),
+                        hasParent = true;
+                    if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Heading){
+                        if (level>prev_level)
+                            arr[arr.length-1].set('hasSubItems', true);
+                        if (level<=header_level) {
+                            header_level = level;
+                            hasParent = false;
+                        }
+                        arr.push(new Common.UI.TreeViewModel({
+                            name : anchor.asc_GetHeadingText(),
+                            level: level,
+                            index: i+2,
+                            hasParent: hasParent
+                        }));
+                        prev_level = level;
+                    }
+                }
+                arr.push(new Common.UI.TreeViewModel({
+                    name : this.txtBookmarks,
+                    level: 0,
+                    index: arr.length,
+                    hasParent: false,
+                    isEmptyItem: false,
+                    isNotHeader: false,
+                    hasSubItems: false
+                }));
+
+                prev_level = 0;
+                for (var i=0; i<count; i++) {
+                    var anchor = anchors[i],
+                        hasParent = true;
+                    if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Bookmark){
+                        if (prev_level<1)
+                            arr[arr.length-1].set('hasSubItems', true);
+                        arr.push(new Common.UI.TreeViewModel({
+                            name : anchor.asc_GetBookmarkName(),
+                            level: 1,
+                            index: arr.length,
+                            hasParent: false
+                        }));
+                        prev_level = 1;
+                    }
+                }
+                store.reset(arr);
+            }
+            this.linkType = value;
         },
 
         onLinkTypeClick: function(type, btn, event) {
@@ -181,14 +263,26 @@ define([
             if (props) {
                 var me = this;
 
-                var type = c_oHyperlinkType.WebLink;//props.get_Type();
+                var bookmark = props.get_Bookmark(),
+                    type = (bookmark === null || bookmark=='') ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink;
+
                 (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
                 me.ShowHideElem(type);
 
-                if (props.get_Value()) {
-                    me.inputUrl.setValue(props.get_Value().replace(new RegExp(" ",'g'), "%20"));
+                if (type == c_oHyperlinkType.WebLink) {
+                    if (props.get_Value()) {
+                        me.inputUrl.setValue(props.get_Value().replace(new RegExp(" ",'g'), "%20"));
+                    } else {
+                        me.inputUrl.setValue('');
+                    }
                 } else {
-                    me.inputUrl.setValue('');
+                    if (props.is_TopOfDocument())
+                        this.internalList.selectByIndex(0);
+                    else {
+                        var rec = this.internalList.store.findWhere({name: bookmark});
+                        if (rec)
+                            this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                    }
                 }
 
                 if (props.get_Text() !== null) {
@@ -208,14 +302,25 @@ define([
 
         getSettings: function () {
             var me      = this,
-                props   = new Asc.CHyperlinkProperty(),
-                url     = $.trim(me.inputUrl.getValue());
+                props   = new Asc.CHyperlinkProperty();
 
-            if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                url = ( (me.isEmail) ? 'mailto:' : 'http://' ) + url;
+            if (this.linkType == c_oHyperlinkType.WebLink) {
+                var url     = $.trim(me.inputUrl.getValue());
 
-            url = url.replace(new RegExp("%20",'g')," ");
-            props.put_Value(url);
+                if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
+                    url = ( (me.isEmail) ? 'mailto:' : 'http://' ) + url;
+
+                url = url.replace(new RegExp("%20",'g')," ");
+                props.put_Value(url);
+                props.put_Bookmark(null);
+            } else {
+                var rec = this.internalList.getSelectedRec();
+                if (rec.length>0) {
+                    props.put_Bookmark(rec[0].get('name'));
+                    if (rec[0].get('index')==0)
+                        props.put_TopOfDocument();
+                }
+            }
 
             if (!me.inputDisplay.isDisabled() && ( this.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
                 if (_.isEmpty(me.inputDisplay.getValue()))
@@ -245,13 +350,17 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    var checkurl = this.inputUrl.checkValidate(),
-                        checkdisp = this.inputDisplay.checkValidate();
-                    if (checkurl !== true)  {
-                        this.inputUrl.cmpEl.find('input').focus();
-                        return;
+                    if (this.linkType == c_oHyperlinkType.WebLink) {
+                        if (this.inputUrl.checkValidate() !== true)  {
+                            this.inputUrl.cmpEl.find('input').focus();
+                            return;
+                        }
+                    } else {
+                        var rec = this.internalList.getSelectedRec();
+                        if (rec.length<1 || rec[0].get('level')==0 && rec[0].get('index')>0)
+                            return;
                     }
-                    if (checkdisp !== true) {
+                    if (this.inputDisplay.checkValidate() !== true) {
                         this.inputDisplay.cmpEl.find('input').focus();
                         return;
                     }
@@ -273,6 +382,9 @@ define([
         textDefault:        'Selected text',
         textTitle:          'Hyperlink Settings',
         textExternal:       'External Link',
-        textInternal:       'Place in Document'
+        textInternal:       'Place in Document',
+        txtBeginning: 'Beginning of document',
+        txtHeadings: 'Headings',
+        txtBookmarks: 'Bookmarks'
     }, DE.Views.HyperlinkSettingsDialog || {}))
 });
