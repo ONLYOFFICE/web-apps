@@ -302,7 +302,8 @@ define([
 
         getSettings: function () {
             var me      = this,
-                props   = new Asc.CHyperlinkProperty();
+                props   = new Asc.CHyperlinkProperty(),
+                display = '';
 
             if (this.linkType == c_oHyperlinkType.WebLink) {
                 var url     = $.trim(me.inputUrl.getValue());
@@ -313,18 +314,20 @@ define([
                 url = url.replace(new RegExp("%20",'g')," ");
                 props.put_Value(url);
                 props.put_Bookmark(null);
+                display = url;
             } else {
                 var rec = this.internalList.getSelectedRec();
                 if (rec.length>0) {
                     props.put_Bookmark(rec[0].get('name'));
                     if (rec[0].get('index')==0)
                         props.put_TopOfDocument();
+                    display = rec[0].get('name');
                 }
             }
 
             if (!me.inputDisplay.isDisabled() && ( this.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
                 if (_.isEmpty(me.inputDisplay.getValue()))
-                    me.inputDisplay.setValue(url);
+                    me.inputDisplay.setValue(display);
                 props.put_Text(me.inputDisplay.getValue());
             } else {
                 props.put_Text(null);
