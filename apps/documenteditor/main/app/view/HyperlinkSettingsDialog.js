@@ -216,7 +216,9 @@ define([
                                 name : anchor.asc_GetHeadingText(),
                                 level: level,
                                 index: i+2,
-                                hasParent: hasParent
+                                hasParent: hasParent,
+                                type: Asc.c_oAscHyperlinkAnchor.Heading,
+                                headingParagraph: anchor.asc_GetHeadingParagraph()
                             }));
                             prev_level = level;
                         }
@@ -242,7 +244,8 @@ define([
                                 name : anchor.asc_GetBookmarkName(),
                                 level: 1,
                                 index: arr.length,
-                                hasParent: false
+                                hasParent: false,
+                                type: Asc.c_oAscHyperlinkAnchor.Bookmark
                             }));
                             prev_level = 1;
                         }
@@ -294,8 +297,13 @@ define([
                 } else {
                     if (props.is_TopOfDocument())
                         this.internalList.selectByIndex(0);
-                    else {
-                        var rec = this.internalList.store.findWhere({name: bookmark});
+                    else if (props.is_Heading()) {
+                        var heading = props.get_Heading(),
+                            rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Heading, headingParagraph: heading });
+                        if (rec)
+                            this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                    } else {
+                        var rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Bookmark, name: bookmark});
                         if (rec)
                             this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
                     }
@@ -337,6 +345,9 @@ define([
                     props.put_Bookmark(rec[0].get('name'));
                     if (rec[0].get('index')==0)
                         props.put_TopOfDocument();
+                    var para = rec[0].get('headingParagraph');
+                    if (para)
+                        props.put_Heading(para);
                     display = rec[0].get('name');
                 }
             }
