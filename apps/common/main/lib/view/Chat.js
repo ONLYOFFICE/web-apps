@@ -60,8 +60,8 @@ define([
         storeMessages: undefined,
 
         tplUser: ['<li id="<%= user.get("iid") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
-                        '<div class="color" style="background-color: <%= user.get("color") %>;" >',
-                            '<label class="name"><%= scope.getUserName(user.get("username")) %></label>',
+                        '<div class="name"><%= scope.getUserName(user.get("username")) %>',
+                            '<div class="color" style="background-color: <%= user.get("color") %>;" ></div>',
                         '</div>',
                     '</li>'].join(''),
 
