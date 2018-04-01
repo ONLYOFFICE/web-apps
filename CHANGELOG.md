@@ -1,5 +1,5 @@
 # Change log
-## develop
+## 5.1.1
 ### All Editors
 * 
 
@@ -7,7 +7,7 @@
 * 
 
 ### Spreadsheet Editor
-* 
+* Support Spanish in formulas
 
 ### Presentation Editor
 * 

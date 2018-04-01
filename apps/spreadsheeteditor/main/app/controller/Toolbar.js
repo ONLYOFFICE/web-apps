@@ -3006,7 +3006,7 @@ define([
         },
 
         applyFormulaSettings: function() {
-            if (this.toolbar.rendered) {
+            if (this.toolbar.btnInsertFormula.rendered) {
                 var formulas = this.toolbar.btnInsertFormula.menu.items;
                 for (var i=0; i<Math.min(4,formulas.length); i++) {
                     formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
