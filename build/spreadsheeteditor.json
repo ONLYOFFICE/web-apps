@@ -1,7 +1,7 @@
 {
     "name": "spreadsheeteditor",
     "version": "4.3.0",
-    "build": 881,
+    "build": 884,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
@@ -353,6 +353,14 @@
                     "cwd": "../apps/common/mobile/resources/img/",
                     "src": "**",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/"
+                }
+            ],
+            "images-common": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/mobile/resources/img/about",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/about"
                 }
             ]
         }

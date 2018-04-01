@@ -316,7 +316,7 @@ define([
                         '<div id="<%= id %>" class="list-item">',
                             '<div class="<% if (checked) { %>checked<% } %>"><%= name %></div>',
                             '<div>',
-                                '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;">',
+                                '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;" maxLength="1">',
                             '</div>',
                             '</div>',
                         '</div>'
@@ -593,7 +593,7 @@ define([
                 if(!/[1-9]/.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.DELETE && e.keyCode !== Common.UI.Keys.BACKSPACE &&
                     e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT && e.keyCode !== Common.UI.Keys.HOME &&
                     e.keyCode !== Common.UI.Keys.END && e.keyCode !== Common.UI.Keys.ESC && e.keyCode !== Common.UI.Keys.INSERT &&
-                    e.keyCode !== Common.UI.Keys.TAB  || input.val().length>1){
+                    e.keyCode !== Common.UI.Keys.TAB){
                     e.preventDefault();
                     e.stopPropagation();
                 }
@@ -628,8 +628,10 @@ define([
 
         onItemChange: function(listView, itemView, record) {
             this.addEvents(listView, itemView, record);
+            var inp = itemView.$el.find('input');
             setTimeout(function(){
-                itemView.$el.find('input').focus();
+                inp.focus();
+                inp[0].selectionStart = inp[0].selectionEnd = inp[0].value.length;
             }, 10);
         },
 
