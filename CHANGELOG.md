@@ -7,7 +7,7 @@
 * 
 
 ### Spreadsheet Editor
-* 
+* Support Spanish in formulas
 
 ### Presentation Editor
 * 
