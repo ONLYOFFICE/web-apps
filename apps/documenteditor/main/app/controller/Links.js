@@ -44,7 +44,8 @@ define([
     'documenteditor/main/app/view/Links',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
-    'documenteditor/main/app/view/TableOfContentsSettings'
+    'documenteditor/main/app/view/TableOfContentsSettings',
+    'documenteditor/main/app/view/BookmarksDialog'
 ], function () {
     'use strict';
 
@@ -64,7 +65,8 @@ define([
                     'links:contents': this.onTableContents,
                     'links:update': this.onTableContentsUpdate,
                     'links:notes': this.onNotesClick,
-                    'links:hyperlink': this.onHyperlinkClick
+                    'links:hyperlink': this.onHyperlinkClick,
+                    'links:bookmarks': this.onBookmarksClick
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -309,6 +311,19 @@ define([
                     }, 50);
                     break;
             }
+        },
+
+        onBookmarksClick: function(btn) {
+            var me = this;
+            (new DE.Views.BookmarksDialog({
+                api: me.api,
+                props: me.api.asc_GetBookmarksManager(),
+                handler: function (result, settings) {
+                    if (settings) {
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         },
 
         onShowContentControlsActions: function(action, x, y) {
