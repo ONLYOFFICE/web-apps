@@ -1332,7 +1332,7 @@
   "SSE.Views.HyperlinkSettingsDialog.textExternalLink": "External Link",
   "SSE.Views.HyperlinkSettingsDialog.textInternalLink": "Internal Data Range",
   "SSE.Views.HyperlinkSettingsDialog.textInvalidRange": "ERROR! Invalid cells range",
-  "SSE.Views.HyperlinkSettingsDialog.textLinkType": "Link Type",
+  "del_SSE.Views.HyperlinkSettingsDialog.textLinkType": "Link Type",
   "SSE.Views.HyperlinkSettingsDialog.textTipText": "ScreenTip Text",
   "SSE.Views.HyperlinkSettingsDialog.textTitle": "Hyperlink Settings",
   "SSE.Views.HyperlinkSettingsDialog.txtEmpty": "This field is required",

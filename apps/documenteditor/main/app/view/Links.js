@@ -101,6 +101,10 @@ define([
                     me.fireEvent('links:hyperlink');
                 });
             });
+
+            this.btnBookmarks.on('click', function (b, e) {
+                me.fireEvent('links:bookmarks');
+            });
         }
 
         return {
@@ -160,6 +164,15 @@ define([
                 });
                 _injectComponent('#slot-btn-contents-update', this.btnContentsUpdate);
                 this.paragraphControls.push(this.btnContentsUpdate);
+
+                this.btnBookmarks = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-bookmarks',
+                    caption: this.capBtnBookmarks,
+                    disabled: true
+                });
+                _injectComponent('#slot-btn-bookmarks', this.btnBookmarks);
+                this.paragraphControls.push(this.btnBookmarks);
 
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -255,6 +268,8 @@ define([
                         btn.updateHint(me.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                     });
 
+                    me.btnBookmarks.updateHint(me.tipBookmarks);
+
                     setEvents.call(me);
                 });
             },
@@ -293,7 +308,9 @@ define([
             capBtnInsFootnote: 'Footnotes',
             confirmDeleteFootnotes: 'Do you want to delete all footnotes?',
             capBtnInsLink: 'Hyperlink',
-            tipInsertHyperlink: 'Add Hyperlink'
+            tipInsertHyperlink: 'Add Hyperlink',
+            capBtnBookmarks: 'Bookmark',
+            tipBookmarks: 'Create a bookmark'
         }
     }()), DE.Views.Links || {}));
 });

@@ -4,7 +4,8 @@
 * 
 
 ### Document Editor
-* 
+* Create and manage bookmarks
+* Create internal hyperlinks to bookmarks and headings
 
 ### Spreadsheet Editor
 * Support Spanish in formulas
