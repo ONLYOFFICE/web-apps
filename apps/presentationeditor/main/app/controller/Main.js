@@ -292,13 +292,16 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
+                appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
+                            .setUserName(this.appOptions.user.fullname);
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                Common.Controllers.Desktop.init(this.appOptions);
             },
 
             loadDocument: function(data) {
@@ -397,18 +400,20 @@ define([
             },
 
             goBack: function() {
-                 var href = this.appOptions.customization.goback.url;
-                 if (this.appOptions.customization.goback.blank!==false) {
-                     window.open(href, "_blank");
-                 } else {
-                     parent.location.href = href;
-                 }
+                var me = this;
+                if ( !Common.Controllers.Desktop.process('goback') ) {
+                    var href = me.appOptions.customization.goback.url;
+                    if (me.appOptions.customization.goback.blank!==false) {
+                        window.open(href, "_blank");
+                    } else {
+                        parent.location.href = href;
+                    }
+                }
              },
 
             onEditComplete: function(cmp) {
                 var application = this.getApplication(),
-                    toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView('Toolbar');
+                    toolbarView = application.getController('Toolbar').getView('Toolbar');
 
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
                 if (this.api && this.api.asc_isDocumentCanSave) {
@@ -416,12 +421,7 @@ define([
                         forcesave = this.appOptions.forcesave,
                         isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 
@@ -1264,28 +1264,16 @@ define([
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
             onDocumentCanSaveChanged: function (isCanSave) {
-                var application = this.getApplication(),
-                    toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView('Toolbar');
-                if (toolbarView) {
+                var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
+                if ( toolbarView ) {
                     var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 

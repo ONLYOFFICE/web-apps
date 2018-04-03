@@ -55,6 +55,7 @@ define([
         ],
 
         initialize: function() {
+            var me = this;
             this.addListeners({
                 'Statusbar': {
                     'langchanged': this.onLangMenu,
@@ -62,6 +63,15 @@ define([
                         this.api.zoom(value);
                         Common.NotificationCenter.trigger('edit:complete', this.statusbar);
                     }.bind(this)
+                },
+                'Common.Views.Header': {
+                    'statusbar:hide': function (view, status) {
+                        me.statusbar.setVisible(!status);
+                        Common.localStorage.setBool('de-hidden-status', status);
+
+                        Common.NotificationCenter.trigger('layout:changed', 'status');
+                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+                    }
                 }
             });
         },

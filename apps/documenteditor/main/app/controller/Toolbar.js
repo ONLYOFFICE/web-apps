@@ -114,10 +114,16 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'save': function (opts) {
+                        this.api.asc_Save();
+                    },
+                    'undo': this.onUndo,
+                    'redo': this.onRedo,
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         var _file_type = _main.document.fileType,
@@ -228,7 +234,9 @@ define([
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+            toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+            toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
             toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
@@ -289,7 +297,6 @@ define([
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
-            toolbar.btnAdvSettings.on('click',                          _.bind(this.onAdvSettingsClick, this));
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
@@ -301,13 +308,6 @@ define([
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
-            toolbar.mnuitemHideStatusBar.on('toggle',                   _.bind(this.onHideStatusBar, this));
-            toolbar.mnuitemHideRulers.on('toggle',                      _.bind(this.onHideRulers, this));
-            toolbar.mnuitemCompactToolbar.on('toggle',                  _.bind(this.onChangeCompactView, this));
-            toolbar.btnFitPage.on('toggle',                             _.bind(this.onZoomToPageToggle, this));
-            toolbar.btnFitWidth.on('toggle',                            _.bind(this.onZoomToWidthToggle, this));
-            toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
-            toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
@@ -372,7 +372,6 @@ define([
                 var me = this;
                 setTimeout(function () {
                     me.onChangeCompactView(null, !me.toolbar.isCompact());
-                    me.toolbar.mnuitemCompactToolbar.setChecked(me.toolbar.isCompact(), true);
                 }, 0);
             }
         },
@@ -518,14 +517,9 @@ define([
 
                 var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
-                if (btnHorizontalAlign.rendered) {
-                    var iconEl = $('.icon', btnHorizontalAlign.cmpEl);
-
-                    if (iconEl) {
-                        iconEl.removeClass(btnHorizontalAlign.options.icls);
-                        btnHorizontalAlign.options.icls = align;
-                        iconEl.addClass(btnHorizontalAlign.options.icls);
-                    }
+                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
+                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                    btnHorizontalAlign.options.icls = align;
                 }
 
                 if (v === null || v===undefined) {
@@ -740,7 +734,7 @@ define([
 
             var in_footnote = this.api.asc_IsCursorInFootnote();
             need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
-            toolbar.btnsPageBreak.disable(need_disable);
+            toolbar.btnsPageBreak.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
             toolbar.btnInsertImage.setDisabled(need_disable);
@@ -773,10 +767,8 @@ define([
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
             need_disable = (paragraph_locked || header_locked) && this.api.can_AddQuotedComment() || image_locked;
-            if (this.btnsComment && this.btnsComment.length>0 && need_disable != this.btnsComment[0].isDisabled())
-                _.each (this.btnsComment, function(item){
-                    item.setDisabled(need_disable);
-                }, this);
+            if ( this.btnsComment && this.btnsComment.length > 0 )
+                this.btnsComment.setDisabled(need_disable);
 
             this._state.in_equation = in_equation;
         },
@@ -845,12 +837,7 @@ define([
             this.toolbar.mnuInsertPageNum.setDisabled(false);
         },
 
-        onApiZoomChange: function(percent, type) {
-            this.toolbar.btnFitPage.setChecked(type == 2, true);
-            this.toolbar.btnFitWidth.setChecked(type == 1, true);
-            this.toolbar.mnuZoom.options.value = percent;
-            $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
-        },
+        onApiZoomChange: function(percent, type) {},
 
         onApiStartHighlight: function(pressed) {
             this.toolbar.btnHighlightColor.toggle(pressed, true);
@@ -921,23 +908,26 @@ define([
             var toolbar = this.toolbar;
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.icon', toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                var isSyncButton = toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
             }
 
-            toolbar.btnsSave.forEach(function(button) {
-                if ( button ) {
-                    button.setDisabled(!toolbar.mode.forcesave);
-                }
-            });
+            toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
             Common.component.Analytics.trackEvent('Save');
             Common.component.Analytics.trackEvent('ToolBar', 'Save');
+        },
+
+        onBtnChangeState: function(prop) {
+            if ( /\:disabled$/.test(prop) ) {
+                var _is_disabled = arguments[2];
+                this.toolbar.fireEvent(prop, [_is_disabled]);
+            }
         },
 
         onUndo: function(btn, e) {
@@ -1078,14 +1068,11 @@ define([
 
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
+            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
-            if (iconEl) {
-                iconEl.removeClass(btnHorizontalAlign.options.icls);
-                btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-                iconEl.addClass(btnHorizontalAlign.options.icls);
-            }
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
 
             if (this.api && item.checked)
                 this.api.put_PrAlign(item.value);
@@ -1413,11 +1400,6 @@ define([
                 this.api.SetPaintFormat(state ? 1 : 0);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             this.modeAlwaysSetStyle = state;
-        },
-
-        onAdvSettingsClick: function(btn, e) {
-            this.toolbar.fireEvent('file:settings', this);
-            btn.cmpEl.blur();
         },
 
         onPageSizeClick: function(menu, item, state) {
@@ -1992,61 +1974,6 @@ define([
         //     Common.NotificationCenter.trigger('layout:changed', 'header');
         //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         // },
-
-        onHideStatusBar: function(item, checked) {
-            var headerView  = this.getApplication().getController('Statusbar').getView('Statusbar');
-            headerView  && headerView.setVisible(!checked);
-
-            Common.localStorage.setBool('de-hidden-status', checked);
-
-            Common.NotificationCenter.trigger('layout:changed', 'status');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHideRulers: function(item, checked) {
-            if (this.api) {
-                this.api.asc_SetViewRulers(!checked);
-            }
-
-            Common.localStorage.setBool('de-hidden-rulers', checked);
-
-            Common.NotificationCenter.trigger('layout:changed', 'rulers');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomToPageToggle: function(item, state) {
-            if (this.api) {
-                if (state)
-                    this.api.zoomFitToPage();
-                else
-                    this.api.zoomCustomMode();
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomToWidthToggle: function(item, state) {
-            if (this.api) {
-                if (state)
-                    this.api.zoomFitToWidth();
-                else
-                    this.api.zoomCustomMode();
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomInClick: function(btn) {
-            if (this.api)
-                this.api.zoomIn();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomOutClick: function(btn) {
-            if (this.api)
-                this.api.zoomOut();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
 
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
@@ -2716,17 +2643,12 @@ define([
 
             disable = disable || (reviewmode ? toolbar_mask.length>0 : group_mask.length>0);
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
-            toolbar.btnHide.setDisabled(disable);
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
 
             toolbar._state.previewmode = reviewmode && disable;
             if (reviewmode) {
-                toolbar._state.previewmode && toolbar.btnsSave.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(true);
-                    }
-                });
+                toolbar._state.previewmode && toolbar.btnSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
@@ -2783,12 +2705,25 @@ define([
                 if ( $panel )
                     me.toolbar.addTab(tab, $panel, 4);
 
-                if (config.isDesktopApp && config.isOffline) {
-                    tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                    $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                if ( config.isDesktopApp ) {
+                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                    if ( $panel )
-                        me.toolbar.addTab(tab, $panel, 5);
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+
+                    // hide 'undo' and 'redo' buttons and retrieve parent container
+                    var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnCopy.$el.removeClass('split');
+
+                    if ( config.isOffline ) {
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+
+                        if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                    }
                 }
 
                 var links = me.getApplication().getController('Links');
@@ -2801,7 +2736,7 @@ define([
             var me = this;
 
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = [];
+                this.btnsComment = createButtonSet();
                 var slots = me.toolbar.$el.find('.slot-comment');
                 slots.each(function(index, el) {
                     var _cls = 'btn-toolbar';
@@ -2814,7 +2749,7 @@ define([
                         caption: me.toolbar.capBtnComment
                     }).render( slots.eq(index) );
 
-                    me.btnsComment.push(button);
+                    me.btnsComment.add(button);
                 });
 
                 if ( this.btnsComment.length ) {
