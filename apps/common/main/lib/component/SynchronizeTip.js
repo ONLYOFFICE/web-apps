@@ -103,13 +103,20 @@ define([
             },
 
             applyPlacement: function () {
-                var showxy = this.target.offset();
+                var showxy = this.target.offset(),
+                    innerHeight = Common.Utils.innerHeight();
                 if (this.placement == 'top')
-                    this.cmpEl.css({bottom : Common.Utils.innerHeight() - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
-                else if (this.placement == 'left')
-                    this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', right: Common.Utils.innerWidth() - showxy.left - 5 + 'px'});
-                else // right
-                    this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', left: showxy.left + this.target.width() + 'px'});
+                    this.cmpEl.css({bottom : innerHeight - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
+                else {// left or right
+                    var top = showxy.top + this.target.height()/2,
+                        height = this.cmpEl.height();
+                    if (top+height>innerHeight)
+                        top = innerHeight - height;
+                    if (this.placement == 'left')
+                        this.cmpEl.css({top : top + 'px', right: Common.Utils.innerWidth() - showxy.left - 5 + 'px'});
+                    else
+                        this.cmpEl.css({top : top + 'px', left: showxy.left + this.target.width() + 'px'});
+                }
             },
 
             isVisible: function() {

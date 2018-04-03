@@ -20,29 +20,32 @@
 
             &:after {
                 top: -7px;
-                left: 6px;
+                left: 7px;
                 width: 16px;
             }
         }
     }
 
     &.left {
-        margin: -32px 15px 0 0;
+        margin: 0 15px 0 0;
 
         .tip-arrow {
             right: -15px;
-            top: 20px;
-            width: 15px;
-            height: 30px;
+            top: 0;
+            width: 16px;
+            height: 15px;
+            .box-shadow(0 -5px 8px -5px rgba(0, 0, 0, 0.2));
+
             &:after {
-                top: 5px;
-                left: -8px;
+                top: -7px;
+                left: -7px;
+                width: 15px;
             }
         }
     }
 
     &.top {
-        margin: 0 -32px 15px 0;
+        margin: 0 0 15px 0;
 
         .tip-arrow {
             right: 0;
@@ -67,6 +70,10 @@
 
     .right & {
         border-top-left-radius: 0;
+    }
+
+    .left & {
+        border-top-right-radius: 0;
     }
 
     .top & {
