@@ -980,7 +980,7 @@
   "PE.Views.HyperlinkSettingsDialog.textEmptyTooltip": "Enter tooltip here",
   "PE.Views.HyperlinkSettingsDialog.textExternalLink": "External Link",
   "PE.Views.HyperlinkSettingsDialog.textInternalLink": "Slide In This Presentation",
-  "PE.Views.HyperlinkSettingsDialog.textLinkType": "Link Type",
+  "del_PE.Views.HyperlinkSettingsDialog.textLinkType": "Link Type",
   "PE.Views.HyperlinkSettingsDialog.textTipText": "ScreenTip Text",
   "PE.Views.HyperlinkSettingsDialog.textTitle": "Hyperlink Settings",
   "PE.Views.HyperlinkSettingsDialog.txtEmpty": "This field is required",

@@ -98,7 +98,6 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
             this._originalProps = null;
-            this.linkType = c_oHyperlinkType.WebLink;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -257,8 +256,6 @@ define([
 
             } else
                 this.btnOk.setDisabled(false);
-
-            this.linkType = value;
         },
 
         onLinkTypeClick: function(type, btn, event) {
@@ -329,7 +326,7 @@ define([
                 props   = new Asc.CHyperlinkProperty(),
                 display = '';
 
-            if (this.linkType == c_oHyperlinkType.WebLink) {
+            if (this.btnExternal.isActive()) {//WebLink
                 var url     = $.trim(me.inputUrl.getValue());
 
                 if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
@@ -380,7 +377,7 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    if (this.linkType == c_oHyperlinkType.WebLink) {
+                    if (this.btnExternal.isActive()) {//WebLink
                         if (this.inputUrl.checkValidate() !== true)  {
                             this.inputUrl.cmpEl.find('input').focus();
                             return;
