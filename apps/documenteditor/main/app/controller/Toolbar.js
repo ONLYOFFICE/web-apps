@@ -2705,9 +2705,8 @@ define([
                 if ( $panel )
                     me.toolbar.addTab(tab, $panel, 4);
 
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
                 if ( config.isDesktopApp ) {
-                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
