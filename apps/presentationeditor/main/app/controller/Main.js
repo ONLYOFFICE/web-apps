@@ -1613,6 +1613,7 @@ define([
                                 Common.localStorage.setItem("pe-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
                                 Common.Utils.InternalSettings.set("pe-settings-coauthmode", false);
+                                this.getApplication().getController('Common.Controllers.ReviewChanges').applySettings();
                                 this._state.fastCoauth = false;
                             }
                             this.onEditComplete();
