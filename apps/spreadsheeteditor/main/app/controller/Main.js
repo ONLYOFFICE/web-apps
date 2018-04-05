@@ -412,7 +412,10 @@ define([
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = Asc.c_oAscFileType.XLSX;
-                this.api.asc_DownloadAs(_format, true);
+                if (_format == Asc.c_oAscFileType.PDF)
+                    Common.NotificationCenter.trigger('download:settings', this, true);
+                else
+                    this.api.asc_DownloadAs(_format, true);
             },
 
             onProcessMouse: function(data) {

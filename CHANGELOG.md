@@ -10,6 +10,7 @@
 
 ### Spreadsheet Editor
 * Support Spanish in formulas
+* Set options for saving in PDF format
 
 ### Presentation Editor
 * 

@@ -107,7 +107,10 @@ define([
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
 
-                        _main.api.asc_DownloadAs(_format);
+                        if (_format == Asc.c_oAscFileType.PDF)
+                            Common.NotificationCenter.trigger('download:settings', this.toolbar);
+                        else
+                            _main.api.asc_DownloadAs(_format);
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
