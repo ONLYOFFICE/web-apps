@@ -115,7 +115,9 @@ define([
                 this.translationTable[name] = {
                     en: this[translate],
                     de: this[translate+'_de'],
-                    ru: this[translate+'_ru']
+                    ru: this[translate+'_ru'],
+                    pl: this[translate+'_pl'],
+                    es: this[translate+'_es']
                 };
             }
 
@@ -237,7 +239,7 @@ define([
                     if (this.formulasGroups.at(i).get('functions').length) {
                         groupsListItems.push({
                             value           : this.formulasGroups.at(i).get('index'),
-                            displayValue    : this.translationTable[this.formulasGroups.at(i).get('name')][lang]
+                            displayValue    : this.translationTable[this.formulasGroups.at(i).get('name')][lang] || this.translationTable[this.formulasGroups.at(i).get('name')]['en']
                         });
                     }
                 }
@@ -245,7 +247,7 @@ define([
                 if (!this.cmbFuncGroup) {
                     this.cmbFuncGroup = new Common.UI.ComboBox({
                         el          : $('#formula-dlg-combo-group'),
-                        menuStyle   : 'min-width: 268px;',
+                        menuStyle   : 'min-width: 278px;',
                         cls         : 'input-group-nr',
                         data        : groupsListItems,
                         editable    : false
@@ -406,7 +408,7 @@ define([
         sCategoryEngineering:           'Engineering',
         sCategoryFinancial:             'Financial',
         sCategoryInformation:           'Information',
-        sCategoryLookupAndReference:    'LookupAndReference',
+        sCategoryLookupAndReference:    'Lookup and Reference',
         sCategoryMathematic:            'Math and trigonometry',
         sCategoryStatistical:           'Statistical',
         sCategoryTextAndData:           'Text and data',
@@ -437,6 +439,31 @@ define([
         sCategoryMathematic_ru:         'Математические',
         sCategoryStatistical_ru:        'Статистические',
         sCategoryTextAndData_ru:        'Текст и данные',
-        txtTitle:                       'Insert Function'
+        txtTitle:                       'Insert Function',
+        sCategoryAll_es:                   'Todo',
+        sCategoryLogical_es:               'Lógico',
+        sCategoryCube_es:                  'Cubo',
+        sCategoryDatabase_es:              'Base de Datos',
+        sCategoryDateAndTime_es:           'Fecha y hora',
+        sCategoryEngineering_es:           'Ingenería',
+        sCategoryFinancial_es:             'Financial',
+        sCategoryInformation_es:           'Información',
+        sCategoryLookupAndReference_es:    'Búsqueda y Referencia',
+        sCategoryMathematic_es:            'Matemáticas y trigonometría',
+        sCategoryStatistical_es:           'Estadístico',
+        sCategoryTextAndData_es:           'Texto y datos',
+        sCategoryAll_pl:                   'Wszystko',
+        sCategoryLogical_pl:               'Logiczny',
+        sCategoryCube_pl:                  'Sześcian',
+        sCategoryDatabase_pl:              'Baza danych',
+        sCategoryDateAndTime_pl:           'Data i czas',
+        sCategoryEngineering_pl:           'Inżyniera',
+        sCategoryFinancial_pl:             'Finansowe',
+        sCategoryInformation_pl:           'Informacja',
+        sCategoryLookupAndReference_pl:    'Wyszukiwanie i odniesienie',
+        sCategoryMathematic_pl:            'Matematyczne i trygonometryczne',
+        sCategoryStatistical_pl:           'Statystyczny',
+        sCategoryTextAndData_pl:           'Tekst i data'
+
     }, SSE.Views.FormulaDialog || {}));
 });

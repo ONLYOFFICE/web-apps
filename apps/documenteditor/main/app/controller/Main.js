@@ -1908,6 +1908,7 @@ define([
                                 this._state.fastCoauth = false;
                                 Common.localStorage.setItem("de-settings-showchanges-strict", 'last');
                                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                                this.getApplication().getController('Common.Controllers.ReviewChanges').applySettings();
                             }
                             this.onEditComplete();
                         }, this)

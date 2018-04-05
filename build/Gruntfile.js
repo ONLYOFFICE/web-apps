@@ -322,7 +322,9 @@ module.exports = function(grunt) {
                     files: packageFile['mobile']['copy']['index-page']
                 },
                 'images-app': {
-                    files: packageFile['mobile']['copy']['images-app']
+                    files:[]
+                        .concat(packageFile['mobile']['copy']['images-app'])
+                        .concat(packageFile['mobile']['copy']['images-common'])
                 }
             },
             
