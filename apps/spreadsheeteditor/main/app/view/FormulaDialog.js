@@ -117,7 +117,8 @@ define([
                     de: this[translate+'_de'],
                     ru: this[translate+'_ru'],
                     pl: this[translate+'_pl'],
-                    es: this[translate+'_es']
+                    es: this[translate+'_es'],
+                    fr: this[translate+'_fr']
                 };
             }
 

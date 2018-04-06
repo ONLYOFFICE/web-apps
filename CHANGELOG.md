@@ -9,7 +9,7 @@
 * Export to RTF format
 
 ### Spreadsheet Editor
-* Support Spanish in formulas
+* Add Spanish, French formula translations
 * Set options for saving in PDF format
 
 ### Presentation Editor
