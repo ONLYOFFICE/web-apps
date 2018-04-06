@@ -137,6 +137,7 @@
   "SSE.Controllers.Main.errorLockedWorksheetRename": "시트의 이름을 다른 사용자가 바꾸면 이름을 바꿀 수 없습니다.",
   "SSE.Controllers.Main.errorMailMergeLoadFile": "로드 실패",
   "SSE.Controllers.Main.errorMailMergeSaveFile": "병합에 실패했습니다.",
+  "SSE.Controllers.Main.errorMaxPoints": "차트당 시리즈내 포인트의 최대값은 4096임",
   "SSE.Controllers.Main.errorMoveRange": "병합 된 셀의 일부를 변경할 수 없습니다",
   "SSE.Controllers.Main.errorOpenWarning": "파일에있는 수식 중 하나의 길이가 허용 된 문자 수를 초과하여 제거되었습니다.",
   "SSE.Controllers.Main.errorOperandExpected": "입력 한 함수 구문이 올바르지 않습니다. 괄호 중 하나가 누락되어 있는지 확인하십시오 ( '('또는 ')').",
