@@ -758,14 +758,22 @@ Common.Utils.InternalSettings = new(function() {
     var settings = {};
 
     var _get = function(name) {
-        return settings[name];
-    },
-    _set = function(name, value) {
-        settings[name] = value;
-    };
+            return settings[name];
+        },
+        _set = function(name, value) {
+            settings[name] = value;
+        };
 
     return {
         get: _get,
         set: _set
     }
 });
+
+Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
+Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
+Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
+Common.Utils.InternalSettings.set('document-title-height', 28);
+
+Common.Utils.InternalSettings.set('toolbar-height-compact', Common.Utils.InternalSettings.get('toolbar-height-tabs'));
+Common.Utils.InternalSettings.set('toolbar-height-normal', Common.Utils.InternalSettings.get('toolbar-height-tabs') + Common.Utils.InternalSettings.get('toolbar-height-controls'));

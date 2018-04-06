@@ -186,6 +186,7 @@ require([
         'common/main/lib/controller/Plugins'
         ,'common/main/lib/controller/ReviewChanges'
         ,'common/main/lib/controller/Protection'
+        ,'common/main/lib/controller/Desktop'
     ], function() {
         window.compareVersions = true;
         app.start();

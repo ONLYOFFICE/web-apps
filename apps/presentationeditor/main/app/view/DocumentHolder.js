@@ -530,12 +530,13 @@ define([
                         ToolTip = getUserName(moveData.get_UserId());
 
                         showPoint = [moveData.get_X()+me._XY[0], moveData.get_Y()+me._XY[1]];
+                        var maxwidth = showPoint[0];
                         showPoint[0] = me._BodyWidth - showPoint[0];
                         showPoint[1] -= ((moveData.get_LockedObjectType()==2) ? me._TtHeight : 0);
 
                         if (showPoint[1] > me._XY[1] && showPoint[1]+me._TtHeight < me._XY[1]+me._Height)  {
                             src.text(ToolTip);
-                            src.css({visibility: 'visible', top: showPoint[1] + 'px', right: showPoint[0] + 'px'});
+                            src.css({visibility: 'visible', top: showPoint[1] + 'px', right: showPoint[0] + 'px', 'max-width': maxwidth + 'px'});
                         }
                     }
                     /** coauthoring end **/

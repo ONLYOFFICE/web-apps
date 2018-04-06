@@ -42,6 +42,11 @@
 if (Common === undefined)
     var Common = {};
 
+var c_oHyperlinkType = {
+    InternalLink:0,
+    WebLink: 1
+};
+
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/InputField',
@@ -61,11 +66,20 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box">',
-                    '<div class="input-row">',
-                        '<label>' + this.textUrl + ' *</label>',
+                '<div class="box" style="height: 260px;">',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternal,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternal,'</button>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-external-link">',
+                        '<div class="input-row">',
+                            '<label>' + this.textUrl + ' *</label>',
+                        '</div>',
+                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '</div>',
+                    '<div id="id-internal-link">',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 130px;border: 1px solid #cfcfcf;"></div>',
+                    '</div>',
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
                     '</div>',
@@ -93,6 +107,23 @@ define([
 
             var me = this,
                 $window = this.getChild();
+
+            me.btnExternal = new Common.UI.Button({
+                el: $('#id-dlg-hyperlink-external'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false,
+                pressed: true
+            });
+            me.btnExternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.WebLink));
+
+            me.btnInternal = new Common.UI.Button({
+                el: $('#id-dlg-hyperlink-internal'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false
+            });
+            me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
 
             me.inputUrl = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-url'),
@@ -122,8 +153,117 @@ define([
                 maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
+            me.internalList = new Common.UI.TreeView({
+                el: $('#id-dlg-hyperlink-list'),
+                store: new Common.UI.TreeViewStore(),
+                enableKeyEvents: true
+            });
+            me.internalList.on('item:select', _.bind(this.onSelectItem, this));
+
+            me.btnOk = new Common.UI.Button({
+                el: $window.find('.primary')
+            });
+
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+            me.externalPanel = $window.find('#id-external-link');
+            me.internalPanel = $window.find('#id-internal-link');
+        },
+
+        ShowHideElem: function(value) {
+            this.externalPanel.toggleClass('hidden', value !== c_oHyperlinkType.WebLink);
+            this.internalPanel.toggleClass('hidden', value !== c_oHyperlinkType.InternalLink);
+            var store = this.internalList.store;
+            if (value==c_oHyperlinkType.InternalLink) {
+                if (store.length<1) {
+                    var anchors = this.api.asc_GetHyperlinkAnchors(),
+                        count = anchors.length,
+                        prev_level = 0,
+                        header_level = 0,
+                        arr = [];
+                    arr.push(new Common.UI.TreeViewModel({
+                        name : this.txtBeginning,
+                        level: 0,
+                        index: 0,
+                        hasParent: false,
+                        isEmptyItem: false,
+                        isNotHeader: true,
+                        hasSubItems: false
+                    }));
+                    arr.push(new Common.UI.TreeViewModel({
+                        name : this.txtHeadings,
+                        level: 0,
+                        index: 1,
+                        hasParent: false,
+                        isEmptyItem: false,
+                        isNotHeader: false,
+                        hasSubItems: false
+                    }));
+
+                    for (var i=0; i<count; i++) {
+                        var anchor = anchors[i],
+                            level = anchors[i].asc_GetHeadingLevel(),
+                            hasParent = true;
+                        if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Heading){
+                            if (level>prev_level)
+                                arr[arr.length-1].set('hasSubItems', true);
+                            if (level<=header_level) {
+                                header_level = level;
+                                hasParent = false;
+                            }
+                            arr.push(new Common.UI.TreeViewModel({
+                                name : anchor.asc_GetHeadingText(),
+                                level: level,
+                                index: i+2,
+                                hasParent: hasParent,
+                                type: Asc.c_oAscHyperlinkAnchor.Heading,
+                                headingParagraph: anchor.asc_GetHeadingParagraph()
+                            }));
+                            prev_level = level;
+                        }
+                    }
+                    arr.push(new Common.UI.TreeViewModel({
+                        name : this.txtBookmarks,
+                        level: 0,
+                        index: arr.length,
+                        hasParent: false,
+                        isEmptyItem: false,
+                        isNotHeader: false,
+                        hasSubItems: false
+                    }));
+
+                    prev_level = 0;
+                    for (var i=0; i<count; i++) {
+                        var anchor = anchors[i],
+                            hasParent = true;
+                        if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Bookmark){
+                            if (prev_level<1)
+                                arr[arr.length-1].set('hasSubItems', true);
+                            arr.push(new Common.UI.TreeViewModel({
+                                name : anchor.asc_GetBookmarkName(),
+                                level: 1,
+                                index: arr.length,
+                                hasParent: false,
+                                type: Asc.c_oAscHyperlinkAnchor.Bookmark
+                            }));
+                            prev_level = 1;
+                        }
+                    }
+                    store.reset(arr);
+                }
+                var rec = this.internalList.getSelectedRec();
+                this.btnOk.setDisabled(rec.length<1 || rec[0].get('level')==0 && rec[0].get('index')>0);
+
+            } else
+                this.btnOk.setDisabled(false);
+        },
+
+        onLinkTypeClick: function(type, btn, event) {
+            this.ShowHideElem(type);
+        },
+
+        onSelectItem: function(picker, item, record, e){
+            this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
         },
 
         show: function() {
@@ -139,10 +279,31 @@ define([
             if (props) {
                 var me = this;
 
-                if (props.get_Value()) {
-                    me.inputUrl.setValue(props.get_Value().replace(new RegExp(" ",'g'), "%20"));
+                var bookmark = props.get_Bookmark(),
+                    type = (bookmark === null || bookmark=='') ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink;
+
+                (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
+                me.ShowHideElem(type);
+
+                if (type == c_oHyperlinkType.WebLink) {
+                    if (props.get_Value()) {
+                        me.inputUrl.setValue(props.get_Value().replace(new RegExp(" ",'g'), "%20"));
+                    } else {
+                        me.inputUrl.setValue('');
+                    }
                 } else {
-                    me.inputUrl.setValue('');
+                    if (props.is_TopOfDocument())
+                        this.internalList.selectByIndex(0);
+                    else if (props.is_Heading()) {
+                        var heading = props.get_Heading(),
+                            rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Heading, headingParagraph: heading });
+                        if (rec)
+                            this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                    } else {
+                        var rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Bookmark, name: bookmark});
+                        if (rec)
+                            this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                    }
                 }
 
                 if (props.get_Text() !== null) {
@@ -163,17 +324,34 @@ define([
         getSettings: function () {
             var me      = this,
                 props   = new Asc.CHyperlinkProperty(),
-                url     = $.trim(me.inputUrl.getValue());
+                display = '';
 
-            if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                url = ( (me.isEmail) ? 'mailto:' : 'http://' ) + url;
+            if (this.btnExternal.isActive()) {//WebLink
+                var url     = $.trim(me.inputUrl.getValue());
 
-            url = url.replace(new RegExp("%20",'g')," ");
-            props.put_Value(url);
+                if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
+                    url = ( (me.isEmail) ? 'mailto:' : 'http://' ) + url;
+
+                url = url.replace(new RegExp("%20",'g')," ");
+                props.put_Value(url);
+                props.put_Bookmark(null);
+                display = url;
+            } else {
+                var rec = this.internalList.getSelectedRec();
+                if (rec.length>0) {
+                    props.put_Bookmark(rec[0].get('name'));
+                    if (rec[0].get('index')==0)
+                        props.put_TopOfDocument();
+                    var para = rec[0].get('headingParagraph');
+                    if (para)
+                        props.put_Heading(para);
+                    display = rec[0].get('name');
+                }
+            }
 
             if (!me.inputDisplay.isDisabled() && ( this.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
                 if (_.isEmpty(me.inputDisplay.getValue()))
-                    me.inputDisplay.setValue(url);
+                    me.inputDisplay.setValue(display);
                 props.put_Text(me.inputDisplay.getValue());
             } else {
                 props.put_Text(null);
@@ -199,13 +377,17 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    var checkurl = this.inputUrl.checkValidate(),
-                        checkdisp = this.inputDisplay.checkValidate();
-                    if (checkurl !== true)  {
-                        this.inputUrl.cmpEl.find('input').focus();
-                        return;
+                    if (this.btnExternal.isActive()) {//WebLink
+                        if (this.inputUrl.checkValidate() !== true)  {
+                            this.inputUrl.cmpEl.find('input').focus();
+                            return;
+                        }
+                    } else {
+                        var rec = this.internalList.getSelectedRec();
+                        if (rec.length<1 || rec[0].get('level')==0 && rec[0].get('index')>0)
+                            return;
                     }
-                    if (checkdisp !== true) {
+                    if (this.inputDisplay.checkValidate() !== true) {
                         this.inputDisplay.cmpEl.find('input').focus();
                         return;
                     }
@@ -225,6 +407,11 @@ define([
         txtNotUrl:          'This field should be a URL in the format \"http://www.example.com\"',
         textTooltip:        'ScreenTip text',
         textDefault:        'Selected text',
-        textTitle:          'Hyperlink Settings'
+        textTitle:          'Hyperlink Settings',
+        textExternal:       'External Link',
+        textInternal:       'Place in Document',
+        txtBeginning: 'Beginning of document',
+        txtHeadings: 'Headings',
+        txtBookmarks: 'Bookmarks'
     }, DE.Views.HyperlinkSettingsDialog || {}))
 });

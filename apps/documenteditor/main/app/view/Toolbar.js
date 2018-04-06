@@ -120,22 +120,25 @@ define([
                 this.btnSave = new Common.UI.Button({
                     id: 'id-toolbar-btn-save',
                     cls: 'btn-toolbar',
-                    iconCls: 'no-mask ' + this.btnSaveCls
+                    iconCls: 'no-mask ' + this.btnSaveCls,
+                    signals: ['disabled']
                 });
                 this.toolbarControls.push(this.btnSave);
-                this.btnsSave = [this.btnSave];
+                this.btnCollabChanges = this.btnSave;
 
                 this.btnUndo = new Common.UI.Button({
                     id: 'id-toolbar-btn-undo',
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-undo'
+                    iconCls: 'btn-undo',
+                    signals: ['disabled']
                 });
                 this.toolbarControls.push(this.btnUndo);
 
                 this.btnRedo = new Common.UI.Button({
                     id: 'id-toolbar-btn-redo',
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-redo'
+                    iconCls: 'btn-redo',
+                    signals: ['disabled']
                 });
                 this.toolbarControls.push(this.btnRedo);
 
@@ -941,33 +944,6 @@ define([
                     iconCls: 'btn-mailrecepients'
                 });
 
-                this.btnHide = new Common.UI.Button({
-                    id: 'id-toolbar-btn-hidebars',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-hidebars no-mask',
-                    menu: true
-                });
-                this.toolbarControls.push(this.btnHide);
-
-                this.btnFitPage = {
-                    conf: {checked: false},
-                    setChecked: function (val) {
-                        this.conf.checked = val;
-                    },
-                    isChecked: function () {
-                        return this.conf.checked;
-                    }
-                };
-                this.btnFitWidth = clone(this.btnFitPage);
-                this.mnuZoom = {options: {value: 100}};
-
-                this.btnAdvSettings = new Common.UI.Button({
-                    id: 'id-toolbar-btn-settings',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-settings no-mask'
-                });
-                this.toolbarControls.push(this.btnAdvSettings);
-
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
@@ -1195,9 +1171,9 @@ define([
                     }
                 });
 
+                me.setTab('home');
                 if ( me.isCompactView )
-                    me.setFolded(true); else
-                    me.setTab('home');
+                    me.setFolded(true);
 
                 var top = Common.localStorage.getItem("de-pgmargins-top"),
                     left = Common.localStorage.getItem("de-pgmargins-left"),
@@ -1288,8 +1264,6 @@ define([
                 _injectComponent('#slot-btn-clearstyle', this.btnClearStyle);
                 _injectComponent('#slot-btn-copystyle', this.btnCopyStyle);
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
-                _injectComponent('#slot-btn-hidebars', this.btnHide);
-                _injectComponent('#slot-btn-settings', this.btnAdvSettings);
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
                 _injectComponent('#slot-field-styles', this.listStyles);
                 _injectComponent('#slot-btn-halign', this.btnHorizontalAlign);
@@ -1303,12 +1277,7 @@ define([
                 +function injectBreakButtons() {
                     var me = this;
 
-                    me.btnsPageBreak = [];
-                    me.btnsPageBreak.disable = function(status) {
-                        this.forEach(function(btn) {
-                            btn.setDisabled(status);
-                        });
-                    };
+                    me.btnsPageBreak = createButtonSet();
 
                     var $slots = $host.find('.btn-slot.btn-pagebreak');
                     $slots.each(function(index, el) {
@@ -1323,7 +1292,7 @@ define([
                             menu: true
                         }).render( $slots.eq(index) );
 
-                        me.btnsPageBreak.push(button);
+                        me.btnsPageBreak.add(button);
                     });
 
                     Array.prototype.push.apply(me.paragraphControls, me.btnsPageBreak);
@@ -1519,7 +1488,7 @@ define([
                 this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft + Common.Utils.String.platformKey('Ctrl+M'));
                 this.btnLineSpace.updateHint(this.tipLineSpace);
-                this.btnShowHidenChars.updateHint(this.tipShowHiddenChars);
+                this.btnShowHidenChars.updateHint(this.tipShowHiddenChars + Common.Utils.String.platformKey('Ctrl+*'));
                 this.btnMarkers.updateHint(this.tipMarkers);
                 this.btnNumbers.updateHint(this.tipNumbers);
                 this.btnMultilevels.updateHint(this.tipMultilevels);
@@ -1541,66 +1510,13 @@ define([
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnMailRecepients.updateHint(this.tipMailRecepients);
-                this.btnHide.updateHint(this.tipViewSettings);
-                this.btnAdvSettings.updateHint(this.tipAdvSettings);
 
                 // set menus
 
                 var me = this;
 
-                this.btnHide.setMenu(new Common.UI.Menu({
-                        cls: 'pull-right',
-                        style: 'min-width: 180px;',
-                        items: [
-                            this.mnuitemCompactToolbar = new Common.UI.MenuItem({
-                                caption: this.textCompactView,
-                                checked: me.isCompactView,
-                                checkable: true
-                            }),
-                            this.mnuitemHideStatusBar = new Common.UI.MenuItem({
-                                caption: this.textHideStatusBar,
-                                checked: Common.localStorage.getBool("de-hidden-status"),
-                                checkable: true
-                            }),
-                            this.mnuitemHideRulers = new Common.UI.MenuItem({
-                                caption: this.textHideLines,
-                                checked: Common.localStorage.getBool("de-hidden-rulers"),
-                                checkable: true
-                            }),
-                            {caption: '--'},
-                            this.btnFitPage = new Common.UI.MenuItem({
-                                caption: this.textFitPage,
-                                checkable: true,
-                                checked: this.btnFitPage.isChecked()
-                            }),
-                            this.btnFitWidth = new Common.UI.MenuItem({
-                                caption: this.textFitWidth,
-                                checkable: true,
-                                checked: this.btnFitWidth.isChecked()
-                            }),
-                            this.mnuZoom = new Common.UI.MenuItem({
-                                template: _.template([
-                                    '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
-                                    '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                    'data-stopPropagation="true"',
-                                    '<% } %>', '>',
-                                    '<label class="title">' + this.textZoom + '</label>',
-                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon btn-zoomup">&nbsp;</i></button>',
-                                    '<label class="zoom"><%= options.value %>%</label>',
-                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon btn-zoomdown">&nbsp;</i></button>',
-                                    '</div>'
-                                ].join('')),
-                                stopPropagation: true,
-                                value: this.mnuZoom.options.value
-                            })
-                        ]
-                    })
-                );
                 // if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
                 //     this.mnuitemHideTitleBar.hide();
-
-                if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar===false)
-                    this.mnuitemHideStatusBar.hide();
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -1658,15 +1574,6 @@ define([
                 );
                 this.paragraphControls.push(this.mnuPageNumCurrentPos);
                 this.paragraphControls.push(this.mnuInsertPageCount);
-
-                this.mnuZoomOut = new Common.UI.Button({
-                    el: $('#id-menu-zoom-out'),
-                    cls: 'btn-toolbar'
-                });
-                this.mnuZoomIn = new Common.UI.Button({
-                    el: $('#id-menu-zoom-in'),
-                    cls: 'btn-toolbar'
-                });
 
                 // set dataviews
 
@@ -1967,13 +1874,6 @@ define([
                     maxRows: 8,
                     maxColumns: 10
                 });
-
-                var btnsave = DE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
-                if (btnsave && this.btnsSave) {
-                    this.btnsSave.push(btnsave);
-                    this.toolbarControls.push(btnsave);
-                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
-                }
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -2057,11 +1957,7 @@ define([
 
             setMode: function (mode) {
                 if (mode.isDisconnected) {
-                    this.btnsSave.forEach(function(button) {
-                        if ( button ) {
-                            button.setDisabled(true);
-                        }
-                    });
+                    this.btnSave.setDisabled(true);
                     if (mode.disableDownload)
                         this.btnPrint.setDisabled(true);
                 }
@@ -2133,65 +2029,54 @@ define([
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
                 if (this._state.hasCollaborativeChanges) return;
-                if (!this.btnSave.rendered || this._state.previewmode) {
+                if (!this.btnCollabChanges.rendered || this._state.previewmode) {
                     this.needShowSynchTip = true;
                     return;
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                var iconEl = $('.icon', this.btnSave.cmpEl);
-                iconEl.removeClass(this.btnSaveCls);
-                iconEl.addClass('btn-synch');
+                this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
                 if (this.showSynchTip) {
-                    this.btnSave.updateHint('');
+                    this.btnCollabChanges.updateHint('');
                     if (this.synchTooltip === undefined)
                         this.createSynchTip();
 
                     this.synchTooltip.show();
                 } else {
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnsSave.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(false);
-                    }
-                });
+                this.btnSave.setDisabled(false);
                 Common.Gateway.collaborativeChanges();
             },
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    target: $('#id-toolbar-btn-save')
+                    target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
                     this.synchTooltip.hide();
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                     Common.localStorage.setItem("de-hide-synch", 1);
                 }, this);
                 this.synchTooltip.on('closeclick', function () {
                     this.synchTooltip.hide();
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }, this);
             },
 
             synchronizeChanges: function () {
-                if (!this._state.previewmode && this.btnSave.rendered) {
-                    var iconEl = $('.icon', this.btnSave.cmpEl),
-                        me = this;
+                if ( !this._state.previewmode && this.btnCollabChanges.rendered ) {
+                    var me = this;
 
-                    if (iconEl.hasClass('btn-synch')) {
-                        iconEl.removeClass('btn-synch');
-                        iconEl.addClass(this.btnSaveCls);
+                    if ( me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
+                        me.btnCollabChanges.$icon.removeClass('btn-synch').addClass(me.btnSaveCls);
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
-                        this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(!me.mode.forcesave);
-                            }
-                        });
+                        this.btnCollabChanges.updateHint(this.btnSaveTip);
+
+                        this.btnSave.setDisabled(!me.mode.forcesave);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
@@ -2204,18 +2089,18 @@ define([
                         editusers.push(item);
                 });
 
+                var me = this;
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
-                if (cls !== this.btnSaveCls && this.btnSave.rendered) {
-                    this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
+                if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
+                    me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
 
-                    var iconEl = $('.icon', this.btnSave.cmpEl);
-                    if (!iconEl.hasClass('btn-synch')) {
-                        iconEl.removeClass(this.btnSaveCls);
-                        iconEl.addClass(cls);
-                        this.btnSave.updateHint(this.btnSaveTip);
+                    if ( !me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
+                        me.btnCollabChanges.$icon.removeClass(me.btnSaveCls).addClass(cls);
+                        me.btnCollabChanges.updateHint(me.btnSaveTip);
+
                     }
-                    this.btnSaveCls = cls;
+                    me.btnSaveCls = cls;
                 }
             },
 
@@ -2329,15 +2214,6 @@ define([
             tipInsertText: 'Insert Text',
             tipInsertTextArt: 'Insert Text Art',
             tipHAligh: 'Horizontal Align',
-            tipViewSettings: 'View Settings',
-            tipAdvSettings: 'Advanced Settings',
-            textCompactView: 'Hide Toolbar',
-            textHideTitleBar: 'Hide Title Bar',
-            textHideStatusBar: 'Hide Status Bar',
-            textHideLines: 'Hide Rulers',
-            textFitPage: 'Fit to Page',
-            textFitWidth: 'Fit to Width',
-            textZoom: 'Zoom',
             mniEditDropCap: 'Drop Cap Settings',
             textNone: 'None',
             textInText: 'In Text',

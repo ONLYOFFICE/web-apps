@@ -49,7 +49,7 @@ define([
 ], function (Viewport) {
     'use strict';
 
-    DE.Controllers.Viewport = Backbone.Controller.extend({
+    DE.Controllers.Viewport = Backbone.Controller.extend(_.assign({
         // Specifying a Viewport model
         models: [],
 
@@ -68,6 +68,10 @@ define([
 
             var me = this;
             this.addListeners({
+                'FileMenu': {
+                    'menu:hide': me.onFileMenu.bind(me, 'hide'),
+                    'menu:show': me.onFileMenu.bind(me, 'show')
+                },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = DE.getController('Main').appOptions;
@@ -75,7 +79,26 @@ define([
                         toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
-                        me.viewport.vlayout.panels[0].height = state ? 32 : 32+67;
+                        me.header.mnuitemCompactToolbar.setChecked(state, true);
+                        me.viewport.vlayout.getItem('toolbar').height = state ?
+                                Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
+                    },
+                    'undo:disabled' : function (state) {
+                        if ( me.header.btnUndo ) {
+                            if ( me.header.btnUndo.keepState )
+                                me.header.btnUndo.keepState.disabled = state;
+                            else me.header.btnUndo.setDisabled(state);
+                        }
+                    },
+                    'redo:disabled' : function (state) {
+                        if ( me.header.btnRedo )
+                            if ( me.header.btnRedo.keepState )
+                                me.header.btnRedo.keepState.disabled = state;
+                            else me.header.btnRedo.setDisabled(state);
+                    },
+                    'save:disabled' : function (state) {
+                        if ( me.header.btnSave )
+                            me.header.btnSave.setDisabled(state);
                     }
                 }
             });
@@ -83,6 +106,7 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onZoomChange', this.onApiZoomChange.bind(this));
         },
 
 
@@ -108,16 +132,151 @@ define([
             this.boxSdk = $('#editor_sdk');
             this.boxSdk.css('border-left', 'none');
 
+            this.header.mnuitemFitPage = this.header.fakeMenuItem();
+            this.header.mnuitemFitWidth = this.header.fakeMenuItem();
+
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+            Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
 
         onAppShowed: function (config) {
             var me = this;
+            me.appConfig = config;
+
+            var _intvars = Common.Utils.InternalSettings;
+            var $filemenu = $('.toolbar-fullview-panel');
+            $filemenu.css('top', _intvars.get('toolbar-height-tabs'));
 
             if ( !config.isEdit ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
-                me.viewport.vlayout.panels[0].height = 32;
+
+                var panel = me.viewport.vlayout.getItem('toolbar');
+                if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
+            }
+
+            if ( config.isDesktopApp && config.isEdit ) {
+                var $title = me.viewport.vlayout.getItem('title').el;
+                $title.html(me.header.getPanel('title', config)).show();
+
+                var toolbar = me.viewport.vlayout.getItem('toolbar');
+                toolbar.el.addClass('top-title');
+                toolbar.height -= _intvars.get('toolbar-height-tabs') - _intvars.get('toolbar-height-tabs-top-title');
+
+                var _tabs_new_height = _intvars.get('toolbar-height-tabs-top-title');
+                _intvars.set('toolbar-height-tabs', _tabs_new_height);
+                _intvars.set('toolbar-height-compact', _tabs_new_height);
+                _intvars.set('toolbar-height-normal', _tabs_new_height + _intvars.get('toolbar-height-controls'));
+
+                $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
+
+                toolbar = me.getApplication().getController('Toolbar').getView();
+                toolbar.btnCollabChanges = me.header.btnSave;
+            }
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            if ( me.header.btnOptions ) {
+                var compactview = !config.isEdit;
+                if ( config.isEdit ) {
+                    if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
+                        compactview = Common.localStorage.getBool("de-compact-toolbar");
+                    } else
+                    if ( config.customization && config.customization.compactToolbar )
+                        compactview = true;
+                }
+
+                me.header.mnuitemCompactToolbar = new Common.UI.MenuItem({
+                    caption: me.header.textCompactView,
+                    checked: compactview,
+                    checkable: true,
+                    value: 'toolbar'
+                });
+
+                var mnuitemHideStatusBar = new Common.UI.MenuItem({
+                    caption: me.header.textHideStatusBar,
+                    checked: Common.localStorage.getBool("de-hidden-status"),
+                    checkable: true,
+                    value: 'statusbar'
+                });
+
+                if ( config.canBrandingExt && config.customization && config.customization.statusBar === false )
+                    mnuitemHideStatusBar.hide();
+
+                var mnuitemHideRulers = new Common.UI.MenuItem({
+                    caption: me.header.textHideLines,
+                    checked: Common.localStorage.getBool("de-hidden-rulers"),
+                    checkable: true,
+                    value: 'rulers'
+                });
+
+                me.header.mnuitemFitPage = new Common.UI.MenuItem({
+                    caption: me.textFitPage,
+                    checkable: true,
+                    checked: me.header.mnuitemFitPage.isChecked(),
+                    value: 'zoom:page'
+                });
+
+                me.header.mnuitemFitWidth = new Common.UI.MenuItem({
+                    caption: me.textFitWidth,
+                    checkable: true,
+                    checked: me.header.mnuitemFitWidth.isChecked(),
+                    value: 'zoom:width'
+                });
+
+                me.header.mnuZoom = new Common.UI.MenuItem({
+                    template: _.template([
+                        '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 25px;" ',
+                            '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                'data-stopPropagation="true"',
+                            '<% } %>', '>',
+                            '<label class="title">' + me.header.textZoom + '</label>',
+                            '<button id="hdr-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon btn-zoomup">&nbsp;</i></button>',
+                            '<label class="zoom"><%= options.value %>%</label>',
+                            '<button id="hdr-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon btn-zoomdown">&nbsp;</i></button>',
+                        '</div>'
+                    ].join('')),
+                    stopPropagation: true,
+                    value: me.header.mnuZoom.options.value
+                });
+
+                me.header.btnOptions.setMenu(new Common.UI.Menu({
+                        cls: 'pull-right',
+                        style: 'min-width: 180px;',
+                        items: [
+                            me.header.mnuitemCompactToolbar,
+                            mnuitemHideStatusBar,
+                            mnuitemHideRulers,
+                            {caption:'--'},
+                            me.header.mnuitemFitPage,
+                            me.header.mnuitemFitWidth,
+                            me.header.mnuZoom,
+                            {caption:'--'},
+                            new Common.UI.MenuItem({
+                                caption: me.header.textAdvSettings,
+                                value: 'advanced'
+                            })
+                        ]
+                    })
+                );
+
+                var _on_btn_zoom = function (btn) {
+                    btn == 'up' ? me.api.zoomIn() : me.api.zoomOut();
+                    Common.NotificationCenter.trigger('edit:complete', me.header);
+                };
+
+                (new Common.UI.Button({
+                    el      : $('#hdr-menu-zoom-out', me.header.mnuZoom.$el),
+                    cls     : 'btn-toolbar'
+                })).on('click', _on_btn_zoom.bind(me, 'down'));
+
+                (new Common.UI.Button({
+                    el      : $('#hdr-menu-zoom-in', me.header.mnuZoom.$el),
+                    cls     : 'btn-toolbar'
+                })).on('click', _on_btn_zoom.bind(me, 'up'));
+
+                me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
             }
         },
 
@@ -161,6 +320,51 @@ define([
         onWindowResize: function(e) {
             this.onLayoutChanged('window');
             Common.NotificationCenter.trigger('window:resize');
-        }
-    });
+        },
+
+        onFileMenu: function (opts) {
+            var me = this;
+            var _need_disable =  opts == 'show';
+
+            me.header.lockHeaderBtns( 'undo', _need_disable );
+            me.header.lockHeaderBtns( 'redo', _need_disable );
+            me.header.lockHeaderBtns( 'opts', _need_disable );
+        },
+
+        onApiZoomChange: function(percent, type) {
+            this.header.mnuitemFitPage.setChecked(type == 2, true);
+            this.header.mnuitemFitWidth.setChecked(type == 1, true);
+            this.header.mnuZoom.options.value = percent;
+
+            if ( this.header.mnuZoom.$el )
+                $('.menu-zoom label.zoom', this.header.mnuZoom.$el).html(percent + '%');
+        },
+
+        onOptionsItemClick: function (menu, item, e) {
+            var me = this;
+
+            switch ( item.value ) {
+            case 'toolbar': me.header.fireEvent('toolbar:setcompact', [menu, item.isChecked()]); break;
+            case 'statusbar': me.header.fireEvent('statusbar:hide', [item, item.isChecked()]); break;
+            case 'rulers':
+                me.api.asc_SetViewRulers(!item.isChecked());
+                Common.localStorage.setBool('de-hidden-rulers', item.isChecked());
+                Common.NotificationCenter.trigger('layout:changed', 'rulers');
+                Common.NotificationCenter.trigger('edit:complete', me.header);
+                break;
+            case 'zoom:page':
+                item.isChecked() ? me.api.zoomFitToPage() : me.api.zoomCustomMode();
+                Common.NotificationCenter.trigger('edit:complete', me.header);
+                break;
+            case 'zoom:width':
+                item.isChecked() ? me.api.zoomFitToWidth() : me.api.zoomCustomMode();
+                Common.NotificationCenter.trigger('edit:complete', me.header);
+                break;
+            case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            }
+        },
+
+        textFitPage: 'Fit to Page',
+        textFitWidth: 'Fit to Width'
+    }, DE.Controllers.Viewport));
 });

@@ -190,6 +190,7 @@ require([
         'common/main/lib/controller/ExternalDiagramEditor'
         ,'common/main/lib/controller/ReviewChanges'
         ,'common/main/lib/controller/Protection'
+        ,'common/main/lib/controller/Desktop'
     ], function() {
         app.start();
     });

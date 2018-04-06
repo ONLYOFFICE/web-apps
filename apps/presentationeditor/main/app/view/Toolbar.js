@@ -83,45 +83,6 @@ define([
         commentLock: 'can-comment'
     };
 
-    var buttonsArray = function (opts) {
-        var arr = [];
-        arr.push.apply(arr, arguments);
-        arr.__proto__ = buttonsArray.prototype;
-        return arr;
-    };
-
-    buttonsArray.prototype = new Array;
-
-    buttonsArray.prototype.disable = function (state) {
-        this.forEach(function(btn) {
-            btn.setDisabled(state);
-        });
-    };
-
-    buttonsArray.prototype.toggle = function (state, suppress) {
-        this.forEach(function(btn) {
-            btn.toggle(state, suppress);
-        });
-    };
-
-    buttonsArray.prototype.pressed = function () {
-        return this.some(function(btn) {
-            return btn.pressed;
-        });
-    };
-
-    buttonsArray.prototype.on = function (event, func) {
-        this.forEach(function(btn) {
-            btn.on.apply(btn, arguments);
-        });
-    };
-
-    buttonsArray.prototype.contains = function (id) {
-        return this.some(function(btn) {
-            return btn.id == id;
-        });
-    };
-
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
 
         return {
@@ -209,15 +170,17 @@ define([
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
                     iconCls     : 'no-mask ' + me.btnSaveCls,
-                    lock        : [_set.lostConnect]
+                    lock        : [_set.lostConnect],
+                    signals     : ['disabled']
                 });
-                me.btnsSave = [me.btnSave];
+                me.btnCollabChanges = me.btnSave;
 
                 me.btnUndo = new Common.UI.Button({
                     id          : 'id-toolbar-btn-undo',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-undo',
-                    lock        : [_set.undoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart]
+                    lock        : [_set.undoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
+                    signals     : ['disabled']
                 });
                 me.slideOnlyControls.push(me.btnUndo);
 
@@ -225,7 +188,8 @@ define([
                     id          : 'id-toolbar-btn-redo',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-redo',
-                    lock        : [_set.redoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart]
+                    lock        : [_set.redoLock, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
+                    signals     : ['disabled']
                 });
                 me.slideOnlyControls.push(me.btnRedo);
 
@@ -612,31 +576,6 @@ define([
                 });
                 me.slideOnlyControls.push(me.btnColorSchemas);
 
-                me.btnHide = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-hidebars',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-hidebars no-mask',
-                    lock        : [_set.menuFileOpen, _set.slideDeleted, _set.disableOnStart],
-                    menu        : true
-                });
-                me.slideOnlyControls.push(me.btnHide);
-
-                this.btnFitPage = {
-                    conf: {checked:false},
-                    setChecked: function(val) { this.conf.checked = val;},
-                    isChecked: function () { return this.conf.checked; }
-                };
-                this.btnFitWidth = clone(this.btnFitPage);
-                this.mnuZoom = {options: {value: 100}};
-
-                me.btnAdvSettings = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-settings',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-settings no-mask',
-                    lock        : [_set.slideDeleted, _set.disableOnStart]
-                });
-                me.slideOnlyControls.push(me.btnAdvSettings);
-
                 me.btnShapeAlign = new Common.UI.Button({
                     id          : 'id-toolbar-btn-shape-align',
                     cls         : 'btn-toolbar',
@@ -911,9 +850,9 @@ define([
                     }
                 });
 
+                me.setTab('home');
                 if ( me.isCompactView )
-                    me.setFolded(true); else
-                    me.setTab('home');
+                    me.setFolded(true);
 
                 return this;
             },
@@ -979,11 +918,9 @@ define([
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-slidesize', this.btnSlideSize);
                 _injectComponent('#slot-field-styles', this.listTheme);
-                _injectComponent('#slot-btn-hidebars', this.btnHide);
-                _injectComponent('#slot-btn-settings', this.btnAdvSettings);
 
                 function _injectBtns(opts) {
-                    var array = new buttonsArray;
+                    var array = createButtonSet();
                     var $slots = $host.find(opts.slot);
                     var id = opts.btnconfig.id;
                     $slots.each(function(index, el) {
@@ -992,7 +929,7 @@ define([
                         var button = new Common.UI.Button(opts.btnconfig);
                         button.render( $slots.eq(index) );
 
-                        array.push(button);
+                        array.add(button);
                     });
 
                     return array;
@@ -1141,8 +1078,6 @@ define([
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
-                this.btnHide.updateHint(this.tipViewSettings);
-                this.btnAdvSettings.updateHint(this.tipAdvSettings);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);
@@ -1150,66 +1085,6 @@ define([
                 // set menus
 
                 var me = this;
-
-                this.btnHide.setMenu(
-                    new Common.UI.Menu({
-                        cls: 'pull-right',
-                        style: 'min-width: 180px;',
-                        items: [
-                            this.mnuitemCompactToolbar = new Common.UI.MenuItem({
-                                caption: this.textCompactView,
-                                checkable: true,
-                                checked: me.isCompactView
-                            }),
-                            this.mnuitemHideStatusBar = new Common.UI.MenuItem({
-                                caption: this.textHideStatusBar,
-                                checkable: true
-                            }),
-                            this.mnuitemHideRulers = new Common.UI.MenuItem({
-                                caption: this.textHideLines,
-                                checkable: true
-                            }),
-                            {caption: '--'},
-                            this.btnFitPage = new Common.UI.MenuItem({
-                                caption: this.textFitPage,
-                                checkable: true,
-                                checked: this.btnFitPage.isChecked()
-                            }),
-                            this.btnFitWidth = new Common.UI.MenuItem({
-                                caption: this.textFitWidth,
-                                checkable: true,
-                                checked: this.btnFitWidth.isChecked()
-                            }),
-                            this.mnuZoom = new Common.UI.MenuItem({
-                                template: _.template([
-                                    '<div id="id-toolbar-menu-zoom" class="menu-zoom" style="height: 25px;" ',
-                                    '<% if(!_.isUndefined(options.stopPropagation)) { %>',
-                                    'data-stopPropagation="true"',
-                                    '<% } %>',
-                                    '>',
-                                    '<label class="title">' + this.textZoom + '</label>',
-                                    '<button id="id-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon btn-zoomin"></i></button>',
-                                    '<label class="zoom"><%= options.value %>%</label>',
-                                    '<button id="id-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon btn-zoomout"></i></button>',
-                                    '</div>'
-                                ].join('')),
-                                stopPropagation: true,
-                                value: this.mnuZoom.options.value
-                            })
-                        ]
-                    })
-                );
-                if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar === false)
-                    this.mnuitemHideStatusBar.hide();
-
-                this.mnuZoomOut = new Common.UI.Button({
-                    el: $('#id-menu-zoom-out'),
-                    cls: 'btn-toolbar'
-                });
-                this.mnuZoomIn = new Common.UI.Button({
-                    el: $('#id-menu-zoom-in'),
-                    cls: 'btn-toolbar'
-                });
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -1375,18 +1250,8 @@ define([
                         me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
                 });
 
-                this.mnuitemHideStatusBar.setChecked(Common.localStorage.getBool('pe-hidden-status'), true);
-                this.mnuitemHideRulers.setChecked(Common.localStorage.getBool("pe-hidden-rulers", true), true);
-
 //            // Enable none paragraph components
                 this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
-
-                var btnsave = PE.getController('LeftMenu').getView('LeftMenu').getMenu('file').getButton('save');
-                if (btnsave && this.btnsSave) {
-                    this.btnsSave.push(btnsave);
-                    this.lockControls.push(btnsave);
-                    btnsave.setDisabled(this.btnsSave[0].isDisabled());
-                }
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
@@ -1511,7 +1376,7 @@ define([
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
                 if (this._state.hasCollaborativeChanges) return;
-                if (!this.btnSave.rendered) {
+                if (!this.btnCollabChanges.rendered) {
                     this.needShowSynchTip = true;
                     return;
                 }
@@ -1523,59 +1388,47 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                var iconEl = $('.icon', this.btnSave.cmpEl);
-                iconEl.removeClass(this.btnSaveCls);
-                iconEl.addClass('btn-synch');
+                this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
                 if (this.showSynchTip) {
-                    this.btnSave.updateHint('');
+                    this.btnCollabChanges.updateHint('');
                     if (this.synchTooltip === undefined)
                         this.createSynchTip();
 
                     this.synchTooltip.show();
                 } else {
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnsSave.forEach(function(button) {
-                    if ( button ) {
-                        button.setDisabled(false);
-                    }
-                });
+                this.btnSave.setDisabled(false);
                 Common.Gateway.collaborativeChanges();
             },
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    target: $('#id-toolbar-btn-save')
+                    target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
                     this.synchTooltip.hide();
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                     Common.localStorage.setItem("pe-hide-synch", 1);
                 }, this);
                 this.synchTooltip.on('closeclick', function () {
                     this.synchTooltip.hide();
-                    this.btnSave.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
+                    this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }, this);
             },
 
             synchronizeChanges: function () {
-                if (this.btnSave.rendered) {
-                    var iconEl = $('.icon', this.btnSave.cmpEl),
-                        me = this;
+                if (this.btnCollabChanges.rendered) {
+                    var me = this;
 
-                    if (iconEl.hasClass('btn-synch')) {
-                        iconEl.removeClass('btn-synch');
-                        iconEl.addClass(this.btnSaveCls);
+                    if ( me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
+                        me.btnCollabChanges.$icon.removeClass('btn-synch').addClass(this.btnSaveCls);
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
-                        this.btnSave.updateHint(this.btnSaveTip);
-                        this.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(!me.mode.forcesave);
-                            }
-                        });
+                        this.btnCollabChanges.updateHint(this.btnSaveTip);
+                        this.btnSave.setDisabled(!me.mode.forcesave);
 
                         this._state.hasCollaborativeChanges = false;
                     }
@@ -1591,14 +1444,12 @@ define([
 
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
-                if (cls !== this.btnSaveCls && this.btnSave.rendered) {
+                if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
 
-                    var iconEl = $('.icon', this.btnSave.cmpEl);
-                    if (!iconEl.hasClass('btn-synch')) {
-                        iconEl.removeClass(this.btnSaveCls);
-                        iconEl.addClass(cls);
-                        this.btnSave.updateHint(this.btnSaveTip);
+                    if ( !this.btnCollabChanges.$icon.hasClass('btn-synch') ) {
+                        this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
+                        this.btnCollabChanges.updateHint(this.btnSaveTip);
                     }
                     this.btnSaveCls = cls;
                 }
@@ -1804,15 +1655,6 @@ define([
             mniSlideWide: 'Widescreen (16:9)',
             mniSlideAdvanced: 'Advanced Settings',
             tipSlideSize: 'Select Slide Size',
-            tipViewSettings: 'View Settings',
-            tipAdvSettings: 'Advanced Settings',
-            textCompactView: 'Hide Toolbar',
-            textHideTitleBar: 'Hide Title Bar',
-            textHideStatusBar: 'Hide Status Bar',
-            textHideLines: 'Hide Rulers',
-            textFitPage: 'Fit to Slide',
-            textFitWidth: 'Fit to Width',
-            textZoom: 'Zoom',
             tipInsertChart: 'Insert Chart',
             textLine: 'Line',
             textColumn: 'Column',
