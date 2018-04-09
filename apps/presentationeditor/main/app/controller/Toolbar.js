@@ -1881,7 +1881,8 @@ define([
 
             me.toolbar.listTheme.menuPicker.store.reset([]); // remove all
 
-            var themeStore = this.getCollection('SlideThemes');
+            var themeStore = this.getCollection('SlideThemes'),
+                mainController = this.getApplication().getController('Main');
             if (themeStore) {
                 var arr = [];
                 _.each(defaultThemes.concat(docThemes), function(theme) {
@@ -1889,13 +1890,15 @@ define([
                         imageUrl: theme.get_Image(),
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
+                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name(),
                         itemWidth   : 85,
                         itemHeight  : 38
                     }));
                     me.toolbar.listTheme.menuPicker.store.add({
                         imageUrl: theme.get_Image(),
                         uid     : Common.UI.getId(),
-                        themeId : theme.get_Index()
+                        themeId : theme.get_Index(),
+                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name()
                     });
                 });
                 themeStore.reset(arr);

@@ -104,6 +104,7 @@ define([
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
                 this.languages = null;
+                this.translationTable = [];
 
                 window.storagename = 'presentation';
 
@@ -123,6 +124,7 @@ define([
                 // Initialize api
 
                 window["flat_desine"] = true;
+
                 this.api = new Asc.asc_docs_api({
                     'id-view'  : 'editor_sdk',
                     'translate': {
@@ -149,6 +151,11 @@ define([
                         'Click to add notes': this.txtAddNotes,
                         'Click to add first slide': this.txtAddFirstSlide
                     }
+                });
+
+                var themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle'];
+                themeNames.forEach(function(item){
+                    me.translationTable[item] = me['txtTheme_' + item.replace(/ /g, '_')] || item;
                 });
 
                 if (this.api){
@@ -2001,7 +2008,18 @@ define([
             txtAddNotes: 'Click to add notes',
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-            txtAddFirstSlide: 'Click to add first slide'
+            txtAddFirstSlide: 'Click to add first slide',
+            txtTheme_blank: 'Blank',
+            txtTheme_pixel: 'Pixel',
+            txtTheme_classic: 'Classic',
+            txtTheme_official: 'Official',
+            txtTheme_green: 'Green',
+            txtTheme_lines: 'Lines',
+            txtTheme_office: 'Office',
+            txtTheme_safari: 'Safari',
+            txtTheme_dotted: 'Dotted',
+            txtTheme_corner: 'Corner',
+            txtTheme_turtle: 'Turtle'
         }
     })(), PE.Controllers.Main || {}))
 });

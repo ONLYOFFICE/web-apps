@@ -278,6 +278,13 @@ define([
                 }));
             }
 
+            var modalParents = this.cmpEl.closest('.asc-window');
+            if (modalParents.length < 1)
+                modalParents = this.cmpEl.closest('[id^="menu-container-"]'); // context menu
+            if (modalParents.length > 0) {
+                this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
+            }
+
             if (!this.rendered) {
                 if (this.listenStoreEvents) {
                     this.listenTo(this.store, 'add',    this.onAddItem);
@@ -314,11 +321,6 @@ define([
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 });
-            }
-
-            var modalParents = this.cmpEl.closest('.asc-window');
-            if (modalParents.length > 0) {
-                this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
             }
 
             this.rendered = true;

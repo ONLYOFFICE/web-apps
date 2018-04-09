@@ -707,7 +707,6 @@ define([
                     itemWidth   : 85,
                     enableKeyEvents: true,
                     itemHeight  : 38,
-                    hint: this.tipSlideTheme,
                     lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                     beforeOpenHandler: function(e) {
                         var cmp = this,
