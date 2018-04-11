@@ -742,10 +742,10 @@ define([
                 if (!silentUpdate) {
                     this.updateComments(false, true);
 
-                    if (this.getPopover() && this.getPopover().isVisible()) {
-                        this._dontScrollToComment = true;
-                        this.api.asc_showComment(id, true);
-                    }
+                    // if (this.getPopover() && this.getPopover().isVisible()) {
+                    //     this._dontScrollToComment = true;
+                    //     this.api.asc_showComment(id, true);
+                    // }
                 }
             }
         },
@@ -776,8 +776,9 @@ define([
         onApiShowComment: function (uids, posX, posY, leftX, opts, hint) {
             if (this.previewmode) return;
             this.isModeChanged = false;
+            var same_uids = (0 === _.difference(this.uids, uids).length) && (0 === _.difference(uids, this.uids).length);
             
-            if (hint && this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
+            if (hint && this.isSelectedComment && same_uids) {
                 // хотим показать тот же коментарий что был и выбран
                 return;
             }
@@ -788,7 +789,7 @@ define([
             if (popover) {
                 this.clearDummyComment();
 
-                if (this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
+                if (this.isSelectedComment && same_uids) {
                     //NOTE: click to sdk view ?
                     if (this.api) {
                         //this.view.txtComment.blur();
@@ -827,10 +828,10 @@ define([
                     comment.set('hint', !_.isUndefined(hint) ? hint : false);
 
                     if (!hint && this.hintmode) {
-                        if (0 === _.difference(this.uids, uids).length && (this.uids.length === 0))
+                        if (same_uids && (this.uids.length === 0))
                             animate = false;
 
-                        if (this.oldUids.length && (0 === _.difference(this.oldUids, uids).length)) {
+                        if (this.oldUids.length && (0 === _.difference(this.oldUids, uids).length) && (0 === _.difference(uids, this.oldUids).length)) {
                             animate = false;
                             this.oldUids = [];
                         }
