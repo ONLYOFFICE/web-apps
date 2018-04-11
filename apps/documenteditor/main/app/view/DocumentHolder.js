@@ -2264,6 +2264,43 @@ define([
                 }
             });
 
+            var menuImgReplace = new Common.UI.MenuItem({
+                caption     : me.textReplace,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromFile
+                        }).on('click', function(item) {
+                            setTimeout(function(){
+                                if (me.api) me.api.ChangeImageFromFile();
+                                me.fireEvent('editcomplete', me);
+                            }, 10);
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromUrl
+                        }).on('click', function(item) {
+                            var me = this;
+                            (new Common.Views.ImageFromUrlDialog({
+                                handler: function(result, value) {
+                                    if (result == 'ok') {
+                                        if (me.api) {
+                                            var checkUrl = value.replace(/ /g, '');
+                                            if (!_.isEmpty(checkUrl)) {
+                                                var props = new Asc.asc_CImgProperty();
+                                                props.put_ImageUrl(checkUrl);
+                                                me.api.ImgApply(props);
+                                            }
+                                        }
+                                    }
+                                    me.fireEvent('editcomplete', me);
+                                }
+                            })).show();
+                        })
+                    ]
+                })
+            });
+
             var menuImgCopy = new Common.UI.MenuItem({
                 caption : me.textCopy,
                 value : 'copy'
@@ -2341,12 +2378,18 @@ define([
 
                     menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps);
 
-                    me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg);
-                    me.pictureMenu.items[10].setVisible(menuChartEdit.isVisible() || me.menuOriginalSize.isVisible());
+                    me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
+
+                    var pluginGuid = value.imgProps.value.asc_getPluginGuid();
+                    menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgReplace.isVisible())
+                        menuImgReplace.setDisabled(islocked || pluginGuid===null);
 
                     var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
+
+                    me.pictureMenu.items[14].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2390,6 +2433,7 @@ define([
                     me.menuImageWrap,
                     { caption: '--' },
                     me.menuOriginalSize,
+                    menuImgReplace,
                     menuChartEdit,
                     { caption: '--' },
                     menuImageAdvanced
@@ -3729,7 +3773,10 @@ define([
         textTOCSettings: 'Table of contents settings',
         textTOC: 'Table of contents',
         textRefreshField: 'Refresh field',
-        txtPasteSourceFormat: 'Keep source formatting'
+        txtPasteSourceFormat: 'Keep source formatting',
+        textReplace:    'Replace image',
+        textFromUrl:    'From URL',
+        textFromFile:   'From File'
 
     }, DE.Views.DocumentHolder || {}));
 });

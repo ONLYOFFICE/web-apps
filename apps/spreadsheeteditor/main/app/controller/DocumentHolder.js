@@ -194,6 +194,8 @@ define([
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
                 view.menuSignatureEditSign.on('click',              _.bind(me.onSignatureClick, me));
                 view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
+                view.menuImgOriginalSize.on('click',                _.bind(me.onOriginalSizeClick, me));
+                view.menuImgReplace.menu.on('item:click',           _.bind(me.onImgReplace, me));
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -1314,6 +1316,15 @@ define([
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
                 documentHolder.mnuImgAdvanced.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
                 documentHolder.mnuImgAdvanced.setDisabled(isObjLocked);
+                documentHolder.menuImgOriginalSize.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
+                if (documentHolder.mnuImgAdvanced.imageInfo)
+                    documentHolder.menuImgOriginalSize.setDisabled(isObjLocked || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===null || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===undefined);
+
+                var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
+                documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
+                documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
+
+
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
@@ -2595,6 +2606,50 @@ define([
                 case 3:
                     this.api.asc_RemoveSignature(datavalue); //guid
                     break;
+            }
+        },
+
+        onOriginalSizeClick: function(item) {
+            if (this.api){
+                var imgsize = this.api.asc_getOriginalImageSize();
+                var w = imgsize.asc_getImageWidth();
+                var h = imgsize.asc_getImageHeight();
+
+                var properties = new Asc.asc_CImgProperty();
+                properties.asc_putWidth(w);
+                properties.asc_putHeight(h);
+                this.api.asc_setGraphicObjectProps(properties);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
+            }
+        },
+
+        onImgReplace: function(menu, item) {
+            var me = this;
+            if (this.api) {
+                if (item.value == 'file') {
+                    setTimeout(function(){
+                        if (me.api) me.api.asc_changeImageFromFile();
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }, 10);
+                } else {
+                    (new Common.Views.ImageFromUrlDialog({
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    var checkUrl = value.replace(/ /g, '');
+                                    if (!_.isEmpty(checkUrl)) {
+                                        var props = new Asc.asc_CImgProperty();
+                                        props.asc_putImageUrl(checkUrl);
+                                        me.api.asc_setGraphicObjectProps(props);
+                                    }
+                                }
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    })).show();
+                }
             }
         },
 

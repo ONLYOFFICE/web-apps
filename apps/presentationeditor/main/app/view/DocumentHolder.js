@@ -2723,6 +2723,43 @@ define([
                 }
             });
 
+            var menuImgReplace = new Common.UI.MenuItem({
+                caption     : me.textReplace,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromFile
+                        }).on('click', function(item) {
+                            setTimeout(function(){
+                                if (me.api) me.api.ChangeImageFromFile();
+                                me.fireEvent('editcomplete', me);
+                            }, 10);
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromUrl
+                        }).on('click', function(item) {
+                            var me = this;
+                            (new Common.Views.ImageFromUrlDialog({
+                                handler: function(result, value) {
+                                    if (result == 'ok') {
+                                        if (me.api) {
+                                            var checkUrl = value.replace(/ /g, '');
+                                            if (!_.isEmpty(checkUrl)) {
+                                                var props = new Asc.asc_CImgProperty();
+                                                props.put_ImageUrl(checkUrl);
+                                                me.api.ImgApply(props);
+                                            }
+                                        }
+                                    }
+                                    me.fireEvent('editcomplete', me);
+                                }
+                            })).show();
+                        })
+                    ]
+                })
+            });
+
             /** coauthoring begin **/
             var menuAddCommentPara = new Common.UI.MenuItem({
                 caption     : me.addCommentText
@@ -3117,18 +3154,23 @@ define([
                         mnuGroupImg.setDisabled(!me.api.canGroup());
                     }
 
-                    var imgdisabled = (value.imgProps!==undefined && value.imgProps.locked),
+                    var isimage = (_.isUndefined(value.shapeProps) || value.shapeProps.value.get_FromImage()) && _.isUndefined(value.chartProps),
+                        imgdisabled = (value.imgProps!==undefined && value.imgProps.locked),
                         shapedisabled = (value.shapeProps!==undefined && value.shapeProps.locked),
                         chartdisabled = (value.chartProps!==undefined && value.chartProps.locked),
-                        disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked);
+                        disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked),
+                        pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null;
 
                     // image properties
-                    menuImgOriginalSize.setVisible((_.isUndefined(value.shapeProps) || value.shapeProps.value.get_FromImage()) && _.isUndefined(value.chartProps));
-
+                    menuImgOriginalSize.setVisible(isimage);
                     if (menuImgOriginalSize.isVisible())
                         menuImgOriginalSize.setDisabled(disabled || _.isNull(value.imgProps.value.get_ImageUrl()) || _.isUndefined(value.imgProps.value.get_ImageUrl()));
 
-                    menuImageAdvanced.setVisible((_.isUndefined(value.shapeProps) || value.shapeProps.value.get_FromImage()) && _.isUndefined(value.chartProps));
+                    menuImgReplace.setVisible(isimage && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgReplace.isVisible())
+                        menuImgReplace.setDisabled(disabled || pluginGuid===null);
+
+                    menuImageAdvanced.setVisible(isimage);
                     menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     menuImgShapeSeparator.setVisible(menuImageAdvanced.isVisible() || menuShapeAdvanced.isVisible() || menuChartEdit.isVisible());
@@ -3155,6 +3197,7 @@ define([
                     menuImgShapeAlign,
                     menuImgShapeSeparator,
                     menuImgOriginalSize,
+                    menuImgReplace,
                     menuImageAdvanced,
                     menuShapeAdvanced
                     ,menuChartEdit
@@ -3399,7 +3442,10 @@ define([
         txtPasteSourceFormat: 'Keep source formatting',
         txtPasteDestFormat: 'Use destination theme',
         textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns'
+        textDistributeCols: 'Distribute columns',
+        textReplace:    'Replace image',
+        textFromUrl:    'From URL',
+        textFromFile:   'From File'
 
     }, PE.Views.DocumentHolder || {}));
 });

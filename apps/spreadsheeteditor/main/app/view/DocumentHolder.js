@@ -489,6 +489,21 @@ define([
             me.menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 });
             me.menuEditSignSeparator   = new Common.UI.MenuItem({ caption: '--' });
 
+            me.menuImgOriginalSize = new Common.UI.MenuItem({
+                caption     : me.originalSizeText
+            });
+
+            me.menuImgReplace = new Common.UI.MenuItem({
+                caption     : me.textReplace,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({caption     : this.textFromFile, value: 'file'}),
+                        new Common.UI.MenuItem({caption     : this.textFromUrl, value: 'url'})
+                    ]
+                })
+            });
+
             this.imgMenu = new Common.UI.Menu({
                 items: [
                     me.pmiImgCut,
@@ -525,6 +540,8 @@ define([
                     me.mnuShapeSeparator,
                     me.mnuChartEdit,
                     me.mnuShapeAdvanced,
+                    me.menuImgOriginalSize,
+                    me.menuImgReplace,
                     me.mnuImgAdvanced
                 ]
             });
@@ -811,7 +828,11 @@ define([
         strSign: 'Sign',
         strDetails: 'Signature Details',
         strSetup: 'Signature Setup',
-        strDelete: 'Remove Signature'
+        strDelete: 'Remove Signature',
+        originalSizeText: 'Default Size',
+        textReplace: 'Replace image',
+        textFromUrl: 'From URL',
+        textFromFile: 'From File'
 
     }, SSE.Views.DocumentHolder || {}));
 });
