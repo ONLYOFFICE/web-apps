@@ -393,9 +393,9 @@ define([
                         menuStyle: 'min-width: 100px;',
                         cls: 'input-group-nr',
                         data: [
-                            {value: 4, displayValue: ','},
-                            {value: 2, displayValue: ';'},
-                            {value: 3, displayValue: ':'},
+                            {value: 4, displayValue: this.txtComma},
+                            {value: 2, displayValue: this.txtSemicolon},
+                            {value: 3, displayValue: this.txtColon},
                             {value: 1, displayValue: this.txtTab},
                             {value: 5, displayValue: this.txtSpace},
                             {value: -1, displayValue: this.txtOther}],
@@ -524,7 +524,10 @@ define([
         txtOther: 'Other',
         txtIncorrectPwd: 'Password is incorrect.',
         closeButtonText: 'Close File',
-        txtPreview: 'Preview'
+        txtPreview: 'Preview',
+        txtComma: 'Comma',
+        txtColon: 'Colon',
+        txtSemicolon: 'Semicolon'
 
     }, Common.Views.OpenDialog || {}));
 });
