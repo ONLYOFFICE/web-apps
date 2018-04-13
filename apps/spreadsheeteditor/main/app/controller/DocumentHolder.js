@@ -82,7 +82,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
-
+            me._state = {};
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this)
@@ -196,6 +196,10 @@ define([
                 view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
                 view.menuImgOriginalSize.on('click',                _.bind(me.onOriginalSizeClick, me));
                 view.menuImgReplace.menu.on('item:click',           _.bind(me.onImgReplace, me));
+                view.pmiNumFormat.menu.on('item:click',             _.bind(me.onNumberFormatSelect, me));
+                view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
+                view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
+
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -1482,6 +1486,10 @@ define([
 
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
+                documentHolder.pmiNumFormat.setVisible(!iscelledit);
+                documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = cellinfo.asc_getNumFormatInfo();
+                documentHolder.pmiAdvancedNumFormat.options.numformat = cellinfo.asc_getNumFormat();
+
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
                 });
@@ -2649,6 +2657,61 @@ define([
                             Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                         }
                     })).show();
+                }
+            }
+        },
+
+        onNumberFormatSelect: function(menu, item) {
+            if (item.value !== undefined && item.value !== 'advanced') {
+                if (this.api)
+                    this.api.asc_setCellFormat(item.options.format);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onCustomNumberFormat: function(item) {
+            var me = this,
+                value = me.api.asc_getLocale();
+            (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
+
+            (new SSE.Views.FormatSettingsDialog({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (settings) {
+                        me.api.asc_setCellFormat(settings.format);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                },
+                props   : {format: item.options.numformat, formatInfo: item.options.numformatinfo, langId: value}
+            })).show();
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onNumberFormatOpenAfter: function(menu) {
+            if (this.api) {
+                var me = this,
+                    value = me.api.asc_getLocale();
+                (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
+
+                if (this._state.langId !== value) {
+                    this._state.langId = value;
+
+                    var info = new Asc.asc_CFormatCellsInfo();
+                    info.asc_setType(Asc.c_oAscNumFormatType.None);
+                    info.asc_setSymbol(this._state.langId);
+                    var arr = this.api.asc_getFormatCells(info); // all formats
+                    for (var i=0; i<menu.items.length-2; i++) {
+                        menu.items[i].options.format = arr[i];
+                    }
+                }
+
+                var val = menu.options.numformatinfo;
+                val = (val) ? val.asc_getType() : -1;
+                for (var i=0; i<menu.items.length-2; i++) {
+                    var mnu = menu.items[i];
+                    mnu.options.exampleval = me.api.asc_getLocaleExample(mnu.options.format);
+                    $(mnu.el).find('label').text(mnu.options.exampleval);
+                    mnu.setChecked(val == mnu.value);
                 }
             }
         },

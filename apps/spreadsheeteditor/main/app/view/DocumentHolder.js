@@ -404,6 +404,106 @@ define([
                 })
             });
 
+            var numFormatTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
+                '<div style="position: relative;">'+
+                    '<div style="position: absolute; left: 0; width: 100px;"><%= caption %></div>' +
+                    '<label style="width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                '</div></a>');
+
+            me.pmiNumFormat = new Common.UI.MenuItem({
+                caption: me.txtNumFormat,
+                menu: new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        {
+                            caption: this.txtGeneral,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: 'General',
+                            exampleval: '100',
+                            value: Asc.c_oAscNumFormatType.General
+                        },
+                        {
+                            caption: this.txtNumber,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: '0.00',
+                            exampleval: '100,00',
+                            value: Asc.c_oAscNumFormatType.Number
+                        },
+                        {
+                            caption: this.txtScientific,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: '0.00E+00',
+                            exampleval: '1,00E+02',
+                            value: Asc.c_oAscNumFormatType.Scientific
+                        },
+                        {
+                            caption: this.txtAccounting,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)',
+                            exampleval: '100,00 $',
+                            value: Asc.c_oAscNumFormatType.Accounting
+                        },
+                        {
+                            caption: this.txtCurrency,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: '$#,##0.00',
+                            exampleval: '100,00 $',
+                            value: Asc.c_oAscNumFormatType.Currency
+                        },
+                        {
+                            caption: this.txtDate,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: 'MM-dd-yyyy',
+                            exampleval: '04-09-1900',
+                            value: Asc.c_oAscNumFormatType.Date
+                        },
+                        {
+                            caption: this.txtTime,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: 'HH:MM:ss',
+                            exampleval: '00:00:00',
+                            value: Asc.c_oAscNumFormatType.Time
+                        },
+                        {
+                            caption: this.txtPercentage,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: '0.00%',
+                            exampleval: '100,00%',
+                            value: Asc.c_oAscNumFormatType.Percent
+                        },
+                        {
+                            caption: this.txtFraction,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: '# ?/?',
+                            exampleval: '100',
+                            value: Asc.c_oAscNumFormatType.Fraction
+                        },
+                        {
+                            caption: this.txtText,
+                            template: numFormatTemplate,
+                            checkable: true,
+                            format: '@',
+                            exampleval: '100',
+                            value: Asc.c_oAscNumFormatType.Text
+                        },
+                        {caption: '--'},
+                        me.pmiAdvancedNumFormat = new Common.UI.MenuItem({
+                            caption: me.textMoreFormats,
+                            value: 'advanced'
+                        })
+                    ]
+                })
+            });
+
             me.ssMenu = new Common.UI.Menu({
                 id          : 'id-context-menu-cell',
                 items       : [
@@ -427,6 +527,7 @@ define([
                     {caption: '--'},
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
+                    me.pmiNumFormat,
                     me.pmiEntriesList,
                     me.pmiAddNamedRange,
                     me.pmiInsFunction,
@@ -832,7 +933,19 @@ define([
         originalSizeText: 'Default Size',
         textReplace: 'Replace image',
         textFromUrl: 'From URL',
-        textFromFile: 'From File'
+        textFromFile: 'From File',
+        txtNumFormat:       'Number Format',
+        txtGeneral:         'General',
+        txtNumber:          'Number',
+        txtScientific:      'Scientific',
+        txtAccounting:      'Accounting',
+        txtCurrency:        'Currency',
+        txtDate:            'Date',
+        txtTime:            'Time',
+        txtPercentage:      'Percentage',
+        txtFraction:        'Fraction',
+        txtText:            'Text',
+        textMoreFormats: 'More formats'
 
     }, SSE.Views.DocumentHolder || {}));
 });
