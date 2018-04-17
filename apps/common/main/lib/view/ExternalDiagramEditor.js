@@ -82,11 +82,9 @@ define([
                 disabled: true
             });
             this.btnCancel = new Common.UI.Button({
-                el: $('#id-btn-diagram-editor-cancel'),
-                disabled: true
+                el: $('#id-btn-diagram-editor-cancel')
             });
 
-            this.$window.find('.tool.close').addClass('disabled');
             this.$window.find('.dlg-btn').on('click', _.bind(this.onDlgBtnClick, this));
         },
 

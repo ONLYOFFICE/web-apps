@@ -135,6 +135,9 @@
                 }
             ]
         },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/presentationeditor/main/**/*.json"
+        },
         "copy": {
             "localization": [
                 {
@@ -308,6 +311,9 @@
                     "dest": "../apps/presentationeditor/mobile/app/template/"
                 }
             ]
+        },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/presentationeditor/mobile/**/*.json"
         },
         "copy": {
             "template-backup": [

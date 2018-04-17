@@ -63,18 +63,17 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<div class="input-row">',
-                        '<label>' + this.textLinkType + '</label>',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternalLink,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternalLink,'</button>',
                     '</div>',
-                    '<div class="input-row" id="id-dlg-hyperlink-type" style="margin-bottom: 5px;">',
-                    '</div>',
-                    '<div id="id-dlg-hyperlink-external">',
+                    '<div id="id-external-link">',
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + ' *</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-internal" style="display: none;">',
+                    '<div id="id-internal-link" class="hidden">',
                         '<div class="input-row">',
                             '<label style="width: 50%;">' + this.strSheet + '</label>',
                             '<label style="width: 50%;">' + this.strRange + ' *</label>',
@@ -111,20 +110,22 @@ define([
             var $window = this.getChild(),
                 me = this;
 
-            me.cmbLinkType = new Common.UI.ComboBox({
-                el      : $('#id-dlg-hyperlink-type'),
-                cls     : 'input-group-nr',
-                editable: false,
-                menuStyle: 'min-width: 100%;',
-                data    : [
-                    {displayValue: this.textInternalLink, value: Asc.c_oAscHyperlinkType.RangeLink},
-                    {displayValue: this.textExternalLink, value: Asc.c_oAscHyperlinkType.WebLink}
-                ]
-            }).on('selected', function(combo, record) {
-                $('#id-dlg-hyperlink-external')[record.value == Asc.c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
-                $('#id-dlg-hyperlink-internal')[record.value != Asc.c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
+            me.btnExternal = new Common.UI.Button({
+                el: $('#id-dlg-hyperlink-external'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false,
+                pressed: true
             });
-            me.cmbLinkType.setValue(Asc.c_oAscHyperlinkType.WebLink);
+            me.btnExternal.on('click', _.bind(me.onLinkTypeClick, me, Asc.c_oAscHyperlinkType.WebLink));
+
+            me.btnInternal = new Common.UI.Button({
+                el: $('#id-dlg-hyperlink-internal'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false
+            });
+            me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, Asc.c_oAscHyperlinkType.RangeLink));
 
             me.cmbSheets = new Common.UI.ComboBox({
                 el      : $('#id-dlg-hyperlink-sheet'),
@@ -182,6 +183,9 @@ define([
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+
+            me.externalPanel = $window.find('#id-external-link');
+            me.internalPanel = $window.find('#id-internal-link');
         },
 
         show: function() {
@@ -198,20 +202,18 @@ define([
                 var me = this;
 
                 this.cmbSheets.setData(settings.sheets);
+                var type = (settings.props) ? settings.props.asc_getType() : Asc.c_oAscHyperlinkType.WebLink;
+                (type == Asc.c_oAscHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
+                me.ShowHideElem(type);
+                me.btnInternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.WebLink));
+                me.btnExternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.RangeLink));
+
                 if (!settings.props) {
-                    this.cmbLinkType.setValue(Asc.c_oAscHyperlinkType.WebLink);
-                    this.cmbLinkType.setDisabled(!settings.allowInternal);
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.text);
                     this.focusedInput = this.inputUrl.cmpEl.find('input');
                     this.cmbSheets.setValue(settings.currentSheet);
                 } else {
-                    this.cmbLinkType.setValue(settings.props.asc_getType());
-                    this.cmbLinkType.setDisabled(!settings.allowInternal);
-
-                    if (settings.props.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) {
-                        $('#id-dlg-hyperlink-external').hide();
-                        $('#id-dlg-hyperlink-internal').show();
-
+                    if (type == Asc.c_oAscHyperlinkType.RangeLink) {
                         this.cmbSheets.setValue(settings.props.asc_getSheet());
                         this.inputRange.setValue(settings.props.asc_getRange());
                         this.focusedInput = this.inputRange.cmpEl.find('input');
@@ -231,9 +233,9 @@ define([
         getSettings: function() {
             var props = new Asc.asc_CHyperlink(),
                 def_display = "";
-            props.asc_setType(this.cmbLinkType.getValue());
+            props.asc_setType(this.btnInternal.isActive() ? Asc.c_oAscHyperlinkType.RangeLink : Asc.c_oAscHyperlinkType.WebLink);
 
-            if (this.cmbLinkType.getValue() == Asc.c_oAscHyperlinkType.RangeLink) {
+            if (this.btnInternal.isActive()) {
                 props.asc_setSheet(this.cmbSheets.getValue());
                 props.asc_setRange(this.inputRange.getValue());
                 def_display = this.cmbSheets.getValue() + '!' + this.inputRange.getValue();
@@ -273,8 +275,8 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    var checkurl = (this.cmbLinkType.getValue() === Asc.c_oAscHyperlinkType.WebLink) ? this.inputUrl.checkValidate() : true,
-                        checkrange = (this.cmbLinkType.getValue() === Asc.c_oAscHyperlinkType.RangeLink) ? this.inputRange.checkValidate() : true,
+                    var checkurl = (this.btnExternal.isActive()) ? this.inputUrl.checkValidate() : true,
+                        checkrange = (this.btnInternal.isActive()) ? this.inputRange.checkValidate() : true,
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
                         this.inputUrl.cmpEl.find('input').focus();
@@ -296,6 +298,15 @@ define([
             this.close();
         },
 
+        ShowHideElem: function(value) {
+            this.externalPanel.toggleClass('hidden', value !== Asc.c_oAscHyperlinkType.WebLink);
+            this.internalPanel.toggleClass('hidden', value !== Asc.c_oAscHyperlinkType.RangeLink);
+        },
+
+        onLinkTypeClick: function(type, btn, event) {
+            this.ShowHideElem(type);
+        },
+
         textTitle:          'Hyperlink Settings',
         textInternalLink:   'Internal Data Range',
         textExternalLink:   'Web Link',
@@ -304,7 +315,6 @@ define([
         textEmptyTooltip:   'Enter tooltip here',
         strSheet:           'Sheet',
         strRange:           'Range',
-        textLinkType:       'Link Type',
         strDisplay:         'Display',
         textTipText:        'Screen Tip Text',
         strLinkTo:          'Link To',

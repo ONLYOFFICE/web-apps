@@ -55,25 +55,26 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         },
 
         initialize : function(options) {
+            this.type = options.type || 'print';
             _.extend(this.options, {
-                title: this.textTitle,
+                title: (this.type == 'print') ? this.textTitle : this.textTitlePDF,
                 template: [
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                         '<div class="menu-panel" style="overflow: hidden;">',
-                            '<div style="height: 42px; line-height: 42px;" class="div-category">' + this.textPrintRange + '</div>',
+                            '<div style="height: 42px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
                             '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageScaling + '</div>',
                             '<div style="height: 108px; line-height: 33px;" class="div-category">' + this.strMargins + '</div>',
-                            '<div style="height: 58px; line-height: 40px;" class="div-category">' + this.strPrint + '</div>',
+                            '<div style="height: 58px; line-height: 40px;" class="div-category">' + ((this.type == 'print') ? this.strPrint : this.strShow) + '</div>',
                         '</div>',
                         '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="separator horizontal"/>',
                     '<div class="footer justify">',
                         '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="margin-right: 55px; width: 100px;">' + this.textHideDetails + '</button>',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 150px;">' + this.btnPrint + '</button>',
+                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
                         '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
                     '</div>'
                 ].join('')
@@ -145,12 +146,12 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
             this.chPrintGrid = new Common.UI.CheckBox({
                 el: $('#printadv-dlg-chb-grid'),
-                labelText: this.textPrintGrid
+                labelText: (this.type == 'print') ? this.textPrintGrid : this.textShowGrid
             });
 
             this.chPrintRows = new Common.UI.CheckBox({
                 el: $('#printadv-dlg-chb-rows'),
-                labelText: this.textPrintHeadings
+                labelText: (this.type == 'print') ? this.textPrintHeadings : this.textShowHeadings
             });
 
             this.spnMarginTop = new Common.UI.MetricSpinner({
@@ -301,6 +302,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         cancelButtonText:       'Cancel',
         textHideDetails:        'Hide Details',
         textPageScaling:        'Scaling',
-        textSettings:           'Sheet Settings'
+        textSettings:           'Sheet Settings',
+        textTitlePDF:           'PDF Settings',
+        textShowGrid:           'Show Gridlines',
+        textShowHeadings:       'Show Rows and Columns Headings',
+        strShow:                'Show',
+        btnDownload:            'Save & Download',
+        textRange:              'Range'
+
     }, SSE.Views.PrintSettings || {}));
 });

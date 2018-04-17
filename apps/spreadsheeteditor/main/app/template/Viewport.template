@@ -3,6 +3,7 @@
         <section class="layout-ct">
             <div id="file-menu-panel" class="toolbar-fullview-panel" style="display:none;"></div>
         </section>
+        <section id="app-title" class="layout-item"></section>
         <div id="toolbar" class="layout-item"></div>
         <div class="layout-item">
             <div id="viewport-hbox-layout" class="layout-ct hbox">

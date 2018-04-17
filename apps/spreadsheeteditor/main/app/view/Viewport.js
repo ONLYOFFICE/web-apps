@@ -85,18 +85,20 @@ define([
             var items = $container.find(' > .layout-item');
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
-                items: [
-                {
-                    // el: items[0],    // decorative element for view mode for desktop
-                    // height: 5
-                // }, {
-                    el: items[0],
-                    height: Common.localStorage.getBool('sse-compact-toolbar') ? 32 : 32+67
-                }, {
+                items: [{
+                    el: $container.find('> .layout-item#app-title').hide(),
+                    alias: 'title',
+                    height: Common.Utils.InternalSettings.get('document-title-height')
+                },{
                     el: items[1],
-                    stretch: true
+                    alias: 'toolbar',
+                    height: Common.localStorage.getBool('sse-compact-toolbar') ?
+                        Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal')
                 }, {
                     el: items[2],
+                    stretch: true
+                }, {
+                    el: items[3],
                     height: 25
                 }]
             });

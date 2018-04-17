@@ -29,26 +29,45 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
- *  ShapeGroups.js
+ * Controller wraps up interaction with desktop app
  *
- *  Created by Alexander Yuzhin on 2/10/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
- *
+ * Created by Maxim.Kadushkin on 2/16/2018.
  */
 
 define([
-    'backbone',
-    'documenteditor/main/app/model/ShapeGroup'
-], function(Backbone){ 'use strict';
-    if (Common === undefined)
-        var Common = {};
+    'core'
+], function () {
+    'use strict';
 
-    Common.Collections = Common.Collections || {};
-    DE.Collections = DE.Collections || {};
+    var Desktop = function () {
+        var config = {};
+        var app = window.AscDesktopEditor;
 
-    DE.Collections.ShapeGroups = Backbone.Collection.extend({
-        model: DE.Models.ShapeGroup
-    });
+        return {
+            init: function (opts) {
+                _.extend(config, opts);
+
+                if ( config.isDesktopApp ) {
+                    Common.NotificationCenter.on('app:ready', function (config) {
+                        !!app && app.execCommand('doc:onready', '');
+                    });
+                }
+            },
+            process: function (opts) {
+                if ( opts == 'goback' ) {
+                    if ( config.isDesktopApp && !!app ) {
+                        app.execCommand('go:folder',
+                            config.isOffline ? 'offline' : config.customization.goback.url);
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+        };
+    };
+
+    Common.Controllers.Desktop = new Desktop();
 });

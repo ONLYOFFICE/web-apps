@@ -67,6 +67,13 @@ define([
                 'CellEditor': {},
                 'Viewport': {
                     'layout:resizedrag': _.bind(this.onLayoutResize, this)
+                },
+                'Common.Views.Header': {
+                    'formulabar:hide': function (state) {
+                        this.editor.setVisible(!state);
+                        Common.localStorage.setBool('sse-hidden-formula', state);
+                        Common.NotificationCenter.trigger('layout:changed', 'celleditor', state?'hidden':'showed');
+                    }.bind(this)
                 }
             });
         },
