@@ -318,7 +318,7 @@ define([
             if (this.api) {
                 var section = this.api.asc_GetSectionProps(),
                     ratio = (this._state.Height>0) ? this._state.Width/this._state.Height : 1,
-                    pagew = this.api.asc_GetCurrentColumnWidth(),
+                    pagew = (this.api.asc_GetCurrentColumnWidth) ? this.api.asc_GetCurrentColumnWidth() : (section.get_W() - section.get_LeftMargin() - section.get_RightMargin()),
                     pageh = section.get_H() - section.get_TopMargin() - section.get_BottomMargin(),
                     pageratio = pagew/pageh,
                     w, h;
