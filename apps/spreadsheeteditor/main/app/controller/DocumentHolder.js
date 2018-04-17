@@ -82,7 +82,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
-
+            me._state = {};
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this)
@@ -194,6 +194,12 @@ define([
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
                 view.menuSignatureEditSign.on('click',              _.bind(me.onSignatureClick, me));
                 view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
+                view.menuImgOriginalSize.on('click',                _.bind(me.onOriginalSizeClick, me));
+                view.menuImgReplace.menu.on('item:click',           _.bind(me.onImgReplace, me));
+                view.pmiNumFormat.menu.on('item:click',             _.bind(me.onNumberFormatSelect, me));
+                view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
+                view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
+
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -1314,6 +1320,15 @@ define([
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
                 documentHolder.mnuImgAdvanced.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
                 documentHolder.mnuImgAdvanced.setDisabled(isObjLocked);
+                documentHolder.menuImgOriginalSize.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
+                if (documentHolder.mnuImgAdvanced.imageInfo)
+                    documentHolder.menuImgOriginalSize.setDisabled(isObjLocked || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===null || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===undefined);
+
+                var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
+                documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
+                documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
+
+
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
@@ -1470,6 +1485,10 @@ define([
                 var inPivot = !!cellinfo.asc_getPivotTableInfo();
 
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
+
+                documentHolder.pmiNumFormat.setVisible(!iscelledit);
+                documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = cellinfo.asc_getNumFormatInfo();
+                documentHolder.pmiAdvancedNumFormat.options.numformat = cellinfo.asc_getNumFormat();
 
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
@@ -2595,6 +2614,105 @@ define([
                 case 3:
                     this.api.asc_RemoveSignature(datavalue); //guid
                     break;
+            }
+        },
+
+        onOriginalSizeClick: function(item) {
+            if (this.api){
+                var imgsize = this.api.asc_getOriginalImageSize();
+                var w = imgsize.asc_getImageWidth();
+                var h = imgsize.asc_getImageHeight();
+
+                var properties = new Asc.asc_CImgProperty();
+                properties.asc_putWidth(w);
+                properties.asc_putHeight(h);
+                this.api.asc_setGraphicObjectProps(properties);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
+            }
+        },
+
+        onImgReplace: function(menu, item) {
+            var me = this;
+            if (this.api) {
+                if (item.value == 'file') {
+                    setTimeout(function(){
+                        if (me.api) me.api.asc_changeImageFromFile();
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }, 10);
+                } else {
+                    (new Common.Views.ImageFromUrlDialog({
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    var checkUrl = value.replace(/ /g, '');
+                                    if (!_.isEmpty(checkUrl)) {
+                                        var props = new Asc.asc_CImgProperty();
+                                        props.asc_putImageUrl(checkUrl);
+                                        me.api.asc_setGraphicObjectProps(props);
+                                    }
+                                }
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    })).show();
+                }
+            }
+        },
+
+        onNumberFormatSelect: function(menu, item) {
+            if (item.value !== undefined && item.value !== 'advanced') {
+                if (this.api)
+                    this.api.asc_setCellFormat(item.options.format);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onCustomNumberFormat: function(item) {
+            var me = this,
+                value = me.api.asc_getLocale();
+            (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
+
+            (new SSE.Views.FormatSettingsDialog({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (settings) {
+                        me.api.asc_setCellFormat(settings.format);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                },
+                props   : {format: item.options.numformat, formatInfo: item.options.numformatinfo, langId: value}
+            })).show();
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onNumberFormatOpenAfter: function(menu) {
+            if (this.api) {
+                var me = this,
+                    value = me.api.asc_getLocale();
+                (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
+
+                if (this._state.langId !== value) {
+                    this._state.langId = value;
+
+                    var info = new Asc.asc_CFormatCellsInfo();
+                    info.asc_setType(Asc.c_oAscNumFormatType.None);
+                    info.asc_setSymbol(this._state.langId);
+                    var arr = this.api.asc_getFormatCells(info); // all formats
+                    for (var i=0; i<menu.items.length-2; i++) {
+                        menu.items[i].options.format = arr[i];
+                    }
+                }
+
+                var val = menu.options.numformatinfo;
+                val = (val) ? val.asc_getType() : -1;
+                for (var i=0; i<menu.items.length-2; i++) {
+                    var mnu = menu.items[i];
+                    mnu.options.exampleval = me.api.asc_getLocaleExample(mnu.options.format);
+                    $(mnu.el).find('label').text(mnu.options.exampleval);
+                    mnu.setChecked(val == mnu.value);
+                }
             }
         },
 

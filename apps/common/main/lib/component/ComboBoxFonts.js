@@ -213,6 +213,8 @@ define([
                         }, 10);
                     } else
                         me._skipInputChange = false;
+                } else if (e.keyCode == Common.UI.Keys.RETURN && this._input.val() === me.lastValue){
+                    this._input.trigger('change', { reapply: true });
                 }
             },
 
@@ -233,7 +235,7 @@ define([
                 var val = $(e.target).val(),
                     record = {};
 
-                if (this.lastValue === val) {
+                if (this.lastValue === val && !(extra && extra.reapply)) {
                     if (extra && extra.onkeydown)
                         this.trigger('combo:blur', this, e);
                     return;
