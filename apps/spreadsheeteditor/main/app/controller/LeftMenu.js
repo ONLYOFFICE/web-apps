@@ -262,9 +262,9 @@ define([
                         }
                     }, this)
                 });
-            } else if (format == Asc.c_oAscFileType.PDF) {
-                menu.hide();
-                Common.NotificationCenter.trigger('download:settings', this.leftMenu);
+            // } else if (format == Asc.c_oAscFileType.PDF) {
+            //     menu.hide();
+            //     Common.NotificationCenter.trigger('download:settings', this.leftMenu);
             } else {
                 this.api.asc_DownloadAs(format);
                 menu.hide();
