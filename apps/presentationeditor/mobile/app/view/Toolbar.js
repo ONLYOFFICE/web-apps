@@ -63,7 +63,8 @@ define([
                 "click #toolbar-edit"       : "showEdition",
                 "click #toolbar-add"        : "showInserts",
                 "click #toolbar-settings"   : "showSettings",
-                "click #toolbar-preview"    : "showPreview"
+                "click #toolbar-preview"    : "showPreview",
+                "click #toolbar-edit-document": "editDocument"
             },
 
             // Set innerHTML and get the references to the DOM elements
@@ -101,6 +102,8 @@ define([
             setMode: function (mode) {
                 if (mode.isEdit) {
                     $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
+                } else if (mode.canEdit && mode.canRequestEditRights){
+                    $('#toolbar-edit-document').show();
                 }
             },
 
@@ -150,6 +153,10 @@ define([
 
             showPreview: function () {
                 PE.getController('DocumentPreview').show();
+            },
+
+            editDocument: function () {
+                Common.Gateway.requestEditRights();
             },
 
             textBack: 'Back'

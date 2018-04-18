@@ -34,6 +34,9 @@
             <a href="#" id="toolbar-add" class="link icon-only" style="display: none;">
                 <i class="icon icon-plus"></i>
             </a>
+            <a href="#" id="toolbar-edit-document" class="link icon-only" style="display: none;">
+                <i class="icon icon-edit"></i>
+            </a>
             <% if (!phone) { %>
             <a href="#" id="toolbar-search" class="link icon-only">
                 <i class="icon icon-search"></i>

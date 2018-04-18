@@ -193,7 +193,6 @@ define([
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
-                    $('#settings-edit-document').single('click',                _.bind(me.onEditDocumet, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                 }
@@ -266,10 +265,6 @@ define([
             },
 
             // Handlers
-
-            onEditDocumet: function() {
-                Common.Gateway.requestEditRights();
-            },
 
             onSearch: function (e) {
                 var toolbarView = DE.getController('Toolbar').getView('Toolbar');
