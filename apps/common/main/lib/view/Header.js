@@ -674,7 +674,7 @@ define([
                                 };
                                 btn.setDisabled( true );
                             } else {
-                                btn.setDisabled( btn.keepState.disabled );
+                                btn.setDisabled( btn.keepState && btn.keepState.disabled || lock);
                                 delete btn.keepState;
                             }
                         }
