@@ -302,6 +302,7 @@
   "DE.Controllers.LeftMenu.textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
   "DE.Controllers.LeftMenu.warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+  "DE.Controllers.LeftMenu.warnDownloadAsRTF": "If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?",
   "DE.Controllers.Main.applyChangesTextText": "Loading the changes...",
   "DE.Controllers.Main.applyChangesTitleText": "Loading the Changes",
   "DE.Controllers.Main.convertationTimeoutText": "Conversion timeout exceeded.",
