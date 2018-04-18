@@ -109,11 +109,9 @@ define([
                         isPhone = Common.SharedSettings.get('phone');
 
                     if (isEdit) {
-                        $layour.find('#settings-edit-presentation').hide();
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
-                        if (!canEdit) $layour.find('#settings-edit-presentation').hide();
                         $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
                             .attr('checked', Common.SharedSettings.get('readerMode'))
@@ -190,7 +188,6 @@ define([
                     permissions = _.extend(permissions, data.doc.permissions);
 
                     if (permissions.edit === false) {
-                        $('#settings-edit-presentation').hide();
                     }
                 }
             },

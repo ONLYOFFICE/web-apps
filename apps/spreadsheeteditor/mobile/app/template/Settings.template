@@ -26,18 +26,6 @@
                         </li>
                         <% } %>
                         <li>
-                            <a id="settings-edit-document" class="item-link no-indicator">
-                                <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-edit"></i>
-                                    </div>
-                                    <div class="item-inner">
-                                        <div class="item-title"><%= scope.textEditDoc %></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
                             <a id="settings-download" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
