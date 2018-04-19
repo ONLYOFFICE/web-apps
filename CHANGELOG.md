@@ -3,6 +3,7 @@
 ### All Editors
 * Customize initial zoom for the embedded editors
 * Replace image from context menu (bug #11493)
+* Customize availability of help in the editor
 
 ### Document Editor
 * Create and manage bookmarks

@@ -119,7 +119,8 @@
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false,
-                    showReviewChanges: false
+                    showReviewChanges: false,
+                    help: true
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
