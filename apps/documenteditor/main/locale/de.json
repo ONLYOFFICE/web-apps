@@ -302,6 +302,7 @@
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Der Ersatzvorgang wurde durchgeführt. {0} Vorkommen wurden ausgelassen.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Der Suchvorgang wurde durchgeführt. Vorkommen wurden ersetzt:{0}",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+  "DE.Controllers.LeftMenu.warnDownloadAsRTF": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, kann die Formatierung teilweise verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
   "DE.Controllers.Main.applyChangesTextText": "Die Änderungen werden geladen...",
   "DE.Controllers.Main.applyChangesTitleText": "Laden von Änderungen",
   "DE.Controllers.Main.convertationTimeoutText": "Timeout für die Konvertierung wurde überschritten.",
