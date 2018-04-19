@@ -53,7 +53,8 @@ define([
         var isEdit,
             canEdit = false,
             canDownload = false,
-            canAbout = true;
+            canAbout = true,
+            canHelp = true;
 
         return {
             // el: '.view-main',
@@ -101,6 +102,10 @@ define([
                 if (mode.customization && mode.canBrandingExt) {
                     canAbout = (mode.customization.about!==false);
                 }
+
+                if (mode.customization) {
+                    canHelp = (mode.customization.help!==false);
+                }
             },
 
             rootLayout: function () {
@@ -121,6 +126,7 @@ define([
                     }
                     if (!canDownload) $layour.find('#settings-download').hide();
                     if (!canAbout) $layour.find('#settings-about').hide();
+                    if (!canHelp) $layour.find('#settings-help').hide();
 
                     return $layour.html();
                 }
