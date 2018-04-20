@@ -154,11 +154,11 @@ define([
                 } else {
                     this.initCodePages();
                     this.updatePreview();
+                    this.onPrimary = function() {
+                        me._handleInput('ok');
+                        return false;
+                    };
                 }
-                this.onPrimary = function() {
-                    me._handleInput('ok');
-                    return false;
-                };
             }
         },
 
