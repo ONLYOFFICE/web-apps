@@ -80,6 +80,7 @@ define([
                         toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
+                        me.header.mnuitemCompactToolbar.setChecked(state, true);
                         me.viewport.vlayout.getItem('toolbar').height = state ?
                             Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     },
