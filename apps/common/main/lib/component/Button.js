@@ -164,11 +164,14 @@ define([
             var result = Array.prototype.slice.call(this);
 
             args.forEach(function(sub){
-                Array.prototype.push.apply(result, sub);
+                if (sub instanceof Array )
+                    Array.prototype.push.apply(result, sub);
+                else
+                    result.push(sub);
             });
 
             return result;
-        }
+        };
 
         var _out_array = Object.create(ButtonsArray.prototype);
         for ( var i in arguments ) {

@@ -1963,7 +1963,7 @@ define([
             var toolbar = this.toolbar;
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
-            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: [toolbar.btnsAddSlide, toolbar.btnChangeSlide, toolbar.btnPreview, toolbar.btnHide]});
+            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview, toolbar.btnHide)});
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
