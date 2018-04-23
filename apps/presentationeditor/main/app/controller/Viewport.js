@@ -209,7 +209,7 @@ define([
 
                 var mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
-                    checked: Common.localStorage.getBool("pe-hidden-rulers"),
+                    checked: Common.localStorage.getBool("pe-hidden-rulers", true),
                     checkable: true,
                     value: 'rulers'
                 });
