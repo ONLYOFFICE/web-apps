@@ -166,7 +166,7 @@ define([
             args.forEach(function(sub){
                 if (sub instanceof Array )
                     Array.prototype.push.apply(result, sub);
-                else
+                else if (sub)
                     result.push(sub);
             });
 
