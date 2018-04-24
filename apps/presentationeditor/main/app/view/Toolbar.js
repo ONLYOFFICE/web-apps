@@ -1404,6 +1404,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
+                    extCls: this.mode.isDesktopApp ? 'inc-index' : undefined,
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
