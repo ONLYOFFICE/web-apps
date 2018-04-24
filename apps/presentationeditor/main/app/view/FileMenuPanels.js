@@ -90,19 +90,13 @@ define([
                 });
             }
 
-            this.flatFormats = _.flatten(this.formats);
             return this;
         },
 
         onFormatClick: function(e) {
-            var format = /\s(\w+)/.exec(e.currentTarget.className);
-            if (format) {
-                format = format[1];
-                var item = _.findWhere(this.flatFormats, {imgCls: format});
-
-                if (item && this.menu) {
-                    this.menu.fireEvent('saveas:format', [this.menu, item.type]);
-                }
+            var type = e.currentTarget.attributes['format'];
+            if (!_.isUndefined(type) && this.menu) {
+                this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
             }
         }
     });
