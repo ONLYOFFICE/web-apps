@@ -1412,8 +1412,8 @@ define([
                 this.updateWindowTitle(change);
                 Common.Gateway.setDocumentModified(change);
 
-                if (this.toolbarView && this.toolbarView.btnSave && this.api) {
-                    var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
+                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
@@ -1422,8 +1422,8 @@ define([
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
-                if (this.toolbarView && this.toolbarView.btnSave) {
-                    var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                if (this.toolbarView && this.toolbarView.btnCollabChanges) {
+                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                     this.toolbarView.btnSave.setDisabled(isDisabled);
