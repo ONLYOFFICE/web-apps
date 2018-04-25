@@ -51,7 +51,7 @@ define([
 
     Common.Views.SignDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 350,
+            width: 370,
             style: 'min-width: 350px;',
             cls: 'modal-dlg'
         },
@@ -143,7 +143,7 @@ define([
             me.cmbFonts = new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-sign-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 214px;',
+                style       : 'width: 234px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 55px;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -265,9 +265,9 @@ define([
 
         afterRender: function () {
             if (this.api) {
-                this.binding = {
-                    certificateChanged: _.bind(this.onCertificateChanged, this)
-                };
+                if (!this.binding)
+                    this.binding = {};
+                this.binding.certificateChanged = _.bind(this.onCertificateChanged, this);
                 this.api.asc_registerCallback('on_signature_defaultcertificate_ret', this.binding.certificateChanged);
                 this.api.asc_registerCallback('on_signature_selectsertificate_ret', this.binding.certificateChanged);
                 this.api.asc_GetDefaultCertificate();
