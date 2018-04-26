@@ -1213,7 +1213,7 @@ define([
                 me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                 me.btnInsertChart, me.btnColorSchemas,
                 me.btnAutofilter, me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
-                me.btnSave, me.btnClearStyle, me.btnCopyStyle
+                /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle
             ];
 
             var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,

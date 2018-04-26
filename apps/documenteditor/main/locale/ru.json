@@ -302,6 +302,7 @@
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Замена выполнена. Пропущено вхождений - {0}.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Поиск выполнен. Заменено вхождений: {0}",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Если Вы продолжите сохранение в этот формат, весь функционал, кроме текста, будет потерян.<br>Вы действительно хотите продолжить?",
+  "DE.Controllers.LeftMenu.warnDownloadAsRTF": "Если вы продолжите сохранение в этот формат, часть форматирования может быть потеряна.<br>Вы действительно хотите продолжить?",
   "DE.Controllers.Main.applyChangesTextText": "Загрузка изменений...",
   "DE.Controllers.Main.applyChangesTitleText": "Загрузка изменений",
   "DE.Controllers.Main.convertationTimeoutText": "Превышено время ожидания конвертации.",

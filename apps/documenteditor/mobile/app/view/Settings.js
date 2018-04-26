@@ -113,10 +113,8 @@ define([
                         isPhone = Common.SharedSettings.get('phone');
 
                     if (_isEdit) {
-                        $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
-                        if (!_canEdit) $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-document').hide();
                     }
                     if (!_canReader)
@@ -219,7 +217,6 @@ define([
                     permissions = _.extend(permissions, data.doc.permissions);
 
                     if (permissions.edit === false) {
-                        $('#settings-edit-document').hide();
                     }
                 }
             },

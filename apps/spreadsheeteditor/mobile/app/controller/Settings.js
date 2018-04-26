@@ -148,7 +148,6 @@ define([
             onPageShow: function(view, pageId) {
                 var me = this;
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
-                $('#settings-edit-document').single('click',                _.bind(me._onEditDocument, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
                 me.initSettings(pageId);
             },
@@ -199,10 +198,6 @@ define([
             },
 
             // API handlers
-
-            _onEditDocument: function() {
-                Common.Gateway.requestEditRights();
-            },
 
             _onSearch: function (e) {
                 var toolbarView = SSE.getController('Toolbar').getView('Toolbar');

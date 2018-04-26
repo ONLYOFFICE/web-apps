@@ -80,6 +80,7 @@ define([
                         toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
+                        me.header.mnuitemCompactToolbar.setChecked(state, true);
                         me.viewport.vlayout.getItem('toolbar').height = state ?
                             Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     },
@@ -208,7 +209,7 @@ define([
 
                 var mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
-                    checked: Common.localStorage.getBool("pe-hidden-rulers"),
+                    checked: Common.localStorage.getBool("pe-hidden-rulers", true),
                     checkable: true,
                     value: 'rulers'
                 });

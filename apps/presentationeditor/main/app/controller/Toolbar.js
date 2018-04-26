@@ -890,7 +890,7 @@ define([
                 this.api.asc_Save();
             }
 
-            toolbar.btnsSave.setDisabled(!toolbar.mode.forcesave);
+            toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('Save');
@@ -1963,7 +1963,7 @@ define([
             var toolbar = this.toolbar;
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
-            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: [toolbar.btnsAddSlide, toolbar.btnChangeSlide, toolbar.btnPreview, toolbar.btnHide]});
+            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');

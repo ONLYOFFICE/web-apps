@@ -286,11 +286,11 @@ define([
 
         clickSaveAsFormat: function(menu, format) {
             if (menu) {
-                if (format == Asc.c_oAscFileType.TXT) {
+                if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                     Common.UI.warning({
                         closable: false,
                         title: this.notcriticalErrorTitle,
-                        msg: this.warnDownloadAs,
+                        msg: (format == Asc.c_oAscFileType.TXT) ? this.warnDownloadAs : this.warnDownloadAsRTF,
                         buttons: ['ok', 'cancel'],
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
@@ -731,6 +731,7 @@ define([
         textLoadHistory         : 'Loading versions history...',
         notcriticalErrorTitle: 'Warning',
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
-        warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?' 
+        warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
+        warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
     }, DE.Controllers.LeftMenu || {}));
 });
