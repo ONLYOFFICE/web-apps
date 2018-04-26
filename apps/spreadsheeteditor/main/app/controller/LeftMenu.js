@@ -279,7 +279,7 @@ define([
             /** coauthoring begin **/
             value = Common.localStorage.getBool("sse-settings-livecomment", true);
             Common.Utils.InternalSettings.set("sse-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+            var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", resolved);
 
             if (this.mode.canComments && this.leftMenu.panelComments.isVisible())

@@ -333,7 +333,7 @@ define([
 
             value = Common.localStorage.getBool("de-settings-livecomment", true);
             Common.Utils.InternalSettings.set("de-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
             if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;

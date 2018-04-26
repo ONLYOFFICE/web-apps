@@ -616,7 +616,7 @@ define([
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("sse-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                value = Common.localStorage.getBool("sse-settings-resolvedcomment");
                 Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", value);
                 this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
 
