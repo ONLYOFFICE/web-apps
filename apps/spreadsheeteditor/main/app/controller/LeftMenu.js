@@ -262,9 +262,9 @@ define([
                         }
                     }, this)
                 });
-            // } else if (format == Asc.c_oAscFileType.PDF) {
-            //     menu.hide();
-            //     Common.NotificationCenter.trigger('download:settings', this.leftMenu);
+            } else if (format == Asc.c_oAscFileType.PDF) {
+                menu.hide();
+                Common.NotificationCenter.trigger('download:settings', this.leftMenu);
             } else {
                 this.api.asc_DownloadAs(format);
                 menu.hide();
@@ -693,7 +693,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         this.leftMenu.showMenu('file:help');
