@@ -135,6 +135,9 @@
                 }
             ]
         },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/documenteditor/main/**/*.json"
+        },       
         "copy": {
             "localization": [
                 {
@@ -299,6 +302,9 @@
                     "dest": "../apps/documenteditor/mobile/app/template/"
                 }
             ]
+        },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/documenteditor/mobile/**/*.json"
         },
         "copy": {
             "template-backup": [

@@ -129,10 +129,16 @@ define([
                     'menu:show': this.onFileMenu.bind(this, 'show')
                 },
                 'Common.Views.Header': {
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
                     'print': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         _main.onPrint();
                     },
+                    'save': function (opts) {
+                        this.api.asc_Save();
+                    },
+                    'undo': this.onUndo,
+                    'redo': this.onRedo,
                     'downloadas': function (opts) {
                         var _main = this.getApplication().getController('Main');
                         var _file_type = _main.document.fileType,
@@ -212,10 +218,14 @@ define([
         },
 
         onLaunch: function() {
-            // Create toolbar view
-            this.toolbar = this.createView('Toolbar');
-
             var me = this;
+
+            // Create toolbar view
+            me.toolbar = me.createView('Toolbar');
+            me.toolbar.btnSave.on('disabled', _.bind(this.onBtnChangeState, this, 'save:disabled'));
+            me.toolbar.btnUndo.on('disabled', _.bind(this.onBtnChangeState, this, 'undo:disabled'));
+            me.toolbar.btnRedo.on('disabled', _.bind(this.onBtnChangeState, this, 'redo:disabled'));
+
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
             Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
 
@@ -284,18 +294,10 @@ define([
             toolbar.btnInsertTable.menu.on('item:click',                _.bind(this.onInsertTableClick, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
-            toolbar.btnAdvSettings.on('click',                          _.bind(this.onAdvSettingsClick, this));
             toolbar.btnColorSchemas.menu.on('item:click',               _.bind(this.onColorSchemaClick, this));
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
             toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
-            toolbar.mnuitemHideStatusBar.on('toggle',                   _.bind(this.onHideStatusBar, this));
-            toolbar.mnuitemHideRulers.on('toggle',                      _.bind(this.onHideRulers, this));
-            toolbar.mnuitemCompactToolbar.on('toggle',                  _.bind(this.onChangeCompactView, this));
-            toolbar.btnFitPage.on('toggle',                             _.bind(this.onZoomToPageToggle, this));
-            toolbar.btnFitWidth.on('toggle',                            _.bind(this.onZoomToWidthToggle, this));
-            toolbar.mnuZoomIn.on('click',                               _.bind(this.onZoomInClick, this));
-            toolbar.mnuZoomOut.on('click',                              _.bind(this.onZoomOutClick, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
         },
 
@@ -360,7 +362,6 @@ define([
                 var me = this;
                 Common.Utils.asyncCall(function () {
                     me.onChangeCompactView(null, !me.toolbar.isCompact());
-                    me.toolbar.mnuitemCompactToolbar.setChecked(me.toolbar.isCompact(), true);
                 });
             }
         },
@@ -505,14 +506,9 @@ define([
                     btnHorizontalAlign.menu.clearAll();
                 }
 
-                if (btnHorizontalAlign.rendered) {
-                    var iconEl = $('.icon', btnHorizontalAlign.cmpEl);
-
-                    if (iconEl) {
-                        iconEl.removeClass(btnHorizontalAlign.options.icls);
-                        btnHorizontalAlign.options.icls = align;
-                        iconEl.addClass(btnHorizontalAlign.options.icls);
-                    }
+                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
+                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                    btnHorizontalAlign.options.icls = align;
                 }
             }
         },
@@ -538,14 +534,9 @@ define([
                     btnVerticalAlign.menu.clearAll();
                 }
 
-                if (btnVerticalAlign.rendered) {
-                    var iconEl = $('.icon', btnVerticalAlign.cmpEl);
-
-                    if (iconEl) {
-                        iconEl.removeClass(btnVerticalAlign.options.icls);
-                        btnVerticalAlign.options.icls = align;
-                        iconEl.addClass(btnVerticalAlign.options.icls);
-                    }
+                if ( btnVerticalAlign.rendered && btnVerticalAlign.$icon ) {
+                    btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls).addClass(align);
+                    btnVerticalAlign.options.icls = align;
                 }
             }
         },
@@ -776,18 +767,7 @@ define([
             this.editMode = false;
         },
 
-        onApiZoomChange: function(percent, type) {
-            if (this._state.zoom_type !== type) {
-                this.toolbar.btnFitPage.setChecked(type == 2, true);
-                this.toolbar.btnFitWidth.setChecked(type == 1, true);
-                this._state.zoom_type = type;
-            }
-            if (this._state.zoom_percent !== percent) {
-                $('.menu-zoom .zoom', this.toolbar.el).html(percent + '%');
-                this._state.zoom_percent = percent;
-            }
-            this.toolbar.mnuZoom.options.value = percent;
-        },
+        onApiZoomChange: function(percent, type) {},
 
         onApiInitEditorStyles: function(themes) {
             if (themes) {
@@ -903,22 +883,25 @@ define([
             var toolbar = this.toolbar;
             if (this.api && this.api.asc_isDocumentCanSave) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = $('.icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
+                var isSyncButton = this.toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
             }
 
-            toolbar.btnsSave.forEach(function(button) {
-                if ( button ) {
-                    button.setDisabled(!toolbar.mode.forcesave);
-                }
-            });
+            toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('Save');
             Common.component.Analytics.trackEvent('ToolBar', 'Save');
+        },
+
+        onBtnChangeState: function(prop) {
+            if ( /\:disabled$/.test(prop) ) {
+                var _is_disabled = arguments[2];
+                this.toolbar.fireEvent(prop, [_is_disabled]);
+            }
         },
 
         onUndo: function(btn, e) {
@@ -1034,14 +1017,11 @@ define([
 
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign,
-                iconEl = $('.icon', btnHorizontalAlign.cmpEl);
+            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
 
-            if (iconEl) {
-                iconEl.removeClass(btnHorizontalAlign.options.icls);
-                btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-                iconEl.addClass(btnHorizontalAlign.options.icls);
-            }
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
 
             if (this.api && item.checked)
                 this.api.put_PrAlign(item.value);
@@ -1051,14 +1031,11 @@ define([
         },
 
         onMenuVerticalAlignSelect: function(menu, item) {
-            var btnVerticalAlign = this.toolbar.btnVerticalAlign,
-                iconEl = $('.icon', btnVerticalAlign.cmpEl);
+            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
 
-            if (iconEl) {
-                iconEl.removeClass(btnVerticalAlign.options.icls);
-                btnVerticalAlign.options.icls = !item.checked ? 'btn-align-middle' : item.options.icls;
-                iconEl.addClass(btnVerticalAlign.options.icls);
-            }
+            btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls);
+            btnVerticalAlign.options.icls = !item.checked ? 'btn-align-middle' : item.options.icls;
+            btnVerticalAlign.$icon.addClass(btnVerticalAlign.options.icls);
 
             this._state.vtextalign = undefined;
             if (this.api && item.checked)
@@ -1445,11 +1422,6 @@ define([
             this.modeAlwaysSetStyle = state;
         },
 
-        onAdvSettingsClick: function(btn, e) {
-            this.toolbar.fireEvent('file:settings', this);
-            btn.cmpEl.blur();
-        },
-
         onColorSchemaClick: function(menu, item) {
             if (this.api) {
                 this.api.ChangeColorScheme(item.value);
@@ -1560,69 +1532,6 @@ define([
             Common.localStorage.setItem('pe-hidden-title', checked ? 1 : 0);
 
             Common.NotificationCenter.trigger('layout:changed', 'header');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHideStatusBar: function(item, checked) {
-            var headerView  = this.getApplication().getController('Statusbar').getView('Statusbar');
-            headerView  && headerView.setVisible(!checked);
-
-            Common.localStorage.setBool('pe-hidden-status', checked);
-
-            Common.NotificationCenter.trigger('layout:changed', 'status');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onHideRulers: function(item, checked) {
-            if (this.api) {
-                this.api.asc_SetViewRulers(!checked);
-            }
-
-            Common.localStorage.setBool('pe-hidden-rulers', checked);
-
-            Common.NotificationCenter.trigger('layout:changed', 'rulers');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomToPageToggle: function(item, state) {
-            if (this.api) {
-                this._state.zoom_type = undefined;
-                this._state.zoom_percent = undefined;
-                if (state)
-                    this.api.zoomFitToPage();
-                else
-                    this.api.zoomCustomMode();
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomToWidthToggle: function(item, state) {
-            if (this.api) {
-                this._state.zoom_type = undefined;
-                this._state.zoom_percent = undefined;
-                if (state)
-                    this.api.zoomFitToWidth();
-                else
-                    this.api.zoomCustomMode();
-            }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomInClick: function(btn) {
-            this._state.zoom_type = undefined;
-            this._state.zoom_percent = undefined;
-            if (this.api)
-                this.api.zoomIn();
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
-        onZoomOutClick: function(btn) {
-            this._state.zoom_type = undefined;
-            this._state.zoom_percent = undefined;
-            if (this.api)
-                this.api.zoomOut();
-
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -1972,7 +1881,8 @@ define([
 
             me.toolbar.listTheme.menuPicker.store.reset([]); // remove all
 
-            var themeStore = this.getCollection('SlideThemes');
+            var themeStore = this.getCollection('SlideThemes'),
+                mainController = this.getApplication().getController('Main');
             if (themeStore) {
                 var arr = [];
                 _.each(defaultThemes.concat(docThemes), function(theme) {
@@ -1980,13 +1890,15 @@ define([
                         imageUrl: theme.get_Image(),
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
+                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name(),
                         itemWidth   : 85,
                         itemHeight  : 38
                     }));
                     me.toolbar.listTheme.menuPicker.store.add({
                         imageUrl: theme.get_Image(),
                         uid     : Common.UI.getId(),
-                        themeId : theme.get_Index()
+                        themeId : theme.get_Index(),
+                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name()
                     });
                 });
                 themeStore.reset(arr);
@@ -2051,7 +1963,7 @@ define([
             var toolbar = this.toolbar;
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
-            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: [toolbar.btnsAddSlide, toolbar.btnChangeSlide, toolbar.btnPreview, toolbar.btnHide]});
+            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
@@ -2086,11 +1998,23 @@ define([
                 if ( $panel )
                     me.toolbar.addTab(tab, $panel, 3);
 
-                if (config.isDesktopApp && config.isOffline) {
-                    tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                    $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                    if ( $panel )
-                        me.toolbar.addTab(tab, $panel, 4);
+                if ( config.isDesktopApp ) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+
+                    // hide 'undo' and 'redo' buttons and get container
+                    var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnCopy.$el.removeClass('split');
+
+                    if ( config.isOffline ) {
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                        if ($panel)
+                            me.toolbar.addTab(tab, $panel, 4);
+                    }
                 }
             }
         },

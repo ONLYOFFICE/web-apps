@@ -174,7 +174,7 @@ define([
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined || this._locked);
 
                 var pluginGuid = props.asc_getPluginGuid();
-                value = (pluginGuid !== null && pluginGuid !== undefined);
+                value = (pluginGuid !== null && pluginGuid !== undefined); // undefined - only images are selected, null - selected images and ole-objects
                 if (this._state.isOleObject!==value) {
                     this.btnInsertFromUrl.setVisible(!value);
                     this.btnInsertFromFile.setVisible(!value);

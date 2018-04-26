@@ -69,7 +69,8 @@ define([
         onAfterRender: function(view) {
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
-            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this));
+            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
+            Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
             this.registerControlEvents(this.printSettings);
         },
 
@@ -219,9 +220,11 @@ define([
             }
         },
 
-        openPrintSettings: function(btn) {
+        openPrintSettings: function(type, cmp, asUrl) {
             if (this.api) {
+                this.asUrl = asUrl;
                 this.printSettingsDlg = (new SSE.Views.PrintSettings({
+                    type: type,
                     handler: _.bind(this.resultPrintSettings,this),
                     afterrender: _.bind(function() {
                         this._changedProps = [];
@@ -245,10 +248,12 @@ define([
                     this.adjPrintParams.asc_setPrintType(printtype);
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
-                    this.api.asc_Print(this.adjPrintParams, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
-
-                    Common.component.Analytics.trackEvent('Print');
-                    Common.component.Analytics.trackEvent('ToolBar', 'Print');
+                    if ( this.printSettingsDlg.type=='print' )
+                        this.api.asc_Print(this.adjPrintParams, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
+                    else
+                        this.api.asc_DownloadAs(Asc.c_oAscFileType.PDF, this.asUrl, this.adjPrintParams);
+                    Common.component.Analytics.trackEvent((this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
+                    Common.component.Analytics.trackEvent('ToolBar', (this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
                     Common.NotificationCenter.trigger('edit:complete', view);
                 } else
                     return true;

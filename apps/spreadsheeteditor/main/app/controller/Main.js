@@ -307,7 +307,8 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
+                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
+                                .setUserName(this.appOptions.user.fullname);
 
                 var value = Common.localStorage.getItem("sse-settings-reg-settings");
                 if (value!==null)
@@ -332,6 +333,7 @@ define([
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
+                Common.Controllers.Desktop.init(this.appOptions);
             },
 
             loadDocument: function(data) {
@@ -410,7 +412,10 @@ define([
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = Asc.c_oAscFileType.XLSX;
-                this.api.asc_DownloadAs(_format, true);
+                // if (_format == Asc.c_oAscFileType.PDF)
+                //     Common.NotificationCenter.trigger('download:settings', this, true);
+                // else
+                    this.api.asc_DownloadAs(_format, true);
             },
 
             onProcessMouse: function(data) {
@@ -425,11 +430,14 @@ define([
             },
 
             goBack: function() {
-                var href = this.appOptions.customization.goback.url;
-                if (this.appOptions.customization.goback.blank!==false) {
-                    window.open(href, "_blank");
-                } else {
-                    parent.location.href = href;
+                var me = this;
+                if ( !Common.Controllers.Desktop.process('goback') ) {
+                    var href = me.appOptions.customization.goback.url;
+                    if (me.appOptions.customization.goback.blank!==false) {
+                        window.open(href, "_blank");
+                    } else {
+                        parent.location.href = href;
+                    }
                 }
             },
 
@@ -864,7 +872,6 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
-                    this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -889,6 +896,7 @@ define([
                                                 (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -908,16 +916,12 @@ define([
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
-                var value = Common.localStorage.getItem("sse-hidden-title");
-                value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
-
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar');
 
                 if (this.headerView) {
-                    this.headerView.setHeaderCaption(this.appOptions.isEdit ? 'Spreadsheet Editor' : 'Spreadsheet Viewer');
-                    this.headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isEditMailMerge && 
+                    this.headerView.setVisible(!this.appOptions.nativeApp && !this.appOptions.isEditMailMerge &&
                             !this.appOptions.isDesktopApp && !this.appOptions.isEditDiagram);
                 }
 
@@ -1413,12 +1417,7 @@ define([
                         forcesave = this.appOptions.forcesave,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (this.toolbarView.btnSave.isDisabled() !== isDisabled)
-                        this.toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        this.toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 
@@ -1427,12 +1426,7 @@ define([
                     var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (this.toolbarView.btnSave.isDisabled() !== isDisabled)
-                        this.toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                    this.toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 

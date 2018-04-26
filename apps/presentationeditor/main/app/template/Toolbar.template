@@ -8,7 +8,6 @@
             <ul>
                 <% for(var i in tabs) { %>
                     <li class="ribtab<% if (tabs[i].extcls) print(' ' + tabs[i].extcls) %>">
-                        <div class="tab-bg" />
                         <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
                     </li>
                 <% } %>
@@ -111,16 +110,7 @@
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
-                <div class="group" id="slot-field-styles" style="width: 100%; min-width: 140px;">
-                </div>
-                <div class="group no-mask">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-hidebars"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot" id="slot-btn-settings"></span>
-                    </div>
-                </div>
+                <div class="group" id="slot-field-styles" style="width: 100%; min-width: 140px;"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">

@@ -353,6 +353,8 @@ var ApplicationController = new(function(){
                 case Asc.c_oAscAsyncAction.Open:
                     if (api) {
                         api.asc_Resize();
+                        var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom)/100 : 1);
+                        api.asc_setZoom(zf>0 ? zf : 1);
                     }
 
                     onDocumentContentReady();

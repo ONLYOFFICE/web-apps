@@ -143,6 +143,9 @@
                 }
             ]
         },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/spreadsheeteditor/main/**/*.json"
+        },
         "copy": {
             "localization": [
                 {
@@ -310,6 +313,9 @@
                     "dest": "../apps/spreadsheeteditor/mobile/app/template/"
                 }
             ]
+        },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/spreadsheeteditor/mobile/**/*.json"
         },
         "copy": {
             "template-backup": [

@@ -55,6 +55,7 @@ define([
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.Header': {
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'LeftMenu': {
@@ -79,7 +80,8 @@ define([
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
                     'file:open': this.clickToolbarTab.bind(this, 'file'),
-                    'file:close': this.clickToolbarTab.bind(this, 'other')
+                    'file:close': this.clickToolbarTab.bind(this, 'other'),
+                    'save:disabled' : this.changeToolbarSaveState.bind(this)
                 },
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
@@ -260,6 +262,9 @@ define([
                         }
                     }, this)
                 });
+            // } else if (format == Asc.c_oAscFileType.PDF) {
+            //     menu.hide();
+            //     Common.NotificationCenter.trigger('download:settings', this.leftMenu);
             } else {
                 this.api.asc_DownloadAs(format);
                 menu.hide();
@@ -340,6 +345,10 @@ define([
             if (tab == 'file')
                 this.leftMenu.showMenu('file'); else
                 this.leftMenu.menuFile.hide();
+        },
+
+        changeToolbarSaveState: function (state) {
+            this.leftMenu.menuFile.getButton('save').setDisabled(state);
         },
 
         /** coauthoring begin **/
