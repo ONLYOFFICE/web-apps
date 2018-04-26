@@ -2108,7 +2108,7 @@ define([
             errorMoveRange: 'Cann\'t change a part of merged cell',
             errorBadImageUrl: 'Image url is incorrect',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
             txtEditingMode: 'Set editing mode...',
             textLoadingDocument: 'Loading spreadsheet',

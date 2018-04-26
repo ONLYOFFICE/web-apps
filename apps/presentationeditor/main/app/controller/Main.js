@@ -1944,7 +1944,7 @@ define([
             errorUsersExceed: 'Count of users was exceed',
             txtEditingMode: 'Set editing mode...',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             textAnonymous: 'Anonymous',
             txtNeedSynchronize: 'You have an updates',
             applyChangesTitleText: 'Loading Data',

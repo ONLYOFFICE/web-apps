@@ -321,7 +321,7 @@
   "DE.Controllers.Main.errorDatabaseConnection": "External error.<br>Database connection error. Please contact support in case the error persists.",
   "DE.Controllers.Main.errorDataRange": "Incorrect data range.",
   "DE.Controllers.Main.errorDefaultMessage": "Error code: %1",
-  "DE.Controllers.Main.errorFilePassProtect": "The document is password protected and could not be opened.",
+  "DE.Controllers.Main.errorFilePassProtect": "The file is password protected and could not be opened.",
   "DE.Controllers.Main.errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
   "DE.Controllers.Main.errorKeyEncrypt": "Unknown key descriptor",
   "DE.Controllers.Main.errorKeyExpire": "Key descriptor expired",

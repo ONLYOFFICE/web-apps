@@ -235,7 +235,7 @@
   "PE.Controllers.Main.errorDatabaseConnection": "External error.<br>Database connection error. Please contact support in case the error persists.",
   "PE.Controllers.Main.errorDataRange": "Incorrect data range.",
   "PE.Controllers.Main.errorDefaultMessage": "Error code: %1",
-  "PE.Controllers.Main.errorFilePassProtect": "The document is password protected and could not be opened.",
+  "PE.Controllers.Main.errorFilePassProtect": "The file is password protected and could not be opened.",
   "PE.Controllers.Main.errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
   "PE.Controllers.Main.errorKeyEncrypt": "Unknown key descriptor",
   "PE.Controllers.Main.errorKeyExpire": "Key descriptor expired",

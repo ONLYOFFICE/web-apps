@@ -1221,7 +1221,7 @@ define([
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and could not be opened.',
             txtEditingMode: 'Set editing mode...',
             textAnonymous: 'Anonymous',
             loadingDocumentTitleText: 'Loading document',

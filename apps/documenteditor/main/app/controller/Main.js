@@ -2143,7 +2143,7 @@ define([
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             txtBasicShapes: 'Basic Shapes',
             txtFiguredArrows: 'Figured Arrows',
             txtMath: 'Math',
