@@ -616,7 +616,7 @@ define([
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("sse-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                value = Common.localStorage.getBool("sse-settings-resolvedcomment");
                 Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", value);
                 this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
 
@@ -2110,7 +2110,7 @@ define([
             errorMoveRange: 'Cann\'t change a part of merged cell',
             errorBadImageUrl: 'Image url is incorrect',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
             txtEditingMode: 'Set editing mode...',
             textLoadingDocument: 'Loading spreadsheet',

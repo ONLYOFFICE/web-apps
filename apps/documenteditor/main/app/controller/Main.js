@@ -815,7 +815,7 @@ define([
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("de-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                value = Common.localStorage.getBool("de-settings-resolvedcomment");
                 Common.Utils.InternalSettings.set("de-settings-resolvedcomment", value);
                 this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
                 /** coauthoring end **/
@@ -2145,7 +2145,7 @@ define([
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             txtBasicShapes: 'Basic Shapes',
             txtFiguredArrows: 'Figured Arrows',
             txtMath: 'Math',
