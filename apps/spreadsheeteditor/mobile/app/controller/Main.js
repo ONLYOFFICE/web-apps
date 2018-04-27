@@ -1220,7 +1220,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.advDRMEnterPassword,
+                        text: me.txtProtected,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: [
                             {
@@ -1450,7 +1450,8 @@ define([
             txtStyle_Percent: 'Percent',
             txtStyle_Comma: 'Comma',
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
-            errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
+            errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
+            txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset'
         }
     })(), SSE.Controllers.Main || {}))
 });

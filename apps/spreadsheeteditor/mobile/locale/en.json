@@ -93,6 +93,7 @@
   "SSE.Controllers.EditHyperlink.textInvalidRange": "Invalid cells range",
   "SSE.Controllers.EditHyperlink.txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
   "SSE.Controllers.Main.advCSVOptions": "Choose CSV Options",
+  "SSE.Controllers.Main.txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
   "SSE.Controllers.Main.advDRMEnterPassword": "Enter your password:",
   "SSE.Controllers.Main.advDRMOptions": "Protected File",
   "SSE.Controllers.Main.advDRMPassword": "Password",

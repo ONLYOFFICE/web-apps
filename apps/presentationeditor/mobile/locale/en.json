@@ -55,6 +55,7 @@
   "PE.Controllers.EditText.textAuto": "Auto",
   "PE.Controllers.EditText.textFonts": "Fonts",
   "PE.Controllers.EditText.textPt": "pt",
+  "PE.Controllers.Main.txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
   "PE.Controllers.Main.advDRMEnterPassword": "Enter your password:",
   "PE.Controllers.Main.advDRMOptions": "Protected File",
   "PE.Controllers.Main.advDRMPassword": "Password",

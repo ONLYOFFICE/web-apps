@@ -37,6 +37,7 @@
   "DE.Controllers.EditText.textAuto": "Auto",
   "DE.Controllers.EditText.textFonts": "Fonts",
   "DE.Controllers.EditText.textPt": "pt",
+  "DE.Controllers.Main.txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
   "DE.Controllers.Main.advDRMEnterPassword": "Enter your password:",
   "DE.Controllers.Main.advDRMOptions": "Protected File",
   "DE.Controllers.Main.advDRMPassword": "Password",

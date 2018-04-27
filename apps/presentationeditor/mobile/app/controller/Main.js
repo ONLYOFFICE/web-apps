@@ -1037,7 +1037,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.advDRMEnterPassword,
+                        text: me.txtProtected,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: [
                             {
@@ -1285,7 +1285,8 @@ define([
             txtSlideNumber: 'Slide number',
             txtSlideSubtitle: 'Slide subtitle',
             txtSlideTitle: 'Slide title',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset'
         }
     })(), PE.Controllers.Main || {}))
 });
