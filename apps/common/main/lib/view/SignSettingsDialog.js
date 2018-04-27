@@ -208,6 +208,6 @@ define([
         txtEmpty:           'This field is required',
         textAllowComment:   'Allow signer to add comment in the signature dialog',
         textShowDate:       'Show sign date in signature line',
-        textTitle:          'Signature Settings'
+        textTitle:          'Signature Setup'
     }, Common.Views.SignSettingsDialog || {}))
 });

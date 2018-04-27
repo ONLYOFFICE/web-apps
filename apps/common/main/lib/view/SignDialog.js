@@ -51,7 +51,7 @@ define([
 
     Common.Views.SignDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 350,
+            width: 370,
             style: 'min-width: 350px;',
             cls: 'modal-dlg'
         },
@@ -90,10 +90,10 @@ define([
                         '<div id="id-dlg-sign-fonts" class="input-row" style="display: inline-block;"></div>',
                         '<div id="id-dlg-sign-font-size" class="input-row" style="display: inline-block;margin-left: 3px;"></div>',
                         '<div id="id-dlg-sign-bold" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-sign-italic" style="display: inline-block;margin-left: 3px;"></div>',
-                        '<div class="input-row" style="margin-top: 10px;">',
+                        '<div style="margin: 10px 0 5px 0;">',
                             '<label>' + this.textUseImage + '</label>',
                         '</div>',
-                        '<button id="id-dlg-sign-image" class="btn btn-text-default" style="">' + this.textSelectImage + '</button>',
+                        '<button id="id-dlg-sign-image" class="btn btn-text-default auto">' + this.textSelectImage + '</button>',
                         '<div class="input-row" style="margin-top: 10px;">',
                             '<label style="font-weight: bold;">' + this.textSignature + '</label>',
                         '</div>',
@@ -143,7 +143,7 @@ define([
             me.cmbFonts = new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-sign-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 214px;',
+                style       : 'width: 234px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 55px;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -265,9 +265,9 @@ define([
 
         afterRender: function () {
             if (this.api) {
-                this.binding = {
-                    certificateChanged: _.bind(this.onCertificateChanged, this)
-                };
+                if (!this.binding)
+                    this.binding = {};
+                this.binding.certificateChanged = _.bind(this.onCertificateChanged, this);
                 this.api.asc_registerCallback('on_signature_defaultcertificate_ret', this.binding.certificateChanged);
                 this.api.asc_registerCallback('on_signature_selectsertificate_ret', this.binding.certificateChanged);
                 this.api.asc_GetDefaultCertificate();

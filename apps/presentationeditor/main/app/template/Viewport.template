@@ -1,5 +1,5 @@
 <div class="layout-region">
-    <div id="pe-preview" style="position:absolute; left: 0; top: 0; display:none; width:100%; height:100%; z-index: 1;"></div>
+    <div id="pe-preview" style="position:absolute; left: 0; top: 0; display:none; width:100%; height:100%;"></div>
     <section class="layout-ct">
         <div id="file-menu-panel" class="toolbar-fullview-panel" style="display:none;"></div>
     </section>

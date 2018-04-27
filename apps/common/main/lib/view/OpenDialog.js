@@ -55,8 +55,8 @@ define([
 
             _.extend(_options,  {
                 closable        : false,
-                width           : (options.preview) ? 414 : 262,
-                height          : (options.preview) ? 291 : ((options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 205 : 155),
+                width           : (options.preview) ? 414 : ((options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? 370 : 262),
+                height          : (options.preview) ? 277 : ((options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 190 : 187),
                 header          : true,
                 preview         : options.preview,
                 cls             : 'open-dlg',
@@ -70,8 +70,12 @@ define([
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
                     '<% if (type == Asc.c_oAscAdvancedOptionsID.DRM) { %>',
-                        '<label class="header">' + t.txtPassword + '</label>',
-                        '<div id="id-password-txt" style="margin-bottom:15px;"></div>',
+                        '<div>',
+                            '<div class="icon img-commonctrl warn"/>',
+                            '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + t.txtProtected+ '</div>',
+                                '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
+                                '<div id="id-password-txt" style="width: 240px;"></div></div>',
+                        '</div>',
                     '<% } else { %>',
                         '<div style="display: inline-block; margin-bottom:15px;margin-right: 10px;">',
                             '<label class="header">' + t.txtEncoding + '</label>',
@@ -105,11 +109,10 @@ define([
                     '<% } %>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>',
                 '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">' + t.okButtonText + '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
                     '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + t.closeButtonText + '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
                     '<% } %>',
                 '</div>'
             ].join('');
@@ -527,7 +530,8 @@ define([
         txtPreview: 'Preview',
         txtComma: 'Comma',
         txtColon: 'Colon',
-        txtSemicolon: 'Semicolon'
+        txtSemicolon: 'Semicolon',
+        txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset.'
 
     }, Common.Views.OpenDialog || {}));
 });
