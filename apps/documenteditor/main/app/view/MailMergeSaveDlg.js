@@ -120,7 +120,7 @@ define([
         },
 
         _onMessage: function(msg) {
-            if (msg /*&& msg.Referer == "onlyoffice"*/) {
+            if (msg && msg.Referer == "onlyoffice") {
                 if ( !_.isEmpty(msg.error) ) {
                     this.trigger('mailmergeerror', this, msg.error);
                 }
