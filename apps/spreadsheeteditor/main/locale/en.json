@@ -205,7 +205,7 @@
   "Common.Views.SignSettingsDialog.textInfoTitle": "Signer Title",
   "Common.Views.SignSettingsDialog.textInstructions": "Instructions for Signer",
   "Common.Views.SignSettingsDialog.textShowDate": "Show sign date in signature line",
-  "Common.Views.SignSettingsDialog.textTitle": "Signature Settings",
+  "Common.Views.SignSettingsDialog.textTitle": "Signature Setup",
   "Common.Views.SignSettingsDialog.txtEmpty": "This field is required",
   "SSE.Controllers.DocumentHolder.alignmentText": "Alignment",
   "SSE.Controllers.DocumentHolder.centerText": "Center",
