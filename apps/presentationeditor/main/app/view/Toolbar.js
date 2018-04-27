@@ -109,6 +109,8 @@ define([
                 me.shapeControls = [];
                 me.slideOnlyControls = [];
                 me.synchTooltip = undefined;
+                me.needShowSynchTip = false;
+
                 me.schemeNames = [
                     me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
                     me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
@@ -1254,7 +1256,6 @@ define([
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
-                this.needShowSynchTip = false;
 
                 if (this.needShowSynchTip) {
                     this.needShowSynchTip = false;
