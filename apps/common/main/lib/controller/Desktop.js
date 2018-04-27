@@ -50,21 +50,26 @@ define([
                 _.extend(config, opts);
 
                 if ( config.isDesktopApp ) {
-                    Common.NotificationCenter.on('app:ready', function (config) {
+                    Common.NotificationCenter.on('app:ready', function (opts) {
+                        _.extend(config, opts);
                         !!app && app.execCommand('doc:onready', '');
                     });
                 }
             },
             process: function (opts) {
-                if ( opts == 'goback' ) {
-                    if ( config.isDesktopApp && !!app ) {
+                if ( config.isDesktopApp && !!app ) {
+                    if ( opts == 'goback' ) {
                         app.execCommand('go:folder',
                             config.isOffline ? 'offline' : config.customization.goback.url);
                         return true;
+                    } else
+                    if ( opts == 'preloader:hide' ) {
+                        app.execCommand('editor:onready', '');
+                        return true;
                     }
-
-                    return false;
                 }
+
+                return false;
             }
         };
     };
