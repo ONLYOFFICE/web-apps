@@ -199,6 +199,7 @@
   "Common.Views.SignDialog.textInputName": "Input signer name",
   "Common.Views.SignDialog.textItalic": "Italic",
   "Common.Views.SignDialog.textPurpose": "Purpose for signing this document",
+  "Common.Views.SignDialog.textSelect": "Select",
   "Common.Views.SignDialog.textSelectImage": "Select Image",
   "Common.Views.SignDialog.textSignature": "Signature looks as",
   "Common.Views.SignDialog.textTitle": "Sign Document",
