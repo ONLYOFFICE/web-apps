@@ -191,6 +191,7 @@
   "Common.Views.OpenDialog.txtPreview": "Preview",
   "Common.Views.OpenDialog.txtTitle": "Choose %1 options",
   "Common.Views.OpenDialog.txtTitleProtected": "Protected File",
+  "Common.Views.OpenDialog.txtProtected": "Once you enter the password and open the file, the current password to the file will be reset.",
   "Common.Views.PasswordDialog.cancelButtonText": "Cancel",
   "Common.Views.PasswordDialog.okButtonText": "OK",
   "Common.Views.PasswordDialog.txtDescription": "Set a password to protect this document",
