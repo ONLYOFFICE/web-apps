@@ -1088,7 +1088,8 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
-                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
+                this.appOptions.isProtectSupport = false; // remove in 5.2
+                this.appOptions.canProtect     = this.appOptions.isProtectSupport && this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1179,7 +1180,7 @@ define([
 
                     reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
-                    if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
+                    if (this.appOptions.isProtectSupport && this.appOptions.isDesktopApp && this.appOptions.isOffline)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');

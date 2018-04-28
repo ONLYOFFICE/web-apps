@@ -243,7 +243,7 @@ define([
         applyMode: function() {
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.miProtect[(this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) ?'show':'hide']();
+            this.miProtect[(this.mode.isProtectSupport && this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) ?'show':'hide']();
             this.miProtect.$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
@@ -280,7 +280,7 @@ define([
                 }
             }
 
-            if (this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) {
+            if (this.mode.isProtectSupport && this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) {
 //                this.$el.find('#fm-btn-back').hide();
                 this.panels['protect'] = (new DE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
                 this.panels['protect'].setMode(this.mode);
