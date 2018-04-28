@@ -123,7 +123,7 @@
   "SSE.Controllers.Main.errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, póngase en contacto con soporte si el error persiste.",
   "SSE.Controllers.Main.errorDataRange": "Rango de datos incorrecto.",
   "SSE.Controllers.Main.errorDefaultMessage": "Código de error: %1",
-  "SSE.Controllers.Main.errorFilePassProtect": "El documento está protegido por una contraseña y no puede ser abierto.",
+  "SSE.Controllers.Main.errorFilePassProtect": "El archivo está protegido por una contraseña y no puede ser abierto.",
   "SSE.Controllers.Main.errorFileRequest": "Error externo.<br>Error de solicitud de archivo. Por favor, póngase en contacto con soporte si el error persiste.",
   "SSE.Controllers.Main.errorFileVKey": "Error externo.<br>Clave de seguridad incorrecto. Por favor, póngase en contacto con soporte si el error persiste.",
   "SSE.Controllers.Main.errorFillRange": "No se puede rellenar el rango de celdas seleccionado.<br>Todas las celdas seleccionadas deben tener el mismo tamaño.",
