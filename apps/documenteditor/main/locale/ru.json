@@ -279,7 +279,7 @@
   "Common.Views.SignDialog.textInputName": "Введите имя подписывающего",
   "Common.Views.SignDialog.textItalic": "Курсив",
   "Common.Views.SignDialog.textPurpose": "Цель подписания документа",
-  "Common.Views.SignDialog.textSelect": "Выделить",
+  "Common.Views.SignDialog.textSelect": "Выбрать",
   "Common.Views.SignDialog.textSelectImage": "Выбрать изображение",
   "Common.Views.SignDialog.textSignature": "Как выглядит подпись:",
   "Common.Views.SignDialog.textTitle": "Подписание документа",
