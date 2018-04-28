@@ -58,7 +58,7 @@
   "DE.Controllers.Main.errorDatabaseConnection": "Erreur externe.<br>Erreur de connexion à la base de données.Contactez le support.",
   "DE.Controllers.Main.errorDataRange": "Plage de données incorrecte.",
   "DE.Controllers.Main.errorDefaultMessage": "Code d'erreur: %1",
-  "DE.Controllers.Main.errorFilePassProtect": "Le document est protégé par mot de passe.",
+  "DE.Controllers.Main.errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
   "DE.Controllers.Main.errorKeyEncrypt": "Descripteur de clés inconnu",
   "DE.Controllers.Main.errorKeyExpire": "Descripteur de clés expiré",
   "DE.Controllers.Main.errorMailMergeLoadFile": "Échec du chargement",

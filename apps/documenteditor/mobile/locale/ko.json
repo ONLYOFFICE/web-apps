@@ -58,7 +58,7 @@
   "DE.Controllers.Main.errorDatabaseConnection": "외부 오류입니다. <br> 데이터베이스 연결 오류입니다. 지원팀에 문의하십시오.",
   "DE.Controllers.Main.errorDataRange": "잘못된 데이터 범위입니다.",
   "DE.Controllers.Main.errorDefaultMessage": "오류 코드 : % 1",
-  "DE.Controllers.Main.errorFilePassProtect": "이 문서는 암호로 보호되어 있습니다.",
+  "DE.Controllers.Main.errorFilePassProtect": "이 문서는 암호로 보호되어있어 열 수 없습니다.",
   "DE.Controllers.Main.errorKeyEncrypt": "알 수없는 키 설명자",
   "DE.Controllers.Main.errorKeyExpire": "키 설명자가 만료되었습니다",
   "DE.Controllers.Main.errorMailMergeLoadFile": "로드 실패",

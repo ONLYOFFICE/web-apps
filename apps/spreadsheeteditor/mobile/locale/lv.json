@@ -123,7 +123,7 @@
   "SSE.Controllers.Main.errorDatabaseConnection": "Ārēja kļūda.<br>Datubāzes savienojuma kļūda. Lūdzu, sazinieties ar atbalstu.",
   "SSE.Controllers.Main.errorDataRange": "Nepareizs datu diapazons",
   "SSE.Controllers.Main.errorDefaultMessage": "Kļūdas kods: %1",
-  "SSE.Controllers.Main.errorFilePassProtect": "Dokuments ir aizsargāts ar paroli un to nevar atvērt.",
+  "SSE.Controllers.Main.errorFilePassProtect": "Fails ir aizsargāts ar paroli un to nevar atvērt.",
   "SSE.Controllers.Main.errorFileRequest": "Ārēja kļūda.<br>Faila pieprasījuma kļūda. Lūdzu, sazinieties ar atbalstu.",
   "SSE.Controllers.Main.errorFileVKey": "Ārēja kļūda.<br>Nederīgs drošības kods. Lūdzu, sazinieties ar atbalstu.",
   "SSE.Controllers.Main.errorFillRange": "Neizdevās aizpildīt izvēlēto šunu diapazonu.<br>Visām sapludinātajām šūnām ir jābūt viena izmēra.",

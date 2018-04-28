@@ -220,6 +220,7 @@
   "SSE.Controllers.Main.txtFiguredArrows": "Geformte Pfeile",
   "SSE.Controllers.Main.txtLines": "Linien",
   "SSE.Controllers.Main.txtMath": "Mathematik",
+  "SSE.Controllers.Main.txtProtected": "Sobald Sie das Passwort eingegeben und die Datei geöffnet haben, wird das aktuelle Passwort für die Datei zurückgesetzt",
   "SSE.Controllers.Main.txtRectangles": "Rechtecke",
   "SSE.Controllers.Main.txtSeries": "Reihen",
   "SSE.Controllers.Main.txtSpace": "Leerzeichen",
