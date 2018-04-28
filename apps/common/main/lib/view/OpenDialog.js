@@ -55,10 +55,11 @@ define([
 
             _.extend(_options,  {
                 closable        : false,
-                width           : (options.preview) ? 414 : ((options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? 370 : 262),
-                height          : (options.preview) ? 277 : ((options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 190 : 187),
-                header          : true,
                 preview         : options.preview,
+                warning         : options.warning,
+                width           : (options.preview) ? 414 : ((options.type == Asc.c_oAscAdvancedOptionsID.DRM && options.warning) ? 370 : 262),
+                height          : (options.preview) ? 277 : ((options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 190 : (options.warning ? 187 : 147)),
+                header          : true,
                 cls             : 'open-dlg',
                 contentTemplate : '',
                 title           : (options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? t.txtTitleProtected : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT'),
@@ -70,12 +71,19 @@ define([
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
                     '<% if (type == Asc.c_oAscAdvancedOptionsID.DRM) { %>',
+                        '<% if (warning) { %>',
                         '<div>',
                             '<div class="icon img-commonctrl warn"/>',
                             '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + t.txtProtected+ '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 240px;"></div></div>',
                         '</div>',
+                        '<% } else { %>',
+                        '<div>',
+                            '<label class="header">' + t.txtPassword + '</label>',
+                            '<div id="id-password-txt"></div>',
+                        '</div>',
+                        '<% } %>',
                     '<% } else { %>',
                         '<div style="display: inline-block; margin-bottom:15px;margin-right: 10px;">',
                             '<label class="header">' + t.txtEncoding + '</label>',
@@ -120,6 +128,7 @@ define([
             this.handler        =   _options.handler;
             this.type           =   _options.type;
             this.preview        =   _options.preview;
+            this.warning        =   _options.warning || false;
             this.closable       =   _options.closable;
             this.codepages      =   _options.codepages;
             this.settings       =   _options.settings;
