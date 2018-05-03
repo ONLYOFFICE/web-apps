@@ -174,7 +174,7 @@ define([
             },
 
             activateControls: function() {
-                $('#toolbar-preview, #toolbar-settings, #toolbar-search, #document-back').removeClass('disabled');
+                $('#toolbar-preview, #toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document').removeClass('disabled');
             },
 
             activateViewControls: function() {
