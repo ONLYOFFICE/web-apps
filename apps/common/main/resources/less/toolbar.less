@@ -251,6 +251,10 @@
             z-index: 102;
         }
     }
+
+    &:not(.cover):not(.z-clear) {
+        z-index: @zindex-navbar + 1;
+    }
 }
 
 .btn-toolbar {

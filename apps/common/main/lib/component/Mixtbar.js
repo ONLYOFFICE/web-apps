@@ -127,8 +127,12 @@ define([
                 if ( this.isFolded ) {
                     if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
 
-                    optsFold.$bar.addClass('folded').toggleClass('expanded', false);
+                    optsFold.$bar.addClass('folded z-clear').toggleClass('expanded', false);
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
+                    optsFold.$bar.on($.support.transition.end, function (e) {
+                        if ( optsFold.$bar.hasClass('folded') && !optsFold.$bar.hasClass('expanded') )
+                            optsFold.$bar.toggleClass('z-clear', true);
+                    });
                     optsFold.$box.on({
                         mouseleave: function (e) {
                             // optsFold.timer = setTimeout( function(e) {
@@ -167,7 +171,7 @@ define([
 
                 } else {
                     // clearTimeout(optsFold.timer);
-                    optsFold.$bar.removeClass('folded');
+                    optsFold.$bar.removeClass('folded z-clear');
                     optsFold.$box.off();
 
                     var active_panel = optsFold.$box.find('.panel.active');
@@ -191,6 +195,7 @@ define([
             expand: function() {
                 // clearTimeout(optsFold.timer);
 
+                optsFold.$bar.removeClass('z-clear');
                 optsFold.$bar.addClass('expanded');
                 // optsFold.timer = setTimeout(this.collapse, optsFold.timeout);
             },
