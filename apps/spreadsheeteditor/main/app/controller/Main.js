@@ -1059,7 +1059,7 @@ define([
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
-                var config = {closable: false};
+                var config = {closable: true};
 
                 switch (id) {
                     case Asc.c_oAscError.ID.Unknown:
@@ -1100,47 +1100,38 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
                         config.msg = this.errorWrongBracketsCount;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongOperator:
                         config.msg = this.errorWrongOperator;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
                         config.msg = this.errorCountArgExceed;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongCountArgument:
                         config.msg = this.errorCountArg;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongFunctionName:
                         config.msg = this.errorFormulaName;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlAnotherParsingError:
                         config.msg = this.errorFormulaParsing;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
                         config.msg = this.errorArgsRange;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlOperandExpected:
                         config.msg = this.errorOperandExpected;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongReferences:
                         config.msg = this.errorFrmlWrongReferences;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.UnexpectedGuid:
@@ -1246,6 +1237,7 @@ define([
 
                     case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
+                        config.closable = false;
                         break;
 
                     case Asc.c_oAscError.ID.LockedWorksheetRename:
@@ -1304,6 +1296,7 @@ define([
 
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
+                    config.closable = false;
 
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
@@ -1822,7 +1815,6 @@ define([
             onNamedRangeLocked: function() {
                 if ($('.asc-window.modal.alert:visible').length < 1) {
                     Common.UI.alert({
-                        closable: false,
                         msg: this.errorCreateDefName,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',

@@ -251,7 +251,6 @@ define([
         clickSaveAsFormat: function(menu, format) {
             if (format == Asc.c_oAscFileType.CSV) {
                 Common.UI.warning({
-                    closable: false,
                     title: this.textWarning,
                     msg: this.warnDownloadAs,
                     buttons: ['ok', 'cancel'],
