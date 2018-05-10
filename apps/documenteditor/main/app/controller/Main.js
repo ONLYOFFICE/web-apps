@@ -163,6 +163,7 @@ define([
                 });
 
                 if (this.api){
+                    this.api.SetDrawingFreeze(true);
                     switch (value) {
                         case '0': this.api.SetFontRenderingMode(3); break;
                         case '1': this.api.SetFontRenderingMode(1); break;
