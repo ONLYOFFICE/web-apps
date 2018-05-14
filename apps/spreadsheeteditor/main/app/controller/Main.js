@@ -616,7 +616,7 @@ define([
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("sse-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                value = Common.localStorage.getBool("sse-settings-resolvedcomment");
                 Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", value);
                 this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
 
@@ -1406,8 +1406,8 @@ define([
                 this.updateWindowTitle(change);
                 Common.Gateway.setDocumentModified(change);
 
-                if (this.toolbarView && this.toolbarView.btnSave && this.api) {
-                    var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
+                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
@@ -1416,8 +1416,8 @@ define([
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
-                if (this.toolbarView && this.toolbarView.btnSave) {
-                    var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                if (this.toolbarView && this.toolbarView.btnCollabChanges) {
+                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                     this.toolbarView.btnSave.setDisabled(isDisabled);
@@ -1530,6 +1530,7 @@ define([
                     me._state.openDlg = new Common.Views.OpenDialog({
                         closable: me.appOptions.canRequestClose,
                         type: type,
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
@@ -2103,7 +2104,7 @@ define([
             errorMoveRange: 'Cann\'t change a part of merged cell',
             errorBadImageUrl: 'Image url is incorrect',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
             txtEditingMode: 'Set editing mode...',
             textLoadingDocument: 'Loading spreadsheet',

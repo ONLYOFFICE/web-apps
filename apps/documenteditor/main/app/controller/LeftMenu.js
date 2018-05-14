@@ -321,19 +321,19 @@ define([
                 this.api.asc_SetFastCollaborative(fast_coauth);
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+                Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 switch(value) {
                 case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
                 case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
                 case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
-                Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 this.api.SetCollaborativeMarksShowType(value);
             }
 
             value = Common.localStorage.getBool("de-settings-livecomment", true);
             Common.Utils.InternalSettings.set("de-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
             if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;

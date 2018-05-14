@@ -197,7 +197,7 @@ define([
             },
 
             activateControls: function() {
-                $('#toolbar-settings, #toolbar-search, #document-back').removeClass('disabled');
+                $('#toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document').removeClass('disabled');
             },
 
             activateViewControls: function() {

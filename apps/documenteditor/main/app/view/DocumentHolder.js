@@ -2280,7 +2280,6 @@ define([
                         new Common.UI.MenuItem({
                             caption     : this.textFromUrl
                         }).on('click', function(item) {
-                            var me = this;
                             (new Common.Views.ImageFromUrlDialog({
                                 handler: function(result, value) {
                                     if (result == 'ok') {

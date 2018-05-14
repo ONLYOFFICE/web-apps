@@ -58,7 +58,7 @@
   "DE.Controllers.Main.errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
   "DE.Controllers.Main.errorDataRange": "Rango de datos incorrecto.",
   "DE.Controllers.Main.errorDefaultMessage": "Código de error: %1",
-  "DE.Controllers.Main.errorFilePassProtect": "El documento es protegido por contraseña.",
+  "DE.Controllers.Main.errorFilePassProtect": "El archivo está protegido por una contraseña y no puede ser abierto.",
   "DE.Controllers.Main.errorKeyEncrypt": "Descriptor de clave desconocido",
   "DE.Controllers.Main.errorKeyExpire": "Descriptor de clave ha expirado",
   "DE.Controllers.Main.errorMailMergeLoadFile": "Error de carga",

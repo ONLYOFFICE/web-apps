@@ -73,7 +73,7 @@
   "PE.Controllers.Main.errorDatabaseConnection": "Externe fout.<br>Fout in databaseverbinding. Neem contact op met Support.",
   "PE.Controllers.Main.errorDataRange": "Onjuist gegevensbereik.",
   "PE.Controllers.Main.errorDefaultMessage": "Foutcode: %1",
-  "PE.Controllers.Main.errorFilePassProtect": "Het document is beschermd met een wachtwoord.",
+  "PE.Controllers.Main.errorFilePassProtect": "Het bestand is beschermd met een wachtwoord en kan niet worden geopend.",
   "PE.Controllers.Main.errorKeyEncrypt": "Onbekende sleuteldescriptor",
   "PE.Controllers.Main.errorKeyExpire": "Sleuteldescriptor vervallen",
   "PE.Controllers.Main.errorProcessSaveResult": "Opslaan mislukt.",
