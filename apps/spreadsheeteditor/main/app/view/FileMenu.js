@@ -151,6 +151,13 @@ define([
                 canFocused: false
             });
 
+            this.miHelp = new Common.UI.MenuItem({
+                el      : $('#fm-btn-help',this.el),
+                action  : 'help',
+                caption : this.btnHelpCaption,
+                canFocused: false
+            });
+
             this.items = [];
             this.items.push(
                 new Common.UI.MenuItem({
@@ -176,12 +183,7 @@ define([
                 }),
                 this.miAccess,
                 this.miSettings,
-                new Common.UI.MenuItem({
-                    el      : $('#fm-btn-help',this.el),
-                    action  : 'help',
-                    caption : this.btnHelpCaption,
-                    canFocused: false
-                }),
+                this.miHelp,
                 new Common.UI.MenuItem({
                     el      : $('#fm-btn-back',this.el),
                     action  : 'exit',
@@ -195,8 +197,7 @@ define([
                 'saveas'    : (new SSE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
                 'opts'      : (new SSE.Views.FileMenuPanels.Settings({menu:me})).render(),
                 'info'      : (new SSE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                'rights'    : (new SSE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                'help'      : (new SSE.Views.FileMenuPanels.Help({menu:me})).render()
+                'rights'    : (new SSE.Views.FileMenuPanels.DocumentRights({menu:me})).render()
             };
 
             me.$el.find('.content-box').hide();
@@ -249,6 +250,9 @@ define([
             this.mode.canBack ? this.$el.find('#fm-btn-back').show().prev().show() :
                                     this.$el.find('#fm-btn-back').hide().prev().hide();
 
+            this.miHelp[this.mode.canHelp ?'show':'hide']();
+            this.miHelp.$el.prev()[this.mode.canHelp ?'show':'hide']();
+
             this.panels['opts'].setMode(this.mode);
             this.panels['info'].setMode(this.mode).updateInfo(this.document);
             this.panels['rights'].setMode(this.mode).updateInfo(this.document);
@@ -271,7 +275,10 @@ define([
                 this.panels['protect'].setMode(this.mode);
             }
 
-            this.panels['help'].setLangConfig(this.mode.lang);
+            if (this.mode.canHelp) {
+                this.panels['help'] = ((new SSE.Views.FileMenuPanels.Help({menu: this})).render());
+                this.panels['help'].setLangConfig(this.mode.lang);
+            }
         },
 
         setMode: function(mode, delay) {

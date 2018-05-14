@@ -223,6 +223,10 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
         &:hover,
         &.over {
             background-color: @secondary;
+
+            .caret {
+                display: inline-block;
+            }
         }
     }
 
@@ -246,7 +250,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
             border: 0;
             background-position: -43px -150px;
             margin: 8px 15px;
-            display: inline-block;
+            display: none;
             position: absolute;
             right: 0;
 
