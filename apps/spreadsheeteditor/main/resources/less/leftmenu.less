@@ -79,17 +79,6 @@
     overflow: hidden;
 }
 
-.btn-doc-format {
-    display: block;
-    width: 98px;
-    height: 125px;
-    cursor: pointer;
-
-    svg&:hover {
-        opacity:0.85;
-    }
-}
-
 #file-menu-panel {
     > div {
         height: 100%;
@@ -181,7 +170,29 @@
                 margin-bottom: 65px;
 
                 .btn-doc-format {
+                    display: block;
+                    width: 98px;
+                    height: 125px;
+                    cursor: pointer;
                     margin: 65px 25px 0px;
+
+                    background-repeat: no-repeat;
+                    background-position: 0 0;
+                    .background-ximage('@{app-image-path}/docformat.png', '@{app-image-path}/docformat@2x.png', 822px);
+
+                    .icon-document-format(@shift-x, @shift-y: 0) {
+                        background-position: @shift-x @shift-y;
+
+                        &:hover {
+                            background-position: @shift-x+102 @shift-y;
+                        }
+                    }
+
+                    &.xlsx  {.icon-document-format(-102px);}
+                    &.ods   {.icon-document-format(-102px, -128px);}
+                    &.csv   {.icon-document-format(-306px, -128px);}
+                    &.html  {.icon-document-format(-306px);}
+                    &.pdf   {.icon-document-format(-714px);}
                 }
             }
         }
@@ -326,9 +337,16 @@
             .blank-document-btn {
                 display: inline-block;
                 margin: 25px 20px 65px;
+                .background-ximage('@{app-image-path}/docformat.png', '@{app-image-path}/docformat@2x.png', 612px);
+                background-repeat: no-repeat;
+                background-position: -408px 0;
                 width: 102px;
                 height: 128px;
                 cursor: pointer;
+
+                &:hover {
+                    background-position: -510px 0;
+                }
             }
 
             hr {
@@ -348,6 +366,9 @@
                     .thumb {
                         width: 102px;
                         height: 128px;
+                        .background-ximage('@{app-image-path}/docformat.png', '@{app-image-path}/docformat@2x.png', 612px);
+                        background-repeat: no-repeat;
+                        background-position: -408px -128px;
                     }
 
                     .title {

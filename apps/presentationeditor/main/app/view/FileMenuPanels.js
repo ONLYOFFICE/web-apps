@@ -64,9 +64,7 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>">',
-                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
-                            '</svg></div></td>',
+                            '<td><span class="btn-doc-format <%= item.imgCls %>" /></td>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -90,13 +88,19 @@ define([
                 });
             }
 
+            this.flatFormats = _.flatten(this.formats);
             return this;
         },
 
         onFormatClick: function(e) {
-            var type = e.currentTarget.attributes['format'];
-            if (!_.isUndefined(type) && this.menu) {
-                this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
+            var format = /\s(\w+)/.exec(e.currentTarget.className);
+            if (format) {
+                format = format[1];
+                var item = _.findWhere(this.flatFormats, {imgCls: format});
+
+                if (item && this.menu) {
+                    this.menu.fireEvent('saveas:format', [this.menu, item.type]);
+                }
             }
         }
     });
@@ -432,11 +436,7 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
-                '<div class="blank-document-btn">',
-                    '<svg class="btn-doc-format">',
-                        '<use xlink:href="#svg-format-pptx"></use>',
-                    '</svg>',
-                '</div>',
+                '<div class="blank-document-btn"></div>',
                 '<div class="blank-document-info">',
                     '<h3><%= scope.newDocumentText %></h3>',
                     '<%= scope.newDescriptionText %>',
@@ -446,13 +446,7 @@ define([
             '<div class="thumb-list">',
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"',
-                            '<% if (!_.isEmpty(item.icon)) { ' +
-                                'print(\" style=\'background-image: url(item.icon);\'>\")' +
-                            ' } else { ' +
-                                'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
-                            ' } %>',
-                        '</div>',
+                        '<div class="thumb"<% if (!_.isEmpty(item.icon)) { %> style="background-image: url(<%= item.icon %>);" <% } %> />',
                         '<div class="title"><%= item.name %></div>',
                     '</div>',
                 '<% }) %>',

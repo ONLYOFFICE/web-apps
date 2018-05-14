@@ -6,7 +6,7 @@
   },
   {
     "src": "ProgramInterface/FileTab.htm",
-    "name": "Pestaña de archivo"
+    "name": "Pestaña Archivo"
   },
   {
     "src": "ProgramInterface/HomeTab.htm",
@@ -14,23 +14,19 @@
   },
   {
     "src": "ProgramInterface/InsertTab.htm",
-    "name": "Pestaña Insertar"
+    "name": "Pestaña de Insertar"
   },
   {
     "src": "ProgramInterface/LayoutTab.htm",
     "name": "Pestaña Configuración de Formato"
   },
   {
-    "src": "ProgramInterface/ReferencesTab.htm",
-    "name": "Pestaña de Referencias"
-  },
-  {
     "src": "ProgramInterface/ReviewTab.htm",
-    "name": "Pestaña de Colaboración"
+    "name": "Pestaña de Revisión"
   },
   {
     "src": "ProgramInterface/PluginsTab.htm",
-    "name": "Pestaña de Plugins"
+    "name": "Pestaña Puglins"
   },
   {
     "src": "UsageInstructions/ChangeColorScheme.htm",
@@ -72,7 +68,7 @@
   },
   {
     "src": "UsageInstructions/AlignText.htm",
-    "name": "Alinee su texto en un párrafo",
+    "name": "Alinee su texto a una línea o un párrafo",
     "headername": "Formato de párrafo"
   },
   {
@@ -122,7 +118,7 @@
   },
   {
     "src": "UsageInstructions/AddHyperlinks.htm",
-    "name": "Añadir hiperenlace"
+    "name": "Añada hiperenlaces"
   },
   {
     "src": "UsageInstructions/InsertDropCap.htm",
@@ -148,14 +144,6 @@
   {
     "src": "UsageInstructions/InsertTextObjects.htm",
     "name": "Insertar objetos con texto"
-  },
-  {
-    "src": "UsageInstructions/InsertContentControls.htm",
-    "name": "Insertar controles de contenido"
-  },
-  {
-    "src": "UsageInstructions/CreateTableOfContents.htm",
-    "name": "Crear tabla de contenidos"
   },
   {
     "src": "UsageInstructions/AlignArrangeObjects.htm",
@@ -187,7 +175,7 @@
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Vea información sobre documento",
-    "headername": "Herramientas y ajustes"
+    "headername": "Herramientas y configuraciones"
   },
   {
     "src": "UsageInstructions/SavePrintDownload.htm",
@@ -211,7 +199,7 @@
   },
   {
     "src": "HelpfulHints/About.htm",
-    "name": "Sobre Document Editor",
+    "name": "Sobre el editor de documentos",
     "headername": "Consejos útiles"
   },
   {

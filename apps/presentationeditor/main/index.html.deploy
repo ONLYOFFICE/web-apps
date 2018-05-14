@@ -283,10 +283,6 @@
     </script>
 
     <inline src="resources/img/header/buttons.svg" />
-    <inline src="resources/img/doc-formats/pptx.svg" />
-    <inline src="resources/img/doc-formats/pdf.svg" />
-    <inline src="resources/img/doc-formats/odp.svg" />
-    <inline src="resources/img/doc-formats/blank.svg" />
 
     <div id="viewport"></div>
 

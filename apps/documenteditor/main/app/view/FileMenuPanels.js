@@ -69,9 +69,7 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>">',
-                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
-                            '</svg></div></td>',
+                            '<td><span class="btn-doc-format img-doc-format <%= item.imgCls %>" format="<%= item.type %>"/></td>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -532,11 +530,7 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
-                '<div class="blank-document-btn">',
-                    '<svg class="btn-doc-format">',
-                        '<use xlink:href="#svg-format-docx"></use>',
-                    '</svg>',
-                '</div>',
+                '<div class="blank-document-btn img-doc-format"></div>',
                 '<div class="blank-document-info">',
                     '<h3><%= scope.newDocumentText %></h3>',
                     '<%= scope.newDescriptionText %>',
@@ -546,13 +540,7 @@ define([
             '<div class="thumb-list">',
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"',
-                        '<% if (!_.isEmpty(item.icon)) { ' +
-                            'print(\" style=\'background-image: url(item.icon);\'>\")' +
-                        ' } else { ' +
-                            'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
-                        ' } %>',
-                        '</div>',
+                        '<div class="thumb"<% if (!_.isEmpty(item.icon)) { %> style="background-image: url(<%= item.icon %>);" <% } %> />',
                         '<div class="title"><%= item.name %></div>',
                     '</div>',
                 '<% }) %>',

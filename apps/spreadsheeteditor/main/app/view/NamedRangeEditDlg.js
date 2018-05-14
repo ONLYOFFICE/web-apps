@@ -271,6 +271,7 @@ define([
             if (state == 'ok') {
                 if (this.locked) {
                     Common.UI.alert({
+                        closable: false,
                         msg: this.errorCreateDefName,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',

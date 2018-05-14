@@ -159,6 +159,7 @@ define([
         onSetHistoryData: function(opts) {
             if (opts.data.error) {
                  var config = {
+                    closable: false,
                     title: this.notcriticalErrorTitle,
                     msg: opts.data.error,
                     iconCls: 'warn',

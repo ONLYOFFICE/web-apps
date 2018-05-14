@@ -55,8 +55,7 @@ define([
             _canDownload = false,
             _canDownloadOrigin = false,
             _canReader = false,
-            _canAbout = true,
-            _canHelp = true;
+            _canAbout = true;
 
         return {
             // el: '.view-main',
@@ -101,10 +100,6 @@ define([
                 if (mode.customization && mode.canBrandingExt) {
                     _canAbout = (mode.customization.about!==false);
                 }
-
-                if (mode.customization) {
-                    _canHelp = (mode.customization.help!==false);
-                }
             },
 
             rootLayout: function () {
@@ -126,7 +121,6 @@ define([
                     if (!_canDownload) $layour.find('#settings-download-as').hide();
                     if (!_canDownloadOrigin) $layour.find('#settings-download').hide();
                     if (!_canAbout) $layour.find('#settings-about').hide();
-                    if (!_canHelp) $layour.find('#settings-help').hide();
 
                     return $layour.html();
                 }
