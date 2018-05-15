@@ -195,19 +195,22 @@ define([
                 me.$toolbarPanelPlugins.empty();
 
                 var _group = $('<div class="group"></div>'),
-                    rank = -1;
+                    rank = -1,
+                    rank_plugins = 0;
                 collection.each(function (model) {
                     var new_rank = model.get('groupRank');
-                    if (new_rank!==rank && rank>-1) {
+                    if (new_rank!==rank && rank>-1 && rank_plugins>0) {
                         _group.appendTo(me.$toolbarPanelPlugins);
                         $('<div class="separator long"></div>').appendTo(me.$toolbarPanelPlugins);
                         _group = $('<div class="group"></div>');
+                        rank_plugins = 0;
                     }
 
                     var btn = me.panelPlugins.createPluginButton(model);
                     if (btn) {
                         var $slot = $('<span class="slot"></span>').appendTo(_group);
                         btn.render($slot);
+                        rank_plugins++;
                     }
                     rank = new_rank;
                 });
