@@ -332,7 +332,7 @@ define([
             if ( menu ) {
                 var item = this._getMenuItem(menu),
                     panel   = this.panels[menu];
-                if ( item.isDisabled() ) {
+                if ( item.isDisabled() || !item.isVisible()) {
                     item = this._getMenuItem(defMenu);
                     panel   = this.panels[defMenu];
                 }
