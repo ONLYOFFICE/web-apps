@@ -195,6 +195,14 @@ define([
                     checkable: true,
                     value: 'toolbar'
                 });
+                if (!config.isEdit) {
+                    me.header.mnuitemCompactToolbar.hide();
+                    Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                        if (action=='plugins' && visible) {
+                            me.header.mnuitemCompactToolbar.show();
+                        }
+                    }, this));
+                }
 
                 var mnuitemHideStatusBar = new Common.UI.MenuItem({
                     caption: me.header.textHideStatusBar,

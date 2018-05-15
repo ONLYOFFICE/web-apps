@@ -226,6 +226,11 @@ define([
             Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+            this.toolbar.applyLayout(mode);
+        },
+
         attachUIEvents: function(toolbar) {
             /**
              * UI Events
@@ -359,7 +364,7 @@ define([
         },
 
         onChangeCompactView: function(view, compact) {
-            this.toolbar.setFolded(compact);
+            this.toolbar.setFolded(compact, 1);
             this.toolbar.fireEvent('view:compact', [this, compact]);
 
             Common.localStorage.setBool('de-compact-toolbar', compact);
@@ -2700,6 +2705,8 @@ define([
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             if ( config.isEdit ) {
+                me.toolbar.setMode(config);
+
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                 var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 

@@ -59,7 +59,7 @@ define([
                     'render:before' : function (toolbar) {
                         var appOptions = me.getApplication().getController('Main').appOptions;
 
-                        if ( appOptions.isEdit && !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
+                        if ( !appOptions.isEditMailMerge && !appOptions.isEditDiagram ) {
                             var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
                             me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
 

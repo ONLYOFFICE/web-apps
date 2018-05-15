@@ -484,9 +484,8 @@ define([
 
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('svg-btn-edit', $html.find('#slot-hbtn-edit'));
-                    } else {
-                        me.btnOptions.render($html.find('#slot-btn-options'));
                     }
+                    me.btnOptions.render($html.find('#slot-btn-options'));
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');

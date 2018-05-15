@@ -94,7 +94,7 @@ define([
                 $(document.body).on('click', onClickDocument.bind(this));
 
                 Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                    this.setVisible(action, visible)
+                    this.setVisible(action, visible);
                 }, this));
             },
 
@@ -120,7 +120,7 @@ define([
                 return t.length && t.data('tab') == tag;
             },
 
-            setFolded: function(value) {
+            setFolded: function(value, defNum) {
                 this.isFolded = value;
 
                 var me = this;
@@ -178,6 +178,9 @@ define([
                     if ( active_panel.length ) {
                         var tab = active_panel.data('tab');
                         me.$tabs.find('> a[data-tab=' + tab + ']').parent().toggleClass('active', true);
+                    } else if (defNum!==undefined && defNum<me.$tabs.length) {
+                        var t = $(me.$tabs[defNum]).find('> a');
+                        t.length && me.setTab(t.data('tab'));
                     }
                 }
             },
@@ -278,6 +281,8 @@ define([
 
                         if ($target.length) {
                             $target.after(panel);
+                        } else {
+                            panel.appendTo(this.$layout.find('.box-panels'));
                         }
                     }
 

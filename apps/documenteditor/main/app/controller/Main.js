@@ -622,7 +622,7 @@ define([
                 }
                 application.getController('DocumentHolder').getView().focus();
 
-                if (this.api && !toolbarView._state.previewmode) {
+                if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave,
                         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.$icon.hasClass('btn-synch') : false,
@@ -1140,7 +1140,8 @@ define([
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     // headerView      = app.getController('Viewport').getView('Common.Views.Header'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
-                    documentHolder  = app.getController('DocumentHolder').getView();
+                    documentHolder  = app.getController('DocumentHolder').getView(),
+                    toolbarController   = app.getController('Toolbar');
 
                 // if (headerView) {
                     // headerView.setHeaderCaption(this.appOptions.isEdit ? 'Document Editor' : 'Document Viewer');
@@ -1149,7 +1150,7 @@ define([
 
                 viewport && viewport.setMode(this.appOptions);
                 statusbarView && statusbarView.setMode(this.appOptions);
-
+                toolbarController.setMode(this.appOptions);
                 documentHolder.setMode(this.appOptions);
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
@@ -1187,20 +1188,17 @@ define([
 
                     viewport.applyEditorMode();
 
+                    var rightmenuView = rightmenuController.getView('RightMenu');
+                    if (rightmenuView) {
+                        rightmenuView.setApi(me.api);
+                        rightmenuView.on('editcomplete', _.bind(me.onEditComplete, me));
+                        rightmenuView.setMode(me.appOptions);
+                    }
+
                     var toolbarView = (toolbarController) ? toolbarController.getView() : null;
-
-                    _.each([
-                        toolbarView,
-                        rightmenuController.getView('RightMenu')
-                    ], function(view) {
-                        if (view) {
-                            view.setApi(me.api);
-                            view.on('editcomplete', _.bind(me.onEditComplete, me));
-                            view.setMode(me.appOptions);
-                        }
-                    });
-
                     if (toolbarView) {
+                        toolbarView.setApi(me.api);
+                        toolbarView.on('editcomplete', _.bind(me.onEditComplete, me));
                         toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
                         toolbarView.on('inserttable', _.bind(me.onInsertTable, me));
                         toolbarView.on('insertshape', _.bind(me.onInsertShape, me));

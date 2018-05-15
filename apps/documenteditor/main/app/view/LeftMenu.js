@@ -183,7 +183,7 @@ define([
             } else {
                 btn.panel['hide']();
             }
-            if (this.mode.isEdit) DE.getController('Toolbar').DisableToolbar(state==true);
+            DE.getController('Toolbar').DisableToolbar(state==true);
             if (!this.supressEvents)
                 Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
