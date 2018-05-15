@@ -222,9 +222,6 @@ define([
 
             // Create toolbar view
             me.toolbar = me.createView('Toolbar');
-            me.toolbar.btnSave.on('disabled', _.bind(this.onBtnChangeState, this, 'save:disabled'));
-            me.toolbar.btnUndo.on('disabled', _.bind(this.onBtnChangeState, this, 'undo:disabled'));
-            me.toolbar.btnRedo.on('disabled', _.bind(this.onBtnChangeState, this, 'redo:disabled'));
 
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
             Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
@@ -242,6 +239,11 @@ define([
             });
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+            this.toolbar.applyLayout(mode);
+        },
+
         attachUIEvents: function(toolbar) {
             /**
              * UI Events
@@ -253,8 +255,11 @@ define([
             toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+            toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+            toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+            toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
             toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
             toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
@@ -349,7 +354,7 @@ define([
         },
 
         onChangeCompactView: function(view, compact) {
-            this.toolbar.setFolded(compact);
+            this.toolbar.setFolded(compact, 1);
             this.toolbar.fireEvent('view:compact', [this.toolbar, compact]);
 
             Common.localStorage.setBool('pe-compact-toolbar', compact);
@@ -1963,7 +1968,8 @@ define([
             var toolbar = this.toolbar;
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
-            this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
+            if (toolbar.btnsAddSlide) // toolbar buttons are rendered
+                this.toolbar.lockToolbar(PE.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
             if(disable) {
                 mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 Common.util.Shortcuts.suspendEvents('command+k, ctrl+k, alt+h, command+f5, ctrl+f5');
@@ -1993,6 +1999,8 @@ define([
             me.toolbar.render(_.extend({compactview: compactview}, config));
 
             if ( config.isEdit ) {
+                me.toolbar.setMode(config);
+
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ( $panel )
@@ -2053,12 +2061,6 @@ define([
                     this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }
-
-            Common.Utils.asyncCall(function () {
-                if ( config.isEdit ) {
-                    me.toolbar.onAppReady(config);
-                }
-            });
         },
 
         onFileMenu: function (opts) {
