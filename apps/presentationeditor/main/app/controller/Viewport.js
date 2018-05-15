@@ -114,6 +114,8 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange', this.onApiZoomChange.bind(this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
+            Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
 
@@ -399,6 +401,17 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            }
+        },
+
+        onApiCoAuthoringDisconnect: function() {
+            if (this.header) {
+                if (this.header.btnDownload)
+                    this.header.btnDownload.hide();
+                if (this.header.btnPrint)
+                    this.header.btnPrint.hide();
+                if (this.header.btnEdit)
+                    this.header.btnEdit.hide();
             }
         },
 
