@@ -217,6 +217,11 @@ define([
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+            this.toolbar.applyLayout(mode);
+        },
+
         attachUIEvents: function(toolbar) {
             var me = this;
 
@@ -1453,7 +1458,7 @@ define([
         },
 
         onChangeViewMode: function(item, compact) {
-            this.toolbar.setFolded(compact);
+            this.toolbar.setFolded(compact, 1);
             this.toolbar.fireEvent('view:compact', [this, compact]);
 
             Common.localStorage.setBool('sse-compact-toolbar', compact);
@@ -2919,7 +2924,7 @@ define([
         },
 
         applyFormulaSettings: function() {
-            if (this.toolbar.btnInsertFormula.rendered) {
+            if (this.toolbar.btnInsertFormula && this.toolbar.btnInsertFormula.rendered) {
                 var formulas = this.toolbar.btnInsertFormula.menu.items;
                 for (var i=0; i<Math.min(4,formulas.length); i++) {
                     formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
@@ -2940,13 +2945,12 @@ define([
                     compactview = true;
             }
 
-            me.toolbar.applyLayout(config);
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             Common.Utils.asyncCall(function () {
-                me.toolbar.setMode(config);
-
                 if ( config.isEdit ) {
+                    me.toolbar.setMode(config);
+
                     me.toolbar.btnSave && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
                     me.toolbar.btnUndo && me.toolbar.btnUndo.on('disabled', _.bind(me.onBtnChangeState, me, 'undo:disabled'));
                     me.toolbar.btnRedo && me.toolbar.btnRedo.on('disabled', _.bind(me.onBtnChangeState, me, 'redo:disabled'));

@@ -930,7 +930,7 @@ define([
                 statusbarView && statusbarView.setMode(this.appOptions);
 //                this.getStatusInfo().setDisabled(false);
 //                this.getCellInfo().setMode(this.appOptions);
-
+                app.getController('Toolbar').setMode(this.appOptions);
                 app.getController('DocumentHolder').setMode(this.appOptions);
 
                 if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) {

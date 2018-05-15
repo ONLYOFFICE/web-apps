@@ -179,6 +179,14 @@ define([
                     checkable   : true,
                     value       : 'toolbar'
                 });
+                if (!config.isEdit && !config.isEditDiagram && !config.isEditMailMerge) {
+                    me.header.mnuitemCompactToolbar.hide();
+                    Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                        if (action=='plugins' && visible) {
+                            me.header.mnuitemCompactToolbar.show();
+                        }
+                    }, this));
+                }
 
                 var mnuitemHideFormulaBar = new Common.UI.MenuItem({
                     caption     : me.textHideFBar,
