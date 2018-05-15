@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Fonction SUBTOTAL</title>
+		<title>Fonction SOUS.TOTAL</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
@@ -13,12 +13,12 @@
             <div class="search-field">
                 <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
             </div>
-			<h1>Fonction SUBTOTAL</h1>
-			<p>La fonction <b>SUBTOTAL</b> est l'une des fonctions mathématiques et trigonométriques. Cette fonction est utilisée pour renvoyer un sous-total dans une liste ou une base de données.</p>
-			<p>La syntaxe de la fonction <b>SUBTOTAL</b> est :</p> 
-			<p style="text-indent: 150px;"><b><em>SUBTOTAL(function-number, argument-list)</em></b></p> 
+			<h1>Fonction SOUS.TOTAL</h1>
+			<p>La fonction <b>SOUS.TOTAL</b> est l'une des fonctions mathématiques et trigonométriques. Cette fonction est utilisée pour renvoyer un sous-total dans une liste ou une base de données.</p>
+			<p>La syntaxe de la fonction <b>SOUS.TOTAL</b> est :</p> 
+			<p style="text-indent: 150px;"><b><em>SOUS.TOTAL(function-number, argument-list)</em></b></p> 
 			<p><em>où</em></p> 
-			<p style="text-indent: 50px;"><b><em>function-number</em></b> est une valeur numérique qui spécifie quelle fonction utiliser pour le sous-total. Les valeurs possibles sont listées dans le tableau ci-dessous. Pour les arguments <em>function-number</em> de 1 à 11, la fonction <b>SUBTOTAL</b> inclut les valeurs des lignes qui ont été masquées manuellement. Pour les arguments <em>function-number</em> de 101 à 111, la fonction <b>SUBTOTAL</b> ignore les valeurs des lignes qui ont été masquées manuellement. Les valeurs masquées par le filtre sont toujours exclues.</p> 
+			<p style="text-indent: 50px;"><b><em>function-number</em></b> est une valeur numérique qui spécifie quelle fonction utiliser pour le sous-total. Les valeurs possibles sont listées dans le tableau ci-dessous. Pour les arguments <em>function-number</em> de 1 à 11, la fonction <b>SOUS.TOTAL</b> inclut les valeurs des lignes qui ont été masquées manuellement. Pour les arguments <em>function-number</em> de 101 à 111, la fonction <b>SOUS.TOTAL</b> ignore les valeurs des lignes qui ont été masquées manuellement. Les valeurs masquées par le filtre sont toujours exclues.</p> 
 			<p style="text-indent: 50px;"><b><em>argument-list</em></b> est une référence à la plage de cellules contenant les valeurs pour lesquelles vous voulez le sous-total.</p>
 			<table style="width: 40%">
 				<tr>
@@ -29,17 +29,17 @@
 				<tr>
 					<td>1</td>
                     <td>101</td>
-					<td><a href="../Functions/average.htm" onclick="onhyperlinkclick(this)">AVERAGE</a></td>
+					<td><a href="../Functions/average.htm" onclick="onhyperlinkclick(this)">MOYENNE</a></td>
 				</tr>
                 <tr>
                     <td>2</td>
                     <td>102</td>
-                    <td><a href="../Functions/count.htm" onclick="onhyperlinkclick(this)">COUNT</a></td>
+                    <td><a href="../Functions/count.htm" onclick="onhyperlinkclick(this)">NB</a></td>
                 </tr>
                 <tr>
                     <td>3</td>
                     <td>103</td>
-                    <td><a href="../Functions/counta.htm" onclick="onhyperlinkclick(this)">COUNTA</a></td>
+                    <td><a href="../Functions/counta.htm" onclick="onhyperlinkclick(this)">NBVAL</a></td>
                 </tr>
                 <tr>
                     <td>4</td>
@@ -54,22 +54,22 @@
                 <tr>
                     <td>6</td>
                     <td>106</td>
-                    <td><a href="../Functions/product.htm" onclick="onhyperlinkclick(this)">PRODUCT</a></td>
+                    <td><a href="../Functions/product.htm" onclick="onhyperlinkclick(this)">PRODUIT</a></td>
                 </tr>
                 <tr>
                     <td>7</td>
                     <td>107</td>
-                    <td><a href="../Functions/stdev.htm" onclick="onhyperlinkclick(this)">STDEV</a></td>
+                    <td><a href="../Functions/stdev.htm" onclick="onhyperlinkclick(this)">ECARTYPE</a></td>
                 </tr>
                 <tr>
                     <td>8</td>
                     <td>108</td>
-                    <td><a href="../Functions/stdevp.htm" onclick="onhyperlinkclick(this)">STDEVP</a></td>
+                    <td><a href="../Functions/stdevp.htm" onclick="onhyperlinkclick(this)">ECARTYPEP</a></td>
                 </tr>
                 <tr>
                     <td>9</td>
                     <td>109</td>
-                    <td><a href="../Functions/sum.htm" onclick="onhyperlinkclick(this)">SUM</a></td>
+                    <td><a href="../Functions/sum.htm" onclick="onhyperlinkclick(this)">SOMME</a></td>
                 </tr>
                 <tr>
                     <td>10</td>
@@ -79,22 +79,22 @@
                 <tr>
                     <td>11</td>
                     <td>111</td>
-                    <td><a href="../Functions/varp.htm" onclick="onhyperlinkclick(this)">VARP</a></td>
+                    <td><a href="../Functions/varp.htm" onclick="onhyperlinkclick(this)">VAR.P</a></td>
                 </tr>
 			</table>
-			<p>Pour appliquer la fonction <b>SUBTOTAL</b>,</p>
+			<p>Pour appliquer la fonction <b>SOUS.TOTAL</b>,</p>
 			<ol>
 			<li>sélectionnez la cellule où vous souhaitez afficher le résultat,</li>
 			<li>cliquez sur l'icône <b>Insérer une fonction</b> <img alt="Icône Insérer une fonction" src="../images/insertfunction.png" /> située sur la barre d'outils supérieure, <br />ou cliquez avec le bouton droit sur la cellule sélectionnée et sélectionnez l'option <b>Insérer une fonction</b> depuis le menu, <br />ou cliquez sur l'icône <img alt="Icône Fonction" src="../images/function.png" /> située sur la barre de formule,</li>
 			<li>sélectionnez le groupe de fonctions <b>Maths et trigonométrie</b> depuis la liste,</li>
-			<li>cliquez sur la fonction <b>SUBTOTAL</b>,</li>
+			<li>cliquez sur la fonction <b>SOUS.TOTAL</b>,</li>
 			<li>insérez les arguments nécessaires en les séparant par des virgules,</li>
 			<li>appuyez sur la touche <b>Entrée</b>.</li>
 			</ol>
 			<p>Le résultat sera affiché dans la cellule sélectionnée.</p>
-			<p style="text-indent: 150px;"><img alt="Fonction SUBTOTAL" src="../images/subtotal.png" /></p>
-            <p>La figure ci-dessous affiche le résultat renvoyé par la fonction <b>SUBTOTAL</b> lorsque plusieurs lignes sont masquées.</p>
-            <p style="text-indent: 150px;"><img alt="Fonction SUBTOTAL" src="../images/subtotal2.png" /></p>
+			<p style="text-indent: 150px;"><img alt="Fonction SOUS.TOTAL" src="../images/subtotal.png" /></p>
+            <p>La figure ci-dessous affiche le résultat renvoyé par la fonction <b>SOUS.TOTAL</b> lorsque plusieurs lignes sont masquées.</p>
+            <p style="text-indent: 150px;"><img alt="Fonction SOUS.TOTAL" src="../images/subtotal2.png" /></p>
 		</div>
 	</body>
 </html>
