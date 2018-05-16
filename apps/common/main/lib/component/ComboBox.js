@@ -193,6 +193,15 @@ define([
                         if (modalParents.length > 0) {
                             el.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                         }
+
+                        el.find('.dropdown-menu').on('mouseenter', function(){ // hide tooltip when mouse is over menu
+                            var tip = el.data('bs.tooltip');
+                            if (tip) {
+                                if (tip.dontShow===undefined)
+                                    tip.dontShow = true;
+                                tip.hide();
+                            }
+                        });
                     }
 
                     el.on('show.bs.dropdown',             _.bind(me.onBeforeShowMenu, me));
