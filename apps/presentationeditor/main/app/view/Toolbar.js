@@ -125,7 +125,7 @@ define([
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
                             tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: 'canedit'},
+                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'}
                             ]
@@ -791,7 +791,7 @@ define([
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template_view),
                             tabs: [
-                                {caption: me.textTabFile, action: 'file', extcls: ''}
+                                {caption: me.textTabFile, action: 'file', haspanel:false}
                             ]
                         }
                     );
@@ -804,7 +804,7 @@ define([
                                 compactview = true;
 
                             if (!compactview) {
-                                me.setFolded(false, 1);
+                                me.setFolded(false);
                                 me.setTab('plugins');
                                 me.fireEvent('view:compact', [me, compactview]);
                                 Common.NotificationCenter.trigger('layout:changed', 'toolbar');
@@ -894,18 +894,19 @@ define([
             },
 
             onTabClick: function (e) {
-                var tab = $(e.target).data('tab'),
-                    me = this;
+                var me = this,
+                    tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
+                    is_file_active = me.isTabActive('file');
 
-                if ( !me.isTabActive(tab) ) {
-                    if ( tab == 'file' ) {
-                        me.fireEvent('file:open');
-                    } else
-                    if ( me.isTabActive('file') )
-                        me.fireEvent('file:close');
+                Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
+
+                if ( is_file_active ) {
+                    me.fireEvent('file:close');
+                } else
+                if ( tab == 'file' ) {
+                    me.fireEvent('file:open');
+                    me.setTab(tab);
                 }
-
-                Common.UI.Mixtbar.prototype.onTabClick.apply(this, arguments);
             },
 
             rendererComponents: function (html) {

@@ -86,8 +86,23 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
+                var _template_tabs =
+                    '<section class="tabs">' +
+                        '<a class="scroll left"><i class="icon">&lt;</i></a>' +
+                        '<ul>' +
+                            '<% for(var i in items) { %>' +
+                                '<li class="ribtab' +
+                                        '<% if (items[i].haspanel===false) print(" x-lone") %>' +
+                                        '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>">' +
+                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>"><%= items[i].caption %></a>' +
+                                '</li>' +
+                            '<% } %>' +
+                        '</ul>' +
+                        '<a class="scroll right"><i class="icon">&gt;</i></a>' +
+                    '</section>';
+
                 this.$layout = $(options.template({
-                    tabs: options.tabs
+                    tabsmarkup: _.template(_template_tabs)({items: options.tabs})
                 }));
 
                 config.tabs = options.tabs;
@@ -120,7 +135,7 @@ define([
                 return t.length && t.data('tab') == tag;
             },
 
-            setFolded: function(value, defNum) {
+            setFolded: function(value, deftab) {
                 this.isFolded = value;
 
                 var me = this;
@@ -178,9 +193,8 @@ define([
                     if ( active_panel.length ) {
                         var tab = active_panel.data('tab');
                         me.$tabs.find('> a[data-tab=' + tab + ']').parent().toggleClass('active', true);
-                    } else if (defNum!==undefined && defNum<me.$tabs.length) {
-                        var t = $(me.$tabs[defNum]).find('> a');
-                        t.length && me.setTab(t.data('tab'));
+                    } else {
+                        me.setTab(deftab);
                     }
                 }
             },
@@ -214,28 +228,40 @@ define([
             },
 
             onTabClick: function (e) {
-                var _is_active = $(e.currentTarget).hasClass('active');
-                if ( _is_active ) {
-                    if ( this.isFolded ) {
-                        // this.collapse();
+                var me = this;
+
+                var $target = $(e.currentTarget);
+                var tab = $target.find('> a[data-tab]').data('tab');
+                var islone = $target.hasClass('x-lone');
+                if ( me.isFolded ) {
+                    if ( $target.hasClass('x-lone') ) {
+                        me.collapse();
+                        // me.fireEvent('')
+                    } else
+                    if ( $target.hasClass('active') ) {
+                        me.collapse();
+                    } else {
+                        me.setTab(tab);
                     }
                 } else {
-                    var tab = $(e.target).data('tab');
-                    this.setTab(tab);
+                    if ( !$target.hasClass('active') && !islone ) {
+                        me.setTab(tab);
+                    }
                 }
             },
 
             setTab: function (tab) {
+                var me = this;
                 if ( !tab ) {
-                    onShowFullviewPanel.call(this, false);
+                    // onShowFullviewPanel.call(this, false);
 
                     if ( this.isFolded ) { this.collapse(); }
                     else tab = this.lastPanel;
                 }
 
                 if ( tab ) {
-                    this.$tabs.removeClass('active');
-                    this.$panels.removeClass('active');
+                    me.$tabs.removeClass('active');
+                    me.$panels.removeClass('active');
 
                     var panel = this.$panels.filter('[data-tab=' + tab + ']');
                     if ( panel.length ) {
@@ -244,10 +270,10 @@ define([
                     }
 
                     if ( panel.length ) {
-                        if ( this.isFolded ) this.expand();
+                        if ( me.isFolded ) me.expand();
                     } else {
-                        onShowFullviewPanel.call(this, true);
-                        if ( this.isFolded ) this.collapse();
+                        // onShowFullviewPanel.call(this, true);
+                        if ( me.isFolded ) me.collapse();
                     }
 
                     var $tp = this.$tabs.find('> a[data-tab=' + tab + ']').parent();

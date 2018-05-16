@@ -364,7 +364,7 @@ define([
         },
 
         onChangeCompactView: function(view, compact) {
-            this.toolbar.setFolded(compact, 1);
+            this.toolbar.setFolded(compact, this.appOptions.isEdit ? 'home' : 'plugins');
             this.toolbar.fireEvent('view:compact', [this, compact]);
 
             Common.localStorage.setBool('de-compact-toolbar', compact);
@@ -2741,6 +2741,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
+            me.appOptions = config;
 
             if ( config.canCoAuthoring && config.canComments ) {
                 this.btnsComment = createButtonSet();
@@ -2791,7 +2792,11 @@ define([
         },
 
         onFileMenu: function (opts) {
-            this.toolbar.setTab( opts == 'show' ? 'file' : undefined );
+            if ( opts == 'show' ) {}
+            else {
+                if ( this.toolbar.isTabActive('file') )
+                    this.toolbar.setTab();
+            }
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
