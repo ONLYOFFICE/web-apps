@@ -135,7 +135,7 @@ define([
                 return t.length && t.data('tab') == tag;
             },
 
-            setFolded: function(value, deftab) {
+            setFolded: function(value) {
                 this.isFolded = value;
 
                 var me = this;
@@ -194,7 +194,8 @@ define([
                         var tab = active_panel.data('tab');
                         me.$tabs.find('> a[data-tab=' + tab + ']').parent().toggleClass('active', true);
                     } else {
-                        me.setTab(deftab);
+                        tab = me.$tabs.siblings(':not(.x-lone)').first().find('> a[data-tab]').data('tab');
+                        me.setTab(tab);
                     }
                 }
             },

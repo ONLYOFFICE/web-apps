@@ -1458,7 +1458,7 @@ define([
         },
 
         onChangeViewMode: function(item, compact) {
-            this.toolbar.setFolded(compact, this.appOptions.isEdit ? 'home' : 'plugins');
+            this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this, compact]);
 
             Common.localStorage.setBool('sse-compact-toolbar', compact);

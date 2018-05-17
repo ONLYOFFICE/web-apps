@@ -1219,7 +1219,7 @@ define([
                             compactview = true;
 
                         if (!compactview) {
-                            me.setFolded(false, 1);
+                            me.setFolded(false);
                             me.setTab('plugins');
                             me.fireEvent('view:compact', [me, compactview]);
                             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
