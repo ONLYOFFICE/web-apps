@@ -183,7 +183,7 @@ define([
                             newHeight = 0;
 
                         function updateTextBoxHeight() {
-                            scrollPos = $(view.scroller.el).scrollTop();
+                            scrollPos = view.scroller.getScrollTop();
 
                             if (domTextBox.scrollHeight > domTextBox.clientHeight) {
                                 textBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
@@ -841,50 +841,51 @@ define([
         render: function () {
             var me = this;
 
-            this.$el.html(this.template({
-                textAddCommentToDoc: me.textAddCommentToDoc,
-                textAddComment: me.textAddComment,
-                textCancel: me.textCancel,
-                textEnterCommentHint: me.textEnterCommentHint,
-                maxCommLength: Asc.c_oAscMaxCellOrCommentLength
-            }));
+            if (!this.rendered) {
+                this.$el.html(this.template({
+                    textAddCommentToDoc: me.textAddCommentToDoc,
+                    textAddComment: me.textAddComment,
+                    textCancel: me.textCancel,
+                    textEnterCommentHint: me.textEnterCommentHint,
+                    maxCommLength: Asc.c_oAscMaxCellOrCommentLength
+                }));
 
-            this.buttonAddCommentToDoc = new Common.UI.Button({
-                el: $('.btn.new',this.$el),
-                enableToggle: false
-            });
-            this.buttonAdd = new Common.UI.Button({
-                action: 'add',
-                el: $('.btn.add', this.$el),
-                enableToggle: false
-            });
-            this.buttonCancel = new Common.UI.Button({
-                el: $('.btn.cancel', this.$el),
-                enableToggle: false
-            });
+                this.buttonAddCommentToDoc = new Common.UI.Button({
+                    el: $('.btn.new', this.$el),
+                    enableToggle: false
+                });
+                this.buttonAdd = new Common.UI.Button({
+                    action: 'add',
+                    el: $('.btn.add', this.$el),
+                    enableToggle: false
+                });
+                this.buttonCancel = new Common.UI.Button({
+                    el: $('.btn.cancel', this.$el),
+                    enableToggle: false
+                });
 
-            this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
-            this.buttonAdd.on('click', _.bind(this.onClickAddDocumentComment, this));
-            this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
+                this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
+                this.buttonAdd.on('click', _.bind(this.onClickAddDocumentComment, this));
+                this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
 
-            this.txtComment = $('#comment-msg-new', this.el);
-            this.txtComment.keydown(function (event) {
-                if ((event.ctrlKey || event.metaKey) && !event.altKey && event.keyCode == Common.UI.Keys.RETURN) {
-                    me.onClickAddDocumentComment();
-                    event.stopImmediatePropagation();
-                } else if (event.keyCode === Common.UI.Keys.TAB) {
-                    var $this, end, start;
-                    start = this.selectionStart;
-                    end = this.selectionEnd;
-                    $this = $(this);
-                    $this.val($this.val().substring(0, start) + '\t' + $this.val().substring(end));
-                    this.selectionStart = this.selectionEnd = start + 1;
+                this.txtComment = $('#comment-msg-new', this.el);
+                this.txtComment.keydown(function (event) {
+                    if ((event.ctrlKey || event.metaKey) && !event.altKey && event.keyCode == Common.UI.Keys.RETURN) {
+                        me.onClickAddDocumentComment();
+                        event.stopImmediatePropagation();
+                    } else if (event.keyCode === Common.UI.Keys.TAB) {
+                        var $this, end, start;
+                        start = this.selectionStart;
+                        end = this.selectionEnd;
+                        $this = $(this);
+                        $this.val($this.val().substring(0, start) + '\t' + $this.val().substring(end));
+                        this.selectionStart = this.selectionEnd = start + 1;
 
-                    event.stopImmediatePropagation();
-                    event.preventDefault();
-                }
-            });
-
+                        event.stopImmediatePropagation();
+                        event.preventDefault();
+                    }
+                });
+            }
             var CommentsPanelDataView = Common.UI.DataView.extend((function() {
 
                 var parentView = me;
@@ -983,7 +984,6 @@ define([
             })());
             if (CommentsPanelDataView) {
                 if (this.commentsView) {
-                    this.commentsView.render($('.messages-ct',me.el));
                     this.commentsView.onResetItems();
                 } else {
                     this.commentsView = new CommentsPanelDataView({
@@ -1139,8 +1139,9 @@ define([
                 }
             }
 
-            this.setupLayout();
+            if (!this.rendered) this.setupLayout();
             this.update();
+            this.rendered = true;
 
             return this;
         },
@@ -1202,6 +1203,23 @@ define([
         },
         onClickCancelDocumentComment: function () {
             this.showEditContainer(false);
+        },
+
+        saveText: function (clear) {
+            if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length<1) {
+                this.textVal = undefined;
+                if (!clear) {
+                    this.textVal = this.commentsView.getActiveTextBoxVal();
+                } else {
+                    this.commentsView.clearTextBoxBind();
+                }
+            }
+        },
+        loadText: function () {
+            if (this.textVal && this.commentsView) {
+                var textBox = this.commentsView.getTextBox();
+                textBox && textBox.val(this.textVal);
+            }
         },
 
         hookTextBox: function () {
