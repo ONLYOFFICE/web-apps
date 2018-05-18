@@ -3035,8 +3035,10 @@ define([
         },
 
         onFileMenu: function (opts) {
-            if ( opts == 'show' ) {}
-            else {
+            if ( opts == 'show' ) {
+                if ( !this.toolbar.isTabActive('file') )
+                    this.toolbar.setTab('file');
+            } else {
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
             }
