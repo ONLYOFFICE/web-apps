@@ -6229,6 +6229,13 @@ textarea {
   -webkit-user-select: text;
   user-select: text;
 }
+#editor-navbar.navbar .right {
+  padding-right: 4px;
+}
+#editor-navbar.navbar .right a.link,
+#editor-navbar.navbar .left a.link {
+  padding: 0 13px;
+}
 #editor_sdk {
   position: absolute;
   left: 0;
