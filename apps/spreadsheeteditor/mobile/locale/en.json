@@ -410,6 +410,7 @@
   "SSE.Views.EditChart.textValReverseOrder": "Values in Reverse Order",
   "SSE.Views.EditChart.textVerAxis": "Vertical Axis",
   "SSE.Views.EditChart.textVertical": "Vertical",
+  "SSE.Views.EditChart.textGridlines": "Gridlines",
   "SSE.Views.EditHyperlink.textBack": "Back",
   "SSE.Views.EditHyperlink.textDisplay": "Display",
   "SSE.Views.EditHyperlink.textEditLink": "Edit Link",

@@ -263,7 +263,8 @@ define([
             textLabelOptions: 'Label Options',
             textLabelPos: 'Label Position',
             textAxisPosition: 'Axis Position',
-            textNone: 'None'
+            textNone: 'None',
+            textGridlines: 'Gridlines'
         }
     })(), SSE.Views.EditChart || {}))
 });
