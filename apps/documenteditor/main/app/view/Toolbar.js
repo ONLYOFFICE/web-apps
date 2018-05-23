@@ -832,7 +832,7 @@ define([
                                     template: pageSizeTemplate,
                                     checkable: true,
                                     toggleGroup: 'menuPageSize',
-                                    value: [148.1, 209.9]
+                                    value: [148, 210]
                                 },
                                 {
                                     caption: 'B5',
@@ -840,7 +840,7 @@ define([
                                     template: pageSizeTemplate,
                                     checkable: true,
                                     toggleGroup: 'menuPageSize',
-                                    value: [176, 250.1]
+                                    value: [176, 250]
                                 },
                                 {
                                     caption: 'Envelope #10',
@@ -856,7 +856,7 @@ define([
                                     template: pageSizeTemplate,
                                     checkable: true,
                                     toggleGroup: 'menuPageSize',
-                                    value: [110.1, 220.1]
+                                    value: [110, 220]
                                 },
                                 {
                                     caption: 'Tabloid',
@@ -864,7 +864,7 @@ define([
                                     template: pageSizeTemplate,
                                     checkable: true,
                                     toggleGroup: 'menuPageSize',
-                                    value: [279.4, 431.7]
+                                    value: [279.4, 431.8]
                                 },
                                 {
                                     caption: 'A3',
@@ -872,7 +872,7 @@ define([
                                     template: pageSizeTemplate,
                                     checkable: true,
                                     toggleGroup: 'menuPageSize',
-                                    value: [297, 420.1]
+                                    value: [297, 420]
                                 },
                                 {
                                     caption: 'Tabloid Oversize',

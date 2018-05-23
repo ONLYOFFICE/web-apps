@@ -1415,6 +1415,8 @@
   "DE.Views.PageSizeDialog.textHeight": "Height",
   "DE.Views.PageSizeDialog.textTitle": "Page Size",
   "DE.Views.PageSizeDialog.textWidth": "Width",
+  "DE.Views.PageSizeDialog.textPreset": "Preset",
+  "DE.Views.PageSizeDialog.txtCustom": "Custom",
   "DE.Views.ParagraphSettings.strLineHeight": "Line Spacing",
   "DE.Views.ParagraphSettings.strParagraphSpacing": "Paragraph Spacing",
   "DE.Views.ParagraphSettings.strSomeParagraphSpace": "Don't add interval between paragraphs of the same style",
