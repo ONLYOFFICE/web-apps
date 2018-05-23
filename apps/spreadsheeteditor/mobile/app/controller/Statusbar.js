@@ -100,7 +100,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect, this));
-            // Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiDisconnect, this));
+            Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiDisconnect, this));
             // this.api.asc_registerCallback('asc_onUpdateTabColor', _.bind(this.onApiUpdateTabColor, this));
             // this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onWorkbookLocked, this));
