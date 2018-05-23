@@ -336,6 +336,7 @@ define([
                 el: this.previewScrolled,
                 minScrollbarLength  : 20,
                 alwaysVisibleY: true,
+                alwaysVisibleX: true,
                 onChange: _.bind(function(){
                     if (this.scrollerY) {
                         var startPos = this.scrollerY.getScrollTop(),
