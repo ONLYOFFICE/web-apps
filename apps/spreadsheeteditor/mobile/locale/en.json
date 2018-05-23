@@ -175,6 +175,7 @@
   "SSE.Controllers.Main.openErrorText": "An error has occurred while opening the file",
   "SSE.Controllers.Main.openTextText": "Opening document...",
   "SSE.Controllers.Main.openTitleText": "Opening Document",
+  "SSE.Controllers.Main.pastInMergeAreaError": "Cannot change part of a merged cell",
   "SSE.Controllers.Main.printTextText": "Printing document...",
   "SSE.Controllers.Main.printTitleText": "Printing Document",
   "SSE.Controllers.Main.reloadButtonText": "Reload Page",

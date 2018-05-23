@@ -326,18 +326,7 @@ define([
                 }
 
                 action = me.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
-
-                if (action) {
-                    me.setLongActionView(action)
-                } else {
-                    if (me._state.fastCoauth && me._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
-                        // me._state.timerSave = setTimeout(function () {
-                            //console.debug('End long action');
-                        // }, 500);
-                    } else {
-                        // console.debug('End long action');
-                    }
-                }
+                action && me.setLongActionView(action);
 
                 action = me.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
 
@@ -1451,7 +1440,35 @@ define([
             txtStyle_Comma: 'Comma',
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
-            txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset'
+            txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset',
+            pastInMergeAreaError: 'Cannot change part of a merged cell',
+            errorWrongBracketsCount: 'Found an error in the formula entered.<br>Wrong cout of brackets.',
+            errorWrongOperator: 'An error in the entered formula. Wrong operator is used.<br>Please correct the error or use the Esc button to cancel the formula editing.',
+            errorCountArgExceed: 'Found an error in the formula entered.<br>Count of arguments exceeded.',
+            errorCountArg: 'Found an error in the formula entered.<br>Invalid number of arguments.',
+            errorFormulaName: 'Found an error in the formula entered.<br>Incorrect formula name.',
+            errorFormulaParsing: 'Internal error while the formula parsing.',
+            errorArgsRange: 'Found an error in the formula entered.<br>Incorrect arguments range.',
+            errorUnexpectedGuid: 'External error.<br>Unexpected Guid. Please, contact support.',
+            errorFileRequest: 'External error.<br>File Request. Please, contact support.',
+            errorFileVKey: 'External error.<br>Incorrect securety key. Please, contact support.',
+            errorOperandExpected: 'The entered function syntax is not correct. Please check if you are missing one of the parentheses - \'(\' or \')\'.',
+            errorMoveRange: 'Cann\'t change a part of merged cell',
+            errorBadImageUrl: 'Image url is incorrect',
+            errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.',
+            errorAutoFilterChangeFormatTable: 'The operation could not be done for the selected cells as you cannot move a part of the table.<br>Select another data range so that the whole table was shifted and try again.',
+            errorAutoFilterHiddenRange: 'The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.',
+            errorAutoFilterChange: 'The operation is not allowed, as it is attempting to shift cells in a table on your worksheet.',
+            errorFillRange: 'Could not fill the selected range of cells.<br>All the merged cells need to be the same size.',
+            errorInvalidRef: 'Enter a correct name for the selection or a valid reference to go to.',
+            errorCreateDefName: 'The existing named ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
+            errorPasteMaxRange: 'The copy and paste area does not match. Please select an area with the same size or click the first cell in a row to paste the copied cells.',
+            errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
+            errorLockedWorksheetRename: 'The sheet cannot be renamed at the moment as it is being renamed by another user',
+            errorOpenWarning: 'The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.',
+            errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
+            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
+            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.'
         }
     })(), SSE.Controllers.Main || {}))
 });
