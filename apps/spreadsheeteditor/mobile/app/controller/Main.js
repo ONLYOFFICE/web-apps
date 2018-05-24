@@ -441,7 +441,7 @@ define([
                 if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
                     if (me.loadMask && $(me.loadMask).hasClass('modal-in')) {
                         $$(me.loadMask).find('.modal-title').text(title);
-                    } else {
+                    } else if ($$('.modal.modal-in').length < 1) {
                         me.loadMask = uiApp.showPreloader(title);
                     }
                 }
