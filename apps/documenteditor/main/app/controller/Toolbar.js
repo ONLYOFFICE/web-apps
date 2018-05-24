@@ -1837,11 +1837,12 @@ define([
             menu.items[3].setDisabled(isAllDefailtNotModifaed);
             menu.items[4].setDisabled(isAllCustomDeleted);
 
-            var top = e.clientY*Common.Utils.zoom();
+            var parentOffset = this.toolbar.$el.offset(),
+                top = e.clientY*Common.Utils.zoom();
             if ($('#header-container').is(":visible")) {
                 top -= $('#header-container').height()
             }
-            showPoint = [e.clientX*Common.Utils.zoom(), top];
+            showPoint = [e.clientX*Common.Utils.zoom(), top - parentOffset.top];
 
             if (record != undefined) {
                 //itemMenu
@@ -2717,7 +2718,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
 
-                    if ( config.isOffline ) {
+                    if ( config.isProtectSupport && config.isOffline ) {
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 

@@ -73,7 +73,7 @@
   "PE.Controllers.Main.errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
   "PE.Controllers.Main.errorDataRange": "Rango de datos incorrecto.",
   "PE.Controllers.Main.errorDefaultMessage": "Código de error: %1",
-  "PE.Controllers.Main.errorFilePassProtect": "El documento es protegido por contraseña.",
+  "PE.Controllers.Main.errorFilePassProtect": "El archivo está protegido por una contraseña y no puede ser abierto.",
   "PE.Controllers.Main.errorKeyEncrypt": "Descriptor de clave desconocido",
   "PE.Controllers.Main.errorKeyExpire": "Descriptor de clave ha expirado",
   "PE.Controllers.Main.errorProcessSaveResult": "Fallo en guardar",

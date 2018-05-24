@@ -73,7 +73,7 @@
   "PE.Controllers.Main.errorDatabaseConnection": "Erreur externe.<br>Erreur de connexion à la base de données.Contactez le support.",
   "PE.Controllers.Main.errorDataRange": "Plage de données incorrecte.",
   "PE.Controllers.Main.errorDefaultMessage": "Code d'erreur: %1",
-  "PE.Controllers.Main.errorFilePassProtect": "Le document est protégé par un mot de passe.",
+  "PE.Controllers.Main.errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
   "PE.Controllers.Main.errorKeyEncrypt": "Descripteur de clés inconnu",
   "PE.Controllers.Main.errorKeyExpire": "Descripteur clé a expiré",
   "PE.Controllers.Main.errorProcessSaveResult": "Échec de l‘enregistrement.",

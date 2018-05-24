@@ -163,7 +163,7 @@ define([
             },
 
             activateControls: function() {
-                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back').removeClass('disabled');
+                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document').removeClass('disabled');
             },
 
             activateViewControls: function() {

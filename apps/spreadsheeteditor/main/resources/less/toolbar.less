@@ -47,11 +47,11 @@
     position: absolute;
     top: 32px;
     left: 48px;
-    right: 45px;
+    right: 0;
     bottom: 0;
     opacity: 0;
     background-color: @gray-light;
-    z-index: @zindex-tooltip + 1;
+    /*z-index: @zindex-tooltip + 1;*/
 }
 
 .color-schemas-menu {
@@ -78,8 +78,9 @@
 
 // menu zoom
 .menu-zoom {
+    line-height: @line-height-base;
     .title {
-        padding: 5px 0 5px 20px;
+        padding: 5px 5px 5px 20px;
         float: left;
         max-width: 95px;
         overflow: hidden;

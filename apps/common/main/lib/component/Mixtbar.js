@@ -71,7 +71,7 @@ define([
 
         function onClickDocument(e) {
             if ( this.isFolded ) {
-                if ( $(e.target).parents('.toolbar').length ){
+                if ( $(e.target).parents('.toolbar, #file-menu-panel').length ){
                 } else {
                     this.collapse();
                 }

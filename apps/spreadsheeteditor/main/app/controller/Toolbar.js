@@ -2953,15 +2953,17 @@ define([
                     me.toolbar.setApi(me.api);
 
                     if ( !config.isEditDiagram && !config.isEditMailMerge ) {
-                        var tab = {action: 'pivot', caption: me.textPivot};
-                        var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
-                        if ( $panel ) {
-                            me.toolbar.addTab(tab, $panel, 3);
-                            me.toolbar.setVisible('pivot', true);
+                        if ( !config.isOffline ) {
+                            tab = {action: 'pivot', caption: me.textPivot};
+                            $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                            if ($panel) {
+                                me.toolbar.addTab(tab, $panel, 3);
+                                me.toolbar.setVisible('pivot', true);
+                            }
                         }
 
-                        tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                        $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                        var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                        var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                         if ( $panel )
                             me.toolbar.addTab(tab, $panel, 4);
 
@@ -2976,9 +2978,9 @@ define([
                             me.toolbar.btnPaste.$el.detach().appendTo($box);
                             me.toolbar.btnCopy.$el.removeClass('split');
 
-                            if ( config.isOffline ) {
+                            if ( config.isProtectSupport && config.isOffline ) {
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                                var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                                $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
                                     me.toolbar.addTab(tab, $panel, 5);
                             }

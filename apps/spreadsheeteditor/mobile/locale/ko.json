@@ -123,7 +123,7 @@
   "SSE.Controllers.Main.errorDatabaseConnection": "외부 오류. <br> 데이터베이스 연결 오류입니다. 오류가 계속 발생하면 지원 담당자에게 문의하십시오.",
   "SSE.Controllers.Main.errorDataRange": "잘못된 데이터 범위입니다.",
   "SSE.Controllers.Main.errorDefaultMessage": "오류 코드 : % 1",
-  "SSE.Controllers.Main.errorFilePassProtect": "이 문서는 암호로 보호되어있어 열 수 없습니다.",
+  "SSE.Controllers.Main.errorFilePassProtect": "문서가 암호로 보호되어 있습니다.",
   "SSE.Controllers.Main.errorFileRequest": "외부 오류. <br> 파일 요청 오류입니다. 오류가 지속될 경우 지원 담당자에게 문의하십시오.",
   "SSE.Controllers.Main.errorFileVKey": "외부 오류. <br> 잘못된 보안 키입니다. 오류가 계속 발생하면 지원 부서에 문의하십시오.",
   "SSE.Controllers.Main.errorFillRange": "선택한 셀 범위를 채울 수 없습니다. <br> 병합 된 모든 셀이 같은 크기 여야합니다.",

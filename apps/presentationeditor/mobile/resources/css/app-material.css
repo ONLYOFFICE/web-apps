@@ -5664,11 +5664,11 @@ a.item-link,
 }
 .settings.popup .popover-view,
 .settings.popover .popover-view {
-  border-radius: 3px;
+  border-radius: 2px;
 }
 .settings.popup .popover-view > .pages,
 .settings.popover .popover-view > .pages {
-  border-radius: 3px;
+  border-radius: 2px;
 }
 .settings .categories {
   width: 100%;

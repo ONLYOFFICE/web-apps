@@ -123,7 +123,7 @@
   "SSE.Controllers.Main.errorDatabaseConnection": "Externe fout.<br>Fout in databaseverbinding. Neem contact op met Support als deze fout zich blijft voordoen.",
   "SSE.Controllers.Main.errorDataRange": "Onjuist gegevensbereik.",
   "SSE.Controllers.Main.errorDefaultMessage": "Foutcode: %1",
-  "SSE.Controllers.Main.errorFilePassProtect": "Het document is beschermd met een wachtwoord en kan niet worden geopend.",
+  "SSE.Controllers.Main.errorFilePassProtect": "Het bestand is beschermd met een wachtwoord en kan niet worden geopend.",
   "SSE.Controllers.Main.errorFileRequest": "Externe fout.<br>Fout in aanvraag bestand. Neem contact op met Support als deze fout zich blijft voordoen.",
   "SSE.Controllers.Main.errorFileVKey": "Externe fout.<br>Ongeldige beveiligingssleutel. Neem contact op met Support als deze fout zich blijft voordoen.",
   "SSE.Controllers.Main.errorFillRange": "Het geselecteerde celbereik kan niet worden gevuld.<br>Alle samengevoegde cellen moeten dezelfde grootte hebben.",
