@@ -48,7 +48,7 @@ define([
             },
 
             template: _.template([
-                '<div class="synch-tip-root <%= scope.placement %>">',
+                '<div class="synch-tip-root <% if (!!scope.options.extCls) {print(scope.options.extCls + \" \");} %><%= scope.placement %>">',
                     '<div class="asc-synchronizetip">',
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',

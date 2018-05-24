@@ -179,7 +179,7 @@ define([
             } else {
                 btn.panel['hide']();
             }
-            if (this.mode.isEdit) PE.getController('Toolbar').DisableToolbar(state==true);
+            PE.getController('Toolbar').DisableToolbar(state==true);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 

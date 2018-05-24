@@ -163,6 +163,7 @@ define([
                 });
 
                 if (this.api){
+                    this.api.SetDrawingFreeze(true);
                     switch (value) {
                         case '0': this.api.SetFontRenderingMode(3); break;
                         case '1': this.api.SetFontRenderingMode(1); break;
@@ -444,7 +445,6 @@ define([
                         });
                     }
                     Common.UI.alert({
-                        closable: false,
                         title: this.notcriticalErrorTitle,
                         msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
                         iconCls: 'warn',
@@ -622,10 +622,10 @@ define([
                 }
                 application.getController('DocumentHolder').getView().focus();
 
-                if (this.api && !toolbarView._state.previewmode) {
+                if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave,
-                        isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                        isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.$icon.hasClass('btn-synch') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
@@ -815,7 +815,7 @@ define([
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("de-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                value = Common.localStorage.getBool("de-settings-resolvedcomment");
                 Common.Utils.InternalSettings.set("de-settings-resolvedcomment", value);
                 this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
                 /** coauthoring end **/
@@ -1082,13 +1082,14 @@ define([
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canRename      = !!this.permissions.rename;
+                this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
+                this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1139,7 +1140,8 @@ define([
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     // headerView      = app.getController('Viewport').getView('Common.Views.Header'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
-                    documentHolder  = app.getController('DocumentHolder').getView();
+                    documentHolder  = app.getController('DocumentHolder').getView(),
+                    toolbarController   = app.getController('Toolbar');
 
                 // if (headerView) {
                     // headerView.setHeaderCaption(this.appOptions.isEdit ? 'Document Editor' : 'Document Viewer');
@@ -1148,7 +1150,7 @@ define([
 
                 viewport && viewport.setMode(this.appOptions);
                 statusbarView && statusbarView.setMode(this.appOptions);
-
+                toolbarController.setMode(this.appOptions);
                 documentHolder.setMode(this.appOptions);
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
@@ -1186,20 +1188,17 @@ define([
 
                     viewport.applyEditorMode();
 
+                    var rightmenuView = rightmenuController.getView('RightMenu');
+                    if (rightmenuView) {
+                        rightmenuView.setApi(me.api);
+                        rightmenuView.on('editcomplete', _.bind(me.onEditComplete, me));
+                        rightmenuView.setMode(me.appOptions);
+                    }
+
                     var toolbarView = (toolbarController) ? toolbarController.getView() : null;
-
-                    _.each([
-                        toolbarView,
-                        rightmenuController.getView('RightMenu')
-                    ], function(view) {
-                        if (view) {
-                            view.setApi(me.api);
-                            view.on('editcomplete', _.bind(me.onEditComplete, me));
-                            view.setMode(me.appOptions);
-                        }
-                    });
-
                     if (toolbarView) {
+                        toolbarView.setApi(me.api);
+                        toolbarView.on('editcomplete', _.bind(me.onEditComplete, me));
                         toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
                         toolbarView.on('inserttable', _.bind(me.onInsertTable, me));
                         toolbarView.on('insertshape', _.bind(me.onInsertShape, me));
@@ -1251,7 +1250,7 @@ define([
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 var config = {
-                    closable: false
+                    closable: true
                 };
 
                 switch (id)
@@ -1351,6 +1350,7 @@ define([
 
                     case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
+                        config.closable = false;
                         break;
 
                     case Asc.c_oAscError.ID.SessionAbsolute:
@@ -1394,6 +1394,7 @@ define([
 
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
+                    config.closable = false;
 
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
@@ -1518,7 +1519,7 @@ define([
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
 
                 if (toolbarView && !toolbarView._state.previewmode) {
-                    var isSyncButton = toolbarView.btnSave.$icon.hasClass('btn-synch'),
+                    var isSyncButton = toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         toolbarView.btnSave.setDisabled(isDisabled);
@@ -1534,7 +1535,7 @@ define([
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
 
                 if (toolbarView && this.api && !toolbarView._state.previewmode) {
-                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                    var isSyncButton = toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         toolbarView.btnSave.setDisabled(isDisabled);
@@ -1589,6 +1590,8 @@ define([
 
                 Common.NotificationCenter.trigger('layout:changed', 'main');
                 $('#loading-mask').hide().remove();
+
+                Common.Controllers.Desktop.process('preloader:hide');
             },
 
             onDownloadUrl: function(url) {
@@ -1854,6 +1857,7 @@ define([
                     me._state.openDlg = new Common.Views.OpenDialog({
                         closable: me.appOptions.canRequestClose,
                         type: type,
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
@@ -2143,7 +2147,7 @@ define([
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             txtBasicShapes: 'Basic Shapes',
             txtFiguredArrows: 'Figured Arrows',
             txtMath: 'Math',

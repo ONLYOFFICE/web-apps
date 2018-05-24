@@ -251,7 +251,6 @@ define([
         clickSaveAsFormat: function(menu, format) {
             if (format == Asc.c_oAscFileType.CSV) {
                 Common.UI.warning({
-                    closable: false,
                     title: this.textWarning,
                     msg: this.warnDownloadAs,
                     buttons: ['ok', 'cancel'],
@@ -279,7 +278,7 @@ define([
             /** coauthoring begin **/
             value = Common.localStorage.getBool("sse-settings-livecomment", true);
             Common.Utils.InternalSettings.set("sse-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+            var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", resolved);
 
             if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
@@ -693,7 +692,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         this.leftMenu.showMenu('file:help');

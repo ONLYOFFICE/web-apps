@@ -155,7 +155,6 @@ define([
                 var me = this;
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
-                $('#settings-edit-presentation').single('click',            _.bind(me._onEditPresentation, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
                 $('#page-settings-setup-view li').single('click',           _.bind(me._onSlideSize, me));
 
@@ -222,10 +221,6 @@ define([
 
             _onApiDocumentName: function(name) {
                 $('#settings-presentation-title').html(name ? name : '-');
-            },
-
-            _onEditPresentation: function() {
-                Common.Gateway.requestEditRights();
             },
 
             _onSearch: function (e) {

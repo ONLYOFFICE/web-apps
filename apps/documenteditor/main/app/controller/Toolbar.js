@@ -226,6 +226,11 @@ define([
             Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+            this.toolbar.applyLayout(mode);
+        },
+
         attachUIEvents: function(toolbar) {
             /**
              * UI Events
@@ -1837,11 +1842,12 @@ define([
             menu.items[3].setDisabled(isAllDefailtNotModifaed);
             menu.items[4].setDisabled(isAllCustomDeleted);
 
-            var top = e.clientY*Common.Utils.zoom();
+            var parentOffset = this.toolbar.$el.offset(),
+                top = e.clientY*Common.Utils.zoom();
             if ($('#header-container').is(":visible")) {
                 top -= $('#header-container').height()
             }
-            showPoint = [e.clientX*Common.Utils.zoom(), top];
+            showPoint = [e.clientX*Common.Utils.zoom(), top - parentOffset.top];
 
             if (record != undefined) {
                 //itemMenu
@@ -2699,6 +2705,8 @@ define([
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             if ( config.isEdit ) {
+                me.toolbar.setMode(config);
+
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                 var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
@@ -2733,6 +2741,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
+            me.appOptions = config;
 
             if ( config.canCoAuthoring && config.canComments ) {
                 this.btnsComment = createButtonSet();
@@ -2783,7 +2792,13 @@ define([
         },
 
         onFileMenu: function (opts) {
-            this.toolbar.setTab( opts == 'show' ? 'file' : undefined );
+            if ( opts == 'show' ) {
+                if ( !this.toolbar.isTabActive('file') )
+                    this.toolbar.setTab('file');
+            } else {
+                if ( this.toolbar.isTabActive('file') )
+                    this.toolbar.setTab();
+            }
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',

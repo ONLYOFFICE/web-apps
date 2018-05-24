@@ -86,6 +86,7 @@ define([
                 this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onApiWorkbookLocked, this));
                 this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onApiWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
 
                 Common.NotificationCenter.on('sheet:active', this.onApiActiveSheetChanged.bind(this));
@@ -197,7 +198,7 @@ define([
             },
 
             activateControls: function() {
-                $('#toolbar-settings, #toolbar-search, #document-back').removeClass('disabled');
+                $('#toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document').removeClass('disabled');
             },
 
             activateViewControls: function() {
@@ -210,6 +211,12 @@ define([
 
             onCoAuthoringDisconnect: function() {
                 this.isDisconnected = true;
+                this.deactivateEditControls();
+                $('#toolbar-undo').toggleClass('disabled', true);
+                $('#toolbar-redo').toggleClass('disabled', true);
+                SSE.getController('AddContainer').hideModal();
+                SSE.getController('EditContainer').hideModal();
+                SSE.getController('Settings').hideModal();
             },
 
             dlgLeaveTitleText   : 'You leave the application',

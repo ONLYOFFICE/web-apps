@@ -152,11 +152,11 @@ define([
                     },
 
                     getTextBox: function () {
-                        var text = $(this.el).find('textarea:not(.user-message)');
+                        var text = $(this.el).find('textarea');
                         return (text && text.length) ? text : undefined;
                     },
                     setFocusToTextBox: function (blur) {
-                        var text = $(this.el).find('textarea:not(.user-message)');
+                        var text = $(this.el).find('textarea');
                         if (blur) {
                             text.blur();
                         } else {
@@ -169,35 +169,34 @@ define([
                         }
                     },
                     getActiveTextBoxVal: function () {
-                        var text = $(this.el).find('textarea:not(.user-message)');
+                        var text = $(this.el).find('textarea');
                         return (text && text.length) ? text.val().trim() : '';
                     },
                     autoHeightTextBox: function () {
                         var view = this,
                             textBox = this.$el.find('textarea'),
                             domTextBox = null,
-                            $domTextBox = null,
-                            lineHeight = 0,
                             minHeight = 50,
+                            lineHeight = 0,
                             scrollPos = 0,
                             oldHeight = 0,
                             newHeight = 0;
 
                         function updateTextBoxHeight() {
-                            scrollPos = $(view.scroller.el).scrollTop();
+                            scrollPos = view.scroller.getScrollTop();
 
                             if (domTextBox.scrollHeight > domTextBox.clientHeight) {
-                                $domTextBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
+                                textBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
 
                                 parentView.calculateSizeOfContent();
                             } else {
                                 oldHeight = domTextBox.clientHeight;
                                 if (oldHeight >= minHeight) {
-                                    $domTextBox.css({height: minHeight + 'px'});
+                                    textBox.css({height: minHeight + 'px'});
 
                                     if (domTextBox.scrollHeight > domTextBox.clientHeight) {
                                         newHeight = Math.max(domTextBox.scrollHeight + lineHeight, minHeight);
-                                        $domTextBox.css({height: newHeight + 'px'});
+                                        textBox.css({height: newHeight + 'px'});
                                     }
 
                                     parentView.calculateSizeOfContent();
@@ -210,23 +209,17 @@ define([
                             view.autoScrollToEditButtons();
                         }
 
-                        this.textBox = undefined;
                         if (textBox && textBox.length) {
-                            textBox.each(function(idx, item){
-                                if (item) {
-                                    domTextBox = item;
-                                    $domTextBox = $(item);
-                                    var isEdited = !$domTextBox.hasClass('user-message');
-                                    lineHeight = isEdited ? parseInt($domTextBox.css('lineHeight'), 10) * 0.25 : 0;
-                                    minHeight = isEdited ? 50 : 24;
-                                    updateTextBoxHeight();
-                                    if (isEdited) {
-                                        $domTextBox.bind('input propertychange', updateTextBoxHeight);
-                                        view.textBox = $domTextBox;
-                                    }
-                                }
-                            });
+                            domTextBox = textBox.get(0);
+
+                            if (domTextBox) {
+                                lineHeight = parseInt(textBox.css('lineHeight'), 10) * 0.25;
+                                updateTextBoxHeight();
+                                textBox.bind('input propertychange', updateTextBoxHeight)
+                            }
                         }
+
+                        this.textBox = textBox;
                     },
                     clearTextBoxBind: function () {
                         if (this.textBox) {
@@ -383,7 +376,6 @@ define([
                                 t.fireEvent('comment:closeEditing');
 
                                 readdresolves();
-                                this.autoHeightTextBox();
 
                             } else if (btn.hasClass('user-reply')) {
                                 t.fireEvent('comment:closeEditing');
@@ -408,7 +400,6 @@ define([
                                     t.fireEvent('comment:closeEditing');
 
                                     readdresolves();
-                                    this.autoHeightTextBox();
                                 }
                             } else if (btn.hasClass('btn-close', false)) {
                                 t.fireEvent('comment:closeEditing', [commentId]);
@@ -416,7 +407,6 @@ define([
                                 t.fireEvent('comment:show', [commentId]);
 
                                 readdresolves();
-                                this.autoHeightTextBox();
 
                             } else if (btn.hasClass('btn-inner-edit', false)) {
 
@@ -447,7 +437,6 @@ define([
                                 }
 
                                 readdresolves();
-                                this.autoHeightTextBox();
 
                             } else if (btn.hasClass('btn-inner-close', false)) {
                                 if (record.get('dummy')) {
@@ -459,8 +448,11 @@ define([
                                     me.saveText();
                                     record.set('hideAddReply', false);
                                     this.getTextBox().val(me.textVal);
+                                    this.autoHeightTextBox();
                                 } else {
+
                                     this.clearTextBoxBind();
+
                                     t.fireEvent('comment:closeEditing', [commentId]);
                                 }
 
@@ -471,7 +463,6 @@ define([
                                 me.calculateSizeOfContent();
 
                                 readdresolves();
-                                this.autoHeightTextBox();
 
                             } else if (btn.hasClass('btn-resolve', false)) {
                                 var tip = btn.data('bs.tooltip');
@@ -480,7 +471,6 @@ define([
                                 t.fireEvent('comment:resolve', [commentId]);
 
                                 readdresolves();
-                                this.autoHeightTextBox();
                             } else if (btn.hasClass('btn-resolve-check', false)) {
                                 var tip = btn.data('bs.tooltip');
                                 if (tip) tip.dontShow = true;
@@ -488,21 +478,20 @@ define([
                                 t.fireEvent('comment:resolve', [commentId]);
 
                                 readdresolves();
-                                this.autoHeightTextBox();
                             }
                         }
                     });
                     me.on({
                         'show': function () {
-                            me.$window.find('textarea:not(.user-message)').keydown(function (event) {
+                            me.commentsView.autoHeightTextBox();
+                            me.$window.find('textarea').keydown(function (event) {
                                 if (event.keyCode == Common.UI.Keys.ESC) {
                                     me.hide();
                                 }
                             });
                         },
                         'animate:before': function () {
-                            me.commentsView.autoHeightTextBox();
-                            var text = me.$window.find('textarea:not(.user-message)');
+                            var text = me.$window.find('textarea');
                             if (text && text.length)
                                 text.focus();
                         }
@@ -852,50 +841,51 @@ define([
         render: function () {
             var me = this;
 
-            this.$el.html(this.template({
-                textAddCommentToDoc: me.textAddCommentToDoc,
-                textAddComment: me.textAddComment,
-                textCancel: me.textCancel,
-                textEnterCommentHint: me.textEnterCommentHint,
-                maxCommLength: Asc.c_oAscMaxCellOrCommentLength
-            }));
+            if (!this.rendered) {
+                this.$el.html(this.template({
+                    textAddCommentToDoc: me.textAddCommentToDoc,
+                    textAddComment: me.textAddComment,
+                    textCancel: me.textCancel,
+                    textEnterCommentHint: me.textEnterCommentHint,
+                    maxCommLength: Asc.c_oAscMaxCellOrCommentLength
+                }));
 
-            this.buttonAddCommentToDoc = new Common.UI.Button({
-                el: $('.btn.new',this.$el),
-                enableToggle: false
-            });
-            this.buttonAdd = new Common.UI.Button({
-                action: 'add',
-                el: $('.btn.add', this.$el),
-                enableToggle: false
-            });
-            this.buttonCancel = new Common.UI.Button({
-                el: $('.btn.cancel', this.$el),
-                enableToggle: false
-            });
+                this.buttonAddCommentToDoc = new Common.UI.Button({
+                    el: $('.btn.new', this.$el),
+                    enableToggle: false
+                });
+                this.buttonAdd = new Common.UI.Button({
+                    action: 'add',
+                    el: $('.btn.add', this.$el),
+                    enableToggle: false
+                });
+                this.buttonCancel = new Common.UI.Button({
+                    el: $('.btn.cancel', this.$el),
+                    enableToggle: false
+                });
 
-            this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
-            this.buttonAdd.on('click', _.bind(this.onClickAddDocumentComment, this));
-            this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
+                this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
+                this.buttonAdd.on('click', _.bind(this.onClickAddDocumentComment, this));
+                this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
 
-            this.txtComment = $('#comment-msg-new', this.el);
-            this.txtComment.keydown(function (event) {
-                if ((event.ctrlKey || event.metaKey) && !event.altKey && event.keyCode == Common.UI.Keys.RETURN) {
-                    me.onClickAddDocumentComment();
-                    event.stopImmediatePropagation();
-                } else if (event.keyCode === Common.UI.Keys.TAB) {
-                    var $this, end, start;
-                    start = this.selectionStart;
-                    end = this.selectionEnd;
-                    $this = $(this);
-                    $this.val($this.val().substring(0, start) + '\t' + $this.val().substring(end));
-                    this.selectionStart = this.selectionEnd = start + 1;
+                this.txtComment = $('#comment-msg-new', this.el);
+                this.txtComment.keydown(function (event) {
+                    if ((event.ctrlKey || event.metaKey) && !event.altKey && event.keyCode == Common.UI.Keys.RETURN) {
+                        me.onClickAddDocumentComment();
+                        event.stopImmediatePropagation();
+                    } else if (event.keyCode === Common.UI.Keys.TAB) {
+                        var $this, end, start;
+                        start = this.selectionStart;
+                        end = this.selectionEnd;
+                        $this = $(this);
+                        $this.val($this.val().substring(0, start) + '\t' + $this.val().substring(end));
+                        this.selectionStart = this.selectionEnd = start + 1;
 
-                    event.stopImmediatePropagation();
-                    event.preventDefault();
-                }
-            });
-
+                        event.stopImmediatePropagation();
+                        event.preventDefault();
+                    }
+                });
+            }
             var CommentsPanelDataView = Common.UI.DataView.extend((function() {
 
                 var parentView = me;
@@ -910,11 +900,11 @@ define([
                     },
 
                     getTextBox: function () {
-                        var text = $(this.el).find('textarea:not(.user-message)');
+                        var text = $(this.el).find('textarea');
                         return (text && text.length) ? text : undefined;
                     },
                     setFocusToTextBox: function () {
-                        var text = $(this.el).find('textarea:not(.user-message)');
+                        var text = $(this.el).find('textarea');
                         if (text && text.length) {
                             var val = text.val();
                             text.focus();
@@ -923,7 +913,7 @@ define([
                         }
                     },
                     getActiveTextBoxVal: function () {
-                        var text = $(this.el).find('textarea:not(.user-message)');
+                        var text = $(this.el).find('textarea');
                         return (text && text.length) ? text.val().trim() : '';
                     },
                     autoHeightTextBox: function () {
@@ -994,7 +984,6 @@ define([
             })());
             if (CommentsPanelDataView) {
                 if (this.commentsView) {
-                    this.commentsView.render($('.messages-ct',me.el));
                     this.commentsView.onResetItems();
                 } else {
                     this.commentsView = new CommentsPanelDataView({
@@ -1150,8 +1139,9 @@ define([
                 }
             }
 
-            this.setupLayout();
+            if (!this.rendered) this.setupLayout();
             this.update();
+            this.rendered = true;
 
             return this;
         },
@@ -1213,6 +1203,23 @@ define([
         },
         onClickCancelDocumentComment: function () {
             this.showEditContainer(false);
+        },
+
+        saveText: function (clear) {
+            if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length<1) {
+                this.textVal = undefined;
+                if (!clear) {
+                    this.textVal = this.commentsView.getActiveTextBoxVal();
+                } else {
+                    this.commentsView.clearTextBoxBind();
+                }
+            }
+        },
+        loadText: function () {
+            if (this.textVal && this.commentsView) {
+                var textBox = this.commentsView.getTextBox();
+                textBox && textBox.val(this.textVal);
+            }
         },
 
         hookTextBox: function () {

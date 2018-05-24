@@ -5664,11 +5664,11 @@ a.item-link,
 }
 .settings.popup .popover-view,
 .settings.popover .popover-view {
-  border-radius: 3px;
+  border-radius: 2px;
 }
 .settings.popup .popover-view > .pages,
 .settings.popover .popover-view > .pages {
-  border-radius: 3px;
+  border-radius: 2px;
 }
 .settings .categories {
   width: 100%;
@@ -6228,6 +6228,13 @@ textarea {
   -webkit-touch-callout: default;
   -webkit-user-select: text;
   user-select: text;
+}
+#editor-navbar.navbar .right {
+  padding-right: 4px;
+}
+#editor-navbar.navbar .right a.link,
+#editor-navbar.navbar .left a.link {
+  padding: 0 13px;
 }
 #editor_sdk {
   position: absolute;

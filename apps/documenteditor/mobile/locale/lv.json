@@ -58,7 +58,7 @@
   "DE.Controllers.Main.errorDatabaseConnection": "Ārējā kļūda.<br>Datubāzes piekļuves kļūda. Lūdzu, sazinieties ar atbalsta daļu.",
   "DE.Controllers.Main.errorDataRange": "Nepareizs datu diapazons",
   "DE.Controllers.Main.errorDefaultMessage": "Kļūdas kods: %1",
-  "DE.Controllers.Main.errorFilePassProtect": "Dokumenta parole ir aizsargāta",
+  "DE.Controllers.Main.errorFilePassProtect": "Fails ir aizsargāts ar paroli un to nevar atvērt.",
   "DE.Controllers.Main.errorKeyEncrypt": "Nezināms atslēgas deskriptors",
   "DE.Controllers.Main.errorKeyExpire": "Atslēgas deskriptora termiņš beidzies",
   "DE.Controllers.Main.errorMailMergeLoadFile": "Ielāde neizdevās",

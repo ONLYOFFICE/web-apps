@@ -205,6 +205,7 @@ define([
         onSelectItem: function(picker, item, record, e){
             if (!this._navigationObject) return;
             this._navigationObject.goto(record.get('index'));
+            Common.NotificationCenter.trigger('edit:complete', this.panelNavigation);
         },
 
         onMenuItemClick: function (menu, item) {

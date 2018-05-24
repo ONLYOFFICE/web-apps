@@ -150,7 +150,7 @@ define([
         function onResetUsers(collection, opts) {
             var usercount = collection.getEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit) {
+                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.canComments) {
                     $userList.html(templateUserList({
                         users: collection.models,
                         usertpl: _.template(templateUserItem),
@@ -172,7 +172,8 @@ define([
         };
 
         function applyUsers(count) {
-            if ( count > 1 || count > 0 && appConfig && !appConfig.isEdit) {
+            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.canComments; // has other user(s) who edit document
+            if ( has_edit_users ) {
                 $btnUsers
                     .attr('data-toggle', 'dropdown')
                     .addClass('dropdown-toggle')
@@ -189,13 +190,13 @@ define([
             }
 
             $btnUsers.find('.caption')
-                .css({'font-size': ((count > 1  || count > 0 && appConfig && !appConfig.isEdit) ? '12px' : '14px'),
-                    'margin-top': ((count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? '0' : '-1px')})
-                .html((count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? count : '&plus;');
+                .css({'font-size': ((has_edit_users) ? '12px' : '14px'),
+                    'margin-top': ((has_edit_users) ? '0' : '-1px')})
+                .html((has_edit_users) ? count : '&plus;');
 
             var usertip = $btnUsers.data('bs.tooltip');
             if ( usertip ) {
-                usertip.options.title = (count > 1 || count > 0 && appConfig && !appConfig.isEdit) ? usertip.options.titleExt : usertip.options.titleNorm;
+                usertip.options.title = (has_edit_users) ? usertip.options.titleExt : usertip.options.titleNorm;
                 usertip.setContent();
             }
         }
@@ -247,7 +248,7 @@ define([
 
             var editingUsers = storeUsers.getEditingCount();
             $btnUsers.tooltip({
-                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit) ? me.tipViewUsers : me.tipAccessRights,
+                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.canComments) ? me.tipViewUsers : me.tipAccessRights,
                 titleNorm: me.tipAccessRights,
                 titleExt: me.tipViewUsers,
                 placement: 'bottom',
@@ -263,7 +264,7 @@ define([
             });
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
-            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.canComments || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
 
             if ( $saveStatus ) {
                 $saveStatus.attr('data-width', me.textSaveExpander);
@@ -483,9 +484,8 @@ define([
 
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('svg-btn-edit', $html.find('#slot-hbtn-edit'));
-                    } else {
-                        me.btnOptions.render($html.find('#slot-btn-options'));
                     }
+                    me.btnOptions.render($html.find('#slot-btn-options'));
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
@@ -674,7 +674,7 @@ define([
                                 };
                                 btn.setDisabled( true );
                             } else {
-                                btn.setDisabled( btn.keepState.disabled );
+                                btn.setDisabled( btn.keepState && btn.keepState.disabled || lock);
                                 delete btn.keepState;
                             }
                         }

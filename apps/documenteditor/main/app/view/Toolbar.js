@@ -45,6 +45,7 @@ define([
     'underscore',
     'backbone',
     'text!documenteditor/main/app/template/Toolbar.template',
+    'text!documenteditor/main/app/template/ToolbarView.template',
     'common/main/lib/collection/Fonts',
     'common/main/lib/component/Button',
     'common/main/lib/component/ComboBox',
@@ -58,7 +59,7 @@ define([
     'common/main/lib/component/ComboDataView'
     ,'common/main/lib/component/SynchronizeTip'
     ,'common/main/lib/component/Mixtbar'
-], function ($, _, Backbone, template) {
+], function ($, _, Backbone, template, template_view) {
     'use strict';
 
     DE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
@@ -76,17 +77,6 @@ define([
 
             initialize: function () {
                 var me = this;
-
-                Common.UI.Mixtbar.prototype.initialize.call(this, {
-                        template: _.template(template),
-                        tabs: [
-                            { caption: me.textTabFile, action: 'file', extcls: 'canedit'},
-                            { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
-                            { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                            { caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
-                            { caption: me.textTabLinks,  action: 'links', extcls: 'canedit'}
-                        ]}
-                );
 
                 /**
                  * UI Components
@@ -107,1034 +97,1077 @@ define([
                     hasCollaborativeChanges: undefined,
                     previewmode: false
                 };
-                this.btnSaveCls = 'btn-save';
-                this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
-
-                this.btnPrint = new Common.UI.Button({
-                    id: 'id-toolbar-btn-print',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-print no-mask'
-                });
-                this.toolbarControls.push(this.btnPrint);
-
-                this.btnSave = new Common.UI.Button({
-                    id: 'id-toolbar-btn-save',
-                    cls: 'btn-toolbar',
-                    iconCls: 'no-mask ' + this.btnSaveCls,
-                    signals: ['disabled']
-                });
-                this.toolbarControls.push(this.btnSave);
-                this.btnCollabChanges = this.btnSave;
-
-                this.btnUndo = new Common.UI.Button({
-                    id: 'id-toolbar-btn-undo',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-undo',
-                    signals: ['disabled']
-                });
-                this.toolbarControls.push(this.btnUndo);
-
-                this.btnRedo = new Common.UI.Button({
-                    id: 'id-toolbar-btn-redo',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-redo',
-                    signals: ['disabled']
-                });
-                this.toolbarControls.push(this.btnRedo);
-
-                this.btnCopy = new Common.UI.Button({
-                    id: 'id-toolbar-btn-copy',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-copy'
-                });
-                this.toolbarControls.push(this.btnCopy);
-
-                this.btnPaste = new Common.UI.Button({
-                    id: 'id-toolbar-btn-paste',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-paste'
-                });
-                this.paragraphControls.push(this.btnPaste);
-
-                this.btnIncFontSize = new Common.UI.Button({
-                    id: 'id-toolbar-btn-incfont',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-incfont'
-                });
-                this.paragraphControls.push(this.btnIncFontSize);
-
-                this.btnDecFontSize = new Common.UI.Button({
-                    id: 'id-toolbar-btn-decfont',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-decfont'
-                });
-                this.paragraphControls.push(this.btnDecFontSize);
-
-                this.btnBold = new Common.UI.Button({
-                    id: 'id-toolbar-btn-bold',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-bold',
-                    enableToggle: true
-                });
-                this.paragraphControls.push(this.btnBold);
-
-                this.btnItalic = new Common.UI.Button({
-                    id: 'id-toolbar-btn-italic',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-italic',
-                    enableToggle: true
-                });
-                this.paragraphControls.push(this.btnItalic);
-
-                this.btnUnderline = new Common.UI.Button({
-                    id: 'id-toolbar-btn-underline',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-underline',
-                    enableToggle: true
-                });
-                this.paragraphControls.push(this.btnUnderline);
-
-                this.btnStrikeout = new Common.UI.Button({
-                    id: 'id-toolbar-btn-strikeout',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-strikeout',
-                    enableToggle: true
-                });
-                this.paragraphControls.push(this.btnStrikeout);
-
-                this.btnSuperscript = new Common.UI.Button({
-                    id: 'id-toolbar-btn-superscript',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-superscript',
-                    enableToggle: true,
-                    toggleGroup: 'superscriptGroup'
-                });
-                this.paragraphControls.push(this.btnSuperscript);
-
-                this.btnSubscript = new Common.UI.Button({
-                    id: 'id-toolbar-btn-subscript',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-subscript',
-                    enableToggle: true,
-                    toggleGroup: 'superscriptGroup'
-                });
-                this.paragraphControls.push(this.btnSubscript);
-
-                this.btnHighlightColor = new Common.UI.Button({
-                    id: 'id-toolbar-btn-highlight',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-highlight',
-                    enableToggle: true,
-                    allowDepress: true,
-                    split: true,
-                    menu: new Common.UI.Menu({
-                        style: 'min-width: 100px;',
-                        items: [
-                            {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 120px; height: 120px; margin: 10px;"></div>')},
-                            {caption: '--'},
-                            this.mnuHighlightTransparent = new Common.UI.MenuItem({
-                                caption: this.strMenuNoFill,
-                                checkable: true
-                            })
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnHighlightColor);
-                this.textOnlyControls.push(this.btnHighlightColor);
-
-                this.btnFontColor = new Common.UI.Button({
-                    id: 'id-toolbar-btn-fontcolor',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-fontcolor',
-                    split: true,
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {
-                                id: 'id-toolbar-menu-auto-fontcolor',
-                                caption: this.textAutoColor,
-                                template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
-                            },
-                            {caption: '--'},
-                            {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
-                            {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnFontColor);
-
-                this.btnParagraphColor = new Common.UI.Button({
-                    id: 'id-toolbar-btn-paracolor',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-paracolor',
-                    split: true,
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
-                            {template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnParagraphColor);
-                this.textOnlyControls.push(this.btnParagraphColor);
-
-                this.btnAlignLeft = new Common.UI.Button({
-                    id: 'id-toolbar-btn-align-left',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-align-left',
-                    enableToggle: true,
-                    allowDepress: false,
-                    toggleGroup: 'alignGroup'
-                });
-                this.paragraphControls.push(this.btnAlignLeft);
-
-                this.btnAlignCenter = new Common.UI.Button({
-                    id: 'id-toolbar-btn-align-center',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-align-center',
-                    enableToggle: true,
-                    allowDepress: false,
-                    toggleGroup: 'alignGroup'
-                });
-                this.paragraphControls.push(this.btnAlignCenter);
-
-                this.btnAlignRight = new Common.UI.Button({
-                    id: 'id-toolbar-btn-align-right',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-align-right',
-                    enableToggle: true,
-                    allowDepress: false,
-                    toggleGroup: 'alignGroup'
-                });
-                this.paragraphControls.push(this.btnAlignRight);
-
-                this.btnAlignJust = new Common.UI.Button({
-                    id: 'id-toolbar-btn-align-just',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-align-just',
-                    enableToggle: true,
-                    allowDepress: false,
-                    toggleGroup: 'alignGroup'
-                });
-                this.paragraphControls.push(this.btnAlignJust);
-
-                this.btnHorizontalAlign = new Common.UI.Button({
-                    id: 'id-toolbar-btn-halign',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-align-left',
-                    icls: 'btn-align-left',
-                    menu: new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
-                        items: [
-                            {
-                                caption: this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
-                                iconCls: 'mnu-align-left',
-                                icls: 'btn-align-left',
-                                checkable: true,
-                                toggleGroup: 'halignGroup',
-                                checked: true,
-                                value: 1
-                            },
-                            {
-                                caption: this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
-                                iconCls: 'mnu-align-center',
-                                icls: 'btn-align-center',
-                                checkable: true,
-                                toggleGroup: 'halignGroup',
-                                value: 2
-                            },
-                            {
-                                caption: this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
-                                iconCls: 'mnu-align-right',
-                                icls: 'btn-align-right',
-                                checkable: true,
-                                toggleGroup: 'halignGroup',
-                                value: 0
-                            },
-                            {
-                                caption: this.tipAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
-                                iconCls: 'mnu-align-just',
-                                icls: 'btn-align-just',
-                                checkable: true,
-                                toggleGroup: 'halignGroup',
-                                value: 3
-                            }
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnHorizontalAlign);
-
-                this.btnDecLeftOffset = new Common.UI.Button({
-                    id: 'id-toolbar-btn-decoffset',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-decoffset'
-                });
-                this.paragraphControls.push(this.btnDecLeftOffset);
-
-                this.btnIncLeftOffset = new Common.UI.Button({
-                    id: 'id-toolbar-btn-incoffset',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-incoffset'
-                });
-                this.paragraphControls.push(this.btnIncLeftOffset);
-
-                this.btnLineSpace = new Common.UI.Button({
-                    id: 'id-toolbar-btn-linespace',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-linespace',
-                    menu: new Common.UI.Menu({
-                        style: 'min-width: 60px;',
-                        items: [
-                            {caption: '1.0', value: 1.0, checkable: true, toggleGroup: 'linesize'},
-                            {caption: '1.15', value: 1.15, checkable: true, toggleGroup: 'linesize'},
-                            {caption: '1.5', value: 1.5, checkable: true, toggleGroup: 'linesize'},
-                            {caption: '2.0', value: 2.0, checkable: true, toggleGroup: 'linesize'},
-                            {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
-                            {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnLineSpace);
-
-                this.btnShowHidenChars = new Common.UI.Button({
-                    id: 'id-toolbar-btn-hidenchars',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-hidenchars',
-                    enableToggle: true,
-                    split: true,
-                    menu: new Common.UI.Menu({
-                        style: 'min-width: 60px;',
-                        items: [
-                            {caption: this.mniHiddenChars, value: 'characters', checkable: true},
-                            {caption: this.mniHiddenBorders, value: 'table', checkable: true}
-                        ]
-                    })
-                });
-                this.toolbarControls.push(this.btnShowHidenChars);
-
-                this.btnMarkers = new Common.UI.Button({
-                    id: 'id-toolbar-btn-markers',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-setmarkers',
-                    enableToggle: true,
-                    toggleGroup: 'markersGroup',
-                    split: true,
-                    menu: true
-                });
-                this.paragraphControls.push(this.btnMarkers);
-                this.textOnlyControls.push(this.btnMarkers);
-
-                this.btnNumbers = new Common.UI.Button({
-                    id: 'id-toolbar-btn-numbering',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-numbering',
-                    enableToggle: true,
-                    toggleGroup: 'markersGroup',
-                    split: true,
-                    menu: true
-                });
-                this.paragraphControls.push(this.btnNumbers);
-                this.textOnlyControls.push(this.btnNumbers);
-
-                this.btnMultilevels = new Common.UI.Button({
-                    id: 'id-toolbar-btn-multilevels',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-multilevels',
-                    menu: true
-                });
-                this.paragraphControls.push(this.btnMultilevels);
-                this.textOnlyControls.push(this.btnMultilevels);
-
-                var clone = function (source) {
-                    var obj = {};
-                    for (var prop in source)
-                        obj[prop] = (typeof(source[prop]) == 'object') ? clone(source[prop]) : source[prop];
-                    return obj;
-                };
-
-                this.mnuMarkersPicker = {
-                    conf: {index: 0},
-                    selectByIndex: function (idx) {
-                        this.conf.index = idx;
-                    }
-                };
-                this.mnuNumbersPicker = clone(this.mnuMarkersPicker);
-                this.mnuMultilevelPicker = clone(this.mnuMarkersPicker);
-
-                this.btnInsertTable = new Common.UI.Button({
-                    id: 'tlbtn-inserttable',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-inserttable',
-                    caption: me.capBtnInsTable,
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                            {caption: this.mniCustomTable, value: 'custom'}
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnInsertTable);
-
-                this.btnInsertImage = new Common.UI.Button({
-                    id: 'tlbtn-insertimage',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-insertimage',
-                    caption: me.capBtnInsImage,
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {caption: this.mniImageFromFile, value: 'file'},
-                            {caption: this.mniImageFromUrl, value: 'url'}
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnInsertImage);
-
-                this.btnInsertChart = new Common.UI.Button({
-                    id: 'tlbtn-insertchart',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    caption: me.capBtnInsChart,
-                    iconCls: 'btn-insertchart',
-                    menu: new Common.UI.Menu({
-                        style: 'width: 435px;',
-                        items: [
-                            {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnInsertChart);
-
-                this.btnInsertText = new Common.UI.Button({
-                    id: 'tlbtn-inserttext',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-text',
-                    caption: me.capBtnInsTextbox,
-                    enableToggle: true
-                });
-                this.paragraphControls.push(this.btnInsertText);
-                this.btnInsertTextArt = new Common.UI.Button({
-                    id: 'tlbtn-inserttextart',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-textart',
-                    caption: me.capBtnInsTextart,
-                    menu: new Common.UI.Menu({
-                        cls: 'menu-shapes',
-                        items: [
-                            {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnInsertTextArt);
-
-                this.btnEditHeader = new Common.UI.Button({
-                    id: 'id-toolbar-btn-editheader',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-editheader',
-                    caption: me.capBtnInsHeader,
-                    menu: true
-                });
-                this.mnuPageNumberPosPicker = {
-                    conf: {disabled: false},
-                    isDisabled: function () {
-                        return this.conf.disabled;
-                    },
-                    setDisabled: function (val) {
-                        this.conf.disabled = val;
-                    }
-                };
-                this.mnuPageNumCurrentPos = clone(this.mnuPageNumberPosPicker);
-                this.mnuInsertPageNum = clone(this.mnuPageNumberPosPicker);
-                this.mnuInsertPageCount = clone(this.mnuPageNumberPosPicker);
-                this.paragraphControls.push(this.mnuPageNumCurrentPos);
-                this.paragraphControls.push(this.mnuInsertPageCount);
-                this.toolbarControls.push(this.btnEditHeader);
-
-                this.btnInsertShape = new Common.UI.Button({
-                    id: 'tlbtn-insertshape',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-insertshape',
-                    caption: me.capBtnInsShape,
-                    enableToggle: true,
-                    menu: new Common.UI.Menu({cls: 'menu-shapes'})
-                });
-                this.paragraphControls.push(this.btnInsertShape);
-
-                this.btnInsertEquation = new Common.UI.Button({
-                    id: 'tlbtn-insertequation',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-insertequation',
-                    caption: me.capBtnInsEquation,
-                    split: true,
-                    menu: new Common.UI.Menu({cls: 'menu-shapes'})
-                });
-                this.paragraphControls.push(this.btnInsertEquation);
-
-                this.btnDropCap = new Common.UI.Button({
-                    id: 'tlbtn-dropcap',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-dropcap',
-                    caption: me.capBtnInsDropcap,
-                    menu: new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
-                        items: [
-                            {
-                                caption: this.textNone,
-                                iconCls: 'mnu-dropcap-none',
-                                checkable: true,
-                                toggleGroup: 'menuDropCap',
-                                value: Asc.c_oAscDropCap.None,
-                                checked: true
-                            },
-                            {
-                                caption: this.textInText,
-                                iconCls: 'mnu-dropcap-intext',
-                                checkable: true,
-                                toggleGroup: 'menuDropCap',
-                                value: Asc.c_oAscDropCap.Drop
-                            },
-                            {
-                                caption: this.textInMargin,
-                                iconCls: 'mnu-dropcap-inmargin',
-                                checkable: true,
-                                toggleGroup: 'menuDropCap',
-                                value: Asc.c_oAscDropCap.Margin
-                            },
-                            {caption: '--'},
-                            this.mnuDropCapAdvanced = new Common.UI.MenuItem({caption: this.mniEditDropCap})
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnDropCap);
-
-                this.btnContentControls = new Common.UI.Button({
-                    id: 'tlbtn-controls',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-controls',
-                    caption: me.capBtnInsControls,
-                    menu: new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
-                        items: [
-                            {
-                                caption: this.textPlainControl,
-                                iconCls: 'mnu-control-plain',
-                                value: Asc.c_oAscSdtLevelType.Inline
-                            },
-                            {
-                                caption: this.textRichControl,
-                                iconCls: 'mnu-control-rich',
-                                value: Asc.c_oAscSdtLevelType.Block
-                            },
-                            {caption: '--'},
-                            {
-                                caption: this.textRemoveControl,
-                                iconCls: 'mnu-control-remove',
-                                value: 'remove'
-                            },
-                            {caption: '--'},
-                            {
-                                caption: this.mniEditControls,
-                                value: 'settings'
-                            }
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnContentControls);
-
-                this.btnColumns = new Common.UI.Button({
-                    id: 'tlbtn-columns',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-columns',
-                    caption: me.capBtnColumns,
-                    menu: new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
-                        items: [
-                            {
-                                caption: this.textColumnsOne,
-                                iconCls: 'mnu-columns-one',
-                                checkable: true,
-                                toggleGroup: 'menuColumns',
-                                value: 0
-                            },
-                            {
-                                caption: this.textColumnsTwo,
-                                iconCls: 'mnu-columns-two',
-                                checkable: true,
-                                toggleGroup: 'menuColumns',
-                                value: 1
-                            },
-                            {
-                                caption: this.textColumnsThree,
-                                iconCls: 'mnu-columns-three',
-                                checkable: true,
-                                toggleGroup: 'menuColumns',
-                                value: 2
-                            },
-                            {
-                                caption: this.textColumnsLeft,
-                                iconCls: 'mnu-columns-left',
-                                checkable: true,
-                                toggleGroup: 'menuColumns',
-                                value: 3
-                            },
-                            {
-                                caption: this.textColumnsRight,
-                                iconCls: 'mnu-columns-right',
-                                checkable: true,
-                                toggleGroup: 'menuColumns',
-                                value: 4
-                            },
-                            { caption: '--' },
-                            { caption: this.textColumnsCustom, value: 'advanced' }
-                        ]
-                    })
-                });
-                this.paragraphControls.push(this.btnColumns);
-
-                this.btnPageOrient = new Common.UI.Button({
-                    id: 'tlbtn-pageorient',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-pageorient',
-                    caption: me.capBtnPageOrient,
-                    menu: new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
-                        items: [
-                            {
-                                caption: this.textPortrait,
-                                iconCls: 'mnu-orient-portrait',
-                                checkable: true,
-                                toggleGroup: 'menuOrient',
-                                value: true
-                            },
-                            {
-                                caption: this.textLandscape,
-                                iconCls: 'mnu-orient-landscape',
-                                checkable: true,
-                                toggleGroup: 'menuOrient',
-                                value: false
-                            }
-                        ]
-                    })
-                });
-                this.toolbarControls.push(this.btnPageOrient);
-
-
-                var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                    '<% if (options.value !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
-                    '<label style="display: block;">' + this.textTop + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
-                    '<label style="display: block;">' + this.textLeft + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
-                    '<label style="display: block;">' + this.textBottom + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
-                    '<label style="display: block;">' + this.textRight + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
-                    '<% } %></a>');
-
-                this.btnPageMargins = new Common.UI.Button({
-                    id: 'tlbtn-pagemargins',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-pagemargins',
-                    caption: me.capBtnMargins,
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {
-                                caption: this.textMarginsLast,
-                                checkable: true,
-                                template: pageMarginsTemplate,
-                                toggleGroup: 'menuPageMargins'
-                            }, //top,left,bottom,right
-                            {
-                                caption: this.textMarginsNormal,
-                                checkable: true,
-                                template: pageMarginsTemplate,
-                                toggleGroup: 'menuPageMargins',
-                                value: [20, 30, 20, 15]
-                            },
-                            {
-                                caption: this.textMarginsUsNormal,
-                                checkable: true,
-                                template: pageMarginsTemplate,
-                                toggleGroup: 'menuPageMargins',
-                                value: [25.4, 25.4, 25.4, 25.4]
-                            },
-                            {
-                                caption: this.textMarginsNarrow,
-                                checkable: true,
-                                template: pageMarginsTemplate,
-                                toggleGroup: 'menuPageMargins',
-                                value: [12.7, 12.7, 12.7, 12.7]
-                            },
-                            {
-                                caption: this.textMarginsModerate,
-                                checkable: true,
-                                template: pageMarginsTemplate,
-                                toggleGroup: 'menuPageMargins',
-                                value: [25.4, 19.1, 25.4, 19.1]
-                            },
-                            {
-                                caption: this.textMarginsWide,
-                                checkable: true,
-                                template: pageMarginsTemplate,
-                                toggleGroup: 'menuPageMargins',
-                                value: [25.4, 50.8, 25.4, 50.8]
-                            },
-                            {caption: '--'},
-                            {caption: this.textPageMarginsCustom, value: 'advanced'}
-                        ]
-                    })
-                });
-                this.toolbarControls.push(this.btnPageMargins);
-
-                var pageSizeTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                    '<div><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x ' +
-                    '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>');
-
-                this.btnPageSize = new Common.UI.Button({
-                    id: 'tlbtn-pagesize',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-pagesize',
-                    caption: me.capBtnPageSize,
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {
-                                caption: 'US Letter',
-                                subtitle: '21,59cm x 27,94cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [215.9, 279.4]
-                            },
-                            {
-                                caption: 'US Legal',
-                                subtitle: '21,59cm x 35,56cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [215.9, 355.6]
-                            },
-                            {
-                                caption: 'A4',
-                                subtitle: '21cm x 29,7cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [210, 297],
-                                checked: true
-                            },
-                            {
-                                caption: 'A5',
-                                subtitle: '14,81cm x 20,99cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [148.1, 209.9]
-                            },
-                            {
-                                caption: 'B5',
-                                subtitle: '17,6cm x 25,01cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [176, 250.1]
-                            },
-                            {
-                                caption: 'Envelope #10',
-                                subtitle: '10,48cm x 24,13cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [104.8, 241.3]
-                            },
-                            {
-                                caption: 'Envelope DL',
-                                subtitle: '11,01cm x 22,01cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [110.1, 220.1]
-                            },
-                            {
-                                caption: 'Tabloid',
-                                subtitle: '27,94cm x 43,17cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [279.4, 431.7]
-                            },
-                            {
-                                caption: 'A3',
-                                subtitle: '29,7cm x 42,01cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [297, 420.1]
-                            },
-                            {
-                                caption: 'Tabloid Oversize',
-                                subtitle: '30,48cm x 45,71cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [304.8, 457.1]
-                            },
-                            {
-                                caption: 'ROC 16K',
-                                subtitle: '19,68cm x 27,3cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [196.8, 273]
-                            },
-                            {
-                                caption: 'Envelope Choukei 3',
-                                subtitle: '11,99cm x 23,49cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [119.9, 234.9]
-                            },
-                            {
-                                caption: 'Super B/A3',
-                                subtitle: '33,02cm x 48,25cm',
-                                template: pageSizeTemplate,
-                                checkable: true,
-                                toggleGroup: 'menuPageSize',
-                                value: [330.2, 482.5]
-                            },
-                            {caption: '--'},
-                            {caption: this.textPageSizeCustom, value: 'advanced'}
-                        ]
-                    })
-                });
-                this.toolbarControls.push(this.btnPageSize);
-
-                this.btnClearStyle = new Common.UI.Button({
-                    id: 'id-toolbar-btn-clearstyle',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-clearstyle'
-                });
-                this.toolbarControls.push(this.btnClearStyle);
-
-                this.btnCopyStyle = new Common.UI.Button({
-                    id: 'id-toolbar-btn-copystyle',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-copystyle',
-                    enableToggle: true
-                });
-                this.toolbarControls.push(this.btnCopyStyle);
-
-                this.btnColorSchemas = new Common.UI.Button({
-                    id: 'id-toolbar-btn-colorschemas',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-colorschemas',
-                    menu: new Common.UI.Menu({
-                        items: [],
-                        maxHeight: 560,
-                        restoreHeight: 560
-                    }).on('show:before', function (mnu) {
-                        if (!this.scroller) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40,
-                                alwaysVisibleY: true
-                            });
-                        }
-                    })
-                });
-                this.toolbarControls.push(this.btnColorSchemas);
-
-                this.btnMailRecepients = new Common.UI.Button({
-                    id: 'id-toolbar-btn-mailrecepients',
-                    cls: 'btn-toolbar',
-                    iconCls: 'btn-mailrecepients'
-                });
-
-                me.btnImgAlign = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-align',
-                    caption: me.capImgAlign,
-                    menu: true
-                });
-
-                me.btnImgGroup = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-group',
-                    caption: me.capImgGroup,
-                    menu: true
-                });
-                me.btnImgForward = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-frwd',
-                    caption: me.capImgForward,
-                    split: true,
-                    menu: true
-                });
-                me.btnImgBackward = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-bkwd',
-                    caption: me.capImgBackward,
-                    split: true,
-                    menu: true
-                });
-                me.btnImgWrapping = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-wrap',
-                    caption: me.capImgWrapping,
-                    menu: true
-                });
-                me.toolbarControls.push( me.btnImgAlign,
-                    me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping);
-
-                //
-                // Menus
-                //
-
-                this.mnuLineSpace = this.btnLineSpace.menu;
-                this.mnuNonPrinting = this.btnShowHidenChars.menu;
-                this.mnuInsertTable = this.btnInsertTable.menu;
-                this.mnuInsertImage = this.btnInsertImage.menu;
-                this.mnuPageSize = this.btnPageSize.menu;
-                this.mnuColorSchema = this.btnColorSchemas.menu;
-
-                this.cmbFontSize = new Common.UI.ComboBox({
-                    cls: 'input-group-nr',
-                    menuStyle: 'min-width: 55px;',
-                    hint: this.tipFontSize,
-                    data: [
-                        {value: 8, displayValue: "8"},
-                        {value: 9, displayValue: "9"},
-                        {value: 10, displayValue: "10"},
-                        {value: 11, displayValue: "11"},
-                        {value: 12, displayValue: "12"},
-                        {value: 14, displayValue: "14"},
-                        {value: 16, displayValue: "16"},
-                        {value: 18, displayValue: "18"},
-                        {value: 20, displayValue: "20"},
-                        {value: 22, displayValue: "22"},
-                        {value: 24, displayValue: "24"},
-                        {value: 26, displayValue: "26"},
-                        {value: 28, displayValue: "28"},
-                        {value: 36, displayValue: "36"},
-                        {value: 48, displayValue: "48"},
-                        {value: 72, displayValue: "72"}
-                    ]
-                });
-                this.paragraphControls.push(this.cmbFontSize);
-
-                this.cmbFontName = new Common.UI.ComboBoxFonts({
-                    cls: 'input-group-nr',
-                    menuCls: 'scrollable-menu',
-                    menuStyle: 'min-width: 325px;',
-                    hint: this.tipFontName,
-                    store: new Common.Collections.Fonts()
-                });
-                this.paragraphControls.push(this.cmbFontName);
-
-                this.listStylesAdditionalMenuItem = new Common.UI.MenuItem({
-                    template: _.template(
-                        '<div id="id-save-style-container" class = "save-style-container">' +
-                        '<span id="id-save-style-plus" class="plus img-commonctrl"  ></span>' +
-                        '<label id="id-save-style-link" class="save-style-link" >' + me.textStyleMenuNew + '</label>' +
-                        '</div>')
-                });
-
-                this.listStyles = new Common.UI.ComboDataView({
-                    cls: 'combo-styles',
-                    itemWidth: 104,
-                    itemHeight: 38,
-//                hint        : this.tipParagraphStyle,
-                    enableKeyEvents: true,
-                    additionalMenuItems: [this.listStylesAdditionalMenuItem],
-                    beforeOpenHandler: function (e) {
-                        var cmp = this,
-                            menu = cmp.openButton.menu,
-                            minMenuColumn = 6;
-
-                        if (menu.cmpEl) {
-                            var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
-                            var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
-                            var itemWidth = itemEl.is(':visible') ? parseInt(itemEl.css('width')) :
-                                (cmp.itemWidth + parseInt(itemEl.css('padding-left')) + parseInt(itemEl.css('padding-right')) +
-                                parseInt(itemEl.css('border-left-width')) + parseInt(itemEl.css('border-right-width')));
-
-                            var minCount = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
-                                columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + itemWidth) + 0.5));
-
-                            columnCount = columnCount < minCount ? minCount : columnCount;
-                            menu.menuAlignEl = cmp.cmpEl;
-
-                            menu.menuAlign = 'tl-tl';
-                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
-                            menu.setOffset(Math.min(offset, 0));
-
-                            menu.cmpEl.css({
-                                'width': columnCount * (itemWidth + itemMargin),
-                                'min-height': cmp.cmpEl.height()
-                            });
-                        }
-
-                        if (cmp.menuPicker.scroller) {
-                            cmp.menuPicker.scroller.update({
-                                includePadding: true,
-                                suppressScrollX: true
-                            });
-                        }
-
-                        cmp.removeTips();
-                    }
-                });
-
-                this.listStyles.fieldPicker.itemTemplate = _.template([
-                    '<div class="style" id="<%= id %>">',
-                    '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"/>',
-                    '</div>'
-                ].join(''));
-                this.listStyles.menuPicker.itemTemplate = _.template([
-                    '<div class="style" id="<%= id %>">',
-                    '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"/>',
-                    '</div>'
-                ].join(''));
-                this.paragraphControls.push(this.listStyles);
-                this.textOnlyControls.push(this.listStyles);
-
-                // Disable all components before load document
-                _.each(this.toolbarControls.concat(this.paragraphControls), function (cmp) {
-                    if (_.isFunction(cmp.setDisabled))
-                        cmp.setDisabled(true);
-                });
-                this.btnMailRecepients.setDisabled(true);
-
-                var editStyleMenuUpdate = new Common.UI.MenuItem({
-                    caption: me.textStyleMenuUpdate
-                }).on('click', _.bind(me.onStyleMenuUpdate, me));
-
-                var editStyleMenuRestore = new Common.UI.MenuItem({
-                    caption: me.textStyleMenuDelete
-                }).on('click', _.bind(me.onStyleMenuDelete, me));
-
-                var editStyleMenuDelete = new Common.UI.MenuItem({
-                    caption: me.textStyleMenuRestore
-                }).on('click', _.bind(me.onStyleMenuDelete, me));
-
-                var editStyleMenuRestoreAll = new Common.UI.MenuItem({
-                    caption: me.textStyleMenuRestoreAll
-                }).on('click', _.bind(me.onStyleMenuRestoreAll, me));
-
-                var editStyleMenuDeleteAll = new Common.UI.MenuItem({
-                    caption: me.textStyleMenuDeleteAll
-                }).on('click', _.bind(me.onStyleMenuDeleteAll, me));
-
-                if (this.styleMenu == null) {
-                    this.styleMenu = new Common.UI.Menu({
-                        items: [
-                            editStyleMenuUpdate,
-                            editStyleMenuRestore,
-                            editStyleMenuDelete,
-                            editStyleMenuRestoreAll,
-                            editStyleMenuDeleteAll
-                        ]
-                    });
-                }
-
-                this.on('render:after', _.bind(this.onToolbarAfterRender, this));
 
                 Common.NotificationCenter.on('app:ready', me.onAppReady.bind(this));
+                return this;
+            },
 
+            applyLayout: function (config) {
+                var me = this;
+
+                if ( config.isEdit ) {
+                    Common.UI.Mixtbar.prototype.initialize.call(this, {
+                            template: _.template(template),
+                            tabs: [
+                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
+                                {caption: me.textTabHome, action: 'home', extcls: 'canedit'},
+                                {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
+                                {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
+                                {caption: me.textTabLinks, action: 'links', extcls: 'canedit'}
+                            ]
+                        }
+                    );
+
+                    this.btnSaveCls = 'btn-save';
+                    this.btnSaveTip = this.tipSave + Common.Utils.String.platformKey('Ctrl+S');
+
+                    this.btnPrint = new Common.UI.Button({
+                        id: 'id-toolbar-btn-print',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-print no-mask'
+                    });
+                    this.toolbarControls.push(this.btnPrint);
+
+                    this.btnSave = new Common.UI.Button({
+                        id: 'id-toolbar-btn-save',
+                        cls: 'btn-toolbar',
+                        iconCls: 'no-mask ' + this.btnSaveCls,
+                        signals: ['disabled']
+                    });
+                    this.toolbarControls.push(this.btnSave);
+                    this.btnCollabChanges = this.btnSave;
+
+                    this.btnUndo = new Common.UI.Button({
+                        id: 'id-toolbar-btn-undo',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-undo',
+                        signals: ['disabled']
+                    });
+                    this.toolbarControls.push(this.btnUndo);
+
+                    this.btnRedo = new Common.UI.Button({
+                        id: 'id-toolbar-btn-redo',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-redo',
+                        signals: ['disabled']
+                    });
+                    this.toolbarControls.push(this.btnRedo);
+
+                    this.btnCopy = new Common.UI.Button({
+                        id: 'id-toolbar-btn-copy',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-copy'
+                    });
+                    this.toolbarControls.push(this.btnCopy);
+
+                    this.btnPaste = new Common.UI.Button({
+                        id: 'id-toolbar-btn-paste',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-paste'
+                    });
+                    this.paragraphControls.push(this.btnPaste);
+
+                    this.btnIncFontSize = new Common.UI.Button({
+                        id: 'id-toolbar-btn-incfont',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-incfont'
+                    });
+                    this.paragraphControls.push(this.btnIncFontSize);
+
+                    this.btnDecFontSize = new Common.UI.Button({
+                        id: 'id-toolbar-btn-decfont',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-decfont'
+                    });
+                    this.paragraphControls.push(this.btnDecFontSize);
+
+                    this.btnBold = new Common.UI.Button({
+                        id: 'id-toolbar-btn-bold',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-bold',
+                        enableToggle: true
+                    });
+                    this.paragraphControls.push(this.btnBold);
+
+                    this.btnItalic = new Common.UI.Button({
+                        id: 'id-toolbar-btn-italic',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-italic',
+                        enableToggle: true
+                    });
+                    this.paragraphControls.push(this.btnItalic);
+
+                    this.btnUnderline = new Common.UI.Button({
+                        id: 'id-toolbar-btn-underline',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-underline',
+                        enableToggle: true
+                    });
+                    this.paragraphControls.push(this.btnUnderline);
+
+                    this.btnStrikeout = new Common.UI.Button({
+                        id: 'id-toolbar-btn-strikeout',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-strikeout',
+                        enableToggle: true
+                    });
+                    this.paragraphControls.push(this.btnStrikeout);
+
+                    this.btnSuperscript = new Common.UI.Button({
+                        id: 'id-toolbar-btn-superscript',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-superscript',
+                        enableToggle: true,
+                        toggleGroup: 'superscriptGroup'
+                    });
+                    this.paragraphControls.push(this.btnSuperscript);
+
+                    this.btnSubscript = new Common.UI.Button({
+                        id: 'id-toolbar-btn-subscript',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-subscript',
+                        enableToggle: true,
+                        toggleGroup: 'superscriptGroup'
+                    });
+                    this.paragraphControls.push(this.btnSubscript);
+
+                    this.btnHighlightColor = new Common.UI.Button({
+                        id: 'id-toolbar-btn-highlight',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-highlight',
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 100px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 120px; height: 120px; margin: 10px;"></div>')},
+                                {caption: '--'},
+                                this.mnuHighlightTransparent = new Common.UI.MenuItem({
+                                    caption: this.strMenuNoFill,
+                                    checkable: true
+                                })
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnHighlightColor);
+                    this.textOnlyControls.push(this.btnHighlightColor);
+
+                    this.btnFontColor = new Common.UI.Button({
+                        id: 'id-toolbar-btn-fontcolor',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-fontcolor',
+                        split: true,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {
+                                    id: 'id-toolbar-menu-auto-fontcolor',
+                                    caption: this.textAutoColor,
+                                    template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
+                                },
+                                {caption: '--'},
+                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnFontColor);
+
+                    this.btnParagraphColor = new Common.UI.Button({
+                        id: 'id-toolbar-btn-paracolor',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-paracolor',
+                        split: true,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnParagraphColor);
+                    this.textOnlyControls.push(this.btnParagraphColor);
+
+                    this.btnAlignLeft = new Common.UI.Button({
+                        id: 'id-toolbar-btn-align-left',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-align-left',
+                        enableToggle: true,
+                        allowDepress: false,
+                        toggleGroup: 'alignGroup'
+                    });
+                    this.paragraphControls.push(this.btnAlignLeft);
+
+                    this.btnAlignCenter = new Common.UI.Button({
+                        id: 'id-toolbar-btn-align-center',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-align-center',
+                        enableToggle: true,
+                        allowDepress: false,
+                        toggleGroup: 'alignGroup'
+                    });
+                    this.paragraphControls.push(this.btnAlignCenter);
+
+                    this.btnAlignRight = new Common.UI.Button({
+                        id: 'id-toolbar-btn-align-right',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-align-right',
+                        enableToggle: true,
+                        allowDepress: false,
+                        toggleGroup: 'alignGroup'
+                    });
+                    this.paragraphControls.push(this.btnAlignRight);
+
+                    this.btnAlignJust = new Common.UI.Button({
+                        id: 'id-toolbar-btn-align-just',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-align-just',
+                        enableToggle: true,
+                        allowDepress: false,
+                        toggleGroup: 'alignGroup'
+                    });
+                    this.paragraphControls.push(this.btnAlignJust);
+
+                    this.btnHorizontalAlign = new Common.UI.Button({
+                        id: 'id-toolbar-btn-halign',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-align-left',
+                        icls: 'btn-align-left',
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
+                                    iconCls: 'mnu-align-left',
+                                    icls: 'btn-align-left',
+                                    checkable: true,
+                                    toggleGroup: 'halignGroup',
+                                    checked: true,
+                                    value: 1
+                                },
+                                {
+                                    caption: this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
+                                    iconCls: 'mnu-align-center',
+                                    icls: 'btn-align-center',
+                                    checkable: true,
+                                    toggleGroup: 'halignGroup',
+                                    value: 2
+                                },
+                                {
+                                    caption: this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
+                                    iconCls: 'mnu-align-right',
+                                    icls: 'btn-align-right',
+                                    checkable: true,
+                                    toggleGroup: 'halignGroup',
+                                    value: 0
+                                },
+                                {
+                                    caption: this.tipAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
+                                    iconCls: 'mnu-align-just',
+                                    icls: 'btn-align-just',
+                                    checkable: true,
+                                    toggleGroup: 'halignGroup',
+                                    value: 3
+                                }
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnHorizontalAlign);
+
+                    this.btnDecLeftOffset = new Common.UI.Button({
+                        id: 'id-toolbar-btn-decoffset',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-decoffset'
+                    });
+                    this.paragraphControls.push(this.btnDecLeftOffset);
+
+                    this.btnIncLeftOffset = new Common.UI.Button({
+                        id: 'id-toolbar-btn-incoffset',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-incoffset'
+                    });
+                    this.paragraphControls.push(this.btnIncLeftOffset);
+
+                    this.btnLineSpace = new Common.UI.Button({
+                        id: 'id-toolbar-btn-linespace',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-linespace',
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 60px;',
+                            items: [
+                                {caption: '1.0', value: 1.0, checkable: true, toggleGroup: 'linesize'},
+                                {caption: '1.15', value: 1.15, checkable: true, toggleGroup: 'linesize'},
+                                {caption: '1.5', value: 1.5, checkable: true, toggleGroup: 'linesize'},
+                                {caption: '2.0', value: 2.0, checkable: true, toggleGroup: 'linesize'},
+                                {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
+                                {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnLineSpace);
+
+                    this.btnShowHidenChars = new Common.UI.Button({
+                        id: 'id-toolbar-btn-hidenchars',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-hidenchars',
+                        enableToggle: true,
+                        split: true,
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 60px;',
+                            items: [
+                                {caption: this.mniHiddenChars, value: 'characters', checkable: true},
+                                {caption: this.mniHiddenBorders, value: 'table', checkable: true}
+                            ]
+                        })
+                    });
+                    this.toolbarControls.push(this.btnShowHidenChars);
+
+                    this.btnMarkers = new Common.UI.Button({
+                        id: 'id-toolbar-btn-markers',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-setmarkers',
+                        enableToggle: true,
+                        toggleGroup: 'markersGroup',
+                        split: true,
+                        menu: true
+                    });
+                    this.paragraphControls.push(this.btnMarkers);
+                    this.textOnlyControls.push(this.btnMarkers);
+
+                    this.btnNumbers = new Common.UI.Button({
+                        id: 'id-toolbar-btn-numbering',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-numbering',
+                        enableToggle: true,
+                        toggleGroup: 'markersGroup',
+                        split: true,
+                        menu: true
+                    });
+                    this.paragraphControls.push(this.btnNumbers);
+                    this.textOnlyControls.push(this.btnNumbers);
+
+                    this.btnMultilevels = new Common.UI.Button({
+                        id: 'id-toolbar-btn-multilevels',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-multilevels',
+                        menu: true
+                    });
+                    this.paragraphControls.push(this.btnMultilevels);
+                    this.textOnlyControls.push(this.btnMultilevels);
+
+                    var clone = function (source) {
+                        var obj = {};
+                        for (var prop in source)
+                            obj[prop] = (typeof(source[prop]) == 'object') ? clone(source[prop]) : source[prop];
+                        return obj;
+                    };
+
+                    this.mnuMarkersPicker = {
+                        conf: {index: 0},
+                        selectByIndex: function (idx) {
+                            this.conf.index = idx;
+                        }
+                    };
+                    this.mnuNumbersPicker = clone(this.mnuMarkersPicker);
+                    this.mnuMultilevelPicker = clone(this.mnuMarkersPicker);
+
+                    this.btnInsertTable = new Common.UI.Button({
+                        id: 'tlbtn-inserttable',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-inserttable',
+                        caption: me.capBtnInsTable,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
+                                {caption: this.mniCustomTable, value: 'custom'}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnInsertTable);
+
+                    this.btnInsertImage = new Common.UI.Button({
+                        id: 'tlbtn-insertimage',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-insertimage',
+                        caption: me.capBtnInsImage,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: this.mniImageFromFile, value: 'file'},
+                                {caption: this.mniImageFromUrl, value: 'url'}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnInsertImage);
+
+                    this.btnInsertChart = new Common.UI.Button({
+                        id: 'tlbtn-insertchart',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: me.capBtnInsChart,
+                        iconCls: 'btn-insertchart',
+                        menu: new Common.UI.Menu({
+                            style: 'width: 435px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnInsertChart);
+
+                    this.btnInsertText = new Common.UI.Button({
+                        id: 'tlbtn-inserttext',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-text',
+                        caption: me.capBtnInsTextbox,
+                        enableToggle: true
+                    });
+                    this.paragraphControls.push(this.btnInsertText);
+                    this.btnInsertTextArt = new Common.UI.Button({
+                        id: 'tlbtn-inserttextart',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-textart',
+                        caption: me.capBtnInsTextart,
+                        menu: new Common.UI.Menu({
+                            cls: 'menu-shapes',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-insart" style="width: 239px; margin-left: 5px;"></div>')}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnInsertTextArt);
+
+                    this.btnEditHeader = new Common.UI.Button({
+                        id: 'id-toolbar-btn-editheader',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-editheader',
+                        caption: me.capBtnInsHeader,
+                        menu: true
+                    });
+                    this.mnuPageNumberPosPicker = {
+                        conf: {disabled: false},
+                        isDisabled: function () {
+                            return this.conf.disabled;
+                        },
+                        setDisabled: function (val) {
+                            this.conf.disabled = val;
+                        }
+                    };
+                    this.mnuPageNumCurrentPos = clone(this.mnuPageNumberPosPicker);
+                    this.mnuInsertPageNum = clone(this.mnuPageNumberPosPicker);
+                    this.mnuInsertPageCount = clone(this.mnuPageNumberPosPicker);
+                    this.paragraphControls.push(this.mnuPageNumCurrentPos);
+                    this.paragraphControls.push(this.mnuInsertPageCount);
+                    this.toolbarControls.push(this.btnEditHeader);
+
+                    this.btnInsertShape = new Common.UI.Button({
+                        id: 'tlbtn-insertshape',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-insertshape',
+                        caption: me.capBtnInsShape,
+                        enableToggle: true,
+                        menu: new Common.UI.Menu({cls: 'menu-shapes'})
+                    });
+                    this.paragraphControls.push(this.btnInsertShape);
+
+                    this.btnInsertEquation = new Common.UI.Button({
+                        id: 'tlbtn-insertequation',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-insertequation',
+                        caption: me.capBtnInsEquation,
+                        split: true,
+                        menu: new Common.UI.Menu({cls: 'menu-shapes'})
+                    });
+                    this.paragraphControls.push(this.btnInsertEquation);
+
+                    this.btnDropCap = new Common.UI.Button({
+                        id: 'tlbtn-dropcap',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-dropcap',
+                        caption: me.capBtnInsDropcap,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textNone,
+                                    iconCls: 'mnu-dropcap-none',
+                                    checkable: true,
+                                    toggleGroup: 'menuDropCap',
+                                    value: Asc.c_oAscDropCap.None,
+                                    checked: true
+                                },
+                                {
+                                    caption: this.textInText,
+                                    iconCls: 'mnu-dropcap-intext',
+                                    checkable: true,
+                                    toggleGroup: 'menuDropCap',
+                                    value: Asc.c_oAscDropCap.Drop
+                                },
+                                {
+                                    caption: this.textInMargin,
+                                    iconCls: 'mnu-dropcap-inmargin',
+                                    checkable: true,
+                                    toggleGroup: 'menuDropCap',
+                                    value: Asc.c_oAscDropCap.Margin
+                                },
+                                {caption: '--'},
+                                this.mnuDropCapAdvanced = new Common.UI.MenuItem({caption: this.mniEditDropCap})
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnDropCap);
+
+                    this.btnContentControls = new Common.UI.Button({
+                        id: 'tlbtn-controls',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-controls',
+                        caption: me.capBtnInsControls,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textPlainControl,
+                                    iconCls: 'mnu-control-plain',
+                                    value: Asc.c_oAscSdtLevelType.Inline
+                                },
+                                {
+                                    caption: this.textRichControl,
+                                    iconCls: 'mnu-control-rich',
+                                    value: Asc.c_oAscSdtLevelType.Block
+                                },
+                                {caption: '--'},
+                                {
+                                    caption: this.textRemoveControl,
+                                    iconCls: 'mnu-control-remove',
+                                    value: 'remove'
+                                },
+                                {caption: '--'},
+                                {
+                                    caption: this.mniEditControls,
+                                    value: 'settings'
+                                }
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnContentControls);
+
+                    this.btnColumns = new Common.UI.Button({
+                        id: 'tlbtn-columns',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-columns',
+                        caption: me.capBtnColumns,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textColumnsOne,
+                                    iconCls: 'mnu-columns-one',
+                                    checkable: true,
+                                    toggleGroup: 'menuColumns',
+                                    value: 0
+                                },
+                                {
+                                    caption: this.textColumnsTwo,
+                                    iconCls: 'mnu-columns-two',
+                                    checkable: true,
+                                    toggleGroup: 'menuColumns',
+                                    value: 1
+                                },
+                                {
+                                    caption: this.textColumnsThree,
+                                    iconCls: 'mnu-columns-three',
+                                    checkable: true,
+                                    toggleGroup: 'menuColumns',
+                                    value: 2
+                                },
+                                {
+                                    caption: this.textColumnsLeft,
+                                    iconCls: 'mnu-columns-left',
+                                    checkable: true,
+                                    toggleGroup: 'menuColumns',
+                                    value: 3
+                                },
+                                {
+                                    caption: this.textColumnsRight,
+                                    iconCls: 'mnu-columns-right',
+                                    checkable: true,
+                                    toggleGroup: 'menuColumns',
+                                    value: 4
+                                },
+                                {caption: '--'},
+                                {caption: this.textColumnsCustom, value: 'advanced'}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnColumns);
+
+                    this.btnPageOrient = new Common.UI.Button({
+                        id: 'tlbtn-pageorient',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-pageorient',
+                        caption: me.capBtnPageOrient,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textPortrait,
+                                    iconCls: 'mnu-orient-portrait',
+                                    checkable: true,
+                                    toggleGroup: 'menuOrient',
+                                    value: true
+                                },
+                                {
+                                    caption: this.textLandscape,
+                                    iconCls: 'mnu-orient-landscape',
+                                    checkable: true,
+                                    toggleGroup: 'menuOrient',
+                                    value: false
+                                }
+                            ]
+                        })
+                    });
+                    this.toolbarControls.push(this.btnPageOrient);
+
+
+                    var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                        '<% if (options.value !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                        '<label style="display: block;">' + this.textTop + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.textLeft + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                        '<label style="display: block;">' + this.textBottom + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.textRight + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                        '<% } %></a>');
+
+                    this.btnPageMargins = new Common.UI.Button({
+                        id: 'tlbtn-pagemargins',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-pagemargins',
+                        caption: me.capBtnMargins,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {
+                                    caption: this.textMarginsLast,
+                                    checkable: true,
+                                    template: pageMarginsTemplate,
+                                    toggleGroup: 'menuPageMargins'
+                                }, //top,left,bottom,right
+                                {
+                                    caption: this.textMarginsNormal,
+                                    checkable: true,
+                                    template: pageMarginsTemplate,
+                                    toggleGroup: 'menuPageMargins',
+                                    value: [20, 30, 20, 15]
+                                },
+                                {
+                                    caption: this.textMarginsUsNormal,
+                                    checkable: true,
+                                    template: pageMarginsTemplate,
+                                    toggleGroup: 'menuPageMargins',
+                                    value: [25.4, 25.4, 25.4, 25.4]
+                                },
+                                {
+                                    caption: this.textMarginsNarrow,
+                                    checkable: true,
+                                    template: pageMarginsTemplate,
+                                    toggleGroup: 'menuPageMargins',
+                                    value: [12.7, 12.7, 12.7, 12.7]
+                                },
+                                {
+                                    caption: this.textMarginsModerate,
+                                    checkable: true,
+                                    template: pageMarginsTemplate,
+                                    toggleGroup: 'menuPageMargins',
+                                    value: [25.4, 19.1, 25.4, 19.1]
+                                },
+                                {
+                                    caption: this.textMarginsWide,
+                                    checkable: true,
+                                    template: pageMarginsTemplate,
+                                    toggleGroup: 'menuPageMargins',
+                                    value: [25.4, 50.8, 25.4, 50.8]
+                                },
+                                {caption: '--'},
+                                {caption: this.textPageMarginsCustom, value: 'advanced'}
+                            ]
+                        })
+                    });
+                    this.toolbarControls.push(this.btnPageMargins);
+
+                    var pageSizeTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                        '<div><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x ' +
+                        '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>');
+
+                    this.btnPageSize = new Common.UI.Button({
+                        id: 'tlbtn-pagesize',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-pagesize',
+                        caption: me.capBtnPageSize,
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {
+                                    caption: 'US Letter',
+                                    subtitle: '21,59cm x 27,94cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [215.9, 279.4]
+                                },
+                                {
+                                    caption: 'US Legal',
+                                    subtitle: '21,59cm x 35,56cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [215.9, 355.6]
+                                },
+                                {
+                                    caption: 'A4',
+                                    subtitle: '21cm x 29,7cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [210, 297],
+                                    checked: true
+                                },
+                                {
+                                    caption: 'A5',
+                                    subtitle: '14,81cm x 20,99cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [148, 210]
+                                },
+                                {
+                                    caption: 'B5',
+                                    subtitle: '17,6cm x 25,01cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [176, 250]
+                                },
+                                {
+                                    caption: 'Envelope #10',
+                                    subtitle: '10,48cm x 24,13cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [104.8, 241.3]
+                                },
+                                {
+                                    caption: 'Envelope DL',
+                                    subtitle: '11,01cm x 22,01cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [110, 220]
+                                },
+                                {
+                                    caption: 'Tabloid',
+                                    subtitle: '27,94cm x 43,17cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [279.4, 431.8]
+                                },
+                                {
+                                    caption: 'A3',
+                                    subtitle: '29,7cm x 42,01cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [297, 420]
+                                },
+                                {
+                                    caption: 'Tabloid Oversize',
+                                    subtitle: '30,48cm x 45,71cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [304.8, 457.1]
+                                },
+                                {
+                                    caption: 'ROC 16K',
+                                    subtitle: '19,68cm x 27,3cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [196.8, 273]
+                                },
+                                {
+                                    caption: 'Envelope Choukei 3',
+                                    subtitle: '11,99cm x 23,49cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [119.9, 234.9]
+                                },
+                                {
+                                    caption: 'Super B/A3',
+                                    subtitle: '33,02cm x 48,25cm',
+                                    template: pageSizeTemplate,
+                                    checkable: true,
+                                    toggleGroup: 'menuPageSize',
+                                    value: [330.2, 482.5]
+                                },
+                                {caption: '--'},
+                                {caption: this.textPageSizeCustom, value: 'advanced'}
+                            ]
+                        })
+                    });
+                    this.toolbarControls.push(this.btnPageSize);
+
+                    this.btnClearStyle = new Common.UI.Button({
+                        id: 'id-toolbar-btn-clearstyle',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-clearstyle'
+                    });
+                    this.toolbarControls.push(this.btnClearStyle);
+
+                    this.btnCopyStyle = new Common.UI.Button({
+                        id: 'id-toolbar-btn-copystyle',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-copystyle',
+                        enableToggle: true
+                    });
+                    this.toolbarControls.push(this.btnCopyStyle);
+
+                    this.btnColorSchemas = new Common.UI.Button({
+                        id: 'id-toolbar-btn-colorschemas',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-colorschemas',
+                        menu: new Common.UI.Menu({
+                            items: [],
+                            maxHeight: 560,
+                            restoreHeight: 560
+                        }).on('show:before', function (mnu) {
+                            if (!this.scroller) {
+                                this.scroller = new Common.UI.Scroller({
+                                    el: $(this.el).find('.dropdown-menu '),
+                                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                                    minScrollbarLength: 40,
+                                    alwaysVisibleY: true
+                                });
+                            }
+                        })
+                    });
+                    this.toolbarControls.push(this.btnColorSchemas);
+
+                    this.btnMailRecepients = new Common.UI.Button({
+                        id: 'id-toolbar-btn-mailrecepients',
+                        cls: 'btn-toolbar',
+                        iconCls: 'btn-mailrecepients'
+                    });
+
+                    me.btnImgAlign = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-img-align',
+                        caption: me.capImgAlign,
+                        menu: true
+                    });
+
+                    me.btnImgGroup = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-img-group',
+                        caption: me.capImgGroup,
+                        menu: true
+                    });
+                    me.btnImgForward = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-img-frwd',
+                        caption: me.capImgForward,
+                        split: true,
+                        menu: true
+                    });
+                    me.btnImgBackward = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-img-bkwd',
+                        caption: me.capImgBackward,
+                        split: true,
+                        menu: true
+                    });
+                    me.btnImgWrapping = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-img-wrap',
+                        caption: me.capImgWrapping,
+                        menu: true
+                    });
+                    me.toolbarControls.push(me.btnImgAlign,
+                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping);
+
+                    //
+                    // Menus
+                    //
+
+                    this.mnuLineSpace = this.btnLineSpace.menu;
+                    this.mnuNonPrinting = this.btnShowHidenChars.menu;
+                    this.mnuInsertTable = this.btnInsertTable.menu;
+                    this.mnuInsertImage = this.btnInsertImage.menu;
+                    this.mnuPageSize = this.btnPageSize.menu;
+                    this.mnuColorSchema = this.btnColorSchemas.menu;
+
+                    this.cmbFontSize = new Common.UI.ComboBox({
+                        cls: 'input-group-nr',
+                        menuStyle: 'min-width: 55px;',
+                        hint: this.tipFontSize,
+                        data: [
+                            {value: 8, displayValue: "8"},
+                            {value: 9, displayValue: "9"},
+                            {value: 10, displayValue: "10"},
+                            {value: 11, displayValue: "11"},
+                            {value: 12, displayValue: "12"},
+                            {value: 14, displayValue: "14"},
+                            {value: 16, displayValue: "16"},
+                            {value: 18, displayValue: "18"},
+                            {value: 20, displayValue: "20"},
+                            {value: 22, displayValue: "22"},
+                            {value: 24, displayValue: "24"},
+                            {value: 26, displayValue: "26"},
+                            {value: 28, displayValue: "28"},
+                            {value: 36, displayValue: "36"},
+                            {value: 48, displayValue: "48"},
+                            {value: 72, displayValue: "72"}
+                        ]
+                    });
+                    this.paragraphControls.push(this.cmbFontSize);
+
+                    this.cmbFontName = new Common.UI.ComboBoxFonts({
+                        cls: 'input-group-nr',
+                        menuCls: 'scrollable-menu',
+                        menuStyle: 'min-width: 325px;',
+                        hint: this.tipFontName,
+                        store: new Common.Collections.Fonts()
+                    });
+                    this.paragraphControls.push(this.cmbFontName);
+
+                    this.listStylesAdditionalMenuItem = new Common.UI.MenuItem({
+                        template: _.template(
+                            '<div id="id-save-style-container" class = "save-style-container">' +
+                            '<span id="id-save-style-plus" class="plus img-commonctrl"  ></span>' +
+                            '<label id="id-save-style-link" class="save-style-link" >' + me.textStyleMenuNew + '</label>' +
+                            '</div>')
+                    });
+
+                    this.listStyles = new Common.UI.ComboDataView({
+                        cls: 'combo-styles',
+                        itemWidth: 104,
+                        itemHeight: 38,
+//                hint        : this.tipParagraphStyle,
+                        enableKeyEvents: true,
+                        additionalMenuItems: [this.listStylesAdditionalMenuItem],
+                        beforeOpenHandler: function (e) {
+                            var cmp = this,
+                                menu = cmp.openButton.menu,
+                                minMenuColumn = 6;
+
+                            if (menu.cmpEl) {
+                                var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
+                                var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
+                                var itemWidth = itemEl.is(':visible') ? parseInt(itemEl.css('width')) :
+                                    (cmp.itemWidth + parseInt(itemEl.css('padding-left')) + parseInt(itemEl.css('padding-right')) +
+                                    parseInt(itemEl.css('border-left-width')) + parseInt(itemEl.css('border-right-width')));
+
+                                var minCount = cmp.menuPicker.store.length >= minMenuColumn ? minMenuColumn : cmp.menuPicker.store.length,
+                                    columnCount = Math.min(cmp.menuPicker.store.length, Math.round($('.dataview', $(cmp.fieldPicker.el)).width() / (itemMargin + itemWidth) + 0.5));
+
+                                columnCount = columnCount < minCount ? minCount : columnCount;
+                                menu.menuAlignEl = cmp.cmpEl;
+
+                                menu.menuAlign = 'tl-tl';
+                                var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - columnCount * (itemMargin + itemWidth) - 1;
+                                menu.setOffset(Math.min(offset, 0));
+
+                                menu.cmpEl.css({
+                                    'width': columnCount * (itemWidth + itemMargin),
+                                    'min-height': cmp.cmpEl.height()
+                                });
+                            }
+
+                            if (cmp.menuPicker.scroller) {
+                                cmp.menuPicker.scroller.update({
+                                    includePadding: true,
+                                    suppressScrollX: true
+                                });
+                            }
+
+                            cmp.removeTips();
+                        }
+                    });
+
+                    this.listStyles.fieldPicker.itemTemplate = _.template([
+                        '<div class="style" id="<%= id %>">',
+                        '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"/>',
+                        '</div>'
+                    ].join(''));
+                    this.listStyles.menuPicker.itemTemplate = _.template([
+                        '<div class="style" id="<%= id %>">',
+                        '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"/>',
+                        '</div>'
+                    ].join(''));
+                    this.paragraphControls.push(this.listStyles);
+                    this.textOnlyControls.push(this.listStyles);
+
+                    // Disable all components before load document
+                    _.each(this.toolbarControls.concat(this.paragraphControls), function (cmp) {
+                        if (_.isFunction(cmp.setDisabled))
+                            cmp.setDisabled(true);
+                    });
+                    this.btnMailRecepients.setDisabled(true);
+
+                    var editStyleMenuUpdate = new Common.UI.MenuItem({
+                        caption: me.textStyleMenuUpdate
+                    }).on('click', _.bind(me.onStyleMenuUpdate, me));
+
+                    var editStyleMenuRestore = new Common.UI.MenuItem({
+                        caption: me.textStyleMenuDelete
+                    }).on('click', _.bind(me.onStyleMenuDelete, me));
+
+                    var editStyleMenuDelete = new Common.UI.MenuItem({
+                        caption: me.textStyleMenuRestore
+                    }).on('click', _.bind(me.onStyleMenuDelete, me));
+
+                    var editStyleMenuRestoreAll = new Common.UI.MenuItem({
+                        caption: me.textStyleMenuRestoreAll
+                    }).on('click', _.bind(me.onStyleMenuRestoreAll, me));
+
+                    var editStyleMenuDeleteAll = new Common.UI.MenuItem({
+                        caption: me.textStyleMenuDeleteAll
+                    }).on('click', _.bind(me.onStyleMenuDeleteAll, me));
+
+                    if (this.styleMenu == null) {
+                        this.styleMenu = new Common.UI.Menu({
+                            items: [
+                                editStyleMenuUpdate,
+                                editStyleMenuRestore,
+                                editStyleMenuDelete,
+                                editStyleMenuRestoreAll,
+                                editStyleMenuDeleteAll
+                            ]
+                        });
+                    }
+
+                    this.on('render:after', _.bind(this.onToolbarAfterRender, this));
+                } else {
+                    Common.UI.Mixtbar.prototype.initialize.call(this, {
+                            template: _.template(template_view),
+                            tabs: [
+                                {caption: me.textTabFile, action: 'file', haspanel: false}
+                            ]
+                        }
+                    );
+                    Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                        if (action=='plugins' && visible) {
+                            var compactview = false;
+                            if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
+                                compactview = Common.localStorage.getBool("de-compact-toolbar");
+                            } else if ( config.customization && config.customization.compactToolbar )
+                                compactview = true;
+
+                            if (!compactview) {
+                                me.setFolded(false);
+                                me.setTab('plugins');
+                                me.fireEvent('view:compact', [me, compactview]);
+                                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+                            }
+                        }
+                    }, this));
+                }
                 return this;
             },
 
@@ -1153,17 +1186,11 @@ define([
                 } else {
                     me.$layout.find('.canedit').hide();
                     me.$layout.addClass('folded');
-
                     me.$el.html(me.$layout);
                 }
 
                 this.fireEvent('render:after', [this]);
                 Common.UI.Mixtbar.prototype.afterRender.call(this);
-
-                /** coauthoring begin **/
-                this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
-                this.needShowSynchTip = false;
-                /** coauthoring end **/
 
                 Common.NotificationCenter.on({
                     'window:resize': function() {
@@ -1171,38 +1198,47 @@ define([
                     }
                 });
 
-                me.setTab('home');
+                if ( mode.isEdit ) {
+                    /** coauthoring begin **/
+                    this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
+                    this.needShowSynchTip = false;
+                    /** coauthoring end **/
+
+                    me.setTab('home');
+
+                    var top = Common.localStorage.getItem("de-pgmargins-top"),
+                        left = Common.localStorage.getItem("de-pgmargins-left"),
+                        bottom = Common.localStorage.getItem("de-pgmargins-bottom"),
+                        right = Common.localStorage.getItem("de-pgmargins-right");
+                    if ( top!==null && left!==null && bottom!==null && right!==null ) {
+                        var mnu = this.btnPageMargins.menu.items[0];
+                        mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
+                        mnu.setVisible(true);
+                        $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                    } else
+                        this.btnPageMargins.menu.items[0].setVisible(false);
+                }
+
                 if ( me.isCompactView )
                     me.setFolded(true);
-
-                var top = Common.localStorage.getItem("de-pgmargins-top"),
-                    left = Common.localStorage.getItem("de-pgmargins-left"),
-                    bottom = Common.localStorage.getItem("de-pgmargins-bottom"),
-                    right = Common.localStorage.getItem("de-pgmargins-right");
-                if ( top!==null && left!==null && bottom!==null && right!==null ) {
-                    var mnu = this.btnPageMargins.menu.items[0];
-                    mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
-                    mnu.setVisible(true);
-                    $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-                } else
-                    this.btnPageMargins.menu.items[0].setVisible(false);
 
                 return this;
             },
 
             onTabClick: function (e) {
-                var tab = $(e.target).data('tab'),
-                    me = this;
-
-                if ( !me.isTabActive(tab) ) {
-                    if ( tab == 'file' ) {
-                        me.fireEvent('file:open');
-                    } else
-                    if ( me.isTabActive('file') )
-                        me.fireEvent('file:close');
-                }
+                var me = this,
+                    tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
+                    is_file_active = me.isTabActive('file');
 
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
+
+                if ( is_file_active ) {
+                    me.fireEvent('file:close');
+                } else
+                if ( tab == 'file' ) {
+                    me.fireEvent('file:open');
+                    me.setTab(tab);
+                }
 
                 if ( me.isTabActive('home'))
                     me.fireEvent('home:open');
@@ -2052,6 +2088,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
+                    extCls: this.mode.isDesktopApp ? 'inc-index' : undefined,
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {

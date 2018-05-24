@@ -42,6 +42,7 @@ define([
     'backbone',
     'text!spreadsheeteditor/main/app/template/Toolbar.template',
     'text!spreadsheeteditor/main/app/template/ToolbarAnother.template',
+    'text!spreadsheeteditor/main/app/template/ToolbarView.template',
     'common/main/lib/collection/Fonts',
     'common/main/lib/component/Button',
     'common/main/lib/component/ComboBox',
@@ -55,7 +56,7 @@ define([
     'common/main/lib/component/ComboDataView'
     ,'common/main/lib/component/SynchronizeTip'
     ,'common/main/lib/component/Mixtbar'
-], function (Backbone, template, simple) { 'use strict';
+], function (Backbone, template, simple, template_view) { 'use strict';
 
     SSE.enumLock = {
         editCell:       'cell-editing',
@@ -138,38 +139,6 @@ define([
                 { value: Asc.c_oAscNumFormatType.Text,      format: this.ascFormatOptions.Text,        displayValue: this.txtText,         exampleval: '100' }
             ];
 
-            var _set = SSE.enumLock;
-            me.btnCopy = new Common.UI.Button({
-                id          : 'id-toolbar-btn-copy',
-                cls         : 'btn-toolbar',
-                iconCls     : 'btn-copy'
-            });
-
-            me.btnPaste = new Common.UI.Button({
-                id          : 'id-toolbar-btn-paste',
-                cls         : 'btn-toolbar',
-                iconCls     : 'btn-paste',
-                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect]
-            });
-
-            me.btnUndo = new Common.UI.Button({
-                id          : 'id-toolbar-btn-undo',
-                cls         : 'btn-toolbar',
-                iconCls     : 'btn-undo',
-                disabled    : true,
-                lock        : [_set.lostConnect],
-                signals     : ['disabled']
-            });
-
-            me.btnRedo = new Common.UI.Button({
-                id          : 'id-toolbar-btn-redo',
-                cls         : 'btn-toolbar',
-                iconCls     : 'btn-redo',
-                disabled    : true,
-                lock        : [_set.lostConnect],
-                signals     : ['disabled']
-            });
-
             return this;
         },
 
@@ -223,6 +192,38 @@ define([
             }
 
             var _set = SSE.enumLock;
+
+            me.btnCopy = new Common.UI.Button({
+                id          : 'id-toolbar-btn-copy',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-copy'
+            });
+
+            me.btnPaste = new Common.UI.Button({
+                id          : 'id-toolbar-btn-paste',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-paste',
+                lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect]
+            });
+
+            me.btnUndo = new Common.UI.Button({
+                id          : 'id-toolbar-btn-undo',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-undo',
+                disabled    : true,
+                lock        : [_set.lostConnect],
+                signals     : ['disabled']
+            });
+
+            me.btnRedo = new Common.UI.Button({
+                id          : 'id-toolbar-btn-redo',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-redo',
+                disabled    : true,
+                lock        : [_set.lostConnect],
+                signals     : ['disabled']
+            });
+
             if ( config.isEditDiagram ) {
                 me.$layout = $(_.template(simple)(config));
 
@@ -330,11 +331,12 @@ define([
                     iconCls     : 'btn-clear-filter',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot]
                 });
-            } else {
+            } else
+            if ( config.isEdit ) {
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                     template: _.template(template),
                     tabs: [
-                        { caption: me.textTabFile, action: 'file', extcls: 'canedit'},
+                        { caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                         { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                         { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'}
                     ]}
@@ -1200,39 +1202,66 @@ define([
                 var hidetip = Common.localStorage.getItem("sse-hide-synch");
                 me.showSynchTip = !(hidetip && parseInt(hidetip) == 1);
                 // me.needShowSynchTip = false;
+            } else {
+                Common.UI.Mixtbar.prototype.initialize.call(this, {
+                        template: _.template(template_view),
+                        tabs: [
+                            {caption: me.textTabFile, action: 'file', haspanel:false}
+                        ]
+                    }
+                );
+                Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                    if (action=='plugins' && visible) {
+                        var compactview = false;
+                        if ( Common.localStorage.itemExists("sse-compact-toolbar") ) {
+                            compactview = Common.localStorage.getBool("sse-compact-toolbar");
+                        } else if ( config.customization && config.customization.compactToolbar )
+                            compactview = true;
+
+                        if (!compactview) {
+                            me.setFolded(false);
+                            me.setTab('plugins');
+                            me.fireEvent('view:compact', [me, compactview]);
+                            Common.NotificationCenter.trigger('layout:changed', 'toolbar');
+                        }
+                    }
+                }, this));
             }
 
-            me.lockControls = [
-                me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
-                me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
-                me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
-                me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
-                me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
-                me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
-                me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
-                me.btnInsertChart, me.btnColorSchemas,
-                me.btnAutofilter, me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
-                me.btnSave, me.btnClearStyle, me.btnCopyStyle
-            ];
+            if (config.isEdit) {
+                me.lockControls = [
+                    me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
+                    me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
+                    me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
+                    me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
+                    me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
+                    me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
+                    me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
+                    me.btnInsertChart, me.btnColorSchemas,
+                    me.btnAutofilter, me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
+                    /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle
+                ];
 
-            var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
-                me.btnAlignMiddle, me.btnAlignBottom, me.btnHorizontalAlign, me.btnVerticalAlign,
-                me.btnInsertImage, me.btnInsertText, me.btnInsertTextArt, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize,
-                me.btnDecFontSize, me.btnBold, me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnBackColor,
-                me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
-                me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.cmbNumberFormat, me.btnWrap,
-                me.btnInsertChart, me.btnMerge, me.btnAddCell, me.btnDeleteCell, me.btnPrint,
-                me.btnAutofilter, me.btnSortUp, me.btnSortDown, me.btnTableTemplate, me.btnSetAutofilter, me.btnClearAutofilter,
-                me.btnSave, me.btnClearStyle, me.btnCopyStyle, me.btnCopy, me.btnPaste];
+                var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
+                    me.btnAlignMiddle, me.btnAlignBottom, me.btnHorizontalAlign, me.btnVerticalAlign,
+                    me.btnInsertImage, me.btnInsertText, me.btnInsertTextArt, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize,
+                    me.btnDecFontSize, me.btnBold, me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnBackColor,
+                    me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
+                    me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.cmbNumberFormat, me.btnWrap,
+                    me.btnInsertChart, me.btnMerge, me.btnAddCell, me.btnDeleteCell, me.btnPrint,
+                    me.btnAutofilter, me.btnSortUp, me.btnSortDown, me.btnTableTemplate, me.btnSetAutofilter, me.btnClearAutofilter,
+                    me.btnSave, me.btnClearStyle, me.btnCopyStyle, me.btnCopy, me.btnPaste];
 
-            // Enable none paragraph components
-            _.each(_temp_array, function(cmp) {
-                if (cmp && _.isFunction(cmp.setDisabled))
-                    cmp.setDisabled(true);
-            });
+                // Enable none paragraph components
+                _.each(_temp_array, function(cmp) {
+                    if (cmp && _.isFunction(cmp.setDisabled))
+                        cmp.setDisabled(true);
+                });
 
-            this.on('render:after', _.bind(this.onToolbarAfterRender, this));
+                this.on('render:after', _.bind(this.onToolbarAfterRender, this));
+            }
+            return this;
         },
 
         render: function (mode) {
@@ -1271,7 +1300,8 @@ define([
                 }
             });
 
-            me.setTab('home');
+            if ( mode.isEdit )
+                me.setTab('home');
             if ( me.isCompactView )
                 me.setFolded(true);
 
@@ -1279,18 +1309,19 @@ define([
         },
 
         onTabClick: function (e) {
-            var tab = $(e.target).data('tab'),
-                me = this;
+            var me = this,
+                tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
+                is_file_active = me.isTabActive('file');
 
-            if ( !me.isTabActive(tab) ) {
-                if ( tab == 'file' ) {
-                    me.fireEvent('file:open');
-                } else
-                if ( me.isTabActive('file') )
-                    me.fireEvent('file:close');
+            Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
+
+            if ( is_file_active ) {
+                me.fireEvent('file:close');
+            } else
+            if ( tab == 'file' ) {
+                me.fireEvent('file:open');
+                me.setTab(tab);
             }
-
-            Common.UI.Mixtbar.prototype.onTabClick.apply(this, arguments);
         },
 
         rendererComponents: function(html) {
@@ -1756,6 +1787,7 @@ define([
 
         createSynchTip: function () {
             this.synchTooltip = new Common.UI.SynchronizeTip({
+                extCls: this.mode.isDesktopApp ? 'inc-index' : undefined,
                 target: this.btnCollabChanges.$el
             });
             this.synchTooltip.on('dontshowclick', function() {

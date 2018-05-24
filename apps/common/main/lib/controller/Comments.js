@@ -760,6 +760,7 @@ define([
                     user = usersStore.findWhere({id: userId});
                     if (user) {
                         this.getPopover() && this.getPopover().saveText();
+                        this.view.saveText();
                         cur.set('lock', true);
                         cur.set('lockuserid', this.view.getUserName(user.get('username')));
                     }
@@ -771,6 +772,7 @@ define([
             if (cur) {
                 cur.set('lock', false);
                 this.getPopover() && this.getPopover().loadText();
+                this.view.loadText();
             }
         },
         onApiShowComment: function (uids, posX, posY, leftX, opts, hint) {

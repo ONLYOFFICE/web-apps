@@ -62,7 +62,8 @@ define([
                 "click #toolbar-search"     : "searchToggle",
                 "click #toolbar-edit"       : "showEdition",
                 "click #toolbar-add"        : "showInserts",
-                "click #toolbar-settings"   : "showSettings"
+                "click #toolbar-settings"   : "showSettings",
+                "click #toolbar-edit-document": "editDocument"
             },
 
             // Set innerHTML and get the references to the DOM elements
@@ -82,7 +83,7 @@ define([
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
-                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back').addClass('disabled');
+                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document').addClass('disabled');
 
                 this.$btnEdit = $el.find('#toolbar-edit');
                 this.$btnAdd = $el.find('#toolbar-add');
@@ -93,6 +94,8 @@ define([
             setMode: function (mode) {
                 if (mode.isEdit) {
                     $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
+                } else if (mode.canEdit && mode.canRequestEditRights){
+                    $('#toolbar-edit-document').show();
                 }
             },
 
@@ -146,6 +149,10 @@ define([
 
                 if (!(opts.indexOf('edit') < 0))
                     this.$btnEdit.toggleClass('disabled', val);
+            },
+
+            editDocument: function () {
+                Common.Gateway.requestEditRights();
             },
 
             textBack: 'Back'

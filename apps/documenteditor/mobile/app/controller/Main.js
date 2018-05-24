@@ -278,6 +278,7 @@ define([
                         old_rights = this._state.lostEditingRights;
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
+                    Common.NotificationCenter.trigger('api:disconnect');
 
                     if (!old_rights) {
                         uiApp.alert(
@@ -1093,7 +1094,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.advDRMEnterPassword,
+                        text: me.txtProtected,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: [
                             {
@@ -1221,7 +1222,7 @@ define([
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and could not be opened.',
             txtEditingMode: 'Set editing mode...',
             textAnonymous: 'Anonymous',
             loadingDocumentTitleText: 'Loading document',
@@ -1292,7 +1293,8 @@ define([
             txtStyle_footnote_text: 'Footnote Text',
             txtHeader: "Header",
             txtFooter: "Footer",
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset'
         }
     })(), DE.Controllers.Main || {}))
 });

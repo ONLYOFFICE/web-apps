@@ -52,7 +52,8 @@ define([
         var isEdit,
             canEdit = false,
             canDownload = false,
-            canAbout = true;
+            canAbout = true,
+            canHelp = true;
 
         return {
             // el: '.view-main',
@@ -106,6 +107,10 @@ define([
                 if (mode.customization && mode.canBrandingExt) {
                     canAbout = (mode.customization.about!==false);
                 }
+
+                if (mode.customization) {
+                    canHelp = (mode.customization.help!==false);
+                }
             },
 
             rootLayout: function () {
@@ -114,13 +119,12 @@ define([
                         isPhone = Common.SharedSettings.get('phone');
 
                     if (isEdit) {
-                        $layout.find('#settings-edit-document').hide();
                         $layout.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
-                        if (!canEdit) $layout.find('#settings-edit-document').hide();
                     }
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();
+                    if (!canHelp) $layout.find('#settings-help').hide();
 
                     return $layout.html();
                 }
@@ -185,7 +189,6 @@ define([
                     permissions = _.extend(permissions, data.doc.permissions);
 
                     if (permissions.edit === false) {
-                        $('#settings-edit-document').hide();
                     }
                 }
             },

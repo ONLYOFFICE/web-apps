@@ -58,7 +58,7 @@
   "DE.Controllers.Main.errorDatabaseConnection": "Externe fout.<br>Fout in databaseverbinding. Neem contact op met Support.",
   "DE.Controllers.Main.errorDataRange": "Onjuist gegevensbereik",
   "DE.Controllers.Main.errorDefaultMessage": "Foutcode: %1",
-  "DE.Controllers.Main.errorFilePassProtect": "Het document is beschermd met een wachtwoord.",
+  "DE.Controllers.Main.errorFilePassProtect": "Het bestand is beschermd met een wachtwoord en kan niet worden geopend.",
   "DE.Controllers.Main.errorKeyEncrypt": "Onbekende sleuteldescriptor",
   "DE.Controllers.Main.errorKeyExpire": "Sleuteldescriptor vervallen",
   "DE.Controllers.Main.errorMailMergeLoadFile": "Laden mislukt",

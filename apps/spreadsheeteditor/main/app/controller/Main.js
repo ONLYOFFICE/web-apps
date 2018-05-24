@@ -616,7 +616,7 @@ define([
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("sse-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                value = Common.localStorage.getBool("sse-settings-resolvedcomment");
                 Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", value);
                 this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
 
@@ -870,9 +870,8 @@ define([
                     this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? (this.permissions.edit !== false && this.editorConfig.mode !== 'view') : this.permissions.comment);
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
-                    this.appOptions.canRename      = !!this.permissions.rename;
+                    this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
-                    this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -897,6 +896,8 @@ define([
                                                 (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
+                this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -929,7 +930,7 @@ define([
                 statusbarView && statusbarView.setMode(this.appOptions);
 //                this.getStatusInfo().setDisabled(false);
 //                this.getCellInfo().setMode(this.appOptions);
-
+                app.getController('Toolbar').setMode(this.appOptions);
                 app.getController('DocumentHolder').setMode(this.appOptions);
 
                 if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) {
@@ -999,7 +1000,7 @@ define([
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
 
-                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram)
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isOffline)
                         application.getController('PivotTable').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
@@ -1058,7 +1059,7 @@ define([
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
-                var config = {closable: false};
+                var config = {closable: true};
 
                 switch (id) {
                     case Asc.c_oAscError.ID.Unknown:
@@ -1099,47 +1100,38 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
                         config.msg = this.errorWrongBracketsCount;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongOperator:
                         config.msg = this.errorWrongOperator;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
                         config.msg = this.errorCountArgExceed;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongCountArgument:
                         config.msg = this.errorCountArg;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongFunctionName:
                         config.msg = this.errorFormulaName;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlAnotherParsingError:
                         config.msg = this.errorFormulaParsing;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
                         config.msg = this.errorArgsRange;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlOperandExpected:
                         config.msg = this.errorOperandExpected;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongReferences:
                         config.msg = this.errorFrmlWrongReferences;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.UnexpectedGuid:
@@ -1245,6 +1237,7 @@ define([
 
                     case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
+                        config.closable = false;
                         break;
 
                     case Asc.c_oAscError.ID.LockedWorksheetRename:
@@ -1303,6 +1296,7 @@ define([
 
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
+                    config.closable = false;
 
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
@@ -1412,8 +1406,8 @@ define([
                 this.updateWindowTitle(change);
                 Common.Gateway.setDocumentModified(change);
 
-                if (this.toolbarView && this.toolbarView.btnSave && this.api) {
-                    var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
+                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
@@ -1422,8 +1416,8 @@ define([
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
-                if (this.toolbarView && this.toolbarView.btnSave) {
-                    var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                if (this.toolbarView && this.toolbarView.btnCollabChanges) {
+                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                     this.toolbarView.btnSave.setDisabled(isDisabled);
@@ -1468,6 +1462,8 @@ define([
                 this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 Common.NotificationCenter.trigger('layout:changed', 'main');
                 $('#loading-mask').hide().remove();
+
+                Common.Controllers.Desktop.process('preloader:hide');
             },
 
             onDownloadUrl: function(url) {
@@ -1534,6 +1530,7 @@ define([
                     me._state.openDlg = new Common.Views.OpenDialog({
                         closable: me.appOptions.canRequestClose,
                         type: type,
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
@@ -1819,7 +1816,6 @@ define([
             onNamedRangeLocked: function() {
                 if ($('.asc-window.modal.alert:visible').length < 1) {
                     Common.UI.alert({
-                        closable: false,
                         msg: this.errorCreateDefName,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
@@ -2108,7 +2104,7 @@ define([
             errorMoveRange: 'Cann\'t change a part of merged cell',
             errorBadImageUrl: 'Image url is incorrect',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
             txtEditingMode: 'Set editing mode...',
             textLoadingDocument: 'Loading spreadsheet',

@@ -308,7 +308,7 @@ define([
             txtDeletePwd: 'Delete password',
             txtAddPwd: 'Add password',
             txtInvisibleSignature: 'Add digital signature',
-            txtSignatureLine: 'Signature line'
+            txtSignatureLine: 'Add Signature line'
         }
     }()), Common.Views.Protection || {}));
 });

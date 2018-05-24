@@ -123,7 +123,7 @@
   "SSE.Controllers.Main.errorDatabaseConnection": "Erreur externe.<br>Erreur de connexion à la base de données. Si l'erreur persiste, veillez contactez l'assistance technique.",
   "SSE.Controllers.Main.errorDataRange": "Plage de données incorrecte.",
   "SSE.Controllers.Main.errorDefaultMessage": "Code d'erreur: %1",
-  "SSE.Controllers.Main.errorFilePassProtect": "Le document est protégé par le mot de passe et ne peut être ouvert.",
+  "SSE.Controllers.Main.errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
   "SSE.Controllers.Main.errorFileRequest": "Erreur externe.<br>Erreur de demande du fichier. Si l'erreur persiste, veillez contactez l'assistance technique.",
   "SSE.Controllers.Main.errorFileVKey": "Erreur externe.<br>Clé de sécurité incorrecte. Si l'erreur persiste, veillez contactez l'assistance technique.",
   "SSE.Controllers.Main.errorFillRange": "Il est impossible de remplir la plage de cellules sélectionnée. <br>Toutes les cellules unies doivent être de la même taille.",

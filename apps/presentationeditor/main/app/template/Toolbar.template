@@ -1,21 +1,7 @@
 <div class="toolbar">
     <section class="box-tabs">
         <div class="extra left"></div>
-        <section class="tabs">
-            <a class="scroll left">
-                <i class="icon">&lt;</i>
-            </a>
-            <ul>
-                <% for(var i in tabs) { %>
-                    <li class="ribtab<% if (tabs[i].extcls) print(' ' + tabs[i].extcls) %>">
-                        <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
-                    </li>
-                <% } %>
-            </ul>
-            <a class="scroll right">
-                <i class="icon">&gt;</i>
-            </a>
-        </section>
+        <%= tabsmarkup %>
         <div class="extra right"></div>
     </section>
     <section class="box-controls">
