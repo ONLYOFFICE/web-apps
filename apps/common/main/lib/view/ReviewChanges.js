@@ -969,7 +969,7 @@ define([
 
     Common.Views.ReviewChangesDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width       : 283,
+            width       : 330,
             height      : 90,
             title       : 'Review Changes',
             modal       : false,
@@ -978,7 +978,9 @@ define([
         },
 
         initialize : function(options) {
-            _.extend(this.options, options || {});
+            _.extend(this.options, {
+                title    : this.textTitle
+            },  options || {});
 
             this.template = [
                 '<div class="box">',
