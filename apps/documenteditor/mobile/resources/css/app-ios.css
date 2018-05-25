@@ -6788,3 +6788,7 @@ html.pixel-ratio-3 .numbers li {
   z-index: 10;
   -webkit-appearance: none;
 }
+.modal.modal-in {
+  max-height: 100%;
+  overflow: scroll;
+}

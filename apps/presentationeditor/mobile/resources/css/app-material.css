@@ -6347,3 +6347,7 @@ html.pixel-ratio-3 .numbers li {
   height: 100%;
   background-size: contain;
 }
+.modal.modal-in {
+  max-height: 100%;
+  overflow: scroll;
+}

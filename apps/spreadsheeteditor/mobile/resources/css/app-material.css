@@ -6741,3 +6741,7 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
   height: 38px;
   background-size: contain;
 }
+.modal.modal-in {
+  max-height: 100%;
+  overflow: scroll;
+}
