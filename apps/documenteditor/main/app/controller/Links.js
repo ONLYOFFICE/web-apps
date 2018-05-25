@@ -142,10 +142,16 @@ define([
 
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
 
-            var need_disable = paragraph_locked || in_equation || in_image || in_header;
+            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+
+            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
             _.each (this.view.btnsNotes, function(item){
                 item.setDisabled(need_disable);
             }, this);
+
+            need_disable = paragraph_locked || header_locked || control_plain;
+            this.view.btnBookmarks.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
