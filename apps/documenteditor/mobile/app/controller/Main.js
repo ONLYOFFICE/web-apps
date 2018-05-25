@@ -649,6 +649,7 @@ define([
                 me.appOptions.isOffline       = me.api.asc_isOffline();
                 me.appOptions.isReviewOnly    = (me.permissions.review === true) && (me.permissions.edit === false);
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
+                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.canEdit         = (me.permissions.edit !== false || me.permissions.review === true) && // can edit or review
                     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                     (!me.appOptions.isReviewOnly || me.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
@@ -1092,25 +1093,33 @@ define([
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
+                    var buttons = [{
+                        text: 'OK',
+                        bold: true,
+                        onClick: function () {
+                            var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
+                            me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
+
+                            if (!me._isDocReady) {
+                                me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            }
+                            me._state.openDlg = null;
+                        }
+                    }];
+                    if (me.appOptions.canRequestClose)
+                        buttons.push({
+                            text: me.closeButtonText,
+                            onClick: function () {
+                                Common.Gateway.requestClose();
+                                me._state.openDlg = null;
+                            }
+                        });
+
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
                         text: me.txtProtected,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
-                        buttons: [
-                            {
-                                text: 'OK',
-                                bold: true,
-                                onClick: function () {
-                                    var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-
-                                    if (!me._isDocReady) {
-                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                                    }
-                                    me._state.openDlg = null;
-                                }
-                            }
-                        ]
+                        buttons: buttons
                     });
 
                     // Vertical align
@@ -1294,7 +1303,8 @@ define([
             txtHeader: "Header",
             txtFooter: "Footer",
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
-            txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset'
+            txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset',
+            closeButtonText: 'Close File'
         }
     })(), DE.Controllers.Main || {}))
 });
