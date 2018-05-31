@@ -175,6 +175,7 @@
   "SSE.Controllers.Main.openErrorText": "Faila atvēršanas laikā radās kļūda",
   "SSE.Controllers.Main.openTextText": "Dokumenta atvēršana...",
   "SSE.Controllers.Main.openTitleText": "Dokumenta atvēršana",
+  "SSE.Controllers.Main.pastInMergeAreaError": "Nevar mainīt apvienotas šūnas daļu",
   "SSE.Controllers.Main.printTextText": "Drukā dokumentu...",
   "SSE.Controllers.Main.printTitleText": "Drukā dokumentu",
   "SSE.Controllers.Main.reloadButtonText": "Pārlādēt lapu",
