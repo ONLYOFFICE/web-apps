@@ -75,7 +75,9 @@ define([
                     '<% if (msg.get("type")==1) { %>',
                         '<div class="message service" data-can-copy="true"><%= msg.get("message") %></div>',
                     '<% } else { %>',
-                        '<div class="user" data-can-copy="true" style="color: <%= msg.get("usercolor") %>;"><%= scope.getUserName(msg.get("username")) %></div>',
+                        '<div class="user-name" data-can-copy="true">',
+                            '<% if (msg.get("usercolor")!==null) { %><div class="color" style="display: inline-block; background-color: <%=msg.get("usercolor")%>; " ></div><% } %><%= scope.getUserName(msg.get("username")) %>',
+                        '</div>',
                         '<label class="message user-select" data-can-copy="true"><%= msg.get("message") %></label>',
                     '<% } %>',
             '</li>'].join(''),
@@ -219,7 +221,7 @@ define([
         _prepareMessage: function(m) {
             var user    = this.storeUsers.findUser(m.get('userid'));
             m.set({
-                usercolor   : user ? user.get('color') : '#000',
+                usercolor   : user ? user.get('color') : null,
                 message     : this._pickLink(Common.Utils.String.htmlEncode(m.get('message')))
             }, {silent:true});
         },
