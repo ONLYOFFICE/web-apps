@@ -1,5 +1,7 @@
 <div id="<%=id%>" class="user-comment-item">
-    <div class="user-name-colored"><span style="background-color:<%=usercolor%>;"><%=scope.getUserName(username)%></span></div>
+    <div class="user-name">
+        <div class="color" style="display: inline-block; background-color: <% if (usercolor!==null) { %><%=usercolor%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(username) %>
+    </div>
     <div class="user-date"><%=date%></div>
     <div class="user-message limit-height"><%=changetext%></div>
     <div class="edit-ct">

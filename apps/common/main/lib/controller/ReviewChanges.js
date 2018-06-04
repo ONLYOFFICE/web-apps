@@ -96,6 +96,9 @@ define([
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+
+            this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
+            this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
         },
         setConfig: function (data, api) {
             this.setApi(api);
@@ -386,12 +389,12 @@ define([
 
                 }
                 var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
-                    color = item.get_UserColor(),
+                    user = me.userCollection.findOriginalUser(item.get_UserId()),
                     change = new Common.Models.ReviewChange({
                         uid         : Common.UI.getId(),
                         userid      : item.get_UserId(),
                         username    : item.get_UserName(),
-                        usercolor   : '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
+                        usercolor   : (user) ? user.get('color') : null,
                         date        : me.dateToLocaleTimeString(date),
                         changetext  : changetext,
                         id          : Common.UI.getId(),
@@ -684,6 +687,14 @@ define([
 
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
+        },
+
+        onUpdateUsers: function() {
+            var users = this.userCollection;
+            this.popoverChanges.each(function (model) {
+                var user = users.findOriginalUser(model.get('userid'));
+                model.set('usercolor', (user) ? user.get('color') : null);
+            });
         },
 
         textInserted: '<b>Inserted:</b>',

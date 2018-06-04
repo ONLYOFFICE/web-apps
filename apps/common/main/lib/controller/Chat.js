@@ -148,6 +148,7 @@ define([
                         if (user) {
                             var usermodel = new Common.Models.User({
                                 id          : user.asc_getId(),
+                                idOriginal  : user.asc_getIdOriginal(),
                                 username    : user.asc_getUserName(),
                                 online      : true,
                                 color       : user.asc_getColor(),
@@ -170,6 +171,7 @@ define([
                 if (!user) {
                     usersStore.add(new Common.Models.User({
                         id          : change.asc_getId(),
+                        idOriginal  : change.asc_getIdOriginal(),
                         username    : change.asc_getUserName(),
                         online      : change.asc_getState(),
                         color       : change.asc_getColor(),

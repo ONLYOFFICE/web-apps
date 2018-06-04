@@ -57,6 +57,7 @@ define([
             return {
                 iid         : Common.UI.getId(), // internal id for rendering
                 id          : undefined,
+                idOriginal   : undefined,
                 username    : 'Guest',
                 color       : '#fff',
                 colorval    : null,

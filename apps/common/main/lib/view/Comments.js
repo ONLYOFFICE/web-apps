@@ -539,7 +539,9 @@ define([
 
         // CommentsPopover
 
-        update: function () {
+        update: function (needRender) {
+            if (this.commentsView && needRender)
+                this.commentsView.onResetItems();
             if (this.commentsView && this.commentsView.scroller) {
                 this.commentsView.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
             }

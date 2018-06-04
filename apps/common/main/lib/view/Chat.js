@@ -76,7 +76,7 @@ define([
                         '<div class="message service" data-can-copy="true"><%= msg.get("message") %></div>',
                     '<% } else { %>',
                         '<div class="user-name" data-can-copy="true">',
-                            '<% if (msg.get("usercolor")!==null) { %><div class="color" style="display: inline-block; background-color: <%=msg.get("usercolor")%>; " ></div><% } %><%= scope.getUserName(msg.get("username")) %>',
+                            '<div class="color" style="display: inline-block; background-color: <% if (msg.get("usercolor")!==null) { %><%=msg.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(msg.get("username")) %>',
                         '</div>',
                         '<label class="message user-select" data-can-copy="true"><%= msg.get("message") %></label>',
                     '<% } %>',

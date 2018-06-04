@@ -55,6 +55,7 @@ define([
             uid                 : 0,                        //  asc
             userid              : 0,
             username            : 'Guest',
+            usercolor           : null,
             date                : undefined,
             quote               : '',
             comment             : '',
@@ -84,6 +85,7 @@ define([
             time                : 0,                    //  acs
             userid              : 0,
             username            : 'Guest',
+            usercolor           : null,
             reply               : '',
             date                : undefined,
 

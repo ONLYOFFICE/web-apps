@@ -134,6 +134,10 @@ define([
             });
             this.view.render();
 
+            this.userCollection = this.getApplication().getCollection('Common.Collections.Users');
+            this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
+            this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
+
             this.bindViewEvents(this.view, this.events);
         },
         setConfig: function (data, api) {
@@ -162,7 +166,6 @@ define([
                 this.api.asc_registerCallback('asc_onShowComment', _.bind(this.onApiShowComment, this));
                 this.api.asc_registerCallback('asc_onHideComment', _.bind(this.onApiHideComment, this));
                 this.api.asc_registerCallback('asc_onUpdateCommentPosition', _.bind(this.onApiUpdateCommentPosition, this));
-
                 this.api.asc_registerCallback('asc_onDocumentPlaceChanged', _.bind(this.onDocumentPlaceChanged, this));
             }
         },
@@ -703,9 +706,11 @@ define([
                 date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                        ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
 
+                var user = this.userCollection.findOriginalUser(data.asc_getUserId());
                 comment.set('comment',  data.asc_getText());
                 comment.set('userid',   data.asc_getUserId());
                 comment.set('username', data.asc_getUserName());
+                comment.set('usercolor', (user) ? user.get('color') : null);
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
                 comment.set('time',     date.getTime());
@@ -721,10 +726,12 @@ define([
                     dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                                 ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
+                    user = this.userCollection.findOriginalUser(data.asc_getReply(i).asc_getUserId());
                     replies.push(new Common.Models.Reply({
                         id                  : Common.UI.getId(),
                         userid              : data.asc_getReply(i).asc_getUserId(),
                         username            : data.asc_getReply(i).asc_getUserName(),
+                        usercolor           : (user) ? user.get('color') : null,
                         date                : t.dateToLocaleTimeString(dateReply),
                         reply               : data.asc_getReply(i).asc_getText(),
                         time                : dateReply.getTime(),
@@ -751,13 +758,11 @@ define([
         },
         onApiLockComment: function (id,userId) {
             var cur = this.findComment(id),
-                usersStore = null,
                 user = null;
 
             if (cur) {
-                usersStore = this.getApplication().getCollection('Common.Collections.Users');
-                if (usersStore) {
-                    user = usersStore.findWhere({id: userId});
+                if (this.userCollection) {
+                    user = this.userCollection.findUser(userId);
                     if (user) {
                         this.getPopover() && this.getPopover().saveText();
                         this.view.saveText();
@@ -1079,13 +1084,31 @@ define([
 
         // helpers
 
+        onUpdateUsers: function() {
+            var users = this.userCollection;
+            this.collection.each(function (model) {
+                var user = users.findOriginalUser(model.get('userid'));
+                model.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+
+                model.get('replys').forEach(function (reply) {
+                    user = users.findOriginalUser(reply.get('userid'));
+                    reply.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                });
+            });
+            this.updateComments(true);
+            if (this.getPopover().isVisible())
+                this.getPopover().update(true);
+        },
+
         readSDKComment: function (id, data) {
             var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                 ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
+            var user = this.userCollection.findOriginalUser(data.asc_getUserId());
             var comment = new Common.Models.Comment({
                 uid                 : id,
                 userid              : data.asc_getUserId(),
                 username            : data.asc_getUserName(),
+                usercolor           : (user) ? user.get('color') : null,
                 date                : this.dateToLocaleTimeString(date),
                 quote               : data.asc_getQuoteText(),
                 comment             : data.asc_getText(),
@@ -1121,10 +1144,12 @@ define([
                     date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                         ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
+                    var user = this.userCollection.findOriginalUser(data.asc_getReply(i).asc_getUserId());
                     replies.push(new Common.Models.Reply({
                         id                  : Common.UI.getId(),
                         userid              : data.asc_getReply(i).asc_getUserId(),
                         username            : data.asc_getReply(i).asc_getUserName(),
+                        usercolor           : (user) ? user.get('color') : null,
                         date                : this.dateToLocaleTimeString(date),
                         reply               : data.asc_getReply(i).asc_getText(),
                         time                : date.getTime(),
@@ -1157,12 +1182,14 @@ define([
                         return;
                     }
 
+                    var user = this.userCollection.findOriginalUser(this.currentUserId);
                     var comment = new Common.Models.Comment({
                         id: -1,
                         time: date.getTime(),
                         date: this.dateToLocaleTimeString(date),
                         userid: this.currentUserId,
                         username: this.currentUserName,
+                        usercolor: (user) ? user.get('color') : null,
                         editTextInPopover: true,
                         showReplyInPopover: false,
                         hideAddReply: true,
