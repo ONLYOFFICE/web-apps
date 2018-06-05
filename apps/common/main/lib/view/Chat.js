@@ -66,9 +66,9 @@ define([
                     '</li>'].join(''),
 
         templateUserList: _.template('<ul>' +
-                        '<% _.each(users, function(item) { %>' +
-                            '<%= _.template(usertpl)({user: item, scope: scope}) %>' +
-                        '<% }); %>' +
+                            '<% for (originalId in users) { %>' +
+                                '<%= _.template(usertpl)({user: users[originalId][0], scope: scope}) %>' +
+                            '<% } %>' +
                     '</ul>'),
 
         tplMsg: ['<li>',
@@ -100,8 +100,8 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
 
             this.storeUsers.bind({
-                add     : _.bind(this._onAddUser, this),
-                change  : _.bind(this._onUsersChanged, this),
+                add     : _.bind(this._onResetUsers, this),
+                change  : _.bind(this._onResetUsers, this),
                 reset   : _.bind(this._onResetUsers, this)
             });
 
@@ -162,23 +162,10 @@ define([
             }
         },
 
-        _onAddUser: function(m, c, opts) {
-            if (this.panelUsers) {
-                this.panelUsers.find('ul').append(_.template(this.tplUser)({user: m, scope: this}));
-                this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
-            }
-        },
-
-        _onUsersChanged: function(m) {
-            if (m.changed.online != undefined && this.panelUsers) {
-                this.panelUsers.find('#' + m.get('iid'))[m.changed.online?'removeClass':'addClass']('offline');
-                this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
-            }
-        },
-
         _onResetUsers: function(c, opts) {
             if (this.panelUsers) {
-                this.panelUsers.html(this.templateUserList({users: c.models, usertpl: this.tplUser, scope: this}));
+                this.panelUsers.html(this.templateUserList({users: this.storeUsers.chain().filter(function(item){return item.get('online');}).groupBy(function(item) {return item.get('idOriginal');}).value(),
+                                                            usertpl: this.tplUser, scope: this}));
                 this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
             }
         },
@@ -219,7 +206,7 @@ define([
         },
 
         _prepareMessage: function(m) {
-            var user    = this.storeUsers.findUser(m.get('userid'));
+            var user    = this.storeUsers.findOriginalUser(m.get('userid'));
             m.set({
                 usercolor   : user ? user.get('color') : null,
                 message     : this._pickLink(Common.Utils.String.htmlEncode(m.get('message')))
