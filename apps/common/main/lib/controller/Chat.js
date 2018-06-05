@@ -190,7 +190,7 @@ define([
                 var array = [];
                 messages.forEach(function(msg) {
                     array.push(new Common.Models.ChatMessage({
-                        userid      : msg.user,
+                        userid      : msg.useridoriginal,
                         message     : msg.message,
                         username    : msg.username
                     }));
