@@ -691,7 +691,7 @@ define([
 
         onUpdateUsers: function() {
             var users = this.userCollection;
-            this.popoverChanges.each(function (model) {
+            this.popoverChanges && this.popoverChanges.each(function (model) {
                 var user = users.findOriginalUser(model.get('userid'));
                 model.set('usercolor', (user) ? user.get('color') : null);
             });

@@ -61,12 +61,11 @@ define([
         },
 
         getEditingCount: function() {
-            var count = 0;
-            this.each(function(user){
-                user.get('online') && !user.get('view') && ++count;
-            });
+            return this.filter(function(item){return item.get('online') && !item.get('view')}).length;
+        },
 
-            return count;
+        getEditingOriginalCount: function() {
+            return this.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).size().value();
         },
 
         findUser: function(id) {
