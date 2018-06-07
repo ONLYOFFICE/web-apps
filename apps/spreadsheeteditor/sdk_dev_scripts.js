@@ -162,6 +162,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/word/Editor/Numbering/AbstractNum.js",
 	"../../../../sdkjs/word/Editor/Numbering/AbstractNumChanges.js",
 	"../../../../sdkjs/word/Editor/Numbering/Num.js",
+	"../../../../sdkjs/word/Editor/Numbering/NumChanges.js",
 	"../../../../sdkjs/word/Editor/Numbering/PresentationNumbering.js",
 	"../../../../sdkjs/word/Editor/Numbering/Numbering.js",
 	"../../../../sdkjs/word/Editor/HeaderFooter.js",
