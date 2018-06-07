@@ -46,7 +46,8 @@ define([
     'core',
     'common/main/lib/model/Comment',
     'common/main/lib/collection/Comments',
-    'common/main/lib/view/Comments'
+    'common/main/lib/view/Comments',
+    'common/main/lib/view/ReviewPopover'
 ], function () {
     'use strict';
 
@@ -67,7 +68,7 @@ define([
         ],
         views : [
             'Common.Views.Comments',
-            'Common.Views.CommentsPopover'
+            'Common.Views.ReviewPopover'
         ],
         sdkViewName : '#id_main',
         subEditStrings : {},
@@ -87,6 +88,27 @@ define([
                     // comments handlers
 
                     'comment:add':              _.bind(this.onCreateComment, this),
+                    'comment:change':           _.bind(this.onChangeComment, this),
+                    'comment:remove':           _.bind(this.onRemoveComment, this),
+                    'comment:resolve':          _.bind(this.onResolveComment, this),
+                    'comment:show':             _.bind(this.onShowComment, this),
+
+                    // reply handlers
+
+                    'comment:addReply':         _.bind(this.onAddReplyComment, this),
+                    'comment:changeReply':      _.bind(this.onChangeReplyComment, this),
+                    'comment:removeReply':      _.bind(this.onRemoveReplyComment, this),
+                    'comment:editReply':        _.bind(this.onShowEditReplyComment, this),
+
+                    // work handlers
+
+                    'comment:closeEditing':     _.bind(this.closeEditing, this)
+                },
+
+                'Common.Views.ReviewPopover': {
+
+                    // comments handlers
+
                     'comment:change':           _.bind(this.onChangeComment, this),
                     'comment:remove':           _.bind(this.onRemoveComment, this),
                     'comment:resolve':          _.bind(this.onResolveComment, this),
@@ -128,10 +150,7 @@ define([
                 this.popoverComments.comparator =   function (collection) { return -collection.get('time'); };
             }
 
-            this.view                           =   this.createView('Common.Views.Comments', {
-                store           :   this.collection,
-                popoverComments :   this.popoverComments
-            });
+            this.view = this.createView('Common.Views.Comments', { store: this.collection });
             this.view.render();
 
             this.userCollection = this.getApplication().getCollection('Common.Collections.Users');
@@ -270,7 +289,7 @@ define([
 
                             if (comment.get('unattached')) {
                                 if (this.getPopover()) {
-                                    this.getPopover().hide();
+                                    this.getPopover().hideComments();
                                     return;
                                 }
                             }
@@ -296,7 +315,7 @@ define([
                     }
 
                     if (this.getPopover()) {
-                        this.getPopover().hide();
+                        this.getPopover().hideComments();
                     }
 
                     this.isSelectedComment = false;
@@ -670,7 +689,7 @@ define([
                         this.popoverComments.remove(model);
                         if (0 === this.popoverComments.length) {
                             if (this.getPopover()) {
-                                this.getPopover().hide();
+                                this.getPopover().hideComments();
                             }
                         }
                     }
@@ -863,7 +882,7 @@ define([
                 }
 
                 popover.setLeftTop(posX, posY, leftX);
-                popover.show(animate, false, true, text);
+                popover.showComments(animate, false, true, text);
             }
         },
         onApiHideComment: function (hint) {
@@ -887,7 +906,7 @@ define([
                 });
 
                 this.getPopover().saveText(true);
-                this.getPopover().hide();
+                this.getPopover().hideComments();
 
                 this.collection.clearEditing();
                 this.popoverComments.clearEditing();
@@ -941,9 +960,9 @@ define([
                         }
 
                         useAnimation = true;
-                        this.getPopover().show(useAnimation, undefined, undefined, text);
+                        this.getPopover().showComments(useAnimation, undefined, undefined, text);
                     } else if (!this.getPopover().isVisible()) {
-                        this.getPopover().show(false, undefined, undefined, text);
+                        this.getPopover().showComments(false, undefined, undefined, text);
                     }
 
                     this.getPopover().setLeftTop(posX, posY, leftX, undefined, true);
@@ -1078,8 +1097,16 @@ define([
                 }
             }
         },
+
         getPopover: function () {
-            return this.view.getPopover(this.sdkViewName);
+            if (_.isUndefined(this.popover)) {
+                this.popover = Common.Views.ReviewPopover.prototype.getPopover({
+                    commentsStore : this.popoverComments,
+                    renderTo : this.sdkViewName
+                });
+                this.popover.setCommentsStore(this.popoverComments);
+            }
+            return this.popover;
         },
 
         // helpers
@@ -1225,7 +1252,7 @@ define([
                             anchor.asc_getY(),
                             this.hintmode ? anchor.asc_getX() : undefined);
 
-                        dialog.show(true, false, true);
+                        dialog.showComments(true, false, true);
                     }
                 }
             }
@@ -1243,7 +1270,7 @@ define([
 
                     this.popoverComments.reset();
                     if (this.getPopover().isVisible()) {
-                       this.getPopover().hide();
+                       this.getPopover().hideComments();
                     }
                     comment.asc_putText(commentVal);
                     comment.asc_putTime(this.utcDateToString(new Date()));
@@ -1280,7 +1307,7 @@ define([
                     });
 
                     if (dialog.isVisible()) {
-                        dialog.hide();
+                        dialog.hideComments();
                     }
                 }
 
@@ -1325,7 +1352,7 @@ define([
                             anchor.asc_getY(),
                             this.hintmode ? anchor.asc_getX() : undefined);
 
-                        this.getPopover().show(true, false, true);
+                        this.getPopover().showComments(true, false, true);
                     }
                 }
             }
