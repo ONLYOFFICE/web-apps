@@ -24,14 +24,14 @@
 					<td class="description">Open the <b>File</b> panel to save, download, print the current spreadsheet, view its info, create a new spreadsheet or open an existing one, access Spreadsheet Editor help or advanced settings.</td>
 				</tr>
 				<tr>
-					<td>Open 'Find and Replace' window</td>
+					<td>Open 'Find and Replace' dialog box</td>
 					<td>Ctrl+F</td>
-					<td>Open the <b>Find and Replace</b> window to start searching for a cell containing the characters you need.</td>
+					<td>Open the <b>Find and Replace</b> dialog box to start searching for a cell containing the characters you need.</td>
 				</tr>
                 <tr>
-                    <td>Open 'Find and Replace' window with replacement field</td>
+                    <td>Open 'Find and Replace' dialog box with replacement field</td>
                     <td>Ctrl+H</td>
-                    <td>Open the <b>Find and Replace</b> window with the replacement field to replace one or more occurrences of the found characters.</td>
+                    <td>Open the <b>Find and Replace</b> dialog box with the replacement field to replace one or more occurrences of the found characters.</td>
                 </tr>
                 <tr>
                     <td>Open 'Comments' panel</td>
@@ -51,7 +51,7 @@
                 <tr>
 					<td>Save spreadsheet</td>
 					<td>Ctrl+S</td>
-					<td>Save all the changes to the spreadsheet currently edited with Spreadsheet Editor.</td>
+					<td>Save all the changes to the spreadsheet currently edited with Spreadsheet Editor. The active file will be saved with its current file name, location, and file format.</td>
 				</tr>
 				<tr>
 					<td>Print spreadsheet</td>
@@ -61,7 +61,7 @@
 				<tr class="onlineDocumentFeatures">
 					<td>Download as...</td>
 					<td>Ctrl+Shift+S</td>
-					<td>Open the <b>Download as...</b> pane to save the currently viewed spreadsheet to the computer hard disk drive in one of the supported formats: XLSX, PDF, ODS, CSV.</td>
+					<td>Open the <b>Download as...</b> panel to save the currently edited spreadsheet to the computer hard disk drive in one of the supported formats: XLSX, PDF, ODS, CSV.</td>
 				</tr>
 				<tr>
 					<td>Full screen</td>
@@ -73,79 +73,110 @@
                     <td>F1</td>
                     <td>Open Spreadsheet Editor <b>Help</b> menu.</td>
                 </tr>
+                <tr>
+                    <td>Open existing file</td>
+                    <td>Ctrl+O</td>
+                    <td>On the <b>Open local file</b> tab in desktop editors, opens the standard dialog box that allows to select an existing file.</td>
+                </tr>
+                <tr>
+                    <td>Element contextual menu</td>
+                    <td>Shift+F10</td>
+                    <td>Open the selected element <b>contextual menu</b>.</td>
+                </tr>
+                <tr>
+                    <td>Close file</td>
+                    <td>Ctrl+W</td>
+                    <td>Close the selected workbook window.</td>
+                </tr>
+                <tr>
+                    <td>Close the window (tab)</td>
+                    <td>Ctrl+F4</td>
+                    <td>Close the tab in a browser.</td>
+                </tr>
+                
 				<tr>
 					<th colspan="3">Navigation</th>
 				</tr>
+                <tr>
+                    <td>Move one cell up, down, left, or right</td>
+                    <td>Arrow keys</td>
+                    <td>Outline a cell above/below the currently selected one or to the left/to the right of it.</td>
+                </tr>
+                <tr>
+                    <td>Jump to the edge of the current data region</td>
+                    <td>Ctrl+Arrow keys</td>
+                    <td>Outline a cell at the edge of the current data region in a worksheet.</td>
+                </tr>
 				<tr>
 					<td>Jump to the beginning of the row</td>
 					<td>Home</td>
-					<td>Outline the A column of the current row.</td>
+					<td>Outline a cell in the column A of the current row.</td>
 				</tr>
 				<tr>
 					<td>Jump to the beginning of the spreadsheet</td>
 					<td>Ctrl+Home</td>
-					<td>Outline the A1 cell.</td>
+					<td>Outline the cell A1.</td>
 				</tr>
 				<tr>
 					<td>Jump to the end of the row</td>
-					<td>End, or Ctrl+Right</td>
+					<td>End, or Ctrl+Right arrow</td>
 					<td>Outline the last cell of the current row.</td>
 				</tr>
 				<tr>
 					<td>Jump to the end of the spreadsheet</td>
 					<td>Ctrl+End</td>
-					<td>Outline the last cell of the spreadsheet situated at the bottommost row with data of the rightmost column with data. If the cursor is at the formula line, it will be placed to the end of the text.</td>
+					<td>Outline the lower right used cell on the worksheet situated at the bottommost row with data of the rightmost column with data. If the cursor is in the formula bar, it will be placed to the end of the text.</td>
 				</tr>
-				<!--<tr>
-					<td>Scroll down</td>
-					<td>PgDn</td>
-					<td>Scroll the spreadsheet one screan down.</td>
-				</tr>
-				<tr>
-					<td>Scroll up</td>
-					<td>PgUp</td>
-					<td>Scroll the spreadsheet one screan up.</td>
-				</tr>-->
 				<tr>
 					<td>Move to the previous sheet</td>
-					<td>Alt+PgUp</td>
+					<td>Alt+Page Up</td>
 					<td>Move to the previous sheet in your spreadsheet.</td>
 				</tr>
 				<tr>
 					<td>Move to the next sheet</td>
-					<td>Alt+PgDn</td>
+					<td>Alt+Page Down</td>
 					<td>Move to the next sheet in your spreadsheet.</td>
 				</tr>
 				<tr>
 					<td>Move up one row</td>
-					<td>Up Arrow</td>
+					<td>Up arrow, or Shift+Enter</td>
 					<td>Outline the cell above the current one in the same column.</td>
 				</tr>
 				<tr>
 					<td>Move down one row</td>
-					<td>Down Arrow</td>
+					<td>Down arrow, or Enter</td>
 					<td>Outline the cell below the current one in the same column.</td>
 				</tr>
 				<tr>
 					<td>Move left one column</td>
-					<td>Left Arrow, or <br />Tab</td>
+					<td>Left arrow, or <br />Shift+Tab</td>
 					<td>Outline the previous cell of the current row.</td>
 				</tr>
 				<tr>
 					<td>Move right one column</td>
-					<td>Right Arrow, or <br />Tab+Shift</td>
+					<td>Right arrow, or <br />Tab</td>
 					<td>Outline the next cell of the current row.</td>
 				</tr>
-				<!--<tr>
+                <tr>
+                    <td>Move down one screen</td>
+                    <td>Page Down</td>
+                    <td>Move one screen down in the worksheet.</td>
+                </tr>
+                <tr>
+                    <td>Move up one screen</td>
+                    <td>Page Up</td>
+                    <td>Move one screen up in the worksheet.</td>
+                </tr>
+				<tr>
 					<td>Zoom In</td>
-					<td>Ctrl++</td>
-					<td>Zoom in the currently viewed spreadsheet.</td>
+					<td>Ctrl+Plus sign (+)</td>
+					<td>Zoom in the currently edited spreadsheet.</td>
 				</tr>
 				<tr>
 					<td>Zoom Out</td>
-					<td>Ctrl+-</td>
-					<td>Zoom out the currently viewed spreadsheet.</td>
-				</tr>-->
+					<td>Ctrl+Minus sign (-)</td>
+					<td>Zoom out the currently edited spreadsheet.</td>
+				</tr>
 				<tr>
 					
 					<th colspan="3">Data Selection</th>
@@ -188,7 +219,22 @@
                 <tr>
                     <td>Extend the selection to the last used cell</td>
                     <td>Ctrl+Shift+End</td>
-                    <td>Select a fragment from the current selected cells to the last used cell on the worksheet.</td>
+                    <td>Select a fragment from the current selected cells to the last used cell on the worksheet (at the bottommost row with data of the rightmost column with data). If the cursor is in the formula bar, this will select all text in the formula bar from the cursor position to the end without affecting the height of the formula bar.</td>
+                </tr>
+                <tr>
+                    <td>Select one cell to the left</td>
+                    <td>Shift+Tab</td>
+                    <td>Select one cell to the left in a table.</td>
+                </tr>
+                <tr>
+                    <td>Select one cell to the right</td>
+                    <td>Tab</td>
+                    <td>Select one cell to the right in a table.</td>
+                </tr>
+                <tr>
+                    <td>Extend the selection to the last nonblank cell</td>
+                    <td>Ctrl+Shift+Arrow key</td>
+                    <td>Extend the selection to the last nonblank cell in the same column or row as the active cell. If the next cell is blank, the selection will be extended to the next nonblank cell.</td>
                 </tr>
 				<tr>
 				<th colspan="3">Undo and Redo</th>
@@ -250,6 +296,11 @@
 					<td>Insert a hyperlink to an external website or another worksheet.</td>
 				</tr>
                 <tr>
+                    <td>Edit active cell</td>
+                    <td>F2<br />CONTROL+U (for Mac)</td>
+                    <td>Edit the active cell and position the insertion point at the end of the cell contents. If editing in a cell is turned off, the insertion point will be moved into the Formula Bar.</td>
+                </tr>
+                <tr>
                     <th colspan="3">Data Filtering</th>
                 </tr>
                 <tr>
@@ -287,35 +338,119 @@
 				</tr>
 				<tr>
 					<td>Delete to the left</td>
-					<td>BACKSPACE</td>
-					<td>Delete one character to the left in the formula bar or in the selected cell when the cell editing mode is activated.</td>
+					<td>Backspace</td>
+					<td>Delete one character to the left in the formula bar or in the selected cell when the cell editing mode is activated. Also removes the content of the active cell.</td>
 				</tr>
 				<tr>
 					<td>Delete to the right</td>
 					<td>Delete</td>
-					<td>Delete one character to the right in the formula bar or in the selected cell when the cell editing mode is activated.</td>
+					<td>Delete one character to the right in the formula bar or in the selected cell when the cell editing mode is activated. Also removes the cell contents (data and formulas) from selected cells without affecting cell formats or comments.</td>
 				</tr>
 				<tr>
 					<td>Clear cell content</td>
 					<td>Delete</td>
 					<td>Remove the content (data and formulas) from selected cells without affecting cell format or comments.</td>
 				</tr>
+                <tr>
+                    <td>Complete a cell entry and move to the right</td>
+                    <td>Tab</td>
+                    <td>Complete a cell entry in the selected cell or the formula bar and move to the cell on the right.</td>
+                </tr>
+                <tr>
+                    <td>Complete a cell entry and move to the left</td>
+                    <td>Shift+Tab</td>
+                    <td>Complete a cell entry in the selected cell or the formula bar and move to the cell on the left <!--or the previous option in a dialog box-->.</td>
+                </tr>
 				<tr>
 				<th colspan="3">Functions</th>
 				</tr>
 				<tr>
 					<td>SUM function</td>
-					<td>Alt+equals (=)</td>
+					<td>Alt+Equal sign (=)</td>
 					<td>Insert the <b>SUM</b> function into the selected cell.</td>
 				</tr>
+                <tr>
+                    <td>Open drop-down list</td>
+                    <td><!--Down arrow or--> Alt+Down arrow</td>
+                    <td>Open a selected drop-down list.</td>
+                </tr>
+                <tr>
+                    <td>Open contextual menu</td>
+                    <td>Context menu key</td>
+                    <td>Open a contextual menu for the selected cell or cell range.</td>
+                </tr>
+                <tr>
+                    <th colspan="3"><a id="dataformats"></a>Data Formats</th>
+                </tr>
+                <tr>
+                    <td>Open the 'Number Format' dialog box</td>
+                    <td>Ctrl+1</td>
+                    <td>Open the <b>Number Format</b> dialog box.</td>
+                </tr>
+                <tr>
+                    <td>Apply the General format</td>
+                    <td>Ctrl+Shift+~</td>
+                    <td>Applies the <b>General</b> number format.</td>
+                </tr>
+                <tr>
+                    <td>Apply the Currency format</td>
+                    <td>Ctrl+Shift+$</td>
+                    <td>Applies the <b>Currency</b> format with two decimal places (negative numbers in parentheses).</td>
+                </tr>
+                <tr>
+                    <td>Apply the Percentage format</td>
+                    <td>Ctrl+Shift+%</td>
+                    <td>Applies the <b>Percentage</b> format with no decimal places.</td>
+                </tr>
+                <tr>
+                    <td>Apply the Exponential format</td>
+                    <td>Ctrl+Shift+^</td>
+                    <td>Applies the <b>Exponential</b> number format with two decimal places.</td>
+                </tr>
+                <tr>
+                    <td>Apply the Date format</td>
+                    <td>Ctrl+Shift+#</td>
+                    <td>Applies the <b>Date</b> format with the day, month, and year.</td>
+                </tr>
+                <tr>
+                    <td>Apply the Time format</td>
+                    <td>Ctrl+Shift+@</td>
+                    <td>Applies the <b>Time</b> format with the hour and minute, and AM or PM.</td>
+                </tr>
+                <tr>
+                    <td>Apply the Number format</td>
+                    <td>Ctrl+Shift+!</td>
+                    <td>Applies the <b>Number</b> format with two decimal places, thousands separator, and minus sign (-) for negative values.</td>
+                </tr>
 				<tr>
-				<th colspan="3">Modifying Objects</th>
-				</tr>
-				<tr>
-					<td>Movement by one-pixel increments</td>
-					<td>Ctrl</td>
-					<td>Hold down the Ctrl key and use the keybord arrows to move the selected object by one pixel at a time.</td>
-				</tr>
+                <tr>
+                    <th colspan="3"><a id="workwithobjects"></a>Modifying Objects</th>
+                </tr>
+                <tr>
+                    <td>Constrain movement</td>
+                    <td>Shift+drag</td>
+                    <td>Constrain the movement of the selected object horizontally or vertically.</td>
+                </tr>
+                <tr>
+                    <td>Set 15-degree rotation</td>
+                    <td>Shift+drag (when rotating)</td>
+                    <td>Constrain the rotation angle to 15-degree increments.</td>
+                </tr>
+                <tr>
+                    <td>Maintain proportions</td>
+                    <td>Shift+drag (when resizing)</td>
+                    <td>Maintain the proportions of the selected object when resizing.</td>
+                </tr>
+                <tr>
+                    <td>Draw straight line or arrow</td>
+                    <td>Shift+drag (when drawing lines/arrows)</td>
+                    <td>Draw a straight vertical/horizontal/45-degree line or arrow.</td>
+                </tr>
+                <tr>
+                    <td>Movement by one-pixel increments</td>
+                    <td>Ctrl+Arrow keys</td>
+                    <td>Hold down the Ctrl key and use the keybord arrows to move the selected object by one pixel at a time.</td>
+                </tr>
 			</table>
 		</div>
 	</body>
