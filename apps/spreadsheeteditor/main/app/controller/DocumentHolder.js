@@ -537,6 +537,7 @@ define([
                     startvalue: item.value == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
                     maxvalue: item.value == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
                     step: item.value == 'row-height' ? 0.75 : 1,
+                    rounding: (item.value == 'row-height'),
                     defaultUnit: item.value == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
