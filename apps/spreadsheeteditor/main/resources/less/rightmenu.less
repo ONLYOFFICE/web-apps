@@ -29,6 +29,9 @@
 
         /*menuPivot*/
         .toolbar-btn-icon(btn-menu-pivot,   87, @toolbar-icon-size);
+
+        /*menuCell*/
+        .toolbar-btn-icon(btn-menu-cell,   80, @toolbar-icon-size);
     }
 }
 
@@ -101,6 +104,23 @@
         }
     }
 }
+
+.btn-toolbar:not(.x-huge) .icon:not(svg).btn-borders-small {
+    .background-ximage('@{common-image-path}/right-panels/SmallBorders.png', '@{common-image-path}/right-panels/SmallBorders@2x.png', 84px);
+}
+
+.button-normal-icon(btn-position-all,         0, 21px);
+.button-normal-icon(btn-position-inner,       1, 21px);
+.button-normal-icon(btn-position-bottom,      2, 21px);
+.button-normal-icon(btn-position-inner-hor,   3, 21px);
+.button-normal-icon(btn-position-top,         4, 21px);
+.button-normal-icon(btn-position-none,        5, 21px);
+.button-normal-icon(btn-position-outer,       6, 21px);
+.button-normal-icon(btn-position-left,        7, 21px);
+.button-normal-icon(btn-position-inner-vert,  8, 21px);
+.button-normal-icon(btn-position-right,       9, 21px);
+
+.button-otherstates-icon(btn-borders-small, 21px);
 
 .btn-edit-table,
 .btn-change-shape {
