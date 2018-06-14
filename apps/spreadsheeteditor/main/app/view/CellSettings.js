@@ -176,6 +176,7 @@ define([
 
             this.cmbBorderType = new Common.UI.ComboBorderType({
                 el: $('#cell-combo-border-type'),
+                cls: 'cell-border-type',
                 style: "width: 93px;",
                 menuStyle: 'min-width: 93px;',
                 data: [
