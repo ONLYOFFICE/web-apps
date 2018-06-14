@@ -69,7 +69,7 @@
   "PE.Controllers.Main.downloadTitleText": "Downloading Document",
   "PE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. You can't edit anymore.",
-  "PE.Controllers.Main.errorConnectToServer": " The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "PE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
   "PE.Controllers.Main.errorDatabaseConnection": "External error.<br>Database connection error. Please, contact support.",
   "PE.Controllers.Main.errorDataRange": "Incorrect data range.",
   "PE.Controllers.Main.errorDefaultMessage": "Error code: %1",

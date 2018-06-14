@@ -54,7 +54,7 @@
   "DE.Controllers.Main.downloadTitleText": "Scaricamento del documento",
   "DE.Controllers.Main.errorBadImageUrl": "URL dell'immagine non corretto",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Scollegato dal server. Non è possibile modificare.",
-  "DE.Controllers.Main.errorConnectToServer": "Impossibile salvare il documento. Si prega di verificare i parametri di connessione o rivolgersi all'amministratore.<br>Una volta cliccato il pulsante 'OK', si verrà invitati a scaricare il documento.<br><br>Puoi trovare maggiori informazioni sulla connessione al Server dei Documenti  <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">qui</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Il documento non può essere salvato. Controllare le impostazioni di rete o contatta l'Amministratore.<br>Quando clicchi 'OK' Ti verrà richiesto di scaricare il documento.<br><br>Per maggiori dettagli sulla connessione al Document Server  <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">clicca qui</a>",
   "DE.Controllers.Main.errorDatabaseConnection": "Errore esterno.<br>Errore di connessione al database. Si prega di contattare il supporto.",
   "DE.Controllers.Main.errorDataRange": "Intervallo di dati non corretto.",
   "DE.Controllers.Main.errorDefaultMessage": "Codice errore: %1",
