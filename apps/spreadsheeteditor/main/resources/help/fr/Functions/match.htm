@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Fonction MATCH</title>
+		<title>Fonction EQUIV</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
@@ -13,10 +13,10 @@
             <div class="search-field">
                 <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
             </div>
-			<h1>Fonction MATCH</h1>
-			<p>La fonction <b>MATCH</b> est l'une des fonctions de recherche et de référence. Elle est utilisée pour renvoyer une position relative d'un élément spécifié dans une plage de cellules.</p>
-			<p>La syntaxe de la fonction <b>MATCH</b> est :</p> 
-			<p style="text-indent: 150px;"><b><em>MATCH(lookup-value, lookup-array[ , [match-type]])</em></b></p> 
+			<h1>Fonction EQUIV</h1>
+			<p>La fonction <b>EQUIV</b> est l'une des fonctions de recherche et de référence. Elle est utilisée pour renvoyer une position relative d'un élément spécifié dans une plage de cellules.</p>
+			<p>La syntaxe de la fonction <b>EQUIV</b> est :</p> 
+			<p style="text-indent: 150px;"><b><em>EQUIV(lookup-value, lookup-array[ , [match-type]])</em></b></p> 
 			<p><em>où</em></p> 
 			<p style="text-indent: 50px;"><em><b>lookup-value</b></em> est une valeur à rechercher dans <em><b>lookup-array</b></em>. Il peut s'agir d'une valeur numérique, logique ou textuelle, ou d'une référence de cellule.</p>
 			<p style="text-indent: 50px;"><em><b>lookup-array</b></em> est une ligne ou une colonne unique que vous devez analyser.</p>
@@ -28,7 +28,7 @@
 				</tr>
 				<tr>
 					<td>1 ou omise</td>
-					<td>Les valeurs doivent être triées par ordre croissant. Si la correspondance exacte n'est pas trouvée, la fonction renvoie la plus grande valeur inférieure à <em><b>lookup-value</b></em>.</td>
+					<td>Les valeurs doivent être triées par ordre croissant. Si la correspondance exacte n'est pas trouvée, la fonction renvoie la plus grande valeur inférieure à .</td>
 				</tr>
 				<tr>
 					<td>0</td>
@@ -36,20 +36,20 @@
 				</tr>
 				<tr>
 					<td>-1</td>
-					<td>Les valeurs doivent être triées par ordre décroissant. Si la correspondance exacte n'est pas trouvée, la fonction renvoie la plus petite valeur supérieure à <em><b>lookup-value</b></em>.</td>
+					<td>Les valeurs doivent être triées par ordre décroissant. Si la correspondance exacte n'est pas trouvée, la fonction renvoie la plus petite valeur supérieure à .</td>
 				</tr>
 			</table>
-			<p>Pour appliquer la fonction <b>MATCH</b>,</p>
+			<p>Pour appliquer la fonction <b>EQUIV</b>,</p>
 			<ol>
 			<li>sélectionnez la cellule où vous souhaitez afficher le résultat,</li>
 			<li>cliquez sur l'icône <b>Insérer une fonction</b> <img alt="Icône Insérer une fonction" src="../images/insertfunction.png" /> située sur la barre d'outils supérieure, <br />ou cliquez avec le bouton droit sur la cellule sélectionnée et sélectionnez l'option <b>Insérer une fonction</b> depuis le menu, <br />ou cliquez sur l'icône <img alt="Icône Fonction" src="../images/function.png" /> située sur la barre de formule,</li>
 			<li>sélectionnez le groupe de fonctions <b>Recherche et référence</b> depuis la liste,</li>
-			<li>cliquez sur la fonction <b>MATCH</b>,</li>
+			<li>cliquez sur la fonction <b>EQUIV</b>,</li>
 			<li>insérez les arguments nécessaires en les séparant par des virgules,</li>
 			<li>appuyez sur la touche <b>Entrée</b>.</li>
 			</ol>
 			<p>Le résultat sera affiché dans la cellule sélectionnée.</p>
-			<p style="text-indent: 150px;"><img alt="Fonction MATCH" src="../images/match.png" /></p>
+			<p style="text-indent: 150px;"><img alt="Fonction EQUIV" src="../images/match.png" /></p>
 		</div>
 	</body>
 </html>

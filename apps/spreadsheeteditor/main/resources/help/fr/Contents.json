@@ -2,7 +2,7 @@
   {
     "src": "ProgramInterface/ProgramInterface.htm",
     "name": "Présentation de l'interface utilisateur de Spreadsheet Editor",
-    "headername": "Interface du Programme"
+    "headername": "Interface du programme"
   },
   {
     "src": "ProgramInterface/FileTab.htm",
@@ -15,6 +15,14 @@
   {
     "src": "ProgramInterface/InsertTab.htm",
     "name": "Onglet Insertion"
+  },
+  {
+    "src": "ProgramInterface/PivotTableTab.htm",
+    "name": "Onglet Tableau croisé dynamique"
+  },
+  {
+    "src": "ProgramInterface/CollaborationTab.htm",
+    "name": "Onglet Collaboration"
   },
   {
     "src": "ProgramInterface/PluginsTab.htm",
@@ -76,6 +84,10 @@
   {
     "src": "UsageInstructions/SortData.htm",
     "name": "Trier et filtrer les données"
+  },
+  {
+    "src": "UsageInstructions/PivotTables.htm",
+    "name": "Modifier les tableaux croisés dynamiques"
   },
   {
     "src": "UsageInstructions/InsertFunction.htm",
@@ -141,7 +153,7 @@
   {
     "src": "HelpfulHints/About.htm",
     "name": "A propos de Spreadsheet Editor",
-    "headername": "Astuces"
+    "headername": "Astuces utiles"
   },
   {
     "src": "HelpfulHints/SupportedFormats.htm",
