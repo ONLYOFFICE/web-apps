@@ -61,7 +61,8 @@ define([
                     'insertimage': this.onInsertImage.bind(this),
                     'insertshape': this.onInsertShape.bind(this),
                     'insertchart':  this.onInsertChart.bind(this),
-                    'inserttextart': this.onInsertTextArt.bind(this)
+                    'inserttextart': this.onInsertTextArt.bind(this),
+                    'inserttable': this.onInsertTable.bind(this)
                 },
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
@@ -257,6 +258,7 @@ define([
 
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
+            this._settings[Common.Utils.documentSettingsType.Table].needShow = false;
         },
 
         onCoAuthoringDisconnect: function() {
@@ -279,7 +281,11 @@ define([
         onInsertTextArt:  function() {
             this._settings[Common.Utils.documentSettingsType.TextArt].needShow = true;
         },
-        
+
+        onInsertTable:  function() {
+            this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
+        },
+
         UpdateThemeColors:  function() {
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();

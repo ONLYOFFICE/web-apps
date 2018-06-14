@@ -2806,12 +2806,17 @@ define([
                                         buttons: ['ok', 'cancel'],
                                         callback: function(btn) {
                                             if (btn == 'ok')
-                                                setTimeout(function() { me.api.asc_addAutoFilter(fmtname, settings.range)}, 1);
+                                                setTimeout(function() {
+                                                    me.toolbar.fireEvent('inserttable', me.toolbar);
+                                                    me.api.asc_addAutoFilter(fmtname, settings.range);
+                                                }, 1);
                                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                                         }
                                     });
-                                else
+                                else {
+                                    me.toolbar.fireEvent('inserttable', me.toolbar);
                                     me.api.asc_addAutoFilter(fmtname, settings.range);
+                                }
                             }
                         }
 
@@ -2841,12 +2846,17 @@ define([
                                 buttons: ['ok', 'cancel'],
                                 callback: function(btn) {
                                     if (btn == 'ok')
-                                        setTimeout(function() { me.api.asc_addAutoFilter(fmtname)}, 1);
+                                        setTimeout(function() {
+                                            me.toolbar.fireEvent('inserttable', me.toolbar);
+                                            me.api.asc_addAutoFilter(fmtname);
+                                        }, 1);
                                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                                 }
                             });
-                        else
+                        else {
+                            me.toolbar.fireEvent('inserttable', me.toolbar);
                             me.api.asc_addAutoFilter(fmtname);
+                        }
                     }
                 }
             }
