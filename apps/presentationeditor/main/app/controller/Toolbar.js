@@ -2009,7 +2009,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
 
-                    if ( config.isProtectSupport && config.isOffline ) {
+                    if ( config.isProtectSupport && config.isOffline && false ) { // don't add protect panel to toolbar
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)

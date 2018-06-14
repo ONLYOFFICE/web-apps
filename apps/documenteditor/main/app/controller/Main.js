@@ -1097,7 +1097,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
-                this.appOptions.isProtectSupport = false; // remove in 5.2
+                this.appOptions.isProtectSupport = true; // remove in 5.2
                 this.appOptions.canProtect     = this.appOptions.isProtectSupport && this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
 
                 if ( this.appOptions.isLightVersion ) {
