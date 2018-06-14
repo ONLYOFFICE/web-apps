@@ -110,8 +110,8 @@ define([
             return this;
         },
 
-        onDocumentPassword: function(hasPassword) {
-            this.view && this.view.onDocumentPassword(hasPassword);
+        onDocumentPassword: function(hasPassword, disabled) {
+            this.view && this.view.onDocumentPassword(hasPassword, disabled);
         },
 
         SetDisabled: function(state, canProtect) {
