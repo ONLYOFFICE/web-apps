@@ -47,7 +47,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         options: {
             alias: 'MailMergeEmail',
             contentWidth: 500,
-            height: 460
+            height: 435
         },
 
         initialize : function(options) {
