@@ -202,7 +202,7 @@ define([
 
                     for (var i=0; i<count; i++) {
                         var anchor = anchors[i],
-                            level = anchors[i].asc_GetHeadingLevel(),
+                            level = anchors[i].asc_GetHeadingLevel()+1,
                             hasParent = true;
                         if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Heading){
                             if (level>prev_level)
