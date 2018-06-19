@@ -287,7 +287,10 @@ define([
 
         onNameChanging: function (input, value) {
             var exist = this.props.asc_HaveBookmark(value);
-            this.bookmarksList.deselectAll();
+            if (exist)
+                this.bookmarksList.selectRecord(this.bookmarksList.store.findWhere({value: value}));
+            else
+                this.bookmarksList.deselectAll();
             this.btnAdd.setDisabled(!this.props.asc_CheckNewBookmarkName(value) && !exist);
             this.btnGoto.setDisabled(!exist);
             this.btnDelete.setDisabled(!exist);
