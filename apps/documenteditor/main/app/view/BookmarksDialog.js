@@ -267,6 +267,10 @@ define([
                 var store = this.bookmarksList.store;
                 var idx = _.indexOf(store.models, rec[0]);
                 store.remove(rec[0]);
+                this.txtName.setValue('');
+                this.btnAdd.setDisabled(true);
+                this.btnGoto.setDisabled(true);
+                this.btnDelete.setDisabled(true);
             }
         },
 
