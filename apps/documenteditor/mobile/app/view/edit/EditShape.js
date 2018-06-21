@@ -62,6 +62,7 @@ define([
             initialize: function () {
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 Common.NotificationCenter.on('editcategory:show',  _.bind(this.categoryShow, this));
+                this.isShapeCanFill = true;
             },
 
             initEvents: function () {
@@ -142,8 +143,11 @@ define([
             },
 
             showStyle: function () {
-                var selector = '#edit-shape-style';
+                var selector = this.isShapeCanFill ? '#edit-shape-style' : '#edit-shape-style-nofill';
                 this.showPage(selector, true);
+
+                if (!this.isShapeCanFill)
+                    this.showStyleCategory();
 
                 this.paletteFillColor = new Common.UI.ThemeColorPalette({
                     el: $('#tab-shape-fill'),

@@ -175,8 +175,10 @@ define([
                 if (_shapeObject) {
                     if (pageId == '#edit-shape-wrap') {
                         me._initWrapView();
-                    } else if (pageId == '#edit-shape-style' || pageId == '#edit-shape-border-color-view') {
+                    } else if (pageId == '#edit-shape-style' || pageId == '#edit-shape-style-nofill' || pageId == '#edit-shape-border-color-view') {
                         me._initStyleView();
+                    } else {
+                        me.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().get_CanFill();
                     }
                 }
             },
@@ -534,6 +536,7 @@ define([
                 if (shapes.length > 0) {
                     var object = shapes[shapes.length - 1]; // get top shape
                     _shapeObject = object.get_ObjectValue();
+                    this.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().get_CanFill();
                 } else {
                     _shapeObject = undefined;
                 }
