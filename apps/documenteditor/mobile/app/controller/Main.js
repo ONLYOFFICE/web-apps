@@ -173,7 +173,7 @@ define([
 
                     Common.Gateway.on('internalcommand', function(data) {
                         if (data.command=='hardBack') {
-                            if ($$('.modal-in').length>0) {
+                            if ($('.modal-in').length>0) {
                                 if ( !$(me.loadMask).hasClass('modal-in') )
                                     uiApp.closeModal();
                                 Common.Gateway.internalMessage('hardBack', false);
