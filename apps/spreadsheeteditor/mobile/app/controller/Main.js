@@ -547,7 +547,9 @@ define([
 
                 $('.view-main').on('click', function (e) {
                     uiApp.closeModal('.document-menu.modal-in');
-                })
+                });
+
+                $(document).on('contextmenu', _.bind(me.onContextMenu, me));
             },
 
             onLicenseChanged: function(params) {
@@ -1318,6 +1320,18 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            onContextMenu: function(event){
+                var canCopyAttr = event.target.getAttribute('data-can-copy'),
+                    isInputEl   = (event.target instanceof HTMLInputElement) || (event.target instanceof HTMLTextAreaElement);
+
+                if ((isInputEl && canCopyAttr === 'false') ||
+                    (!isInputEl && canCopyAttr !== 'true')) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    return false;
+                }
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
