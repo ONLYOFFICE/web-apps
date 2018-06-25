@@ -175,6 +175,18 @@ define([
                     Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
                     Common.Gateway.on('opendocument',   _.bind(me.loadDocument, me));
                     Common.Gateway.appReady();
+
+                    Common.Gateway.on('internalcommand', function(data) {
+                        if (data.command=='hardBack') {
+                            if ($('.modal-in').length>0) {
+                                if ( !$(me.loadMask).hasClass('modal-in') )
+                                    uiApp.closeModal();
+                                Common.Gateway.internalMessage('hardBack', false);
+                            } else
+                                Common.Gateway.internalMessage('hardBack', true);
+                        }
+                    });
+                    Common.Gateway.internalMessage('listenHardBack');
                 }
             },
 
