@@ -1099,6 +1099,7 @@ define([
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isProtectSupport = true; // remove in 5.2
                 this.appOptions.canProtect     = this.appOptions.isProtectSupport && this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
+                this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =

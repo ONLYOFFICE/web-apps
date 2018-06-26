@@ -1966,6 +1966,8 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
+                this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
             },
 
             onSendThemeColorSchemes: function (schemas) {
