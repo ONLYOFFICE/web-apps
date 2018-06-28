@@ -945,7 +945,13 @@ define([
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',
         txtText:            'Text',
-        textMoreFormats: 'More formats'
+        textMoreFormats: 'More formats',
+        textShapeAlignLeft      : 'Align Left',
+        textShapeAlignRight     : 'Align Right',
+        textShapeAlignCenter    : 'Align Center',
+        textShapeAlignTop       : 'Align Top',
+        textShapeAlignBottom    : 'Align Bottom',
+        textShapeAlignMiddle    : 'Align Middle'
 
     }, SSE.Views.DocumentHolder || {}));
 });

@@ -117,6 +117,8 @@ define([
                     }
                 }
             });
+            Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
+
             this.editMode = true;
             this._isAddingShape = false;
             this._state = {
@@ -155,7 +157,10 @@ define([
                 numformatinfo: undefined,
                 numformattype: undefined,
                 numformat: undefined,
-                langId: undefined
+                langId: undefined,
+                pgsize: [0, 0],
+                pgmargins: undefined,
+                pgorient: undefined
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -343,6 +348,15 @@ define([
                 $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewTextColor, this));
                 $('#id-toolbar-menu-new-paracolor').on('click',             _.bind(this.onNewBackColor, this));
                 $('#id-toolbar-menu-new-bordercolor').on('click',           _.bind(this.onNewBorderColor, this));
+                toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
+                toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
+                toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
+                toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
+                toolbar.btnImgBackward.menu.on('item:click',                _.bind(this.onImgArrangeSelect, this));
+                toolbar.btnImgForward.menu.on('item:click',                 _.bind(this.onImgArrangeSelect, this));
+                toolbar.btnImgAlign.menu.on('item:click',                   _.bind(this.onImgAlignSelect, this));
+                toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
+                toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
 
                 this.onSetupCopyStyleButton();
             }
@@ -1669,7 +1683,68 @@ define([
 
         onApiZoomChange: function(zf, type){},
 
-        onApiSheetChanged: function() {},
+        onApiSheetChanged: function() {
+            if (!this.toolbar.mode.isEdit) return;
+
+            var props = this.api.asc_getPageOptions(this.api.asc_getActiveWorksheetIndex()),
+                opt = props.asc_getPageSetup();
+
+            this.onApiPageOrient(opt.asc_getOrientation());
+            this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
+            this.onApiPageMargins(props.asc_getPageMargins());
+        },
+
+        onApiPageSize: function(w, h) {
+            if (this._state.pgorient===undefined) return;
+
+            if (Math.abs(this._state.pgsize[0] - w) > 0.01 ||
+                Math.abs(this._state.pgsize[1] - h) > 0.01) {
+                this._state.pgsize = [w, h];
+                if (this.toolbar.mnuPageSize) {
+                    this.toolbar.mnuPageSize.clearAll();
+                    _.each(this.toolbar.mnuPageSize.items, function(item){
+                        if (item.value && typeof(item.value) == 'object' &&
+                            Math.abs(item.value[0] - w) < 0.01 && Math.abs(item.value[1] - h) < 0.01) {
+                            item.setChecked(true);
+                            return false;
+                        }
+                    }, this);
+                }
+            }
+        },
+
+        onApiPageMargins: function(props) {
+            if (props) {
+                var left = props.asc_getLeft(),
+                    top = props.asc_getTop(),
+                    right = props.asc_getRight(),
+                    bottom = props.asc_getBottom();
+
+                if (!this._state.pgmargins || Math.abs(this._state.pgmargins[0] - top) > 0.01 ||
+                    Math.abs(this._state.pgmargins[1] - left) > 0.01 || Math.abs(this._state.pgmargins[2] - bottom) > 0.01 ||
+                    Math.abs(this._state.pgmargins[3] - right) > 0.01) {
+                    this._state.pgmargins = [top, left, bottom, right];
+                    if (this.toolbar.btnPageMargins.menu) {
+                        this.toolbar.btnPageMargins.menu.clearAll();
+                        _.each(this.toolbar.btnPageMargins.menu.items, function(item){
+                            if (item.value && typeof(item.value) == 'object' &&
+                                Math.abs(item.value[0] - top) < 0.01 && Math.abs(item.value[1] - left) < 0.01 &&
+                                Math.abs(item.value[2] - bottom) < 0.01 && Math.abs(item.value[3] - right) < 0.01) {
+                                item.setChecked(true);
+                                return false;
+                            }
+                        }, this);
+                    }
+                }
+            }
+        },
+
+        onApiPageOrient: function(orient) {
+            if (this._state.pgorient !== orient) {
+                this.toolbar.btnPageOrient.menu.items[orient].setChecked(true);
+                this._state.pgorient = orient;
+            }
+        },
 
         onApiEditorSelectionChanged: function(fontobj) {
             if (!this.editMode) return;
@@ -1818,6 +1893,12 @@ define([
                 }
             }
             */
+
+            need_disable = (selectionType == Asc.c_oAscSelectionType.RangeCells || selectionType == Asc.c_oAscSelectionType.RangeCol ||
+                selectionType == Asc.c_oAscSelectionType.RangeRow || selectionType == Asc.c_oAscSelectionType.RangeMax);
+            toolbar.lockToolbar(SSE.enumLock.selRange, need_disable, { array: [toolbar.btnImgAlign, toolbar.btnImgBackward, toolbar.btnImgForward, toolbar.btnImgGroup]});
+            toolbar.btnImgGroup.menu.items[0].setDisabled(!this.api.asc_canGroupGraphicsObjects());
+            toolbar.btnImgGroup.menu.items[1].setDisabled(!this.api.asc_canUnGroupGraphicsObjects());
 
             if (editOptionsDisabled) return;
 
@@ -2901,7 +2982,7 @@ define([
             this.onApiEditCell(this.api.isRangeSelection ? Asc.c_oAscCellEditorState.editStart : Asc.c_oAscCellEditorState.editEnd);
 
             var toolbar = this.toolbar;
-            toolbar.lockToolbar(SSE.enumLock.selRange, this.api.isRangeSelection);
+            toolbar.lockToolbar(SSE.enumLock.selRangeEdit, this.api.isRangeSelection);
 
             this.setDisabledComponents([toolbar.btnUndo], this.api.isRangeSelection || !this.api.asc_getCanUndo());
             this.setDisabledComponents([toolbar.btnRedo], this.api.isRangeSelection || !this.api.asc_getCanRedo());
@@ -2971,7 +3052,7 @@ define([
                             tab = {action: 'pivot', caption: me.textPivot};
                             $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
                             if ($panel) {
-                                me.toolbar.addTab(tab, $panel, 3);
+                                me.toolbar.addTab(tab, $panel, 4);
                                 me.toolbar.setVisible('pivot', true);
                             }
                         }
@@ -2979,7 +3060,7 @@ define([
                         var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                         var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                         if ( $panel )
-                            me.toolbar.addTab(tab, $panel, 4);
+                            me.toolbar.addTab(tab, $panel, 5);
 
                         if ( config.isDesktopApp ) {
                             // hide 'print' and 'save' buttons group and next separator
@@ -2996,7 +3077,7 @@ define([
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
-                                    me.toolbar.addTab(tab, $panel, 5);
+                                    me.toolbar.addTab(tab, $panel, 6);
                             }
                         }
                     }
@@ -3054,6 +3135,96 @@ define([
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
             }
+        },
+
+        onPageSizeClick: function(menu, item, state) {
+            if (this.api && state) {
+                this._state.pgsize = [0, 0];
+                // this.api.change_DocSize(item.value[0], item.value[1]);
+
+                Common.component.Analytics.trackEvent('ToolBar', 'Page Size');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPageMarginsSelect: function(menu, item) {
+            if (this.api) {
+                this._state.pgmargins = undefined;
+                if (item.value !== 'advanced') {
+                    // var props = new Asc.CDocumentSectionProps();
+                    // props.put_TopMargin(item.value[0]);
+                    // props.put_LeftMargin(item.value[1]);
+                    // props.put_BottomMargin(item.value[2]);
+                    // props.put_RightMargin(item.value[3]);
+                    // this.api.asc_SetSectionProps(props);
+                } else {
+                    // var win, props,
+                    //     me = this;
+                    // win = new SSE.Views.PageMarginsDialog({
+                    //     handler: function(dlg, result) {
+                    //         if (result == 'ok') {
+                    //             props = dlg.getSettings();
+                    //             var mnu = me.toolbar.btnPageMargins.menu.items[0];
+                    //             mnu.setVisible(true);
+                    //             mnu.setChecked(true);
+                    //             mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
+                    //             $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                    //             Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTopn());
+                    //             Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
+                    //             Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
+                    //             Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
+                    //
+                    //             me.api.asc_SetSectionProps(props);
+                    //             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    //         }
+                    //     }
+                    // });
+                    // win.show();
+                    // win.setSettings(me.api.asc_getPageOptions(me.api.asc_getActiveWorksheetIndex()));
+                }
+
+                Common.component.Analytics.trackEvent('ToolBar', 'Page Margins');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPageOrientSelect: function(menu, item) {
+            this._state.pgorient = undefined;
+            if (this.api && item.checked) {
+                // this.api.change_PageOrient(item.value);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Page Orientation');
+        },
+
+        onImgGroupSelect: function(menu, item) {
+            if (this.api)
+                this.api[(item.value == 'grouping') ? 'asc_groupGraphicsObjects' : 'asc_unGroupGraphicsObjects']();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Objects Group');
+        },
+
+        onImgArrangeSelect: function(menu, item) {
+            if (this.api) {
+                if ( menu == 'forward' )
+                    this.api.asc_setSelectedDrawingObjectLayer(Asc.c_oAscDrawingLayerType.BringForward);
+                else if ( menu == 'backward' )
+                    this.api.asc_setSelectedDrawingObjectLayer(Asc.c_oAscDrawingLayerType.SendBackward);
+                else
+                    this.api.asc_setSelectedDrawingObjectLayer(item.value);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Objects Arrange');
+        },
+
+        onImgAlignSelect: function(menu, item) {
+            if (this.api)
+                // this.api.asc_setSelectedDrawingObjectLayer(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Objects Align');
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

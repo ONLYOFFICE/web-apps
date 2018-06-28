@@ -1791,6 +1791,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-unit", value);
                 this.getApplication().getController('RightMenu').updateMetricUnit();
                 this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
+                this.getApplication().getController('Toolbar').getView('Toolbar').updateMetricUnit();
             },
 
             _compareActionStrong: function(obj1, obj2){

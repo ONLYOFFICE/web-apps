@@ -203,6 +203,7 @@ define([
                 if (this._changedProps[index])
                     this.api.asc_setPageOptions(this._changedProps[index], index);
             }
+            Common.NotificationCenter.trigger('page:settings');
         },
 
         onShowMainSettingsPrint: function() {
