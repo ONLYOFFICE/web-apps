@@ -1741,7 +1741,7 @@ define([
 
         onApiPageOrient: function(orient) {
             if (this._state.pgorient !== orient) {
-                this.toolbar.btnPageOrient.menu.items[orient].setChecked(true);
+                this.toolbar.btnPageOrient.menu.items[orient == Asc.c_oAscPageOrientation.PagePortrait ? 0 : 1].setChecked(true);
                 this._state.pgorient = orient;
             }
         },
@@ -1897,8 +1897,13 @@ define([
             need_disable = (selectionType == Asc.c_oAscSelectionType.RangeCells || selectionType == Asc.c_oAscSelectionType.RangeCol ||
                 selectionType == Asc.c_oAscSelectionType.RangeRow || selectionType == Asc.c_oAscSelectionType.RangeMax);
             toolbar.lockToolbar(SSE.enumLock.selRange, need_disable, { array: [toolbar.btnImgAlign, toolbar.btnImgBackward, toolbar.btnImgForward, toolbar.btnImgGroup]});
-            toolbar.btnImgGroup.menu.items[0].setDisabled(!this.api.asc_canGroupGraphicsObjects());
-            toolbar.btnImgGroup.menu.items[1].setDisabled(!this.api.asc_canUnGroupGraphicsObjects());
+
+            var cangroup = this.api.asc_canGroupGraphicsObjects(),
+                canungroup = this.api.asc_canUnGroupGraphicsObjects();
+            toolbar.lockToolbar(SSE.enumLock.cantGroupUngroup, !cangroup && !canungroup, { array: [toolbar.btnImgGroup]});
+            toolbar.btnImgGroup.menu.items[0].setDisabled(!cangroup);
+            toolbar.btnImgGroup.menu.items[1].setDisabled(!canungroup);
+            toolbar.lockToolbar(SSE.enumLock.cantGroup, !cangroup, { array: [toolbar.btnImgAlign]});
 
             if (editOptionsDisabled) return;
 
@@ -3140,7 +3145,12 @@ define([
         onPageSizeClick: function(menu, item, state) {
             if (this.api && state) {
                 this._state.pgsize = [0, 0];
-                // this.api.change_DocSize(item.value[0], item.value[1]);
+                // var props = new Asc.asc_CPageOptions(),
+                //     opt = new Asc.asc_CPageSetup();
+                // opt.asc_setWidth(item.value[0]);
+                // opt.asc_setHeight(item.value[1]);
+                // props.asc_setPageSetup(opt);
+                // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Page Size');
             }
@@ -3193,7 +3203,11 @@ define([
         onPageOrientSelect: function(menu, item) {
             this._state.pgorient = undefined;
             if (this.api && item.checked) {
-                // this.api.change_PageOrient(item.value);
+                // var props = new Asc.asc_CPageOptions(),
+                //     opt = new Asc.asc_CPageSetup();
+                // opt.asc_setOrientation(item.value);
+                // props.asc_setPageSetup(opt);
+                // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

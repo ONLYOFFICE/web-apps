@@ -81,7 +81,9 @@ define([
         multiselect:    'is-multiselect',
         cantHyperlink:  'cant-hyperlink',
         commentLock:    'can-comment',
-        cantModifyFilter: 'cant-filter'
+        cantModifyFilter: 'cant-filter',
+        cantGroup:      'cant-group',
+        cantGroupUngroup: 'cant-group-ungroup',
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -1219,14 +1221,14 @@ define([
                                 iconCls: 'mnu-orient-portrait',
                                 checkable: true,
                                 toggleGroup: 'menuOrient',
-                                value: true
+                                value: Asc.c_oAscPageOrientation.PagePortrait
                             },
                             {
                                 caption: me.textLandscape,
                                 iconCls: 'mnu-orient-landscape',
                                 checkable: true,
                                 toggleGroup: 'menuOrient',
-                                value: false
+                                value: Asc.c_oAscPageOrientation.PageLandscape
                             }
                         ]
                     })
@@ -1407,7 +1409,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
                     caption: me.capImgAlign,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth],
                     menu: true
                 });
 
@@ -1415,7 +1417,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-group',
                     caption: me.capImgGroup,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroupUngroup, _set.lostConnect, _set.coAuth],
                     menu: true
                 });
                 me.btnImgForward = new Common.UI.Button({
