@@ -155,6 +155,7 @@
   "DE.Controllers.Main.warnNoLicense": "This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnNoLicenseUsers": "This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "DE.Controllers.Main.errorDataEncrypted": "Encrypted changes have been received, they cannot be deciphered.",
   "DE.Controllers.Search.textNoTextFound": "Text not Found",
   "DE.Controllers.Search.textReplaceAll": "Replace All",
   "DE.Controllers.Settings.notcriticalErrorTitle": "Warning",

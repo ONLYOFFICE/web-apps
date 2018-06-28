@@ -968,6 +968,10 @@ define([
                         config.msg = this.errorAccessDeny;
                         break;
 
+                    case Asc.c_oAscError.ID.DataEncrypted:
+                        config.msg = this.errorDataEncrypted;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1471,7 +1475,8 @@ define([
             warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
-            warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.'
+            warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.'
         }
     })(), SSE.Controllers.Main || {}))
 });

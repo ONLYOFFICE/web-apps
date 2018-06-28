@@ -452,6 +452,7 @@
   "DE.Controllers.Main.warnNoLicense": "This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnNoLicenseUsers": "This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "DE.Controllers.Main.errorDataEncrypted": "Encrypted changes have been received, they cannot be deciphered.",
   "DE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "DE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",
