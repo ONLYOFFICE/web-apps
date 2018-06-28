@@ -897,6 +897,10 @@ define([
                             Common.NotificationCenter.trigger('goback');
                         }
                     }
+                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                        this.api.asc_coAuthoringDisconnect();
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
                 }
                 else {
                     Common.Gateway.reportWarning(id, config.msg);
