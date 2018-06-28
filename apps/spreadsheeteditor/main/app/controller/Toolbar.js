@@ -3162,12 +3162,15 @@ define([
             if (this.api) {
                 this._state.pgmargins = undefined;
                 if (item.value !== 'advanced') {
-                    // var props = new Asc.CDocumentSectionProps();
-                    // props.put_TopMargin(item.value[0]);
-                    // props.put_LeftMargin(item.value[1]);
-                    // props.put_BottomMargin(item.value[2]);
-                    // props.put_RightMargin(item.value[3]);
-                    // this.api.asc_SetSectionProps(props);
+                    // var props = new Asc.asc_CPageOptions(),
+                    //     opt = new Asc.asc_CPageMargins();
+                    // opt.asc_setLeft(item.value[1]);
+                    // opt.asc_setTop(item.value[0]);
+                    // opt.asc_setRight(item.value[3]);
+                    // opt.asc_setBottom(item.value[2]);
+                    //
+                    // props.asc_setPageMargins(opt);
+                    // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
                 } else {
                     // var win, props,
                     //     me = this;
@@ -3180,12 +3183,14 @@ define([
                     //             mnu.setChecked(true);
                     //             mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
                     //             $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-                    //             Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTopn());
+                    //             Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTop());
                     //             Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
                     //             Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
                     //             Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
                     //
-                    //             me.api.asc_SetSectionProps(props);
+                    //                 var pageProps = new Asc.asc_CPageOptions(),
+                    //                     pageProps.asc_setPageMargins(props);
+                    //                 me.api.asc_setPageOptions(pageProps, me.api.asc_getActiveWorksheetIndex());
                     //             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     //         }
                     //     }
