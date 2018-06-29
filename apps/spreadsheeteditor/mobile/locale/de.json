@@ -121,6 +121,7 @@
   "SSE.Controllers.Main.errorCountArgExceed": "Die eingegebene Formel enthält einen Fehler.<br>Anzahl der Argumente wurde überschritten.",
   "SSE.Controllers.Main.errorCreateDefName": "Die bestehende benannte Bereiche können nicht bearbeitet werden und neue Bereiche können<br>im Moment nicht erstellt werden, weil einige von ihnen sind in Bearbeitung.",
   "SSE.Controllers.Main.errorDatabaseConnection": "Externer Fehler.<br>Datenbank-Verbindungsfehler. Wenden Sie sich an den Support.",
+  "SSE.Controllers.Main.errorDataEncrypted": "Änderungen wurden verschlüsselt. Sie können nicht entschlüsselt werden.",
   "SSE.Controllers.Main.errorDataRange": "Falscher Datenbereich.",
   "SSE.Controllers.Main.errorDefaultMessage": "Fehlercode: %1",
   "SSE.Controllers.Main.errorFilePassProtect": "Das Dokument ist kennwortgeschützt und kann nicht geöffnet werden.",

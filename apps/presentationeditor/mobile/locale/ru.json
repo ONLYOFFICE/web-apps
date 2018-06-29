@@ -71,6 +71,7 @@
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Подключение к серверу прервано. Редактирование недоступно.",
   "PE.Controllers.Main.errorConnectToServer": "Не удается сохранить документ. Проверьте параметры подключения или обратитесь к вашему администратору.<br>Когда вы нажмете на кнопку 'OK', вам будет предложено скачать документ.<br><br>Дополнительную информацию о подключении Сервера документов можно найти <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">здесь</a>",
   "PE.Controllers.Main.errorDatabaseConnection": "Внешняя ошибка.<br>Ошибка подключения к базе данных. Пожалуйста, обратитесь в службу технической поддержки.",
+  "PE.Controllers.Main.errorDataEncrypted": "Получены зашифрованные изменения, их нельзя расшифровать.",
   "PE.Controllers.Main.errorDataRange": "Некорректный диапазон данных.",
   "PE.Controllers.Main.errorDefaultMessage": "Код ошибки: %1",
   "PE.Controllers.Main.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",

@@ -121,6 +121,7 @@
   "SSE.Controllers.Main.errorCountArgExceed": "Ошибка во введенной формуле.<br>Превышено количество аргументов.",
   "SSE.Controllers.Main.errorCreateDefName": "В настоящий момент нельзя отредактировать существующие именованные диапазоны и создать новые,<br>так как некоторые из них редактируются.",
   "SSE.Controllers.Main.errorDatabaseConnection": "Внешняя ошибка.<br>Ошибка подключения к базе данных. Если ошибка повторяется, пожалуйста, обратитесь в службу поддержки.",
+  "SSE.Controllers.Main.errorDataEncrypted": "Получены зашифрованные изменения, их нельзя расшифровать.",
   "SSE.Controllers.Main.errorDataRange": "Некорректный диапазон данных.",
   "SSE.Controllers.Main.errorDefaultMessage": "Код ошибки: %1",
   "SSE.Controllers.Main.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",

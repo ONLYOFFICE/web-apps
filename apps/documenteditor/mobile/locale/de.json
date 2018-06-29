@@ -56,6 +56,7 @@
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Verbindung zum Server ist verloren gegangen. Sie können nicht mehr editieren.",
   "DE.Controllers.Main.errorConnectToServer": "Das Dokument konnte nicht gespeichert werden. Bitte überprüfen Sie die Verbindungseinstellungen oder wenden Sie sich an Ihren Administrator.<br>Wenn Sie auf die Schaltfläche \"OK\" klicken, werden Sie aufgefordert das Dokument herunterzuladen.<br><br>Mehr Informationen über die Verbindung zum Dokumentenserver finden Sie <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">hier</a>",
   "DE.Controllers.Main.errorDatabaseConnection": "Externer Fehler.<br>Datenbank-Verbindungsfehler. Wenden Sie sich an den Support.",
+  "DE.Controllers.Main.errorDataEncrypted": "Änderungen wurden verschlüsselt. Sie können nicht entschlüsselt werden.",
   "DE.Controllers.Main.errorDataRange": "Falscher Datenbereich.",
   "DE.Controllers.Main.errorDefaultMessage": "Fehlercode: %1",
   "DE.Controllers.Main.errorFilePassProtect": "Das Dokument ist kennwortgeschützt und kann nicht geöffnet werden.",
