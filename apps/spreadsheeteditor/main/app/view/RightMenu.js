@@ -161,7 +161,8 @@ define([
 
             this.trigger('render:before', this);
 
-            el.css('width', '40px');
+            var open = !Common.localStorage.getBool("sse-hide-right-settings");
+            el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.css('z-index', 101);
             el.show();
 
@@ -230,6 +231,11 @@ define([
                     suppressScrollX: true,
                     useKeyboard: false
                 });
+            }
+
+            if (open) {
+                $('#id-cell-settings').parent().css("display", "inline-block" );
+                $('#id-cell-settings').addClass("active");
             }
 
             this.trigger('render:after', this);

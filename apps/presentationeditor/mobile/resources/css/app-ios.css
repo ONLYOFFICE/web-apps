@@ -6285,6 +6285,11 @@ i.icon.icon-edit {
   height: 22px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2022%2022%22%20fill%3D%22%23aa5252%22%3E%3Cg%3E%3Cpath%20d%3D%22M0%2C20h22v1H0V20z%22%2F%3E%3Cpolygon%20points%3D%2219.3%2C5.3%206.1%2C18.4%204.6%2C16.9%2017.8%2C3.8%2017.1%2C3.1%203.5%2C16.7%203%2C20%206.3%2C19.5%2019.9%2C5.9%20%09%22%2F%3E%3Cpath%20d%3D%22M20.5%2C5.3L22%2C3.8c0%2C0-0.2-1.2-0.9-1.9C20.4%2C1.1%2C19.2%2C1%2C19.2%2C1l-1.5%2C1.5L20.5%2C5.3z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
+i.icon.icon-edit-settings {
+  width: 22px;
+  height: 22px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2022%2022%22%20fill%3D%22%23aa5252%22%3E%3Cg%3E%3Cpath%20d%3D%22M8%201L3%2015h1.19995l1.77686-5h5.04638l.61573%201.7325.87988-.87988L9%201zm.5%201.9L10.66772%209H6.33228z%22%20clip-rule%3D%22evenodd%22%20fill-rule%3D%22evenodd%22%2F%3E%3Cpath%20d%3D%22M18.3%2011.3l-9.2%209.1-1.5-1.5%209.2-9.1-.7-.7-9.6%209.6L6%2022l3.3-.5%209.6-9.6zm1.2%200L21%209.8s-.2-1.2-.9-1.9c-.7-.8-1.9-.9-1.9-.9l-1.5%201.5z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
 i.icon.icon-play {
   width: 22px;
   height: 22px;

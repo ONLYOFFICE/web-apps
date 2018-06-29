@@ -156,13 +156,20 @@ define([
                 if (this.type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     this.inputPwd = new Common.UI.InputField({
                         el: $('#id-password-txt'),
-                        type: 'password',
+                        type: 'text',
                         validateOnBlur: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
                         }
                     });
                     this.$window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+                    this.$window.find('input').on('input', function(){
+                        if ($(this).val() !== '') {
+                            ($(this).attr('type') !== 'password') && $(this).attr('type', 'password');
+                        } else {
+                            $(this).attr('type', 'text');
+                        }
+                    });
                 } else {
                     this.initCodePages();
                     this.updatePreview();

@@ -5925,6 +5925,11 @@ i.icon.icon-edit {
   height: 22px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2022%2022%22%20fill%3D%22%23446995%22%3E%3Cg%3E%3Cpath%20d%3D%22M0%2C20h22v1H0V20z%22%2F%3E%3Cpolygon%20points%3D%2217.1%2C3.1%203.5%2C16.7%203%2C20%206.3%2C19.5%2019.9%2C5.9%20%09%22%2F%3E%3Cpath%20d%3D%22M20.5%2C5.3L22%2C3.8c0%2C0-0.2-1.2-0.9-1.9C20.4%2C1.1%2C19.2%2C1%2C19.2%2C1l-1.5%2C1.5L20.5%2C5.3z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
+i.icon.icon-edit-settings {
+  width: 22px;
+  height: 22px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2022%2022%22%20fill%3D%22%23446995%22%3E%3Cg%3E%3Cpath%20d%3D%22M2.5%2015L8%201h2l4.4146%2011.2574-1.6009%201.6008L12.12012%2012h-6.25L4.75%2015zM9%203.66998L6.62012%2010h4.75976z%22%20clip-rule%3D%22evenodd%22%20fill%3D%22%23fff%22%20fill-rule%3D%22evenodd%22%2F%3E%3Cpath%20d%3D%22M10%2019.50035V22h2.49965l7.37231-7.37231-2.49965-2.49965zm11.805-6.80572c.26-.25997.26-.67991%200-.93987l-1.5598-1.559787c-.25992-.259964-.67986-.259964-.93983%200L18.08554%2011.4148l2.49966%202.49966z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
 i.icon.icon-reader {
   width: 22px;
   height: 22px;

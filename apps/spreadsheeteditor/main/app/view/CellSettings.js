@@ -69,14 +69,16 @@ define([
 
             this._state = {
                 BackColor: undefined,
-                DisabledControls: false
+                DisabledControls: true
             };
             this.lockedControls = [];
-            this._locked = false;
+            this._locked = true;
             this.isEditCell = false;
             this.BorderType = 1;
 
             this.render();
+            this.createDelayedControls();
+
         },
 
         onColorsBackSelect: function(picker, color) {
@@ -167,7 +169,8 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: item[1],
                     borderId:item[0],
-                    hint: item[3]
+                    hint: item[3],
+                    disabled: this._locked
                 });
                 _btn.render( $('#'+item[2])) ;
                 _btn.on('click', _.bind(this.onBtnBordersClick, this));
@@ -179,6 +182,7 @@ define([
                 cls: 'cell-border-type',
                 style: "width: 93px;",
                 menuStyle: 'min-width: 93px;',
+                disabled: this._locked,
                 data: [
                     { value: Asc.c_oAscBorderStyles.Thin,   offsety: 0},
                     { value: Asc.c_oAscBorderStyles.Hair,   offsety: 20},
@@ -196,10 +200,27 @@ define([
             this.BorderType = Asc.c_oAscBorderStyles.Thin;
             this.cmbBorderType.setValue(this.BorderType);
             this.lockedControls.push(this.cmbBorderType);
+
+            this.btnBorderColor = new Common.UI.ColorButton({
+                style: "width:45px;",
+                disabled: this._locked,
+                menu        : true
+            });
+            this.btnBorderColor.render( $('#cell-border-color-btn'));
+            this.btnBorderColor.setColor('000000');
+            this.lockedControls.push(this.btnBorderColor);
+
+            this.btnBackColor = new Common.UI.ColorButton({
+                style: "width:45px;",
+                disabled: this._locked,
+                menu        : true
+            });
+            this.btnBackColor.render( $('#cell-back-color-btn'));
+            this.btnBackColor.setColor('transparent');
+            this.lockedControls.push(this.btnBackColor);
         },
 
         createDelayedElements: function() {
-            this.createDelayedControls();
             this.UpdateThemeColors();
             this._initSettings = false;
         },
@@ -208,7 +229,7 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
-            this.disableControls(this._locked); // need to update combodataview after disabled state
+            this.disableControls(this._locked);
 
             if (props )
             {
@@ -250,38 +271,26 @@ define([
         },
 
         UpdateThemeColors: function() {
-             if (!this.btnBackColor) {
+             if (!this.borderColor) {
                 // create color buttons
-                 this.btnBorderColor = new Common.UI.ColorButton({
-                     style: "width:45px;",
-                     menu        : new Common.UI.Menu({
-                         items: [
-                             { template: _.template('<div id="cell-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="cell-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                         ]
-                     })
-                 });
-                 this.btnBorderColor.render( $('#cell-border-color-btn'));
-                 this.btnBorderColor.setColor('000000');
-                 this.lockedControls.push(this.btnBorderColor);
+                 this.btnBorderColor.setMenu( new Common.UI.Menu({
+                     items: [
+                         { template: _.template('<div id="cell-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                         { template: _.template('<a id="cell-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                     ]
+                 }));
                  this.borderColor = new Common.UI.ThemeColorPalette({
                      el: $('#cell-border-color-menu')
                  });
                  this.borderColor.on('select', _.bind(this.onColorsBorderSelect, this));
                  this.btnBorderColor.menu.items[1].on('click', _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
 
-                 this.btnBackColor = new Common.UI.ColorButton({
-                     style: "width:45px;",
-                     menu        : new Common.UI.Menu({
-                         items: [
-                             { template: _.template('<div id="cell-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="cell-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                         ]
-                     })
-                 });
-                 this.btnBackColor.render( $('#cell-back-color-btn'));
-                 this.btnBackColor.setColor('transparent');
-                 this.lockedControls.push(this.btnBackColor);
+                 this.btnBackColor.setMenu( new Common.UI.Menu({
+                     items: [
+                         { template: _.template('<div id="cell-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                         { template: _.template('<a id="cell-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                     ]
+                 }));
                  this.colorsBack = new Common.UI.ThemeColorPalette({
                      el: $('#cell-back-color-menu'),
                      transparent: true
