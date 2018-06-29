@@ -2418,10 +2418,7 @@ define([
         textLeft: 'Left: ',
         textBottom: 'Bottom: ',
         textRight: 'Right: ',
-        textPageSizeCustom: 'Custom Page Size',
         textPortrait: 'Portrait',
         textLandscape: 'Landscape'
-
-
     }, SSE.Views.Toolbar || {}));
 });
