@@ -52,7 +52,8 @@ define([
     'spreadsheeteditor/main/app/view/NamedRangeEditDlg',
     'spreadsheeteditor/main/app/view/NamedRangePasteDlg',
     'spreadsheeteditor/main/app/view/NameManagerDlg',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
+    'spreadsheeteditor/main/app/view/FormatSettingsDialog',
+    'spreadsheeteditor/main/app/view/PageMarginsDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -3151,7 +3152,7 @@ define([
                 // opt.asc_setHeight(item.value[1]);
                 // props.asc_setPageSetup(opt);
                 // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
-
+                Common.NotificationCenter.trigger('page:settings');
                 Common.component.Analytics.trackEvent('ToolBar', 'Page Size');
             }
 
@@ -3171,32 +3172,34 @@ define([
                     //
                     // props.asc_setPageMargins(opt);
                     // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
+                    Common.NotificationCenter.trigger('page:settings');
                 } else {
-                    // var win, props,
-                    //     me = this;
-                    // win = new SSE.Views.PageMarginsDialog({
-                    //     handler: function(dlg, result) {
-                    //         if (result == 'ok') {
-                    //             props = dlg.getSettings();
-                    //             var mnu = me.toolbar.btnPageMargins.menu.items[0];
-                    //             mnu.setVisible(true);
-                    //             mnu.setChecked(true);
-                    //             mnu.options.value = mnu.value = [props.get_TopMargin(), props.get_LeftMargin(), props.get_BottomMargin(), props.get_RightMargin()];
-                    //             $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-                    //             Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTop());
-                    //             Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
-                    //             Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
-                    //             Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
-                    //
-                    //                 var pageProps = new Asc.asc_CPageOptions(),
-                    //                     pageProps.asc_setPageMargins(props);
-                    //                 me.api.asc_setPageOptions(pageProps, me.api.asc_getActiveWorksheetIndex());
-                    //             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    //         }
-                    //     }
-                    // });
-                    // win.show();
-                    // win.setSettings(me.api.asc_getPageOptions(me.api.asc_getActiveWorksheetIndex()));
+                    var win, props,
+                        me = this;
+                    win = new SSE.Views.PageMarginsDialog({
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                props = dlg.getSettings();
+                                var mnu = me.toolbar.btnPageMargins.menu.items[0];
+                                mnu.setVisible(true);
+                                mnu.setChecked(true);
+                                mnu.options.value = mnu.value = [props.asc_getTop(), props.asc_getLeft(), props.asc_getBottom(), props.asc_getRight()];
+                                $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                                Common.localStorage.setItem("sse-pgmargins-top", props.asc_getTop());
+                                Common.localStorage.setItem("sse-pgmargins-left", props.asc_getLeft());
+                                Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
+                                Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
+
+                                // var pageProps = new Asc.asc_CPageOptions();
+                                // pageProps.asc_setPageMargins(props);
+                                // me.api.asc_setPageOptions(pageProps, me.api.asc_getActiveWorksheetIndex());
+                                Common.NotificationCenter.trigger('page:settings');
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        }
+                    });
+                    win.show();
+                    win.setSettings(me.api.asc_getPageOptions(me.api.asc_getActiveWorksheetIndex()));
                 }
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Page Margins');
@@ -3213,6 +3216,7 @@ define([
                 // opt.asc_setOrientation(item.value);
                 // props.asc_setPageSetup(opt);
                 // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
+                Common.NotificationCenter.trigger('page:settings');
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
