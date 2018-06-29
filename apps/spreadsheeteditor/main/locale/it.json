@@ -369,6 +369,7 @@
   "SSE.Controllers.Main.errorCountArgExceed": "Un errore nella formula inserita.<br>E' stato superato il numero di argomenti.",
   "SSE.Controllers.Main.errorCreateDefName": "The existing named ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.",
   "SSE.Controllers.Main.errorDatabaseConnection": "Errore esterno.<br>Errore di connessione a banca dati. Si prega di contattare l'assistenza tecnica nel caso in cui l'errore persiste.",
+  "SSE.Controllers.Main.errorDataEncrypted": "Le modifiche crittografate sono state ricevute, non possono essere decifrate.",
   "SSE.Controllers.Main.errorDataRange": "Intervallo di dati non corretto.",
   "SSE.Controllers.Main.errorDefaultMessage": "Codice errore: %1",
   "SSE.Controllers.Main.errorFilePassProtect": "Il file è protetto da una password. Impossibile aprirlo.",

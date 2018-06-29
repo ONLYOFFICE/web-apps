@@ -71,6 +71,7 @@
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Scollegato dal server. Non è possibile modificare.",
   "PE.Controllers.Main.errorConnectToServer": "Il documento non può essere salvato. Controllare le impostazioni di rete o contatta l'Amministratore.<br>Quando clicchi 'OK' Ti verrà richiesto di scaricare il documento.<br><br>Per maggiori dettagli sulla connessione al Document Server  <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">clicca qui</a>",
   "PE.Controllers.Main.errorDatabaseConnection": "Errore esterno.<br>Errore di connessione al database. Si prega di contattare il supporto.",
+  "PE.Controllers.Main.errorDataEncrypted": "Le modifiche crittografate sono state ricevute, non possono essere decifrate.",
   "PE.Controllers.Main.errorDataRange": "Intervallo di dati non corretto.",
   "PE.Controllers.Main.errorDefaultMessage": "Codice errore: %1",
   "PE.Controllers.Main.errorFilePassProtect": "Il file è protetto da una password. Impossibile aprirlo.",

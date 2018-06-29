@@ -324,6 +324,7 @@
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Connessione al server persa. Impossibile modificare il documento.",
   "DE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
   "DE.Controllers.Main.errorDatabaseConnection": "Errore esterno.<br>Errore di connessione a banca dati. Si prega di contattare l'assistenza tecnica nel caso in cui l'errore persiste.",
+  "DE.Controllers.Main.errorDataEncrypted": "Le modifiche crittografate sono state ricevute, non possono essere decifrate.",
   "DE.Controllers.Main.errorDataRange": "Intervallo di dati non corretto.",
   "DE.Controllers.Main.errorDefaultMessage": "Codice errore: %1",
   "DE.Controllers.Main.errorFilePassProtect": "Il file è protetto da una password. Impossibile aprirlo.",
