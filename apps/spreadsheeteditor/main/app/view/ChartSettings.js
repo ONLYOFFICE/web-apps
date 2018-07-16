@@ -1088,7 +1088,11 @@ define([
                         stylesStore.reset(stylearray, {silent: false});
                     }
                 }
+            } else {
+                this.cmbChartStyle.menuPicker.store.reset();
+                this.cmbChartStyle.clearComboView();
             }
+            this.cmbChartStyle.setDisabled(!styles || styles.length<1 || this._locked);
         },
         
         updateSparkStyles: function(styles) {
