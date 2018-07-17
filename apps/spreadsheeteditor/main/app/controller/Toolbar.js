@@ -3196,9 +3196,7 @@ define([
         onPageOrientSelect: function(menu, item) {
             this._state.pgorient = undefined;
             if (this.api && item.checked) {
-                var props = this.api.asc_getPageOptions(),
-                    opt = props.asc_getPageSetup();
-                this.api.asc_setPageOptions(opt.asc_setOrientation, item.value, this.api.asc_getActiveWorksheetIndex());
+                this.api.asc_changePageOrient(item.value==Asc.c_oAscPageOrientation.PagePortrait, this.api.asc_getActiveWorksheetIndex());
                 Common.NotificationCenter.trigger('page:settings');
             }
 
