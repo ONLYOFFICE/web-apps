@@ -3146,12 +3146,7 @@ define([
         onPageSizeClick: function(menu, item, state) {
             if (this.api && state) {
                 this._state.pgsize = [0, 0];
-                // var props = new Asc.asc_CPageOptions(),
-                //     opt = new Asc.asc_CPageSetup();
-                // opt.asc_setWidth(item.value[0]);
-                // opt.asc_setHeight(item.value[1]);
-                // props.asc_setPageSetup(opt);
-                // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
+                this.api.asc_changeDocSize(item.value[0], item.value[1], this.api.asc_getActiveWorksheetIndex());
                 Common.NotificationCenter.trigger('page:settings');
                 Common.component.Analytics.trackEvent('ToolBar', 'Page Size');
             }
@@ -3163,15 +3158,7 @@ define([
             if (this.api) {
                 this._state.pgmargins = undefined;
                 if (item.value !== 'advanced') {
-                    // var props = new Asc.asc_CPageOptions(),
-                    //     opt = new Asc.asc_CPageMargins();
-                    // opt.asc_setLeft(item.value[1]);
-                    // opt.asc_setTop(item.value[0]);
-                    // opt.asc_setRight(item.value[3]);
-                    // opt.asc_setBottom(item.value[2]);
-                    //
-                    // props.asc_setPageMargins(opt);
-                    // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
+                    this.api.asc_changePageMargins(item.value[1], item.value[3], item.value[0], item.value[2], this.api.asc_getActiveWorksheetIndex());
                     Common.NotificationCenter.trigger('page:settings');
                 } else {
                     var win, props,
@@ -3190,9 +3177,7 @@ define([
                                 Common.localStorage.setItem("sse-pgmargins-bottom", props.asc_getBottom());
                                 Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
 
-                                // var pageProps = new Asc.asc_CPageOptions();
-                                // pageProps.asc_setPageMargins(props);
-                                // me.api.asc_setPageOptions(pageProps, me.api.asc_getActiveWorksheetIndex());
+                                me.api.asc_changePageMargins( props.asc_getLeft(), props.asc_getRight(), props.asc_getTop(), props.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
                                 Common.NotificationCenter.trigger('page:settings');
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
@@ -3211,11 +3196,9 @@ define([
         onPageOrientSelect: function(menu, item) {
             this._state.pgorient = undefined;
             if (this.api && item.checked) {
-                // var props = new Asc.asc_CPageOptions(),
-                //     opt = new Asc.asc_CPageSetup();
-                // opt.asc_setOrientation(item.value);
-                // props.asc_setPageSetup(opt);
-                // this.api.asc_setPageOptions(props, this.api.asc_getActiveWorksheetIndex());
+                var props = this.api.asc_getPageOptions(),
+                    opt = props.asc_getPageSetup();
+                this.api.asc_setPageOptions(opt.asc_setOrientation, item.value, this.api.asc_getActiveWorksheetIndex());
                 Common.NotificationCenter.trigger('page:settings');
             }
 
