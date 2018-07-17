@@ -1966,6 +1966,8 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
+                this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -2179,7 +2181,7 @@ define([
             tipLineSpace: 'Paragraph Line Spacing',
             tipPrColor: 'Background color',
             tipInsertTable: 'Insert Table',
-            tipInsertImage: 'Insert Picture',
+            tipInsertImage: 'Insert Image',
             tipPageBreak: 'Insert Page or Section break',
             tipInsertNum: 'Insert Page Number',
             tipClearStyle: 'Clear Style',
@@ -2189,8 +2191,8 @@ define([
             tipBack: 'Back',
             tipInsertShape: 'Insert Autoshape',
             tipInsertEquation: 'Insert Equation',
-            mniImageFromFile: 'Picture from file',
-            mniImageFromUrl: 'Picture from url',
+            mniImageFromFile: 'Image from file',
+            mniImageFromUrl: 'Image from url',
             mniCustomTable: 'Insert Custom Table',
             textTitleError: 'Error',
             textInsertPageNumber: 'Insert page number',
@@ -2281,7 +2283,7 @@ define([
             textCharts: 'Charts',
             tipChangeChart: 'Change Chart Type',
             capBtnInsPagebreak: 'Page Break',
-            capBtnInsImage: 'Picture',
+            capBtnInsImage: 'Image',
             capBtnInsTable: 'Table',
             capBtnInsChart: 'Chart',
             textTabFile: 'File',

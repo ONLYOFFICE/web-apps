@@ -1412,6 +1412,7 @@
   "DE.Views.PageSizeDialog.textHeight": "Hoogte",
   "DE.Views.PageSizeDialog.textTitle": "Paginaformaat",
   "DE.Views.PageSizeDialog.textWidth": "Breedte",
+  "DE.Views.PageSizeDialog.txtCustom": "Aangepast",
   "DE.Views.ParagraphSettings.strLineHeight": "Regelafstand",
   "DE.Views.ParagraphSettings.strParagraphSpacing": "Afstand tussen alinea's",
   "DE.Views.ParagraphSettings.strSomeParagraphSpace": "Geen interval toevoegen tussen alinea's met dezelfde stijl",
