@@ -172,7 +172,8 @@ define([
                     });
                 } else {
                     this.initCodePages();
-                    this.updatePreview();
+                    if (this.preview)
+                        this.updatePreview();
                     this.onPrimary = function() {
                         me._handleInput('ok');
                         return false;
