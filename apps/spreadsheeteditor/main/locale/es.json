@@ -1654,7 +1654,7 @@
   "SSE.Views.Statusbar.RenameDialog.errNameExists": "Hoja de cálculo con tal nombre existe ya.",
   "SSE.Views.Statusbar.RenameDialog.errNameWrongChar": "El nombre de hoja no puede contener los caracteres siguientes: \\/*?[]:",
   "SSE.Views.Statusbar.RenameDialog.labelSheetName": "Nombre de hoja",
-  "SSE.Views.Statusbar.textAverage": "MEDIA",
+  "SSE.Views.Statusbar.textAverage": "PROMEDIO",
   "SSE.Views.Statusbar.textCount": "CONTAR",
   "SSE.Views.Statusbar.textNewColor": "Añadir Color Personalizado Nuevo",
   "SSE.Views.Statusbar.textNoColor": "Sin color",

@@ -81,7 +81,7 @@ define([
                     usersCount          : 1,
                     fastCoauth          : true,
                     lostEditingRights   : false,
-                    licenseWarning      : false
+                    licenseType         : false
                 };
 
                 // Initialize viewport
@@ -556,17 +556,37 @@ define([
                 if (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) return;
 
                 var licType = params.asc_getLicenseType();
-                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
-                }
+                if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS))
+                    this._state.licenseType = licType;
 
-                if (this._isDocReady && this._state.licenseWarning)
+                if (this._isDocReady && this._state.licenseType)
                     this.applyLicense();
             },
 
             applyLicense: function() {
                 var me = this;
-                if (me._state.licenseWarning) {
+                if (this._state.licenseType) {
+                    var license = this._state.licenseType,
+                        buttons = [{text: 'OK'}];
+                    if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                    } else {
+                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                        buttons = [{
+                                        text: me.textBuyNow,
+                                        bold: true,
+                                        onClick: function() {
+                                            window.open('https://www.onlyoffice.com', "_blank");
+                                        }
+                                    },
+                                    {
+                                        text: me.textContactUs,
+                                        onClick: function() {
+                                            window.open('mailto:sales@onlyoffice.com', "_blank");
+                                        }
+                                    }];
+                    }
                     SSE.getController('Toolbar').activateViewControls();
                     SSE.getController('Toolbar').deactivateEditControls();
                     Common.NotificationCenter.trigger('api:disconnect');
@@ -579,22 +599,8 @@ define([
                         Common.localStorage.setItem("sse-license-warning", now);
                         uiApp.modal({
                             title: me.textNoLicenseTitle,
-                            text : me._state.licenseWarning,
-                            buttons: [
-                                {
-                                    text: me.textBuyNow,
-                                    bold: true,
-                                    onClick: function() {
-                                        window.open('https://www.onlyoffice.com', "_blank");
-                                    }
-                                },
-                                {
-                                    text: me.textContactUs,
-                                    onClick: function() {
-                                        window.open('mailto:sales@onlyoffice.com', "_blank");
-                                    }
-                                }
-                            ]
+                            text : license,
+                            buttons: buttons
                         });
                     }
                 } else
@@ -955,6 +961,10 @@ define([
                         config.msg = this.errorAccessDeny;
                         break;
 
+                    case Asc.c_oAscError.ID.DataEncrypted:
+                        config.msg = this.errorDataEncrypted;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -974,6 +984,10 @@ define([
                         config.callback = function() {
                             Common.NotificationCenter.trigger('goback');
                         }
+                    }
+                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                        this.api.asc_coAuthoringDisconnect();
+                        Common.NotificationCenter.trigger('api:disconnect');
                     }
                 }
                 else {
@@ -1370,7 +1384,7 @@ define([
             unsupportedBrowserErrorText : 'Your browser is not supported.',
             requestEditFailedTitleText: 'Access denied',
             requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
-            textLoadingDocument: 'Loading document',
+            textLoadingDocument: 'Loading spreadsheet',
             applyChangesTitleText: 'Loading Data',
             applyChangesTextText: 'Loading data...',
             errorKeyEncrypt: 'Unknown key descriptor',
@@ -1389,8 +1403,8 @@ define([
             txtLines: 'Lines',
             txtEditingMode: 'Set editing mode...',
             textAnonymous: 'Anonymous',
-            loadingDocumentTitleText: 'Loading document',
-            loadingDocumentTextText: 'Loading document...',
+            loadingDocumentTitleText: 'Loading spreadsheet',
+            loadingDocumentTextText: 'Loading spreadsheet...',
             warnProcessRightsChange: 'You have been denied the right to edit the file.',
             errorProcessSaveResult: 'Saving is failed.',
             textCloseTip: '\nClick to close the tip.',
@@ -1421,7 +1435,6 @@ define([
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
-            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -1474,9 +1487,13 @@ define([
             txtStyle_Currency: 'Currency',
             txtStyle_Percent: 'Percent',
             txtStyle_Comma: 'Comma',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
             txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset',
+            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
+            warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             pastInMergeAreaError: 'Cannot change part of a merged cell',
             errorWrongBracketsCount: 'Found an error in the formula entered.<br>Wrong cout of brackets.',
             errorWrongOperator: 'An error in the entered formula. Wrong operator is used.<br>Please correct the error or use the Esc button to cancel the formula editing.',

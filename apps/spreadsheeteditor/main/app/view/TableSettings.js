@@ -85,6 +85,7 @@ define([
             };
             this.lockedControls = [];
             this._locked = false;
+            this.isEditCell = false;
 
             this._originalProps = null;
             this._noApply = false;
@@ -177,6 +178,7 @@ define([
             this.api = o;
             if (o) {
                 this.api.asc_registerCallback('asc_onSendThemeColors',    _.bind(this.onSendThemeColors, this));
+                this.api.asc_registerCallback('asc_onEditCell', this.onApiEditCell.bind(this));
             }
             return this;
         },
@@ -510,14 +512,21 @@ define([
                 });
             }
         },
-        
+
+        onApiEditCell: function(state) {
+            this.isEditCell = (state != Asc.c_oAscCellEditorState.editEnd);
+            if ( state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd)
+                this.disableControls(this._locked);
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
 
         disableControls: function(disable) {
             if (this._initSettings) return;
-            
+            disable = disable || this.isEditCell;
+
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {

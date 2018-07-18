@@ -652,7 +652,7 @@ define([
                      el: $('#table-border-color-menu')
                  });
                  this.borderColor.on('select', _.bind(this.onColorsBorderSelect, this));
-                 $(this.el).on('click', '#table-border-color-new', _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
+                 this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
 
                  this.btnBackColor = new Common.UI.ColorButton({
                      style: "width:45px;",
@@ -670,7 +670,7 @@ define([
                      transparent: true
                  });
                  this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                 $(this.el).on('click', '#table-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor, this.btnBackColor));
+                 this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

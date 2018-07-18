@@ -2862,6 +2862,7 @@ define([
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        menuTableControlSettings.setVisible(me.mode.canEditContentControl);
                     }
                     menuTableTOC.setVisible(in_toc);
                 },
@@ -3402,7 +3403,7 @@ define([
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl() ;
                     menuParaRemoveControl.setVisible(in_control);
-                    menuParaControlSettings.setVisible(in_control);
+                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl);
                     menuParaControlSeparator.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
