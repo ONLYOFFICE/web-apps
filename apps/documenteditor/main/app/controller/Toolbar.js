@@ -226,6 +226,11 @@ define([
             Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+            this.toolbar.applyLayout(mode);
+        },
+
         attachUIEvents: function(toolbar) {
             /**
              * UI Events
@@ -2700,6 +2705,8 @@ define([
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             if ( config.isEdit ) {
+                me.toolbar.setMode(config);
+
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                 var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
 
@@ -2718,7 +2725,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
 
-                    if ( config.isProtectSupport && config.isOffline && false ) { // don't add protect panel to toolbar
+                    if ( config.isProtectSupport && config.isOffline ) {
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
@@ -2734,6 +2741,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
+            me.appOptions = config;
 
             if ( config.canCoAuthoring && config.canComments ) {
                 this.btnsComment = createButtonSet();
@@ -2784,7 +2792,13 @@ define([
         },
 
         onFileMenu: function (opts) {
-            this.toolbar.setTab( opts == 'show' ? 'file' : undefined );
+            if ( opts == 'show' ) {
+                if ( !this.toolbar.isTabActive('file') )
+                    this.toolbar.setTab('file');
+            } else {
+                if ( this.toolbar.isTabActive('file') )
+                    this.toolbar.setTab();
+            }
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',

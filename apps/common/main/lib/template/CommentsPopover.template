@@ -2,7 +2,9 @@
 
     <!-- comment block -->
 
-    <div class="user-name"><%=scope.getUserName(username)%></div>
+    <div class="user-name">
+        <div class="color" style="display: inline-block; background-color: <% if (usercolor!==null) { %><%=usercolor%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(username) %>
+    </div>
     <div class="user-date"><%=date%></div>
     <% if (!editTextInPopover || hint) { %>
         <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(comment)%></div>
@@ -24,7 +26,9 @@
         <div class="reply-arrow img-commonctrl"></div>
         <% _.each(replys, function (item) { %>
             <div class="reply-item-ct">
-                <div class="user-name"><%=scope.getUserName(item.get("username"))%></div>
+                <div class="user-name">
+                    <div class="color" style="display: inline-block; background-color: <% if (item.get("usercolor")!==null) { %><%=item.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(item.get("username")) %>
+                </div>
                 <div class="user-date"><%=item.get("date")%></div>
                 <% if (!item.get("editTextInPopover")) { %>
                     <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(item.get("reply"))%></div>

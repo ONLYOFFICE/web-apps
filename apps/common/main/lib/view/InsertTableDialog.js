@@ -48,23 +48,23 @@ define([
     Common.Views.InsertTableDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 230,
-            height: 170,
-            header: false,
+            height: 156,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             split: false
         },
 
         initialize : function(options) {
-            _.extend(this.options, options || {});
+            _.extend(this.options, {
+                title: (options.split) ? this.txtTitleSplit : this.txtTitle
+            }, options || {});
 
             this.template = [
                 '<div class="box">',
-                    '<h4>' + ((options.split) ? this.txtTitleSplit : this.txtTitle) + '</h4>',
-                    '<div class="input-row" style="margin: 10px 0;">',
+                    '<div class="input-row">',
                         '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val" style="float: right;"></div>',
                     '</div>',
-                    '<div class="input-row" style="margin: 10px 0;">',
+                    '<div class="input-row" style="margin-top: 10px;">',
                         '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val" style="float: right;"></div>',
                     '</div>',
                 '</div>',

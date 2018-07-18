@@ -291,6 +291,7 @@ define([
                         old_rights = this._state.lostEditingRights;
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
+                    Common.NotificationCenter.trigger('api:disconnect');
 
                     if (!old_rights) {
                         uiApp.alert(
@@ -338,18 +339,7 @@ define([
                 }
 
                 action = me.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
-
-                if (action) {
-                    me.setLongActionView(action)
-                } else {
-                    if (me._state.fastCoauth && me._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
-                        // me._state.timerSave = setTimeout(function () {
-                            //console.debug('End long action');
-                        // }, 500);
-                    } else {
-                        // console.debug('End long action');
-                    }
-                }
+                action && me.setLongActionView(action);
 
                 action = me.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
 
@@ -463,7 +453,7 @@ define([
                 if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
                     if (me.loadMask && $(me.loadMask).hasClass('modal-in')) {
                         $$(me.loadMask).find('.modal-title').text(title);
-                    } else {
+                    } else if ($$('.modal.modal-in').length < 1) {
                         me.loadMask = uiApp.showPreloader(title);
                     }
                 }
@@ -557,7 +547,9 @@ define([
 
                 $('.view-main').on('click', function (e) {
                     uiApp.closeModal('.document-menu.modal-in');
-                })
+                });
+
+                $(document).on('contextmenu', _.bind(me.onContextMenu, me));
             },
 
             onLicenseChanged: function(params) {
@@ -663,6 +655,7 @@ define([
                 }
 
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
+                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.canEdit        = me.permissions.edit !== false && // can edit
                     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view';
@@ -1244,25 +1237,33 @@ define([
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
+                    var buttons = [{
+                        text: 'OK',
+                        bold: true,
+                        onClick: function () {
+                            var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
+                            me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
+
+                            if (!me._isDocReady) {
+                                me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            }
+                            me._state.openDlg = null;
+                        }
+                    }];
+                    if (me.appOptions.canRequestClose)
+                        buttons.push({
+                            text: me.closeButtonText,
+                            onClick: function () {
+                                Common.Gateway.requestClose();
+                                me._state.openDlg = null;
+                            }
+                        });
+
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
                         text: me.txtProtected,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
-                        buttons: [
-                            {
-                                text: 'OK',
-                                bold: true,
-                                onClick: function () {
-                                    var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-
-                                    if (!me._isDocReady) {
-                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-                                    }
-                                    me._state.openDlg = null;
-                                }
-                            }
-                        ]
+                        buttons: buttons
                     });
 
                     // Vertical align
@@ -1333,6 +1334,18 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            onContextMenu: function(event){
+                var canCopyAttr = event.target.getAttribute('data-can-copy'),
+                    isInputEl   = (event.target instanceof HTMLInputElement) || (event.target instanceof HTMLTextAreaElement);
+
+                if ((isInputEl && canCopyAttr === 'false') ||
+                    (!isInputEl && canCopyAttr !== 'true')) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    return false;
+                }
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -1480,7 +1493,36 @@ define([
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
-            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.'
+            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
+            pastInMergeAreaError: 'Cannot change part of a merged cell',
+            errorWrongBracketsCount: 'Found an error in the formula entered.<br>Wrong cout of brackets.',
+            errorWrongOperator: 'An error in the entered formula. Wrong operator is used.<br>Please correct the error or use the Esc button to cancel the formula editing.',
+            errorCountArgExceed: 'Found an error in the formula entered.<br>Count of arguments exceeded.',
+            errorCountArg: 'Found an error in the formula entered.<br>Invalid number of arguments.',
+            errorFormulaName: 'Found an error in the formula entered.<br>Incorrect formula name.',
+            errorFormulaParsing: 'Internal error while the formula parsing.',
+            errorArgsRange: 'Found an error in the formula entered.<br>Incorrect arguments range.',
+            errorUnexpectedGuid: 'External error.<br>Unexpected Guid. Please, contact support.',
+            errorFileRequest: 'External error.<br>File Request. Please, contact support.',
+            errorFileVKey: 'External error.<br>Incorrect securety key. Please, contact support.',
+            errorOperandExpected: 'The entered function syntax is not correct. Please check if you are missing one of the parentheses - \'(\' or \')\'.',
+            errorMoveRange: 'Cann\'t change a part of merged cell',
+            errorBadImageUrl: 'Image url is incorrect',
+            errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.',
+            errorAutoFilterChangeFormatTable: 'The operation could not be done for the selected cells as you cannot move a part of the table.<br>Select another data range so that the whole table was shifted and try again.',
+            errorAutoFilterHiddenRange: 'The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.',
+            errorAutoFilterChange: 'The operation is not allowed, as it is attempting to shift cells in a table on your worksheet.',
+            errorFillRange: 'Could not fill the selected range of cells.<br>All the merged cells need to be the same size.',
+            errorInvalidRef: 'Enter a correct name for the selection or a valid reference to go to.',
+            errorCreateDefName: 'The existing named ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
+            errorPasteMaxRange: 'The copy and paste area does not match. Please select an area with the same size or click the first cell in a row to paste the copied cells.',
+            errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
+            errorLockedWorksheetRename: 'The sheet cannot be renamed at the moment as it is being renamed by another user',
+            errorOpenWarning: 'The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.',
+            errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
+            errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
+            errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.',
+            closeButtonText: 'Close File'
         }
     })(), SSE.Controllers.Main || {}))
 });

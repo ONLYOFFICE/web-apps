@@ -107,9 +107,9 @@ define([
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
 
-                        // if (_format == Asc.c_oAscFileType.PDF)
-                        //     Common.NotificationCenter.trigger('download:settings', this.toolbar);
-                        // else
+                        if (_format == Asc.c_oAscFileType.PDF)
+                            Common.NotificationCenter.trigger('download:settings', this.toolbar);
+                        else
                             _main.api.asc_DownloadAs(_format);
                     },
                     'go:editor': function() {
@@ -215,6 +215,11 @@ define([
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+            this.toolbar.applyLayout(mode);
         },
 
         attachUIEvents: function(toolbar) {
@@ -2801,12 +2806,17 @@ define([
                                         buttons: ['ok', 'cancel'],
                                         callback: function(btn) {
                                             if (btn == 'ok')
-                                                setTimeout(function() { me.api.asc_addAutoFilter(fmtname, settings.range)}, 1);
+                                                setTimeout(function() {
+                                                    me.toolbar.fireEvent('inserttable', me.toolbar);
+                                                    me.api.asc_addAutoFilter(fmtname, settings.range);
+                                                }, 1);
                                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                                         }
                                     });
-                                else
+                                else {
+                                    me.toolbar.fireEvent('inserttable', me.toolbar);
                                     me.api.asc_addAutoFilter(fmtname, settings.range);
+                                }
                             }
                         }
 
@@ -2836,12 +2846,17 @@ define([
                                 buttons: ['ok', 'cancel'],
                                 callback: function(btn) {
                                     if (btn == 'ok')
-                                        setTimeout(function() { me.api.asc_addAutoFilter(fmtname)}, 1);
+                                        setTimeout(function() {
+                                            me.toolbar.fireEvent('inserttable', me.toolbar);
+                                            me.api.asc_addAutoFilter(fmtname);
+                                        }, 1);
                                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                                 }
                             });
-                        else
+                        else {
+                            me.toolbar.fireEvent('inserttable', me.toolbar);
                             me.api.asc_addAutoFilter(fmtname);
+                        }
                     }
                 }
             }
@@ -2919,7 +2934,7 @@ define([
         },
 
         applyFormulaSettings: function() {
-            if (this.toolbar.btnInsertFormula.rendered) {
+            if (this.toolbar.btnInsertFormula && this.toolbar.btnInsertFormula.rendered) {
                 var formulas = this.toolbar.btnInsertFormula.menu.items;
                 for (var i=0; i<Math.min(4,formulas.length); i++) {
                     formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
@@ -2940,13 +2955,12 @@ define([
                     compactview = true;
             }
 
-            me.toolbar.applyLayout(config);
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
             Common.Utils.asyncCall(function () {
-                me.toolbar.setMode(config);
-
                 if ( config.isEdit ) {
+                    me.toolbar.setMode(config);
+
                     me.toolbar.btnSave && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
                     me.toolbar.btnUndo && me.toolbar.btnUndo.on('disabled', _.bind(me.onBtnChangeState, me, 'undo:disabled'));
                     me.toolbar.btnRedo && me.toolbar.btnRedo.on('disabled', _.bind(me.onBtnChangeState, me, 'redo:disabled'));
@@ -2978,7 +2992,7 @@ define([
                             me.toolbar.btnPaste.$el.detach().appendTo($box);
                             me.toolbar.btnCopy.$el.removeClass('split');
 
-                            if ( config.isProtectSupport && config.isOffline && false ) { // don't add protect panel to toolbar
+                            if ( config.isProtectSupport && config.isOffline ) {
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
@@ -2992,6 +3006,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
+            me.appOptions = config;
 
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
@@ -3032,7 +3047,13 @@ define([
         },
 
         onFileMenu: function (opts) {
-            this.toolbar.setTab( opts == 'show' ? 'file' : undefined );
+            if ( opts == 'show' ) {
+                if ( !this.toolbar.isTabActive('file') )
+                    this.toolbar.setTab('file');
+            } else {
+                if ( this.toolbar.isTabActive('file') )
+                    this.toolbar.setTab();
+            }
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

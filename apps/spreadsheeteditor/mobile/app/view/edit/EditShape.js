@@ -62,6 +62,7 @@ define([
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 Common.NotificationCenter.on('editcategory:show',  _.bind(this.categoryShow, this));
                 this.on('page:show', _.bind(this.updateItemHandlers, this));
+                this.isShapeCanFill = true;
             },
 
             initEvents: function () {
@@ -153,7 +154,13 @@ define([
                     page = $target.data('page');
 
                 if (page && page.length > 0 ) {
+                    if (page == '#edit-shape-style' && !this.isShapeCanFill)
+                        page = '#edit-shape-style-nofill';
+
                     this.showPage(page);
+
+                    if (!this.isShapeCanFill)
+                        this.showStyleCategory();
                 }
             },
 

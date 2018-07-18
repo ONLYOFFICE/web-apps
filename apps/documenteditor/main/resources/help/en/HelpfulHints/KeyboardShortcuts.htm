@@ -24,10 +24,15 @@
 					<td class="description">Open the <b>File</b> panel to save, download, print the current document, view its info, create a new document or open an existing one, access Document Editor help or advanced settings.</td>
 				</tr>
 				<tr>
-					<td>Open 'Search' panel</td>
+					<td>Open 'Find and Replace' dialog box</td>
 					<td>Ctrl+F</td>
-					<td>Open the <b>Search</b> panel to start searching for a character/word/phrase in the currently edited document.</td>
+					<td>Open the <b>Find and Replace</b> dialog box to start searching for a character/word/phrase in the currently edited document.</td>
 				</tr>
+                <tr>
+                    <td>Open 'Find and Replace' dialog box with replacement field</td>
+                    <td>Ctrl+H</td>
+                    <td>Open the <b>Find and Replace</b> dialog box with the replacement field to replace one or more occurrences of the found characters.</td>
+                </tr>
 				<tr>
 					<td>Open 'Comments' panel</td>
 					<td>Ctrl+Shift+H</td>
@@ -46,7 +51,7 @@
 				<tr>
 					<td>Save document</td>
 					<td>Ctrl+S</td>
-					<td>Save all the changes to the document currently edited with Document Editor.</td>
+					<td>Save all the changes to the document currently edited with Document Editor. The active file will be saved with its current file name, location, and file format.</td>
 				</tr>
 				<tr>
 					<td>Print document</td>
@@ -56,7 +61,7 @@
 				<tr>
 					<td>Download As...</td>
 					<td>Ctrl+Shift+S</td>
-					<td>Save the currently edited document to the computer hard disk drive in one of the supported formats: PDF, TXT, DOCX, ODT, HTML.</td>
+					<td>Open the <b>Download as...</b> panel to save the currently edited document to the computer hard disk drive in one of the supported formats: DOCX, PDF, TXT, ODT, RTF, HTML.</td>
 				</tr>
 				<tr>
 					<td>Full screen</td>
@@ -67,6 +72,26 @@
                     <td>Help menu</td>
                     <td>F1</td>
                     <td>Open Document Editor <b>Help</b> menu.</td>
+                </tr>
+                <tr>
+                    <td>Open existing file</td>
+                    <td>Ctrl+O</td>
+                    <td>On the <b>Open local file</b> tab in desktop editors, opens the standard dialog box that allows to select an existing file.</td>
+                </tr>
+                <tr>
+                    <td>Element contextual menu</td>
+                    <td>Shift+F10</td>
+                    <td>Open the selected element <b>contextual menu</b>.</td>
+                </tr>
+                <tr>
+                    <td>Close file</td>
+                    <td>Ctrl+W</td>
+                    <td>Close the selected document window.</td>
+                </tr>
+                <tr>
+                    <td>Close the window (tab)</td>
+                    <td>Ctrl+F4</td>
+                    <td>Close the tab in a browser.</td>
                 </tr>
 				<tr>
 					<th colspan="3">Navigation</th>
@@ -93,34 +118,74 @@
 				</tr>
 				<tr>
 					<td>Scroll down</td>
-					<td>PgDn</td>
+					<td>Page Down</td>
 					<td>Scroll the document approximately one visible page down.</td>
 				</tr>
 				<tr>
 					<td>Scroll up</td>
-					<td>PgUp</td>
+					<td>Page Up</td>
 					<td>Scroll the document approximately one visible page up.</td>
 				</tr>
 				<tr>
 					<td>Next page</td>
-					<td>Alt+PgDn</td>
+					<td>Alt+Page Down</td>
 					<td>Go to the next page in the currently edited document.</td>
 				</tr>
 				<tr>
 					<td>Previous page</td>
-					<td>Alt+PgUp</td>
+					<td>Alt+Page Up</td>
 					<td>Go to the previous page in the currently edited document.</td>
 				</tr>
 				<tr>
 					<td>Zoom In</td>
-					<td>Ctrl+plus (+)</td>
+					<td>Ctrl+Plus sign (+)</td>
 					<td>Zoom in the currently edited document.</td>
 				</tr>
 				<tr>
 					<td>Zoom Out</td>
-					<td>Ctrl+minus (-)</td>
+					<td>Ctrl+Minus sign (-)</td>
 					<td>Zoom out the currently edited document.</td>
 				</tr>
+                <tr>
+                    <td>Move one character to the left</td>
+                    <td>Left arrow</td>
+                    <td>Move the cursor one character to the left.</td>
+                </tr>
+                <tr>
+                    <td>Move one character to the right</td>
+                    <td>Right arrow</td>
+                    <td>Move the cursor one character to the right.</td>
+                </tr>
+                <tr>
+                    <td>Move to the beginning of a word or one word to the left</td>
+                    <td>Ctrl+Left arrow</td>
+                    <td>Move the cursor to the beginning of a word or one word to the left.</td>
+                </tr>
+                <tr>
+                    <td>Move one word to the right</td>
+                    <td>Ctrl+Right arrow</td>
+                    <td>Move the cursor one word to the right.</td>
+                </tr>
+                <!--<tr>
+                    <td>Move one paragraph up</td>
+                    <td>Ctrl+Up arrow</td>
+                    <td>Move the cursor one paragraph up.</td>
+                </tr>
+                <tr>
+                    <td>Move one paragraph down</td>
+                    <td>Ctrl+Down arrow</td>
+                    <td>Move the cursor one paragraph down.</td>
+                </tr>-->
+                <tr>
+                    <td>Move one line up</td>
+                    <td>Up arrow</td>
+                    <td>Move the cursor one line up.</td>
+                </tr>
+                <tr>
+                    <td>Move one line down</td>
+                    <td>Down arrow</td>
+                    <td>Move the cursor one line down.</td>
+                </tr>
 				<tr>
 					<th colspan="3">Writing</th>
 				</tr>
@@ -218,6 +283,36 @@
 					<td>Shift+End</td>
 					<td>Select a text fragment from the cursor to the end of the current line.</td>
 				</tr>
+                <tr>
+                    <td>Select one character to the right</td>
+                    <td>Shift+Right arrow</td>
+                    <td>Select one character to the right of the cursor position.</td>
+                </tr>
+                <tr>
+                    <td>Select one character to the left</td>
+                    <td>Shift+Left arrow</td>
+                    <td>Select one character to the left of the cursor position.</td>
+                </tr>
+                <tr>
+                    <td>Select to the end of a word</td>
+                    <td>Ctrl+Shift+Right arrow</td>
+                    <td>Select a text fragment from the cursor to the end of a word.</td>
+                </tr>
+                <tr>
+                    <td>Select to the beginning of a word</td>
+                    <td>Ctrl+Shift+Left arrow</td>
+                    <td>Select a text fragment from the cursor to the beginning of a word.</td>
+                </tr>
+                <tr>
+                    <td>Select one line up</td>
+                    <td>Shift+Up arrow</td>
+                    <td>Select one line up (with the cursor at the beginning of a line).</td>
+                </tr>
+                <tr>
+                    <td>Select one line down</td>
+                    <td>Shift+Down arrow</td>
+                    <td>Select one line down (with the cursor at the beginning of a line).</td>
+                </tr>
 				<tr>
 					<th colspan="3">Text Styling</th>
 				</tr>
@@ -312,6 +407,21 @@
 					<td>Ctrl+L</td>
 					<td>Align left with the text lined up by the left side of the page, the right side remains unaligned. If your text is initially left-aligned</td>
 				</tr>-->
+                <tr>
+                    <td>Apply subscript formatting (automatic spacing)</td>
+                    <td>Ctrl+Equal sign (=)</td>
+                    <td>Apply subscript formatting to the selected text fragment.</td>
+                </tr>
+                <tr>
+                    <td>Apply superscript formatting (automatic spacing)</td>
+                    <td>Ctrl+Shift+Plus sign (+)</td>
+                    <td>Apply superscript  formatting to the selected text fragment.</td>
+                </tr>
+                <tr>
+                    <td>Insert page break</td>
+                    <td>Ctrl+Enter</td>
+                    <td>Insert a page break at the current cursor position.</td>
+                </tr>
 				<tr>
 					<td>Increase indent</td>
 					<td>Ctrl+M</td>
@@ -325,15 +435,30 @@
                 <tr>
                     <td>Add page number</td>
                     <td>Ctrl+Shift+P</td>
-                    <td>Add the current page number to the text or to the page footer.</td>
+                    <td>Add the current page number at the current cursor position.</td>
                 </tr>
-				<!--<tr>
-					<td>Nonprinting characters</td>
-					<td>Ctrl+*</td>
-					<td>Show or hide the display of nonprinting characters.</td>
-				</tr>-->
+                <!--<tr>
+                    <td>Add dash</td>
+                    <td>Num-</td>
+                    <td>Add a dash.</td>
+                </tr>-->
 				<tr>
-					<th colspan="3">Modifying Objects</th>
+					<td>Nonprinting characters</td>
+					<td>Ctrl+Shift+Num8</td>
+					<td>Show or hide the display of nonprinting characters.</td>
+				</tr>
+                <tr>
+                    <td>Delete one character to the left</td>
+                    <td>Backspace</td>
+                    <td>Delete one character to the left of the cursor.</td>
+                </tr>
+                <tr>
+                    <td>Delete one character to the right</td>
+                    <td>Delete</td>
+                    <td>Delete one character to the right of the cursor.</td>
+                </tr>
+				<tr>
+					<th colspan="3"><a id="workwithobjects"></a>Modifying Objects</th>
 				</tr>
 				<tr>
 					<td>Constrain movement</td>
@@ -350,11 +475,63 @@
 					<td>Shift+drag (when resizing)</td>
 					<td>Maintain the proportions of the selected object when resizing.</td>
 				</tr>
+                <tr>
+                    <td>Draw straight line or arrow</td>
+                    <td>Shift+drag (when drawing lines/arrows)</td>
+                    <td>Draw a straight vertical/horizontal/45-degree line or arrow.</td>
+                </tr>
 				<tr>
 					<td>Movement by one-pixel increments</td>
-					<td>Ctrl</td>
+					<td>Ctrl+Arrow keys</td>
 					<td>Hold down the Ctrl key and use the keybord arrows to move the selected object by one pixel at a time.</td>
 				</tr>
+                <tr>
+                    <th colspan="3"><a id="workwithtables"></a>Working with Tables</th>
+                </tr>
+                <tr>
+                    <td>Move to the next cell in a row</td>
+                    <td>Tab</td>
+                    <td>Go to the next cell in a table row.</td>
+                </tr>
+                <tr>
+                    <td>Move to the previous cell in a row</td>
+                    <td>Shift+Tab</td>
+                    <td>Go to the previous cell in a table row.</td>
+                </tr>
+                <tr>
+                    <td>Move to the next row</td>
+                    <td>Down arrow</td>
+                    <td>Go to the next row in a table.</td>
+                </tr>
+                <tr>
+                    <td>Move to the previous row</td>
+                    <td>Up arrow</td>
+                    <td>Go to the previous row in a table.</td>
+                </tr>
+                <tr>
+                    <td>Start new paragraph</td>
+                    <td>Enter</td>
+                    <td>Start a new paragraph within a cell.</td>
+                </tr>
+                <tr>
+                    <td>Add new row</td>
+                    <td>Tab in the lower right table cell.</td>
+                    <td>Add a new row at the bottom of the table.</td>
+                </tr>
+                
+                <tr>
+                    <th colspan="3">Inserting special characters</th>
+                </tr>
+                <!--<tr>
+                    <td>Insert the Euro sign</td>
+                    <td>Alt+Ctrl+E</td>
+                    <td>Insert the Euro sign (€) at the current cursor position.</td>
+                </tr>-->
+                <tr>
+                    <td>Insert formula</td>
+                    <td>Alt+Equal sign (=)</td>
+                    <td>Insert a formula at the current cursor position.</td>
+                </tr>
 			</table>
 		</div>
 	</body>

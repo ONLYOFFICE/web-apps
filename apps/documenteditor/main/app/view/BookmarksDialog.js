@@ -132,8 +132,7 @@ define([
             this.radioName = new Common.UI.RadioBox({
                 el: $('#bookmarks-radio-name'),
                 labelText: this.textName,
-                name: 'asc-radio-bookmark-sort',
-                checked: true
+                name: 'asc-radio-bookmark-sort'
             });
             this.radioName.on('change', _.bind(this.onRadioSort, this));
 
@@ -143,6 +142,7 @@ define([
                 name: 'asc-radio-bookmark-sort'
             });
             this.radioLocation.on('change', _.bind(this.onRadioSort, this));
+            Common.Utils.InternalSettings.get("de-bookmarks-sort-location") ? this.radioLocation.setValue(true, true) : this.radioName.setValue(true, true);
 
             this.bookmarksList = new Common.UI.ListView({
                 el: $('#bookmarks-list', this.$window),
@@ -195,6 +195,7 @@ define([
         close: function() {
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
             Common.Utils.InternalSettings.set("de-bookmarks-hidden", this.chHidden.getValue()=='checked');
+            Common.Utils.InternalSettings.set("de-bookmarks-sort-location", this.radioLocation.getValue())
         },
 
         _setDefaults: function (props) {
@@ -266,6 +267,10 @@ define([
                 var store = this.bookmarksList.store;
                 var idx = _.indexOf(store.models, rec[0]);
                 store.remove(rec[0]);
+                this.txtName.setValue('');
+                this.btnAdd.setDisabled(true);
+                this.btnGoto.setDisabled(true);
+                this.btnDelete.setDisabled(true);
             }
         },
 
@@ -282,7 +287,10 @@ define([
 
         onNameChanging: function (input, value) {
             var exist = this.props.asc_HaveBookmark(value);
-            this.bookmarksList.deselectAll();
+            if (exist)
+                this.bookmarksList.selectRecord(this.bookmarksList.store.findWhere({value: value}));
+            else
+                this.bookmarksList.deselectAll();
             this.btnAdd.setDisabled(!this.props.asc_CheckNewBookmarkName(value) && !exist);
             this.btnGoto.setDisabled(!exist);
             this.btnDelete.setDisabled(!exist);

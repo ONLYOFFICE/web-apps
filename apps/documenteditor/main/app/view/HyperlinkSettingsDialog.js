@@ -66,8 +66,8 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 150px;">',
-                    '<div class="input-row hidden" style="margin-bottom: 10px;">',
+                '<div class="box" style="height: 260px;">',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternal,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternal,'</button>',
                     '</div>',
@@ -202,7 +202,7 @@ define([
 
                     for (var i=0; i<count; i++) {
                         var anchor = anchors[i],
-                            level = anchors[i].asc_GetHeadingLevel(),
+                            level = anchors[i].asc_GetHeadingLevel()+1,
                             hasParent = true;
                         if (anchor.asc_GetType()== Asc.c_oAscHyperlinkAnchor.Heading){
                             if (level>prev_level)
@@ -279,10 +279,9 @@ define([
             if (props) {
                 var me = this;
 
-                // var bookmark = props.get_Bookmark(),
-                //     type = (bookmark === null || bookmark=='') ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink;
+                var bookmark = props.get_Bookmark(),
+                    type = (bookmark === null || bookmark=='') ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink;
 
-                var type = c_oHyperlinkType.WebLink;
                 (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
                 me.ShowHideElem(type);
 
@@ -335,7 +334,7 @@ define([
 
                 url = url.replace(new RegExp("%20",'g')," ");
                 props.put_Value(url);
-                // props.put_Bookmark(null);
+                props.put_Bookmark(null);
                 display = url;
             } else {
                 var rec = this.internalList.getSelectedRec();

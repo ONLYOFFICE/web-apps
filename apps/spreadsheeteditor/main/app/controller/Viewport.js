@@ -122,6 +122,8 @@ define([
             this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
             this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
             this.api.asc_registerCallback('asc_onEditCell',                 this.onApiEditCell.bind(this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
+            Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
         onAppShowed: function (config) {
@@ -177,6 +179,14 @@ define([
                     checkable   : true,
                     value       : 'toolbar'
                 });
+                if (!config.isEdit && !config.isEditDiagram && !config.isEditMailMerge) {
+                    me.header.mnuitemCompactToolbar.hide();
+                    Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                        if (action=='plugins' && visible) {
+                            me.header.mnuitemCompactToolbar.show();
+                        }
+                    }, this));
+                }
 
                 var mnuitemHideFormulaBar = new Common.UI.MenuItem({
                     caption     : me.textHideFBar,
@@ -406,6 +416,17 @@ define([
             case 'gridlines': me.api.asc_setDisplayGridlines(!item.isChecked()); break;
             case 'freezepanes': me.api.asc_freezePane(); break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            }
+        },
+
+        onApiCoAuthoringDisconnect: function() {
+            if (this.header) {
+                if (this.header.btnDownload)
+                    this.header.btnDownload.hide();
+                if (this.header.btnPrint)
+                    this.header.btnPrint.hide();
+                if (this.header.btnEdit)
+                    this.header.btnEdit.hide();
             }
         },
 

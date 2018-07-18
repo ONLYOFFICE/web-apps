@@ -55,7 +55,7 @@ define([
             uid                 : 0,                        //  asc
             userid              : 0,
             username            : 'Guest',
-            usercolor           : '#ee3525',
+            usercolor           : null,
             date                : undefined,
             changetext          : '',
             lock                : false,

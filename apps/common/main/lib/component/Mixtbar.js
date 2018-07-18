@@ -86,15 +86,30 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
+                var _template_tabs =
+                    '<section class="tabs">' +
+                        '<a class="scroll left"><i class="icon">&lt;</i></a>' +
+                        '<ul>' +
+                            '<% for(var i in items) { %>' +
+                                '<li class="ribtab' +
+                                        '<% if (items[i].haspanel===false) print(" x-lone") %>' +
+                                        '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>">' +
+                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>"><%= items[i].caption %></a>' +
+                                '</li>' +
+                            '<% } %>' +
+                        '</ul>' +
+                        '<a class="scroll right"><i class="icon">&gt;</i></a>' +
+                    '</section>';
+
                 this.$layout = $(options.template({
-                    tabs: options.tabs
+                    tabsmarkup: _.template(_template_tabs)({items: options.tabs})
                 }));
 
                 config.tabs = options.tabs;
                 $(document.body).on('click', onClickDocument.bind(this));
 
                 Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                    this.setVisible(action, visible)
+                    this.setVisible(action, visible);
                 }, this));
             },
 
@@ -127,8 +142,12 @@ define([
                 if ( this.isFolded ) {
                     if (!optsFold.$box) optsFold.$box = me.$el.find('.box-controls');
 
-                    optsFold.$bar.addClass('folded').toggleClass('expanded', false);
+                    optsFold.$bar.addClass('folded z-clear').toggleClass('expanded', false);
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
+                    optsFold.$bar.on($.support.transition.end, function (e) {
+                        if ( optsFold.$bar.hasClass('folded') && !optsFold.$bar.hasClass('expanded') )
+                            optsFold.$bar.toggleClass('z-clear', true);
+                    });
                     optsFold.$box.on({
                         mouseleave: function (e) {
                             // optsFold.timer = setTimeout( function(e) {
@@ -167,13 +186,16 @@ define([
 
                 } else {
                     // clearTimeout(optsFold.timer);
-                    optsFold.$bar.removeClass('folded');
+                    optsFold.$bar.removeClass('folded z-clear');
                     optsFold.$box.off();
 
                     var active_panel = optsFold.$box.find('.panel.active');
                     if ( active_panel.length ) {
                         var tab = active_panel.data('tab');
                         me.$tabs.find('> a[data-tab=' + tab + ']').parent().toggleClass('active', true);
+                    } else {
+                        tab = me.$tabs.siblings(':not(.x-lone)').first().find('> a[data-tab]').data('tab');
+                        me.setTab(tab);
                     }
                 }
             },
@@ -191,6 +213,7 @@ define([
             expand: function() {
                 // clearTimeout(optsFold.timer);
 
+                optsFold.$bar.removeClass('z-clear');
                 optsFold.$bar.addClass('expanded');
                 // optsFold.timer = setTimeout(this.collapse, optsFold.timeout);
             },
@@ -206,28 +229,40 @@ define([
             },
 
             onTabClick: function (e) {
-                var _is_active = $(e.currentTarget).hasClass('active');
-                if ( _is_active ) {
-                    if ( this.isFolded ) {
-                        // this.collapse();
+                var me = this;
+
+                var $target = $(e.currentTarget);
+                var tab = $target.find('> a[data-tab]').data('tab');
+                var islone = $target.hasClass('x-lone');
+                if ( me.isFolded ) {
+                    if ( $target.hasClass('x-lone') ) {
+                        me.collapse();
+                        // me.fireEvent('')
+                    } else
+                    if ( $target.hasClass('active') ) {
+                        me.collapse();
+                    } else {
+                        me.setTab(tab);
                     }
                 } else {
-                    var tab = $(e.target).data('tab');
-                    this.setTab(tab);
+                    if ( !$target.hasClass('active') && !islone ) {
+                        me.setTab(tab);
+                    }
                 }
             },
 
             setTab: function (tab) {
+                var me = this;
                 if ( !tab ) {
-                    onShowFullviewPanel.call(this, false);
+                    // onShowFullviewPanel.call(this, false);
 
                     if ( this.isFolded ) { this.collapse(); }
                     else tab = this.lastPanel;
                 }
 
                 if ( tab ) {
-                    this.$tabs.removeClass('active');
-                    this.$panels.removeClass('active');
+                    me.$tabs.removeClass('active');
+                    me.$panels.removeClass('active');
 
                     var panel = this.$panels.filter('[data-tab=' + tab + ']');
                     if ( panel.length ) {
@@ -236,10 +271,10 @@ define([
                     }
 
                     if ( panel.length ) {
-                        if ( this.isFolded ) this.expand();
+                        if ( me.isFolded ) me.expand();
                     } else {
-                        onShowFullviewPanel.call(this, true);
-                        if ( this.isFolded ) this.collapse();
+                        // onShowFullviewPanel.call(this, true);
+                        if ( me.isFolded ) me.collapse();
                     }
 
                     var $tp = this.$tabs.find('> a[data-tab=' + tab + ']').parent();
@@ -273,6 +308,8 @@ define([
 
                         if ($target.length) {
                             $target.after(panel);
+                        } else {
+                            panel.appendTo(this.$layout.find('.box-panels'));
                         }
                     }
 

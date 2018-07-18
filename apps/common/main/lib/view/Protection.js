@@ -65,7 +65,7 @@ define([
         function setEvents() {
             var me = this;
 
-            if ( me.appConfig.isProtectSupport && me.appConfig.isDesktopApp && me.appConfig.isOffline ) {
+            if ( me.appConfig.isDesktopApp && me.appConfig.isOffline ) {
                 this.btnsAddPwd.concat(this.btnsChangePwd).forEach(function(button) {
                     button.on('click', function (b, e) {
                         me.fireEvent('protect:password', [b, 'add']);
@@ -116,7 +116,7 @@ define([
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
-                if ( this.appConfig.isProtectSupport && this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
+                if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-protect',
@@ -159,7 +159,7 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    if ( config.isProtectSupport && config.isDesktopApp && config.isOffline) {
+                    if ( config.isDesktopApp && config.isOffline) {
                         me.btnAddPwd.updateHint(me.hintAddPwd);
                         me.btnPwd.updateHint(me.hintPwd);
 
@@ -206,7 +206,7 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
 
-                if ( this.appConfig.isProtectSupport && this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
+                if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
                     this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
                     this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
                     this.btnSignature && this.btnSignature.render(this.$el.find('#slot-btn-signature'));

@@ -87,7 +87,7 @@ define([
             if (api) {
                 this.api = api;
 
-                if (this.appConfig.isProtectSupport && this.appConfig.isDesktopApp && this.appConfig.isOffline) {
+                if (this.appConfig.isDesktopApp && this.appConfig.isOffline) {
                     this.api.asc_registerCallback('asc_onDocumentPassword',  _.bind(this.onDocumentPassword, this));
                     if (this.appConfig.canProtect) {
                         Common.NotificationCenter.on('protect:sign',            _.bind(this.onSignatureRequest, this));

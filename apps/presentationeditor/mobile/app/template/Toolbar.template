@@ -32,7 +32,7 @@
                 <i class="icon icon-play"></i>
             </a>
             <a href="#" id="toolbar-edit" class="link icon-only" style="display: none;">
-                <i class="icon icon-edit"></i>
+                <i class="icon icon-edit-settings"></i>
             </a>
             <a href="#" id="toolbar-add" class="link icon-only" style="display: none;">
                 <i class="icon icon-plus"></i>
