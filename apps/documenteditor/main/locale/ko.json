@@ -1406,6 +1406,7 @@
   "DE.Views.PageSizeDialog.textHeight": "높이",
   "DE.Views.PageSizeDialog.textTitle": "페이지 크기",
   "DE.Views.PageSizeDialog.textWidth": "너비",
+  "DE.Views.PageSizeDialog.txtCustom": "사용자 정의",
   "DE.Views.ParagraphSettings.strLineHeight": "줄 간격",
   "DE.Views.ParagraphSettings.strParagraphSpacing": "단락 간격",
   "DE.Views.ParagraphSettings.strSomeParagraphSpace": "같은 스타일의 단락 사이에 간격을 추가하지 마십시오.",

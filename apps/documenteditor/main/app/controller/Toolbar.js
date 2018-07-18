@@ -142,7 +142,8 @@ define([
                             Asc.c_oAscFileType.RTF,
                             Asc.c_oAscFileType.ODT,
                             Asc.c_oAscFileType.DOCX,
-                            Asc.c_oAscFileType.HTML
+                            Asc.c_oAscFileType.HTML,
+                            Asc.c_oAscFileType.PDFA
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -2725,7 +2726,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
 
-                    if ( config.isOffline ) {
+                    if ( config.isProtectSupport && config.isOffline ) {
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 

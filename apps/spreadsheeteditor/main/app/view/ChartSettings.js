@@ -539,7 +539,7 @@ define([
                     value: '000000'
                 });
                 this.colorsSpark.on('select', _.bind(this.onColorsSparkSelect, this));
-                $(this.el).on('click', '#spark-color-new', _.bind(this.addNewColor, this, this.colorsSpark, this.btnSparkColor));
+                this.btnSparkColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsSpark, this.btnSparkColor));
 
                 this.btnHighColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -554,7 +554,7 @@ define([
                 this.lockedControls.push(this.btnHighColor);
                 this.colorsHigh = new Common.UI.ThemeColorPalette({ el: $('#spark-high-color-menu') });
                 this.colorsHigh.on('select', _.bind(this.onColorsPointSelect, this, 0, this.btnHighColor));
-                $(this.el).on('click', '#spark-high-color-new', _.bind(this.addNewColor, this, this.colorsHigh, this.btnHighColor));
+                this.btnHighColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsHigh, this.btnHighColor));
 
                 this.btnLowColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -569,7 +569,7 @@ define([
                 this.lockedControls.push(this.btnLowColor);
                 this.colorsLow = new Common.UI.ThemeColorPalette({ el: $('#spark-low-color-menu') });
                 this.colorsLow.on('select', _.bind(this.onColorsPointSelect, this, 1, this.btnLowColor));
-                $(this.el).on('click', '#spark-low-color-new', _.bind(this.addNewColor, this, this.colorsLow, this.btnLowColor));
+                this.btnLowColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsLow, this.btnLowColor));
 
                 this.btnNegativeColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -584,7 +584,7 @@ define([
                 this.lockedControls.push(this.btnNegativeColor);
                 this.colorsNegative = new Common.UI.ThemeColorPalette({ el: $('#spark-negative-color-menu') });
                 this.colorsNegative.on('select', _.bind(this.onColorsPointSelect, this, 2, this.btnNegativeColor));
-                $(this.el).on('click', '#spark-negative-color-new', _.bind(this.addNewColor, this, this.colorsNegative, this.btnNegativeColor));
+                this.btnNegativeColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsNegative, this.btnNegativeColor));
 
                 this.btnFirstColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -598,8 +598,8 @@ define([
                 this.lockedControls.push(this.btnFirstColor);
                 this.colorsFirst = new Common.UI.ThemeColorPalette({ el: $('#spark-first-color-menu') });
                 this.colorsFirst.on('select', _.bind(this.onColorsPointSelect, this, 3, this.btnFirstColor));
-                $(this.el).on('click', '#spark-first-color-new', _.bind(this.addNewColor, this, this.colorsFirst, this.btnFirstColor));
                 this.btnFirstColor.setColor(this.defColor.color);
+                this.btnFirstColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsFirst, this.btnFirstColor));
 
                 this.btnLastColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -614,7 +614,7 @@ define([
                 this.lockedControls.push(this.btnLastColor);
                 this.colorsLast = new Common.UI.ThemeColorPalette({ el: $('#spark-last-color-menu') });
                 this.colorsLast.on('select', _.bind(this.onColorsPointSelect, this, 4, this.btnLastColor));
-                $(this.el).on('click', '#spark-last-color-new', _.bind(this.addNewColor, this, this.colorsLast, this.btnLastColor));
+                this.btnLastColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsLast, this.btnLastColor));
 
                 this.btnMarkersColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -629,8 +629,7 @@ define([
                 this.lockedControls.push(this.btnMarkersColor);
                 this.colorsMarkers = new Common.UI.ThemeColorPalette({ el: $('#spark-markers-color-menu') });
                 this.colorsMarkers.on('select', _.bind(this.onColorsPointSelect, this, 5, this.btnMarkersColor));
-                $(this.el).on('click', '#spark-markers-color-new', _.bind(this.addNewColor, this, this.colorsMarkers, this.btnMarkersColor));
-
+                this.btnMarkersColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsMarkers, this.btnMarkersColor));
             }
             this.colorsSpark.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsHigh.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors(), defValue);
@@ -1088,7 +1087,11 @@ define([
                         stylesStore.reset(stylearray, {silent: false});
                     }
                 }
+            } else {
+                this.cmbChartStyle.menuPicker.store.reset();
+                this.cmbChartStyle.clearComboView();
             }
+            this.cmbChartStyle.setDisabled(!styles || styles.length<1 || this._locked);
         },
         
         updateSparkStyles: function(styles) {

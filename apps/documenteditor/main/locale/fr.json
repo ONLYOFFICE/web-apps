@@ -1407,6 +1407,7 @@
   "DE.Views.PageSizeDialog.textHeight": "Hauteur",
   "DE.Views.PageSizeDialog.textTitle": "Taille de la page",
   "DE.Views.PageSizeDialog.textWidth": "Largeur",
+  "DE.Views.PageSizeDialog.txtCustom": "Personnalisé",
   "DE.Views.ParagraphSettings.strLineHeight": "Interligne",
   "DE.Views.ParagraphSettings.strParagraphSpacing": "Espacement de paragraphe",
   "DE.Views.ParagraphSettings.strSomeParagraphSpace": "Ne pas ajouter d'intervalle entre paragraphes du même style",

@@ -102,14 +102,15 @@ define([
                         var _supported = [
                             Asc.c_oAscFileType.XLSX,
                             Asc.c_oAscFileType.ODS,
-                            Asc.c_oAscFileType.CSV
+                            Asc.c_oAscFileType.CSV,
+                            Asc.c_oAscFileType.PDFA
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
 
-                        if (_format == Asc.c_oAscFileType.PDF)
-                            Common.NotificationCenter.trigger('download:settings', this.toolbar);
+                        if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
+                            Common.NotificationCenter.trigger('download:settings', this.toolbar, _format);
                         else
                             _main.api.asc_DownloadAs(_format);
                     },
@@ -3079,7 +3080,7 @@ define([
                             me.toolbar.btnPaste.$el.detach().appendTo($box);
                             me.toolbar.btnCopy.$el.removeClass('split');
 
-                            if ( config.isOffline ) {
+                            if ( config.isProtectSupport && config.isOffline ) {
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
