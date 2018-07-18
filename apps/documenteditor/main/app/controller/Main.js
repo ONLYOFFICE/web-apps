@@ -413,7 +413,8 @@ define([
                             Asc.c_oAscFileType.ODT,
                             Asc.c_oAscFileType.DOCX,
                             Asc.c_oAscFileType.HTML,
-                            Asc.c_oAscFileType.PDF
+                            Asc.c_oAscFileType.PDF,
+                            Asc.c_oAscFileType.PDFA
                         ];
 
                     if ( !_format || _supported.indexOf(_format) < 0 )

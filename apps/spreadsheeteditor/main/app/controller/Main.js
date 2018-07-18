@@ -407,13 +407,14 @@ define([
                         Asc.c_oAscFileType.XLSX,
                         Asc.c_oAscFileType.ODS,
                         Asc.c_oAscFileType.CSV,
-                        Asc.c_oAscFileType.PDF
+                        Asc.c_oAscFileType.PDF,
+                        Asc.c_oAscFileType.PDFA
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = Asc.c_oAscFileType.XLSX;
-                if (_format == Asc.c_oAscFileType.PDF)
-                    Common.NotificationCenter.trigger('download:settings', this, true);
+                if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
+                    Common.NotificationCenter.trigger('download:settings', this, _format, true);
                 else
                     this.api.asc_DownloadAs(_format, true);
             },

@@ -101,14 +101,15 @@ define([
                         var _supported = [
                             Asc.c_oAscFileType.XLSX,
                             Asc.c_oAscFileType.ODS,
-                            Asc.c_oAscFileType.CSV
+                            Asc.c_oAscFileType.CSV,
+                            Asc.c_oAscFileType.PDFA
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
 
-                        if (_format == Asc.c_oAscFileType.PDF)
-                            Common.NotificationCenter.trigger('download:settings', this.toolbar);
+                        if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
+                            Common.NotificationCenter.trigger('download:settings', this.toolbar, _format);
                         else
                             _main.api.asc_DownloadAs(_format);
                     },
