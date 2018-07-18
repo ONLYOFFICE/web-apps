@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Document Editor
  *
  *  Created by Alexander Yuzhin on 10/21/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -175,8 +175,10 @@ define([
                 if (_shapeObject) {
                     if (pageId == '#edit-shape-wrap') {
                         me._initWrapView();
-                    } else if (pageId == '#edit-shape-style' || pageId == '#edit-shape-border-color-view') {
+                    } else if (pageId == '#edit-shape-style' || pageId == '#edit-shape-style-nofill' || pageId == '#edit-shape-border-color-view') {
                         me._initStyleView();
+                    } else {
+                        me.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().get_CanFill();
                     }
                 }
             },
@@ -534,6 +536,7 @@ define([
                 if (shapes.length > 0) {
                     var object = shapes[shapes.length - 1]; // get top shape
                     _shapeObject = object.get_ObjectValue();
+                    this.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().get_CanFill();
                 } else {
                     _shapeObject = undefined;
                 }

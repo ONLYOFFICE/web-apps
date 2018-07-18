@@ -1,40 +1,42 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>PPMT Function</title>
+		<title>Función PAGOPRIN</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>PPMT Function</h1>
-			<p>The <b>PPMT</b> function is one of the financial functions. It is used to calculate the principal payment for an investment based on a specified interest rate and a constant payment schedule.</p>
-			<p>The <b>PPMT</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>PPMT(rate, per, nper, pv [, [fv] [,[type]]])</em></b></p> 
-			<p><em>where</em></p> 
-				<p style="text-indent: 50px;"><b><em>rate</em></b> is the interest rate for the investment.</p> 
-                <p style="text-indent: 50px;"><b><em>per</em></b> is the period you want to find the principal payment for. The value must be from <b><em>1</em></b> to <b><em>nper</em></b>.</p> 
-				<p style="text-indent: 50px;"><b><em>nper</em></b> is a number of payments.</p> 
-				<p style="text-indent: 50px;"><b><em>pv</em></b> is a present value of the payments.</p>
-                <p style="text-indent: 50px;"><b><em>fv</em></b> is a future value (i.e. a cash balance remaining after the last payment is made). It is an optional argument. If it is omitted, the function will assume <b><em>fv</em></b> to be 0.</p>
-				<p style="text-indent: 50px;"><b><em>type</em></b> is a period when the payments are due. It is an optional argument. If it is set to 0 or omitted, the function will assume the payments to be due at the end of the period. If <b><em>type</em></b> is set to 1, the payments are due at the beginning of the period.</p>
-			<p class="note"><b>Note:</b> cash paid out (such as deposits to savings) is represented by negative numbers; cash received (such as dividend checks) is represented by positive numbers. Units for <em>rate</em> and <em>nper</em> must be consistent: use N%/12 for <em>rate</em> and N*12 for <em>nper</em> in case of monthly payments, N%/4 for <em>rate</em> and N*4 for <em>nper</em> in case of quarterly payments, N% for <em>rate</em> and N for <em>nper</em> in case of annual payments.</p>
-			<p>The numeric values can be entered manually or included into the cell you make reference to.</p>
-			<p>To apply the <b>PPMT</b> function,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Buscar" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>Función PAGOPRIN</h1>
+			<p>La función <b>PAGOPRIN</b> es una función financiera. Se usa para calcular el pago principal de una inversión basada en un tipo de interés especificado y en un programa de pagos constante.</p>
+			<p>La sintaxis de la función <b>PAGOPRIN</b> es:</p> 
+			<p style="text-indent: 150px;"><b><em>PAGOPRIN(tasa, nper, pv [, [fv] [,[tipo]]])</em></b></p> 
+			<p><em>donde</em></p> 
+				<p style="text-indent: 50px;"><b><em>tasa</em></b> es el tipo de interés para la inversión.</p> 
+                <p style="text-indent: 50px;"><b><em>per</em></b> es el periodo que quiere encontrar para el pago principal. Este valor debe encontrarse entre <b><em>1</em></b> y <b><em>nper</em></b>.</p> 
+				<p style="text-indent: 50px;"><b><em>nper</em></b> es un número de pagos.</p> 
+				<p style="text-indent: 50px;"><b><em>pv</em></b> es el valor presente de los pagos.</p>
+                <p style="text-indent: 50px;"><b><em>vf</em></b> es un valor futuro (ej. el saldo restante después del último pago). Es un argumento opcional. Si se omite, <b><em>fv</em></b> será igual a 0.</p>
+				<p style="text-indent: 50px;"><b><em>tipo</em></b> es el periodo en el que los pagos vencen. Es un argumento opcional. Si se establece a 0 o se omite, el pago debe efectuarse al final de periodo. Si se establece <b><em>tipo</em></b> a 1, el pago debe efectuarse al principio del periodo.</p>
+			<p class="note"><b>Nota:</b> pago en efectivo (como depósitos en cuentas) se representa en números negativos; efectivo recibido (como cheques de dividendos) se representa en números positivos. Unidades de medida para <em>tasa</em> y <em>nper</em> deben ser consistentes: use N%/12 para <em>tasa</em> y N*12 para <em>nper</em> en caso de los pagos mensuales, N%/4 para <em>tasa</em> y N*4 para <em>nper</em> en caso de los pagos trimestrales, N% para <em>tasa</em> y N para <em>nper</em> en caso de los pagos anuales.</p>
+			<p>Los valores numéricos pueden introducirse a mano o incluirse en la celda a la que usted hace referencia.</p>
+			<p>Para aplicar la función <b>PAGOPRIN</b>,</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Financial</b> function group from the list,</li>
-			<li>click the <b>PPMT</b> function,</li>
-			<li>enter the required arguments separating them by commas,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>seleccione la celda donde usted quiere ver el resultado,</li>
+			<li>pulse el icono <b>Insertar función</b> <img alt="Icono insertar función" src="../images/insertfunction.png" /> que se sitúa en la barra de herramientas superior, <br />o haga clic derecho en la сelda seleccionada y elija la opción <b>Insertar función</b> en el menú, <br />o pulse el icono <img alt="Icono función" src="../images/function.png" /> que se sitúa en la barra de fórmulas,</li>
+			<li>seleccione el grupo de funciones <b>Financiero</b> en la lista,</li>
+			<li>haga clic en la función <b>PAGOPRIN</b>,</li>
+			<li>introduzca los argumentos correspondientes separados por comas,</li>
+			<li>pulse el botón <b>Enter</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="PPMT Function" src="../images/ppmt.png" /></p>
+			<p>El resultado se mostrará en la celda elegida.</p>
+			<p style="text-indent: 150px;"><img alt="Función PAGOPRIN" src="../images/ppmt.png" /></p>
 		</div>
 	</body>
 </html>

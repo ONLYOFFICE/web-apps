@@ -1,10 +1,6 @@
 @tabs-bg-color: #40865c;
 
 .toolbar {
-    &:not(.cover) {
-        z-index: 1001;
-    }
-
     &.masked {
         button.disabled .icon:not(.no-mask) {
             background-position-x: 0px !important;
@@ -47,11 +43,11 @@
     position: absolute;
     top: 32px;
     left: 48px;
-    right: 45px;
+    right: 0;
     bottom: 0;
     opacity: 0;
     background-color: @gray-light;
-    z-index: @zindex-tooltip + 1;
+    /*z-index: @zindex-tooltip + 1;*/
 }
 
 .color-schemas-menu {
@@ -78,8 +74,9 @@
 
 // menu zoom
 .menu-zoom {
+    line-height: @line-height-base;
     .title {
-        padding: 5px 0 5px 20px;
+        padding: 5px 5px 5px 20px;
         float: left;
         max-width: 95px;
         overflow: hidden;
@@ -151,7 +148,7 @@
 .toolbar-btn-icon(btn-currency-style,   52, @toolbar-icon-size);
 .toolbar-btn-icon(btn-addcell,          53, @toolbar-icon-size);
 .toolbar-btn-icon(btn-delcell,          54, @toolbar-icon-size);
-.toolbar-btn-icon(btn-ttempl,           55, @toolbar-icon-size);
+.toolbar-btn-icon(btn-ttempl,           80, @toolbar-icon-size);
 //
 .toolbar-btn-icon(btn-showmode,         56, @toolbar-icon-size);
 .toolbar-btn-icon(btn-settings,         57, @toolbar-icon-size);

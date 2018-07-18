@@ -2,10 +2,6 @@
 @tabs-bg-color: #446995;
 
 .toolbar {
-    &:not(.cover) {
-        z-index: 1001;
-    }
-
     &.masked {
         button.disabled .icon:not(.no-mask) {
             background-position-x: 0px !important;
@@ -30,11 +26,11 @@
     position: absolute;
     top: 32px;
     left: 48px;
-    right: 45px;
+    right: 0;
     bottom: 0;
     opacity: 0;
     background-color: @gray-light;
-    z-index: @zindex-tooltip + 1;
+    /* z-index: @zindex-tooltip + 1; */
 }
 
 .toolbar-group-mask {
@@ -54,36 +50,30 @@
     height: 38px;
 }
 
-a.item-contents {
-}
+.dropdown-menu {
+    > li > a.item-contents {
+        div {
+            .background-ximage('@{app-image-path}/toolbar/contents.png', '@{app-image-path}/toolbar/contents@2x.png', 246px);
+            width: 246px;
+            height: 72px;
 
-.btn-contents {
-    .dropdown-menu {
-        > li > a.item-contents {
-            div {
-                .background-ximage('@{app-image-path}/toolbar/contents.png', '@{app-image-path}/toolbar/contents@2x.png', 246px);
-                width: 246px;
-                height: 72px;
+            .box-shadow(0 0 0 1px @gray);
 
-                .box-shadow(0 0 0 1px @gray);
-
-                &:hover,
-                &.selected {
-                    .box-shadow(0 0 0 2px @primary);
-                }
+            &:hover,
+            &.selected {
+                .box-shadow(0 0 0 2px @primary);
             }
+        }
 
-            &:hover, &:focus {
-                background-color: transparent;
+        &:hover, &:focus {
+            background-color: transparent;
 
-                div {
-                    .box-shadow(0 0 0 2px @primary);
-                }
+            div {
+                .box-shadow(0 0 0 2px @primary);
             }
         }
     }
 }
-
 
 .color-schemas-menu {
     span {
@@ -134,8 +124,9 @@ a.item-contents {
 
 // menu zoom
 .menu-zoom {
+    line-height: @line-height-base;
     .title {
-        padding: 5px 0 5px 20px;
+        padding: 5px 5px 5px 20px;
         float: left;
         //max-width: 95px;
         overflow: hidden;
@@ -407,6 +398,8 @@ a.item-contents {
     font: 11px arial;
     white-space: nowrap;
     letter-spacing: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #id-toolbar-menu-auto-fontcolor > a.selected {

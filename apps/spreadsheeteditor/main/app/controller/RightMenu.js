@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  RightMenu.js
  *
  *  Created by Julia Radzhabova on 3/27/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -61,7 +61,8 @@ define([
                     'insertimage': this.onInsertImage.bind(this),
                     'insertshape': this.onInsertShape.bind(this),
                     'insertchart':  this.onInsertChart.bind(this),
-                    'inserttextart': this.onInsertTextArt.bind(this)
+                    'inserttextart': this.onInsertTextArt.bind(this),
+                    'inserttable': this.onInsertTable.bind(this)
                 },
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
@@ -87,6 +88,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Table] =     {panelId: "id-table-settings",      panel: rightMenu.tableSettings,    btn: rightMenu.btnTable,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Pivot] =     {panelId: "id-pivot-settings",      panel: rightMenu.pivotSettings,    btn: rightMenu.btnPivot,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Cell] =      {panelId: "id-cell-settings",       panel: rightMenu.cellSettings,     btn: rightMenu.btnCell,        hidden: 1, locked: false};
         },
 
         setApi: function(api) {
@@ -118,6 +120,7 @@ define([
                 selectType = info.asc_getFlags().asc_getSelectionType(),
                 formatTableInfo = info.asc_getFormatTableInfo(),
                 sparkLineInfo = info.asc_getSparklineInfo(),
+                cellInfo = info,
                 pivotInfo = null;//info.asc_getPivotTableInfo();
 
             if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
@@ -125,22 +128,23 @@ define([
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
             
-            if (SelectedObjects.length<=0 && !formatTableInfo && !sparkLineInfo && !pivotInfo && !this.rightmenu.minimizedMode &&
+            if (SelectedObjects.length<=0 && !cellInfo && !formatTableInfo && !sparkLineInfo && !pivotInfo && !this.rightmenu.minimizedMode &&
                 this.rightmenu.GetActivePane() !== 'id-signature-settings') {
                 this.rightmenu.clearSelection();
                 this._openRightMenu = true;
             }
 
-            var need_disable = info.asc_getLocked(),
-                need_disable_table = (info.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter),
-                need_disable_spark = (info.asc_getLockedSparkline()===true);
-
-            this.onFocusObject(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, need_disable, need_disable_table, need_disable_spark);
+            this.onFocusObject(SelectedObjects, cellInfo, formatTableInfo, sparkLineInfo, pivotInfo);
         },
 
-        onFocusObject: function(SelectedObjects, formatTableInfo, sparkLineInfo, pivotInfo, isCellLocked, isTableLocked, isSparkLocked) {
+        onFocusObject: function(SelectedObjects, cellInfo, formatTableInfo, sparkLineInfo, pivotInfo) {
             if (!this.editMode)
                 return;
+
+            var isCellLocked = cellInfo.asc_getLocked(),
+                isTableLocked = (cellInfo.asc_getLockedTable()===true || !this.rightmenu.mode.canModifyFilter),
+                isSparkLocked = (cellInfo.asc_getLockedSparkline()===true),
+                isPivotLocked = (cellInfo.asc_getLockedPivotTable()===true);
 
             for (var i=0; i<this._settings.length; ++i) {
                 if (i==Common.Utils.documentSettingsType.Signature) continue;
@@ -199,9 +203,16 @@ define([
             // if (pivotInfo) {
             //     settingsType = Common.Utils.documentSettingsType.Pivot;
             //     this._settings[settingsType].props = pivotInfo;
-            //     this._settings[settingsType].locked = isCellLocked || true; // disable pivot settings
+            //     this._settings[settingsType].locked = isPivotLocked || true; // disable pivot settings
             //     this._settings[settingsType].hidden = 0;
             // }
+
+            if (SelectedObjects.length<=0) { // cell is selected
+                settingsType = Common.Utils.documentSettingsType.Cell;
+                this._settings[settingsType].props = cellInfo;
+                this._settings[settingsType].locked = isCellLocked;
+                this._settings[settingsType].hidden = 0;
+            }
 
             var lastactive = -1, currentactive, priorityactive = -1,
                 activePane = this.rightmenu.GetActivePane();
@@ -210,13 +221,11 @@ define([
                 if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined) continue;
 
                 if ( pnl.hidden ) {
-                    if ( !pnl.btn.isDisabled() )
-                        pnl.btn.setDisabled(true);
+                    if (!pnl.btn.isDisabled()) pnl.btn.setDisabled(true);
                     if (activePane == pnl.panelId)
                         currentactive = -1;
                 } else {
-                    if ( pnl.btn.isDisabled() )
-                        pnl.btn.setDisabled(false);
+                    if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
                     if (i!=Common.Utils.documentSettingsType.Signature) lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
@@ -249,6 +258,7 @@ define([
 
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
+            this._settings[Common.Utils.documentSettingsType.Table].needShow = false;
         },
 
         onCoAuthoringDisconnect: function() {
@@ -271,11 +281,16 @@ define([
         onInsertTextArt:  function() {
             this._settings[Common.Utils.documentSettingsType.TextArt].needShow = true;
         },
-        
+
+        onInsertTable:  function() {
+            this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
+        },
+
         UpdateThemeColors:  function() {
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();
             this.rightmenu.chartSettings.UpdateThemeColors();
+            this.rightmenu.cellSettings.UpdateThemeColors();
         },
 
         updateMetricUnit: function() {
@@ -294,7 +309,6 @@ define([
                  var open = Common.localStorage.getItem("sse-hide-right-settings");
                 this._openRightMenu = (open===null || parseInt(open) == 0);
                 
-                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onFocusObject, this));
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
                 this.rightmenu.shapeSettings.createDelayedElements();

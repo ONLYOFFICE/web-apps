@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Copy/paste text passages, undo/redo your actions</h1>
             <h3>Use basic clipboard operations</h3>
@@ -35,6 +35,12 @@
             <ul>
                 <li><em>Paste</em> - allows to paste the copied text keeping its original formatting.</li>
                 <li><em>Keep text only</em> - allows to paste the text without its original formatting.</li>
+            </ul>
+            <p>If you paste the copied table into an existing table, the following options are available:</p>
+            <ul>
+                <li><em>Overwrite cells</em> - allows to replace the existing table contents with the pasted data. This option is selected by default.</li>
+                <li><em>Nest table</em> - allows to paste the copied table as a nested table into the selected cell of the existing table.</li>
+                <li><em>Keep text only</em> - allows to paste the table contents as text values separated by the tab character.</li>
             </ul>
             <h3>Undo/redo your actions</h3>
 			<p>To perform the undo/redo operations, use the corresponding icons available at any tab of the top toolbar or keyboard shortcuts:</p>

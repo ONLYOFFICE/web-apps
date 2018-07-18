@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  Settings.js
  *
  *  Created by Maxim Kadushkin on 12/05/2016
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -52,7 +52,8 @@ define([
         var isEdit,
             canEdit = false,
             canDownload = false,
-            canAbout = true;
+            canAbout = true,
+            canHelp = true;
 
         return {
             // el: '.view-main',
@@ -106,6 +107,10 @@ define([
                 if (mode.customization && mode.canBrandingExt) {
                     canAbout = (mode.customization.about!==false);
                 }
+
+                if (mode.customization) {
+                    canHelp = (mode.customization.help!==false);
+                }
             },
 
             rootLayout: function () {
@@ -114,13 +119,12 @@ define([
                         isPhone = Common.SharedSettings.get('phone');
 
                     if (isEdit) {
-                        $layout.find('#settings-edit-document').hide();
                         $layout.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
-                        if (!canEdit) $layout.find('#settings-edit-document').hide();
                     }
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();
+                    if (!canHelp) $layout.find('#settings-help').hide();
 
                     return $layout.html();
                 }
@@ -185,7 +189,6 @@ define([
                     permissions = _.extend(permissions, data.doc.permissions);
 
                     if (permissions.edit === false) {
-                        $('#settings-edit-document').hide();
                     }
                 }
             },

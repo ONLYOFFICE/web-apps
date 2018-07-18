@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Main controller
  *
  *    Created by Maxim Kadushkin on 24 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -107,7 +107,7 @@ define([
 //                $(document.body).css('position', 'absolute');
                 var me = this;
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
                 this.translationTable = [];
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -197,6 +197,8 @@ define([
                             me.dontCloseDummyComment = true;
                         else if (/chat-msg-text/.test(e.target.id))
                             me.dontCloseChat = true;
+                        else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                            me.inFormControl = true;
                     }
                 });
 
@@ -204,6 +206,8 @@ define([
                     if (me.isAppDisabled === true || me.isFrameClosed) return;
 
                     if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
+                        if (/form-control/.test(e.target.className))
+                            me.inFormControl = false;
                         if (!e.relatedTarget ||
                             !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
                             && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
@@ -303,7 +307,8 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.headerView.setCanBack(this.appOptions.canBackToFolder === true);
+                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
+                                .setUserName(this.appOptions.user.fullname);
 
                 var value = Common.localStorage.getItem("sse-settings-reg-settings");
                 if (value!==null)
@@ -328,6 +333,7 @@ define([
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
+                Common.Controllers.Desktop.init(this.appOptions);
             },
 
             loadDocument: function(data) {
@@ -401,12 +407,16 @@ define([
                         Asc.c_oAscFileType.XLSX,
                         Asc.c_oAscFileType.ODS,
                         Asc.c_oAscFileType.CSV,
-                        Asc.c_oAscFileType.PDF
+                        Asc.c_oAscFileType.PDF,
+                        Asc.c_oAscFileType.PDFA
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = Asc.c_oAscFileType.XLSX;
-                this.api.asc_DownloadAs(_format, true);
+                if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
+                    Common.NotificationCenter.trigger('download:settings', this, _format, true);
+                else
+                    this.api.asc_DownloadAs(_format, true);
             },
 
             onProcessMouse: function(data) {
@@ -421,11 +431,14 @@ define([
             },
 
             goBack: function() {
-                var href = this.appOptions.customization.goback.url;
-                if (this.appOptions.customization.goback.blank!==false) {
-                    window.open(href, "_blank");
-                } else {
-                    parent.location.href = href;
+                var me = this;
+                if ( !Common.Controllers.Desktop.process('goback') ) {
+                    var href = me.appOptions.customization.goback.url;
+                    if (me.appOptions.customization.goback.blank!==false) {
+                        window.open(href, "_blank");
+                    } else {
+                        parent.location.href = href;
+                    }
                 }
             },
 
@@ -476,12 +489,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed )
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed && !this.inFormControl)
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed ) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
@@ -604,7 +617,7 @@ define([
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("sse-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                value = Common.localStorage.getBool("sse-settings-resolvedcomment");
                 Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", value);
                 this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
 
@@ -774,16 +787,27 @@ define([
                 if (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) return;
 
                 var licType = params.asc_getLicenseType();
-                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
-                }
+                if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS))
+                    this._state.licenseType = licType;
 
                 if (this._isDocReady)
                     this.applyLicense();
             },
 
             applyLicense: function() {
-                if (this._state.licenseWarning) {
+                if (this._state.licenseType) {
+                    var license = this._state.licenseType,
+                        buttons = ['ok'],
+                        primary = 'ok';
+                    if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                    } else {
+                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                        buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
+                        primary = 'buynow';
+                    }
+
                     this.disableEditing(true);
                     Common.NotificationCenter.trigger('api:disconnect');
 
@@ -795,12 +819,9 @@ define([
                         Common.UI.info({
                             width: 500,
                             title: this.textNoLicenseTitle,
-                            msg  : this._state.licenseWarning,
-                            buttons: [
-                                {value: 'buynow', caption: this.textBuyNow},
-                                {value: 'contact', caption: this.textContactUs}
-                            ],
-                            primary: 'buynow',
+                            msg  : license,
+                            buttons: buttons,
+                            primary: primary,
                             callback: function(btn) {
                                 if (btn == 'buynow')
                                     window.open('https://www.onlyoffice.com', "_blank");
@@ -858,9 +879,8 @@ define([
                     this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? (this.permissions.edit !== false && this.editorConfig.mode !== 'view') : this.permissions.comment);
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
-                    this.appOptions.canRename      = !!this.permissions.rename;
+                    this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
-                    this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -885,6 +905,9 @@ define([
                                                 (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.isProtectSupport = true; // remove in 5.2
+                this.appOptions.canProtect     = this.appOptions.isProtectSupport && this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
+                this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -904,16 +927,12 @@ define([
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
-                var value = Common.localStorage.getItem("sse-hidden-title");
-                value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
-
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar');
 
                 if (this.headerView) {
-                    this.headerView.setHeaderCaption(this.appOptions.isEdit ? 'Spreadsheet Editor' : 'Spreadsheet Viewer');
-                    this.headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isEditMailMerge && 
+                    this.headerView.setVisible(!this.appOptions.nativeApp && !this.appOptions.isEditMailMerge &&
                             !this.appOptions.isDesktopApp && !this.appOptions.isEditDiagram);
                 }
 
@@ -921,7 +940,7 @@ define([
                 statusbarView && statusbarView.setMode(this.appOptions);
 //                this.getStatusInfo().setDisabled(false);
 //                this.getCellInfo().setMode(this.appOptions);
-
+                app.getController('Toolbar').setMode(this.appOptions);
                 app.getController('DocumentHolder').setMode(this.appOptions);
 
                 if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) {
@@ -991,7 +1010,7 @@ define([
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
 
-                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram)
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isOffline)
                         application.getController('PivotTable').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
@@ -1050,7 +1069,7 @@ define([
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
-                var config = {closable: false};
+                var config = {closable: true};
 
                 switch (id) {
                     case Asc.c_oAscError.ID.Unknown:
@@ -1091,47 +1110,38 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongCountParentheses:
                         config.msg = this.errorWrongBracketsCount;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongOperator:
                         config.msg = this.errorWrongOperator;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongMaxArgument:
                         config.msg = this.errorCountArgExceed;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongCountArgument:
                         config.msg = this.errorCountArg;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongFunctionName:
                         config.msg = this.errorFormulaName;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlAnotherParsingError:
                         config.msg = this.errorFormulaParsing;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongArgumentRange:
                         config.msg = this.errorArgsRange;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlOperandExpected:
                         config.msg = this.errorOperandExpected;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.FrmlWrongReferences:
                         config.msg = this.errorFrmlWrongReferences;
-                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.UnexpectedGuid:
@@ -1237,6 +1247,7 @@ define([
 
                     case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
+                        config.closable = false;
                         break;
 
                     case Asc.c_oAscError.ID.LockedWorksheetRename:
@@ -1284,8 +1295,12 @@ define([
                         console.warn(config.msg);
                         break;
 
+                    case Asc.c_oAscError.ID.DataEncrypted:
+                        config.msg = this.errorDataEncrypted;
+                        break;
+
                     default:
-                        config.msg = this.errorDefaultMessage.replace('%1', id);
+                        config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
 
@@ -1295,14 +1310,19 @@ define([
 
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
+                    config.closable = false;
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
                                 Common.NotificationCenter.trigger('goback');
                             }
                         }
+                    }
+                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                        this.api.asc_coAuthoringDisconnect();
+                        Common.NotificationCenter.trigger('api:disconnect');
                     }
                 } else {
                     Common.Gateway.reportWarning(id, config.msg);
@@ -1404,31 +1424,21 @@ define([
                 this.updateWindowTitle(change);
                 Common.Gateway.setDocumentModified(change);
 
-                if (this.toolbarView && this.toolbarView.btnSave && this.api) {
-                    var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
+                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (this.toolbarView.btnSave.isDisabled() !== isDisabled)
-                        this.toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        this.toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 
             onDocumentCanSaveChanged: function (isCanSave) {
-                if (this.toolbarView && this.toolbarView.btnSave) {
-                    var isSyncButton = $('.icon', this.toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                if (this.toolbarView && this.toolbarView.btnCollabChanges) {
+                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (this.toolbarView.btnSave.isDisabled() !== isDisabled)
-                        this.toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                    this.toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 
@@ -1470,6 +1480,8 @@ define([
                 this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 Common.NotificationCenter.trigger('layout:changed', 'main');
                 $('#loading-mask').hide().remove();
+
+                Common.Controllers.Desktop.process('preloader:hide');
             },
 
             onDownloadUrl: function(url) {
@@ -1536,6 +1548,7 @@ define([
                     me._state.openDlg = new Common.Views.OpenDialog({
                         closable: me.appOptions.canRequestClose,
                         type: type,
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
@@ -1726,6 +1739,8 @@ define([
                     case 'setMergeData':    this.setMergeData(data.data); break;
                     case 'getMergeData':    this.getMergeData(); break;
                     case 'setAppDisabled':
+                        if (this.isAppDisabled===undefined && !data.data) // first editor opening
+                            Common.NotificationCenter.trigger('layout:changed', 'main');
                         this.isAppDisabled = data.data;
                         break;
                     case 'queryClose':
@@ -1821,7 +1836,6 @@ define([
             onNamedRangeLocked: function() {
                 if ($('.asc-window.modal.alert:visible').length < 1) {
                     Common.UI.alert({
-                        closable: false,
                         msg: this.errorCreateDefName,
                         title: this.notcriticalErrorTitle,
                         iconCls: 'warn',
@@ -1850,6 +1864,7 @@ define([
                                 Common.localStorage.setItem("sse-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
                                 Common.Utils.InternalSettings.set("sse-settings-coauthmode", false);
+                                this.getApplication().getController('Common.Controllers.ReviewChanges').applySettings();
                                 this._state.fastCoauth = false;
                             }
                             this.onEditComplete();
@@ -2109,7 +2124,7 @@ define([
             errorMoveRange: 'Cann\'t change a part of merged cell',
             errorBadImageUrl: 'Image url is incorrect',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             errorLockedAll: 'The operation could not be done as the sheet has been locked by another user.',
             txtEditingMode: 'Set editing mode...',
             textLoadingDocument: 'Loading spreadsheet',
@@ -2156,7 +2171,6 @@ define([
             errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
-            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
@@ -2197,9 +2211,13 @@ define([
             txtStyle_Currency: 'Currency',
             txtStyle_Percent: 'Percent',
             txtStyle_Comma: 'Comma',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-            errorMaxPoints: "The maximum number of points in series per chart is 4096."
+            errorMaxPoints: "The maximum number of points in series per chart is 4096.",
+            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
+            warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.'
         }
     })(), SSE.Controllers.Main || {}))
 });

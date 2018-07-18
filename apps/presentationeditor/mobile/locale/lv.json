@@ -73,7 +73,7 @@
   "PE.Controllers.Main.errorDatabaseConnection": "Iekšējā kļūda.<br>Datubāzes piekļuves kļūda. Lūdzu, sazinieties ar atbalsta daļu.",
   "PE.Controllers.Main.errorDataRange": "Nepareizs datu diapazons",
   "PE.Controllers.Main.errorDefaultMessage": "Kļūdas kods: %1",
-  "PE.Controllers.Main.errorFilePassProtect": "Dokumenta parole ir aizsargāta",
+  "PE.Controllers.Main.errorFilePassProtect": "Fails ir aizsargāts ar paroli un to nevar atvērt.",
   "PE.Controllers.Main.errorKeyEncrypt": "Nezināms atslēgas deskriptors",
   "PE.Controllers.Main.errorKeyExpire": "Atslēgas deskriptora termiņš beidzies",
   "PE.Controllers.Main.errorProcessSaveResult": "Saglabāšana neizdevās.",

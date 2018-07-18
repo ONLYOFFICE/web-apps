@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Create filter for cell dialog.
  *
  *  Created by Alexey.Musinov on 22/04/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -850,14 +850,16 @@ define([
                 newCustomFilter.asc_setCustomFilters((item.value == -2) ? [new Asc.CustomFilter(), new Asc.CustomFilter()]: [new Asc.CustomFilter()]);
 
                 var newCustomFilters = newCustomFilter.asc_getCustomFilters();
-                newCustomFilter.asc_setAnd(true);
                 newCustomFilters[0].asc_setOperator((item.value == -2) ? Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo : item.value);
 
                 if (item.value == -2) {
-                    newCustomFilters[0].asc_setVal((cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo) ? value1 : '');
+                    var isBetween = (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
+                    newCustomFilter.asc_setAnd(isBetween ? isAnd : true);
+                    newCustomFilters[0].asc_setVal(isBetween ? value1 : '');
                     newCustomFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
-                    newCustomFilters[1].asc_setVal((cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo) ? value2 : '');
+                    newCustomFilters[1].asc_setVal(isBetween ? value2 : '');
                 } else {
+                    newCustomFilter.asc_setAnd(true);
                     newCustomFilters[0].asc_setVal((item.value == cond1) ? value1 : '');
                 }
 

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ReviewChange.js
  *
  *  Created by Julia.Radzhabova on 05.08.15
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -55,7 +55,7 @@ define([
             uid                 : 0,                        //  asc
             userid              : 0,
             username            : 'Guest',
-            usercolor           : '#ee3525',
+            usercolor           : null,
             date                : undefined,
             changetext          : '',
             lock                : false,

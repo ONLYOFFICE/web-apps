@@ -1,27 +1,32 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>INTRATE Function</title>
+		<title>Función TASA.INT</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
         <div class="mainpart">
-            <h1>INTRATE Function</h1>
-            <p>The <b>INTRATE</b> function is one of the financial functions. It is used to calculate the interest rate for a fully invested security that pays interest only at maturity.</p>
-            <p>The <b>INTRATE</b> function syntax is:</p>
-            <p style="text-indent: 150px;"><b><em>INTRATE(settlement, maturity, pr, redemption[, [basis]])</em></b></p>
-            <p><em>where</em></p>
-            <p style="text-indent: 50px;"><b><em>settlement</em></b> is the date when the security is purchased.</p>
-            <p style="text-indent: 50px;"><b><em>maturity</em></b> is the date when the security expires.</p>
-            <p style="text-indent: 50px;"><b><em>pr</em></b> is the amount paid for the security.</p>
-            <p style="text-indent: 50px;"><b><em>redemption</em></b> is the amount received for the security at maturity.</p>
-            <p style="text-indent: 50px;"><b><em>basis</em></b> is the day count basis to use, a numeric value greater than or equal to 0, but less than or equal to 4. It is an optional argument. It can be one of the following:</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Buscar" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Función TASA.INT</h1>
+            <p>La función <b>TASA.INT</b> es una función financiera. Se usa para calcular la tasa de interés para un valor invertido al completo que paga intereses solo al vencimiento.</p>
+            <p>La sintaxis de la función <b>TASA.INT</b> es:</p>
+            <p style="text-indent: 150px;"><b><em>TASA.INT(liquidación, vencimiento, pr, reembolso[, [base]])</em></b></p>
+            <p><em>donde</em></p>
+            <p style="text-indent: 50px;"><b><em>liquidación</em></b> es la fecha de compra del valor.</p>
+            <p style="text-indent: 50px;"><b><em>vencimiento</em></b> es la fecha de vencimiento del valor.</p>
+            <p style="text-indent: 50px;"><b><em>pr</em></b> es la cantidad pagada por el valor.</p>
+            <p style="text-indent: 50px;"><b><em>reembolso</em></b> es la cantidad recibida por el valor cuando este vence.</p>
+            <p style="text-indent: 50px;"><b><em>base</em></b> es un método de cálculo, un valor numérico mayor o igual a 0, pero menor o igual a 4. Es un argumento opcional. Puede ser uno de los siguientes:</p>
             <table style="width: 40%">
                 <tr>
-                    <td><b>Numeric value</b></td>
-                    <td><b>Count basis</b></td>
+                    <td><b>Valor numérico</b></td>
+                    <td><b>Método de cálculo</b></td>
                 </tr>
                 <tr>
                     <td>0</td>
@@ -41,26 +46,22 @@
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>European 30/360</td>
+                    <td>Europeo 30/360</td>
                 </tr>
             </table>
-            <p class="note"><b>Note:</b> dates must be entered by using the DATE function.</p>
-            <p>The values can be entered manually or included into the cell you make reference to.</p>
-            <p>To apply the <b>INTRATE</b> function,</p>
+            <p class="note"><b>Nota:</b> las fechas deben introducirse usando la función FECHA.</p>
+            <p>Los datos pueden ser introducidos manualmente o incluidos en las celdas a las que usted hace referencia.</p>
+            <p>Para aplicar la función <b>TASA.INT</b>,</p>
             <ol>
-                <li>select the cell where you wish to display the result,</li>
-                <li>
-                    click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-                    <br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-                    <br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-                </li>
-                <li>select the <b>Financial</b> function group from the list,</li>
-                <li>click the <b>INTRATE</b> function,</li>
-                <li>enter the required arguments separating them by commas,</li>
-                <li>press the <b>Enter</b> button.</li>
+                <li>seleccione la celda donde usted quiere ver el resultado,</li>
+                <li>pulse el icono <b>Insertar función</b> <img alt="Icono insertar función" src="../images/insertfunction.png" /> que se sitúa en la barra de herramientas superior, <br />o haga clic derecho en la сelda seleccionada y elija la opción <b>Insertar función</b> en el menú, <br />o pulse el icono <img alt="Icono función" src="../images/function.png" /> que se sitúa en la barra de fórmulas,</li>
+                <li>seleccione el grupo de funciones <b>Financiero</b> en la lista,</li>
+                <li>haga clic en la función <b>TASA.INT</b>,</li>
+                <li>introduzca los argumentos correspondientes separados por comas,</li>
+                <li>pulse el botón <b>Enter</b>.</li>
             </ol>
-            <p>The result will be displayed in the selected cell.</p>
-            <p style="text-indent: 150px;"><img alt="INTRATE Function" src="../images/intrate.png" /></p>
+            <p>El resultado se mostrará en la celda elegida.</p>
+            <p style="text-indent: 150px;"><img alt="Función TASA.INT" src="../images/intrate.png" /></p>
         </div>
 	</body>
 </html>

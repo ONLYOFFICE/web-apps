@@ -78,7 +78,7 @@
     overflow: hidden;
     color: @gray-darker;
 
-    textarea:not(.user-message) {
+    textarea {
         width: 100%;
         height: 50px;
         resize: none;
@@ -109,14 +109,23 @@
     }
 
     .user-name {
+        color: @gray-deep;
+        font-size: 12px;
         font-weight: bold;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        padding: 10px 0px 0 0px;
+        padding: 10px 65px 0 0px;
         height: 26px;
         cursor: default;
-        max-width: 155px;
+    }
+
+    .color {
+        width: 12px;
+        height: 12px;
+        border: 1px solid @gray-dark;
+        margin: 0 5px 3px 0;
+        vertical-align: middle;
     }
 
     .user-name-colored {
@@ -170,14 +179,10 @@
             text-overflow: ellipsis;
             cursor: default;
         }
-    }
-
-    textarea.user-message {
-        border: none;
-        resize: none;
-        width: 100%;
-        line-height: 15px;
-        cursor: text;
+        
+        &.user-select {
+            cursor: text;
+        }
     }
 
     .user-reply {
@@ -341,8 +346,13 @@
 
 .comments-popover {
     width:100%;
-    height:100%;
+    position: relative;
+    overflow-y: hidden;
     margin-bottom: 5px;
+
+    .dataview-ct.inner {
+        overflow: visible;
+    }
 }
 
 .comments-arrow {

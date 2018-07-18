@@ -2,7 +2,7 @@
 @import url('../../../../../vendor/framework7/src/less/material/_colors-vars.less');
 
 // Colors
-@themeColor: #5a7dc9; // (64,102,215)
+@themeColor: #446995; // (64,102,215)
 @navBarIconColor: #fff;
 
 @import url('../../../../../vendor/framework7/src/less/material/intro.less');
@@ -66,6 +66,15 @@ input, textarea {
   -webkit-touch-callout:default;
   -webkit-user-select:text;
   user-select:text;
+}
+
+// Main Toolbar
+#editor-navbar.navbar .right {
+  padding-right: 4px;
+}
+#editor-navbar.navbar .right a.link,
+#editor-navbar.navbar .left a.link {
+  padding: 0 13px;
 }
 
 // Top offset
@@ -208,4 +217,9 @@ input, textarea {
   padding: 3px 10px;
   color: #ffffff;
   white-space: nowrap;
+}
+
+.modal.modal-in {
+  max-height: 100%;
+  overflow: auto;
 }

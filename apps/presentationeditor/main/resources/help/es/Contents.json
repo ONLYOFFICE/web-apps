@@ -2,11 +2,11 @@
   {
     "src": "ProgramInterface/ProgramInterface.htm",
     "name": "Introduciendo el interfaz de usuario de Editor de Presentación",
-    "headername": "Interfaz de usuario"
+    "headername": "Interfaz del Programa"
   },
   {
     "src": "ProgramInterface/FileTab.htm",
-    "name": "Pestaña de archivo"
+    "name": "Pestaña de Archivo"
   },
   {
     "src": "ProgramInterface/HomeTab.htm",
@@ -14,11 +14,15 @@
   },
   {
     "src": "ProgramInterface/InsertTab.htm",
-    "name": "Pestaña de Insertar"
+    "name": "Pestaña Insertar"
+  },
+  {
+    "src": "ProgramInterface/CollaborationTab.htm",
+    "name": "Pestaña de Colaboración"
   },
   {
     "src": "ProgramInterface/PluginsTab.htm",
-    "name": "Pestaña de Puglins"
+    "name": "Pestaña Plugins"
   },
   {
     "src": "UsageInstructions/OpenCreateNew.htm",
@@ -49,11 +53,11 @@
   {
     "src": "UsageInstructions/InsertText.htm",
     "name": "Inserte su texto y dele formato",
-    "headername": "Formato de texto"
+    "headername": "Formato del texto"
   },
   {
     "src": "UsageInstructions/AddHyperlinks.htm",
-    "name": "Añada hiperenlaces"
+    "name": "Añadir hiperenlace"
   },
   {
     "src": "UsageInstructions/CreateLists.htm",
@@ -100,12 +104,12 @@
   {
     "src": "HelpfulHints/CollaborativeEditing.htm",
     "name": "Edición de presentación colaborativa",
-    "headername": "Co-edición de presentaciones"
+    "headername": "Presentación con co-edición"
   },
   {
     "src": "UsageInstructions/ViewPresentationInfo.htm",
     "name": "Vea información sobre presentación",
-    "headername": "Herramientas y configuraciones"
+    "headername": "Herramientas y ajustes"
   },
   {
     "src": "UsageInstructions/SavePrintDownload.htm",
@@ -134,7 +138,7 @@
   },
   {
     "src": "HelpfulHints/SupportedFormats.htm",
-    "name": "Formatos compatibles de presentaciones electrónicas"
+    "name": "Formatos soportados para presentaciones electrónicas"
   },
   {
     "src": "HelpfulHints/KeyboardShortcuts.htm",

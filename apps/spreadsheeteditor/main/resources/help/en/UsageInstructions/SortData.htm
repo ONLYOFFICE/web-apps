@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Sort and filter data</h1>
 			<h3>Sort Data</h3>
@@ -150,6 +150,8 @@
 			</ol>
 			<p>The template will be applied to the selected range of cells and you will be able to edit the table headers and apply the filter to work with your data.</p>
             <p class="note"><b>Note</b>: once you create a new formatted table, a <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">default name</a> (<em>Table1</em>, <em>Table2</em> etc.) will be automatically assigned to the table. You can change this name making it more meaningful and use it for further work.</p> 
+            <p>If you enter a new value in a cell below the table last row (if the table does not have the Total row) or in a cell to the right of the table last column, the formatted table will be automatically extended to include a new row or column. If you do not want to expand the table, click the <img alt="Paste Special" src="../images/pastespecialbutton.png" /> button that appears and select the <b>Undo table autoexpansion</b> option. Once you undo this action, the <b>Redo table autoexpansion</b> option will be available in this menu.</p>
+            <p><img alt="Undo table autoexpansion" src="../images/undoautoexpansion.png" /></p>
             <p>Some of the table settings can be altered using the <b>Table settings</b> tab of the right sidebar that opens if you select at least one cell within the table with the mouse and click the <b>Table settings</b> <img alt="Table settings icon" src="../images/table_settings_icon.png" /> icon on the right.</p>
             <p><img alt="Table settings tab" src="../images/tablesettingstab.png" /></p>
             <p>The <b>Rows</b> and <b>Columns</b> sections on the top allow you to emphasize certain rows/columns applying a specific formatting to them, or highlight different rows/columns with the different background colors to clearly distinguish them. The following options are available:</p>
@@ -167,6 +169,8 @@
                 Depending on the options checked in the <b>Rows</b> and/or <b>Columns</b> sections above, the templates set will be displayed differently. For example, if you've checked the <b>Header</b> option in the <b>Rows</b> section and the <b>Banded</b> option in the <b>Columns</b> section, the displayed templates list will include only templates with the header row and banded columns enabled:
             </p>
             <p><img alt="Templates list" src="../images/templateslist.png" /></p>
+            <p>If you want to clear the current table style (background color, borders etc.) without removing the table itself, apply the <b>None</b> template from the template list:</p>
+            <p><img alt="None templates" src="../images/nonetemplate.png" /></p>
             <p>The <b>Resize table</b> section allows you to change the cell range the table formatting is applied to. Click the <b>Select Data</b> button - a new pop-up window will open. Change the link to the cell range in the entry field or select the necessary cell range on the worksheet with the mouse and click the <b>OK</b> button.</p>
             <p><img alt="Resize table" src="../images/resizetable.png" /></p>
             <p>The <b>Rows & Columns</b> <img alt="Rows & Columns" src="../images/rowsandcolumns.png" /> section allows you to perform the following operations:</p>

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  TextArtSettings.js
  *
  *  Created by Julia Radzhabova on 7/10/15
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -1080,7 +1080,7 @@ define([
                     value: '000000'
                 });
                 this.colorsBorder.on('select', _.bind(this.onColorsBorderSelect, this));
-                $(this.el).on('click', '#textart-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
+                this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1099,7 +1099,7 @@ define([
                     value: '000000'
                 });
                 this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
-                $(this.el).on('click', '#textart-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+                this.btnGradColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1119,7 +1119,7 @@ define([
                     transparent: true
                 });
                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                $(this.el).on('click', '#textart-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
             }
 
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

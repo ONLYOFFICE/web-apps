@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Collection
  *
  *    Created by Maxim Kadushkin on 27 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -61,18 +61,24 @@ define([
         },
 
         getEditingCount: function() {
-            var count = 0;
-            this.each(function(user){
-                user.get('online') && !user.get('view') && ++count;
-            });
+            return this.filter(function(item){return item.get('online') && !item.get('view')}).length;
+        },
 
-            return count;
+        getEditingOriginalCount: function() {
+            return this.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).size().value();
         },
 
         findUser: function(id) {
             return this.find(
                 function(model){
                     return model.get('id') == id;
+                });
+        },
+
+        findOriginalUser: function(id) {
+            return this.find(
+                function(model){
+                    return model.get('idOriginal') == id;
                 });
         }
     });

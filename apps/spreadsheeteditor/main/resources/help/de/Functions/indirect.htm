@@ -1,35 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>INDIRECT Function</title>
+		<title>INDIREKT-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>INDIRECT Function</h1>
-			<p>The <b>INDIRECT</b> function is one of the lookup and reference functions. It is used to return the reference to a cell based on its string representation.</p>
-			<p>The <b>INDIRECT</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>INDIRECT(ref-text [, A1-ref-style-flag])</em></b></p> 
-			<p><em>where</em></p> 
-				<p style="text-indent: 50px;"><b><em>ref-text</em></b> is a text representation of a cell.</p> 
-				<p style="text-indent: 50px;"><b><em>A1-ref-style-flag</em></b> is a representation style. It is an optional logical value: TRUE or FALSE. If it is set to TRUE or omitted, the function will analyse <b><em>ref-text</em></b> as an A1-style reference. If FALSE, the function will interpret <b><em>ref-text</em></b> as an R1C1-style reference.</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>INDIREKT-Funktion</h1>
+			<p>Die Funktion <b>INDIREKT</b> gehört zur Gruppe der Nachschlage- und Verweisfunktionen. Sie gibt den Bezug eines Textwerts zurück.</p>
+			<p>Die Formelsyntax der Funktion <b>INDIREKT</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>INDIREKT(Bezug;[A1])</em></b></p> 
+			<p><em>Dabei gilt:</em></p> 
+				<p style="text-indent: 50px;"><b><em>Bezug</em></b> ist eine Textdarstellung einer Zelle.</p> 
+				<p style="text-indent: 50px;"><b><em>A1</em></b> ist die Schreibweise. Dieser Wahrheitswert ist optional. WAHR oder FALSCH. Ist das A1-Argument mit WAHR belegt oder nicht angegeben, liegt der von der Funktion ADRESSE gelieferte <b><em>Bezug</em></b> in A1-Schreibweise vor. Ist das A1-Argument mit FALSCH belegt, liegt der von der Funktion gelieferte <b><em>Bezug</em></b> in der Z1S1-Schreibweise vor.</p>
 				
-			<p>To apply the <b>INDIRECT</b> function,</p>
+			<p>Anwendung der Funktion <b>INDIREKT</b>.</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Lookup and Reference</b> function group from the list,</li>
-			<li>click the <b>INDIRECT</b> function,</li>
-			<li>enter the required arguments separating them by comma,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Funktionsgruppe <b>Nachschlage- und Verweisfunktionen</b> aus der Liste aus.</li>
+			<li>Klicken Sie auf die Funktion <b>INDIREKT</b>.</li>
+			<li>Geben Sie die erforderlichen Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="INDIRECT Function" src="../images/indirect.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="INDIREKT-Funktion" src="../images/indirect.png" /></p>
 		</div>
 	</body>
 </html>

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    CellEditor Controller
  *
  *    Created by Maxim Kadushkin on 11/24/2016
- *    Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -84,8 +84,8 @@ define([
             this.api.asc_registerCallback('asc_onSelectionNameChanged', _.bind(this.onApiCellSelection, this));
             this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onFormulaCompleteMenu',  _.bind(this.onFormulaCompleteMenu, this));
-            // this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
-            // Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
+            Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
             // Common.NotificationCenter.on('cells:range', _.bind(this.onCellsRange, this));
             // this.api.asc_registerCallback('asc_onInputKeyDown', _.bind(this.onInputKeyDown, this));
 
@@ -133,16 +133,7 @@ define([
 
         onApiDisconnect: function() {
             this.mode.isEdit = false;
-
-            var controller = this.getApplication().getController('FormulaDialog');
-            if (controller) {
-                controller.hideDialog();
-            }
-
-            if (!this.mode.isEdit) {
-                $('#ce-func-label', this.editor.el).addClass('disabled');
-                this.editor.btnNamedRanges.setVisible(false);
-            }
+            $('#ce-function').addClass('disabled');
         },
 
         onCellsRange: function(status) {

@@ -1,24 +1,8 @@
 <div class="toolbar">
     <div class="box-tabs">
         <div class="extra left"></div>
-        <section class="tabs">
-            <a class="scroll left">
-                <i class="icon">&lt;</i>
-            </a>
-            <ul>
-                <% for(var i in tabs) { %>
-                    <li class="ribtab<% if (tabs[i].extcls) print(' ' + tabs[i].extcls) %>">
-                        <div class="tab-bg" />
-                        <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
-                    </li>
-                <% } %>
-            </ul>
-            <a class="scroll right">
-                <i class="icon">&gt;</i>
-            </a>
-        </section>
-        <div class="extra right">
-        </div>
+        <%= tabsmarkup %>
+        <div class="extra right"></div>
     </div>
     <section class="box-controls">
         <section class="panel static">
@@ -93,16 +77,7 @@
                         <span class="btn-slot" id="slot-btn-mailrecepients"></span>
                     </div>
                 </div>
-                <div class="group" id="slot-field-styles">
-                </div>
-                <div class="group no-mask">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-hidebars"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot" id="slot-btn-settings"></span>
-                    </div>
-                </div>
+                <div class="group" id="slot-field-styles"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -171,6 +146,7 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge slot-inshyperlink"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-bookmarks"></span>
                 </div>
             </section>
         </section>

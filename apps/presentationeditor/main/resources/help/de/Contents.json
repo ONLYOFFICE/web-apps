@@ -17,6 +17,10 @@
     "name": "Registerkarte Einfügen"
   },
   {
+    "src": "ProgramInterface/CollaborationTab.htm",
+    "name": "Registerkarte Zusammenarbeit"
+  },
+  {
     "src": "ProgramInterface/PluginsTab.htm",
     "name": "Registerkarte Plug-ins"
   },
@@ -57,7 +61,7 @@
   },
   {
     "src": "UsageInstructions/CreateLists.htm",
-    "name": "Nummerierte Listen erstellen"
+    "name": "Listen erstellen"
   },
   {
     "src": "UsageInstructions/CopyClearFormatting.htm",

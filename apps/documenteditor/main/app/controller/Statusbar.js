@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Statusbar controller
  *
  *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -55,6 +55,7 @@ define([
         ],
 
         initialize: function() {
+            var me = this;
             this.addListeners({
                 'Statusbar': {
                     'langchanged': this.onLangMenu,
@@ -62,6 +63,15 @@ define([
                         this.api.zoom(value);
                         Common.NotificationCenter.trigger('edit:complete', this.statusbar);
                     }.bind(this)
+                },
+                'Common.Views.Header': {
+                    'statusbar:hide': function (view, status) {
+                        me.statusbar.setVisible(!status);
+                        Common.localStorage.setBool('de-hidden-status', status);
+
+                        Common.NotificationCenter.trigger('layout:changed', 'status');
+                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+                    }
                 }
             });
         },

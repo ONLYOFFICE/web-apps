@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Search" type="search" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Insert images</h1>
 			<p>Spreadsheet Editor allows you to insert images in the most popular formats into your worksheet. The following image formats are supported: <b>BMP</b>, <b>GIF</b>, <b>JPEG</b>, <b>JPG</b>, <b>PNG</b>.</p>
@@ -44,9 +44,13 @@
 			<ol>
 				<li>select the image you wish to replace with the mouse,</li>
 				<li>click the <b>Image settings</b> <img alt="Image settings icon" src="../images/image_settings_icon.png" /> icon at the right sidebar,</li>
-				<li>in the <b>Replace Image</b> section click the button you need: <b>From File</b> or <b>From URL</b> and select the desired image.</li>
+				<li>in the <b>Replace Image</b> section click the button you need: <b>From File</b> or <b>From URL</b> and select the desired image.
+                    <p class="note"><b>Note</b>: alternatively, you can right-click the image and use the <b>Replace image</b> option from the contextual menu.</p>
+                </li>
 			</ol>
 			<p>The selected image will be replaced.</p>
+            <p>When the image is selected, the <b>Shape settings</b> <img alt="Shape settings icon" src="../images/shape_settings_icon.png" /> icon is also available on the right. You can click this icon to open the <b>Shape settings</b> tab at the right sidebar and adjust the shape <a href="../UsageInstructions/InsertAutoshapes.htm#shape_stroke" onclick="onhyperlinkclick(this)"><b>Stroke</b></a> type, size and color as well as change the shape type selecting another shape from the <b>Change Autoshape</b> menu. The shape of the image will change correspondingly.</p>
+            <p><img alt="Shape Settings tab" src="../images/right_image_shape.png" /></p>
             <p>To change its advanced settings, click the image with the right mouse button and select the <b>Image Advanced Settings</b> option from the right-click menu or just click the <b>Show advanced settings</b> link at the right sidebar. The image properties window will open:</p>
             <p><img alt="Image - Advanced Settings" src="../images/imageadvancedsettings.png" /></p>
             <p>The <b>Alternative Text</b> tab allows to specify a <b>Title</b> and <b>Description</b> which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image.</p>

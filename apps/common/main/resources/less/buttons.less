@@ -512,6 +512,12 @@
     border: 1px solid @input-border;
     .border-radius(@border-radius-small);
 
+    &.auto {
+        width: auto;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
     &:hover:not(.disabled),
     .over:not(.disabled) {
         background-color: @secondary !important;
@@ -520,6 +526,7 @@
     &:active:not(.disabled),
     &.active:not(.disabled) {
         background-color: @primary !important;
+        border-color: @primary;
         color: white;
     }
 

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  Links.js
  *
  *  Created by Julia Radzhabova on 22.12.2017
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -44,7 +44,8 @@ define([
     'documenteditor/main/app/view/Links',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
-    'documenteditor/main/app/view/TableOfContentsSettings'
+    'documenteditor/main/app/view/TableOfContentsSettings',
+    'documenteditor/main/app/view/BookmarksDialog'
 ], function () {
     'use strict';
 
@@ -64,7 +65,8 @@ define([
                     'links:contents': this.onTableContents,
                     'links:update': this.onTableContentsUpdate,
                     'links:notes': this.onNotesClick,
-                    'links:hyperlink': this.onHyperlinkClick
+                    'links:hyperlink': this.onHyperlinkClick,
+                    'links:bookmarks': this.onBookmarksClick
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -85,6 +87,9 @@ define([
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+
             }
             return this;
         },
@@ -137,10 +142,16 @@ define([
 
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
 
-            var need_disable = paragraph_locked || in_equation || in_image || in_header;
+            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+
+            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
             _.each (this.view.btnsNotes, function(item){
                 item.setDisabled(need_disable);
             }, this);
+
+            need_disable = paragraph_locked || header_locked || control_plain;
+            this.view.btnBookmarks.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -206,10 +217,10 @@ define([
         },
 
         onTableContents: function(type, currentTOC){
+            currentTOC = !!currentTOC;
+            var props = this.api.asc_GetTableOfContentsPr(currentTOC);
             switch (type) {
                 case 0:
-                    var props = this.api.asc_GetTableOfContentsPr(),
-                        hasTable = !!props;
                     if (!props) {
                         props = new Asc.CTableOfContentsPr();
                         props.put_OutlineRange(1, 9);
@@ -218,11 +229,9 @@ define([
                     props.put_ShowPageNumbers(true);
                     props.put_RightAlignTab(true);
                     props.put_TabLeader( Asc.c_oAscTabLeader.Dot);
-                    this.api.asc_AddTableOfContents(null, props);
+                    (currentTOC) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 1:
-                    var props = this.api.asc_GetTableOfContentsPr(),
-                        hasTable = !!props;
                     if (!props) {
                         props = new Asc.CTableOfContentsPr();
                         props.put_OutlineRange(1, 9);
@@ -230,13 +239,11 @@ define([
                     props.put_Hyperlink(true);
                     props.put_ShowPageNumbers(false);
                     props.put_TabLeader( Asc.c_oAscTabLeader.None);
-                    this.api.asc_AddTableOfContents(null, props);
+                    (currentTOC) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 'settings':
-                    currentTOC = !!currentTOC;
-                    var props = this.api.asc_GetTableOfContentsPr(currentTOC),
-                        me = this;
-                    var win = new DE.Views.TableOfContentsSettings({
+                    var me = this,
+                        win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
                         props: props,
                         handler: function(result, value) {
@@ -249,15 +256,19 @@ define([
                     win.show();
                     break;
                 case 'remove':
-                    this.api.asc_RemoveTableOfContents();
+                    if (currentTOC)
+                        currentTOC = props.get_InternalClass();
+                    this.api.asc_RemoveTableOfContents(currentTOC);
                     break;
             }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onTableContentsUpdate: function(type, currentTOC){
             if (currentTOC)
                 currentTOC = this.api.asc_GetTableOfContentsPr(currentTOC).get_InternalClass();
             this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onNotesClick: function(type) {
@@ -306,6 +317,61 @@ define([
                     }, 50);
                     break;
             }
+        },
+
+        onBookmarksClick: function(btn) {
+            var me = this;
+            (new DE.Views.BookmarksDialog({
+                api: me.api,
+                props: me.api.asc_GetBookmarksManager(),
+                handler: function (result, settings) {
+                    if (settings) {
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
+        onShowContentControlsActions: function(action, x, y) {
+            var menu = (action==1) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
+                documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
+                me = this;
+
+            if (!menu) return;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu.rendered) {
+                // Prepare menu container
+                if (menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    documentHolderView.cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            documentHolderView._preventClick = true;
+            menu.show();
+
+            menu.alignPosition();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onHideContentControlsActions: function() {
+            this.view.contentsMenu && this.view.contentsMenu.hide();
+            this.view.contentsUpdateMenu && this.view.contentsUpdateMenu.hide();
         }
 
     }, DE.Controllers.Links || {}));

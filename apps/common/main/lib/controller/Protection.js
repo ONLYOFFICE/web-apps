@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  Protection.js
  *
  *  Created by Julia Radzhabova on 14.11.2017
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -110,8 +110,8 @@ define([
             return this;
         },
 
-        onDocumentPassword: function(hasPassword) {
-            this.view && this.view.onDocumentPassword(hasPassword);
+        onDocumentPassword: function(hasPassword, disabled) {
+            this.view && this.view.onDocumentPassword(hasPassword, disabled);
         },
 
         SetDisabled: function(state, canProtect) {

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  DocumentPreview.js
  *
  *  Created by Julia Radzhabova on 4/18/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -294,8 +294,13 @@ define([
                             me.previewControls.css('display', 'none');
                             me.$el.css('cursor', 'none');
                         }, 3000);
-
                 });
+                if (!me.previewControls.hasClass('over')) {
+                    me.timerMove = setTimeout(function () {
+                        me.previewControls.css('display', 'none');
+                        me.$el.css('cursor', 'none');
+                    }, 3000);
+                }
             }, 1000);
             $('#viewport-vbox-layout').css('z-index','0');
             this.fireEvent('editcomplete', this);

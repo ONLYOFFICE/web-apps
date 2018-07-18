@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ShapeSettings.js
  *
  *  Created by Julia Radzhabova on 2/12/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -1586,7 +1586,7 @@ define([
                     transparent: true
                 });
                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                $(this.el).on('click', '#shape-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1605,7 +1605,7 @@ define([
                     value: '000000'
                 });
                 this.colorsFG.on('select', _.bind(this.onColorsFGSelect, this));
-                $(this.el).on('click', '#shape-foreground-color-new', _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
+                this.btnFGColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1624,7 +1624,7 @@ define([
                     value: 'ffffff'
                 });
                 this.colorsBG.on('select', _.bind(this.onColorsBGSelect, this));
-                $(this.el).on('click', '#shape-background-color-new', _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
+                this.btnBGColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1643,7 +1643,7 @@ define([
                     value: '000000'
                 });
                 this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
-                $(this.el).on('click', '#shape-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+                this.btnGradColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
 
                 this.btnBorderColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1662,7 +1662,7 @@ define([
                     value: '000000'
                 });
                 this.colorsBorder.on('select', _.bind(this.onColorsBorderSelect, this));
-                $(this.el).on('click', '#shape-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
+                this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
             }
             
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

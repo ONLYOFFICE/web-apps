@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  TableSettings.js
  *
  *  Created by Julia Radzhabova on 4/11/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -628,7 +628,7 @@ define([
                     el: $('#table-border-color-menu')
                 });
                 this.borderColor.on('select', _.bind(this.onColorsBorderSelect, this));
-                $(this.el).on('click', '#table-border-color-new', _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
+                this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -646,7 +646,7 @@ define([
                     transparent: true
                 });
                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                $(this.el).on('click', '#table-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
             }
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

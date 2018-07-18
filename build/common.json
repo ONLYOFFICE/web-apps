@@ -1,7 +1,7 @@
 {
     "name": "common",
     "version": "4.3.0",
-    "build": 32,
+    "build": 35,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -15,7 +15,7 @@
                         "expand": true,
                         "cwd": "../../sdkjs/common/",
                         "src": [
-                            "Images/*.cur",
+                            "Images/*",
                             "Native/*.js"
                         ],
                         "dest": "../deploy/sdkjs/common/"

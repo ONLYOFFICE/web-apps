@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Main controller
  *
  *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -108,7 +108,7 @@ define([
                     weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseWarning: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
                 this.languages = null;
                 this.translationTable = [];
                 // Initialize viewport
@@ -129,7 +129,7 @@ define([
                 window["flat_desine"] = true;
 
                 var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
-                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph'],
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
@@ -148,11 +148,14 @@ define([
                         "Odd Page ": this.txtOddPage,
                         "Same as Previous": this.txtSameAsPrev,
                         "Current Document": this.txtCurrentDocument,
-                        "No table of contents entries found.": this.txtNoTableOfContents
+                        "No table of contents entries found.": this.txtNoTableOfContents,
+                        "Table of Contents": this.txtTableOfContents
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
+                me.translationTable['Header'] = this.txtHeader;
+                me.translationTable['Footer'] = this.txtFooter;
 
                 this.api = new Asc.asc_docs_api({
                     'id-view'  : 'editor_sdk',
@@ -160,6 +163,7 @@ define([
                 });
 
                 if (this.api){
+                    this.api.SetDrawingFreeze(true);
                     switch (value) {
                         case '0': this.api.SetFontRenderingMode(3); break;
                         case '1': this.api.SetFontRenderingMode(1); break;
@@ -207,11 +211,15 @@ define([
                                 me.dontCloseDummyComment = true;
                             else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = true;
+                            else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                                me.inFormControl = true;
                         }
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
                         if (!me.isModalShowed) {
+                            if (/form-control/.test(e.target.className))
+                                me.inFormControl = false;
                             if (!e.relatedTarget ||
                                 !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
@@ -306,13 +314,16 @@ define([
                 this.plugins                    = this.editorConfig.plugins;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                appHeader.setCanBack(this.appOptions.canBackToFolder === true);
+                appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
+                            .setUserName(this.appOptions.user.fullname);
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                Common.Controllers.Desktop.init(this.appOptions);
             },
 
             loadDocument: function(data) {
@@ -402,7 +413,8 @@ define([
                             Asc.c_oAscFileType.ODT,
                             Asc.c_oAscFileType.DOCX,
                             Asc.c_oAscFileType.HTML,
-                            Asc.c_oAscFileType.PDF
+                            Asc.c_oAscFileType.PDF,
+                            Asc.c_oAscFileType.PDFA
                         ];
 
                     if ( !_format || _supported.indexOf(_format) < 0 )
@@ -434,7 +446,6 @@ define([
                         });
                     }
                     Common.UI.alert({
-                        closable: false,
                         title: this.notcriticalErrorTitle,
                         msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
                         iconCls: 'warn',
@@ -581,11 +592,13 @@ define([
             },
 
             goBack: function() {
-                var href = this.appOptions.customization.goback.url;
-                if (this.appOptions.customization.goback.blank!==false) {
-                    window.open(href, "_blank");
-                } else {
-                    parent.location.href = href;
+                if ( !Common.Controllers.Desktop.process('goback') ) {
+                    var href = this.appOptions.customization.goback.url;
+                    if (this.appOptions.customization.goback.blank!==false) {
+                        window.open(href, "_blank");
+                    } else {
+                        parent.location.href = href;
+                    }
                 }
             },
 
@@ -610,17 +623,12 @@ define([
                 }
                 application.getController('DocumentHolder').getView().focus();
 
-                if (this.api && !toolbarView._state.previewmode) {
+                if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave,
-                        isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                        isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.$icon.hasClass('btn-synch') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 
@@ -662,7 +670,7 @@ define([
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
-                    !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed )) ) {
+                    !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -808,7 +816,7 @@ define([
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("de-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                value = Common.localStorage.getBool("de-settings-resolvedcomment");
                 Common.Utils.InternalSettings.set("de-settings-resolvedcomment", value);
                 this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
                 /** coauthoring end **/
@@ -900,7 +908,7 @@ define([
                 leftmenuController.getView('LeftMenu').getMenu('file').loadDocument({doc:me.document});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
-                navigationController.setApi(me.api);
+                navigationController.setApi(me.api).setMode(this.appOptions);
 
                 chatController.setApi(this.api).setMode(this.appOptions);
                 application.getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
@@ -989,16 +997,27 @@ define([
 
             onLicenseChanged: function(params) {
                 var licType = params.asc_getLicenseType();
-                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
-                }
+                if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
+                   (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS))
+                    this._state.licenseType = licType;
 
                 if (this._isDocReady)
                     this.applyLicense();
             },
 
             applyLicense: function() {
-                if (this._state.licenseWarning) {
+                if (this._state.licenseType) {
+                    var license = this._state.licenseType,
+                        buttons = ['ok'],
+                        primary = 'ok';
+                    if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                    } else {
+                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                        buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
+                        primary = 'buynow';
+                    }
+
                     this.disableEditing(true);
                     Common.NotificationCenter.trigger('api:disconnect');
 
@@ -1010,12 +1029,9 @@ define([
                         Common.UI.info({
                             width: 500,
                             title: this.textNoLicenseTitle,
-                            msg  : this._state.licenseWarning,
-                            buttons: [
-                                {value: 'buynow', caption: this.textBuyNow},
-                                {value: 'contact', caption: this.textContactUs}
-                            ],
-                            primary: 'buynow',
+                            msg  : license,
+                            buttons: buttons,
+                            primary: primary,
                             callback: function(btn) {
                                 if (btn == 'buynow')
                                     window.open('https://www.onlyoffice.com', "_blank");
@@ -1068,7 +1084,7 @@ define([
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canReview      = this.permissions.review === true && this.appOptions.canLicense && this.appOptions.isEdit;
-                this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
+                this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
                 this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && !this.appOptions.isOffline;
@@ -1078,13 +1094,16 @@ define([
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canRename      = !!this.permissions.rename;
+                this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
-                this.appOptions.canProtect     = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
+                this.appOptions.isProtectSupport = true; // remove in 5.2
+                this.appOptions.canProtect     = this.appOptions.isProtectSupport && this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
+                this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
+                this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1135,7 +1154,8 @@ define([
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     // headerView      = app.getController('Viewport').getView('Common.Views.Header'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
-                    documentHolder  = app.getController('DocumentHolder').getView();
+                    documentHolder  = app.getController('DocumentHolder').getView(),
+                    toolbarController   = app.getController('Toolbar');
 
                 // if (headerView) {
                     // headerView.setHeaderCaption(this.appOptions.isEdit ? 'Document Editor' : 'Document Viewer');
@@ -1144,7 +1164,7 @@ define([
 
                 viewport && viewport.setMode(this.appOptions);
                 statusbarView && statusbarView.setMode(this.appOptions);
-
+                toolbarController.setMode(this.appOptions);
                 documentHolder.setMode(this.appOptions);
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
@@ -1182,20 +1202,17 @@ define([
 
                     viewport.applyEditorMode();
 
+                    var rightmenuView = rightmenuController.getView('RightMenu');
+                    if (rightmenuView) {
+                        rightmenuView.setApi(me.api);
+                        rightmenuView.on('editcomplete', _.bind(me.onEditComplete, me));
+                        rightmenuView.setMode(me.appOptions);
+                    }
+
                     var toolbarView = (toolbarController) ? toolbarController.getView() : null;
-
-                    _.each([
-                        toolbarView,
-                        rightmenuController.getView('RightMenu')
-                    ], function(view) {
-                        if (view) {
-                            view.setApi(me.api);
-                            view.on('editcomplete', _.bind(me.onEditComplete, me));
-                            view.setMode(me.appOptions);
-                        }
-                    });
-
                     if (toolbarView) {
+                        toolbarView.setApi(me.api);
+                        toolbarView.on('editcomplete', _.bind(me.onEditComplete, me));
                         toolbarView.on('insertimage', _.bind(me.onInsertImage, me));
                         toolbarView.on('inserttable', _.bind(me.onInsertTable, me));
                         toolbarView.on('insertshape', _.bind(me.onInsertShape, me));
@@ -1247,7 +1264,7 @@ define([
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
                 var config = {
-                    closable: false
+                    closable: true
                 };
 
                 switch (id)
@@ -1347,6 +1364,7 @@ define([
 
                     case Asc.c_oAscError.ID.Warning:
                         config.msg = this.errorConnectToServer;
+                        config.closable = false;
                         break;
 
                     case Asc.c_oAscError.ID.SessionAbsolute:
@@ -1378,11 +1396,14 @@ define([
                         console.warn(config.msg);
                         break;
 
+                    case Asc.c_oAscError.ID.DataEncrypted:
+                        config.msg = this.errorDataEncrypted;
+                        break;
+
                     default:
-                        config.msg = this.errorDefaultMessage.replace('%1', id);
+                        config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
                 }
-
 
                 if (level == Asc.c_oAscError.Level.Critical) {
 
@@ -1391,13 +1412,18 @@ define([
 
                     config.title = this.criticalErrorTitle;
                     config.iconCls = 'error';
+                    config.closable = false;
 
-                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
+                    if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok')
                                 Common.NotificationCenter.trigger('goback');
                         }
+                    }
+                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                        this.api.asc_coAuthoringDisconnect();
+                        Common.NotificationCenter.trigger('api:disconnect');
                     }
                 }
                 else {
@@ -1515,15 +1541,10 @@ define([
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
 
                 if (toolbarView && !toolbarView._state.previewmode) {
-                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                    var isSyncButton = toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
 
                 /** coauthoring begin **/
@@ -1533,20 +1554,13 @@ define([
                 /** coauthoring end **/
             },
             onDocumentCanSaveChanged: function (isCanSave) {
-                var application = this.getApplication(),
-                    toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView();
+                var toolbarView = this.getApplication().getController('Toolbar').getView();
 
                 if (toolbarView && this.api && !toolbarView._state.previewmode) {
-                    var isSyncButton = $('.icon', toolbarView.btnSave.cmpEl).hasClass('btn-synch'),
+                    var isSyncButton = toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
-                    if (toolbarView.btnSave.isDisabled() !== isDisabled)
-                        toolbarView.btnsSave.forEach(function(button) {
-                            if ( button ) {
-                                button.setDisabled(isDisabled);
-                            }
-                        });
+                        toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
 
@@ -1598,6 +1612,8 @@ define([
 
                 Common.NotificationCenter.trigger('layout:changed', 'main');
                 $('#loading-mask').hide().remove();
+
+                Common.Controllers.Desktop.process('preloader:hide');
             },
 
             onDownloadUrl: function(url) {
@@ -1863,6 +1879,7 @@ define([
                     me._state.openDlg = new Common.Views.OpenDialog({
                         closable: me.appOptions.canRequestClose,
                         type: type,
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
@@ -1905,6 +1922,7 @@ define([
                                 this._state.fastCoauth = false;
                                 Common.localStorage.setItem("de-settings-showchanges-strict", 'last');
                                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
+                                this.getApplication().getController('Common.Controllers.ReviewChanges').applySettings();
                             }
                             this.onEditComplete();
                         }, this)
@@ -2151,7 +2169,7 @@ define([
             errorKeyExpire: 'Key descriptor expired',
             errorUsersExceed: 'Count of users was exceed',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             txtBasicShapes: 'Basic Shapes',
             txtFiguredArrows: 'Figured Arrows',
             txtMath: 'Math',
@@ -2195,7 +2213,6 @@ define([
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
-            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -2228,6 +2245,7 @@ define([
             txtStyle_Quote: 'Quote',
             txtStyle_Intense_Quote: 'Intense Quote',
             txtStyle_List_Paragraph: 'List Paragraph',
+            txtStyle_footnote_text: 'Footnote Text',
             saveTextText: 'Saving document...',
             saveTitleText: 'Saving Document',
             txtBookmarkError: "Error! Bookmark not defined.",
@@ -2242,9 +2260,14 @@ define([
             txtOddPage: "Odd Page ",
             txtSameAsPrev: "Same as Previous",
             txtCurrentDocument: "Current Document",
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             txtNoTableOfContents: "No table of contents entries found.",
-            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later."
+            txtTableOfContents: "Table of Contents",
+            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
+            warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.'
         }
     })(), DE.Controllers.Main || {}))
 });

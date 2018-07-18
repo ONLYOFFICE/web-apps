@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  DocumentHolder view
  *
  *  Created by Alexander Yuzhin on 1/11/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -316,7 +316,10 @@ define([
                     });
                     meEl.on('click', function(e){
                         if (e.target.localName == 'canvas') {
-                            meEl.focus();
+                            if (me._preventClick)
+                                me._preventClick = false;
+                            else
+                                meEl.focus();
                         }
                     });
                     meEl.on('mousedown', function(e){
@@ -553,12 +556,13 @@ define([
                         ToolTip = getUserName(moveData.get_UserId());
 
                         showPoint = [moveData.get_X()+me._XY[0], moveData.get_Y()+me._XY[1]];
+                        var maxwidth = showPoint[0];
                         showPoint[0] = me._BodyWidth - showPoint[0];
                         showPoint[1] -= ((moveData.get_LockedObjectType()==2) ? me._TtHeight : 0);
 
                         if (showPoint[1] > me._XY[1] && showPoint[1]+me._TtHeight < me._XY[1]+me._Height)  {
                             src.text(ToolTip);
-                            src.css({visibility: 'visible', top: showPoint[1] + 'px', right: showPoint[0] + 'px'});
+                            src.css({visibility: 'visible', top: showPoint[1] + 'px', right: showPoint[0] + 'px', 'max-width': maxwidth + 'px'});
                         } else {
                             src.css({visibility: 'hidden'});
                         }
@@ -614,6 +618,7 @@ define([
                 if (pasteContainer.length < 1) {
                     me._arrSpecialPaste = [];
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.insertAsNestedTable] = me.textNest;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.overwriteCells] = me.txtOverwriteCells;
@@ -2259,6 +2264,42 @@ define([
                 }
             });
 
+            var menuImgReplace = new Common.UI.MenuItem({
+                caption     : me.textReplace,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromFile
+                        }).on('click', function(item) {
+                            setTimeout(function(){
+                                if (me.api) me.api.ChangeImageFromFile();
+                                me.fireEvent('editcomplete', me);
+                            }, 10);
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromUrl
+                        }).on('click', function(item) {
+                            (new Common.Views.ImageFromUrlDialog({
+                                handler: function(result, value) {
+                                    if (result == 'ok') {
+                                        if (me.api) {
+                                            var checkUrl = value.replace(/ /g, '');
+                                            if (!_.isEmpty(checkUrl)) {
+                                                var props = new Asc.asc_CImgProperty();
+                                                props.put_ImageUrl(checkUrl);
+                                                me.api.ImgApply(props);
+                                            }
+                                        }
+                                    }
+                                    me.fireEvent('editcomplete', me);
+                                }
+                            })).show();
+                        })
+                    ]
+                })
+            });
+
             var menuImgCopy = new Common.UI.MenuItem({
                 caption : me.textCopy,
                 value : 'copy'
@@ -2336,12 +2377,18 @@ define([
 
                     menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps);
 
-                    me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg);
-                    me.pictureMenu.items[10].setVisible(menuChartEdit.isVisible() || me.menuOriginalSize.isVisible());
+                    me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
+
+                    var pluginGuid = value.imgProps.value.asc_getPluginGuid();
+                    menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgReplace.isVisible())
+                        menuImgReplace.setDisabled(islocked || pluginGuid===null);
 
                     var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
+
+                    me.pictureMenu.items[14].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2385,6 +2432,7 @@ define([
                     me.menuImageWrap,
                     { caption: '--' },
                     me.menuOriginalSize,
+                    menuImgReplace,
                     menuChartEdit,
                     { caption: '--' },
                     menuImageAdvanced
@@ -2814,6 +2862,7 @@ define([
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        menuTableControlSettings.setVisible(me.mode.canEditContentControl);
                     }
                     menuTableTOC.setVisible(in_toc);
                 },
@@ -3354,7 +3403,7 @@ define([
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl() ;
                     menuParaRemoveControl.setVisible(in_control);
-                    menuParaControlSettings.setVisible(in_control);
+                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl);
                     menuParaControlSeparator.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
@@ -3723,7 +3772,11 @@ define([
         textUpdatePages: 'Refresh page numbers only',
         textTOCSettings: 'Table of contents settings',
         textTOC: 'Table of contents',
-        textRefreshField: 'Refresh field'
+        textRefreshField: 'Refresh field',
+        txtPasteSourceFormat: 'Keep source formatting',
+        textReplace:    'Replace image',
+        textFromUrl:    'From URL',
+        textFromFile:   'From File'
 
     }, DE.Views.DocumentHolder || {}));
 });

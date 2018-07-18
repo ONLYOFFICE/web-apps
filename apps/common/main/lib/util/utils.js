@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -103,7 +103,8 @@ Common.Utils = _.extend(new(function() {
             Chart      : 7,
             MailMerge  : 8,
             Signature  : 9,
-            Pivot      : 10
+            Pivot      : 10,
+            Cell       : 11
         },
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
@@ -759,14 +760,22 @@ Common.Utils.InternalSettings = new(function() {
     var settings = {};
 
     var _get = function(name) {
-        return settings[name];
-    },
-    _set = function(name, value) {
-        settings[name] = value;
-    };
+            return settings[name];
+        },
+        _set = function(name, value) {
+            settings[name] = value;
+        };
 
     return {
         get: _get,
         set: _set
     }
 });
+
+Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
+Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
+Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
+Common.Utils.InternalSettings.set('document-title-height', 28);
+
+Common.Utils.InternalSettings.set('toolbar-height-compact', Common.Utils.InternalSettings.get('toolbar-height-tabs'));
+Common.Utils.InternalSettings.set('toolbar-height-normal', Common.Utils.InternalSettings.get('toolbar-height-tabs') + Common.Utils.InternalSettings.get('toolbar-height-controls'));

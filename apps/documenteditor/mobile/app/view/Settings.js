@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Document Editor
  *
  *  Created by Alexander Yuzhin on 10/7/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -55,7 +55,8 @@ define([
             _canDownload = false,
             _canDownloadOrigin = false,
             _canReader = false,
-            _canAbout = true;
+            _canAbout = true,
+            _canHelp = true;
 
         return {
             // el: '.view-main',
@@ -100,6 +101,10 @@ define([
                 if (mode.customization && mode.canBrandingExt) {
                     _canAbout = (mode.customization.about!==false);
                 }
+
+                if (mode.customization) {
+                    _canHelp = (mode.customization.help!==false);
+                }
             },
 
             rootLayout: function () {
@@ -108,10 +113,8 @@ define([
                         isPhone = Common.SharedSettings.get('phone');
 
                     if (_isEdit) {
-                        $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
-                        if (!_canEdit) $layour.find('#settings-edit-document').hide();
                         $layour.find('#settings-document').hide();
                     }
                     if (!_canReader)
@@ -123,6 +126,7 @@ define([
                     if (!_canDownload) $layour.find('#settings-download-as').hide();
                     if (!_canDownloadOrigin) $layour.find('#settings-download').hide();
                     if (!_canAbout) $layour.find('#settings-about').hide();
+                    if (!_canHelp) $layour.find('#settings-help').hide();
 
                     return $layour.html();
                 }
@@ -213,7 +217,6 @@ define([
                     permissions = _.extend(permissions, data.doc.permissions);
 
                     if (permissions.edit === false) {
-                        $('#settings-edit-document').hide();
                     }
                 }
             },

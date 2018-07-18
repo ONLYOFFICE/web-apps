@@ -1,36 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>REPT Function</title>
+		<title>WIEDERHOLEN-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>REPT Function</h1>
-			<p>The <b>REPT</b> function is one of the text and data functions. Is used to repeat the data in the selected cell as many time as you wish.</p>
-			<p>The <b>REPT</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>REPT(text, number_of_times)</em></b></p> 
-			<p><em>where</em></p>
-			<p style="text-indent: 50px;"><b><em>text</em></b> is data to be repeated.</p> 
-			<p style="text-indent: 50px;"><b><em>number_of_times</em></b> is a number of times you wish to repeat the data you entered.</p>
-			<p>The values can be entered manually or included into the cell you make reference to.</p>
-			<p>To apply the <b>REPT</b> function,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>WIEDERHOLEN-Funktion</h1>
+			<p>Die Funktion <b>WIEDERHOLEN</b> gehört zur Gruppe der Text- und Datenfunktionen. Sie wiederholt einen Text so oft wie angegeben.</p>
+			<p>Die Formelsyntax der Funktion <b>WIEDERHOLEN</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>WIEDERHOLEN(Text;Multiplikator)</em></b></p> 
+			<p><em>Dabei gilt:</em></p>
+			<p style="text-indent: 50px;"><b><em>Text</em></b> ist der Text, den Sie wiederholen möchten.</p> 
+			<p style="text-indent: 50px;"><b><em>Multiplikator</em></b> ist eine positive Zahl, die angibt, wie oft die Wiederholung erfolgen soll.</p>
+			<p>Die nummerischen Werte werden manuell eingegeben oder sind in die Zelle eingeschlossen, auf die Sie Bezug nehmen.</p>
+			<p>Anwendung der Funktion <b>WIEDERHOLEN</b>.</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Text and data</b> function group from the list,</li>
-			<li>click the <b>REPT</b> function,</li>
-			<li>enter the required arguments separating them by comma,
-			</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Funktionsgruppe <b>Text und Daten</b> aus der Liste aus.</li>
+			<li>Klicken Sie auf die Funktion <b>WIEDERHOLEN</b>.</li>
+			<li>Geben Sie die erforderlichen Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="REPT Function" src="../images/rept.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="WIEDERHOLEN-Funktion" src="../images/rept.png" /></p>
 		</div>
 	</body>
 </html>

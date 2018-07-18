@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  PivotTable.js
  *
  *  Created by Julia.Radzhabova on 06.27.17
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -328,9 +328,7 @@ define([
             var selectType = info.asc_getFlags().asc_getSelectionType(),
                 pivotInfo = info.asc_getPivotTableInfo();
 
-            var need_disable = info.asc_getLocked();
-
-            this.view.SetDisabled(!pivotInfo);
+            this.view.SetDisabled(!pivotInfo || info.asc_getLockedPivotTable());
             if (pivotInfo)
                 this.ChangeSettings(pivotInfo);
         },

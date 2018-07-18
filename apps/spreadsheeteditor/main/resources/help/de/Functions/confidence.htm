@@ -1,36 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>CONFIDENCE Function</title>
+		<title>KONFIDENZ-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>CONFIDENCE Function</h1>
-			<p>The <b>CONFIDENCE</b> function is one of the statistical functions. It is used to return the confidence interval.</p>
-			<p>The <b>CONFIDENCE</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>CONFIDENCE(alpha, standard-dev, size)</em></b></p> 
-			<p><em>where</em></p>
-				<p style="text-indent: 50px;"><b><em>alpha</em></b> is the significance level used to compute the confidence level, a numeric value greater than 0 but less than 1.</p> 
-				<p style="text-indent: 50px;"><b><em>standard-dev</em></b> is the population standard deviation, a numeric value greater than 0.</p>
-				<p style="text-indent: 50px;"><b><em>size</em></b> is the sample size, a numeric value greater than or equal to 1.</p>
-				<p>The numeric values can be entered manually or included into the cells you make reference to.</p>
-			<p>To apply the <b>CONFIDENCE</b> function,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>KONFIDENZ-Funktion</h1>
+			<p>Die Funktion <b>KONFIDENZ</b> gehört zur Gruppe der statistischen Funktionen. Sie gibt das Konfidenzintervall für den Erwartungswert einer Zufallsvariablen unter Verwendung der Normalverteilung.</p>
+			<p>Die Formelsyntax der Funktion <b>KONFIDENZ</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>KONFIDENZ(Alpha;Standabwn;Umfang)</em></b></p> 
+			<p><em>Dabei gilt:</em></p>
+				<p style="text-indent: 50px;"><b><em>Alpha</em></b> ist die Irrtumswahrscheinlichkeit bei der Berechnung des Konfidenzintervalls. Ein nummerischer Wert, der größer ist als 0 und kleiner als 1.</p> 
+				<p style="text-indent: 50px;"><b><em>Standabwn</em></b> ist die als bekannt angenommene Standardabweichung der Grundgesamtheit. Ein nummerischer Wert, der größer ist als 0.</p>
+				<p style="text-indent: 50px;"><b><em>Umfang</em></b> ist der Umfang der Stichprobe. Ein nummerischer Wert, größer oder gleich 1.</p>
+				<p>Die nummerischen Werte werden manuell eingegeben oder sind in die Zelle eingeschlossen, auf die Sie Bezug nehmen.</p>
+			<p>Anwendung der Funktion <b>KONFIDENZ</b>:</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Statistical</b> function group from the list,</li>
-			<li>click the <b>CONFIDENCE</b> function,</li>
-			<li>enter the required arguments separating them by commas,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Gruppe <b>Statistische</b> Funktionen aus der Liste aus.</li>
+			<li>Klicken Sie auf die Funktion <b>KONFIDENZ</b>.</li>
+			<li>Geben Sie die erforderlichen Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="CONFIDENCE Function" src="../images/confidence.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="KONFIDENZ-Funktion" src="../images/confidence.png" /></p>
 		</div>
 	</body>
 </html>

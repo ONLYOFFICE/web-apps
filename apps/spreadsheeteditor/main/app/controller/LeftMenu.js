@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -55,6 +55,7 @@ define([
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.Header': {
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'LeftMenu': {
@@ -79,7 +80,8 @@ define([
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
                     'file:open': this.clickToolbarTab.bind(this, 'file'),
-                    'file:close': this.clickToolbarTab.bind(this, 'other')
+                    'file:close': this.clickToolbarTab.bind(this, 'other'),
+                    'save:disabled' : this.changeToolbarSaveState.bind(this)
                 },
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
@@ -249,7 +251,6 @@ define([
         clickSaveAsFormat: function(menu, format) {
             if (format == Asc.c_oAscFileType.CSV) {
                 Common.UI.warning({
-                    closable: false,
                     title: this.textWarning,
                     msg: this.warnDownloadAs,
                     buttons: ['ok', 'cancel'],
@@ -260,6 +261,9 @@ define([
                         }
                     }, this)
                 });
+            } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
+                menu.hide();
+                Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
             } else {
                 this.api.asc_DownloadAs(format);
                 menu.hide();
@@ -274,7 +278,7 @@ define([
             /** coauthoring begin **/
             value = Common.localStorage.getBool("sse-settings-livecomment", true);
             Common.Utils.InternalSettings.set("sse-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+            var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", resolved);
 
             if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
@@ -340,6 +344,10 @@ define([
             if (tab == 'file')
                 this.leftMenu.showMenu('file'); else
                 this.leftMenu.menuFile.hide();
+        },
+
+        changeToolbarSaveState: function (state) {
+            this.leftMenu.menuFile.getButton('save').setDisabled(state);
         },
 
         /** coauthoring begin **/
@@ -684,7 +692,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         this.leftMenu.showMenu('file:help');

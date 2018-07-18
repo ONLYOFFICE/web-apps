@@ -1,37 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>VLOOKUP Function</title>
+		<title>SVERWEIS-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>VLOOKUP Function</h1>
-			<p>The <b>VLOOKUP</b> function is one of the lookup and reference functions. It is used to perform the vertical search for a value in the left-most column of a table or an array and return the value in the same row based on a specified column index number.</p>
-			<p>The <b>VLOOKUP</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>VLOOKUP (lookup-value, table-array, col-index-num[, [range-lookup-flag]])</em></b></p> 
-			<p><em>where</em></p> 
-			<p style="text-indent: 50px;"><b><em>lookup-value</em></b> is a value to search for.</p>
-			<p style="text-indent: 50px;"><b><em>table-array</em></b> is two or more columns containing data sorted in ascending order.</p> 
-			<p style="text-indent: 50px;"><b><em>col-index-num</em></b> is a column number in the <b><em>table-array</em></b>, a numeric value greater than or equal to 1 but less than the number of columns in the <b>table-array</b></p> 
-			<p style="text-indent: 50px;"><b><em>range-lookup-flag</em></b> is a logical value TRUE or FALSE. It is an optional argument. Enter FALSE to find an exact match. Enter TRUE or omit this argument to find an approximate match, in this case if there is not a value that strictly matches the <b><em>lookup-value</em></b>, then the function will choose the next largest value less than the <b><em>lookup-value</em></b>.
-			<p class="note"><b>Note</b>: if the <b><em>range-lookup-flag</em></b> is set to FALSE, but no exact match is found, then the function will return the <b>#N/A</b> error.</p>
-			<p>To apply the <b>VLOOKUP</b> function,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>SVERWEIS-Funktion</h1>
+			<p>Die Funktion <b>SVERWEIS</b> gehört zur Gruppe der Nachschlage- und Verweisfunktionen. Sie führt eine vertikale Suche nach einem Wert in der linken Spalte einer Tabelle oder eines Arrays aus, und gibt den Wert in derselben Zeile basierend auf einer angegebenen Spaltenindexnummer zurück.</p>
+			<p>Die Formelsyntax der Funktion <b>SVERWEIS</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>SVERWEIS(Suchkriterium;Suchbereich;SpaltenIndex;Übereinstimmung)</em></b></p> 
+			<p><em>Dabei gilt:</em></p> 
+			<p style="text-indent: 50px;"><b><em>Suchkriterium</em></b> ist der Wert nach dem gesucht wird.</p>
+			<p style="text-indent: 50px;"><b><em>Suchbereich</em></b> sind zwei oder mehr Spalten die in aufsteigender Reihenfolge sortiert sind.</p> 
+			<p style="text-indent: 50px;"><b><em>SpaltenIndex</em></b> ist eine Spaltennummer im <b><em>Suchbereich</em></b>, ein numerischer Wert der größer oder gleich 1 ist, aber kleiner als die Gesamtanzahl der Spalten im <b>Suchbereich</b>.</p> 
+			<p style="text-indent: 50px;"><b><em>Übereinstimmung</em></b> ist die Angabe der Wahrheitswerte WAHR oder FALSCH. Dieses Argument ist optional. Geben Sie FALSCH an, um eine genaue Übereinstimmung des Rückgabewerts zu finden. Geben Sie WAHR ein oder lassen Sie dieses Argument aus, um eine ungefähre Übereinstimmung zu finden; in diesem Fall wählt die Funktion den nächstgrößeren Wert als <b><em>Suchkriterium</em></b> aus, wenn kein Wert vorhanden ist, der genau dem <b><em>Suchkriterium</em></b> entspricht.<p class="note"><b>Hinweis</b>: Ist für <b><em>Übereinstimmung</em></b> FALSCH festgelegt, aber es wird keine exakte Übereinstimmung gefunden wird, gibt die Funktion den Fehler <b>#NV</b> zurück.</p>
+			<p>Anwendung der Funktion <b>SVERWEIS</b>:</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Lookup and Reference</b> function group from the list,</li>
-			<li>click the <b>VLOOKUP</b> function,</li>
-			<li>enter the required arguments separating them by comma,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Funktionsgruppe <b>Nachschlage- und Verweisfunktionen</b> aus der Liste aus.</li>
+			<li>Klicken Sie auf die Funktion <b>SVERWEIS</b>.</li>
+			<li>Geben Sie die erforderlichen Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="VLOOKUP Function" src="../images/vlookup.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="SVERWEIS-Funktion" src="../images/vlookup.png" /></p>
 		</div>
 	</body>
 </html>

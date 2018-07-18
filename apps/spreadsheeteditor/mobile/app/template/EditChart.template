@@ -385,7 +385,7 @@
                                     <div class="item-title"><%= scope.textMinValue %></div>
                                     <div class="item-after">
                                         <div class="item-input">
-                                            <input class="field right placeholder-color" type="number" placeholder="Auto">
+                                            <input class="field right placeholder-color" type="number" placeholder="<%= scope.textAuto %>">
                                         </div>
                                     </div>
                                 </div>
@@ -397,7 +397,7 @@
                                     <div class="item-title"><%= scope.textMaxValue %></div>
                                     <div class="item-after">
                                         <div class="item-input">
-                                            <input class="field right placeholder-color" type="number" placeholder="Auto">
+                                            <input class="field right placeholder-color" type="number" placeholder="<%= scope.textAuto %>">
                                         </div>
                                     </div>
                                 </div>

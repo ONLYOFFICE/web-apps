@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ImageSettings.js
  *
  *  Created by Julia Radzhabova on 4/11/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -174,7 +174,7 @@ define([
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined || this._locked);
 
                 var pluginGuid = props.asc_getPluginGuid();
-                value = (pluginGuid !== null && pluginGuid !== undefined);
+                value = (pluginGuid !== null && pluginGuid !== undefined); // undefined - only images are selected, null - selected images and ole-objects
                 if (this._state.isOleObject!==value) {
                     this.btnInsertFromUrl.setVisible(!value);
                     this.btnInsertFromFile.setVisible(!value);

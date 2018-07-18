@@ -1,36 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>NETWORKDAYS Function</title>
+		<title>NETTOARBEITSTAGE-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>NETWORKDAYS Function</h1>
-			<p>The <b>NETWORKDAYS</b> function is one of the date and time functions. It is used to return the number of the work days between two dates (start date and end-date) excluding weekends and dates considered as holidays.</p>
-			<p>The <b>NETWORKDAYS</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>NETWORKDAYS(start-date, end-date [,holidays])</em></b></p> 
-			<p>where</p> 
-				<p style="text-indent: 50px;"><b><em>start-date</em></b> is a number representing the first date of the period, entered using the <a href="Date.htm" onclick="onhyperlinkclick(this)">Date</a> function or other date and time function.</p>
-				<p style="text-indent: 50px;"><b><em>end-date</em></b> is a number representing the last date of the period, entered using the <a href="Date.htm" onclick="onhyperlinkclick(this)">Date</a> function or other date and time function.</p>
-				<p style="text-indent: 50px;"><b><em>holidays</em></b> are optional arguments entered manually as a list of serial numbers or included into the cells you make reference to.</p>
-			<p>To apply the <b>NETWORKDAYS</b> function,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>NETTOARBEITSTAGE-Funktion</h1>
+			<p>Die Funktion <b>NETTOARBEITSTAGE</b> gehört zur Gruppe der Daten- und Zeitfunktionen. Sie gibt die Anzahl der Arbeitstage in einem Zeitintervall zurück (Ausgangsdatum und Enddatum). Nicht zu den Arbeitstagen gezählt werden Wochenenden sowie die Tage, die als Feiertage angegeben sind.</p>
+			<p>Die Formelsyntax der Funktion <b>NETTOARBEITSTAGE</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>NETTOARBEITSTAGE(Ausgangsdatum;Enddatum;[Freie_Tage])</em></b></p> 
+			<p>Dabei gilt:</p> 
+				<p style="text-indent: 50px;"><b><em>Ausgangsdatum</em></b> ist das erste Datum des Zeitraums, der mit der Funktion <a href="Date.htm" onclick="onhyperlinkclick(this)">Datum</a> oder einer anderen Datums- und Uhrzeitfunktion eingegeben wurde.</p>
+				<p style="text-indent: 50px;"><b><em>Enddatum</em></b> ist eine Zahl, die das letzte Datum des Zeitraums darstellt, das mit der Funktion <a href="Date.htm" onclick="onhyperlinkclick(this)">Datum</a> oder einer anderen Datums- und Uhrzeitfunktion eingegeben wurde.</p>
+            <p style="text-indent: 50px;"><b><em>Freie_Tage</em></b> ist eine optionale Liste einer oder mehrerer Datumsangaben, die alle Arten von arbeitsfreien Tagen repräsentieren kann, die aus dem Arbeitskalender ausgeschlossen werden sollen. Sie können dieses Argument mit der Funktion <a href="Date.htm" onclick="onhyperlinkclick(this)">Datum</a> oder einer anderen Datums- und Uhrzeitfunktion eingeben oder einen Zellbereich mit Daten angeben.</p>
+			<p>Anwendung der Funktion <b>NETTOARBEITSTAGE</b>:</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Date and time</b> function group from the list,</li>
-			<li>click the <b>NETWORKDAYS</b> function,</li>
-			<li>enter the required arguments separating them by commas,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Funktionsgruppe <b>Datums- und Uhrzeitfunktionen</b> aus der Liste aus.</li>
+			<li>Klicken Sie auf die Funktion <b>NETTOARBEITSTAGE</b>.</li>
+			<li>Geben Sie die erforderlichen Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="NETWORKDAYS Function" src="../images/networkdays.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="NETTOARBEITSTAGE-Funktion" src="../images/networkdays.png" /></p>
 		</div>
 	</body>
 </html>

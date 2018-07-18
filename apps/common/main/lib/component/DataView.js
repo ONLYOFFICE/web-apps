@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  A mechanism for displaying data using custom layout templates and formatting.
  *
  *  Created by Alexander Yuzhin on 1/24/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -140,9 +140,10 @@ define([
             el.html(this.template(this.model.toJSON()));
             el.addClass('item');
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
-            el.off('click').on('click', _.bind(this.onClick, this));
-            el.off('dblclick').on('dblclick', _.bind(this.onDblClick, this));
-            el.off('contextmenu').on('contextmenu', _.bind(this.onContextMenu, this));
+            el.off('click dblclick contextmenu');
+            el.on({ 'click': _.bind(this.onClick, this),
+                'dblclick': _.bind(this.onDblClick, this),
+                'contextmenu': _.bind(this.onContextMenu, this) });
             el.toggleClass('disabled', !!this.model.get('disabled'));
 
             if (!_.isUndefined(this.model.get('cls')))
@@ -197,6 +198,7 @@ define([
             emptyText: '',
             listenStoreEvents: true,
             allowScrollbar: true,
+            scrollAlwaysVisible: false,
             showLast: true,
             useBSKeydown: false
         },
@@ -239,6 +241,7 @@ define([
             me.emptyText      = me.options.emptyText    || '';
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
+            me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -275,6 +278,13 @@ define([
                 }));
             }
 
+            var modalParents = this.cmpEl.closest('.asc-window');
+            if (modalParents.length < 1)
+                modalParents = this.cmpEl.closest('[id^="menu-container-"]'); // context menu
+            if (modalParents.length > 0) {
+                this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
+            }
+
             if (!this.rendered) {
                 if (this.listenStoreEvents) {
                     this.listenTo(this.store, 'add',    this.onAddItem);
@@ -308,13 +318,9 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : 40,
-                    wheelSpeed: 10
+                    wheelSpeed: 10,
+                    alwaysVisibleY: this.scrollAlwaysVisible
                 });
-            }
-
-            var modalParents = this.cmpEl.closest('.asc-window');
-            if (modalParents.length > 0) {
-                this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
             }
 
             this.rendered = true;
@@ -361,11 +367,12 @@ define([
 
             if (suspendEvents)
                 this.resumeEvents();
+            return record;
         },
 
         selectByIndex: function(index, suspendEvents) {
             if (this.store.length > 0 && index > -1 && index < this.store.length) {
-                this.selectRecord(this.store.at(index), suspendEvents);
+                return this.selectRecord(this.store.at(index), suspendEvents);
             }
         },
 
@@ -480,7 +487,8 @@ define([
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : 40,
-                    wheelSpeed: 10
+                    wheelSpeed: 10,
+                    alwaysVisibleY: this.scrollAlwaysVisible
                 });
             }
 
@@ -547,7 +555,7 @@ define([
 
             window._event = e;  //  for FireFox only
 
-            this.selectRecord(record);
+            if (this.showLast) this.selectRecord(record);
             this.lastSelectedRec = null;
 
             if (!this.isSuspendEvents) {
@@ -568,18 +576,21 @@ define([
         },
 
         scrollToRecord: function (record) {
+            if (!record) return;
             var innerEl = $(this.el).find('.inner'),
                 inner_top = innerEl.offset().top,
                 idx = _.indexOf(this.store.models, record),
                 div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
             
-            var div_top = div.offset().top;
-            if (div_top < inner_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
+            var div_top = div.offset().top,
+                div_first = $(this.dataViewItems[0].el),
+                div_first_top = (div_first.length>0) ? div_first[0].offsetTop : 0;
+            if (div_top < inner_top + div_first_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
                 if (this.scroller && this.allowScrollbar) {
-                    this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top, 0);
+                    this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);
                 } else {
-                    innerEl.scrollTop(innerEl.scrollTop() + div_top - inner_top);
+                    innerEl.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top);
                 }
             }
         },
@@ -716,14 +727,16 @@ define([
                 margins =  parseInt(parent.css('margin-top')) + parseInt(parent.css('margin-bottom')) + parseInt(menuRoot.css('margin-top')),
                 paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
                 menuH = menuRoot.outerHeight(),
-                top = parseInt(menuRoot.css('top'));
+                top = parseInt(menuRoot.css('top')),
+                props = {minScrollbarLength  : 40};
+            this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
 
             if (top + menuH > docH ) {
                 innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
-                if (this.allowScrollbar) this.scroller.update({minScrollbarLength  : 40});
+                if (this.allowScrollbar) this.scroller.update(props);
             } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
                 innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
-                if (this.allowScrollbar) this.scroller.update({minScrollbarLength  : 40});
+                if (this.allowScrollbar) this.scroller.update(props);
             }
         },
 

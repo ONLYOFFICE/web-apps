@@ -1,64 +1,66 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>DATEDIF Function</title>
+		<title>DATUMIF-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>DATEDIF Function</h1>
-			<p>The <b>DATEDIF</b> function is one of the date and time functions. It is used to return the difference between two date values (start date and end date), based on the interval (unit) specified.</p>
-			<p>The <b>DATEDIF</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>DATEDIF(start-date, end-date, unit)</em></b></p> 
-			<p><em>where</em></p>
-			<p style="text-indent: 50px;"><b><em>start-date</em></b> and <b><em>end-date</em></b> are two dates you wish to calculate the difference between.</p>
-			<p style="text-indent: 50px;"><b><em>unit</em></b> is the specified interval that can be one of the following:</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>DATUMIF-Funktion</h1>
+			<p>Die Funktion <b>DATUMIF</b> gehört zur Gruppe der Daten- und Zeitfunktionen. Sie berechnet die Differenz zwischen zwei Datumsangaben (Start- und Enddatum), basierend auf der angegebenen Einheit.</p>
+			<p>Die Formelsyntax der Funktion <b>DATUMIF</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>DATEDIF(Ausgangsdatum;Enddatum;Einheit)</em></b></p> 
+			<p><em>Dabei gilt:</em></p>
+			<p style="text-indent: 50px;"><b><em>Ausgangsdatum</em></b> und <b><em>Enddatum</em></b> sind die beiden Datumswerte, für die Sie die dazwischen liegenden Tage berechnen möchten.</p>
+			<p style="text-indent: 50px;"><b><em>Einheit</em></b> ist das angegebene Zeitintervall. Mögliche Einheiten sind:</p>
 			<table style="width: 40%">
 				<tr>
-					<td><b>Unit</b></td>
-					<td><b>Interval Explanation</b></td>
+					<td><b>Einheit</b></td>
+					<td><b>Bedeutung</b></td>
 				</tr>
 				<tr>
-					<td>Y</td>
-					<td>The number of complete years.</td>
+					<td>J</td>
+					<td>Die Anzahl der vollständigen Jahre im Zeitraum</td>
 				</tr>
 				<tr>
 					<td>M</td>
-					<td>The number of complete months.</td>
+					<td>Die Anzahl der vollständigen Monate im Zeitraum</td>
 				</tr>
 				<tr>
-					<td>D</td>
-					<td>The number of days.</td>
+					<td>T</td>
+					<td>Die Anzahl der vollständigen Tage im Zeitraum</td>
 				</tr>
 				<tr>
-					<td>MD</td>
-					<td>The difference between the days (months and years are ignored).</td>
+					<td>MT</td>
+					<td>Die Differenz zwischen den Tagen (Monate und Jahre werden ignoriert).</td>
 				</tr>
 				<tr>
-					<td>YM</td>
-					<td>The difference between the months (days and years are ignored).</td>
+					<td>JM</td>
+					<td>Die Differenz zwischen den Monaten (Tage und Jahre werden ignoriert).</td>
 				</tr>
 				<tr>
-					<td>YD</td>
-					<td>The difference between the days (years are ignored).</td>
+					<td>JT</td>
+					<td>Die Differenz zwischen den Tagen (Jahre werden ignoriert).</td>
 				</tr>
 			</table>
-			<p>To apply the <b>DATEDIF</b> function,</p>
+			<p>Anwendung der Funktion <b>DATUMIF</b>.</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Date and time</b> function group from the list,</li>
-			<li>click the <b>DATEDIF</b> function,</li>
-			<li>enter the required arguments separating them by commas,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Funktionsgruppe <b>Datums- und Uhrzeitfunktionen</b> aus der Liste aus.</li>
+			<li>Klicken Sie auf die Funktion <b>DATUMIF</b>.</li>
+			<li>Geben Sie die erforderlichen Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="DATEDIF Function" src="../images/datedif.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="DATUMIF-Funktion" src="../images/datedif.png" /></p>
 		</div>
 	</body>
 </html>

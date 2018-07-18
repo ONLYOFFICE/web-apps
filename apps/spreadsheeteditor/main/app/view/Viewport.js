@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    View for viewport
  *
  *    Created by Maxim Kadushkin on 24 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -85,18 +85,20 @@ define([
             var items = $container.find(' > .layout-item');
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
-                items: [
-                {
-                    // el: items[0],    // decorative element for view mode for desktop
-                    // height: 5
-                // }, {
-                    el: items[0],
-                    height: Common.localStorage.getBool('sse-compact-toolbar') ? 32 : 32+67
-                }, {
+                items: [{
+                    el: $container.find('> .layout-item#app-title').hide(),
+                    alias: 'title',
+                    height: Common.Utils.InternalSettings.get('document-title-height')
+                },{
                     el: items[1],
-                    stretch: true
+                    alias: 'toolbar',
+                    height: Common.localStorage.getBool('sse-compact-toolbar') ?
+                        Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal')
                 }, {
                     el: items[2],
+                    stretch: true
+                }, {
+                    el: items[3],
                     height: 25
                 }]
             });
@@ -112,7 +114,8 @@ define([
                         hidden: true,
                         autohide: false,
                         min: 300,
-                        max: 600
+                        max: 600,
+                        offset: 4
                     }
                 }, {
                     el: items[1],

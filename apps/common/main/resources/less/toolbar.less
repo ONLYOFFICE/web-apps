@@ -1,3 +1,4 @@
+@height-title: 28px;
 @height-tabs: 32px;
 @height-controls: 67px;
 
@@ -21,11 +22,11 @@
         }
 
         &:not(.expanded):not(.cover){
-          .ribtab.active {
-            > a {
-              font-weight: normal;
+            .ribtab.active {
+                > a {
+                    font-weight: normal;
+                }
             }
-          }
         }
     }
 
@@ -58,89 +59,72 @@
         overflow: hidden;
         display: flex;
 
-    > ul {
-      padding: 0;
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      list-style: none;
-      font-size: 0;
-    }
-
-    li {
-      display: inline-block;
-      height: 100%;
-      //background-color: #a6c995;
-
-        position: relative;
-        .tab-bg {
-            position: absolute;
-            height: 28px;
-            width: 100%;
-            top: 4px;
-            background-color: @tabs-bg-color;
+        > ul {
+            padding: 4px 0 0;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            list-style: none;
+            font-size: 0;
         }
 
-        &:hover {
-            .tab-bg {
+        li {
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+
+            &:hover {
                 background-color: rgba(255,255,255,0.2);
             }
-        }
 
-        &.active {
-            .tab-bg {
+            &.active {
                 background-color: @gray-light;
+            }
+
+
+            > a {
+                display: inline-block;
+                padding: 0 12px;
+                text-decoration: none;
+                cursor: default;
+                font-size: 12px;
+                text-align: center;
+                color: #fff;
+            }
+
+            &.active {
+                > a {
+                    color: #444;
+                }
             }
         }
 
-
-      > a {
-        display: inline-block;
-        line-height: @height-tabs;
-        height: 100%;
-        padding: 1px 12px;
-        text-decoration: none;
-        cursor: default;
-        font-size: 12px;
-        text-align: center;
-        color: #fff;
-
-          position: relative;
-      }
-
-      &.active {
-        > a {
-            color: #444;
+        &:not(.short) {
+            .scroll {
+                display: none;
+            }
         }
-      }
+
+        .scroll {
+            line-height: @height-tabs;
+            min-width: 20px;
+            text-align: center;
+            z-index: 1;
+            cursor: pointer;
+            color: #fff;
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            &.left{
+                box-shadow: 5px 0 20px 5px @tabs-bg-color
+            }
+            &.right{
+                box-shadow: -5px 0 20px 5px @tabs-bg-color
+            }
+        }
     }
-
-    &:not(.short) {
-      .scroll {
-        display: none;
-      }
-    }
-
-    .scroll {
-      line-height: @height-tabs;
-      min-width: 20px;
-      text-align: center;
-      z-index: 1;
-      cursor: pointer;
-      color: #fff;
-
-      &:hover {
-        text-decoration: none;
-      }
-
-      &.left{
-        box-shadow: 5px 0 20px 5px @tabs-bg-color
-      }
-      &.right{
-        box-shadow: -5px 0 20px 5px @tabs-bg-color
-      }
-    }
-  }
 
     .box-controls {
         //height: @height-controls;         // button has strange offset in IE when odd height
@@ -229,21 +213,47 @@
             margin-top: 3px;
         }
     }
+
+    .top-title > & {
+        &:not(.folded) {
+            height: 28 + @height-controls;
+        }
+
+        &.folded {
+            height: 28px;
+
+            &.expanded {
+                height: 28 + @height-controls;
+            }
+        }
+
+        .tabs > ul {
+            padding-top: 0;
+        }
+
+        .box-tabs {
+            height: 28px;
+        }
+    }
+
 }
 
 .toolbar-fullview-panel {
     position: absolute;
-    top: @height-tabs;
     bottom: 0;
     width: 100%;
-    z-index: 1041;
+    z-index: @zindex-navbar + 3;
 }
 
 .toolbar {
     &.cover {
         ul {
-            z-index: 1042;
+            z-index: @zindex-navbar + 4;
         }
+    }
+
+    &:not(.cover):not(.z-clear) {
+        z-index: @zindex-navbar + 1;
     }
 }
 
@@ -311,3 +321,4 @@
 .button-normal-icon(~'x-huge .btn-contents', 53, @toolbar-big-icon-size);
 .button-normal-icon(btn-controls,         54, @toolbar-big-icon-size);
 .button-normal-icon(~'x-huge .btn-select-pivot', 55, @toolbar-big-icon-size);
+.button-normal-icon(~'x-huge .btn-bookmarks', 56, @toolbar-big-icon-size);

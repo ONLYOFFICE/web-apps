@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  ComboBox.js
  *
  *  Created by Alexander Yuzhin on 1/22/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -193,6 +193,15 @@ define([
                         if (modalParents.length > 0) {
                             el.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                         }
+
+                        el.find('.dropdown-menu').on('mouseenter', function(){ // hide tooltip when mouse is over menu
+                            var tip = el.data('bs.tooltip');
+                            if (tip) {
+                                if (tip.dontShow===undefined)
+                                    tip.dontShow = true;
+                                tip.hide();
+                            }
+                        });
                     }
 
                     el.on('show.bs.dropdown',             _.bind(me.onBeforeShowMenu, me));

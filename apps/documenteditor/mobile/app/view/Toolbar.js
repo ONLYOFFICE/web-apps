@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Document Editor
  *
  *  Created by Alexander Yuzhin on 9/23/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -62,7 +62,8 @@ define([
                 "click #toolbar-search"     : "searchToggle",
                 "click #toolbar-edit"       : "showEdition",
                 "click #toolbar-add"        : "showInserts",
-                "click #toolbar-settings"   : "showSettings"
+                "click #toolbar-settings"   : "showSettings",
+                "click #toolbar-edit-document": "editDocument"
             },
 
             // Set innerHTML and get the references to the DOM elements
@@ -92,7 +93,7 @@ define([
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
-                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back').addClass('disabled');
+                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document').addClass('disabled');
 
                 return me;
             },
@@ -100,6 +101,8 @@ define([
             setMode: function (mode) {
                 if (mode.isEdit) {
                     $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
+                } else if (mode.canEdit && mode.canRequestEditRights){
+                    $('#toolbar-edit-document').show();
                 }
             },
 
@@ -145,6 +148,10 @@ define([
             // Settings
             showSettings: function () {
                 DE.getController('Settings').showModal();
+            },
+
+            editDocument: function () {
+                Common.Gateway.requestEditRights();
             },
 
             textBack: 'Back'

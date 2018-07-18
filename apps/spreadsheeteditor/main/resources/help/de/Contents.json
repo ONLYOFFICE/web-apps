@@ -1,26 +1,166 @@
 ﻿[
-    {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Erstellen Sie eine neue oder öffnen Sie eine vorhandene Tabelle", "headername": "Gebrauchsanweisung"},
-    {"src": "UsageInstructions/ManageSheets.htm", "name": "Verwalten Sie die Blätter"},
-    {"src": "UsageInstructions/InsertDeleteCells.htm", "name": "Löschen und fügen Sie die Zellen, Zeilen und Spalten ein"},
-    {"src": "UsageInstructions/CopyPasteData.htm", "name": "Kopieren, fügen Sie die Daten ein, schneiden Sie diese aus"},
-    {"src": "UsageInstructions/FontTypeSizeStyle.htm", "name": "Bestimmen Sie die Schriftart, -größe, Farben und Stil"},
-	{"src": "UsageInstructions/AlignText.htm", "name": "Richten Sie die Daten in den Zellen aus"},
-	{"src": "UsageInstructions/AddBorders.htm", "name": "Fügen Sie einen Rahmen hinzu"},
-	{"src": "UsageInstructions/MergeCells.htm", "name": "Vereinigen Sie die Zellen"},
-	{"src": "UsageInstructions/InsertImages.htm", "name": "Fügen Sie die Bilder ein"},
-	{"src": "UsageInstructions/AddHyperlinks.htm", "name": "Fügen Sie die Hyperlinks ein"},
-	{"src": "UsageInstructions/InsertChart.htm", "name": "Fügen Sie die Diagramme ein"},
-	{"src": "UsageInstructions/ClearFormatting.htm", "name": "Löschen Sie den Text, das Format in einer Zelle"},
-	{"src": "UsageInstructions/SortData.htm", "name": "Sortieren und filtern Sie die Daten"},
-	{"src": "UsageInstructions/InsertFunction.htm", "name": "Fügen Sie die Funktionen ein"},
-	{"src": "UsageInstructions/ChangeNumberFormat.htm", "name": "Ändern Sie das Zahlenformat"},
-	{"src": "UsageInstructions/UndoRedo.htm", "name": "Machen Sie Ihre Aktionen rückgängig und wiederholen Sie diese"},
-	{"src": "UsageInstructions/ViewDocInfo.htm", "name": "Sehen Sie die Informationen über Ihre Tabelle"},
-	{"src": "UsageInstructions/SavePrintDownload.htm", "name": "Speichern/drucken/laden Sie Ihre Tabelle herunter"},
-	{"src": "HelpfulHints/About.htm", "name": "Über den TeamLab Spreadsheet Editor", "headername": "Hilfreiche Hinweise"},
-	{"src": "HelpfulHints/SupportedFormats.htm", "name": "Unterstützte Formate der Tabellen"},
-	{"src": "HelpfulHints/Navigation.htm", "name": "Navigation durch Ihre Tabelle"},
-	{"src": "HelpfulHints/Search.htm", "name": "Suchfunktion"},
-	{"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Gemeinsame Bearbeitung der Tabellen"},
-	{"src": "HelpfulHints/KeyboardShortcuts.htm", "name": "Tastaturkürzel"}
+  {
+    "src": "ProgramInterface/ProgramInterface.htm",
+    "name": "Einführung in die Benutzeroberfläche des Tabellenkalkulationseditors",
+    "headername": "Benutzeroberfläche"
+  },
+  {
+    "src": "ProgramInterface/FileTab.htm",
+    "name": "Registerkarte Datei"
+  },
+  {
+    "src": "ProgramInterface/HomeTab.htm",
+    "name": "Registerkarte Start"
+  },
+  {
+    "src": "ProgramInterface/InsertTab.htm",
+    "name": "Registerkarte Einfügen"
+  },
+  {
+    "src": "ProgramInterface/PivotTableTab.htm",
+    "name": "Registerkarte Pivot-Tabelle"
+  },
+  {
+    "src": "ProgramInterface/CollaborationTab.htm",
+    "name": "Registerkarte Zusammenarbeit"
+  },
+  {
+    "src": "ProgramInterface/PluginsTab.htm",
+    "name": "Registerkarte Plug-ins"
+  },
+  {
+    "src": "UsageInstructions/OpenCreateNew.htm",
+    "name": "Eine neue Kalkulationstabelle erstellen oder eine vorhandene öffnen",
+    "headername": "Grundfunktionen"
+  },
+  {
+    "src": "UsageInstructions/CopyPasteData.htm",
+    "name": "Daten ausschneiden/kopieren/einfügen"
+  },
+  {
+    "src": "UsageInstructions/UndoRedo.htm",
+    "name": "Aktionen rückgängig machen/wiederholen"
+  },
+  {
+    "src": "UsageInstructions/ManageSheets.htm",
+    "name": "Tabellenblätter verwalten",
+    "headername": "Mit Tabellenblättern arbeiten"
+  },
+  {
+    "src": "UsageInstructions/FontTypeSizeStyle.htm",
+    "name": "Schriftart, -größe und -farbe festlegen",
+    "headername": "Textformatierung"
+  },
+  {
+    "src": "UsageInstructions/AddHyperlinks.htm",
+    "name": "Hyperlink einfügen"
+  },
+  {
+    "src": "UsageInstructions/ClearFormatting.htm",
+    "name": "Text oder Zellformatierung löschen, Zellenformat kopieren"
+  },
+  {
+    "src": "UsageInstructions/AddBorders.htm",
+    "name": "Rahmen hinzufügen",
+    "headername": "Zelleigenschaften bearbeiten"
+  },
+  {
+    "src": "UsageInstructions/AlignText.htm",
+    "name": "Daten in Zellen ausrichten"
+  },
+  {
+    "src": "UsageInstructions/MergeCells.htm",
+    "name": "Zellen verbinden"
+  },
+  {
+    "src": "UsageInstructions/ChangeNumberFormat.htm",
+    "name": "Zahlenformat ändern"
+  },
+  {
+    "src": "UsageInstructions/InsertDeleteCells.htm",
+    "name": "Verwalten von Zellen, Zeilen und Spalten",
+    "headername": "Zeilen/Spalten bearbeiten"
+  },
+  {
+    "src": "UsageInstructions/SortData.htm",
+    "name": "Daten filtern und sortieren"
+  },
+  {
+    "src": "UsageInstructions/PivotTables.htm",
+    "name": "Pivot-Tabellen bearbeiten"
+  },
+  {
+    "src": "UsageInstructions/InsertFunction.htm",
+    "name": "Funktion einfügen",
+    "headername": "Mit Funktionen arbeiten"
+  },
+  {
+    "src": "UsageInstructions/UseNamedRanges.htm",
+    "name": "Namensbereiche verwenden"
+  },
+  {
+    "src": "UsageInstructions/InsertImages.htm",
+    "name": "Bilder einfügen",
+    "headername": "Objekte bearbeiten"
+  },
+  {
+    "src": "UsageInstructions/InsertChart.htm",
+    "name": "Diagramm einfügen"
+  },
+  {
+    "src": "UsageInstructions/InsertAutoshapes.htm",
+    "name": "AutoFormen einfügen und formatieren"
+  },
+  {
+    "src": "UsageInstructions/InsertTextObjects.htm",
+    "name": "Textobjekte einfügen"
+  },
+  {
+    "src": "UsageInstructions/ManipulateObjects.htm",
+    "name": "Objekte formatieren"
+  },
+  {
+    "src": "UsageInstructions/InsertEquation.htm",
+    "name": "Formeln einfügen",
+    "headername": "Mathematische Formeln"
+  },
+  {
+    "src": "HelpfulHints/CollaborativeEditing.htm",
+    "name": "Gemeinsame Bearbeitung von Kalkulationstabellen",
+    "headername": "Co-Bearbeitung von Tabellenblättern"
+  },
+  {
+    "src": "UsageInstructions/ViewDocInfo.htm",
+    "name": "Tabelleneigenschaften anzeigen",
+    "headername": "Werkzeuge und Einstellungen"
+  },
+  {
+    "src": "UsageInstructions/SavePrintDownload.htm",
+    "name": "Kalkulationstabelle speichern/drucken/herunterladen"
+  },
+  {
+    "src": "HelpfulHints/AdvancedSettings.htm",
+    "name": "Erweiterte Einstellungen des Kalkulationstabelleneditors"
+  },
+  {
+    "src": "HelpfulHints/Navigation.htm",
+    "name": "Ansichtseinstellungen und Navigationswerkzeuge"
+  },
+  {
+    "src": "HelpfulHints/Search.htm",
+    "name": "Such- und Ersatzfunktionen"
+  },
+  {
+    "src": "HelpfulHints/About.htm",
+    "name": "Über den Kalkulationstabelleneditor",
+    "headername": "Nützliche Hinweise"
+  },
+  {
+    "src": "HelpfulHints/SupportedFormats.htm",
+    "name": "Unterstützte Formate für Kalkulationstabellen"
+  },
+  {
+    "src": "HelpfulHints/KeyboardShortcuts.htm",
+    "name": "Tastenkombinationen"
+  }
 ]

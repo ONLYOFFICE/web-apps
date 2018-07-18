@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Contains views for menu 'File'
  *
  *    Created by Maxim Kadushkin on 20 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -54,11 +54,12 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
         ],[
 //            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
-//            {name: 'RTF',   imgCls: 'doc-format btn-rtf',   type: Asc.c_oAscFileType.RTF},
+            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF},
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
 //            {name: 'EPUB',  imgCls: 'doc-format btn-epub',  type: Asc.c_oAscFileType.EPUB}
         ]],
@@ -69,7 +70,9 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><span class="btn-doc-format img-doc-format <%= item.imgCls %>" format="<%= item.type %>"/></td>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>">',
+                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -530,7 +533,11 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
-                '<div class="blank-document-btn img-doc-format"></div>',
+                '<div class="blank-document-btn">',
+                    '<svg class="btn-doc-format">',
+                        '<use xlink:href="#svg-format-docx"></use>',
+                    '</svg>',
+                '</div>',
                 '<div class="blank-document-info">',
                     '<h3><%= scope.newDocumentText %></h3>',
                     '<%= scope.newDescriptionText %>',
@@ -540,7 +547,13 @@ define([
             '<div class="thumb-list">',
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"<% if (!_.isEmpty(item.icon)) { %> style="background-image: url(<%= item.icon %>);" <% } %> />',
+                        '<div class="thumb"',
+                        '<% if (!_.isEmpty(item.icon)) { ' +
+                            'print(\" style=\'background-image: url(item.icon);\'>\")' +
+                        ' } else { ' +
+                            'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                        ' } %>',
+                        '</div>',
                         '<div class="title"><%= item.name %></div>',
                     '</div>',
                 '<% }) %>',
@@ -1115,7 +1128,7 @@ define([
                 '<div id="fms-btn-add-pwd" style="width:190px;"></div>',
                 '<table id="id-fms-view-pwd" cols="2" width="300">',
                     '<tr>',
-                        '<td colspan="2"><span style="cursor: default;"><%= scope.txtEncrypted %></span></td>',
+                        '<td colspan="2"><label style="cursor: default;"><%= scope.txtEncrypted %></label></td>',
                     '</tr>',
                     '<tr>',
                         '<td><div id="fms-btn-change-pwd" style="width:190px;"></div></td>',
@@ -1139,7 +1152,7 @@ define([
             this.templateSignature = _.template([
                 '<table cols="2" width="300" class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>"">',
                     '<tr>',
-                        '<td colspan="2"><span style="cursor: default;"><%= tipText %></span></td>',
+                        '<td colspan="2"><label style="cursor: default;"><%= tipText %></label></td>',
                     '</tr>',
                     '<tr>',
                         '<td><label class="link signature-view-link">' + me.txtView + '</label></td>',

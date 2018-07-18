@@ -1,34 +1,35 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>MDETERM-Funktion</title>
+		<title>MDET-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>MDETERM-Funktion</h1>
-			<p>Die <b>MDETERM</b>-Funktion ist eine der mathematischen und trigonometrischen Funktionen. Sie wird genutzt, um die Determinante der Matrix im Array zurückzugeben.</p>
-			<p>Die <b>MDETERM</b>-Funktionssyntax ist:</p> 
-			<p style="text-indent: 150px;"><b><em>MDETERM(array)</em></b></p> 
-			<p>wo <b><em>array</em></b> die Reihe von Zahlen ist.</p>
-			<p class="note"><b>Hinweis</b>: Falls eine der Zellen im Array leere oder nicht-numerische Werte enthält, gibt die Funktion den Fehler <b>#N/A</b> zurück.<br />
-				Wenn die Zeilenanzahl im Array nicht genauso wie die Anzahl der Spalten ist, gibt die Funktion den Fehler <b>#VALUE!</b> zurück.</p>
-			<p>Um die <b>MDETERM</b>-Funktion anzuwenden,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>MDET-Funktion</h1>
+			<p>Die Funktion <b>MDET</b> gehört zur Gruppe der mathematischen und trigonometrischen Funktionen. Sie gibt die Determinante einer Matrix zurück.</p>
+			<p>Die Formelsyntax der Funktion <b>MDET</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>MDET(Matrix)</em></b></p> 
+			<p><b><em>Matrix</em></b> ist eine Anordnung von Zahlen.</p>
+			<p class="note"><b>Hinweis</b>: Wenn die Zellen in der Matrix leer sind oder Text enthalten, gibt die Funktion den Fehlerwert <b>#NV</b> zurück. Wenn die Anzahl der Zeilen und Spalten in Matrix nicht gleich ist, gibt die Funktion den Fehlerwert <b>#WERT!</b> zurück.</p>
+			<p>Anwendung der Funktion <b>MDET</b>:</p>
 			<ol>
-			<li>Wählen Sie die Zelle, wo Sie das Ergebnis einblenden möchten.</li>
-			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Symbol Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste,
-				<br />Oder klicken Sie mit der rechten Maustaste in einer gewählten Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Menü.
-				<br />Oder klicken Sie auf das Symbol <img alt="Symbol Funktion" src="../images/function.png" /> auf der Formelleiste.
-			</li>
-			<li>Wählen Sie die Funktionsgruppe <b>Mathematik und Trigonometrie</b> aus der Liste.</li>
-			<li>Klicken Sie die Funktion <b>MDETERM</b>.</li>
-			<li>Wählen Sie den Zellenbereich mit der Maus oder geben Sie das verlangte Argument manuell wie A1:B2, ein.</li>
-			<li>Drücken Sie die <b>Enter</b>-Taste.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Gruppe <b>Mathematische und trigonometrische</b> Funktionen aus der Liste aus.</li>
+			<li>Klicken Sie die Funktion <b>MDET</b>.</li>
+			<li>Wählen Sie den Zellenbereich mit der Maus oder geben Sie das gewünschte Argument manuell als A1:B2 ein.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
 			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
-			<p style="text-indent: 150px;"><img alt="MDETERM-Funktion" src="../images/mdeterm.png" /></p>
+			<p style="text-indent: 150px;"><img alt="MDET-Funktion" src="../images/mdeterm.png" /></p>
 		</div>
 	</body>
 </html>

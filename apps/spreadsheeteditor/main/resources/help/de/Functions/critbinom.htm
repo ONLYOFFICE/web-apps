@@ -1,36 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>CRITBINOM Function</title>
+		<title>KRITBINOM-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>CRITBINOM Function</h1>
-			<p>The <b>CRITBINOM</b> function is one of the statistical functions. It is used to return the smallest value for which the cumulative binomial distribution is greater than or equal to the specified alpha value.</p>
-			<p>The <b>CRITBINOM</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>CRITBINOM(number-trials, success-probability, alpha)</em></b></p> 
-			<p><em>where</em></p> 
-				<p style="text-indent: 50px;"><b><em>number-trials</em></b> is the number of trials, a numeric value greater than or equal to 0.</p>
-				<p style="text-indent: 50px;"><b><em>success-probability</em></b> is the success probability of each trial, a numeric value greater than or equal to 0 but less than or equal to 1.</p>
-				<p style="text-indent: 50px;"><b><em>alpha</em></b> is the criterion, a numeric value greater than or equal to 0 but less than or equal to 1.</p>
-				<p>The numeric values can be entered manually or included into the cells you make reference to.</p>
-			<p>To apply the <b>CRITBINOM</b> function,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>KRITBINOM-Funktion</h1>
+			<p>Die Funktion <b>KRITBINOM</b> gehört zur Gruppe der statistischen Funktionen. Sie gibt den kleinsten Wert zurück, für den die kumulierten Wahrscheinlichkeiten der Binomialverteilung größer oder gleich dem angegebenen Alpha-Wert sind.</p>
+			<p>Die Formelsyntax der Funktion <b>KRITBINOM</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>KRITBINOM(Versuche;Erfolgswahrsch;Alpha)</em></b></p> 
+			<p><em>Dabei gilt:</em></p> 
+				<p style="text-indent: 50px;"><b><em>Versuche</em></b> ist die Anzahl der Bernoulliexperimente. Ein nummerischer Wert, der größer oder gleich 0 ist.</p>
+				<p style="text-indent: 50px;"><b><em>Erfolgswahrsch</em></b> ist die Wahrscheinlichkeit eines Erfolgs für jeden Versuch. Ein nummerischer Wert, größer oder gleich 0 und kleiner oder gleich 1.</p>
+				<p style="text-indent: 50px;"><b><em>Alpha</em></b> ist das Kriterium. Ein nummerischer Wert, der größer oder gleich 0 ist und kleiner oder gleich 1.</p>
+				<p>Die nummerischen Werte werden manuell eingegeben oder sind in die Zelle eingeschlossen, auf die Sie Bezug nehmen.</p>
+			<p>Anwendung der Funktion <b>KRITBINOM</b>:</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Statistical</b> function group from the list,</li>
-			<li>click the <b>CRITBINOM</b> function,</li>
-			<li>enter the required arguments separating them by commas,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Gruppe <b>Statistische</b> Funktionen aus der Liste aus.</li>
+			<li>Klicken Sie auf die Funktion <b>KRITBINOM</b>:</li>
+			<li>Geben Sie die erforderlichen Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="CRITBINOM Function" src="../images/critbinom.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="KRITBINOM-Funktion" src="../images/critbinom.png" /></p>
 		</div>
 	</body>
 </html>

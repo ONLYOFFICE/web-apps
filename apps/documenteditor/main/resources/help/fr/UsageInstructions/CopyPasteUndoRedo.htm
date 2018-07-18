@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="search" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Copier/coller les passages de texte, annuler/rétablir vos actions</h1>
             <h3>Utiliser les opérations basiques du presse-papier</h3>
@@ -34,6 +34,12 @@
             <ul>
                 <li><em>Coller</em> - permet de coller le texte copié en conservant sa mise en forme d'origine.</li>
                 <li><em>Conserver le texte uniquement</em> - permet de coller le texte sans  sa mise en forme d'origine.</li>
+            </ul>
+            <p>Si vous collez le tableau copié dans un tableau existant, les options suivantes sont disponibles:</p>
+            <ul>
+                <li><em>Remplacer les cellules</em> - permet de remplacer le contenu de la table existante par les données collées. Cette option est sélectionnée par défaut.</li>
+                <li><em>Imbriquer le tableau</em> - permet de coller le tableau copié en tant que tableau imbriqué dans la cellule sélectionnée du tableau existant.</li>
+                <li><em>Conserver le texte uniquement</em> - permet de coller le contenu du tableau sous forme de valeurs de texte séparées par le caractère de tabulation.</li>
             </ul>
             <h3>Annuler/rétablir vos actions</h3>
 			<p>Pour annuler / rétablir les actions, utilisez les icônes correspondantes de la barre d'outils supérieure ou les raccourcis clavier :</p>

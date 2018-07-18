@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  EditShape.js
  *
  *  Created by Alexander Yuzhin on 12/19/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -62,6 +62,7 @@ define([
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 Common.NotificationCenter.on('editcategory:show',  _.bind(this.categoryShow, this));
                 this.on('page:show', _.bind(this.updateItemHandlers, this));
+                this.isShapeCanFill = true;
             },
 
             initEvents: function () {
@@ -153,7 +154,13 @@ define([
                     page = $target.data('page');
 
                 if (page && page.length > 0 ) {
+                    if (page == '#edit-shape-style' && !this.isShapeCanFill)
+                        page = '#edit-shape-style-nofill';
+
                     this.showPage(page);
+
+                    if (!this.isShapeCanFill)
+                        this.showStyleCategory();
                 }
             },
 

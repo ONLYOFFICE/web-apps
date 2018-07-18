@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  InsertTableDialog.js
  *
  *  Created by Alexander Yuzhin on 2/17/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -48,23 +48,23 @@ define([
     Common.Views.InsertTableDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 230,
-            height: 170,
-            header: false,
+            height: 156,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             split: false
         },
 
         initialize : function(options) {
-            _.extend(this.options, options || {});
+            _.extend(this.options, {
+                title: (options.split) ? this.txtTitleSplit : this.txtTitle
+            }, options || {});
 
             this.template = [
                 '<div class="box">',
-                    '<h4>' + ((options.split) ? this.txtTitleSplit : this.txtTitle) + '</h4>',
-                    '<div class="input-row" style="margin: 10px 0;">',
+                    '<div class="input-row">',
                         '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val" style="float: right;"></div>',
                     '</div>',
-                    '<div class="input-row" style="margin: 10px 0;">',
+                    '<div class="input-row" style="margin-top: 10px;">',
                         '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val" style="float: right;"></div>',
                     '</div>',
                 '</div>',

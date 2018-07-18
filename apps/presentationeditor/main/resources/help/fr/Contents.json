@@ -17,13 +17,17 @@
     "name": "Onglet Insertion"
   },
   {
+    "src": "ProgramInterface/CollaborationTab.htm",
+    "name": "Onglet Collaboration"
+  },
+  {
     "src": "ProgramInterface/PluginsTab.htm",
     "name": "Onglet Modules complémentaires"
   },
   {
     "src": "UsageInstructions/OpenCreateNew.htm",
     "name": "Créer une nouvelle présentation ou ouvrir une présentation existante",
-    "headername": "Opérations de base"
+    "headername": "Onglet Modules complémentaires"
   },
   {
     "src": "UsageInstructions/CopyPasteUndoRedo.htm",
@@ -66,7 +70,7 @@
   {
     "src": "UsageInstructions/InsertAutoshapes.htm",
     "name": "Insérer et mettre en forme des formes automatiques",
-    "headername": "Opérations sur des objets"
+    "headername": "Opérations sur les objets"
   },
   {
     "src": "UsageInstructions/InsertImages.htm",

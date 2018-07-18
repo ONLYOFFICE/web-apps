@@ -1,36 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>AVERAGEIF Function</title>
+		<title>MITTELWERTWENN-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>AVERAGEIF Function</h1>
-			<p>The <b>AVERAGEIF</b> function is one of the statistical functions. It is used to analyze the range of data and find the average value of all numbers in a range of cells, based on the specified criterion.</p>
-			<p>The <b>AVERAGEIF</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>AVERAGEIF(cell-range, selection-criteria [,average-range])</em></b></p> 
-			<p><em>where</em></p>
-			<p style="text-indent: 50px;"><b><em>cell-range</em></b> is the selected range of cells to apply the criterion to.</p>
-			<p style="text-indent: 50px;"><b><em>selection-criteria</em></b> is the criterion you wish to apply, a value entered manually or included into the cell you make reference to.</p>
-			<p style="text-indent: 50px;"><b><em>average-range</em></b> is the selected range of cells you need to find the average in.</p>
-			<p class="note"><b>Note</b>: <b><em>average-range</em></b> is an optional argument. If it is omitted, the function will find the average in <b><em>cell-range</em></b>.
-			<p>To apply the <b>AVERAGEIF</b> function,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>MITTELWERTWENN-Funktion</h1>
+			<p>Die Funktion <b>MITTELWERTWENN</b> gehört zur Gruppe der statistischen Funktionen. Sie gibt den Durchschnittswert (arithmetisches Mittel) für alle Zellen in einem Bereich zurück, die einem angegebenen Kriterium entsprechen.</p>
+			<p>Die Formelsyntax der Funktion <b>MITTELWERT</b> ist:</p> 
+			<p style="text-indent: 150px;"><b><em>MITTELWERTWENN(Bereich, Kriterien, [Mittelwert_Bereich])</em></b></p> 
+			<p><em>Dabei gilt:</em></p>
+			<p style="text-indent: 50px;"><b><em>Bereich</em></b> ist der Zellbereich, den Sie nach Kriterien auswerten möchten.</p>
+			<p style="text-indent: 50px;"><b><em>Kriterien</em></b> sind die Kriterien in Form einer Zahl, eines Ausdrucks, eines Zellbezugs oder eines Texts, mit denen definiert wird, für welche Zellen der Mittelwert berechnet werden soll.</p>
+			<p style="text-indent: 50px;"><b><em>Mittelwert_Bereich</em></b> ist der tatsächliche Bereich der Zellen, für die der Mittelwert berechnet wird.</p>
+			<p class="note"><b>Hinweis</b>: Das Argument <b><em>Mittelwert_Bereich</em></b> ist optional.  Fehlt diese Argument, wird <b><em>Bereich</em></b> verwendet.<p>Anwendung der Funktion <b>MITTELWERTWENN</b>:</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Statistical</b> function group from the list,</li>
-			<li>click the <b>AVERAGEIF</b> function,</li>
-			<li>enter the required arguments separating them by commas,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie mit der rechten Maustaste in die gewünschte Zelle und wählen Sie die Option <b>Funktion einfügen</b> aus dem Kontextenü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Gruppe <b>Statistische</b> Funktionen aus der Liste aus.</li>
+			<li>Klicken Sie auf die Funktion <b>MITTELWERTWENN</b>.</li>
+			<li>Geben Sie die erforderlichen Argumente ein und trennen Sie diese durch Kommas.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="AVERAGEIF Function" src="../images/averageif.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="MITTELWERTWENN-Funktion" src="../images/averageif.png" /></p>
 		</div>
 	</body>
 </html>

@@ -1,32 +1,34 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>COLUMNS Function</title>
+		<title>SPALTEN-Funktion</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>COLUMNS Function</h1>
-			<p>The <b>COLUMNS</b> function is one of the lookup and reference functions. It is used to return the number of columns in a cell reference.</p>
-			<p>The <b>COLUMNS</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>COLUMNS(array)</em></b></p> 
-			<p>where <b><em>array</em></b> is a reference to a range of cells.</p>
-			<p>To apply the <b>COLUMNS</b> function,</p>
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Suche" type="text" onkeypress="doSearch(event)">
+            </div>
+			<h1>SPALTEN-Funktion</h1>
+			<p>Die Funktion <b>SPALTEN</b> gehört zur Gruppe der Nachschlage- und Verweisfunktionen. Sie gibt die Anzahl der innerhalb eines Bezugs aufgeführten Spalten zurück.</p>
+			<p>Die Formelsyntax der <b>SPALTEN</b>-Funktion lautet:</p> 
+			<p style="text-indent: 150px;"><b><em>SPALTEN(Matrix)</em></b></p> 
+			<p>Dabei ist <b><em>Matrix</em></b> eine Matrixformel oder ein Bezug auf einen Zellbereich, dessen Spaltenanzahl Sie ermitteln möchten</p>
+			<p>Anwenden der Funktion <b>SPALTEN</b>:</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert Function</b> <img alt="Insert Function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Lookup and Reference</b> function group from the list,</li>
-			<li>click the <b>COLUMNS</b> function,</li>
-			<li>select a range of cells with the mouse or enter it manually, like this A1:B2,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>Wählen Sie die gewünschte Zelle für die Ergebnisanzeige aus.</li>
+			<li>Klicken Sie auf das Symbol <b>Funktion einfügen</b> <img alt="Funktion einfügen" src="../images/insertfunction.png" /> auf der oberen Symbolleiste <br />oder klicken Sie in einer gewählten Zelle mit der rechten Maustaste und wählen Sie die Option <b>Funktion einfügen</b> aus dem Menü aus <br />oder klicken Sie auf das Symbol <img alt="Funktion" src="../images/function.png" /> auf der Formelleiste.</li>
+			<li>Wählen Sie die Funktionsgruppe <b>Nachschlage- und Verweisfunktionen</b> aus der Liste.</li>
+			<li>Klicken Sie auf die Funktion <b>SPALTEN</b>.</li>
+			<li>Wählen Sie den Zellenbereich mit der Maus aus oder geben Sie das gewünschte Argument manuell ein, in der Form A1:B2 usw.</li>
+			<li>Drücken Sie die <b>Eingabetaste</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="COLUMNS Function" src="../images/columns.png" /></p>
+			<p>Das Ergebnis wird in der gewählten Zelle angezeigt.</p>
+			<p style="text-indent: 150px;"><img alt="SPALTEN-Funktion" src="../images/columns.png" /></p>
 		</div>
 	</body>
 </html>

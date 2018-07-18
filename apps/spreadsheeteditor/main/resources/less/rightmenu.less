@@ -29,6 +29,9 @@
 
         /*menuPivot*/
         .toolbar-btn-icon(btn-menu-pivot,   87, @toolbar-icon-size);
+
+        /*menuCell*/
+        .toolbar-btn-icon(btn-menu-cell,   88, @toolbar-icon-size);
     }
 }
 
@@ -101,6 +104,25 @@
         }
     }
 }
+
+.btn-toolbar:not(.x-huge) .icon:not(svg).btn-borders-small {
+    .background-ximage('@{common-image-path}/right-panels/SmallBorders.png', '@{common-image-path}/right-panels/SmallBorders@2x.png', 84px);
+}
+
+.button-normal-icon(btn-position-all,         0, 21px);
+.button-normal-icon(btn-position-inner,       1, 21px);
+.button-normal-icon(btn-position-bottom,      2, 21px);
+.button-normal-icon(btn-position-inner-hor,   3, 21px);
+.button-normal-icon(btn-position-top,         4, 21px);
+.button-normal-icon(btn-position-none,        5, 21px);
+.button-normal-icon(btn-position-outer,       6, 21px);
+.button-normal-icon(btn-position-left,        7, 21px);
+.button-normal-icon(btn-position-inner-vert,  8, 21px);
+.button-normal-icon(btn-position-right,       9, 21px);
+.button-normal-icon(btn-position-diagu,       10, 21px);
+.button-normal-icon(btn-position-diagd,       11, 21px);
+
+.button-otherstates-icon(btn-borders-small, 21px);
 
 .btn-edit-table,
 .btn-change-shape {
@@ -412,6 +434,10 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
         &:hover,
         &.over {
             background-color: @secondary;
+
+            .caret {
+                display: inline-block;
+            }
         }
     }
 
@@ -435,7 +461,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
             border: 0;
             background-position: -43px -150px;
             margin: 8px 15px;
-            display: inline-block;
+            display: none;
             position: absolute;
             right: 0;
 
@@ -444,5 +470,11 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
                 margin-bottom: 0;
             }
         }
+    }
+}
+
+.combo-border-size.cell-border-type {
+    img, .image {
+        background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize.png)";
     }
 }

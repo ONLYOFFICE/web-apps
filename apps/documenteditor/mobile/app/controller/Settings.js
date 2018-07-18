@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Document Editor
  *
  *  Created by Alexander Yuzhin on 10/7/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -193,7 +193,6 @@ define([
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
-                    $('#settings-edit-document').single('click',                _.bind(me.onEditDocumet, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                 }
@@ -266,10 +265,6 @@ define([
             },
 
             // Handlers
-
-            onEditDocumet: function() {
-                Common.Gateway.requestEditRights();
-            },
 
             onSearch: function (e) {
                 var toolbarView = DE.getController('Toolbar').getView('Toolbar');

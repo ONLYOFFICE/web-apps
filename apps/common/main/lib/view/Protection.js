@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  Protection.js
  *
  *  Created by Julia Radzhabova on 14.11.2017
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -111,7 +111,7 @@ define([
                 this.btnsDelPwd = [];
                 this.btnsChangePwd = [];
 
-                this._state = {disabled: false, hasPassword: false};
+                this._state = {disabled: false, hasPassword: false, disabledPassword: false};
 
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -235,7 +235,7 @@ define([
                         cls: 'btn-text-default',
                         style: 'width: 100%;',
                         caption: this.txtAddPwd,
-                        disabled: this._state.disabled,
+                        disabled: this._state.disabled || this._state.disabledPassword,
                         visible: !this._state.hasPassword
                     });
                     this.btnsAddPwd.push(button);
@@ -246,7 +246,7 @@ define([
                         cls: 'btn-text-default',
                         style: 'width: 100%;',
                         caption: this.txtDeletePwd,
-                        disabled: this._state.disabled,
+                        disabled: this._state.disabled || this._state.disabledPassword,
                         visible: this._state.hasPassword
                     });
                     this.btnsDelPwd.push(button);
@@ -257,7 +257,7 @@ define([
                         cls: 'btn-text-default',
                         style: 'width: 100%;',
                         caption: this.txtChangePwd,
-                        disabled: this._state.disabled,
+                        disabled: this._state.disabled || this._state.disabledPassword,
                         visible: this._state.hasPassword
                     });
                     this.btnsChangePwd.push(button);
@@ -279,21 +279,25 @@ define([
                 }
                 this.btnsAddPwd.concat(this.btnsDelPwd, this.btnsChangePwd).forEach(function(button) {
                     if ( button ) {
-                        button.setDisabled(state);
+                        button.setDisabled(state || this._state.disabledPassword);
                     }
                 }, this);
             },
 
-            onDocumentPassword: function (hasPassword) {
+            onDocumentPassword: function (hasPassword, disabledPassword) {
                 this._state.hasPassword = hasPassword;
+                this._state.disabledPassword = !!disabledPassword;
+                var disabled = this._state.disabledPassword || this._state.disabled;
                 this.btnsAddPwd && this.btnsAddPwd.forEach(function(button) {
                     if ( button ) {
                         button.setVisible(!hasPassword);
+                        button.setDisabled(disabled);
                     }
                 }, this);
                 this.btnsDelPwd.concat(this.btnsChangePwd).forEach(function(button) {
                     if ( button ) {
                         button.setVisible(hasPassword);
+                        button.setDisabled(disabled);
                     }
                 }, this);
                 this.btnPwd.setVisible(hasPassword);
@@ -308,7 +312,7 @@ define([
             txtDeletePwd: 'Delete password',
             txtAddPwd: 'Add password',
             txtInvisibleSignature: 'Add digital signature',
-            txtSignatureLine: 'Signature line'
+            txtSignatureLine: 'Add Signature line'
         }
     }()), Common.Views.Protection || {}));
 });

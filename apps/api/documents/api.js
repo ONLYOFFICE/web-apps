@@ -45,6 +45,7 @@
                     changeHistory: <can change history>, // default = false
                     comment: <can comment in view mode> // default = edit,
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
+                    modifyContentControl: <can modify content controls in documenteditor> // default = true
                 }
             },
             editorConfig: {
@@ -119,7 +120,8 @@
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false,
-                    showReviewChanges: false
+                    showReviewChanges: false,
+                    help: true
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -191,6 +193,7 @@
         _config.editorConfig.canSendEmailAddresses = _config.events && !!_config.events.onRequestEmailAddresses;
         _config.editorConfig.canRequestEditRights = _config.events && !!_config.events.onRequestEditRights;
         _config.editorConfig.canRequestClose = _config.events && !!_config.events.onRequestClose;
+        _config.editorConfig.canRename = _config.events && !!_config.events.onRequestRename;
         _config.frameEditorId = placeholderId;
 
         _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
@@ -324,7 +327,7 @@
                 }
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -362,10 +365,11 @@
             if (!!result && result.length) {
                 if (result[1] == 'desktop') {
                     _config.editorConfig.targetApp = result[1];
-                    _config.editorConfig.canBackToFolder = false;
-                    _config.editorConfig.canUseHistory = false;
+                    // _config.editorConfig.canBackToFolder = false;
                     if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
                     _config.editorConfig.customization.about = false;
+
+                    if ( window.AscDesktopEditor ) window.AscDesktopEditor.execCommand('webapps:events', 'loading');
                 }
             }
         })();

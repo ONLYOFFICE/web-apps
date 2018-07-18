@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  HyperlinkSettingsDialog.js
  *
  *  Created by Julia Radzhabova on 4/19/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -69,14 +69,14 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 270px;">',
-                    '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textLinkType + '</label>',
+                '<div class="box" style="height: 250px;">',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternalLink,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternalLink,'</button>',
                     '</div>',
-                    '<div id="id-dlg-hyperlink-type" class="input-row" style="margin-bottom: 5px;"></div>',
                     '<div id="id-external-link">',
                         '<div class="input-row">',
-                            '<label style="font-weight: bold;">' + this.strLinkTo + ' *</label>',
+                            '<label>' + this.strLinkTo + ' *</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
@@ -89,11 +89,11 @@ define([
                         '<div id="id-dlg-hyperlink-slide" style="display: inline-block;margin-bottom: 10px;"></div>',
                     '</div>',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.strDisplay + '</label>',
+                        '<label>' + this.strDisplay + '</label>',
                     '</div>',
                     '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 5px;"></div>',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textTipText + '</label>',
+                        '<label>' + this.textTipText + '</label>',
                     '</div>',
                         '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
@@ -116,23 +116,22 @@ define([
             var me = this,
                 $window = this.getChild();
 
-            me._arrTypeSrc = [
-                {displayValue: me.textInternalLink,   value: c_oHyperlinkType.InternalLink},
-                {displayValue: me.textExternalLink,   value: c_oHyperlinkType.WebLink}
-            ];
-
-            me.cmbLinkType = new Common.UI.ComboBox({
-                el: $('#id-dlg-hyperlink-type'),
-                cls: 'input-group-nr',
-                style: 'width: 100%;',
-                menuStyle: 'min-width: 318px;',
-                editable: false,
-                data: this._arrTypeSrc
+            me.btnExternal = new Common.UI.Button({
+                el: $('#id-dlg-hyperlink-external'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false,
+                pressed: true
             });
-            me.cmbLinkType.setValue(me._arrTypeSrc[1].value);
-            me.cmbLinkType.on('selected', _.bind(function(combo, record) {
-                this.ShowHideElem(record.value);
-            }, me));
+            me.btnExternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.WebLink));
+
+            me.btnInternal = new Common.UI.Button({
+                el: $('#id-dlg-hyperlink-internal'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false
+            });
+            me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
 
             me.inputUrl = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-url'),
@@ -217,7 +216,7 @@ define([
                 var me = this;
 
                 var type = me.parseUrl(props.get_Value());
-                me.cmbLinkType.setValue(type);
+                (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
                 me.ShowHideElem(type);
                 
                 if (props.get_Text()!==null) {
@@ -239,7 +238,7 @@ define([
             var me      = this,
                 props   = new Asc.CHyperlinkProperty();
             var def_display = '';
-            if (me.cmbLinkType.getValue() == c_oHyperlinkType.InternalLink) {
+            if (this.btnInternal.isActive()) {//InternalLink
                 var url = "ppaction://hlink";
                 var tip = '';
                 var txttip = me.inputTip.getValue();
@@ -298,7 +297,7 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    var checkurl = (this.cmbLinkType.getValue() == c_oHyperlinkType.WebLink) ? this.inputUrl.checkValidate() : true,
+                    var checkurl = (this.btnExternal.isActive()) ? this.inputUrl.checkValidate() : true,
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
                         this.inputUrl.cmpEl.find('input').focus();
@@ -319,6 +318,10 @@ define([
         ShowHideElem: function(value) {
             this.externalPanel.toggleClass('hidden', value !== c_oHyperlinkType.WebLink);
             this.internalPanel.toggleClass('hidden', value !== c_oHyperlinkType.InternalLink);
+        },
+
+        onLinkTypeClick: function(type, btn, event) {
+            this.ShowHideElem(type);
         },
 
         parseUrl: function(url) {
@@ -364,13 +367,12 @@ define([
         },
 
         textTitle:          'Hyperlink Settings',
-        textInternalLink:   'Place In This Document',
-        textExternalLink:   'File or Web Page',
+        textInternalLink:   'Slide In This Presentation',
+        textExternalLink:   'External Link',
         textEmptyLink:      'Enter link here',
         textEmptyDesc:      'Enter caption here',
         textEmptyTooltip:   'Enter tooltip here',
         txtSlide:           'Slide',
-        textLinkType:       'Link Type',
         strDisplay:         'Display',
         textTipText:        'Screen Tip Text',
         strLinkTo:          'Link To',

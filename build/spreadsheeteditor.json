@@ -1,7 +1,7 @@
 {
     "name": "spreadsheeteditor",
     "version": "4.3.0",
-    "build": 881,
+    "build": 884,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
@@ -143,6 +143,9 @@
                 }
             ]
         },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/spreadsheeteditor/main/**/*.json"
+        },
         "copy": {
             "localization": [
                 {
@@ -161,15 +164,9 @@
             "help": [
                 {
                     "expand": true,
-                    "cwd": "../apps/spreadsheeteditor/main/resources/help/en/",
-                    "src": "**",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/en/"
-                },
-                {
-                    "expand": true,
-                    "cwd": "../apps/spreadsheeteditor/main/resources/help/ru/",
-                    "src": "**",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/ru/"
+                    "cwd": "../apps/spreadsheeteditor/main/resources/help/",
+                    "src": ["**","!*_/**"],
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/"
                 }
             ],
             "index-page": [
@@ -317,6 +314,9 @@
                 }
             ]
         },
+        "jsonmin": {
+            "files": "../deploy/web-apps/apps/spreadsheeteditor/mobile/**/*.json"
+        },
         "copy": {
             "template-backup": [
                 {
@@ -359,6 +359,14 @@
                     "cwd": "../apps/common/mobile/resources/img/",
                     "src": "**",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/"
+                }
+            ],
+            "images-common": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/mobile/resources/img/about",
+                    "src": "**",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/img/about"
                 }
             ]
         }

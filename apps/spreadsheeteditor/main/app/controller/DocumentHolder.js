@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  DocumentHolder controller
  *
  *  Created by Julia Radzhabova on 3/28/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -73,7 +73,8 @@ define([
                 },
                 row_column: {
                     ttHeight: 20
-                }
+                },
+                filter: {ttHeight: 40}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -82,7 +83,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
-
+            me._state = {};
             /** coauthoring begin **/
             this.wrapEvents = {
                 apiHideComment: _.bind(this.onApiHideComment, this)
@@ -194,6 +195,12 @@ define([
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
                 view.menuSignatureEditSign.on('click',              _.bind(me.onSignatureClick, me));
                 view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
+                view.menuImgOriginalSize.on('click',                _.bind(me.onOriginalSizeClick, me));
+                view.menuImgReplace.menu.on('item:click',           _.bind(me.onImgReplace, me));
+                view.pmiNumFormat.menu.on('item:click',             _.bind(me.onNumberFormatSelect, me));
+                view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
+                view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
+
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -530,6 +537,7 @@ define([
                     startvalue: item.value == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
                     maxvalue: item.value == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
                     step: item.value == 'row-height' ? 0.75 : 1,
+                    rounding: (item.value == 'row-height'),
                     defaultUnit: item.value == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
@@ -815,7 +823,8 @@ define([
                         index_comments,
                     /** coauthoring end **/
                         index_locked,
-                        index_column, index_row;
+                        index_column, index_row,
+                        index_filter;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -835,6 +844,9 @@ define([
                         case Asc.c_oAscMouseMoveType.ResizeRow:
                             index_row = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Filter:
+                            index_filter = i;
+                            break;
                     }
                 }
 
@@ -845,7 +857,8 @@ define([
                     commentTip      = me.tooltips.comment,
                     /** coauthoring end **/
                     hyperlinkTip    = me.tooltips.hyperlink,
-                    row_columnTip    = me.tooltips.row_column,
+                    row_columnTip   = me.tooltips.row_column,
+                    filterTip       = me.tooltips.filter,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -853,6 +866,7 @@ define([
 
                 hyperlinkTip.isHidden = false;
                 row_columnTip.isHidden = false;
+                filterTip.isHidden = false;
 
                 /** coauthoring begin **/
                 var getUserName = function(id){
@@ -1063,6 +1077,56 @@ define([
                         me.hideCoAuthTips();
                     }
                 }
+
+                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible())) {
+                    var data  = dataarray[index_filter-1],
+                        str = me.makeFilterTip(data.asc_getFilter());
+                    if (filterTip.ref && filterTip.ref.isVisible()) {
+                        if (filterTip.text != str) {
+                            filterTip.text = str;
+                            filterTip.ref.setTitle(str);
+                            filterTip.ref.updateTitle();
+                        }
+                    }
+
+                    if (!filterTip.ref || !filterTip.ref.isVisible()) {
+                        filterTip.text = str;
+                        filterTip.ref = new Common.UI.Tooltip({
+                            owner   : me.documentHolder,
+                            html    : true,
+                            title   : str,
+                            cls: 'auto-tooltip'
+                        }).on('tooltip:hide', function(tip) {
+                            filterTip.ref = undefined;
+                            filterTip.text = '';
+                        });
+
+                        filterTip.ref.show([-10000, -10000]);
+                        filterTip.isHidden = false;
+
+                        showPoint = [data.asc_getX() + pos[0] - 10, data.asc_getY() + pos[1] + 20];
+
+                        var tipheight = filterTip.ref.getBSTip().$tip.width();
+                        if (showPoint[1] + filterTip.ttHeight > me.tooltips.coauth.bodyHeight ) {
+                            showPoint[1] = me.tooltips.coauth.bodyHeight - filterTip.ttHeight - 5;
+                            showPoint[0] += 20;
+                        }
+
+                        var tipwidth = filterTip.ref.getBSTip().$tip.width();
+                        if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                            showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth - 20;
+
+                        filterTip.ref.getBSTip().$tip.css({
+                            top : showPoint[1] + 'px',
+                            left: showPoint[0] + 'px'
+                        });
+                    }
+                } else {
+                    if (!filterTip.isHidden && filterTip.ref) {
+                        filterTip.ref.hide();
+                        filterTip.isHidden = true;
+                    }
+                }
             }
         },
 
@@ -1094,6 +1158,10 @@ define([
 
         onApiAutofilter: function(config) {
             var me = this;
+            if (!me.tooltips.filter.isHidden && me.tooltips.filter.ref) {
+                me.tooltips.filter.ref.hide();
+                me.tooltips.filter.isHidden = true;
+            }
             if (me.permissions.isEdit && !me.dlgFilter) {
                 me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
                         'close': function () {
@@ -1124,6 +1192,99 @@ define([
             }
         },
 
+        makeFilterTip: function(props) {
+            var filterObj = props.asc_getFilterObj(),
+                filterType = filterObj.asc_getType(),
+                isTextFilter = props.asc_getIsTextFilter(),
+                colorsFill = props.asc_getColorsFill(),
+                colorsFont = props.asc_getColorsFont(),
+                str = "";
+
+            if (filterType === Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                var customFilter = filterObj.asc_getFilter(),
+                    customFilters = customFilter.asc_getCustomFilters();
+
+                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + customFilters[0].asc_getVal() + "\"";
+                if (customFilters.length>1) {
+                    str += (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
+                    str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + customFilters[1].asc_getVal() + "\"";
+                }
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.ColorFilter) {
+                var colorFilter = filterObj.asc_getFilter();
+                if ( colorFilter.asc_getCellColor()===null ) { // cell color
+                    str = this.txtEqualsToCellColor;
+                } else if (colorFilter.asc_getCellColor()===false) { // font color
+                    str = this.txtEqualsToFontColor;
+                }
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.DynamicFilter) {
+                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.DynamicFilter, filterObj.asc_getFilter().asc_getType());
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.Top10) {
+                var top10Filter = filterObj.asc_getFilter(),
+                    percent = top10Filter.asc_getPercent();
+
+                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.Top10, top10Filter.asc_getTop());
+                str += " " + top10Filter.asc_getVal() + " " + ((percent || percent===null) ? this.txtPercent : this.txtItems);
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.Filters) {
+                var strlen = 0, visibleItems = 0, isBlankVisible = undefined,
+                    values = props.asc_getValues();
+                values.forEach(function (item) {
+                    if (item.asc_getVisible()) {
+                        visibleItems++;
+                        if (strlen<100 && item.asc_getText()) {
+                            str += item.asc_getText() + "; ";
+                            strlen = str.length;
+                        }
+                    }
+                    if (!item.asc_getText())
+                        isBlankVisible = item.asc_getVisible();
+                });
+                if (visibleItems == values.length)
+                    str = this.txtAll;
+                else if (visibleItems==1 && isBlankVisible)
+                    str = this.txtEquals + " \"" + this.txtBlanks + "\"";
+                else if (visibleItems == values.length-1 && (isBlankVisible==false))
+                    str = this.txtNotEquals + " \"" + this.txtBlanks + "\"";
+                else {
+                    isBlankVisible && (str += this.txtBlanks + "; ");
+                    str = this.txtEquals + " \"" + str.substring(0, str.length-2) + "\"";
+                }
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.None) {
+                str = this.txtAll;
+            }
+            if (str.length>100)
+                str = str.substring(0, 100) + '...';
+            str = "<b>" + props.asc_getColumnName() + ":</b><br>" + str;
+            return str;
+        },
+
+        getFilterName: function(type, subtype) {
+            var str = '';
+            if (type == Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                switch (subtype) {
+                    case Asc.c_oAscCustomAutoFilter.equals: str = this.txtEquals; break;
+                    case Asc.c_oAscCustomAutoFilter.isGreaterThan: str = this.txtGreater; break;
+                    case Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo: str = this.txtGreaterEquals; break;
+                    case Asc.c_oAscCustomAutoFilter.isLessThan: str = this.txtLess; break;
+                    case Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo: str = this.txtLessEquals; break;
+                    case Asc.c_oAscCustomAutoFilter.doesNotEqual: str = this.txtNotEquals; break;
+                    case Asc.c_oAscCustomAutoFilter.beginsWith: str = this.txtBegins; break;
+                    case Asc.c_oAscCustomAutoFilter.doesNotBeginWith: str = this.txtNotBegins; break;
+                    case Asc.c_oAscCustomAutoFilter.endsWith: str = this.txtEnds; break;
+                    case Asc.c_oAscCustomAutoFilter.doesNotEndWith: str = this.txtNotEnds; break;
+                    case Asc.c_oAscCustomAutoFilter.contains: str = this.txtContains; break;
+                    case Asc.c_oAscCustomAutoFilter.doesNotContain: str = this.txtNotContains; break;
+                }
+            } else if (type == Asc.c_oAscAutoFilterTypes.DynamicFilter) {
+                switch (subtype) {
+                    case Asc.c_oAscDynamicAutoFilter.aboveAverage: str = this.txtAboveAve; break;
+                    case Asc.c_oAscDynamicAutoFilter.belowAverage: str = this.txtBelowAve; break;
+                }
+            } else if (type == Asc.c_oAscAutoFilterTypes.Top10) {
+                str = (subtype || subtype===null) ? this.txtFilterTop : this.txtFilterBottom;
+            }
+            return str;
+        },
+
         onUndo: function() {
             if (this.api) {
                 this.api.asc_Undo();
@@ -1151,6 +1312,7 @@ define([
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
                 me.tooltips.coauth.rightMenuWidth = $('#right-menu').width();
                 me.tooltips.coauth.bodyWidth = $(window).width();
+                me.tooltips.coauth.bodyHeight = $(window).height();
             }
         },
 
@@ -1314,6 +1476,15 @@ define([
                 documentHolder.pmiImgPaste.setDisabled(isObjLocked);
                 documentHolder.mnuImgAdvanced.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
                 documentHolder.mnuImgAdvanced.setDisabled(isObjLocked);
+                documentHolder.menuImgOriginalSize.setVisible(isimagemenu && (!isshapemenu || isimageonly) && !ischartmenu);
+                if (documentHolder.mnuImgAdvanced.imageInfo)
+                    documentHolder.menuImgOriginalSize.setDisabled(isObjLocked || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===null || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===undefined);
+
+                var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
+                documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
+                documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
+
+
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
@@ -1385,9 +1556,6 @@ define([
                     this.clearEquationMenu(4);
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
-                documentHolder.textInShapeMenu.items[3].setVisible( documentHolder.menuHyperlinkShape.isVisible() ||
-                                                                    documentHolder.menuAddHyperlinkShape.isVisible() ||
-                                                                    documentHolder.menuParagraphVAlign.isVisible() || isEquation);
             } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
             seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText)) {
                 if (!showMenu && !documentHolder.ssMenu.isVisible()) return;
@@ -1416,7 +1584,7 @@ define([
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
-                documentHolder.pmiInsFunction.setVisible(iscellmenu);
+                documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
                 if (isintable) {
@@ -1446,7 +1614,7 @@ define([
                 documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
                 /** coauthoring end **/
-                documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu || isrowmenu || iscolmenu || isallmenu);
+                documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
                 documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
                 documentHolder.pmiEntireShow.isrowmenu = isrowmenu;
 
@@ -1474,10 +1642,16 @@ define([
 
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
+                documentHolder.pmiNumFormat.setVisible(!iscelledit);
+                documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = cellinfo.asc_getNumFormatInfo();
+                documentHolder.pmiAdvancedNumFormat.options.numformat = cellinfo.asc_getNumFormat();
+
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
+                documentHolder.pmiCut.setDisabled(isCellLocked || inPivot); // can't edit pivot cells
+                documentHolder.pmiPaste.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
                 documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
@@ -1490,6 +1664,7 @@ define([
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
                 documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
@@ -1502,8 +1677,7 @@ define([
                 documentHolder.menuParagraphVAlign.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.menuParagraphDirection.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.pmiTextAdvanced.setVisible(false);
-                documentHolder.textInShapeMenu.items[3].setVisible(false);
-                documentHolder.textInShapeMenu.items[8].setVisible(false);
+                documentHolder.textInShapeMenu.items[9].setVisible(false);
                 documentHolder.pmiTextCopy.setDisabled(false);
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             }
@@ -2599,6 +2773,105 @@ define([
             }
         },
 
+        onOriginalSizeClick: function(item) {
+            if (this.api){
+                var imgsize = this.api.asc_getOriginalImageSize();
+                var w = imgsize.asc_getImageWidth();
+                var h = imgsize.asc_getImageHeight();
+
+                var properties = new Asc.asc_CImgProperty();
+                properties.asc_putWidth(w);
+                properties.asc_putHeight(h);
+                this.api.asc_setGraphicObjectProps(properties);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
+            }
+        },
+
+        onImgReplace: function(menu, item) {
+            var me = this;
+            if (this.api) {
+                if (item.value == 'file') {
+                    setTimeout(function(){
+                        if (me.api) me.api.asc_changeImageFromFile();
+                        Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                    }, 10);
+                } else {
+                    (new Common.Views.ImageFromUrlDialog({
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    var checkUrl = value.replace(/ /g, '');
+                                    if (!_.isEmpty(checkUrl)) {
+                                        var props = new Asc.asc_CImgProperty();
+                                        props.asc_putImageUrl(checkUrl);
+                                        me.api.asc_setGraphicObjectProps(props);
+                                    }
+                                }
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                        }
+                    })).show();
+                }
+            }
+        },
+
+        onNumberFormatSelect: function(menu, item) {
+            if (item.value !== undefined && item.value !== 'advanced') {
+                if (this.api)
+                    this.api.asc_setCellFormat(item.options.format);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onCustomNumberFormat: function(item) {
+            var me = this,
+                value = me.api.asc_getLocale();
+            (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
+
+            (new SSE.Views.FormatSettingsDialog({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (settings) {
+                        me.api.asc_setCellFormat(settings.format);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                },
+                props   : {format: item.options.numformat, formatInfo: item.options.numformatinfo, langId: value}
+            })).show();
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onNumberFormatOpenAfter: function(menu) {
+            if (this.api) {
+                var me = this,
+                    value = me.api.asc_getLocale();
+                (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
+
+                if (this._state.langId !== value) {
+                    this._state.langId = value;
+
+                    var info = new Asc.asc_CFormatCellsInfo();
+                    info.asc_setType(Asc.c_oAscNumFormatType.None);
+                    info.asc_setSymbol(this._state.langId);
+                    var arr = this.api.asc_getFormatCells(info); // all formats
+                    for (var i=0; i<menu.items.length-2; i++) {
+                        menu.items[i].options.format = arr[i];
+                    }
+                }
+
+                var val = menu.options.numformatinfo;
+                val = (val) ? val.asc_getType() : -1;
+                for (var i=0; i<menu.items.length-2; i++) {
+                    var mnu = menu.items[i];
+                    mnu.options.exampleval = me.api.asc_getLocaleExample(mnu.options.format);
+                    $(mnu.el).find('label').text(mnu.options.exampleval);
+                    mnu.setChecked(val == mnu.value);
+                }
+            }
+        },
+
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
@@ -2721,7 +2994,31 @@ define([
         txtPasteSourceFormat: 'Source formatting',
         txtPasteDestFormat: 'Destination formatting',
         txtUndoExpansion: 'Undo table autoexpansion',
-        txtRedoExpansion: 'Redo table autoexpansion'
+        txtRedoExpansion: 'Redo table autoexpansion',
+        txtAnd: 'and',
+        txtOr: 'or',
+        txtEquals           : "Equals",
+        txtNotEquals        : "Does not equal",
+        txtGreater          : "Greater than",
+        txtGreaterEquals    : "Greater than or equal to",
+        txtLess             : "Less than",
+        txtLessEquals       : "Less than or equal to",
+        txtAboveAve         : 'Above average',
+        txtBelowAve         : 'Below average',
+        txtBegins           : "Begins with",
+        txtNotBegins        : "Does not begin with",
+        txtEnds             : "Ends with",
+        txtNotEnds          : "Does not end with",
+        txtContains         : "Contains",
+        txtNotContains      : "Does not contain",
+        txtFilterTop: 'Top',
+        txtFilterBottom: 'Bottom',
+        txtItems: 'items',
+        txtPercent: 'percent',
+        txtEqualsToCellColor: 'Equals to cell color',
+        txtEqualsToFontColor: 'Equals to font color',
+        txtAll: '(All)',
+        txtBlanks: '(Blanks)'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

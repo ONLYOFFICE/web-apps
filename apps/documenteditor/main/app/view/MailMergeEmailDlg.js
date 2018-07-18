@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -47,7 +47,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         options: {
             alias: 'MailMergeEmail',
             contentWidth: 500,
-            height: 460
+            height: 435
         },
 
         initialize : function(options) {
@@ -169,7 +169,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         },
 
         _onMessage: function(msg) {
-            if (msg) {
+            if (msg && msg.Referer == "onlyoffice") {
 //                if ( !_.isEmpty(msg.folder) ) {
 //                    this.trigger('mailmergefolder', this, msg.folder); // save last folder url
 //                }

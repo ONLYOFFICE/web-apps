@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -83,9 +83,15 @@ define([
             this.vlayout = new Common.UI.VBoxLayout({
                 box: $container,
                 items: [{
+                        el: $container.find('> .layout-item#app-title').hide(),
+                        alias: 'title',
+                        height: Common.Utils.InternalSettings.get('document-title-height')
+                    }, {
                         el: $container.find(' > .layout-item#toolbar'),
+                        alias: 'toolbar',
                         // rely: true
-                        height: Common.localStorage.getBool('de-compact-toolbar') ? 32 : 32+67
+                        height: Common.localStorage.getBool('de-compact-toolbar') ?
+                            Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal')
                     }, {
                         el: $container.find(' > .layout-item.middle'),
                         stretch: true

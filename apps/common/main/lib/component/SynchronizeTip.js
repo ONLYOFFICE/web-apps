@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -48,7 +48,7 @@ define([
             },
 
             template: _.template([
-                '<div class="synch-tip-root <%= scope.placement %>">',
+                '<div class="synch-tip-root <% if (!!scope.options.extCls) {print(scope.options.extCls + \" \");} %><%= scope.placement %>">',
                     '<div class="asc-synchronizetip">',
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',
@@ -103,13 +103,20 @@ define([
             },
 
             applyPlacement: function () {
-                var showxy = this.target.offset();
+                var showxy = this.target.offset(),
+                    innerHeight = Common.Utils.innerHeight();
                 if (this.placement == 'top')
-                    this.cmpEl.css({bottom : Common.Utils.innerHeight() - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
-                else if (this.placement == 'left')
-                    this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', right: Common.Utils.innerWidth() - showxy.left - 5 + 'px'});
-                else // right
-                    this.cmpEl.css({top : showxy.top + this.target.height()/2 + 'px', left: showxy.left + this.target.width() + 'px'});
+                    this.cmpEl.css({bottom : innerHeight - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
+                else {// left or right
+                    var top = showxy.top + this.target.height()/2,
+                        height = this.cmpEl.height();
+                    if (top+height>innerHeight)
+                        top = innerHeight - height;
+                    if (this.placement == 'left')
+                        this.cmpEl.css({top : top + 'px', right: Common.Utils.innerWidth() - showxy.left - 5 + 'px'});
+                    else
+                        this.cmpEl.css({top : top + 'px', left: showxy.left + this.target.width() + 'px'});
+                }
             },
 
             isVisible: function() {

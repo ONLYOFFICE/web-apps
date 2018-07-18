@@ -15,7 +15,7 @@
 
     .content-panel {
       vertical-align: top;
-      padding: 15px;
+      padding: 15px 15px 0;
       width: 100%;
 
       .inner-content {
@@ -72,6 +72,17 @@
       tr:last-child {
         td {
           padding-bottom: 8px;
+        }
+      }
+
+      .icon {
+        float: left;
+        width: 35px;
+        height: 35px;
+
+        &.warn {
+          height: 32px;
+          background-position: @alerts-offset-x @alerts-offset-y - 105px;
         }
       }
     }

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Controller
  *
  *    Created by Maxim Kadushkin on 19 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -62,6 +62,7 @@ define([
                 },
                 'Common.Views.Header': {
                     'click:users': _.bind(this.clickStatusbarUsers, this),
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
@@ -91,7 +92,8 @@ define([
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
                     'file:open': this.clickToolbarTab.bind(this, 'file'),
-                    'file:close': this.clickToolbarTab.bind(this, 'other')
+                    'file:close': this.clickToolbarTab.bind(this, 'other'),
+                    'save:disabled': this.changeToolbarSaveState.bind(this)
                 },
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
@@ -284,11 +286,11 @@ define([
 
         clickSaveAsFormat: function(menu, format) {
             if (menu) {
-                if (format == Asc.c_oAscFileType.TXT) {
+                if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                     Common.UI.warning({
                         closable: false,
                         title: this.notcriticalErrorTitle,
-                        msg: this.warnDownloadAs,
+                        msg: (format == Asc.c_oAscFileType.TXT) ? this.warnDownloadAs : this.warnDownloadAsRTF,
                         buttons: ['ok', 'cancel'],
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
@@ -319,19 +321,19 @@ define([
                 this.api.asc_SetFastCollaborative(fast_coauth);
 
                 value = Common.localStorage.getItem((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
+                Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 switch(value) {
                 case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
                 case 'none': value = Asc.c_oAscCollaborativeMarksShowType.None; break;
                 case 'last': value = Asc.c_oAscCollaborativeMarksShowType.LastChanges; break;
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
-                Common.Utils.InternalSettings.set((fast_coauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
                 this.api.SetCollaborativeMarksShowType(value);
             }
 
             value = Common.localStorage.getBool("de-settings-livecomment", true);
             Common.Utils.InternalSettings.set("de-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+            var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
             if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
@@ -390,6 +392,10 @@ define([
             if (tab == 'file')
                 this.leftMenu.showMenu('file'); else
                 this.leftMenu.menuFile.hide();
+        },
+
+        changeToolbarSaveState: function (state) {
+            this.leftMenu.menuFile.getButton('save').setDisabled(state);
         },
 
         /** coauthoring begin **/
@@ -628,7 +634,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' for 'view' mode
+                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('file:help');
                     }
@@ -725,6 +731,7 @@ define([
         textLoadHistory         : 'Loading versions history...',
         notcriticalErrorTitle: 'Warning',
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
-        warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?' 
+        warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
+        warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
     }, DE.Controllers.LeftMenu || {}));
 });

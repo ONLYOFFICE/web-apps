@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Document Editor
  *
  *  Created by Alexander Yuzhin on 9/22/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -80,7 +80,7 @@ define([
                     usersCount          : 1,
                     fastCoauth          : true,
                     lostEditingRights   : false,
-                    licenseWarning      : false
+                    licenseType         : false
                 };
 
                 // Initialize viewport
@@ -169,6 +169,18 @@ define([
                     Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
                     Common.Gateway.on('opendocument',   _.bind(me.loadDocument, me));
                     Common.Gateway.appReady();
+
+                    Common.Gateway.on('internalcommand', function(data) {
+                        if (data.command=='hardBack') {
+                            if ($('.modal-in').length>0) {
+                                if ( !$(me.loadMask).hasClass('modal-in') )
+                                    uiApp.closeModal();
+                                Common.Gateway.internalMessage('hardBack', false);
+                            } else
+                                Common.Gateway.internalMessage('hardBack', true);
+                        }
+                    });
+                    Common.Gateway.internalMessage('listenHardBack');
                 }
 
                 me.initNames();
@@ -519,21 +531,43 @@ define([
                 }
 
                 me.applyLicense();
+
+                $(document).on('contextmenu', _.bind(me.onContextMenu, me));
             },
 
             onLicenseChanged: function(params) {
                 var licType = params.asc_getLicenseType();
-                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
-                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
-                }
+                if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS))
+                    this._state.licenseType = licType;
 
-                if (this._isDocReady && this._state.licenseWarning)
+                if (this._isDocReady && this._state.licenseType)
                     this.applyLicense();
             },
 
             applyLicense: function() {
                 var me = this;
-                if (me._state.licenseWarning) {
+                if (this._state.licenseType) {
+                    var license = this._state.licenseType,
+                        buttons = [{text: 'OK'}];
+                    if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                    } else {
+                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                        buttons = [{
+                                        text: me.textBuyNow,
+                                        bold: true,
+                                        onClick: function() {
+                                            window.open('https://www.onlyoffice.com', "_blank");
+                                        }
+                                    },
+                                    {
+                                        text: me.textContactUs,
+                                        onClick: function() {
+                                            window.open('mailto:sales@onlyoffice.com', "_blank");
+                                        }
+                                    }];
+                    }
                     PE.getController('Toolbar').activateViewControls();
                     PE.getController('Toolbar').deactivateEditControls();
                     Common.NotificationCenter.trigger('api:disconnect');
@@ -546,22 +580,8 @@ define([
                         Common.localStorage.setItem("pe-license-warning", now);
                         uiApp.modal({
                             title: me.textNoLicenseTitle,
-                            text : me._state.licenseWarning,
-                            buttons: [
-                                {
-                                    text: me.textBuyNow,
-                                    bold: true,
-                                    onClick: function() {
-                                        window.open('https://www.onlyoffice.com', "_blank");
-                                    }
-                                },
-                                {
-                                    text: me.textContactUs,
-                                    onClick: function() {
-                                        window.open('mailto:sales@onlyoffice.com', "_blank");
-                                    }
-                                }
-                            ]
+                            text : license,
+                            buttons: buttons
                         });
                     }
                 } else
@@ -603,6 +623,7 @@ define([
                 me.appOptions.isOffline       = me.api.asc_isOffline();
                 me.appOptions.isReviewOnly    = (me.permissions.review === true) && (me.permissions.edit === false);
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
+                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.canEdit         = (me.permissions.edit !== false || me.permissions.review === true) && // can edit or review
                     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                     (!me.appOptions.isReviewOnly || me.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
@@ -806,6 +827,10 @@ define([
                         config.msg = this.errorBadImageUrl;
                         break;
 
+                    case Asc.c_oAscError.ID.DataEncrypted:
+                        config.msg = this.errorDataEncrypted;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -825,6 +850,10 @@ define([
                         config.callback = function() {
                             Common.NotificationCenter.trigger('goback');
                         }
+                    }
+                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                        this.api.asc_coAuthoringDisconnect();
+                        Common.NotificationCenter.trigger('api:disconnect');
                     }
                 } else {
                     Common.Gateway.reportWarning(id, config.msg);
@@ -1035,25 +1064,33 @@ define([
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
+                    var buttons = [{
+                        text: 'OK',
+                        bold: true,
+                        onClick: function () {
+                            var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
+                            me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
+
+                            if (!me._isDocReady) {
+                                me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            }
+                            me._state.openDlg = null;
+                        }
+                    }];
+                    if (me.appOptions.canRequestClose)
+                        buttons.push({
+                            text: me.closeButtonText,
+                            onClick: function () {
+                                Common.Gateway.requestClose();
+                                me._state.openDlg = null;
+                            }
+                        });
+
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.advDRMEnterPassword,
+                        text: me.txtProtected,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
-                        buttons: [
-                            {
-                                text: 'OK',
-                                bold: true,
-                                onClick: function () {
-                                    var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-
-                                    if (!me._isDocReady) {
-                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                                    }
-                                    me._state.openDlg = null;
-                                }
-                            }
-                        ]
+                        buttons: buttons
                     });
 
                     // Vertical align
@@ -1130,6 +1167,18 @@ define([
 
                 if (url) {
                     me.iframePrint.src = url;
+                }
+            },
+
+            onContextMenu: function(event){
+                var canCopyAttr = event.target.getAttribute('data-can-copy'),
+                    isInputEl   = (event.target instanceof HTMLInputElement) || (event.target instanceof HTMLTextAreaElement);
+
+                if ((isInputEl && canCopyAttr === 'false') ||
+                    (!isInputEl && canCopyAttr !== 'true')) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    return false;
                 }
             },
 
@@ -1224,7 +1273,7 @@ define([
             errorUsersExceed: 'Count of users was exceed',
             txtEditingMode: 'Set editing mode...',
             errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The document is password protected.',
+            errorFilePassProtect: 'The file is password protected and cannot be opened.',
             textAnonymous: 'Anonymous',
             txtNeedSynchronize: 'You have an updates',
             applyChangesTitleText: 'Loading Data',
@@ -1252,7 +1301,6 @@ define([
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
-            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -1285,7 +1333,13 @@ define([
             txtSlideNumber: 'Slide number',
             txtSlideSubtitle: 'Slide subtitle',
             txtSlideTitle: 'Slide title',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset',
+            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
+            warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
+            closeButtonText: 'Close File'
         }
     })(), PE.Controllers.Main || {}))
 });

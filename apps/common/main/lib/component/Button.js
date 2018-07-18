@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  Button.js
  *
  *  Created by Alexander Yuzhin on 1/20/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -118,6 +118,68 @@ define([
     'common/main/lib/component/ToggleManager'
 ], function () {
     'use strict';
+
+    window.createButtonSet = function() {
+        function ButtonsArray(args) {};
+        ButtonsArray.prototype = new Array;
+        ButtonsArray.prototype.constructor = ButtonsArray;
+
+        var _disabled = false;
+
+        ButtonsArray.prototype.add = function(button) {
+            button.setDisabled(_disabled);
+            this.push(button);
+        };
+
+        ButtonsArray.prototype.setDisabled = function(disable) {
+            if ( _disabled != disable ) {
+                _disabled = disable;
+
+                this.forEach( function(button) {
+                    button.setDisabled(disable);
+                });
+            }
+        };
+
+        ButtonsArray.prototype.toggle = function(state, suppress) {
+            this.forEach(function(button) {
+                button.toggle(state, suppress);
+            });
+        };
+
+        ButtonsArray.prototype.pressed = function() {
+            return this.some(function(button) {
+                return button.pressed;
+            });
+        };
+
+        ButtonsArray.prototype.contains = function(id) {
+            return this.some(function(button) {
+                return button.id == id;
+            });
+        };
+
+        ButtonsArray.prototype.concat = function () {
+            var args = Array.prototype.slice.call(arguments);
+            var result = Array.prototype.slice.call(this);
+
+            args.forEach(function(sub){
+                if (sub instanceof Array )
+                    Array.prototype.push.apply(result, sub);
+                else if (sub)
+                    result.push(sub);
+            });
+
+            return result;
+        };
+
+        var _out_array = Object.create(ButtonsArray.prototype);
+        for ( var i in arguments ) {
+            _out_array.add(arguments[i]);
+        }
+
+        return _out_array;
+    };
 
     var templateBtnIcon =
             '<% if ( iconImg ) { %>' +
@@ -292,6 +354,7 @@ define([
                         me.menu.render(me.cmpEl);
 
                     parentEl.html(me.cmpEl);
+                    me.$icon = me.$el.find('.icon');
                 }
             }
 
@@ -535,6 +598,13 @@ define([
                             disabled && tip.hide();
                             !Common.Utils.isGecko && (tip.enabled = !disabled);
                         }
+                    }
+                }
+
+                if ( !!me.options.signals ) {
+                    var opts = me.options.signals;
+                    if ( !(opts.indexOf('disabled') < 0) ) {
+                        me.trigger('disabled', me, disabled);
                     }
                 }
             }

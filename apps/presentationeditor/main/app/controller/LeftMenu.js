@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Controller
  *
  *    Created by Maxim Kadushkin on 10 April 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -61,6 +61,7 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
+                    'file:settings': _.bind(this.clickToolbarSettings,this),
                     'click:users': _.bind(this.clickStatusbarUsers, this)
                 },
                 'Common.Views.Plugins': {
@@ -89,7 +90,8 @@ define([
                 'Toolbar': {
                     'file:settings': _.bind(this.clickToolbarSettings,this),
                     'file:open': this.clickToolbarTab.bind(this, 'file'),
-                    'file:close': this.clickToolbarTab.bind(this, 'other')
+                    'file:close': this.clickToolbarTab.bind(this, 'other'),
+                    'save:disabled' : this.changeToolbarSaveState.bind(this)
                 },
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
@@ -305,6 +307,10 @@ define([
                 this.leftMenu.menuFile.hide();
         },
 
+        changeToolbarSaveState: function (state) {
+            this.leftMenu.menuFile.getButton('save').setDisabled(state);
+        },
+
         /** coauthoring begin **/
         clickStatusbarUsers: function() {
             this.leftMenu.menuFile.panels['rights'].changeAccessRights();
@@ -387,12 +393,12 @@ define([
         },
 
         onApiCountPages: function(count) {
-            if (this._state.no_slides !== (count<=0) && this.mode.isEdit) {
+            if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
                 /** coauthoring begin **/
-                this.leftMenu.btnComments.setDisabled(this._state.no_slides);
+                this.leftMenu.btnComments && this.leftMenu.btnComments.setDisabled(this._state.no_slides);
                 /** coauthoring end **/
-                this.leftMenu.btnSearch.setDisabled(this._state.no_slides);
+                this.leftMenu.btnSearch && this.leftMenu.btnSearch.setDisabled(this._state.no_slides);
             }
         },
 
@@ -483,7 +489,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
 
                     if (!previewPanel || !previewPanel.isVisible()){
                         Common.UI.Menu.Manager.hideAll();

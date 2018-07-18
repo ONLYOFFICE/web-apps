@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Describes menu 'File' for the left tool menu
  *
  *    Created by Maxim Kadushkin on 14 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -157,6 +157,13 @@ define([
                 canFocused: false
             });
 
+            this.miHelp = new Common.UI.MenuItem({
+                el      : $('#fm-btn-help',this.el),
+                action  : 'help',
+                caption : this.btnHelpCaption,
+                canFocused: false
+            });
+
             this.items = [];
             this.items.push(
                 new Common.UI.MenuItem({
@@ -187,12 +194,7 @@ define([
                     caption : this.btnSettingsCaption,
                     canFocused: false
                 }),
-                new Common.UI.MenuItem({
-                    el      : $('#fm-btn-help',this.el),
-                    action  : 'help',
-                    caption : this.btnHelpCaption,
-                    canFocused: false
-                }),
+                this.miHelp,
                 new Common.UI.MenuItem({
                     el      : $('#fm-btn-back',this.el),
                     action  : 'exit',
@@ -206,8 +208,7 @@ define([
                 'saveas'    : (new PE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
                 'opts'      : (new PE.Views.FileMenuPanels.Settings({menu:me})).render(),
                 'info'      : (new PE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                'help'      : (new PE.Views.FileMenuPanels.Help({menu:me})).render()
+                'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render()
             };
 
             me.$el.find('.content-box').hide();
@@ -258,6 +259,9 @@ define([
             this.mode.canBack ? this.$el.find('#fm-btn-back').show().prev().show() :
                                     this.$el.find('#fm-btn-back').hide().prev().hide();
 
+            this.miHelp[this.mode.canHelp ?'show':'hide']();
+            this.miHelp.$el.prev()[this.mode.canHelp ?'show':'hide']();
+
             this.panels['opts'].setMode(this.mode);
             this.panels['info'].setMode(this.mode).updateInfo(this.document);
             this.panels['rights'].setMode(this.mode).updateInfo(this.document);
@@ -283,7 +287,10 @@ define([
                 }
             }
 
-            this.panels['help'].setLangConfig(this.mode.lang);
+            if (this.mode.canHelp) {
+                this.panels['help'] = ((new PE.Views.FileMenuPanels.Help({menu: this})).render());
+                this.panels['help'].setLangConfig(this.mode.lang);
+            }
         },
 
         setMode: function(mode, delay) {
@@ -315,7 +322,7 @@ define([
             if ( menu ) {
                 var item = this._getMenuItem(menu),
                     panel   = this.panels[menu];
-                if ( item.isDisabled() ) {
+                if ( item.isDisabled() || !item.isVisible()) {
                     item = this._getMenuItem(defMenu);
                     panel   = this.panels[defMenu];
                 }

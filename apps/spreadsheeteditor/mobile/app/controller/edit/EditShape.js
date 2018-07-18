@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Spreadsheet Editor
  *
  *  Created by Alexander Yuzhin on 12/19/16
- *  Copyright (c) 2016 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -136,7 +136,7 @@ define([
 
                 var me = this;
 
-                if ('#edit-shape-style' == pageId) {
+                if ('#edit-shape-style' == pageId || '#edit-shape-style-nofill' == pageId ) {
                     me.initStylePage();
                 } else if ('#edit-shape-border-color-view' == pageId) {
                     me.initBorderColorPage();
@@ -151,6 +151,7 @@ define([
 
             initRootPage: function () {
                 $('#shape-remove').single('click', _.bind(this.onRemoveShape, this));
+                this.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().asc_getCanFill();
             },
 
             initStylePage: function () {
@@ -423,6 +424,8 @@ define([
                 };
 
                 _shapeObject = getTopObject(shapes);
+                if (_shapeObject)
+                    this.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().asc_getCanFill();
             },
 
             // Helpers
