@@ -1686,7 +1686,7 @@ define([
         onApiZoomChange: function(zf, type){},
 
         onApiSheetChanged: function() {
-            if (!this.toolbar.mode.isEdit) return;
+            if (!this.toolbar.mode || !this.toolbar.mode.isEdit) return;
 
             var props = this.api.asc_getPageOptions(this.api.asc_getActiveWorksheetIndex()),
                 opt = props.asc_getPageSetup();

@@ -664,7 +664,7 @@ define([
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2 ||
+                if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2 ||
                     this.getApplication().getController('Common.Controllers.ReviewChanges').isPreviewChangesMode()))
                     this.synchronizeChanges();
 

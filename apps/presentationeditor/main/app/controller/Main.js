@@ -465,7 +465,7 @@ define([
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
-                if ((id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
+                if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
 
                if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl))) {
