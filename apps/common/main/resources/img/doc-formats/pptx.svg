@@ -1,1 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 127" version="1.1" width="100" height="127"><defs><style>.cls-2{opacity:0.2;}.cls-3{font-size:12px;font-family:OpenSans-Bold, Open Sans;font-weight:700;}.cls-3,.cls-4{fill:#fff;}</style></defs><symbol id="svg-format-pptx"><path fill="#dd682b" d="M95,23v96a3,3,0,0,1-3,3H8a3,3,0,0,1-3-3V8A3,3,0,0,1,8,5H77Z"/><path class="cls-2" d="M95,23H80a3,3,0,0,1-3-3V5Z"/><text class="cls-3" transform="translate(34.99 113)">PPTX</text><path class="cls-4" d="M50,69A16,16,0,0,0,66,53H50V37a16,16,0,0,0,0,32Z"/><path class="cls-4" d="M53,34V50H69A16,16,0,0,0,53,34Z"/><rect class="cls-4" x="25" y="89" width="50" height="2"/><rect class="cls-4" x="25" y="83" width="50" height="2"/><rect class="cls-4" x="25" y="77" width="50" height="2"/></symbol></svg>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="100" height="127" viewBox="0 0 100 127">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #dd682b;
+      }
+
+      .cls-2 {
+        opacity: 0.2;
+      }
+
+      .cls-2, .cls-3 {
+        isolation: isolate;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <title>pptx</title>
+  <g id="pptx">
+    <path class="cls-1" d="M95,23v96a2.9,2.9,0,0,1-3,3H8a2.9,2.9,0,0,1-3-3V8A2.9,2.9,0,0,1,8,5H77Z"/>
+    <path class="cls-2" d="M95,23H80a2.9,2.9,0,0,1-3-3V5Z"/>
+    <g class="cls-3">
+      <path class="cls-4" d="M42,107.1a2.6,2.6,0,0,1-.9,2.1,3.6,3.6,0,0,1-2.4.8h-.8v3H36.1v-8.6h2.7a4.3,4.3,0,0,1,2.4.7A2.6,2.6,0,0,1,42,107.1Zm-4.1,1.4h.6a1.5,1.5,0,0,0,1.2-.4,1.1,1.1,0,0,0,.5-.9,1.3,1.3,0,0,0-.4-1,1.6,1.6,0,0,0-1.1-.3h-.8Z"/>
+      <path class="cls-4" d="M49.5,107.1a2.9,2.9,0,0,1-.8,2.1,3.7,3.7,0,0,1-2.5.8h-.8v3H43.6v-8.6h2.7a3.8,3.8,0,0,1,2.4.7A2.3,2.3,0,0,1,49.5,107.1Zm-4.1,1.4H46a1.7,1.7,0,0,0,1.3-.4,1.3,1.3,0,0,0,.4-.9,1.1,1.1,0,0,0-.4-1,1.6,1.6,0,0,0-1.1-.3h-.8Z"/>
+      <path class="cls-4" d="M54.4,113H52.6v-7.1H50.3v-1.5h6.5v1.5H54.4Z"/>
+      <path class="cls-4" d="M65,113H62.9l-2-3.2L59,113H57l2.9-4.4-2.7-4.2h2l1.8,3.1,1.9-3.1h1.9l-2.7,4.3Z"/>
+    </g>
+    <path class="cls-4" d="M50,69A16,16,0,0,0,66,53H50V37a16,16,0,0,0,0,32Z"/>
+    <path class="cls-4" d="M53,34V50H69A16,16,0,0,0,53,34Z"/>
+    <rect class="cls-4" x="25" y="89" width="50" height="2"/>
+    <rect class="cls-4" x="25" y="83" width="50" height="2"/>
+    <rect class="cls-4" x="25" y="77" width="50" height="2"/>
+  </g>
+</svg>
