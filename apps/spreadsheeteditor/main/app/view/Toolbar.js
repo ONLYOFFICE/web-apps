@@ -84,6 +84,7 @@ define([
         cantModifyFilter: 'cant-filter',
         cantGroup:      'cant-group',
         cantGroupUngroup: 'cant-group-ungroup',
+        docPropsLock:   'doc-props-lock'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -1212,7 +1213,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-pageorient',
                     caption: me.capBtnPageOrient,
-                    lock        : [_set.lostConnect, _set.coAuth],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar',
                         items: [
@@ -1247,7 +1248,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-pagemargins',
                     caption: me.capBtnMargins,
-                    lock        : [_set.lostConnect, _set.coAuth],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -1292,7 +1293,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-pagesize',
                     caption: me.capBtnPageSize,
-                    lock        : [_set.lostConnect, _set.coAuth],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
                         items: [
                             {

@@ -162,7 +162,8 @@ define([
                 langId: undefined,
                 pgsize: [0, 0],
                 pgmargins: undefined,
-                pgorient: undefined
+                pgorient: undefined,
+                lock_doc: undefined
             };
 
             var checkInsertAutoshape =  function(e, action) {
@@ -1402,6 +1403,9 @@ define([
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  _.bind(this.onApiSheetChanged, this));
                 this.api.asc_registerCallback('asc_onEndAddShape',              _.bind(this.onApiEndAddShape, this));
                 this.api.asc_registerCallback('asc_onEditorSelectionChanged',   _.bind(this.onApiEditorSelectionChanged, this));
+                this.api.asc_registerCallback('asc_onUpdateDocumentProps',      _.bind(this.onUpdateDocumentProps, this));
+                this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
+                this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
             }
 
             if ( !this.appConfig.isEditMailMerge ) {
@@ -1685,15 +1689,24 @@ define([
 
         onApiZoomChange: function(zf, type){},
 
+
         onApiSheetChanged: function() {
             if (!this.toolbar.mode || !this.toolbar.mode.isEdit) return;
 
-            var props = this.api.asc_getPageOptions(this.api.asc_getActiveWorksheetIndex()),
+            var currentSheet = this.api.asc_getActiveWorksheetIndex(),
+                props = this.api.asc_getPageOptions(currentSheet),
                 opt = props.asc_getPageSetup();
 
             this.onApiPageOrient(opt.asc_getOrientation());
             this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
             this.onApiPageMargins(props.asc_getPageMargins());
+
+            this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
+        },
+
+        onUpdateDocumentProps: function(nIndex) {
+            if (nIndex == this.api.asc_getActiveWorksheetIndex())
+                this.onApiSheetChanged();
         },
 
         onApiPageSize: function(w, h) {
@@ -1745,6 +1758,20 @@ define([
             if (this._state.pgorient !== orient) {
                 this.toolbar.btnPageOrient.menu.items[orient == Asc.c_oAscPageOrientation.PagePortrait ? 0 : 1].setChecked(true);
                 this._state.pgorient = orient;
+            }
+        },
+
+        onApiLockDocumentProps: function(nIndex) {
+            if (this._state.lock_doc!==true && nIndex == this.api.asc_getActiveWorksheetIndex()) {
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient]});
+                this._state.lock_doc = true;
+            }
+        },
+
+        onApiUnLockDocumentProps: function(nIndex) {
+            if (this._state.lock_doc!==false && nIndex == this.api.asc_getActiveWorksheetIndex()) {
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient]});
+                this._state.lock_doc = false;
             }
         },
 
