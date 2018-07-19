@@ -1056,7 +1056,7 @@ define([
                                 coAuthTip.y_point + coAuthTip.XY[1]
                             ];
 
-                            if (showPoint[1] > coAuthTip.XY[1] &&
+                            if (showPoint[1] >= coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
                                 src.text(getUserName(data.asc_getUserId()));
                                 if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.width() ) {
