@@ -912,6 +912,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
+                this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
             },
 
             applyModeEditorElements: function(prevmode) {
@@ -974,7 +975,6 @@ define([
                     if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(!Common.localStorage.getBool('pe-hidden-rulers', true));
 
                     me.api.asc_registerCallback('asc_onChangeObjectLock',        _.bind(me._onChangeObjectLock, me));
-                    me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
@@ -1286,7 +1286,7 @@ define([
                 this.updateWindowTitle();
 
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
-                if (toolbarView) {
+                if (toolbarView && toolbarView.btnCollabChanges) {
                     var isSyncButton = toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;

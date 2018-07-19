@@ -734,7 +734,6 @@ define([
 
                             rightmenuController.createDelayedElements();
 
-                            me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                             me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                             me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
                             me.onDocumentModifiedChanged(me.api.asc_isDocumentModified());
@@ -961,6 +960,7 @@ define([
                 if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram) {
                     this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                     this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
+                    this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
 
                     var printController = app.getController('Print');
                     printController && this.api && printController.setApi(this.api);
