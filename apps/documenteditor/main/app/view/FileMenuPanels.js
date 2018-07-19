@@ -54,6 +54,7 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
         ],[
 //            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC},

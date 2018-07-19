@@ -149,7 +149,8 @@ define([
 
                         var _supported = [
                             Asc.c_oAscFileType.PPTX,
-                            Asc.c_oAscFileType.ODP
+                            Asc.c_oAscFileType.ODP,
+                            Asc.c_oAscFileType.PDFA
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )

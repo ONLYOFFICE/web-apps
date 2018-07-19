@@ -69,6 +69,7 @@ define([
         selChart:       'sel-chart',
         selChartText:   'sel-chart-txt',
         selRange:       'sel-range',
+        selRangeEdit:   'sel-range-edit',
         lostConnect:    'disconnect',
         coAuth:         'co-auth',
         coAuthText:     'co-auth-text',
@@ -80,7 +81,9 @@ define([
         multiselect:    'is-multiselect',
         cantHyperlink:  'cant-hyperlink',
         commentLock:    'can-comment',
-        cantModifyFilter: 'cant-filter'
+        cantModifyFilter: 'cant-filter',
+        cantGroup:      'cant-group',
+        cantGroupUngroup: 'cant-group-ungroup',
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -232,7 +235,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-formula',
                     split       : true,
-                    lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         style : 'min-width: 110px',
                         items : [
@@ -279,7 +282,7 @@ define([
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     itemsTemplate: formatTemplate,
                     editable    : false,
                     data        : me.numFormatData
@@ -338,7 +341,8 @@ define([
                     tabs: [
                         { caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                         { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
-                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'}
+                        { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
+                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'}
                     ]}
                 );
 
@@ -346,7 +350,7 @@ define([
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 55px;',
                     hint        : me.tipFontSize,
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     data        : [
                         { value: 8, displayValue: "8" },
                         { value: 9, displayValue: "9" },
@@ -372,7 +376,7 @@ define([
                     menuCls     : 'scrollable-menu',
                     menuStyle   : 'min-width: 325px;',
                     hint        : me.tipFontName,
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     store       : new Common.Collections.Fonts()
                 });
 
@@ -395,21 +399,21 @@ define([
                     id          : 'id-toolbar-btn-incfont',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-incfont',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect]
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
                 });
 
                 me.btnDecFontSize = new Common.UI.Button({
                     id          : 'id-toolbar-btn-decfont',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-decfont',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect]
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
                 });
 
                 me.btnBold = new Common.UI.Button({
                     id          : 'id-toolbar-btn-bold',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-bold',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     enableToggle: true
                 });
 
@@ -417,7 +421,7 @@ define([
                     id          : 'id-toolbar-btn-italic',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-italic',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     enableToggle: true
                 });
 
@@ -425,7 +429,7 @@ define([
                     id          : 'id-toolbar-btn-underline',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-underline',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     enableToggle: true
                 });
 
@@ -433,7 +437,7 @@ define([
                     id: 'id-toolbar-btn-strikeout',
                     cls: 'btn-toolbar',
                     iconCls: 'btn-strikeout',
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     enableToggle: true
                 });
 
@@ -444,7 +448,7 @@ define([
                     icls     : 'btn-subscript',
                     split       : true,
                     enableToggle: true,
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
@@ -475,7 +479,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-fontcolor',
                     split       : true,
-                    lock        : [_set.selImage, _set.editFormula, _set.selRange, _set.coAuth, _set.coAuthText, _set.lostConnect],
+                    lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
                         items: [
                             { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
@@ -832,7 +836,7 @@ define([
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     itemsTemplate: formatTemplate,
                     editable    : false,
                     data        : me.numFormatData
@@ -899,7 +903,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-formula',
                     split       : true,
-                    lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRange, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         style : 'min-width: 110px',
                         items : [
@@ -920,7 +924,7 @@ define([
                     id          : 'id-toolbar-btn-insertrange',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-named-range',
-                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRange],
+                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
                     menu        : new Common.UI.Menu({
                         style : 'min-width: 110px',
                         items : [
@@ -946,7 +950,7 @@ define([
                     id          : 'id-toolbar-btn-clear',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-clearstyle',
-                    lock        : [_set.lostConnect, _set.coAuth, _set.selRange],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.selRangeEdit],
                     menu        : new Common.UI.Menu({
                         style : 'min-width: 110px',
                         items : [
@@ -1202,6 +1206,237 @@ define([
                 var hidetip = Common.localStorage.getItem("sse-hide-synch");
                 me.showSynchTip = !(hidetip && parseInt(hidetip) == 1);
                 // me.needShowSynchTip = false;
+
+                me.btnPageOrient = new Common.UI.Button({
+                    id: 'tlbtn-pageorient',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-pageorient',
+                    caption: me.capBtnPageOrient,
+                    lock        : [_set.lostConnect, _set.coAuth],
+                    menu: new Common.UI.Menu({
+                        cls: 'ppm-toolbar',
+                        items: [
+                            {
+                                caption: me.textPortrait,
+                                iconCls: 'mnu-orient-portrait',
+                                checkable: true,
+                                toggleGroup: 'menuOrient',
+                                value: Asc.c_oAscPageOrientation.PagePortrait
+                            },
+                            {
+                                caption: me.textLandscape,
+                                iconCls: 'mnu-orient-landscape',
+                                checkable: true,
+                                toggleGroup: 'menuOrient',
+                                value: Asc.c_oAscPageOrientation.PageLandscape
+                            }
+                        ]
+                    })
+                });
+
+                var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                    '<% if (options.value !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                    '<label style="display: block;">' + this.textTop + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                    '<label style="display: block;">' + this.textLeft + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                    '<label style="display: block;">' + this.textBottom + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                    '<label style="display: block;">' + this.textRight + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                    '<% } %></a>');
+
+                me.btnPageMargins = new Common.UI.Button({
+                    id: 'tlbtn-pagemargins',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-pagemargins',
+                    caption: me.capBtnMargins,
+                    lock        : [_set.lostConnect, _set.coAuth],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {
+                                caption: me.textMarginsLast,
+                                checkable: true,
+                                template: pageMarginsTemplate,
+                                toggleGroup: 'menuPageMargins'
+                            }, //top,left,bottom,right
+                            {
+                                caption: me.textMarginsNormal,
+                                checkable: true,
+                                template: pageMarginsTemplate,
+                                toggleGroup: 'menuPageMargins',
+                                value: [19.1, 17.8, 19.1, 17.8]
+                            },
+                            {
+                                caption: me.textMarginsNarrow,
+                                checkable: true,
+                                template: pageMarginsTemplate,
+                                toggleGroup: 'menuPageMargins',
+                                value: [19.1, 6.4, 19.1, 6.4]
+                            },
+                            {
+                                caption: me.textMarginsWide,
+                                checkable: true,
+                                template: pageMarginsTemplate,
+                                toggleGroup: 'menuPageMargins',
+                                value: [25.4, 25.4, 25.4, 25.4]
+                            },
+                            {caption: '--'},
+                            {caption: me.textPageMarginsCustom, value: 'advanced'}
+                        ]
+                    })
+                });
+
+                var pageSizeTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                    '<div><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x ' +
+                    '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>');
+
+                me.btnPageSize = new Common.UI.Button({
+                    id: 'tlbtn-pagesize',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-pagesize',
+                    caption: me.capBtnPageSize,
+                    lock        : [_set.lostConnect, _set.coAuth],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {
+                                caption: 'US Letter',
+                                subtitle: '21,59cm x 27,94cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [215.9, 279.4]
+                            },
+                            {
+                                caption: 'US Legal',
+                                subtitle: '21,59cm x 35,56cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [215.9, 355.6]
+                            },
+                            {
+                                caption: 'A4',
+                                subtitle: '21cm x 29,7cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [210, 297],
+                                checked: true
+                            },
+                            {
+                                caption: 'A5',
+                                subtitle: '14,81cm x 20,99cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [148, 210]
+                            },
+                            {
+                                caption: 'B5',
+                                subtitle: '17,6cm x 25,01cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [176, 250]
+                            },
+                            {
+                                caption: 'Envelope #10',
+                                subtitle: '10,48cm x 24,13cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [104.8, 241.3]
+                            },
+                            {
+                                caption: 'Envelope DL',
+                                subtitle: '11,01cm x 22,01cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [110, 220]
+                            },
+                            {
+                                caption: 'Tabloid',
+                                subtitle: '27,94cm x 43,17cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [279.4, 431.8]
+                            },
+                            {
+                                caption: 'A3',
+                                subtitle: '29,7cm x 42,01cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [297, 420]
+                            },
+                            {
+                                caption: 'Tabloid Oversize',
+                                subtitle: '30,48cm x 45,71cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [304.8, 457.1]
+                            },
+                            {
+                                caption: 'ROC 16K',
+                                subtitle: '19,68cm x 27,3cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [196.8, 273]
+                            },
+                            {
+                                caption: 'Envelope Choukei 3',
+                                subtitle: '11,99cm x 23,49cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [119.9, 234.9]
+                            },
+                            {
+                                caption: 'Super B/A3',
+                                subtitle: '33,02cm x 48,25cm',
+                                template: pageSizeTemplate,
+                                checkable: true,
+                                toggleGroup: 'menuPageSize',
+                                value: [330.2, 482.5]
+                            }
+                        ]
+                    })
+                });
+                me.mnuPageSize = me.btnPageSize.menu;
+
+                me.btnImgAlign = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-img-align',
+                    caption: me.capImgAlign,
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth],
+                    menu: true
+                });
+
+                me.btnImgGroup = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-img-group',
+                    caption: me.capImgGroup,
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroupUngroup, _set.lostConnect, _set.coAuth],
+                    menu: true
+                });
+                me.btnImgForward = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-img-frwd',
+                    caption: me.capImgForward,
+                    split: true,
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    menu: true
+                });
+                me.btnImgBackward = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-img-bkwd',
+                    caption: me.capImgBackward,
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    split: true,
+                    menu: true
+                });
+
             } else {
                 Common.UI.Mixtbar.prototype.initialize.call(this, {
                         template: _.template(template_view),
@@ -1240,7 +1475,8 @@ define([
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnAutofilter, me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
-                    /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle
+                    /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup
                 ];
 
                 var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
@@ -1300,8 +1536,21 @@ define([
                 }
             });
 
-            if ( mode.isEdit )
+            if ( mode.isEdit ) {
+                var top = Common.localStorage.getItem("sse-pgmargins-top"),
+                    left = Common.localStorage.getItem("sse-pgmargins-left"),
+                    bottom = Common.localStorage.getItem("sse-pgmargins-bottom"),
+                    right = Common.localStorage.getItem("sse-pgmargins-right");
+                if ( top!==null && left!==null && bottom!==null && right!==null ) {
+                    var mnu = this.btnPageMargins.menu.items[0];
+                    mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
+                    mnu.setVisible(true);
+                    $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                } else
+                    this.btnPageMargins.menu.items[0].setVisible(false);
+
                 me.setTab('home');
+            }
             if ( me.isCompactView )
                 me.setFolded(true);
 
@@ -1391,6 +1640,14 @@ define([
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
+            _injectComponent('#slot-btn-pageorient',    this.btnPageOrient);
+            _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
+            _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
+            _injectComponent('#slot-img-align',         this.btnImgAlign);
+            _injectComponent('#slot-img-group',         this.btnImgGroup);
+            _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
+            _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
+
             // replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                this.btnHorizontalAlign);
             // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
             // replacePlacholder('#id-toolbar-short-placeholder-btn-filter',                this.btnAutofilter);
@@ -1459,6 +1716,9 @@ define([
             _updateHint(this.btnHorizontalAlign, this.tipHAligh);
             _updateHint(this.btnVerticalAlign, this.tipVAligh);
             _updateHint(this.btnAutofilter, this.tipAutofilter);
+            _updateHint(this.btnPageOrient, this.tipPageOrient);
+            _updateHint(this.btnPageSize, this.tipPageSize);
+            _updateHint(this.btnPageMargins, this.tipPageMargins);
 
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
@@ -1649,6 +1909,8 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
             }
+
+            this.updateMetricUnit();
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -1671,6 +1933,35 @@ define([
                     el: $('#id-toolbar-menu-paracolor'),
                     transparent: true
                 });
+            }
+        },
+
+        updateMetricUnit: function () {
+            var items = this.btnPageMargins.menu.items;
+            for (var i = 0; i < items.length; i++) {
+                var mnu = items[i];
+                if (mnu.checkable) {
+                    var checked = mnu.checked;
+                    $(mnu.el).html(mnu.template({
+                        id: Common.UI.getId(),
+                        caption: mnu.caption,
+                        options: mnu.options
+                    }));
+                    if (checked) mnu.setChecked(checked);
+                }
+            }
+            items = this.btnPageSize.menu.items;
+            for (var i = 0; i < items.length; i++) {
+                var mnu = items[i];
+                if (mnu.checkable) {
+                    var checked = mnu.checked;
+                    $(mnu.el).html(mnu.template({
+                        id: Common.UI.getId(),
+                        caption: mnu.caption,
+                        options: mnu.options
+                    }));
+                    if (checked) mnu.setChecked(checked);
+                }
             }
         },
 
@@ -1839,6 +2130,76 @@ define([
         },
 
         onAppReady: function (config) {
+            var me = this;
+            var _holder_view = SSE.getController('DocumentHolder').getView('DocumentHolder');
+            me.btnImgForward.updateHint(me.tipSendForward);
+            me.btnImgForward.setMenu(new Common.UI.Menu({
+                items: [{
+                    caption : _holder_view.textArrangeFront,
+                    iconCls : 'mnu-arrange-front',
+                    value  : Asc.c_oAscDrawingLayerType.BringToFront
+                }, {
+                    caption : _holder_view.textArrangeForward,
+                    iconCls : 'mnu-arrange-forward',
+                    value  : Asc.c_oAscDrawingLayerType.BringForward
+                }
+                ]})
+            );
+
+            me.btnImgBackward.updateHint(me.tipSendBackward);
+            me.btnImgBackward.setMenu(new Common.UI.Menu({
+                items: [{
+                    caption : _holder_view.textArrangeBack,
+                    iconCls : 'mnu-arrange-back',
+                    value  : Asc.c_oAscDrawingLayerType.SendToBack
+                }, {
+                    caption : _holder_view.textArrangeBackward,
+                    iconCls : 'mnu-arrange-backward',
+                    value  : Asc.c_oAscDrawingLayerType.SendBackward
+                }]
+            }));
+
+            me.btnImgAlign.updateHint(me.tipImgAlign);
+            me.btnImgAlign.setMenu(new Common.UI.Menu({
+                items: [{
+                    caption : _holder_view.textShapeAlignLeft,
+                    iconCls : 'mnu-img-align-left',
+                    // halign  : Asc.c_oAscAlignH.Left
+                }, {
+                    caption : _holder_view.textShapeAlignCenter,
+                    iconCls : 'mnu-img-align-center',
+                    // halign  : Asc.c_oAscAlignH.Center
+                }, {
+                    caption : _holder_view.textShapeAlignRight,
+                    iconCls : 'mnu-img-align-right',
+                    // halign  : Asc.c_oAscAlignH.Right
+                }, {
+                    caption : _holder_view.textShapeAlignTop,
+                    iconCls : 'mnu-img-align-top',
+                    // valign  : Asc.c_oAscAlignV.Top
+                }, {
+                    caption : _holder_view.textShapeAlignMiddle,
+                    iconCls : 'mnu-img-align-middle',
+                    // valign  : Asc.c_oAscAlignV.Center
+                }, {
+                    caption : _holder_view.textShapeAlignBottom,
+                    iconCls : 'mnu-img-align-bottom',
+                    // valign  : Asc.c_oAscAlignV.Bottom
+                }]
+            }));
+
+            me.btnImgGroup.updateHint(me.tipImgGroup);
+            me.btnImgGroup.setMenu(new Common.UI.Menu({
+                items: [{
+                    caption : _holder_view.txtGroup,
+                    iconCls : 'mnu-group',
+                    value: 'grouping'
+                }, {
+                    caption : _holder_view.txtUngroup,
+                    iconCls : 'mnu-ungroup',
+                    value: 'ungrouping'
+                }]
+            }));
 
         },
 
@@ -2032,6 +2393,32 @@ define([
         textSurface: 'Surface',
         tipChangeChart: 'Change Chart Type',
         textTabCollaboration: 'Collaboration',
-        textTabProtect: 'Protection'
+        textTabProtect: 'Protection',
+        textTabLayout: 'Layout',
+        capBtnPageOrient: 'Orientation',
+        capBtnMargins: 'Margins',
+        capBtnPageSize: 'Size',
+        tipImgAlign: 'Align objects',
+        tipImgGroup: 'Group objects',
+        tipSendForward: 'Bring forward',
+        tipSendBackward: 'Send backward',
+        capImgAlign: 'Align',
+        capImgGroup: 'Group',
+        capImgForward: 'Bring Forward',
+        capImgBackward: 'Send Backward',
+        tipPageSize: 'Page Size',
+        tipPageOrient: 'Page Orientation',
+        tipPageMargins: 'Page Margins',
+        textMarginsLast: 'Last Custom',
+        textMarginsNormal: 'Normal',
+        textMarginsNarrow: 'Narrow',
+        textMarginsWide: 'Wide',
+        textPageMarginsCustom: 'Custom margins',
+        textTop: 'Top: ',
+        textLeft: 'Left: ',
+        textBottom: 'Bottom: ',
+        textRight: 'Right: ',
+        textPortrait: 'Portrait',
+        textLandscape: 'Landscape'
     }, SSE.Views.Toolbar || {}));
 });

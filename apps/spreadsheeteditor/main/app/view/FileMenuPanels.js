@@ -44,6 +44,8 @@ define([
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
             {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+        ],[
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
         ]
