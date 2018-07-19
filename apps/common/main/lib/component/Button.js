@@ -600,6 +600,9 @@ define([
                     }
                 }
 
+                if (disabled && this.menu && _.isObject(this.menu) && this.menu.rendered && this.menu.isVisible())
+                    this.menu.hide();
+
                 if ( !!me.options.signals ) {
                     var opts = me.options.signals;
                     if ( !(opts.indexOf('disabled') < 0) ) {
