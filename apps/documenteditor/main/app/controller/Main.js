@@ -879,7 +879,7 @@ define([
                     me.api.SetCollaborativeMarksShowType(value == 'all' ? Asc.c_oAscCollaborativeMarksShowType.All :
                                                         (value == 'none' ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges));
                     Common.Utils.InternalSettings.set((me._state.fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
-                } else if (!me.appOptions.isEdit && me.appOptions.canComments) {
+                } else if (!me.appOptions.isEdit && me.appOptions.isRestrictedEdit) {
                     me._state.fastCoauth = true;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                     me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
@@ -1101,6 +1101,10 @@ define([
                 this.appOptions.canProtect     = this.appOptions.isProtectSupport && this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
                 this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
+                this.appOptions.canFillForms   =  (this.permissions.fillForms===undefined) ? this.appOptions.isEdit : this.permissions.fillForms;
+                this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && (this.appOptions.canComments || this.appOptions.canFillForms);
+                if (this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
+                    this.appOptions.canComments = false;
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1136,8 +1140,9 @@ define([
                     this.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 }
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
+                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
                 (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+                (!this.appOptions.isEdit && this.appOptions.canFillForms) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_LoadDocument();
             },
 
