@@ -601,7 +601,7 @@ define([
                 }
 
                 if (disabled && this.menu && _.isObject(this.menu) && this.menu.rendered && this.menu.isVisible())
-                    this.menu.hide();
+                    setTimeout(function(){ me.menu.hide()}, 1);
 
                 if ( !!me.options.signals ) {
                     var opts = me.options.signals;
