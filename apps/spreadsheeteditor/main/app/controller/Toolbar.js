@@ -1691,7 +1691,7 @@ define([
 
 
         onApiSheetChanged: function() {
-            if (!this.toolbar.mode || !this.toolbar.mode.isEdit) return;
+            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
 
             var currentSheet = this.api.asc_getActiveWorksheetIndex(),
                 props = this.api.asc_getPageOptions(currentSheet),

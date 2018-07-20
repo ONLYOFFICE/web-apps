@@ -1538,17 +1538,19 @@ define([
             });
 
             if ( mode.isEdit ) {
-                var top = Common.localStorage.getItem("sse-pgmargins-top"),
-                    left = Common.localStorage.getItem("sse-pgmargins-left"),
-                    bottom = Common.localStorage.getItem("sse-pgmargins-bottom"),
-                    right = Common.localStorage.getItem("sse-pgmargins-right");
-                if ( top!==null && left!==null && bottom!==null && right!==null ) {
-                    var mnu = this.btnPageMargins.menu.items[0];
-                    mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
-                    mnu.setVisible(true);
-                    $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
-                } else
-                    this.btnPageMargins.menu.items[0].setVisible(false);
+                if (!mode.isEditDiagram && !mode.isEditMailMerge) {
+                    var top = Common.localStorage.getItem("sse-pgmargins-top"),
+                        left = Common.localStorage.getItem("sse-pgmargins-left"),
+                        bottom = Common.localStorage.getItem("sse-pgmargins-bottom"),
+                        right = Common.localStorage.getItem("sse-pgmargins-right");
+                    if ( top!==null && left!==null && bottom!==null && right!==null ) {
+                        var mnu = this.btnPageMargins.menu.items[0];
+                        mnu.options.value = mnu.value = [parseFloat(top), parseFloat(left), parseFloat(bottom), parseFloat(right)];
+                        mnu.setVisible(true);
+                        $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
+                    } else
+                        this.btnPageMargins.menu.items[0].setVisible(false);
+                }
 
                 me.setTab('home');
             }
@@ -1911,7 +1913,8 @@ define([
                 });
             }
 
-            this.updateMetricUnit();
+            if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
+                this.updateMetricUnit();
         },
 
         onToolbarAfterRender: function(toolbar) {
@@ -2131,6 +2134,8 @@ define([
         },
 
         onAppReady: function (config) {
+            if (!this.mode.isEdit || this.mode.isEditMailMerge || this.mode.isEditDiagram) return;
+
             var me = this;
             var _holder_view = SSE.getController('DocumentHolder').getView('DocumentHolder');
             me.btnImgForward.updateHint(me.tipSendForward);
