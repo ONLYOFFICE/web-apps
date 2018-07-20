@@ -3329,7 +3329,7 @@ define([
 
             var menuParaStartNumberingFrom = new Common.UI.MenuItem({
                 caption: me.textStartNumberingFrom
-            }).on('click', _.bind(me.onStartNumbering, me));
+            }).on('click', _.bind(me.onStartNumbering, me, 'advanced'));
 
             var menuParaContinueNumbering = new Common.UI.MenuItem({
                 caption: me.textContinueNumbering
