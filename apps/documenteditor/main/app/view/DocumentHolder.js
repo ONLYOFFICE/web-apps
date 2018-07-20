@@ -2781,6 +2781,30 @@ define([
                 })
             });
 
+            var menuTableStartNewList = new Common.UI.MenuItem({
+                caption: me.textStartNewList
+            }).on('click', _.bind(me.onStartNumbering, me, 1));
+
+            var menuTableStartNumberingFrom = new Common.UI.MenuItem({
+                caption: me.textStartNumberingFrom
+            }).on('click', _.bind(me.onStartNumbering, me, 'advanced'));
+
+            var menuTableContinueNumbering = new Common.UI.MenuItem({
+                caption: me.textContinueNumbering
+            }).on('click', _.bind(me.onContinueNumbering, me));
+
+            var menuNumberingTable = new Common.UI.MenuItem({
+                caption     : me.bulletsText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        menuTableStartNewList,
+                        menuTableStartNumberingFrom,
+                        menuTableContinueNumbering
+                    ]
+                })
+            });
+
             this.tableMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     // table properties
@@ -2824,6 +2848,18 @@ define([
                     menuTableCut.setDisabled(disabled || !cancopy);
                     menuTablePaste.setDisabled(disabled);
 
+                    // bullets & numbering
+                    var listId = me.api.asc_GetCurrentNumberingId(),
+                        in_list = (listId !== null);
+                    menuNumberingTable.setVisible(in_list);
+                    if (in_list) {
+                        var format = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()).get_Format();
+                        menuTableStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
+                        menuTableStartNumberingFrom.value = format;
+                        menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
+                        menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                    }
+
                     // hyperlink properties
                     var text = null;
                     if (me.api) {
@@ -2831,7 +2867,7 @@ define([
                     }
                     menuAddHyperlinkTable.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
-                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
+                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible());
 
                     menuEditHyperlinkTable.hyperProps = value.hyperProps;
                     menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
@@ -3006,6 +3042,7 @@ define([
                 /** coauthoring begin **/
                     menuAddCommentTable,
                 /** coauthoring end **/
+                    menuNumberingTable,
                     menuAddHyperlinkTable,
                     menuHyperlinkTable,
                     menuHyperlinkSeparator,
@@ -3840,7 +3877,8 @@ define([
         textContinueNumbering: 'Continue numbering',
         textSeparateList: 'Separate list',
         textJoinList: 'Join to previous list',
-        textNumberingValue: 'Numbering Value'
+        textNumberingValue: 'Numbering Value',
+        bulletsText: 'Bullets and Numbering'
 
     }, DE.Views.DocumentHolder || {}));
 });

@@ -1049,6 +1049,7 @@
   "DE.Views.DocumentHolder.textSeparateList": "Separate list",
   "DE.Views.DocumentHolder.textJoinList": "Join to previous list",
   "DE.Views.DocumentHolder.textNumberingValue": "Numbering Value",
+  "DE.Views.DocumentHolder.bulletsText": "Bullets and Numbering",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "Cancel",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "Ok",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
