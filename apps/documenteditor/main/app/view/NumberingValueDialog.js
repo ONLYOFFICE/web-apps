@@ -102,7 +102,7 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                // this.spnStart.setValue(props.start);
+                this.spnStart.setValue(props.start);
                 this.onFormatSelect(props.format);
             }
         },

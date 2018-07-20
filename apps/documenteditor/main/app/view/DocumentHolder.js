@@ -1904,7 +1904,7 @@ define([
                 var me = this;
                 (new DE.Views.NumberingValueDialog({
                     title: me.textNumberingValue,
-                    props: {format: item.value},
+                    props: item.value,
                     handler: function (result, value) {
                         if (result == 'ok')
                             me.api.asc_RestartNumbering(value);
@@ -2853,9 +2853,12 @@ define([
                         in_list = (listId !== null);
                     menuNumberingTable.setVisible(in_list);
                     if (in_list) {
-                        var format = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()).get_Format();
+                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                            format = numLvl.get_Format(),
+                            start = me.api.asc_GetCalculatedNumberingValue();
+                        menuTableStartNewList.setVisible(numLvl.get_Start()!=start);
                         menuTableStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
-                        menuTableStartNumberingFrom.value = format;
+                        menuTableStartNumberingFrom.value = {format: format, start: start};
                         menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
                     }
@@ -3506,9 +3509,12 @@ define([
                     menuParaStartNumberingFrom.setVisible(in_list);
                     menuParaContinueNumbering.setVisible(in_list);
                     if (in_list) {
-                        var format = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()).get_Format();
+                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                            format = numLvl.get_Format(),
+                            start = me.api.asc_GetCalculatedNumberingValue();
+                        menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
                         menuParaStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
-                        menuParaStartNumberingFrom.value = format;
+                        menuParaStartNumberingFrom.value = {format: format, start: start};
                         menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
                         menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
                     }
