@@ -147,7 +147,7 @@ define([
 
             this.popoverComments                =   new Common.Collections.Comments();
             if (this.popoverComments) {
-                this.popoverComments.comparator =   function (collection) { return -collection.get('time'); };
+                this.popoverComments.comparator =   function (collection) { return collection.get('time'); };
             }
 
             this.view = this.createView('Common.Views.Comments', { store: this.collection });
@@ -831,9 +831,8 @@ define([
                     saveTxtReplyId = '',
                     comment = null,
                     text = '',
-                    animate = true;
-
-                this.popoverComments.reset();
+                    animate = true,
+                    comments = [];
 
                 for (i = 0; i < uids.length; ++i) {
                     saveTxtId = uids[i];
@@ -871,11 +870,15 @@ define([
                     this.isSelectedComment = !hint || !this.hintmode;
                     this.uids = _.clone(uids);
 
-                    this.popoverComments.push(comment);
+                    comments.push(comment);
                     if (!this._dontScrollToComment)
                         this.view.commentsView.scrollToRecord(comment);
                     this._dontScrollToComment = false;
                 }
+                comments.sort(function (a, b) {
+                    return a.get('time') - b.get('time');
+                });
+                this.popoverComments.reset(comments);
 
                 if (popover.isVisible()) {
                     popover.hide();
@@ -937,9 +940,7 @@ define([
                     if (this.isModeChanged)
                         this.onApiShowComment(uids, posX, posY, leftX);
                     if (0 === this.popoverComments.length) {
-
-                        this.popoverComments.reset();
-
+                        var comments = [];
                         for (i = 0; i < uids.length; ++i) {
                             saveTxtId = uids[i];
                             saveTxtReplyId = uids[i] + '-R';
@@ -956,8 +957,12 @@ define([
                                 text = this.subEditStrings[saveTxtReplyId];
                             }
 
-                            this.popoverComments.push(comment);
+                            comments.push(comment);
                         }
+                        comments.sort(function (a, b) {
+                            return a.get('time') - b.get('time');
+                        });
+                        this.popoverComments.reset(comments);
 
                         useAnimation = true;
                         this.getPopover().showComments(useAnimation, undefined, undefined, text);
