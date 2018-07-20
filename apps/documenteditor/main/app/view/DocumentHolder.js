@@ -53,7 +53,8 @@ define([
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
-    'documenteditor/main/app/view/ControlSettingsDialog'
+    'documenteditor/main/app/view/ControlSettingsDialog',
+    'documenteditor/main/app/view/NumberingValueDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -1891,6 +1892,29 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
+        onContinueNumbering: function(item, e) {
+            this.api.asc_ContinueNumbering();
+            this.fireEvent('editcomplete', this);
+        },
+
+        onStartNumbering: function(startfrom, item, e) {
+            if (startfrom == 1)
+                this.api.asc_RestartNumbering(1);
+            else {
+                var me = this;
+                (new DE.Views.NumberingValueDialog({
+                    title: me.textNumberingValue,
+                    props: {format: item.value},
+                    handler: function (result, value) {
+                        if (result == 'ok')
+                            me.api.asc_RestartNumbering(value);
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         createDelayedElementsViewer: function() {
             var me = this;
 
@@ -3299,6 +3323,22 @@ define([
                 caption     : '--'
             });
 
+            var menuParaStartNewList = new Common.UI.MenuItem({
+                caption: me.textStartNewList
+            }).on('click', _.bind(me.onStartNumbering, me, 1));
+
+            var menuParaStartNumberingFrom = new Common.UI.MenuItem({
+                caption: me.textStartNumberingFrom
+            }).on('click', _.bind(me.onStartNumbering, me));
+
+            var menuParaContinueNumbering = new Common.UI.MenuItem({
+                caption: me.textContinueNumbering
+            }).on('click', _.bind(me.onContinueNumbering, me));
+
+            var menuParaNumberingSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
@@ -3421,6 +3461,20 @@ define([
                     if (in_field) {
                         menuParaRefreshField.options.fieldProps = in_field;
                     }
+
+                    var listId = me.api.asc_GetCurrentNumberingId(),
+                        in_list = (listId !== null);
+                    menuParaNumberingSeparator.setVisible(in_list); // hide when first item is selected
+                    menuParaStartNewList.setVisible(in_list);
+                    menuParaStartNumberingFrom.setVisible(in_list);
+                    menuParaContinueNumbering.setVisible(in_list);
+                    if (in_list) {
+                        var format = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()).get_Format();
+                        menuParaStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
+                        menuParaStartNumberingFrom.value = format;
+                        menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
+                        menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                    }
                 },
                 items: [
                     me.menuSpellPara,
@@ -3456,6 +3510,10 @@ define([
                     menuHyperlinkParaSeparator,
                     menuAddHyperlinkPara,
                     menuHyperlinkPara,
+                    menuParaNumberingSeparator,
+                    menuParaStartNewList,
+                    menuParaStartNumberingFrom,
+                    menuParaContinueNumbering,
                     menuStyleSeparator,
                     menuStyle
                 ]
@@ -3776,7 +3834,13 @@ define([
         txtPasteSourceFormat: 'Keep source formatting',
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
-        textFromFile:   'From File'
+        textFromFile:   'From File',
+        textStartNumberingFrom: 'Set numbering value',
+        textStartNewList: 'Start new list',
+        textContinueNumbering: 'Continue numbering',
+        textSeparateList: 'Separate list',
+        textJoinList: 'Join to previous list',
+        textNumberingValue: 'Numbering Value'
 
     }, DE.Views.DocumentHolder || {}));
 });
