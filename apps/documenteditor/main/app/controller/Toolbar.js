@@ -315,6 +315,9 @@ define([
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
+            toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
@@ -1645,6 +1648,26 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onNewControlsColor: function(picker, color) {
+            this.toolbar.mnuControlsColorPicker.addNewColor();
+        },
+
+        onNoControlsColor: function(item) {
+            this.api.asc_SetGlobalContentControlShowHighlight(!item.isChecked());
+            this.toolbar.mnuControlsColorPicker.clearSelection();
+        },
+
+        onSelectControlsColor: function(picker, color) {
+            var clr = Common.Utils.ThemeColor.getRgbColor(color);
+            if (this.api) {
+                this.toolbar.mnuNoControlsColor.setChecked(true, true);
+                this.api.asc_SetGlobalContentControlShowHighlight(true);
+                this.api.asc_SetGlobalContentControlHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
+            }
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Content Controls Color');
+        },
+
         onColumnsSelect: function(menu, item) {
             if (_.isUndefined(item.value))
                 return;
@@ -2516,6 +2539,8 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
+
+            updateColors(this.toolbar.mnuControlsColorPicker, 1);
         },
 
         _onInitEditorStyles: function(styles) {
