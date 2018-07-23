@@ -49,7 +49,7 @@ define([
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 275
+            height: 335
         },
 
         initialize : function(options) {
@@ -63,7 +63,7 @@ define([
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',
                                 '<tr>',
-                                    '<td class="padding-large">',
+                                    '<td class="padding-small">',
                                         '<label class="input-label">', me.textName, '</label>',
                                         '<div id="control-settings-txt-name"></div>',
                                     '</td>',
@@ -74,6 +74,26 @@ define([
                                         '<div id="control-settings-txt-tag"></div>',
                                     '</td>',
                                 '</tr>',
+                                '<tr>',
+                                '</table>',
+                                '<table cols="2" style="width: auto;">',
+                                    '<td class="padding-large">',
+                                        '<label class="input-label" style="margin-right: 10px;">', me.textShowAs,'</label>',
+                                    '</td>',
+                                    '<td class="padding-large">',
+                                        '<div id="control-settings-combo-show" class="input-group-nr" style="display: inline-block; width:120px;"></div>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td class="padding-large">',
+                                        '<label class="input-label" style="margin-right: 10px;">', me.textColor, '</label>',
+                                    '</td>',
+                                    '<td class="padding-large">',
+                                        '<div id="control-settings-color-btn" style="display: inline-block;"></div>',
+                                    '</td>',
+                                '</tr>',
+                                '</table>',
+                                '<table cols="1" style="width: 100%;">',
                                 '<tr>',
                                     '<td class="padding-small">',
                                         '<label class="header">', me.textLock, '</label>',
@@ -128,6 +148,38 @@ define([
                 value       : ''
             });
 
+            this.cmbShow = new Common.UI.ComboBox({
+                el: $('#control-settings-combo-show'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 120px;',
+                editable: false,
+                data: [
+                    { displayValue: this.textBox,   value: Asc.c_oAscSdtAppearance.Frame },
+                    { displayValue: this.textNone,  value: Asc.c_oAscSdtAppearance.Hidden }
+                ]
+            });
+            this.cmbShow.setValue(Asc.c_oAscSdtAppearance.Frame);
+
+            this.btnColor = new Common.UI.ColorButton({
+                style: "width:45px;",
+                menu        : new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="control-settings-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="control-settings-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                    ]
+                })
+            });
+
+            this.btnColor.on('render:after', function(btn) {
+                me.colors = new Common.UI.ThemeColorPalette({
+                    el: $('#control-settings-color-menu')
+                });
+                me.colors.on('select', _.bind(me.onColorsSelect, me));
+            });
+            this.btnColor.render( $('#control-settings-color-btn'));
+            this.btnColor.setColor('000000');
+            this.btnColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colors, this.btnColor));
+
             this.chLockDelete = new Common.UI.CheckBox({
                 el: $('#control-settings-chb-lock-delete'),
                 labelText: this.txtLockDelete
@@ -141,7 +193,20 @@ define([
             this.afterRender();
         },
 
+        onColorsSelect: function(picker, color) {
+            this.btnColor.setColor(color);
+        },
+
+        updateThemeColors: function() {
+            this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+        },
+
+        addNewColor: function(picker, btn) {
+            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
+        },
+
         afterRender: function() {
+            this.updateThemeColors();
             this._setDefaults(this.props);
         },
 
@@ -157,6 +222,14 @@ define([
                 val = props.get_Tag();
                 this.txtTag.setValue(val ? val : '');
 
+                val = props.get_Appearance();
+                (val!==null && val!==undefined) && this.cmbShow.setValue(val);
+
+                val = props.get_Color();
+                val = (val) ? Common.Utils.ThemeColor.getHexColor(val.r, val.g, val.b) : '#000000';
+                this.btnColor.setColor(val);
+                this.colors.select(val,true);
+
                 val = props.get_Lock();
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
                 this.chLockDelete.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
@@ -166,11 +239,12 @@ define([
 
         getSettings: function () {
             var props   = new AscCommon.CContentControlPr();
-
-
             props.put_Alias(this.txtName.getValue());
             props.put_Tag(this.txtTag.getValue());
+            props.put_Appearance(this.cmbShow.getValue());
 
+            var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+            props.put_Color(color.get_r(), color.get_g(), color.get_b());
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
 
@@ -206,7 +280,12 @@ define([
         txtLockEdit: 'Contents cannot be edited',
         textLock: 'Locking',
         cancelButtonText: 'Cancel',
-        okButtonText: 'Ok'
+        okButtonText: 'Ok',
+        textShowAs: 'Show as',
+        textColor: 'Color',
+        textBox: 'Bounding box',
+        textNone: 'None',
+        textNewColor: 'Add New Custom Color'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });
