@@ -190,6 +190,11 @@ define([
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+
+            var me = this;
+            _.delay(function(){
+                me.txtName.cmpEl.find('input').focus();
+            },500);
         },
 
         close: function() {
