@@ -337,6 +337,7 @@ define([
             }
 
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
+                Common.UI.Menu.Manager.hideAll();
                 this.previewPanel.show();
                 var _onWindowResize = function() {
                     if (isResized) return;
