@@ -1151,22 +1151,6 @@ define([
                             ]
                         }
                     );
-                    Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if (action=='plugins' && visible) {
-                            var compactview = false;
-                            if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
-                                compactview = Common.localStorage.getBool("de-compact-toolbar");
-                            } else if ( config.customization && config.customization.compactToolbar )
-                                compactview = true;
-
-                            if (!compactview) {
-                                me.setFolded(false);
-                                me.setTab('plugins');
-                                me.fireEvent('view:compact', [me, compactview]);
-                                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
-                            }
-                        }
-                    }, this));
                 }
                 return this;
             },
