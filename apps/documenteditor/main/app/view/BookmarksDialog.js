@@ -193,8 +193,9 @@ define([
 
             var me = this;
             _.delay(function(){
-                me.txtName.cmpEl.find('input').focus();
-            },500);
+                var input = $('input', me.txtName.cmpEl).select();
+                input.focus();
+            },100);
         },
 
         close: function() {
