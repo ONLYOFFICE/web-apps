@@ -105,6 +105,7 @@ define([
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
                 this.languages = null;
                 this.translationTable = [];
+                this.isModalShowed = 0;
 
                 window.storagename = 'presentation';
 
@@ -231,20 +232,18 @@ define([
 
                     Common.NotificationCenter.on({
                         'modal:show': function(e){
-                            me.isModalShowed = true;
+                            me.isModalShowed++;
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
-                                me.isModalShowed = false;
+                            me.isModalShowed--;
+                            if (!me.isModalShowed)
                                 me.api.asc_enableKeyEvents(true);
-                            }
                         },
                         'modal:hide': function(dlg) {
-                            if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
-                                me.isModalShowed = false;
+                            me.isModalShowed--;
+                            if (!me.isModalShowed)
                                 me.api.asc_enableKeyEvents(true);
-                            }
                         },
                         'settings:unitschanged':_.bind(this.unitsChanged, this),
                         'dataview:focus': function(e){
@@ -267,6 +266,10 @@ define([
                     Common.util.Shortcuts.delegateShortcuts({
                         shortcuts: {
                             'command+s,ctrl+s': _.bind(function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }, this),
+                            'command+p,ctrl+p': _.bind(function (e) {
                                 e.preventDefault();
                                 e.stopPropagation();
                             }, this)
@@ -1689,7 +1692,7 @@ define([
             },
 
             onPrint: function() {
-                if (!this.appOptions.canPrint) return;
+                if (!this.appOptions.canPrint || this.isModalShowed) return;
                 
                 if (this.api)
                     this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event

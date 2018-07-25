@@ -109,6 +109,7 @@ define([
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
                 this.translationTable = [];
+                this.isModalShowed = 0;
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -232,20 +233,18 @@ define([
 
                 Common.NotificationCenter.on({
                     'modal:show': function(e){
-                        me.isModalShowed = true;
+                        me.isModalShowed++;
                         me.api.asc_enableKeyEvents(false);
                     },
                     'modal:close': function(dlg) {
-                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
-                            me.isModalShowed = false;
+                        me.isModalShowed--;
+                        if (!me.isModalShowed)
                             me.api.asc_enableKeyEvents(true);
-                        }
                     },
                     'modal:hide': function(dlg) {
-                        if (dlg && dlg.$lastmodal && dlg.$lastmodal.length < 1) {
-                            me.isModalShowed = false;
+                        me.isModalShowed--;
+                        if (!me.isModalShowed)
                             me.api.asc_enableKeyEvents(true);
-                        }
                     },
                     'dataview:focus': function(e){
                     },
@@ -271,6 +270,10 @@ define([
                 Common.util.Shortcuts.delegateShortcuts({
                     shortcuts: {
                         'command+s,ctrl+s': _.bind(function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }, this),
+                        'command+p,ctrl+p': _.bind(function (e) {
                             e.preventDefault();
                             e.stopPropagation();
                         }, this)
@@ -1919,7 +1922,7 @@ define([
             },
 
             onPrint: function() {
-                if (!this.appOptions.canPrint) return;
+                if (!this.appOptions.canPrint || this.isModalShowed) return;
                 Common.NotificationCenter.trigger('print', this);
             },
 
