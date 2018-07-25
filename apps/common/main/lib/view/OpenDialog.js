@@ -64,7 +64,8 @@ define([
             }
 
             _.extend(_options,  {
-                closable        : false,
+                mode            : 1, // open settings
+                closable        : (options.mode==2), // if save settings
                 preview         : options.preview,
                 warning         : options.warning,
                 width           : width,
@@ -130,7 +131,7 @@ define([
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
                     '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + ((_options.mode == 1) ? t.closeButtonText : t.cancelButtonText) + '</button>',
                     '<% } %>',
                 '</div>'
             ].join('');
@@ -228,7 +229,7 @@ define([
                         delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                         delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
                     (delimiter == -1) && (delimiter = null);
-                    this.handler.call(this, encoding, delimiter, delimiterChar);
+                    this.handler.call(this, state, encoding, delimiter, delimiterChar);
                 } else {
                     this.handler.call(this, state, this.inputPwd.getValue());
                 }

@@ -1525,23 +1525,26 @@ define([
                 return false;
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(advOptions, mode) {
                 if (this._state.openDlg) return;
 
                 var type = advOptions.asc_getOptionId(),
                     me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     me._state.openDlg = new Common.Views.OpenDialog({
+                        mode: mode,
                         type: type,
                         preview: advOptions.asc_getOptions().asc_getData(),
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
                         api: me.api,
-                        handler: function (encoding, delimiter, delimiterChar) {
+                        handler: function (result, encoding, delimiter, delimiterChar) {
                             me.isShowOpenDialog = false;
-                            if (me && me.api) {
-                                me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
-                                me.loadMask && me.loadMask.show();
+                            if (result == 'ok') {
+                                if (me && me.api) {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                                    me.loadMask && me.loadMask.show();
+                                }
                             }
                             me._state.openDlg = null;
                         }
