@@ -91,7 +91,8 @@ define([
                 el      : $('#fm-btn-save',this.el),
                 action  : 'save',
                 caption : this.btnSaveCaption,
-                canFocused: false
+                canFocused: false,
+                disabled: true
             });
 
             this.miEdit = new Common.UI.MenuItem({
