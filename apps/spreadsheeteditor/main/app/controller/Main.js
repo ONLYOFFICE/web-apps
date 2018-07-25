@@ -885,10 +885,6 @@ define([
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
 
-                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
-                    if (this.appOptions.canBrandingExt)
-                        this.updatePlugins(this.plugins, true);
-
                     this.appOptions.canRename && this.headerView.setCanRename(true);
                 } else
                     this.appOptions.canModifyFilter = true;
@@ -907,6 +903,12 @@ define([
                 this.appOptions.isProtectSupport = true; // remove in 5.2
                 this.appOptions.canProtect     = this.appOptions.isProtectSupport && this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
+
+                if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge) {
+                    this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
+                    if (this.appOptions.canBrandingExt)
+                        this.updatePlugins(this.plugins, true);
+                }
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
