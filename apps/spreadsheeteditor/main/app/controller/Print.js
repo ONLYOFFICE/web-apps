@@ -222,6 +222,7 @@ define([
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
+            if (this.printSettingsDlg) return;
             if (this.api) {
                 this.asUrl = asUrl;
                 this.downloadFormat = format;
@@ -261,6 +262,7 @@ define([
                     return true;
             } else
                 Common.NotificationCenter.trigger('edit:complete', view);
+            this.printSettingsDlg = null;
         },
 
         querySavePrintSettings: function() {
