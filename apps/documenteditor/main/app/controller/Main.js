@@ -279,11 +279,7 @@ define([
 
                     Common.util.Shortcuts.delegateShortcuts({
                         shortcuts: {
-                            'command+s,ctrl+s': _.bind(function (e) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }, this),
-                            'command+p,ctrl+p': _.bind(function (e) {
+                            'command+s,ctrl+s,command+p,ctrl+p,command+k,ctrl+k,command+d,ctrl+d': _.bind(function (e) {
                                 e.preventDefault();
                                 e.stopPropagation();
                             }, this)
