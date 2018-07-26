@@ -1078,7 +1078,7 @@ define([
                     }
                 }
 
-                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible())) {
+                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
                     var data  = dataarray[index_filter-1],
                         str = me.makeFilterTip(data.asc_getFilter());
                     if (filterTip.ref && filterTip.ref.isVisible()) {
