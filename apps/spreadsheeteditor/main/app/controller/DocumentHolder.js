@@ -1253,7 +1253,7 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + props.asc_getColumnName() + ":</b><br>" + str;
+            str = "<b>" + (props.asc_getColumnName() || '(' + this.txtColumn + ' ' + props.asc_getSheetColumnName() + ')') + ":</b><br>" + str;
             return str;
         },
 
@@ -3018,7 +3018,8 @@ define([
         txtEqualsToCellColor: 'Equals to cell color',
         txtEqualsToFontColor: 'Equals to font color',
         txtAll: '(All)',
-        txtBlanks: '(Blanks)'
+        txtBlanks: '(Blanks)',
+        txtColumn: 'Column'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
