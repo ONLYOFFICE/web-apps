@@ -983,7 +983,7 @@
   "PE.Views.FileMenuPanels.Settings.strFast": "Fast",
   "PE.Views.FileMenuPanels.Settings.strForcesave": "Always save to server (otherwise save to server on document close)",
   "PE.Views.FileMenuPanels.Settings.strInputMode": "Turn on hieroglyphs",
-  "PE.Views.FileMenuPanels.Settings.strShowChanges": "Realtime Collaboration Changes",
+  "PE.Views.FileMenuPanels.Settings.strShowChanges": "Real-time Collaboration Changes",
   "PE.Views.FileMenuPanels.Settings.strSpellCheckMode": "Turn on spell checking option",
   "PE.Views.FileMenuPanels.Settings.strStrict": "Strict",
   "PE.Views.FileMenuPanels.Settings.strUnit": "Unit of Measurement",

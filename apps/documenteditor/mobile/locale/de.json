@@ -43,6 +43,7 @@
   "DE.Controllers.Main.advTxtOptions": "Optionen für TXT-Dateien wählen",
   "DE.Controllers.Main.applyChangesTextText": "Daten werden geladen...",
   "DE.Controllers.Main.applyChangesTitleText": "Daten werden geladen",
+  "DE.Controllers.Main.closeButtonText": "Datei schließen",
   "DE.Controllers.Main.convertationTimeoutText": "Timeout für die Konvertierung wurde überschritten.",
   "DE.Controllers.Main.criticalErrorExtText": "Drücken Sie \"OK\", um zur Dokumentenliste zurückzukehren.",
   "DE.Controllers.Main.criticalErrorTitle": "Fehler",

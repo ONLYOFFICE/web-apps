@@ -60,6 +60,7 @@
   "PE.Controllers.Main.advDRMPassword": "Пароль",
   "PE.Controllers.Main.applyChangesTextText": "Загрузка данных...",
   "PE.Controllers.Main.applyChangesTitleText": "Загрузка данных",
+  "PE.Controllers.Main.closeButtonText": "Закрыть файл",
   "PE.Controllers.Main.convertationTimeoutText": "Превышено время ожидания конвертации.",
   "PE.Controllers.Main.criticalErrorExtText": "Нажмите 'OK' для возврата к списку документов.",
   "PE.Controllers.Main.criticalErrorTitle": "Ошибка",
