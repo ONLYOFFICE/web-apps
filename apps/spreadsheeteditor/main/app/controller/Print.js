@@ -222,7 +222,7 @@ define([
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
-            if (this.printSettingsDlg) return;
+            if (this.printSettingsDlg && this.printSettingsDlg.isVisible()) return;
             if (this.api) {
                 this.asUrl = asUrl;
                 this.downloadFormat = format;
