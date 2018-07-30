@@ -642,7 +642,7 @@ define([
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
                         $btnUsers.removeClass('disabled').attr('disabled', '');
                 } else {
-                    function _lockButton(btn) {
+                    var _lockButton = function (btn) {
                         if ( btn ) {
                             if ( lock ) {
                                 btn.keepState = {
@@ -654,7 +654,7 @@ define([
                                 delete btn.keepState;
                             }
                         }
-                    }
+                    };
 
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
