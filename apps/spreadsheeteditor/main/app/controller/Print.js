@@ -196,13 +196,7 @@ define([
         },
 
         savePageOptions: function(panel) {
-            var wc = this.api.asc_getWorksheetsCount(),
-                index = -1;
-
-            while (++index < wc) {
-                if (this._changedProps[index])
-                    this.api.asc_setPageOptions(this._changedProps[index], index);
-            }
+            this.api.asc_savePagePrintOptions(this._changedProps);
             Common.NotificationCenter.trigger('page:settings');
         },
 
@@ -249,6 +243,7 @@ define([
 
                     var printtype = this.printSettingsDlg.getRange();
                     this.adjPrintParams.asc_setPrintType(printtype);
+                    this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     if ( this.printSettingsDlg.type=='print' )
