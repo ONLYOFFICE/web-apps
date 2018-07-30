@@ -742,10 +742,12 @@ define([
             need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
             toolbar.btnsPageBreak.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
-            toolbar.btnInsertImage.setDisabled(need_disable);
+            need_disable = paragraph_locked || header_locked || in_equation || control_plain;
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
+
+            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
+            toolbar.btnInsertImage.setDisabled(need_disable);
             toolbar.btnInsertTextArt.setDisabled(need_disable || in_image || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
