@@ -2154,27 +2154,27 @@ define([
                 items: [{
                     caption : _holder_view.textShapeAlignLeft,
                     iconCls : 'mnu-img-align-left',
-                    // halign  : Asc.c_oAscAlignH.Left
+                    value   : 0
                 }, {
                     caption : _holder_view.textShapeAlignCenter,
                     iconCls : 'mnu-img-align-center',
-                    // halign  : Asc.c_oAscAlignH.Center
+                    value   : 4
                 }, {
                     caption : _holder_view.textShapeAlignRight,
                     iconCls : 'mnu-img-align-right',
-                    // halign  : Asc.c_oAscAlignH.Right
+                    value   : 1
                 }, {
                     caption : _holder_view.textShapeAlignTop,
                     iconCls : 'mnu-img-align-top',
-                    // valign  : Asc.c_oAscAlignV.Top
+                    value   : 3
                 }, {
                     caption : _holder_view.textShapeAlignMiddle,
                     iconCls : 'mnu-img-align-middle',
-                    // valign  : Asc.c_oAscAlignV.Center
+                    value   : 5
                 }, {
                     caption : _holder_view.textShapeAlignBottom,
                     iconCls : 'mnu-img-align-bottom',
-                    // valign  : Asc.c_oAscAlignV.Bottom
+                    value   : 2
                 }]
             }));
 
