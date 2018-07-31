@@ -133,7 +133,7 @@ define([
             Common.NotificationCenter.on('app:comment:add',         _.bind(this.onAppAddComment, this));
             Common.NotificationCenter.on('layout:changed', function(area){
                 Common.Utils.asyncCall(function(e) {
-                    if ( e == 'toolbar' && this.view.$el.is(':visible') ) {
+                    if ( (e == 'toolbar' || e == 'status') && this.view.$el.is(':visible') ) {
                         this.onAfterShow();
                     }
                 }, this, area);
