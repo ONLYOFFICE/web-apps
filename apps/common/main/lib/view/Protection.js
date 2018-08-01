@@ -65,7 +65,7 @@ define([
         function setEvents() {
             var me = this;
 
-            if ( me.appConfig.isDesktopApp && me.appConfig.isOffline ) {
+            if (me.appConfig.isPasswordSupport) {
                 this.btnsAddPwd.concat(this.btnsChangePwd).forEach(function(button) {
                     button.on('click', function (b, e) {
                         me.fireEvent('protect:password', [b, 'add']);
@@ -81,19 +81,19 @@ define([
                 this.btnPwd.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('protect:password', [menu, item.value]);
                 });
+            }
 
-                if (me.appConfig.canProtect) {
-                    if (this.btnSignature.menu)
-                        this.btnSignature.menu.on('item:click', function (menu, item, e) {
-                            me.fireEvent('protect:signature', [item.value, false]);
-                        });
-
-                    this.btnsInvisibleSignature.forEach(function(button) {
-                        button.on('click', function (b, e) {
-                            me.fireEvent('protect:signature', ['invisible']);
-                        });
+            if (me.appConfig.isSignatureSupport) {
+                if (this.btnSignature.menu)
+                    this.btnSignature.menu.on('item:click', function (menu, item, e) {
+                        me.fireEvent('protect:signature', [item.value, false]);
                     });
-                }
+
+                this.btnsInvisibleSignature.forEach(function(button) {
+                    button.on('click', function (b, e) {
+                        me.fireEvent('protect:signature', ['invisible']);
+                    });
+                });
             }
         }
 
@@ -116,7 +116,7 @@ define([
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
-                if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
+                if ( this.appConfig.isPasswordSupport ) {
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-protect',
@@ -131,18 +131,18 @@ define([
                         menu: true,
                         visible: false
                     });
-
-                    if (this.appConfig.canProtect) {
-                        this.btnSignature = new Common.UI.Button({
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'btn-ic-signature',
-                            caption: this.txtSignature,
-                            menu: (this.appPrefix !== 'pe-')
-                        });
-                        if (!this.btnSignature.menu)
-                            this.btnsInvisibleSignature.push(this.btnSignature);
-                    }
                 }
+                if (this.appConfig.isSignatureSupport) {
+                    this.btnSignature = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-signature',
+                        caption: this.txtSignature,
+                        menu: (this.appPrefix !== 'pe-')
+                    });
+                    if (!this.btnSignature.menu)
+                        this.btnsInvisibleSignature.push(this.btnSignature);
+                }
+
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -159,25 +159,26 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    if ( config.isDesktopApp && config.isOffline) {
-                        me.btnAddPwd.updateHint(me.hintAddPwd);
-                        me.btnPwd.updateHint(me.hintPwd);
+                    if ( config.canProtect) {
+                        if ( config.isPasswordSupport) {
+                            me.btnAddPwd.updateHint(me.hintAddPwd);
+                            me.btnPwd.updateHint(me.hintPwd);
 
-                        me.btnPwd.setMenu(
-                            new Common.UI.Menu({
-                                items: [
-                                    {
-                                        caption: me.txtChangePwd,
-                                        value: 'add'
-                                    },
-                                    {
-                                        caption: me.txtDeletePwd,
-                                        value: 'delete'
-                                    }
-                                ]
-                            })
-                        );
-
+                            me.btnPwd.setMenu(
+                                new Common.UI.Menu({
+                                    items: [
+                                        {
+                                            caption: me.txtChangePwd,
+                                            value: 'add'
+                                        },
+                                        {
+                                            caption: me.txtDeletePwd,
+                                            value: 'delete'
+                                        }
+                                    ]
+                                })
+                            );
+                        }
                         if (me.btnSignature) {
                             me.btnSignature.updateHint((me.btnSignature.menu) ? me.hintSignature : me.txtInvisibleSignature);
                             me.btnSignature.menu && me.btnSignature.setMenu(
@@ -206,9 +207,9 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
 
-                if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
-                    this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
-                    this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
+                if ( this.appConfig.canProtect ) {
+                    this.btnAddPwd && this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
+                    this.btnPwd && this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
                     this.btnSignature && this.btnSignature.render(this.$el.find('#slot-btn-signature'));
                 }
                 return this.$el;

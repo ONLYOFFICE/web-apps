@@ -3107,7 +3107,7 @@ define([
                             me.toolbar.btnPaste.$el.detach().appendTo($box);
                             me.toolbar.btnCopy.$el.removeClass('split');
 
-                            if ( config.isProtectSupport && config.isOffline ) {
+                            if ( config.canProtect ) {
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
