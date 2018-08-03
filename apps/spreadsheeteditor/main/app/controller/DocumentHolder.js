@@ -1206,7 +1206,7 @@ define([
 
                 str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + customFilters[0].asc_getVal() + "\"";
                 if (customFilters.length>1) {
-                    str += (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
+                    str = str + " " + (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
                     str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + customFilters[1].asc_getVal() + "\"";
                 }
             } else if (filterType === Asc.c_oAscAutoFilterTypes.ColorFilter) {
