@@ -365,6 +365,7 @@ define([
             this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
+            this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings',_.bind(this.onChangeSdtGlobalSettings, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -885,6 +886,19 @@ define([
 
         onApiInitEditorStyles: function(styles) {
             this._onInitEditorStyles(styles);
+        },
+
+        onChangeSdtGlobalSettings: function() {
+            var show = this.api.asc_GetGlobalContentControlShowHighlight();
+            this.toolbar.mnuNoControlsColor.setChecked(!show, true);
+            this.toolbar.mnuControlsColorPicker.clearSelection();
+            if (show){
+                var clr = this.api.asc_GetGlobalContentControlHighlightColor();
+                if (clr) {
+                    clr = Common.Utils.ThemeColor.getHexColor(clr.r, clr.g, clr.b);
+                    this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
+                }
+            }
         },
 
         onNewDocument: function(btn, e) {
@@ -1654,13 +1668,13 @@ define([
 
         onNoControlsColor: function(item) {
             this.api.asc_SetGlobalContentControlShowHighlight(!item.isChecked());
-            this.toolbar.mnuControlsColorPicker.clearSelection();
+            if (!item.isChecked())
+                this.api.asc_SetGlobalContentControlHighlightColor(220, 220, 220);
         },
 
         onSelectControlsColor: function(picker, color) {
             var clr = Common.Utils.ThemeColor.getRgbColor(color);
             if (this.api) {
-                this.toolbar.mnuNoControlsColor.setChecked(true, true);
                 this.api.asc_SetGlobalContentControlShowHighlight(true);
                 this.api.asc_SetGlobalContentControlHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
             }
