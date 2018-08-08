@@ -99,7 +99,8 @@ define([
             this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
             this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
-            this.statusbar.btnPreview.on('click', _.bind(this.onPreview, this));
+            this.statusbar.btnPreview.on('click', _.bind(this.onPreviewBtnClick, this));
+            this.statusbar.btnPreview.menu.on('item:click', _.bind(this.onPreviewItemClick, this));
             this.statusbar.btnSetSpelling.on('click', _.bind(this.onBtnSpelling, this));
         },
 
@@ -137,9 +138,26 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
-        onPreview: function(btn, e) {
-            var current = this.api.getCurrentPage();
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
+        onPreview: function(slidenum, presenter) {
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter);
+        },
+
+        onPreviewBtnClick: function(btn, e) {
+            this.onPreview(this.api.getCurrentPage());
+        },
+
+        onPreviewItemClick: function(menu, item) {
+            switch (item.value) {
+                case 0:
+                    this.onPreview(0);
+                    break;
+                case 1:
+                    this.onPreview(this.api.getCurrentPage());
+                    break;
+                case 2:
+                    this.onPreview(0, true);
+                    break;
+            }
         },
 
         /*

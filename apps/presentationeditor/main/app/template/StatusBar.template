@@ -1,7 +1,9 @@
 
 <div class="statusbar" style="display:table;">
+    <div class="status-group">
+        <div id="slot-status-btn-preview" style="display: inline-block;margin-left: 9px;"></div>
+    </div>
     <div class="status-group dropup">
-        <button id="status-btn-preview" type="button" class="btn small btn-toolbar" style="margin-left: 9px;"><i class="icon"></i></button>
         <label id="status-label-pages" class="status-label dropdown-toggle" style="margin-left: 7px; display: none;" data-toggle="dropdown"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
         <div id="status-goto-box" class="dropdown-menu">
             <label style="float:left;line-height:22px;"><%= scope.goToPageText %></label>
