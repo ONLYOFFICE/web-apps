@@ -331,7 +331,8 @@ define([
                 reporterObject.translations = {
                     reset: me.previewPanel.txtReset,
                     endSlideshow: me.previewPanel.txtEndSlideshow,
-                    slideOf: me.previewPanel.slideIndexText
+                    slideOf: me.previewPanel.slideIndexText,
+                    finalMessage: me.previewPanel.txtFinalMessage
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
             }
