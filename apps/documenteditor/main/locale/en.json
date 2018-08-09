@@ -1937,5 +1937,8 @@
   "DE.Views.Toolbar.txtScheme6": "Concourse",
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
-  "DE.Views.Toolbar.txtScheme9": "Foundry"
+  "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.mniHighlightControls": "Highlight settings",
+  "DE.Views.Toolbar.textNoHighlight": "No highlighting"
+
 }

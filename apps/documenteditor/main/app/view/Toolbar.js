@@ -643,6 +643,23 @@ define([
                                 {
                                     caption: this.mniEditControls,
                                     value: 'settings'
+                                },
+                                {
+                                    caption: this.mniHighlightControls,
+                                    value: 'highlight',
+                                    menu: new Common.UI.Menu({
+                                        menuAlign   : 'tl-tr',
+                                        items: [
+                                            this.mnuNoControlsColor = new Common.UI.MenuItem({
+                                                id: 'id-toolbar-menu-no-highlight-controls',
+                                                caption: this.textNoHighlight,
+                                                checkable: true
+                                            }),
+                                            {caption: '--'},
+                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                            {template: _.template('<a id="id-toolbar-menu-new-control-color" style="padding-left:12px;">' + this.textNewColor + '</a>')}
+                                        ]
+                                    })
                                 }
                             ]
                         })
@@ -1933,6 +1950,12 @@ define([
                         transparent: true
                     });
                 }
+
+                if (this.btnContentControls.cmpEl) {
+                    this.mnuControlsColorPicker = new Common.UI.ThemeColorPalette({
+                        el: $('#id-toolbar-menu-controls-color')
+                    });
+                }
             },
 
             updateMetricUnit: function () {
@@ -2342,7 +2365,9 @@ define([
             textPlainControl: 'Plain text',
             textRemoveControl: 'Remove',
             mniEditControls: 'Settings',
-            tipControls: 'Insert content control'
+            tipControls: 'Insert content control',
+            mniHighlightControls: 'Highlight settings',
+            textNoHighlight: 'No highlighting'
         }
     })(), DE.Views.Toolbar || {}));
 });

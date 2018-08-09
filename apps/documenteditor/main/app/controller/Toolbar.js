@@ -315,6 +315,9 @@ define([
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
+            toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
@@ -362,6 +365,7 @@ define([
             this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
+            this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings',_.bind(this.onChangeSdtGlobalSettings, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -884,6 +888,19 @@ define([
 
         onApiInitEditorStyles: function(styles) {
             this._onInitEditorStyles(styles);
+        },
+
+        onChangeSdtGlobalSettings: function() {
+            var show = this.api.asc_GetGlobalContentControlShowHighlight();
+            this.toolbar.mnuNoControlsColor.setChecked(!show, true);
+            this.toolbar.mnuControlsColorPicker.clearSelection();
+            if (show){
+                var clr = this.api.asc_GetGlobalContentControlHighlightColor();
+                if (clr) {
+                    clr = Common.Utils.ThemeColor.getHexColor(clr.r, clr.g, clr.b);
+                    this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
+                }
+            }
         },
 
         onNewDocument: function(btn, e) {
@@ -1645,6 +1662,26 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onNewControlsColor: function(picker, color) {
+            this.toolbar.mnuControlsColorPicker.addNewColor();
+        },
+
+        onNoControlsColor: function(item) {
+            this.api.asc_SetGlobalContentControlShowHighlight(!item.isChecked());
+            if (!item.isChecked())
+                this.api.asc_SetGlobalContentControlHighlightColor(220, 220, 220);
+        },
+
+        onSelectControlsColor: function(picker, color) {
+            var clr = Common.Utils.ThemeColor.getRgbColor(color);
+            if (this.api) {
+                this.api.asc_SetGlobalContentControlShowHighlight(true);
+                this.api.asc_SetGlobalContentControlHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
+            }
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Content Controls Color');
         },
 
         onColumnsSelect: function(menu, item) {
@@ -2518,6 +2555,9 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
+
+            updateColors(this.toolbar.mnuControlsColorPicker, 1);
+            this.onChangeSdtGlobalSettings();
         },
 
         _onInitEditorStyles: function(styles) {
