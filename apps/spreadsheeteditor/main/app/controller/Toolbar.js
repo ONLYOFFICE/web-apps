@@ -959,7 +959,7 @@ define([
                     }
                 } else if (!isSpark) {
                     var ischartedit = ( type == Asc.c_oAscSelectionType.RangeChart || type == Asc.c_oAscSelectionType.RangeChartText);
-                    props = me.api.asc_getChartObject();
+                    props = me.api.asc_getChartObject(true); // don't lock chart object
                     if (props) {
                         props.putType(record.get('type'));
                         var range = props.getRange(),
