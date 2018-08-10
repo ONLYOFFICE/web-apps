@@ -961,7 +961,7 @@ define([
                     var ischartedit = ( type == Asc.c_oAscSelectionType.RangeChart || type == Asc.c_oAscSelectionType.RangeChartText);
                     props = me.api.asc_getChartObject(true); // don't lock chart object
                     if (props) {
-                        props.putType(record.get('type'));
+                        (ischartedit) ? props.changeType(record.get('type')) : props.putType(record.get('type'));
                         var range = props.getRange(),
                             isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType());
                         if (isvalid == Asc.c_oAscError.ID.No) {
