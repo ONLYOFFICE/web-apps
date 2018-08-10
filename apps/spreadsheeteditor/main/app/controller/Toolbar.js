@@ -1712,14 +1712,14 @@ define([
         onApiPageSize: function(w, h) {
             if (this._state.pgorient===undefined) return;
 
-            if (Math.abs(this._state.pgsize[0] - w) > 0.01 ||
-                Math.abs(this._state.pgsize[1] - h) > 0.01) {
+            if (Math.abs(this._state.pgsize[0] - w) > 0.1 ||
+                Math.abs(this._state.pgsize[1] - h) > 0.1) {
                 this._state.pgsize = [w, h];
                 if (this.toolbar.mnuPageSize) {
                     this.toolbar.mnuPageSize.clearAll();
                     _.each(this.toolbar.mnuPageSize.items, function(item){
                         if (item.value && typeof(item.value) == 'object' &&
-                            Math.abs(item.value[0] - w) < 0.01 && Math.abs(item.value[1] - h) < 0.01) {
+                            Math.abs(item.value[0] - w) < 0.1 && Math.abs(item.value[1] - h) < 0.1) {
                             item.setChecked(true);
                             return false;
                         }
@@ -1735,16 +1735,16 @@ define([
                     right = props.asc_getRight(),
                     bottom = props.asc_getBottom();
 
-                if (!this._state.pgmargins || Math.abs(this._state.pgmargins[0] - top) > 0.01 ||
-                    Math.abs(this._state.pgmargins[1] - left) > 0.01 || Math.abs(this._state.pgmargins[2] - bottom) > 0.01 ||
-                    Math.abs(this._state.pgmargins[3] - right) > 0.01) {
+                if (!this._state.pgmargins || Math.abs(this._state.pgmargins[0] - top) > 0.1 ||
+                    Math.abs(this._state.pgmargins[1] - left) > 0.1 || Math.abs(this._state.pgmargins[2] - bottom) > 0.1 ||
+                    Math.abs(this._state.pgmargins[3] - right) > 0.1) {
                     this._state.pgmargins = [top, left, bottom, right];
                     if (this.toolbar.btnPageMargins.menu) {
                         this.toolbar.btnPageMargins.menu.clearAll();
                         _.each(this.toolbar.btnPageMargins.menu.items, function(item){
                             if (item.value && typeof(item.value) == 'object' &&
-                                Math.abs(item.value[0] - top) < 0.01 && Math.abs(item.value[1] - left) < 0.01 &&
-                                Math.abs(item.value[2] - bottom) < 0.01 && Math.abs(item.value[3] - right) < 0.01) {
+                                Math.abs(item.value[0] - top) < 0.1 && Math.abs(item.value[1] - left) < 0.1 &&
+                                Math.abs(item.value[2] - bottom) < 0.1 && Math.abs(item.value[3] - right) < 0.1) {
                                 item.setChecked(true);
                                 return false;
                             }

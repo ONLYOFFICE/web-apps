@@ -201,7 +201,7 @@ define([
                     height = this.isOrientPortrait ? props.get_H() : props.get_W();
                 var rec = this.cmbPreset.store.find(function(item){
                     var size = item.get('size');
-                    return (Math.abs(size[0] - width) < 0.01 && Math.abs(size[1] - height) < 0.01);
+                    return (Math.abs(size[0] - width) < 0.1 && Math.abs(size[1] - height) < 0.1);
                 });
                 this.cmbPreset.setValue((rec) ? rec.get('value') : -1);
             }
