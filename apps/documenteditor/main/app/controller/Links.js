@@ -256,7 +256,7 @@ define([
                     win.show();
                     break;
                 case 'remove':
-                    if (currentTOC)
+                    if (currentTOC && props)
                         currentTOC = props.get_InternalClass();
                     this.api.asc_RemoveTableOfContents(currentTOC);
                     break;
@@ -265,9 +265,12 @@ define([
         },
 
         onTableContentsUpdate: function(type, currentTOC){
-            if (currentTOC)
-                currentTOC = this.api.asc_GetTableOfContentsPr(currentTOC).get_InternalClass();
-            this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            var props = this.api.asc_GetTableOfContentsPr(currentTOC);
+            if (props) {
+                if (currentTOC && props)
+                    currentTOC = props.get_InternalClass();
+                this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
