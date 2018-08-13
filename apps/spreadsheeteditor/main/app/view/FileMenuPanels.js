@@ -677,7 +677,7 @@ define([
                 this.lblAutosave.text(this.textAutoRecover);
             }
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && (mode.isEdit || mode.canComments) ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
         },
 
