@@ -648,7 +648,7 @@ define([
                     }
                     me._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else {
-                    me._state.fastCoauth = (!me.appOptions.isEdit && me.appOptions.canComments);
+                    me._state.fastCoauth = (!me.appOptions.isEdit && me.appOptions.isRestrictedEdit);
                     if (me._state.fastCoauth) {
                         me.api.asc_setAutoSaveGap(1);
                         Common.Utils.InternalSettings.set("pe-settings-autosave", 1);
@@ -851,7 +851,7 @@ define([
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canDownload    = !this.appOptions.nativeApp && this.permissions.download !== false;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
-                this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment);
+                this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
@@ -864,6 +864,7 @@ define([
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport();
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
+                this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
 
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
@@ -885,8 +886,8 @@ define([
                     this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 }
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
-                (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
+                (this.appOptions.isRestrictedEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.api.asc_LoadDocument();
             },
 

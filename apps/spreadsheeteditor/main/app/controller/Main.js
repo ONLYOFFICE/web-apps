@@ -628,7 +628,7 @@ define([
                     }
                     this._state.fastCoauth = (value===null || parseInt(value) == 1);
                 } else {
-                    this._state.fastCoauth = (!this.appOptions.isEdit && this.appOptions.canComments);
+                    this._state.fastCoauth = (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit);
                     if (this._state.fastCoauth) {
                         this.api.asc_setAutoSaveGap(1);
                         Common.Utils.InternalSettings.set("sse-settings-autosave", 1);
@@ -874,7 +874,7 @@ define([
                     /** coauthoring begin **/
                     this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                     /** coauthoring end **/
-                    this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? (this.permissions.edit !== false && this.editorConfig.mode !== 'view') : this.permissions.comment);
+                    this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? (this.permissions.edit !== false) : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
@@ -903,6 +903,7 @@ define([
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport() && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
+                this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
 
                 if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge) {
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -920,8 +921,8 @@ define([
                     this.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 }
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
-                (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
+                (this.appOptions.isRestrictedEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.api.asc_LoadDocument();
             },
 
