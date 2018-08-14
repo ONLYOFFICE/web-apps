@@ -1899,7 +1899,7 @@ define([
 
         onStartNumbering: function(startfrom, item, e) {
             if (startfrom == 1)
-                this.api.asc_RestartNumbering(1);
+                this.api.asc_RestartNumbering(item.value.start);
             else {
                 var me = this;
                 (new DE.Views.NumberingValueDialog({
@@ -2857,6 +2857,7 @@ define([
                             format = numLvl.get_Format(),
                             start = me.api.asc_GetCalculatedNumberingValue();
                         menuTableStartNewList.setVisible(numLvl.get_Start()!=start);
+                        menuTableStartNewList.value = {start: numLvl.get_Start()};
                         menuTableStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
                         menuTableStartNumberingFrom.value = {format: format, start: start};
                         menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
@@ -3513,6 +3514,7 @@ define([
                             format = numLvl.get_Format(),
                             start = me.api.asc_GetCalculatedNumberingValue();
                         menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
+                        menuParaStartNewList.value = {start: numLvl.get_Start()};
                         menuParaStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
                         menuParaStartNumberingFrom.value = {format: format, start: start};
                         menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
