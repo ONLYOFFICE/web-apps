@@ -1855,7 +1855,13 @@ define([
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
-
+                funcarr.sort(function (a,b) {
+                    var aname = a.asc_getName().toLocaleUpperCase(),
+                        bname = b.asc_getName().toLocaleUpperCase();
+                    if (aname < bname) return -1;
+                    if (aname > bname) return 1;
+                    return 0;
+                });
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
                         mnu = new Common.UI.MenuItem({
