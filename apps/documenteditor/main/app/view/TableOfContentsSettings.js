@@ -258,7 +258,7 @@ define([
             this.cmbStyles = new Common.UI.ComboBox({
                 el: $('#tableofcontents-combo-styles'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 150px;',
+                menuStyle: 'min-width: 95px;',
                 editable: false,
                 data: [
                     { displayValue: this.txtCurrent,     value: Asc.c_oAscTOCStylesType.Current },
