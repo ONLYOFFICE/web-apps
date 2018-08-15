@@ -814,6 +814,7 @@
   "DE.Views.BookmarksDialog.textName": "Name",
   "DE.Views.BookmarksDialog.textSort": "Sort by",
   "DE.Views.BookmarksDialog.textTitle": "Bookmarks",
+  "DE.Views.BookmarksDialog.txtInvalidName": "Bookmark name can only contain letters, digits and underscores, and should begin with the letter",
   "DE.Views.ChartSettings.textAdvanced": "Show advanced settings",
   "DE.Views.ChartSettings.textArea": "Area",
   "DE.Views.ChartSettings.textBar": "Bar",
