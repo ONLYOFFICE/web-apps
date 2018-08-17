@@ -256,8 +256,7 @@ define([
                     win.show();
                     break;
                 case 'remove':
-                    if (currentTOC && props)
-                        currentTOC = props.get_InternalClass();
+                    currentTOC = (currentTOC && props) ? props.get_InternalClass() : undefined;
                     this.api.asc_RemoveTableOfContents(currentTOC);
                     break;
             }
