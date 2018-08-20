@@ -168,6 +168,7 @@
   "Common.Views.History.textRestore": "Restore",
   "Common.Views.History.textShow": "Expand",
   "Common.Views.History.textShowAll": "Show detailed changes",
+  "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.cancelButtonText": "Cancel",
   "Common.Views.ImageFromUrlDialog.okButtonText": "OK",
   "Common.Views.ImageFromUrlDialog.textUrl": "Paste an image URL:",
