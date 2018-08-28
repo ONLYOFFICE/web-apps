@@ -1641,6 +1641,7 @@ define([
                             var me = this;
                             (new DE.Views.ControlSettingsDialog({
                                 props: props,
+                                api: me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         me.api.asc_SetContentControlProperties(value, id);

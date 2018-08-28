@@ -48,8 +48,8 @@ define([
 
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 300,
-            height: 335
+            contentWidth: 310,
+            height: 390
         },
 
         initialize : function(options) {
@@ -75,25 +75,40 @@ define([
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
+                                    '<td class="padding-large">',
+                                        '<div class="separator horizontal"></div>',
+                                    '</td>',
+                                '</tr>',
                                 '</table>',
                                 '<table cols="2" style="width: auto;">',
-                                    '<td class="padding-large">',
+                                '<tr>',
+                                    '<td class="padding-small">',
                                         '<label class="input-label" style="margin-right: 10px;">', me.textShowAs,'</label>',
                                     '</td>',
-                                    '<td class="padding-large">',
+                                    '<td class="padding-small">',
                                         '<div id="control-settings-combo-show" class="input-group-nr" style="display: inline-block; width:120px;"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
-                                    '<td class="padding-large">',
+                                    '<td class="padding-small">',
                                         '<label class="input-label" style="margin-right: 10px;">', me.textColor, '</label>',
                                     '</td>',
-                                    '<td class="padding-large">',
+                                    '<td class="padding-small">',
                                         '<div id="control-settings-color-btn" style="display: inline-block;"></div>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td class="padding-large" colspan="2">',
+                                        '<button type="button" class="btn btn-text-default auto" id="control-settings-btn-all" style="min-width: 98px;">', me.textApplyAll,'</button>',
                                     '</td>',
                                 '</tr>',
                                 '</table>',
                                 '<table cols="1" style="width: 100%;">',
+                                '<tr>',
+                                    '<td class="padding-large">',
+                                        '<div class="separator horizontal"></div>',
+                                    '</td>',
+                                '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
                                         '<label class="header">', me.textLock, '</label>',
@@ -122,6 +137,7 @@ define([
 
             this.handler    = options.handler;
             this.props      = options.props;
+            this.api        = options.api;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -179,6 +195,11 @@ define([
             this.btnColor.render( $('#control-settings-color-btn'));
             this.btnColor.setColor('000000');
             this.btnColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colors, this.btnColor));
+
+            this.btnApplyAll = new Common.UI.Button({
+                el: $('#control-settings-btn-all')
+            });
+            this.btnApplyAll.on('click', _.bind(this.applyAllClick, this));
 
             this.chLockDelete = new Common.UI.CheckBox({
                 el: $('#control-settings-chb-lock-delete'),
@@ -273,6 +294,16 @@ define([
             return true;
         },
 
+        applyAllClick: function(btn, eOpts){
+            if (this.api) {
+                var props   = new AscCommon.CContentControlPr();
+                props.put_Appearance(this.cmbShow.getValue());
+                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                this.api.asc_SetContentControlProperties(props, null, true);
+            }
+        },
+
         textTitle:    'Content Control Settings',
         textName: 'Title',
         textTag: 'Tag',
@@ -285,7 +316,8 @@ define([
         textColor: 'Color',
         textBox: 'Bounding box',
         textNone: 'None',
-        textNewColor: 'Add New Custom Color'
+        textNewColor: 'Add New Custom Color',
+        textApplyAll: 'Apply to All'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });
