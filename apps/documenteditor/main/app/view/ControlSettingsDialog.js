@@ -49,7 +49,7 @@ define([
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 390
+            height: 412
         },
 
         initialize : function(options) {
@@ -81,6 +81,11 @@ define([
                                 '</tr>',
                                 '</table>',
                                 '<table cols="2" style="width: auto;">',
+                                '<tr>',
+                                    '<td class="padding-small" colspan="2">',
+                                        '<label class="header">', me.textAppearance, '</label>',
+                                    '</td>',
+                                '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
                                         '<label class="input-label" style="margin-right: 10px;">', me.textShowAs,'</label>',
@@ -317,7 +322,8 @@ define([
         textBox: 'Bounding box',
         textNone: 'None',
         textNewColor: 'Add New Custom Color',
-        textApplyAll: 'Apply to All'
+        textApplyAll: 'Apply to All',
+        textAppearance: 'Appearance'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });
