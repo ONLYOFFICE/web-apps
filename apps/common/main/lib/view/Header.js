@@ -181,16 +181,14 @@ define([
             if ( !$btnUsers.menu ) {
                 $panelUsers.removeClass('open');
                 this.fireEvent('click:users', this);
+            } else {
+                var usertip = $btnUsers.data('bs.tooltip');
+                if ( usertip ) {
+                    if ( usertip.dontShow===undefined)
+                        usertip.dontShow = true;
 
-                return false;
-            }
-
-            var usertip = $btnUsers.data('bs.tooltip');
-            if ( usertip ) {
-                if ( usertip.dontShow===undefined)
-                    usertip.dontShow = true;
-
-                usertip.hide();
+                    usertip.hide();
+                }
             }
         }
 
