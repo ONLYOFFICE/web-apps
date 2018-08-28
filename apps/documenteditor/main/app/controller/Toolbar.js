@@ -897,7 +897,7 @@ define([
             if (show){
                 var clr = this.api.asc_GetGlobalContentControlHighlightColor();
                 if (clr) {
-                    clr = Common.Utils.ThemeColor.getHexColor(clr.r, clr.g, clr.b);
+                    clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
                     this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
                 }
             }

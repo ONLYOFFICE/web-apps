@@ -247,7 +247,7 @@ define([
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
 
                 val = props.get_Color();
-                val = (val) ? Common.Utils.ThemeColor.getHexColor(val.r, val.g, val.b) : '#000000';
+                val = (val) ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()) : '#000000';
                 this.btnColor.setColor(val);
                 this.colors.selectByRGB(val,true);
 
