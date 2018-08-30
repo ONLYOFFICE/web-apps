@@ -844,6 +844,7 @@
   "DE.Views.ChartSettings.txtTopAndBottom": "Сверху и снизу",
   "DE.Views.ControlSettingsDialog.cancelButtonText": "Отмена",
   "DE.Views.ControlSettingsDialog.okButtonText": "Ok",
+  "DE.Views.ControlSettingsDialog.textAppearance": "Вид",
   "DE.Views.ControlSettingsDialog.textApplyAll": "Применить ко всем",
   "DE.Views.ControlSettingsDialog.textBox": "С ограничивающей рамкой",
   "DE.Views.ControlSettingsDialog.textColor": "Цвет",
