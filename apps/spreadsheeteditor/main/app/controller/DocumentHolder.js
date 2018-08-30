@@ -2034,7 +2034,7 @@ define([
 
 
             if (right > width) {
-                showPoint[0] = leftTop.asc_getX();
+                showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() : (width-btnSize[0]-3); // leftTop is undefined when paste to text box
                 if (bottom > height)
                     showPoint[0] -= (btnSize[0]+3);
                 if (showPoint[0]<0) showPoint[0] = width - 3 - btnSize[0];
