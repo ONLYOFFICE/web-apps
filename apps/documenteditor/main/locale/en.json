@@ -1454,6 +1454,7 @@
   "DE.Views.PageSizeDialog.cancelButtonText": "Cancel",
   "DE.Views.PageSizeDialog.okButtonText": "Ok",
   "DE.Views.PageSizeDialog.textHeight": "Height",
+  "DE.Views.PageSizeDialog.textPreset": "Preset",
   "DE.Views.PageSizeDialog.textTitle": "Page Size",
   "DE.Views.PageSizeDialog.textWidth": "Width",
   "DE.Views.PageSizeDialog.txtCustom": "Custom",
