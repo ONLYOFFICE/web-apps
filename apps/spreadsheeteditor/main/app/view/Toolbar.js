@@ -1406,6 +1406,31 @@ define([
                 });
                 me.mnuPageSize = me.btnPageSize.menu;
 
+                me.btnPrintArea = new Common.UI.Button({
+                    id: 'tlbtn-printarea',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-print-area',
+                    caption: me.capBtnPrintArea,
+                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.editCell, _set.selRangeEdit, _set.docPropsLock, _set.lostConnect, _set.coAuth],
+                    menu: new Common.UI.Menu({
+                        cls: 'ppm-toolbar',
+                        items: [
+                            {
+                                caption: me.textSetPrintArea,
+                                value: Asc.c_oAscChangePrintAreaType.set
+                            },
+                            {
+                                caption: me.textClearPrintArea,
+                                value: Asc.c_oAscChangePrintAreaType.clear
+                            },
+                            {
+                                caption: me.textAddPrintArea,
+                                value: Asc.c_oAscChangePrintAreaType.add
+                            }
+                        ]
+                    })
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
@@ -1461,7 +1486,7 @@ define([
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnAutofilter, me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup
                 ];
 
                 var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
@@ -1630,6 +1655,7 @@ define([
             _injectComponent('#slot-btn-pageorient',    this.btnPageOrient);
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
+            _injectComponent('#slot-btn-printarea',      this.btnPrintArea);
             _injectComponent('#slot-img-align',         this.btnImgAlign);
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
@@ -1706,6 +1732,7 @@ define([
             _updateHint(this.btnPageOrient, this.tipPageOrient);
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
+            _updateHint(this.btnPrintArea, this.tipPrintArea);
 
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
@@ -2409,6 +2436,11 @@ define([
         textBottom: 'Bottom: ',
         textRight: 'Right: ',
         textPortrait: 'Portrait',
-        textLandscape: 'Landscape'
+        textLandscape: 'Landscape',
+        capBtnPrintArea: 'Print Area',
+        textSetPrintArea: 'Set Print Area',
+        textClearPrintArea: 'Clear Print Area',
+        textAddPrintArea: 'Add to Print Area',
+        tipPrintArea: 'Print Area'
     }, SSE.Views.Toolbar || {}));
 });
