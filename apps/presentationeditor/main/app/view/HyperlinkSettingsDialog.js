@@ -197,12 +197,20 @@ define([
                 cls: 'input-group-nr',
                 style: 'width: 50px;',
                 menuStyle: 'min-width: 50px; max-height: 200px;',
-                editable: false,
                 data: this.slides
             });
             me.cmbSlides.setValue(0);
             me.cmbSlides.on('selected', _.bind(function(combo, record) {
                 me.radioSlide.setValue(true);
+            }, me))
+            .on('changed:after', _.bind(function(combo, record) {
+                me.radioSlide.setValue(true);
+                if (record.value>me.slides.length)
+                    combo.setValue(me.slides.length-1);
+                else if (record.value<1)
+                    combo.setValue(0);
+                else
+                    combo.setValue(record.value-1);
             }, me));
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
