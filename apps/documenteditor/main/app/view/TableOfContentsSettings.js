@@ -384,6 +384,10 @@ define([
                 if (this.chPages.getValue() == 'checked') {
                     value = props.get_RightAlignTab();
                     this.chAlign.setValue((value !== null && value !== undefined) ? value : 'indeterminate');
+                    if (this.chAlign.getValue() == 'checked') {
+                        value = props.get_TabLeader();
+                        (value!==undefined) && this.cmbLeader.setValue(value);
+                    }
                 }
 
                 var start = props.get_OutlineStart(),
