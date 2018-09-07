@@ -164,6 +164,7 @@ define([
                 this.api.asc_registerCallback('asc_onDocumentName',          _.bind(this.onDocumentName, this));
                 this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
                 this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
+                this.api.asc_registerCallback('asc_onLicenseError',          _.bind(this.onPaidFeatureError, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
@@ -829,6 +830,26 @@ define([
                         });
                     }
                 }
+            },
+
+            onPaidFeatureError: function() {
+                var buttons = [], primary,
+                    mail = (this.appOptions.canBranding) ? ((this.editorConfig && this.editorConfig.customization && this.editorConfig.customization.customer) ? this.editorConfig.customization.customer.mail : '') : 'sales@onlyoffice.com';
+                if (mail.length>0) {
+                    buttons.push({value: 'contact', caption: this.textContactUs});
+                    primary = 'contact';
+                }
+                buttons.push({value: 'close', caption: this.textClose});
+                Common.UI.info({
+                    title: this.textPaidFeature,
+                    msg  : this.textLicencePaidFeature,
+                    buttons: buttons,
+                    primary: primary,
+                    callback: function(btn) {
+                        if (btn == 'contact')
+                            window.open('mailto:'+mail, "_blank");
+                    }
+                });
             },
 
             disableEditing: function(disable) {
@@ -2224,7 +2245,10 @@ define([
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
-            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.'
+            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
+            textClose: 'Close',
+            textPaidFeature: 'Paid feature',
+            textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department'
         }
     })(), SSE.Controllers.Main || {}))
 });
