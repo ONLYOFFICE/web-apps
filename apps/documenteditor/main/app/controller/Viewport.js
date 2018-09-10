@@ -220,6 +220,8 @@ define([
                     checkable: true,
                     value: 'rulers'
                 });
+                if (!config.isEdit)
+                    mnuitemHideRulers.hide();
 
                 me.header.mnuitemFitPage = new Common.UI.MenuItem({
                     caption: me.textFitPage,
