@@ -613,7 +613,7 @@ define([
                     };
 
                     var state = config.isReviewOnly || Common.localStorage.getBool(me.view.appPrefix + "track-changes-" + (config.fileKey || ''));
-                    (me.api.asc_IsTrackRevisions() || state) && me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
+                    me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
                     _setReviewStatus(state);
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
