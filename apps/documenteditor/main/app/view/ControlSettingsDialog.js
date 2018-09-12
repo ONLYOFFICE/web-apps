@@ -157,6 +157,7 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
+                maxLength: 64,
                 value       : ''
             });
 
@@ -166,6 +167,7 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
+                maxLength: 64,
                 value       : ''
             });
 
