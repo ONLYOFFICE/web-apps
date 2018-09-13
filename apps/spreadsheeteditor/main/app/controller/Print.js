@@ -121,7 +121,18 @@ define([
             var w = opt.asc_getWidth();
             var h = opt.asc_getHeight();
 
-            item = panel.cmbPaperSize.store.findWhere({value: w+'|'+h});
+            var store = panel.cmbPaperSize.store;
+            item = null;
+            for (var i=0; i<store.length; i++) {
+                var rec = store.at(i),
+                    value = rec.get('value'),
+                    pagewidth = parseFloat(/^\d{3}\.?\d*/.exec(value)),
+                    pageheight = parseFloat(/\d{3}\.?\d*$/.exec(value));
+                if (Math.abs(pagewidth - w) < 0.1 && Math.abs(pageheight - h) < 0.1) {
+                    item = rec;
+                    break;
+                }
+            }
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
