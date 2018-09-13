@@ -84,7 +84,9 @@ define([
         cantModifyFilter: 'cant-filter',
         cantGroup:      'cant-group',
         cantGroupUngroup: 'cant-group-ungroup',
-        docPropsLock:   'doc-props-lock'
+        docPropsLock:   'doc-props-lock',
+        printAreaLock:  'print-area-lock',
+        namedRangeLock: 'named-range-lock'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -1411,12 +1413,13 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-print-area',
                     caption: me.capBtnPrintArea,
-                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.editCell, _set.selRangeEdit, _set.docPropsLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.editCell, _set.selRangeEdit, _set.printAreaLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar',
                         items: [
                             {
                                 caption: me.textSetPrintArea,
+                                lock: [_set.namedRangeLock],
                                 value: Asc.c_oAscChangePrintAreaType.set
                             },
                             {
@@ -1425,6 +1428,7 @@ define([
                             },
                             {
                                 caption: me.textAddPrintArea,
+                                lock: [_set.namedRangeLock],
                                 value: Asc.c_oAscChangePrintAreaType.add
                             }
                         ]

@@ -1705,6 +1705,7 @@ define([
             this.onApiPageMargins(props.asc_getPageMargins());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
+            this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
         },
 
         onUpdateDocumentProps: function(nIndex) {
@@ -3029,6 +3030,9 @@ define([
 
         onLockDefNameManager: function(state) {
             this._state.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
+
+            this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(this.api.asc_getActiveWorksheetIndex()), {array: [this.toolbar.btnPrintArea]});
+            this.toolbar.lockToolbar(SSE.enumLock.namedRangeLock, this._state.namedrange_locked, {array: [this.toolbar.btnPrintArea.menu.items[0], this.toolbar.btnPrintArea.menu.items[2]]});
         },
 
         DisableToolbar: function(disable, viewMode) {
