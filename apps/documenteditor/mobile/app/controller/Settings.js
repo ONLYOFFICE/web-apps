@@ -409,12 +409,12 @@ define([
                     var tempW = w; w = h; h = tempW;
                 }
 
-                if (Math.abs(_pageSizesCurrent[0] - w) > 0.01 ||
-                    Math.abs(_pageSizesCurrent[1] - h) > 0.01) {
+                if (Math.abs(_pageSizesCurrent[0] - w) > 0.1 ||
+                    Math.abs(_pageSizesCurrent[1] - h) > 0.1) {
                     _pageSizesCurrent = [w, h];
 
                     _.find(_pageSizes, function(size, index) {
-                        if (Math.abs(size.value[0] - w) < 0.01 && Math.abs(size.value[1] - h) < 0.01) {
+                        if (Math.abs(size.value[0] - w) < 0.1 && Math.abs(size.value[1] - h) < 0.1) {
                             _pageSizesIndex = index;
                         }
                     }, this);
