@@ -125,7 +125,7 @@ define([
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
-                panel.cmbPaperSize.setValue('Custom (' + w +' x ' + h);
+                panel.cmbPaperSize.setValue('Custom (' + w +' x ' + h + ')');
 
             var fitwidth = opt.asc_getFitToWidth(),
                 fitheight = opt.asc_getFitToHeight();
