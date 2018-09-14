@@ -150,7 +150,7 @@ define([
                 item.setDisabled(need_disable);
             }, this);
 
-            need_disable = paragraph_locked || header_locked || control_plain;
+            need_disable = paragraph_locked || header_locked || in_header || control_plain;
             this.view.btnBookmarks.setDisabled(need_disable);
         },
 
