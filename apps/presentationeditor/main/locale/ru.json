@@ -301,7 +301,7 @@
   "PE.Controllers.Main.textClose": "Закрыть",
   "PE.Controllers.Main.textCloseTip": "Щелкните, чтобы закрыть эту подсказку",
   "PE.Controllers.Main.textContactUs": "Связаться с отделом продаж",
-  "PE.Controllers.Main.textLicencePaidFeature": "Функция, которую вы пытаетесь использовать, доступна за дополнительную плату.<br>Если вам нужна эта функция, обратитесь в отдел продаж",
+  "PE.Controllers.Main.textLicencePaidFeature": "Функция, которую вы пытаетесь использовать, доступна по расширенной лицензии.<br>Если вам нужна эта функция, обратитесь в отдел продаж",
   "PE.Controllers.Main.textLoadingDocument": "Загрузка презентации",
   "PE.Controllers.Main.textNoLicenseTitle": "Ограничение по числу подключений ONLYOFFICE",
   "PE.Controllers.Main.textPaidFeature": "Платная функция",
