@@ -77,7 +77,7 @@ define([
                     this.innerEl = $(this.el).find('.inner');
 
                 if (view && this.innerEl) {
-                    this.innerEl.find('.empty-text').remove();
+                    (this.dataViewItems.length<1) && this.innerEl.find('.empty-text').remove();
                     if (this.options.simpleAddMode) {
                         this.innerEl.append(view.render().el);
                         this.dataViewItems.push(view);
