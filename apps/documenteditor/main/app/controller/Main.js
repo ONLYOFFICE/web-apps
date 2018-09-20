@@ -667,7 +667,8 @@ define([
                 if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2 ||
                     this.getApplication().getController('Common.Controllers.ReviewChanges').isPreviewChangesMode()))
                     this.synchronizeChanges();
-                else if (this.appOptions.isEdit && id == Asc.c_oAscAsyncAction['ApplyChanges'] && this._state.fastCoauth)
+                else if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) &&
+                        this._state.fastCoauth)
                     this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
