@@ -33,8 +33,8 @@
     "name": "Pestaña de Plugins"
   },
   {
-    "src": "UsageInstructions/ChangeColorScheme.htm",
-    "name": "Cambie combinación de colores",
+    "src": "UsageInstructions/OpenCreateNew.htm",
+    "name": "Cree un documento nuevo o abra el documento existente",
     "headername": "Operaciones Básicas"
   },
   {
@@ -42,8 +42,8 @@
     "name": "Copie/pegue pasajes de texto, deshaga/rehaga sus acciones"
   },
   {
-    "src": "UsageInstructions/OpenCreateNew.htm",
-    "name": "Cree un documento nuevo o abra el documento existente"
+    "src": "UsageInstructions/ChangeColorScheme.htm",
+    "name": "Cambie combinación de colores"
   },
   {
     "src": "UsageInstructions/SetPageParameters.htm",
