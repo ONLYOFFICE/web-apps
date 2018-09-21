@@ -195,10 +195,6 @@ define([
             this.close();
         },
 
-        onPrimary: function() {
-            return true;
-        },
-
         textTitle:    'Content Control Settings',
         textName: 'Title',
         textTag: 'Tag',

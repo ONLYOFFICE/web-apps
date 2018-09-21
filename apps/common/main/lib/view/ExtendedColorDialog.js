@@ -280,6 +280,12 @@ define([
             },50);
         },
 
+        onPrimary: function() {
+            this.trigger('onmodalresult', 1);
+            this.close(true);
+            return false;
+        },
+
         cancelButtonText: 'Cancel',
         addButtonText: 'Add',
         textNew: 'New',

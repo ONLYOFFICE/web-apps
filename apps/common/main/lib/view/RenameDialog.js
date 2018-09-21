@@ -88,7 +88,6 @@ define([
             $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
 
             me.inputNameEl = $window.find('input');
-            me.inputNameEl.on('keypress', _.bind(this.onKeyPress, this));
         },
 
         show: function() {
@@ -101,10 +100,9 @@ define([
             },100);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         onBtnClick: function(event) {

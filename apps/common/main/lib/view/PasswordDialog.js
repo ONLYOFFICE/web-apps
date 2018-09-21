@@ -114,7 +114,6 @@ define([
                             return me.txtIncorrectPwd;
                         }
                     });
-                    this.$window.find('input').on('keypress', _.bind(this.onKeyPress, this));
             }
         },
 
@@ -127,10 +126,9 @@ define([
             }, 500);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         onBtnClick: function(event) {

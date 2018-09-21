@@ -136,6 +136,15 @@ define([
         icon.addClass(rec.value).attr('lang',rec.value);
     },
 
+    onPrimary: function() {
+        if (this.options.handler) {
+            this.options.handler.call(this, 'ok', this.cmbLanguage.getValue());
+        }
+
+        this.close();
+        return false;
+    },
+
     labelSelect     : 'Select document language',
     btnCancel       : 'Cancel',
     btnOk           : 'Ok'

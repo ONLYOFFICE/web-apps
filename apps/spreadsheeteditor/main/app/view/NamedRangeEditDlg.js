@@ -145,12 +145,7 @@ define([
                         }
                     }
                 }
-            }).on('keypress:after', function(input, e) {
-                    if (e.keyCode === Common.UI.Keys.RETURN) {
-                       me.onDlgBtnClick('ok');
-                    }
-                }
-            );
+            });
 
             this.cmbScope = new Common.UI.ComboBox({
                 el          : $('#named-range-combo-scope'),
@@ -175,12 +170,7 @@ define([
                     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
                     return (isvalid!==Asc.c_oAscError.ID.DataRangeError || (me.isEdit && me.props.asc_getRef().toLowerCase() == value.toLowerCase())) ? true : me.textInvalidRange;
                 }
-            }).on('keypress:after', function(input, e) {
-                    if (e.keyCode === Common.UI.Keys.RETURN) {
-                       me.onDlgBtnClick('ok');
-                    }
-                }
-            );
+            });
 
             this.btnSelectData = new Common.UI.Button({
                 el: $('#named-range-btn-data')
@@ -262,7 +252,8 @@ define([
         },
 
         onPrimary: function() {
-            return true;
+            this.onDlgBtnClick('ok');
+            return false;
         },
 
         onDlgBtnClick: function(event) {

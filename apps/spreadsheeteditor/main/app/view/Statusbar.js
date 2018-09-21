@@ -596,10 +596,6 @@ define([
                     maxLength: 31,
                     validation: _.bind(this.nameValidator, this)
                 });
-
-                if (this.txtName) {
-                    this.txtName.$el.on('keypress', 'input[type=text]', _.bind(this.onNameKeyPress, this));
-                }
             },
 
             show: function(x,y) {
@@ -632,10 +628,9 @@ define([
                 this.close();
             },
 
-            onNameKeyPress: function(e) {
-                if (e.keyCode == Common.UI.Keys.RETURN) {
-                    this.doClose('ok');
-                }
+            onPrimary: function(e) {
+                this.doClose('ok');
+                return false;
             },
 
             nameValidator: function(value) {
