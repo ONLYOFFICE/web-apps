@@ -1461,7 +1461,7 @@ define([
                             documentHolder.mnuImgAdvanced.imageInfo = elValue;
                             isimagemenu = true;
                         }
-                        if (this.permissions.canProtect)
+                        if (this.permissions.isSignatureSupport)
                             signGuid = elValue.asc_getSignatureId();
                     }
                 }
@@ -1702,7 +1702,7 @@ define([
 
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
-            if (isimagemenu && this.permissions.canProtect) {
+            if (isimagemenu && this.permissions.isSignatureSupport) {
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
                 for (var i = 0; i < selectedObjects.length; i++) {
                     if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
