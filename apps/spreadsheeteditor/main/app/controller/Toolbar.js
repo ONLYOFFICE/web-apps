@@ -3096,17 +3096,17 @@ define([
                         if ( $panel )
                             me.toolbar.addTab(tab, $panel, 5);
 
+                        // hide 'print' and 'save' buttons group and next separator
+                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+
+                        // hide 'undo' and 'redo' buttons and get container
+                        var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+
+                        // move 'paste' button to the container instead of 'undo' and 'redo'
+                        me.toolbar.btnPaste.$el.detach().appendTo($box);
+                        me.toolbar.btnCopy.$el.removeClass('split');
+
                         if ( config.isDesktopApp ) {
-                            // hide 'print' and 'save' buttons group and next separator
-                            me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
-
-                            // hide 'undo' and 'redo' buttons and get container
-                            var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
-
-                            // move 'paste' button to the container instead of 'undo' and 'redo'
-                            me.toolbar.btnPaste.$el.detach().appendTo($box);
-                            me.toolbar.btnCopy.$el.removeClass('split');
-
                             if ( config.canProtect ) {
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
