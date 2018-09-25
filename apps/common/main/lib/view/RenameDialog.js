@@ -94,6 +94,9 @@ define([
             Common.UI.Window.prototype.show.apply(this, arguments);
 
             var me = this;
+            var idx = me.options.filename.lastIndexOf('.');
+            if (idx>0)
+                me.options.filename = me.options.filename.substring(0, idx);
             _.delay(function(){
                 me.inputName.setValue(me.options.filename);
                 me.inputNameEl.focus().select();
