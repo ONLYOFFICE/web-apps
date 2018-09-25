@@ -175,9 +175,9 @@ define([
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-print no-mask',
-                        lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint]
+                        lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint, _set.disableOnStart]
                     });
-                    me.paragraphControls.push(me.btnPrint);
+                    me.slideOnlyControls.push(me.btnPrint);
 
                     me.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',

@@ -80,7 +80,8 @@ define([
         multiselect:    'is-multiselect',
         cantHyperlink:  'cant-hyperlink',
         commentLock:    'can-comment',
-        cantModifyFilter: 'cant-filter'
+        cantModifyFilter: 'cant-filter',
+        disableOnStart: 'on-start'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -380,7 +381,7 @@ define([
                     id          : 'id-toolbar-btn-print',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-print no-mask',
-                    lock        : [_set.editCell, _set.cantPrint]
+                    lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart]
                 });
 
                 me.btnSave = new Common.UI.Button({
@@ -1258,6 +1259,7 @@ define([
                     if (cmp && _.isFunction(cmp.setDisabled))
                         cmp.setDisabled(true);
                 });
+                this.lockToolbar(SSE.enumLock.disableOnStart, true, {array: [me.btnPrint]});
 
                 this.on('render:after', _.bind(this.onToolbarAfterRender, this));
             }

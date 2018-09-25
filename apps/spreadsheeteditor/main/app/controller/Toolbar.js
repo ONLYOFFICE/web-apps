@@ -121,6 +121,7 @@ define([
             this.editMode = true;
             this._isAddingShape = false;
             this._state = {
+                activated: false,
                 prstyle: undefined,
                 clrtext: undefined,
                 pralign: undefined,
@@ -2913,6 +2914,11 @@ define([
 
         onLockDefNameManager: function(state) {
             this._state.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
+        },
+
+        activateControls: function() {
+            this.toolbar.lockToolbar(SSE.enumLock.disableOnStart, false, {array: [this.toolbar.btnPrint]});
+            this._state.activated = true;
         },
 
         DisableToolbar: function(disable, viewMode) {

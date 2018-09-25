@@ -730,6 +730,7 @@ define([
 
                                 me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
+                                toolbarController.activateControls();
                             }
 
                             rightmenuController.createDelayedElements();
