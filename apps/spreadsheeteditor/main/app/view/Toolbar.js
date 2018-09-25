@@ -381,7 +381,8 @@ define([
                     id          : 'id-toolbar-btn-print',
                     cls         : 'btn-toolbar',
                     iconCls     : 'btn-print no-mask',
-                    lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart]
+                    lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
+                    signals: ['disabled']
                 });
 
                 me.btnSave = new Common.UI.Button({

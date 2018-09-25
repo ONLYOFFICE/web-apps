@@ -175,7 +175,8 @@ define([
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-print no-mask',
-                        lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint, _set.disableOnStart]
+                        lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint, _set.disableOnStart],
+                        signals: ['disabled']
                     });
                     me.slideOnlyControls.push(me.btnPrint);
 
@@ -1286,9 +1287,6 @@ define([
                     if (me.mnuChangeSlidePicker)
                         me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
                 });
-
-//            // Enable none paragraph components
-                this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');

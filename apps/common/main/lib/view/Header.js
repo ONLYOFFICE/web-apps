@@ -483,7 +483,7 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html));
+                        me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html), true);
                     }
 
                     me.btnSave = createTitleButton('svg-btn-save', $('#slot-btn-dt-save', $html), true);

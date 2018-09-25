@@ -255,6 +255,7 @@ define([
             toolbar.btnPreview.on('click',                              _.bind(this.onPreviewBtnClick, this));
             toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));

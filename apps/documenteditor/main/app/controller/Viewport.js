@@ -96,6 +96,10 @@ define([
                                 me.header.btnRedo.keepState.disabled = state;
                             else me.header.btnRedo.setDisabled(state);
                     },
+                    'print:disabled' : function (state) {
+                        if ( me.header.btnPrint )
+                            me.header.btnPrint.setDisabled(state);
+                    },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);

@@ -124,7 +124,8 @@ define([
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-print no-mask'
+                        iconCls: 'btn-print no-mask',
+                        signals: ['disabled']
                     });
                     this.toolbarControls.push(this.btnPrint);
 
