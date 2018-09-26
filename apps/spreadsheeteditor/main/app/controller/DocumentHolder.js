@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/util/utils',
+    'common/main/lib/util/Shortcuts',
     'common/main/lib/view/CopyWarningDialog',
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
