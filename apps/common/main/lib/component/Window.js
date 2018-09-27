@@ -612,9 +612,10 @@ define([
                     this.setResizable(this.initConfig.resizable);
 
                 var me = this;
-                Common.NotificationCenter.on('window:close', function() {
-                    if (me.$window && me.isVisible()) me.close();
-                });
+                this.binding.winclose = function(obj) {
+                    if (me.$window && me.isVisible() && me.$window == obj.$window) me.close();
+                };
+                Common.NotificationCenter.on('window:close', this.binding.winclose);
 
                 this.fireEvent('render:after',this);
                 return this;
@@ -704,6 +705,7 @@ define([
                 if ( this.initConfig.header ) {
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
+                Common.NotificationCenter.off({'window:close': this.binding.winclose});
 
                 if (this.initConfig.modal) {
                     var mask = _getMask(),
