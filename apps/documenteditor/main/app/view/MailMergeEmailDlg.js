@@ -171,7 +171,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         _onMessage: function(msg) {
             if (msg && msg.Referer == "onlyoffice") {
 //                if ( !_.isEmpty(msg.folder) ) {
-//                    this.trigger('mailmergefolder', this, msg.folder); // save last folder url
+//                    this.trigger('saveasfolder', this, msg.folder); // save last folder url
 //                }
             }
         },

@@ -107,6 +107,67 @@ define([
         }
     });
 
+    DE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
+        el: '#panel-savecopy',
+        menu: undefined,
+
+        formats: [[
+            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'}
+        ],[
+//            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC, ext: '.doc'},
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
+            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'},
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'}
+//            {name: 'EPUB',  imgCls: 'doc-format btn-epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'}
+        ]],
+
+
+        template: _.template([
+            '<table><tbody>',
+                '<% _.each(rows, function(row) { %>',
+                    '<tr>',
+                        '<% _.each(row, function(item) { %>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
+                            '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
+                        '<% }) %>',
+                    '</tr>',
+                '<% }) %>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function() {
+            $(this.el).html(this.template({rows:this.formats}));
+            $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        onFormatClick: function(e) {
+            var type = e.currentTarget.attributes['format'],
+                ext = e.currentTarget.attributes['format-ext'];
+            if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
+                this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
+            }
+        }
+    });
+
     DE.Views.FileMenuPanels.Settings = Common.UI.BaseView.extend(_.extend({
         el: '#panel-settings',
         menu: undefined,

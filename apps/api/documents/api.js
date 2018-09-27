@@ -58,7 +58,8 @@
                 sharingSettingsUrl: 'document sharing settings url',
                 fileChoiceUrl: 'mail merge sources url',
                 callbackUrl: <url for connection between sdk and portal>,
-                mergeFolderUrl: 'folder for saving merged file',
+                mergeFolderUrl: 'folder for saving merged file', // must be deprecated, use saveAsUrl instead
+                saveAsUrl: 'folder for saving files'
                 licenseUrl: <url for license>,
                 customerId: <customer id>,
 
@@ -194,6 +195,7 @@
         _config.editorConfig.canRequestEditRights = _config.events && !!_config.events.onRequestEditRights;
         _config.editorConfig.canRequestClose = _config.events && !!_config.events.onRequestClose;
         _config.editorConfig.canRename = _config.events && !!_config.events.onRequestRename;
+        _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
         _config.frameEditorId = placeholderId;
 
         _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");

@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SaveAsDlg',
     'presentationeditor/main/app/view/LeftMenu',
     'presentationeditor/main/app/view/FileMenu'
 ], function () {
@@ -83,6 +84,7 @@ define([
                     'filemenu:hide': _.bind(this.menuFilesHide, this),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -133,6 +135,7 @@ define([
             this.api.asc_registerCallback('asc_onThumbnailsShow',        _.bind(this.onThumbnailsShow, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
+            this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -242,6 +245,49 @@ define([
         clickSaveAsFormat: function(menu, format) {
             this.api.asc_DownloadAs(format);
             menu.hide();
+        },
+
+        clickSaveCopyAsFormat: function(menu, format, ext) {
+            this.isFromFileDownloadAs = ext;
+            this.api.asc_DownloadAs(format, true);
+            menu.hide();
+        },
+
+        onDownloadUrl: function(url) {
+            if (this.isFromFileDownloadAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                if (typeof this.isFromFileDownloadAs == 'string') {
+                    var idx = defFileName.lastIndexOf('.');
+                    if (idx>0)
+                        defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
+                }
+
+                me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                    saveFolderUrl: me.mode.saveAsUrl,
+                    saveFileUrl: url,
+                    defFileName: defFileName
+                });
+                me._saveCopyDlg.on('saveaserror', function(obj, err){
+                    var config = {
+                        closable: false,
+                        title: me.notcriticalErrorTitle,
+                        msg: err,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: function(btn){
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    };
+                    Common.UI.alert(config);
+                }).on('close', function(obj){
+                    me._saveCopyDlg = undefined;
+                });
+                me._saveCopyDlg.show();
+            }
+            this.isFromFileDownloadAs = false;
         },
 
         applySettings: function(menu) {
@@ -590,6 +636,8 @@ define([
 
         textNoTextFound         : 'Text not found',
         newDocumentTitle        : 'Unnamed document',
-        requestEditRightsText   : 'Requesting editing rights...'
+        requestEditRightsText   : 'Requesting editing rights...',
+        notcriticalErrorTitle: 'Warning',
+        txtUntitled: 'Untitled'
     }, PE.Controllers.LeftMenu || {}));
 });

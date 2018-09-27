@@ -33,6 +33,7 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SaveAsDlg',
     'spreadsheeteditor/main/app/view/LeftMenu',
     'spreadsheeteditor/main/app/view/FileMenu'
 ], function () {
@@ -73,6 +74,7 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -141,6 +143,7 @@ define([
             this.api.asc_registerCallback('asc_onRenameCellTextEnd',    _.bind(this.onRenameText, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiServerDisconnect, this));
+            this.api.asc_registerCallback('asc_onDownloadUrl',          _.bind(this.onDownloadUrl, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -268,6 +271,68 @@ define([
                 this.api.asc_DownloadAs(format);
                 menu.hide();
             }
+        },
+
+        clickSaveCopyAsFormat: function(menu, format, ext) {
+            if (format == Asc.c_oAscFileType.CSV) {
+                Common.UI.warning({
+                    title: this.textWarning,
+                    msg: this.warnDownloadAs,
+                    buttons: ['ok', 'cancel'],
+                    callback: _.bind(function(btn){
+                        if (btn == 'ok') {
+                            this.isFromFileDownloadAs = ext;
+                            this.api.asc_DownloadAs(format, true);
+                            menu.hide();
+                        }
+                    }, this)
+                });
+            } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
+                this.isFromFileDownloadAs = ext;
+                menu.hide();
+                Common.NotificationCenter.trigger('download:settings', this.leftMenu, format, true);
+            } else {
+                this.isFromFileDownloadAs = ext;
+                this.api.asc_DownloadAs(format, true);
+                menu.hide();
+            }
+        },
+
+        onDownloadUrl: function(url) {
+            if (this.isFromFileDownloadAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                if (typeof this.isFromFileDownloadAs == 'string') {
+                    var idx = defFileName.lastIndexOf('.');
+                    if (idx>0)
+                        defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
+                }
+
+                me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                    saveFolderUrl: me.mode.saveAsUrl,
+                    saveFileUrl: url,
+                    defFileName: defFileName
+                });
+                me._saveCopyDlg.on('saveaserror', function(obj, err){
+                    var config = {
+                        closable: false,
+                        title: me.textWarning,
+                        msg: err,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: function(btn){
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    };
+                    Common.UI.alert(config);
+                }).on('close', function(obj){
+                    me._saveCopyDlg = undefined;
+                });
+                me._saveCopyDlg.show();
+            }
+            this.isFromFileDownloadAs = false;
         },
 
         applySettings: function(menu) {
@@ -819,6 +884,7 @@ define([
         textValues: 'Values',
         textWithin: 'Within',
         textSearch: 'Search',
-        textLookin: 'Look in'
+        textLookin: 'Look in',
+        txtUntitled: 'Untitled'
     }, SSE.Controllers.LeftMenu || {}));
 });
