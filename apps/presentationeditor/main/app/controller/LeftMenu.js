@@ -273,7 +273,7 @@ define([
                 me._saveCopyDlg.on('saveaserror', function(obj, err){
                     var config = {
                         closable: false,
-                        title: this.notcriticalErrorTitle,
+                        title: me.notcriticalErrorTitle,
                         msg: err,
                         iconCls: 'warn',
                         buttons: ['ok'],

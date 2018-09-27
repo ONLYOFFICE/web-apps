@@ -553,7 +553,7 @@ define([
                 }).on('saveaserror', function(obj, err){ // save last folder
                     var config = {
                         closable: false,
-                        title: this.notcriticalErrorTitle,
+                        title: me.notcriticalErrorTitle,
                         msg: err,
                         iconCls: 'warn',
                         buttons: ['ok'],
