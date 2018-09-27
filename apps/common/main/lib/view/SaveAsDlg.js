@@ -31,9 +31,8 @@
  *
 */
 /**
- * User: Julia.Radzhabova
- * Date: 15.04.15
- * Time: 13:56
+ *  Created by Julia.Radzhabova on 9/27/18
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  */
 
 define([
@@ -41,7 +40,7 @@ define([
     'common/main/lib/component/LoadMask'
 ], function () { 'use strict';
 
-    DE.Views.MailMergeSaveDlg = Common.UI.Window.extend(_.extend({
+    Common.Views.SaveAsDlg = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
@@ -52,15 +51,15 @@ define([
             }, options);
 
             this.template = [
-                '<div id="id-mail-merge-folder-placeholder"></div>'
+                '<div id="id-saveas-folder-placeholder"></div>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
 
-            this.mergeFolderUrl = options.mergeFolderUrl || '';
-            this.mergedFileUrl = options.mergedFileUrl || '';
+            this.saveFolderUrl = options.saveFolderUrl || '';
+            this.saveFileUrl = options.saveFileUrl || '';
             this.defFileName = options.defFileName || '';
-            this.mergeFolderUrl = this.mergeFolderUrl.replace("{title}", encodeURIComponent(this.defFileName)).replace("{fileuri}", encodeURIComponent(this.mergedFileUrl));
+            this.saveFolderUrl = this.saveFolderUrl.replace("{title}", encodeURIComponent(this.defFileName)).replace("{fileuri}", encodeURIComponent(this.saveFileUrl));
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
@@ -75,13 +74,13 @@ define([
             iframe.frameBorder  = 0;
             iframe.scrolling    = "no";
             iframe.onload       = _.bind(this._onLoad,this);
-            $('#id-mail-merge-folder-placeholder').append(iframe);
+            $('#id-saveas-folder-placeholder').append(iframe);
 
-            this.loadMask = new Common.UI.LoadMask({owner: $('#id-mail-merge-folder-placeholder')});
+            this.loadMask = new Common.UI.LoadMask({owner: $('#id-saveas-folder-placeholder')});
             this.loadMask.setTitle(this.textLoading);
             this.loadMask.show();
 
-            iframe.src = this.mergeFolderUrl;
+            iframe.src = this.saveFolderUrl;
 
             var me = this;
             this._eventfunc = function(msg) {
@@ -122,10 +121,10 @@ define([
         _onMessage: function(msg) {
             if (msg && msg.Referer == "onlyoffice") {
                 if ( !_.isEmpty(msg.error) ) {
-                    this.trigger('mailmergeerror', this, msg.error);
+                    this.trigger('saveaserror', this, msg.error);
                 }
 //                if ( !_.isEmpty(msg.folder) ) {
-//                    this.trigger('mailmergefolder', this, msg.folder); // save last folder url
+//                    this.trigger('saveasfolder', this, msg.folder); // save last folder url
 //                }
                 Common.NotificationCenter.trigger('window:close', this);
             }
@@ -138,6 +137,6 @@ define([
 
         textTitle   : 'Folder for save',
         textLoading : 'Loading'
-    }, DE.Views.MailMergeSaveDlg || {}));
+    }, Common.Views.SaveAsDlg || {}));
 });
 

@@ -43,9 +43,9 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
-    'documenteditor/main/app/view/FileMenu',
-    'documenteditor/main/app/view/MailMergeSaveDlg'
+    'documenteditor/main/app/view/FileMenu'
 ], function () {
     'use strict';
 
@@ -353,12 +353,12 @@ define([
                         defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
                 }
 
-                me._saveCopyDlg = new DE.Views.MailMergeSaveDlg({
-                    mergeFolderUrl: me.mode.saveAsUrl,
-                    mergedFileUrl: url,
+                me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                    saveFolderUrl: me.mode.saveAsUrl,
+                    saveFileUrl: url,
                     defFileName: defFileName
                 });
-                me._saveCopyDlg.on('mailmergeerror', function(obj, err){
+                me._saveCopyDlg.on('saveaserror', function(obj, err){
                     var config = {
                         closable: false,
                         title: this.notcriticalErrorTitle,

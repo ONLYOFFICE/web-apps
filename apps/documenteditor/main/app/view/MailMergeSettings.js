@@ -42,8 +42,8 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/Switcher',
+    'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/MailMergeRecepients',
-    'documenteditor/main/app/view/MailMergeSaveDlg',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -544,13 +544,13 @@ define([
             if (this._mailMergeDlg) return;
             var me = this;
             if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
-                me._mailMergeDlg = new DE.Views.MailMergeSaveDlg({
-                                    mergeFolderUrl: me.mode.mergeFolderUrl,
-                                    mergedFileUrl: url,
+                me._mailMergeDlg = new Common.Views.SaveAsDlg({
+                                    saveFolderUrl: me.mode.mergeFolderUrl,
+                                    savedFileUrl: url,
                                     defFileName: me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx')
                                 });
-                me._mailMergeDlg.on('mailmergefolder', function(obj, folder){ // save last folder
-                }).on('mailmergeerror', function(obj, err){ // save last folder
+                me._mailMergeDlg.on('saveasfolder', function(obj, folder){ // save last folder
+                }).on('saveaserror', function(obj, err){ // save last folder
                     var config = {
                         closable: false,
                         title: this.notcriticalErrorTitle,
