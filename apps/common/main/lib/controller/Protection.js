@@ -87,14 +87,13 @@ define([
             if (api) {
                 this.api = api;
 
-                if (this.appConfig.isProtectSupport && this.appConfig.isDesktopApp && this.appConfig.isOffline) {
+                if (this.appConfig.isPasswordSupport)
                     this.api.asc_registerCallback('asc_onDocumentPassword',  _.bind(this.onDocumentPassword, this));
-                    if (this.appConfig.canProtect) {
-                        Common.NotificationCenter.on('protect:sign',            _.bind(this.onSignatureRequest, this));
-                        Common.NotificationCenter.on('protect:signature',       _.bind(this.onSignatureClick, this));
-                        this.api.asc_registerCallback('asc_onSignatureClick',   _.bind(this.onSignatureSign, this));
-                        this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
-                    }
+                if (this.appConfig.isSignatureSupport) {
+                    Common.NotificationCenter.on('protect:sign',            _.bind(this.onSignatureRequest, this));
+                    Common.NotificationCenter.on('protect:signature',       _.bind(this.onSignatureClick, this));
+                    this.api.asc_registerCallback('asc_onSignatureClick',   _.bind(this.onSignatureSign, this));
+                    this.api.asc_registerCallback('asc_onUpdateSignatures', _.bind(this.onApiUpdateSignatures, this));
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }

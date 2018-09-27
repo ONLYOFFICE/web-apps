@@ -47,6 +47,7 @@ define([
     'common/main/lib/model/ReviewChange',
     'common/main/lib/collection/ReviewChanges',
     'common/main/lib/view/ReviewChanges',
+    'common/main/lib/view/ReviewPopover',
     'common/main/lib/view/LanguageDialog'
 ], function () {
     'use strict';
@@ -58,7 +59,7 @@ define([
         ],
         views : [
             'Common.Views.ReviewChanges',
-            'Common.Views.ReviewChangesPopover'
+            'Common.Views.ReviewPopover'
         ],
         sdkViewName : '#id_main',
 
@@ -69,8 +70,6 @@ define([
                     'settings:apply': this.applySettings.bind(this)
                 },
                 'Common.Views.ReviewChanges': {
-
-                    // comments handlers
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
@@ -83,6 +82,11 @@ define([
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this)
+                },
+                'Common.Views.ReviewPopover': {
+                    'reviewchange:accept':      _.bind(this.onAcceptClick, this),
+                    'reviewchange:reject':      _.bind(this.onRejectClick, this),
+                    'reviewchange:delete':      _.bind(this.onDeleteClick, this)
                 }
             });
         },
@@ -96,6 +100,9 @@ define([
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+
+            this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
+            this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
         },
         setConfig: function (data, api) {
             this.setApi(api);
@@ -119,12 +126,7 @@ define([
         setMode: function(mode) {
             this.appConfig = mode;
             this.popoverChanges = new Common.Collections.ReviewChanges();
-
-            this.view           =   this.createView('Common.Views.ReviewChanges', {
-                // store           :   this.collection,
-                popoverChanges  : this.popoverChanges,
-                mode            : mode
-            });
+            this.view = this.createView('Common.Views.ReviewChanges', { mode: mode });
 
             return this;
         },
@@ -150,10 +152,10 @@ define([
 
                     if (animate) {
                         if ( this.getPopover().isVisible() ) this.getPopover().hide();
-                        this.getPopover().setLeftTop(posX+25, posY);
+                        this.getPopover().setLeftTop(posX, posY);
                     }
 
-                    this.getPopover().show(animate, lock, lockUser);
+                    this.getPopover().showReview(animate, lock, lockUser);
 
                     if (!this.appConfig.isReviewOnly && this._state.lock !== lock) {
                         this.view.btnAccept.setDisabled(lock==true);
@@ -172,8 +174,8 @@ define([
                     this._state.posx = this._state.posy = -1000;
                     this._state.changes_length = 0;
                     this._state.popoverVisible = false;
-                    this.getPopover().hide();
                     this.popoverChanges.reset();
+                    this.getPopover().hideReview();
                 }
             }
         },
@@ -191,7 +193,7 @@ define([
                 } else if (this.popoverChanges.length>0) {
                     if (!this.getPopover().isVisible())
                         this.getPopover().show(false);
-                    this.getPopover().setLeftTop(posX+25, posY);
+                    this.getPopover().setLeftTop(posX, posY);
                 }
             }
         },
@@ -205,7 +207,14 @@ define([
         },
 
         getPopover: function () {
-            return this.view.getPopover(this.sdkViewName);
+            if (this.appConfig.canReview && _.isUndefined(this.popover)) {
+                this.popover = Common.Views.ReviewPopover.prototype.getPopover({
+                    reviewStore : this.popoverChanges,
+                    renderTo : this.sdkViewName
+                });
+                this.popover.setReviewStore(this.popoverChanges);
+            }
+            return this.popover;
         },
 
         // helpers
@@ -386,12 +395,12 @@ define([
 
                 }
                 var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
-                    color = item.get_UserColor(),
+                    user = me.userCollection.findOriginalUser(item.get_UserId()),
                     change = new Common.Models.ReviewChange({
                         uid         : Common.UI.getId(),
                         userid      : item.get_UserId(),
                         username    : item.get_UserName(),
-                        usercolor   : '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
+                        usercolor   : (user) ? user.get('color') : null,
                         date        : me.dateToLocaleTimeString(date),
                         changetext  : changetext,
                         id          : Common.UI.getId(),
@@ -488,7 +497,7 @@ define([
                 state = (state == 'on');
 
                 this.api.asc_SetTrackRevisions(state);
-                Common.localStorage.setItem(this.view.appPrefix + "track-changes", state ? 1 : 0);
+                Common.localStorage.setItem(this.view.appPrefix + "track-changes-" + (this.appConfig.fileKey || ''), state ? 1 : 0);
 
                 this.view.turnChanges(state);
             }
@@ -603,17 +612,9 @@ define([
                         me.api.asc_SetTrackRevisions(state);
                     };
 
-                    if ( config.isReviewOnly ) {
-                        me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-
-                        _setReviewStatus(true);
-                    } else
-                    if ( !me.api.asc_IsTrackRevisions() ) {
-                        _setReviewStatus(false);
-                    } else {
-                        me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-                        _setReviewStatus(Common.localStorage.getBool(me.view.appPrefix + "track-changes"));
-                    }
+                    var state = config.isReviewOnly || Common.localStorage.getBool(me.view.appPrefix + "track-changes-" + (config.fileKey || ''));
+                    me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
+                    _setReviewStatus(state);
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
@@ -684,6 +685,14 @@ define([
 
         onCoAuthoringDisconnect: function() {
             this.SetDisabled(true);
+        },
+
+        onUpdateUsers: function() {
+            var users = this.userCollection;
+            this.popoverChanges && this.popoverChanges.each(function (model) {
+                var user = users.findOriginalUser(model.get('userid'));
+                model.set('usercolor', (user) ? user.get('color') : null);
+            });
         },
 
         textInserted: '<b>Inserted:</b>',

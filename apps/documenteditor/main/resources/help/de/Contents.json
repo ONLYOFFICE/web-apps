@@ -21,16 +21,20 @@
     "name": "Registerkarte Layout"
   },
   {
+    "src": "ProgramInterface/ReferencesTab.htm",
+    "name": "Registerkarte Referenzen"
+  },
+  {
     "src": "ProgramInterface/ReviewTab.htm",
-    "name": "Registerkarte Überprüfen"
+    "name": "Registerkarte Zusammenarbeit"
   },
   {
     "src": "ProgramInterface/PluginsTab.htm",
-    "name": "Registerkarte Plug-in"
+    "name": "Registerkarte Plug-ins"
   },
   {
-    "src": "UsageInstructions/ChangeColorScheme.htm",
-    "name": "Farbschema ändern",
+    "src": "UsageInstructions/OpenCreateNew.htm",
+    "name": "Ein neues Dokument erstellen oder ein vorhandenes öffnen",
     "headername": "Grundfunktionen"
   },
   {
@@ -38,8 +42,8 @@
     "name": "Textpassagen kopieren/einfügen, Aktionen rückgängig machen/wiederholen"
   },
   {
-    "src": "UsageInstructions/OpenCreateNew.htm",
-    "name": "Ein neues Dokument erstellen oder ein vorhandenes öffnen"
+    "src": "UsageInstructions/ChangeColorScheme.htm",
+    "name": "Farbschema ändern"
   },
   {
     "src": "UsageInstructions/SetPageParameters.htm",
@@ -146,6 +150,14 @@
     "name": "Textobjekte einfügen"
   },
   {
+    "src": "UsageInstructions/InsertContentControls.htm",
+    "name": "Inhaltssteuerelemente einfügen"
+  },
+  {
+    "src": "UsageInstructions/CreateTableOfContents.htm",
+    "name": "Inhaltsverzeichnis erstellen"
+  },
+  {
     "src": "UsageInstructions/AlignArrangeObjects.htm",
     "name": "Objekte auf einer Seite anordnen und ausrichten"
   },
@@ -187,7 +199,7 @@
   },
   {
     "src": "HelpfulHints/Navigation.htm",
-    "name": "Einstellungen und Navigationswerkzeuge anzeigen"
+    "name": "Ansichtseinstellungen und Navigationswerkzeuge"
   },
   {
     "src": "HelpfulHints/Search.htm",

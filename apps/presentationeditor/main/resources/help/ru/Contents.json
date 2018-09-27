@@ -20,7 +20,7 @@
     { "src": "UsageInstructions/InsertCharts.htm", "name": "Вставка и редактирование диаграмм" },
     { "src": "UsageInstructions/InsertTables.htm", "name": "Вставка и форматирование таблиц" },
     {"src": "UsageInstructions/FillObjectsSelectColor.htm", "name": "Заливка объектов и выбор цветов"},
-    { "src": "UsageInstructions/ManipulateObjects.htm", "name": "Манипулирование объектами на слайде" },
+    { "src": "UsageInstructions/ManipulateObjects.htm", "name": "Работа с объектами на слайде" },
     {"src": "UsageInstructions/AlignArrangeObjects.htm", "name": "Выравнивание и упорядочивание объектов на слайде"},
     { "src": "UsageInstructions/InsertEquation.htm", "name": "Вставка формул", "headername": "Математические формулы" },
     {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Совместное редактирование презентаций", "headername": "Совместное редактирование презентаций" },

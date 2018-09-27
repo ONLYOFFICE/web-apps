@@ -46,7 +46,8 @@ define([
     'core',
     'common/main/lib/model/Comment',
     'common/main/lib/collection/Comments',
-    'common/main/lib/view/Comments'
+    'common/main/lib/view/Comments',
+    'common/main/lib/view/ReviewPopover'
 ], function () {
     'use strict';
 
@@ -67,7 +68,7 @@ define([
         ],
         views : [
             'Common.Views.Comments',
-            'Common.Views.CommentsPopover'
+            'Common.Views.ReviewPopover'
         ],
         sdkViewName : '#id_main',
         subEditStrings : {},
@@ -101,6 +102,27 @@ define([
 
                     // work handlers
 
+                    'comment:closeEditing':     _.bind(this.closeEditing, this)
+                },
+
+                'Common.Views.ReviewPopover': {
+
+                    // comments handlers
+
+                    'comment:change':           _.bind(this.onChangeComment, this),
+                    'comment:remove':           _.bind(this.onRemoveComment, this),
+                    'comment:resolve':          _.bind(this.onResolveComment, this),
+                    'comment:show':             _.bind(this.onShowComment, this),
+
+                    // reply handlers
+
+                    'comment:addReply':         _.bind(this.onAddReplyComment, this),
+                    'comment:changeReply':      _.bind(this.onChangeReplyComment, this),
+                    'comment:removeReply':      _.bind(this.onRemoveReplyComment, this),
+                    'comment:editReply':        _.bind(this.onShowEditReplyComment, this),
+
+                    // work handlers
+
                     'comment:closeEditing':     _.bind(this.closeEditing, this),
                     'comment:disableHint':      _.bind(this.disableHint, this),
                     'comment:addDummyComment':  _.bind(this.onAddDummyComment, this)
@@ -111,7 +133,7 @@ define([
             Common.NotificationCenter.on('app:comment:add',         _.bind(this.onAppAddComment, this));
             Common.NotificationCenter.on('layout:changed', function(area){
                 Common.Utils.asyncCall(function(e) {
-                    if ( e == 'toolbar' && this.view.$el.is(':visible') ) {
+                    if ( (e == 'toolbar' || e == 'status') && this.view.$el.is(':visible') ) {
                         this.onAfterShow();
                     }
                 }, this, area);
@@ -125,14 +147,15 @@ define([
 
             this.popoverComments                =   new Common.Collections.Comments();
             if (this.popoverComments) {
-                this.popoverComments.comparator =   function (collection) { return -collection.get('time'); };
+                this.popoverComments.comparator =   function (collection) { return collection.get('time'); };
             }
 
-            this.view                           =   this.createView('Common.Views.Comments', {
-                store           :   this.collection,
-                popoverComments :   this.popoverComments
-            });
+            this.view = this.createView('Common.Views.Comments', { store: this.collection });
             this.view.render();
+
+            this.userCollection = this.getApplication().getCollection('Common.Collections.Users');
+            this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
+            this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
 
             this.bindViewEvents(this.view, this.events);
         },
@@ -162,7 +185,6 @@ define([
                 this.api.asc_registerCallback('asc_onShowComment', _.bind(this.onApiShowComment, this));
                 this.api.asc_registerCallback('asc_onHideComment', _.bind(this.onApiHideComment, this));
                 this.api.asc_registerCallback('asc_onUpdateCommentPosition', _.bind(this.onApiUpdateCommentPosition, this));
-
                 this.api.asc_registerCallback('asc_onDocumentPlaceChanged', _.bind(this.onDocumentPlaceChanged, this));
             }
         },
@@ -267,7 +289,7 @@ define([
 
                             if (comment.get('unattached')) {
                                 if (this.getPopover()) {
-                                    this.getPopover().hide();
+                                    this.getPopover().hideComments();
                                     return;
                                 }
                             }
@@ -293,7 +315,7 @@ define([
                     }
 
                     if (this.getPopover()) {
-                        this.getPopover().hide();
+                        this.getPopover().hideComments();
                     }
 
                     this.isSelectedComment = false;
@@ -667,7 +689,7 @@ define([
                         this.popoverComments.remove(model);
                         if (0 === this.popoverComments.length) {
                             if (this.getPopover()) {
-                                this.getPopover().hide();
+                                this.getPopover().hideComments();
                             }
                         }
                     }
@@ -703,9 +725,11 @@ define([
                 date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                        ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
 
+                var user = this.userCollection.findOriginalUser(data.asc_getUserId());
                 comment.set('comment',  data.asc_getText());
                 comment.set('userid',   data.asc_getUserId());
                 comment.set('username', data.asc_getUserName());
+                comment.set('usercolor', (user) ? user.get('color') : null);
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
                 comment.set('time',     date.getTime());
@@ -721,10 +745,12 @@ define([
                     dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                                 ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
+                    user = this.userCollection.findOriginalUser(data.asc_getReply(i).asc_getUserId());
                     replies.push(new Common.Models.Reply({
                         id                  : Common.UI.getId(),
                         userid              : data.asc_getReply(i).asc_getUserId(),
                         username            : data.asc_getReply(i).asc_getUserName(),
+                        usercolor           : (user) ? user.get('color') : null,
                         date                : t.dateToLocaleTimeString(dateReply),
                         reply               : data.asc_getReply(i).asc_getText(),
                         time                : dateReply.getTime(),
@@ -751,15 +777,14 @@ define([
         },
         onApiLockComment: function (id,userId) {
             var cur = this.findComment(id),
-                usersStore = null,
                 user = null;
 
             if (cur) {
-                usersStore = this.getApplication().getCollection('Common.Collections.Users');
-                if (usersStore) {
-                    user = usersStore.findWhere({id: userId});
+                if (this.userCollection) {
+                    user = this.userCollection.findUser(userId);
                     if (user) {
                         this.getPopover() && this.getPopover().saveText();
+                        this.view.saveText();
                         cur.set('lock', true);
                         cur.set('lockuserid', this.view.getUserName(user.get('username')));
                     }
@@ -771,6 +796,7 @@ define([
             if (cur) {
                 cur.set('lock', false);
                 this.getPopover() && this.getPopover().loadText();
+                this.view.loadText();
             }
         },
         onApiShowComment: function (uids, posX, posY, leftX, opts, hint) {
@@ -805,9 +831,8 @@ define([
                     saveTxtReplyId = '',
                     comment = null,
                     text = '',
-                    animate = true;
-
-                this.popoverComments.reset();
+                    animate = true,
+                    comments = [];
 
                 for (i = 0; i < uids.length; ++i) {
                     saveTxtId = uids[i];
@@ -845,18 +870,22 @@ define([
                     this.isSelectedComment = !hint || !this.hintmode;
                     this.uids = _.clone(uids);
 
-                    this.popoverComments.push(comment);
+                    comments.push(comment);
                     if (!this._dontScrollToComment)
                         this.view.commentsView.scrollToRecord(comment);
                     this._dontScrollToComment = false;
                 }
+                comments.sort(function (a, b) {
+                    return a.get('time') - b.get('time');
+                });
+                this.popoverComments.reset(comments);
 
                 if (popover.isVisible()) {
                     popover.hide();
                 }
 
                 popover.setLeftTop(posX, posY, leftX);
-                popover.show(animate, false, true, text);
+                popover.showComments(animate, false, true, text);
             }
         },
         onApiHideComment: function (hint) {
@@ -880,7 +909,7 @@ define([
                 });
 
                 this.getPopover().saveText(true);
-                this.getPopover().hide();
+                this.getPopover().hideComments();
 
                 this.collection.clearEditing();
                 this.popoverComments.clearEditing();
@@ -911,9 +940,7 @@ define([
                     if (this.isModeChanged)
                         this.onApiShowComment(uids, posX, posY, leftX);
                     if (0 === this.popoverComments.length) {
-
-                        this.popoverComments.reset();
-
+                        var comments = [];
                         for (i = 0; i < uids.length; ++i) {
                             saveTxtId = uids[i];
                             saveTxtReplyId = uids[i] + '-R';
@@ -930,13 +957,17 @@ define([
                                 text = this.subEditStrings[saveTxtReplyId];
                             }
 
-                            this.popoverComments.push(comment);
+                            comments.push(comment);
                         }
+                        comments.sort(function (a, b) {
+                            return a.get('time') - b.get('time');
+                        });
+                        this.popoverComments.reset(comments);
 
                         useAnimation = true;
-                        this.getPopover().show(useAnimation, undefined, undefined, text);
+                        this.getPopover().showComments(useAnimation, undefined, undefined, text);
                     } else if (!this.getPopover().isVisible()) {
-                        this.getPopover().show(false, undefined, undefined, text);
+                        this.getPopover().showComments(false, undefined, undefined, text);
                     }
 
                     this.getPopover().setLeftTop(posX, posY, leftX, undefined, true);
@@ -1071,19 +1102,45 @@ define([
                 }
             }
         },
+
         getPopover: function () {
-            return this.view.getPopover(this.sdkViewName);
+            if (_.isUndefined(this.popover)) {
+                this.popover = Common.Views.ReviewPopover.prototype.getPopover({
+                    commentsStore : this.popoverComments,
+                    renderTo : this.sdkViewName
+                });
+                this.popover.setCommentsStore(this.popoverComments);
+            }
+            return this.popover;
         },
 
         // helpers
 
+        onUpdateUsers: function() {
+            var users = this.userCollection;
+            this.collection.each(function (model) {
+                var user = users.findOriginalUser(model.get('userid'));
+                model.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+
+                model.get('replys').forEach(function (reply) {
+                    user = users.findOriginalUser(reply.get('userid'));
+                    reply.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                });
+            });
+            this.updateComments(true);
+            if (this.getPopover().isVisible())
+                this.getPopover().update(true);
+        },
+
         readSDKComment: function (id, data) {
             var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                 ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
+            var user = this.userCollection.findOriginalUser(data.asc_getUserId());
             var comment = new Common.Models.Comment({
                 uid                 : id,
                 userid              : data.asc_getUserId(),
                 username            : data.asc_getUserName(),
+                usercolor           : (user) ? user.get('color') : null,
                 date                : this.dateToLocaleTimeString(date),
                 quote               : data.asc_getQuoteText(),
                 comment             : data.asc_getText(),
@@ -1119,10 +1176,12 @@ define([
                     date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                         ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
+                    var user = this.userCollection.findOriginalUser(data.asc_getReply(i).asc_getUserId());
                     replies.push(new Common.Models.Reply({
                         id                  : Common.UI.getId(),
                         userid              : data.asc_getReply(i).asc_getUserId(),
                         username            : data.asc_getReply(i).asc_getUserName(),
+                        usercolor           : (user) ? user.get('color') : null,
                         date                : this.dateToLocaleTimeString(date),
                         reply               : data.asc_getReply(i).asc_getText(),
                         time                : date.getTime(),
@@ -1155,12 +1214,14 @@ define([
                         return;
                     }
 
+                    var user = this.userCollection.findOriginalUser(this.currentUserId);
                     var comment = new Common.Models.Comment({
                         id: -1,
                         time: date.getTime(),
                         date: this.dateToLocaleTimeString(date),
                         userid: this.currentUserId,
                         username: this.currentUserName,
+                        usercolor: (user) ? user.get('color') : null,
                         editTextInPopover: true,
                         showReplyInPopover: false,
                         hideAddReply: true,
@@ -1196,7 +1257,7 @@ define([
                             anchor.asc_getY(),
                             this.hintmode ? anchor.asc_getX() : undefined);
 
-                        dialog.show(true, false, true);
+                        dialog.showComments(true, false, true);
                     }
                 }
             }
@@ -1214,7 +1275,7 @@ define([
 
                     this.popoverComments.reset();
                     if (this.getPopover().isVisible()) {
-                       this.getPopover().hide();
+                       this.getPopover().hideComments();
                     }
                     comment.asc_putText(commentVal);
                     comment.asc_putTime(this.utcDateToString(new Date()));
@@ -1251,7 +1312,7 @@ define([
                     });
 
                     if (dialog.isVisible()) {
-                        dialog.hide();
+                        dialog.hideComments();
                     }
                 }
 
@@ -1296,7 +1357,7 @@ define([
                             anchor.asc_getY(),
                             this.hintmode ? anchor.asc_getX() : undefined);
 
-                        this.getPopover().show(true, false, true);
+                        this.getPopover().showComments(true, false, true);
                     }
                 }
             }

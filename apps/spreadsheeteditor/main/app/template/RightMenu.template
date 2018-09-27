@@ -16,9 +16,12 @@
         </div>
         <div id="id-signature-settings" class="settings-panel">
         </div>
+        <div id="id-cell-settings" class="settings-panel">
+        </div>
     </div>
     <div class="tool-menu-btns">
         <div class="ct-btn-category arrow-left" />
+        <button id="id-right-menu-cell" class="btn btn-category arrow-left" content-target="id-cell-settings"><i class="icon img-toolbarmenu btn-menu-cell">&nbsp;</i></button>
         <button id="id-right-menu-table" class="btn btn-category arrow-left" content-target="id-table-settings"><i class="icon img-toolbarmenu btn-menu-table">&nbsp;</i></button>
         <button id="id-right-menu-shape" class="btn btn-category arrow-left" content-target="id-shape-settings"><i class="icon img-toolbarmenu btn-menu-shape">&nbsp;</i></button>
         <button id="id-right-menu-image" class="btn btn-category arrow-left" content-target="id-image-settings"><i class="icon img-toolbarmenu btn-menu-image">&nbsp;</i></button>

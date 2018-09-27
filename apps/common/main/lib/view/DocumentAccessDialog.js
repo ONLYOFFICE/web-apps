@@ -119,7 +119,7 @@ define([
         },
 
         _onMessage: function(msg) {
-            if (msg /*&& msg.Referer == "onlyoffice"*/) {
+            if (msg && msg.Referer == "onlyoffice") {
                 if (msg.needUpdate)
                     this.trigger('accessrights', this, msg.sharingSettings);
                 Common.NotificationCenter.trigger('window:close', this);

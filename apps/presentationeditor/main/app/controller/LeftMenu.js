@@ -308,7 +308,8 @@ define([
         },
 
         changeToolbarSaveState: function (state) {
-            this.leftMenu.menuFile.getButton('save').setDisabled(state);
+            var btnSave = this.leftMenu.menuFile.getButton('save');
+            btnSave && btnSave.setDisabled(state);
         },
 
         /** coauthoring begin **/
@@ -489,7 +490,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
 
                     if (!previewPanel || !previewPanel.isVisible()){
                         Common.UI.Menu.Manager.hideAll();

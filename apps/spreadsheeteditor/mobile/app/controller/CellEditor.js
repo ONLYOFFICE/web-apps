@@ -84,8 +84,8 @@ define([
             this.api.asc_registerCallback('asc_onSelectionNameChanged', _.bind(this.onApiCellSelection, this));
             this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onFormulaCompleteMenu',  _.bind(this.onFormulaCompleteMenu, this));
-            // this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
-            // Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
+            Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
             // Common.NotificationCenter.on('cells:range', _.bind(this.onCellsRange, this));
             // this.api.asc_registerCallback('asc_onInputKeyDown', _.bind(this.onInputKeyDown, this));
 
@@ -133,16 +133,7 @@ define([
 
         onApiDisconnect: function() {
             this.mode.isEdit = false;
-
-            var controller = this.getApplication().getController('FormulaDialog');
-            if (controller) {
-                controller.hideDialog();
-            }
-
-            if (!this.mode.isEdit) {
-                $('#ce-func-label', this.editor.el).addClass('disabled');
-                this.editor.btnNamedRanges.setVisible(false);
-            }
+            $('#ce-function').addClass('disabled');
         },
 
         onCellsRange: function(status) {

@@ -54,6 +54,7 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
+            // {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
         ],[
 //            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC},
@@ -69,7 +70,9 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><span class="btn-doc-format img-doc-format <%= item.imgCls %>" format="<%= item.type %>"/></td>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>">',
+                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -337,7 +340,7 @@ define([
             /** coauthoring begin **/
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && (mode.isEdit || mode.canComments) ? 'show' : 'hide']();
             /** coauthoring end **/
         },
 
@@ -530,7 +533,11 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
-                '<div class="blank-document-btn img-doc-format"></div>',
+                '<div class="blank-document-btn">',
+                    '<svg class="btn-doc-format">',
+                        '<use xlink:href="#svg-format-docx"></use>',
+                    '</svg>',
+                '</div>',
                 '<div class="blank-document-info">',
                     '<h3><%= scope.newDocumentText %></h3>',
                     '<%= scope.newDescriptionText %>',
@@ -540,7 +547,13 @@ define([
             '<div class="thumb-list">',
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"<% if (!_.isEmpty(item.icon)) { %> style="background-image: url(<%= item.icon %>);" <% } %> />',
+                        '<div class="thumb"',
+                        '<% if (!_.isEmpty(item.icon)) { ' +
+                            'print(\" style=\'background-image: url(item.icon);\'>\")' +
+                        ' } else { ' +
+                            'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                        ' } %>',
+                        '</div>',
                         '<div class="title"><%= item.name %></div>',
                     '</div>',
                 '<% }) %>',
@@ -1166,7 +1179,8 @@ define([
             this.btnDeletePwd.render(this.$el.find('#fms-btn-delete-pwd'));
             this.btnDeletePwd.on('click', _.bind(this.closeMenu, this));
 
-            this.cntPassword = $('#id-fms-view-pwd');
+            this.cntPassword = $('#id-fms-password');
+            this.cntPasswordView = $('#id-fms-view-pwd');
 
             this.btnAddInvisibleSign = protection.getButton('signature');
             this.btnAddInvisibleSign.render(this.$el.find('#fms-btn-invisible-sign'));
@@ -1195,7 +1209,8 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            this.cntSignature.toggleClass('hidden', !this.mode.canProtect);
+            this.cntSignature.toggleClass('hidden', !this.mode.isSignatureSupport);
+            this.cntPassword.toggleClass('hidden', !this.mode.isPasswordSupport);
         },
 
         setApi: function(o) {
@@ -1256,7 +1271,7 @@ define([
         },
 
         updateEncrypt: function() {
-            this.cntPassword.toggleClass('hidden', this.btnAddPwd.isVisible());
+            this.cntPasswordView.toggleClass('hidden', this.btnAddPwd.isVisible());
         },
 
         strProtect: 'Protect Document',

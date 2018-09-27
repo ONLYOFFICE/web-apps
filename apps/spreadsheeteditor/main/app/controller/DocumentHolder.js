@@ -73,7 +73,8 @@ define([
                 },
                 row_column: {
                     ttHeight: 20
-                }
+                },
+                filter: {ttHeight: 40}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -536,6 +537,7 @@ define([
                     startvalue: item.value == 'row-height' ? me.api.asc_getRowHeight() : me.api.asc_getColumnWidth(),
                     maxvalue: item.value == 'row-height' ? Asc.c_oAscMaxRowHeight : Asc.c_oAscMaxColumnWidth,
                     step: item.value == 'row-height' ? 0.75 : 1,
+                    rounding: (item.value == 'row-height'),
                     defaultUnit: item.value == 'row-height' ? Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt) : me.textSym,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
@@ -821,7 +823,8 @@ define([
                         index_comments,
                     /** coauthoring end **/
                         index_locked,
-                        index_column, index_row;
+                        index_column, index_row,
+                        index_filter;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -841,6 +844,9 @@ define([
                         case Asc.c_oAscMouseMoveType.ResizeRow:
                             index_row = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Filter:
+                            index_filter = i;
+                            break;
                     }
                 }
 
@@ -851,7 +857,8 @@ define([
                     commentTip      = me.tooltips.comment,
                     /** coauthoring end **/
                     hyperlinkTip    = me.tooltips.hyperlink,
-                    row_columnTip    = me.tooltips.row_column,
+                    row_columnTip   = me.tooltips.row_column,
+                    filterTip       = me.tooltips.filter,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -859,6 +866,7 @@ define([
 
                 hyperlinkTip.isHidden = false;
                 row_columnTip.isHidden = false;
+                filterTip.isHidden = false;
 
                 /** coauthoring begin **/
                 var getUserName = function(id){
@@ -1048,7 +1056,7 @@ define([
                                 coAuthTip.y_point + coAuthTip.XY[1]
                             ];
 
-                            if (showPoint[1] > coAuthTip.XY[1] &&
+                            if (showPoint[1] >= coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
                                 src.text(getUserName(data.asc_getUserId()));
                                 if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.width() ) {
@@ -1067,6 +1075,56 @@ define([
                         }
                     } else {
                         me.hideCoAuthTips();
+                    }
+                }
+
+                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
+                    var data  = dataarray[index_filter-1],
+                        str = me.makeFilterTip(data.asc_getFilter());
+                    if (filterTip.ref && filterTip.ref.isVisible()) {
+                        if (filterTip.text != str) {
+                            filterTip.text = str;
+                            filterTip.ref.setTitle(str);
+                            filterTip.ref.updateTitle();
+                        }
+                    }
+
+                    if (!filterTip.ref || !filterTip.ref.isVisible()) {
+                        filterTip.text = str;
+                        filterTip.ref = new Common.UI.Tooltip({
+                            owner   : me.documentHolder,
+                            html    : true,
+                            title   : str,
+                            cls: 'auto-tooltip'
+                        }).on('tooltip:hide', function(tip) {
+                            filterTip.ref = undefined;
+                            filterTip.text = '';
+                        });
+
+                        filterTip.ref.show([-10000, -10000]);
+                        filterTip.isHidden = false;
+
+                        showPoint = [data.asc_getX() + pos[0] - 10, data.asc_getY() + pos[1] + 20];
+
+                        var tipheight = filterTip.ref.getBSTip().$tip.width();
+                        if (showPoint[1] + filterTip.ttHeight > me.tooltips.coauth.bodyHeight ) {
+                            showPoint[1] = me.tooltips.coauth.bodyHeight - filterTip.ttHeight - 5;
+                            showPoint[0] += 20;
+                        }
+
+                        var tipwidth = filterTip.ref.getBSTip().$tip.width();
+                        if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                            showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth - 20;
+
+                        filterTip.ref.getBSTip().$tip.css({
+                            top : showPoint[1] + 'px',
+                            left: showPoint[0] + 'px'
+                        });
+                    }
+                } else {
+                    if (!filterTip.isHidden && filterTip.ref) {
+                        filterTip.ref.hide();
+                        filterTip.isHidden = true;
                     }
                 }
             }
@@ -1100,6 +1158,10 @@ define([
 
         onApiAutofilter: function(config) {
             var me = this;
+            if (!me.tooltips.filter.isHidden && me.tooltips.filter.ref) {
+                me.tooltips.filter.ref.hide();
+                me.tooltips.filter.isHidden = true;
+            }
             if (me.permissions.isEdit && !me.dlgFilter) {
                 me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
                         'close': function () {
@@ -1130,6 +1192,99 @@ define([
             }
         },
 
+        makeFilterTip: function(props) {
+            var filterObj = props.asc_getFilterObj(),
+                filterType = filterObj.asc_getType(),
+                isTextFilter = props.asc_getIsTextFilter(),
+                colorsFill = props.asc_getColorsFill(),
+                colorsFont = props.asc_getColorsFont(),
+                str = "";
+
+            if (filterType === Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                var customFilter = filterObj.asc_getFilter(),
+                    customFilters = customFilter.asc_getCustomFilters();
+
+                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + customFilters[0].asc_getVal() + "\"";
+                if (customFilters.length>1) {
+                    str = str + " " + (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
+                    str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + customFilters[1].asc_getVal() + "\"";
+                }
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.ColorFilter) {
+                var colorFilter = filterObj.asc_getFilter();
+                if ( colorFilter.asc_getCellColor()===null ) { // cell color
+                    str = this.txtEqualsToCellColor;
+                } else if (colorFilter.asc_getCellColor()===false) { // font color
+                    str = this.txtEqualsToFontColor;
+                }
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.DynamicFilter) {
+                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.DynamicFilter, filterObj.asc_getFilter().asc_getType());
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.Top10) {
+                var top10Filter = filterObj.asc_getFilter(),
+                    percent = top10Filter.asc_getPercent();
+
+                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.Top10, top10Filter.asc_getTop());
+                str += " " + top10Filter.asc_getVal() + " " + ((percent || percent===null) ? this.txtPercent : this.txtItems);
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.Filters) {
+                var strlen = 0, visibleItems = 0, isBlankVisible = undefined,
+                    values = props.asc_getValues();
+                values.forEach(function (item) {
+                    if (item.asc_getVisible()) {
+                        visibleItems++;
+                        if (strlen<100 && item.asc_getText()) {
+                            str += item.asc_getText() + "; ";
+                            strlen = str.length;
+                        }
+                    }
+                    if (!item.asc_getText())
+                        isBlankVisible = item.asc_getVisible();
+                });
+                if (visibleItems == values.length)
+                    str = this.txtAll;
+                else if (visibleItems==1 && isBlankVisible)
+                    str = this.txtEquals + " \"" + this.txtBlanks + "\"";
+                else if (visibleItems == values.length-1 && (isBlankVisible==false))
+                    str = this.txtNotEquals + " \"" + this.txtBlanks + "\"";
+                else {
+                    isBlankVisible && (str += this.txtBlanks + "; ");
+                    str = this.txtEquals + " \"" + str.substring(0, str.length-2) + "\"";
+                }
+            } else if (filterType === Asc.c_oAscAutoFilterTypes.None) {
+                str = this.txtAll;
+            }
+            if (str.length>100)
+                str = str.substring(0, 100) + '...';
+            str = "<b>" + (props.asc_getColumnName() || '(' + this.txtColumn + ' ' + props.asc_getSheetColumnName() + ')') + ":</b><br>" + str;
+            return str;
+        },
+
+        getFilterName: function(type, subtype) {
+            var str = '';
+            if (type == Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                switch (subtype) {
+                    case Asc.c_oAscCustomAutoFilter.equals: str = this.txtEquals; break;
+                    case Asc.c_oAscCustomAutoFilter.isGreaterThan: str = this.txtGreater; break;
+                    case Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo: str = this.txtGreaterEquals; break;
+                    case Asc.c_oAscCustomAutoFilter.isLessThan: str = this.txtLess; break;
+                    case Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo: str = this.txtLessEquals; break;
+                    case Asc.c_oAscCustomAutoFilter.doesNotEqual: str = this.txtNotEquals; break;
+                    case Asc.c_oAscCustomAutoFilter.beginsWith: str = this.txtBegins; break;
+                    case Asc.c_oAscCustomAutoFilter.doesNotBeginWith: str = this.txtNotBegins; break;
+                    case Asc.c_oAscCustomAutoFilter.endsWith: str = this.txtEnds; break;
+                    case Asc.c_oAscCustomAutoFilter.doesNotEndWith: str = this.txtNotEnds; break;
+                    case Asc.c_oAscCustomAutoFilter.contains: str = this.txtContains; break;
+                    case Asc.c_oAscCustomAutoFilter.doesNotContain: str = this.txtNotContains; break;
+                }
+            } else if (type == Asc.c_oAscAutoFilterTypes.DynamicFilter) {
+                switch (subtype) {
+                    case Asc.c_oAscDynamicAutoFilter.aboveAverage: str = this.txtAboveAve; break;
+                    case Asc.c_oAscDynamicAutoFilter.belowAverage: str = this.txtBelowAve; break;
+                }
+            } else if (type == Asc.c_oAscAutoFilterTypes.Top10) {
+                str = (subtype || subtype===null) ? this.txtFilterTop : this.txtFilterBottom;
+            }
+            return str;
+        },
+
         onUndo: function() {
             if (this.api) {
                 this.api.asc_Undo();
@@ -1157,6 +1312,7 @@ define([
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
                 me.tooltips.coauth.rightMenuWidth = $('#right-menu').width();
                 me.tooltips.coauth.bodyWidth = $(window).width();
+                me.tooltips.coauth.bodyHeight = $(window).height();
             }
         },
 
@@ -1305,7 +1461,7 @@ define([
                             documentHolder.mnuImgAdvanced.imageInfo = elValue;
                             isimagemenu = true;
                         }
-                        if (this.permissions.canProtect)
+                        if (this.permissions.isSignatureSupport)
                             signGuid = elValue.asc_getSignatureId();
                     }
                 }
@@ -1546,7 +1702,7 @@ define([
 
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
-            if (isimagemenu && this.permissions.canProtect) {
+            if (isimagemenu && this.permissions.isSignatureSupport) {
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
                 for (var i = 0; i < selectedObjects.length; i++) {
                     if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
@@ -1699,7 +1855,13 @@ define([
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
-
+                funcarr.sort(function (a,b) {
+                    var aname = a.asc_getName().toLocaleUpperCase(),
+                        bname = b.asc_getName().toLocaleUpperCase();
+                    if (aname < bname) return -1;
+                    if (aname > bname) return 1;
+                    return 0;
+                });
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
                         mnu = new Common.UI.MenuItem({
@@ -1872,7 +2034,7 @@ define([
 
 
             if (right > width) {
-                showPoint[0] = leftTop.asc_getX();
+                showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() : (width-btnSize[0]-3); // leftTop is undefined when paste to text box
                 if (bottom > height)
                     showPoint[0] -= (btnSize[0]+3);
                 if (showPoint[0]<0) showPoint[0] = width - 3 - btnSize[0];
@@ -2838,7 +3000,32 @@ define([
         txtPasteSourceFormat: 'Source formatting',
         txtPasteDestFormat: 'Destination formatting',
         txtUndoExpansion: 'Undo table autoexpansion',
-        txtRedoExpansion: 'Redo table autoexpansion'
+        txtRedoExpansion: 'Redo table autoexpansion',
+        txtAnd: 'and',
+        txtOr: 'or',
+        txtEquals           : "Equals",
+        txtNotEquals        : "Does not equal",
+        txtGreater          : "Greater than",
+        txtGreaterEquals    : "Greater than or equal to",
+        txtLess             : "Less than",
+        txtLessEquals       : "Less than or equal to",
+        txtAboveAve         : 'Above average',
+        txtBelowAve         : 'Below average',
+        txtBegins           : "Begins with",
+        txtNotBegins        : "Does not begin with",
+        txtEnds             : "Ends with",
+        txtNotEnds          : "Does not end with",
+        txtContains         : "Contains",
+        txtNotContains      : "Does not contain",
+        txtFilterTop: 'Top',
+        txtFilterBottom: 'Bottom',
+        txtItems: 'items',
+        txtPercent: 'percent',
+        txtEqualsToCellColor: 'Equals to cell color',
+        txtEqualsToFontColor: 'Equals to font color',
+        txtAll: '(All)',
+        txtBlanks: '(Blanks)',
+        txtColumn: 'Column'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

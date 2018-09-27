@@ -38,9 +38,9 @@
                     <% } %>
                     <li>
                         <div id="add-link-range" class="item-content">
-                            <div class="item-inner">
+                            <div class="item-inner" <% if (!android) { %>style="padding-right: 35px;"<% } %>>
                                 <div class="item-title label"><%= scope.textRange %></div>
-                                <% if (!android) { %><div class="item-after"><% } %>
+                                <% if (!android) { %><div class="item-after" style="max-width: 70%;"><% } %>
                                     <div class="item-input">
                                         <input type="text" class="field right range" placeholder="<%= scope.textRequired %>">
                                     </div>
@@ -50,9 +50,9 @@
                     </li>
                     <li>
                         <div id="add-link-url" class="item-content">
-                            <div class="item-inner">
+                            <div class="item-inner" <% if (!android) { %>style="padding-right: 35px;"<% } %>>
                                 <div class="item-title label"><%= scope.textLink %></div>
-                                <% if (!android) { %><div class="item-after"><% } %>
+                                <% if (!android) { %><div class="item-after" style="max-width: 70%;"><% } %>
                                     <div class="item-input">
                                         <input type="url" class="field right" placeholder="<%= scope.textRequired %>">
                                     </div>
@@ -62,9 +62,9 @@
                     </li>
                     <li>
                         <div id="add-link-display" class="item-content">
-                            <div class="item-inner">
+                            <div class="item-inner" <% if (!android) { %>style="padding-right: 35px;"<% } %>>
                                 <div class="item-title label"><%= scope.textDisplay %></div>
-                                <% if (!android) { %><div class="item-after"><% } %>
+                                <% if (!android) { %><div class="item-after" style="max-width: 70%;"><% } %>
                                     <div class="item-input">
                                         <input type="text" class="field right">
                                     </div>
@@ -74,9 +74,9 @@
                     </li>
                     <li>
                         <div id="add-link-tip" class="item-content">
-                            <div class="item-inner">
+                            <div class="item-inner" <% if (!android) { %>style="padding-right: 35px;"<% } %>>
                                 <div class="item-title label"><%= scope.textTip %></div>
-                                <% if (!android) { %><div class="item-after"><% } %>
+                                <% if (!android) { %><div class="item-after" style="max-width: 70%;"><% } %>
                                     <div class="item-input">
                                         <input type="text" class="field right">
                                     </div>

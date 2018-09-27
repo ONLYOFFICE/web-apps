@@ -58,14 +58,20 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 40px;">',
-                    '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
+                '<div class="box" style="height: 85px;">',
+                    '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td class="padding-small" style="padding-right: 10px;">',
+                            '<td colspan="2">',
+                                '<label class="input-label">' + this.textPreset + '</label>',
+                                '<div id="page-size-combo-preset" class="input-group-nr" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td style="padding-right: 10px;">',
                                 '<label class="input-label">' + this.textWidth + '</label>',
                                 '<div id="page-size-spin-width"></div>',
                             '</td>',
-                            '<td class="padding-small">',
+                            '<td>',
                                 '<label class="input-label">' + this.textHeight + '</label>',
                                 '<div id="page-size-spin-height"></div>',
                             '</td>',
@@ -83,6 +89,7 @@ define([
 
             this.spinners = [];
             this._noApply = false;
+            this.isOrientPortrait = true;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -100,6 +107,10 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnWidth);
+            this.spnWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (!this._noApply && this.cmbPreset.getValue() >-1)
+                    this.cmbPreset.setValue(-1);
+            }, this));
 
             this.spnHeight = new Common.UI.MetricSpinner({
                 el: $('#page-size-spin-height'),
@@ -111,6 +122,48 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnHeight);
+            this.spnHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (!this._noApply && this.cmbPreset.getValue() >-1)
+                    this.cmbPreset.setValue(-1);
+            }, this));
+
+            this.cmbPreset = new Common.UI.ComboBox({
+                el: $('#page-size-combo-preset'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 183px;max-height: 208px;',
+                editable: false,
+                scrollAlwaysVisible: true,
+                data: [
+                    { value: 0, displayValue: 'US Letter', size: [215.9, 279.4]},
+                    { value: 1, displayValue: 'US Legal', size: [215.9, 355.6]},
+                    { value: 2, displayValue: 'A4', size: [210, 297]},
+                    { value: 3, displayValue: 'A5', size: [148, 210]},
+                    { value: 4, displayValue: 'B5', size: [176, 250]},
+                    { value: 5, displayValue: 'Envelope #10', size: [104.8, 241.3]},
+                    { value: 6, displayValue: 'Envelope DL', size: [110, 220]},
+                    { value: 7, displayValue: 'Tabloid', size: [279.4, 431.8]},
+                    { value: 8, displayValue: 'A3', size: [297, 420]},
+                    { value: 9, displayValue: 'Tabloid Oversize', size: [304.8, 457.1]},
+                    { value: 10, displayValue: 'ROC 16K', size: [196.8, 273]},
+                    { value: 11, displayValue: 'Envelope Choukei 3', size: [119.9, 234.9]},
+                    { value: 12, displayValue: 'Super B/A3', size: [330.2, 482.5]},
+                    { value: 13, displayValue: 'A0', size: [841, 1189]},
+                    { value: 14, displayValue: 'A1', size: [594, 841]},
+                    { value: 16, displayValue: 'A2', size: [420, 594]},
+                    { value: 17, displayValue: 'A6', size: [105, 148]},
+                    { value: -1, displayValue: this.txtCustom, size: []}
+                ]
+            });
+            this.cmbPreset.setValue(-1);
+            this.cmbPreset.on('selected', _.bind(function(combo, record) {
+                this._noApply = true;
+                if (record.value<0) {
+                } else {
+                    this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[0] : record.size[1]), true);
+                    this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(this.isOrientPortrait ? record.size[1] : record.size[0]), true);
+                }
+                this._noApply = false;
+            }, this));
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -139,10 +192,18 @@ define([
 
         setSettings: function (props) {
             if (props) {
+                this.isOrientPortrait = (props.get_W() < props.get_H());
                 this.spnWidth.setMinValue(Common.Utils.Metric.fnRecalcFromMM(props.get_LeftMargin() + props.get_RightMargin() + 12.7));
                 this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_W()), true);
                 this.spnHeight.setMinValue(Common.Utils.Metric.fnRecalcFromMM(props.get_TopMargin() + props.get_BottomMargin() + 2.6));
                 this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_H()), true);
+                var width = this.isOrientPortrait ? props.get_W() : props.get_H(),
+                    height = this.isOrientPortrait ? props.get_H() : props.get_W();
+                var rec = this.cmbPreset.store.find(function(item){
+                    var size = item.get('size');
+                    return (Math.abs(size[0] - width) < 0.1 && Math.abs(size[1] - height) < 0.1);
+                });
+                this.cmbPreset.setValue((rec) ? rec.get('value') : -1);
             }
         },
 
@@ -165,6 +226,8 @@ define([
         textWidth: 'Width',
         textHeight: 'Height',
         cancelButtonText:   'Cancel',
-        okButtonText:       'Ok'
+        okButtonText:       'Ok',
+        textPreset: 'Preset',
+        txtCustom: 'Custom'
     }, DE.Views.PageSizeDialog || {}))
 });

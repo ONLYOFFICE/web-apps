@@ -47,7 +47,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         options: {
             alias: 'MailMergeEmail',
             contentWidth: 500,
-            height: 460
+            height: 435
         },
 
         initialize : function(options) {
@@ -169,7 +169,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         },
 
         _onMessage: function(msg) {
-            if (msg /*&& msg.Referer == "onlyoffice"*/) {
+            if (msg && msg.Referer == "onlyoffice") {
 //                if ( !_.isEmpty(msg.folder) ) {
 //                    this.trigger('mailmergefolder', this, msg.folder); // save last folder url
 //                }

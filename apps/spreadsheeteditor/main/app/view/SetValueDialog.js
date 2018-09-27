@@ -105,7 +105,8 @@ define([
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.spnSize.on('entervalue', _.bind(this.onPrimary, this));
-            this.spnSize.on('change', _.bind(this.onChange, this));
+            if (this.options.rounding)
+                this.spnSize.on('change', _.bind(this.onChange, this));
             this.spnSize.$el.find('input').focus();
         },
 

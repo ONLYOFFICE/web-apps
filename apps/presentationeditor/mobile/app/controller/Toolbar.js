@@ -79,6 +79,7 @@ define([
                 this.api.asc_registerCallback('asc_onCanUndo',  _.bind(this.onApiCanRevert, this, 'undo'));
                 this.api.asc_registerCallback('asc_onCanRedo',  _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onApiFocusObject, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
             },
 
@@ -187,6 +188,12 @@ define([
 
             onCoAuthoringDisconnect: function() {
                 this.isDisconnected = true;
+                this.deactivateEditControls();
+                $('#toolbar-undo').toggleClass('disabled', true);
+                $('#toolbar-redo').toggleClass('disabled', true);
+                PE.getController('AddContainer').hideModal();
+                PE.getController('EditContainer').hideModal();
+                PE.getController('Settings').hideModal();
             },
 
             dlgLeaveTitleText   : 'You leave the application',

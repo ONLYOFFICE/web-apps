@@ -40,7 +40,6 @@
 
 .extra {
     > section {
-        line-height: 20px;
         height: 100%;
         display: flex;
     }
@@ -233,15 +232,23 @@
             display: inline-block;
             vertical-align: middle;
             border: 1px solid @gray-dark;
+            margin: 0 5px 1px 0;
         }
 
-        .name {
-            display: block;
-            padding-left: 16px;
-            margin-top: -5px;
+        .user-name {
+            color: @gray-deep;
+            font-size: 12px;
+            font-weight: bold;
             white-space: nowrap;
-            text-overflow: ellipsis;
-            vertical-align: middle;
+            cursor: default;
+
+            label {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: middle;
+                max-width: 200px;
+                font-weight: bold;
+            }
         }
     }
 }

@@ -43,6 +43,7 @@
   "DE.Controllers.Main.advTxtOptions": "Choose TXT Options",
   "DE.Controllers.Main.applyChangesTextText": "Loading data...",
   "DE.Controllers.Main.applyChangesTitleText": "Loading Data",
+  "DE.Controllers.Main.closeButtonText": "Close File",
   "DE.Controllers.Main.convertationTimeoutText": "Conversion timeout exceeded.",
   "DE.Controllers.Main.criticalErrorExtText": "Press 'OK' to return to document list.",
   "DE.Controllers.Main.criticalErrorTitle": "Error",

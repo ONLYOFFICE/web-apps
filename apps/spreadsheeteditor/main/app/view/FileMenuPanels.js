@@ -43,7 +43,9 @@ define([
 
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
-            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
+            // {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+        ],[
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
         ]
@@ -58,7 +60,9 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><span class="btn-doc-format <%= item.imgCls %>" /></td>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>">',
+                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -82,19 +86,13 @@ define([
                 });
             }
 
-            this.flatFormats = _.flatten(this.formats);
             return this;
         },
 
         onFormatClick: function(e) {
-            var format = /\s(\w+)/.exec(e.currentTarget.className);
-            if (format) {
-                format = format[1];
-                var item = _.findWhere(this.flatFormats, {imgCls: format});
-
-                if (item && this.menu) {
-                    this.menu.fireEvent('saveas:format', [this.menu, item.type]);
-                }
+            var type = e.currentTarget.attributes['format'];
+            if (!_.isUndefined(type) && this.menu) {
+                this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
             }
         }
     });
@@ -266,12 +264,12 @@ define([
                     {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
                     {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
                     {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
-                    {value:'148.1|209.9',    displayValue:'A5 (14,81cm x 20,99cm)', caption: 'A5'},
-                    {value:'176|250.1',      displayValue:'B5 (17,6cm x 25,01cm)', caption: 'B5'},
+                    {value:'148|210',        displayValue:'A5 (14,8cm x 21cm)', caption: 'A5'},
+                    {value:'176|250',        displayValue:'B5 (17,6cm x 25cm)', caption: 'B5'},
                     {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
-                    {value:'110.1|220.1',    displayValue:'Envelope DL (11,01cm x 22,01cm)', caption: 'Envelope DL'},
-                    {value:'279.4|431.7',    displayValue:'Tabloid (27,94cm x 43,17cm)', caption: 'Tabloid'},
-                    {value:'297|420.1',      displayValue:'A3 (29,7cm x 42,01cm)', caption: 'A3'},
+                    {value:'110|220',        displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94cm x 43,178m)', caption: 'Tabloid'},
+                    {value:'297|420',        displayValue:'A3 (29,7cm x 42cm)', caption: 'A3'},
                     {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
                     {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
                     {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
@@ -679,7 +677,7 @@ define([
                 this.lblAutosave.text(this.textAutoRecover);
             }
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring && mode.canComments ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && (mode.isEdit || mode.canComments) ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
         },
 
@@ -774,8 +772,8 @@ define([
                     info.asc_setSymbol(landId);
                     var arr = this.api.asc_getFormatCells(info); // all formats
                     text = this.api.asc_getLocaleExample(arr[4], 1000.01, landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], (new Date()).getExcelDateWithTime(), landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample(arr[6], (new Date()).getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[6], Asc.cDate().getExcelDateWithTime(), landId);
                 }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
@@ -896,7 +894,11 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
-                '<div class="blank-document-btn"></div>',
+                '<div class="blank-document-btn">',
+                    '<svg class="btn-doc-format">',
+                        '<use xlink:href="#svg-format-xlsx"></use>',
+                    '</svg>',
+                '</div>',
                 '<div class="blank-document-info">',
                     '<h3><%= scope.newDocumentText %></h3>',
                     '<%= scope.newDescriptionText %>',
@@ -906,7 +908,13 @@ define([
             '<div class="thumb-list">',
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"<% if (!_.isEmpty(item.icon)) { %> style="background-image: url(<%= item.icon %>);" <% } %> />',
+                        '<div class="thumb"',
+                            '<% if (!_.isEmpty(item.icon)) { ' +
+                                'print(\" style=\'background-image: url(item.icon);\'>\")' +
+                            ' } else { ' +
+                                'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                            ' } %>',
+                        '</div>',
                         '<div class="title"><%= item.name %></div>',
                     '</div>',
                 '<% }) %>',
@@ -1391,7 +1399,8 @@ define([
             this.btnDeletePwd.render(this.$el.find('#fms-btn-delete-pwd'));
             this.btnDeletePwd.on('click', _.bind(this.closeMenu, this));
 
-            this.cntPassword = $('#id-fms-view-pwd');
+            this.cntPassword = $('#id-fms-password');
+            this.cntPasswordView = $('#id-fms-view-pwd');
 
             this.btnAddInvisibleSign = protection.getButton('signature');
             this.btnAddInvisibleSign.render(this.$el.find('#fms-btn-invisible-sign'));
@@ -1420,7 +1429,8 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            this.cntSignature.toggleClass('hidden', !this.mode.canProtect);
+            this.cntSignature.toggleClass('hidden', !this.mode.isSignatureSupport);
+            this.cntPassword.toggleClass('hidden', !this.mode.isPasswordSupport);
         },
 
         setApi: function(o) {
@@ -1481,7 +1491,7 @@ define([
         },
 
         updateEncrypt: function() {
-            this.cntPassword.toggleClass('hidden', this.btnAddPwd.isVisible());
+            this.cntPasswordView.toggleClass('hidden', this.btnAddPwd.isVisible());
         },
 
         strProtect: 'Protect Workbook',

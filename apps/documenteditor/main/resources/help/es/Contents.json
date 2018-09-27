@@ -6,7 +6,7 @@
   },
   {
     "src": "ProgramInterface/FileTab.htm",
-    "name": "Pestaña Archivo"
+    "name": "Pestaña de archivo"
   },
   {
     "src": "ProgramInterface/HomeTab.htm",
@@ -14,23 +14,27 @@
   },
   {
     "src": "ProgramInterface/InsertTab.htm",
-    "name": "Pestaña de Insertar"
+    "name": "Pestaña Insertar"
   },
   {
     "src": "ProgramInterface/LayoutTab.htm",
     "name": "Pestaña Configuración de Formato"
   },
   {
+    "src": "ProgramInterface/ReferencesTab.htm",
+    "name": "Pestaña de Referencias"
+  },
+  {
     "src": "ProgramInterface/ReviewTab.htm",
-    "name": "Pestaña de Revisión"
+    "name": "Pestaña de Colaboración"
   },
   {
     "src": "ProgramInterface/PluginsTab.htm",
-    "name": "Pestaña Puglins"
+    "name": "Pestaña de Plugins"
   },
   {
-    "src": "UsageInstructions/ChangeColorScheme.htm",
-    "name": "Cambie combinación de colores",
+    "src": "UsageInstructions/OpenCreateNew.htm",
+    "name": "Cree un documento nuevo o abra el documento existente",
     "headername": "Operaciones Básicas"
   },
   {
@@ -38,8 +42,8 @@
     "name": "Copie/pegue pasajes de texto, deshaga/rehaga sus acciones"
   },
   {
-    "src": "UsageInstructions/OpenCreateNew.htm",
-    "name": "Cree un documento nuevo o abra el documento existente"
+    "src": "UsageInstructions/ChangeColorScheme.htm",
+    "name": "Cambie combinación de colores"
   },
   {
     "src": "UsageInstructions/SetPageParameters.htm",
@@ -68,7 +72,7 @@
   },
   {
     "src": "UsageInstructions/AlignText.htm",
-    "name": "Alinee su texto a una línea o un párrafo",
+    "name": "Alinee su texto en un párrafo",
     "headername": "Formato de párrafo"
   },
   {
@@ -118,7 +122,7 @@
   },
   {
     "src": "UsageInstructions/AddHyperlinks.htm",
-    "name": "Añada hiperenlaces"
+    "name": "Añadir hiperenlace"
   },
   {
     "src": "UsageInstructions/InsertDropCap.htm",
@@ -144,6 +148,14 @@
   {
     "src": "UsageInstructions/InsertTextObjects.htm",
     "name": "Insertar objetos con texto"
+  },
+  {
+    "src": "UsageInstructions/InsertContentControls.htm",
+    "name": "Insertar controles de contenido"
+  },
+  {
+    "src": "UsageInstructions/CreateTableOfContents.htm",
+    "name": "Crear tabla de contenidos"
   },
   {
     "src": "UsageInstructions/AlignArrangeObjects.htm",
@@ -175,7 +187,7 @@
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Vea información sobre documento",
-    "headername": "Herramientas y configuraciones"
+    "headername": "Herramientas y ajustes"
   },
   {
     "src": "UsageInstructions/SavePrintDownload.htm",
@@ -199,7 +211,7 @@
   },
   {
     "src": "HelpfulHints/About.htm",
-    "name": "Sobre el editor de documentos",
+    "name": "Sobre Document Editor",
     "headername": "Consejos útiles"
   },
   {

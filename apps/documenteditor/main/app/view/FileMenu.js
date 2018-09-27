@@ -161,6 +161,13 @@ define([
                 canFocused: false
             });
 
+            this.miHelp = new Common.UI.MenuItem({
+                el      : $('#fm-btn-help',this.el),
+                action  : 'help',
+                caption : this.btnHelpCaption,
+                canFocused: false
+            });
+
             this.items = [];
             this.items.push(
                 new Common.UI.MenuItem({
@@ -192,12 +199,7 @@ define([
                     caption : this.btnSettingsCaption,
                     canFocused: false
                 }),
-                new Common.UI.MenuItem({
-                    el      : $('#fm-btn-help',this.el),
-                    action  : 'help',
-                    caption : this.btnHelpCaption,
-                    canFocused: false
-                }),
+                this.miHelp,
                 new Common.UI.MenuItem({
                     el      : $('#fm-btn-back',this.el),
                     action  : 'exit',
@@ -211,8 +213,7 @@ define([
 //                    'saveas'    : (new DE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
                 'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:me})).render(),
                 'info'      : (new DE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                'help'      : (new DE.Views.FileMenuPanels.Help({menu:me})).render()
+                'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:me})).render()
             };
 
             me.$el.find('.content-box').hide();
@@ -243,7 +244,7 @@ define([
         applyMode: function() {
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.miProtect[(this.mode.isProtectSupport && this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) ?'show':'hide']();
+            this.miProtect[this.mode.canProtect ?'show':'hide']();
             this.miProtect.$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
@@ -259,6 +260,9 @@ define([
             this.miAccess[(!this.mode.isOffline && !this.mode.isReviewOnly && this.document&&this.document.info &&
                           (this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                           this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length))?'show':'hide']();
+
+            this.miHelp[this.mode.canHelp ?'show':'hide']();
+            this.miHelp.$el.prev()[this.mode.canHelp ?'show':'hide']();
 
             this.mode.canBack ? this.$el.find('#fm-btn-back').show().prev().show() :
                                     this.$el.find('#fm-btn-back').hide().prev().hide();
@@ -280,7 +284,7 @@ define([
                 }
             }
 
-            if (this.mode.isProtectSupport && this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) {
+            if (this.mode.canProtect) {
 //                this.$el.find('#fm-btn-back').hide();
                 this.panels['protect'] = (new DE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
                 this.panels['protect'].setMode(this.mode);
@@ -291,7 +295,10 @@ define([
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
-            this.panels['help'].setLangConfig(this.mode.lang);
+            if (this.mode.canHelp) {
+                this.panels['help'] = ((new DE.Views.FileMenuPanels.Help({menu: this})).render());
+                this.panels['help'].setLangConfig(this.mode.lang);
+            }
 
             this.miHistory[this.mode.canUseHistory&&!this.mode.isDisconnected?'show':'hide']();
         },
@@ -325,7 +332,7 @@ define([
             if ( menu ) {
                 var item = this._getMenuItem(menu),
                     panel   = this.panels[menu];
-                if ( item.isDisabled() ) {
+                if ( item.isDisabled() || !item.isVisible()) {
                     item = this._getMenuItem(defMenu);
                     panel   = this.panels[defMenu];
                 }

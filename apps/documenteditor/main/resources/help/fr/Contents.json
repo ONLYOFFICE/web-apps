@@ -21,16 +21,20 @@
     "name": "Onglet Mise en page"
   },
   {
+    "src": "ProgramInterface/ReferencesTab.htm",
+    "name": "Onglet Références"
+  },
+  {
     "src": "ProgramInterface/ReviewTab.htm",
-    "name": "Onglet Révision"
+    "name": "Onglet Collaboration"
   },
   {
     "src": "ProgramInterface/PluginsTab.htm",
     "name": "Onglet Modules complémentaires"
   },
   {
-    "src": "UsageInstructions/ChangeColorScheme.htm",
-    "name": "Modifier le jeu de couleurs",
+    "src": "UsageInstructions/OpenCreateNew.htm",
+    "name": "Créer un nouveau document ou ouvrir un document existant",
     "headername": "Opérations de base"
   },
   {
@@ -38,8 +42,8 @@
     "name": "Copier/coller les passages de texte, annuler/rétablir vos actions"
   },
   {
-    "src": "UsageInstructions/OpenCreateNew.htm",
-    "name": "Créer un nouveau document ou ouvrir un document existant"
+    "src": "UsageInstructions/ChangeColorScheme.htm",
+    "name": "Modifier le jeu de couleurs"
   },
   {
     "src": "UsageInstructions/SetPageParameters.htm",
@@ -144,6 +148,14 @@
   {
     "src": "UsageInstructions/InsertTextObjects.htm",
     "name": "Insérer des objets textuels"
+  },
+  {
+    "src": "UsageInstructions/InsertContentControls.htm",
+    "name": "Insérer des contrôles de contenu"
+  },
+  {
+    "src": "UsageInstructions/CreateTableOfContents.htm",
+    "name": "Créer une table des matières"
   },
   {
     "src": "UsageInstructions/AlignArrangeObjects.htm",

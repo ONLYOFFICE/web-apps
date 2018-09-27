@@ -142,10 +142,16 @@ define([
 
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
 
-            var need_disable = paragraph_locked || in_equation || in_image || in_header;
+            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+
+            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
             _.each (this.view.btnsNotes, function(item){
                 item.setDisabled(need_disable);
             }, this);
+
+            need_disable = paragraph_locked || header_locked || in_header || control_plain;
+            this.view.btnBookmarks.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -250,8 +256,7 @@ define([
                     win.show();
                     break;
                 case 'remove':
-                    if (currentTOC)
-                        currentTOC = props.get_InternalClass();
+                    currentTOC = (currentTOC && props) ? props.get_InternalClass() : undefined;
                     this.api.asc_RemoveTableOfContents(currentTOC);
                     break;
             }
@@ -259,9 +264,12 @@ define([
         },
 
         onTableContentsUpdate: function(type, currentTOC){
-            if (currentTOC)
-                currentTOC = this.api.asc_GetTableOfContentsPr(currentTOC).get_InternalClass();
-            this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            var props = this.api.asc_GetTableOfContentsPr(currentTOC);
+            if (props) {
+                if (currentTOC && props)
+                    currentTOC = props.get_InternalClass();
+                this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

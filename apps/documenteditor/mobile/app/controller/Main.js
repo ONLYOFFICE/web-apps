@@ -290,6 +290,7 @@ define([
                         old_rights = this._state.lostEditingRights;
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
+                    Common.NotificationCenter.trigger('api:disconnect');
 
                     if (!old_rights) {
                         uiApp.alert(
@@ -576,6 +577,8 @@ define([
                 }
 
                 me.applyLicense();
+
+                $(document).on('contextmenu', _.bind(me.onContextMenu, me));
             },
 
             onLicenseChanged: function(params) {
@@ -666,6 +669,7 @@ define([
                 me.appOptions.isOffline       = me.api.asc_isOffline();
                 me.appOptions.isReviewOnly    = (me.permissions.review === true) && (me.permissions.edit === false);
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
+                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.canEdit         = (me.permissions.edit !== false || me.permissions.review === true) && // can edit or review
                     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                     (!me.appOptions.isReviewOnly || me.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
@@ -1117,25 +1121,33 @@ define([
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
+                    var buttons = [{
+                        text: 'OK',
+                        bold: true,
+                        onClick: function () {
+                            var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
+                            me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
+
+                            if (!me._isDocReady) {
+                                me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                            }
+                            me._state.openDlg = null;
+                        }
+                    }];
+                    if (me.appOptions.canRequestClose)
+                        buttons.push({
+                            text: me.closeButtonText,
+                            onClick: function () {
+                                Common.Gateway.requestClose();
+                                me._state.openDlg = null;
+                            }
+                        });
+
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
                         text: me.txtProtected,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
-                        buttons: [
-                            {
-                                text: 'OK',
-                                bold: true,
-                                onClick: function () {
-                                    var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
-
-                                    if (!me._isDocReady) {
-                                        me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                                    }
-                                    me._state.openDlg = null;
-                                }
-                            }
-                        ]
+                        buttons: buttons
                     });
 
                     // Vertical align
@@ -1201,6 +1213,18 @@ define([
 
                 if (url) {
                     me.iframePrint.src = url;
+                }
+            },
+
+            onContextMenu: function(event){
+                var canCopyAttr = event.target.getAttribute('data-can-copy'),
+                    isInputEl   = (event.target instanceof HTMLInputElement) || (event.target instanceof HTMLTextAreaElement);
+
+                if ((isInputEl && canCopyAttr === 'false') ||
+                    (!isInputEl && canCopyAttr !== 'true')) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    return false;
                 }
             },
 
@@ -1322,7 +1346,8 @@ define([
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
-            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.'
+            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
+            closeButtonText: 'Close File'
         }
     })(), DE.Controllers.Main || {}))
 });

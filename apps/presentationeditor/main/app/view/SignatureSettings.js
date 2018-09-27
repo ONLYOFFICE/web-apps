@@ -109,6 +109,8 @@ define([
 
             this.viewValidList.on('item:click', _.bind(this.onSelectSignature, this));
             this.viewInvalidList.on('item:click', _.bind(this.onSelectSignature, this));
+            this.viewValidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
+            this.viewInvalidList.on('item:contextmenu', _.bind(this.onItemContextMenu, this));
 
             this.signatureMenu = new Common.UI.Menu({
                 menuAlign   : 'tr-br',
@@ -175,6 +177,26 @@ define([
             me.disableEditing(me._state.hasValid || me._state.hasInvalid);
         },
 
+        onItemContextMenu: function(picker, item, record, e){
+            var menu = this.signatureMenu;
+            if (menu.isVisible()) {
+                menu.hide();
+            }
+
+            var offsetParent = $(this.el).offset(),
+                showPoint = [e.clientX*Common.Utils.zoom() - offsetParent.left + 5, e.clientY*Common.Utils.zoom() - offsetParent.top + 5];
+
+            this.showSignatureMenu(record, showPoint);
+
+            menu.menuAlign = 'tl-bl';
+            menu.menuAlignEl = null;
+            menu.setOffset(15, 5);
+            menu.show();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+        },
+
         onSelectSignature: function(picker, item, record, e){
             if (!record) return;
 
@@ -186,41 +208,14 @@ define([
                     return;
                 }
 
-                var showPoint, me = this,
-                    currentTarget = $(e.currentTarget),
-                    parent = $(this.el),
+                var currentTarget = $(e.currentTarget),
                     offset = currentTarget.offset(),
-                    offsetParent = parent.offset();
+                    offsetParent = $(this.el).offset(),
+                    showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
 
-                showPoint = [offset.left - offsetParent.left + currentTarget.width(), offset.top - offsetParent.top + currentTarget.height()/2];
+                this.showSignatureMenu(record, showPoint);
 
-                var menuContainer = parent.find('#menu-signature-container');
-                if (!menu.rendered) {
-                    if (menuContainer.length < 1) {
-                        menuContainer = $('<div id="menu-signature-container" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id);
-                        parent.append(menuContainer);
-                    }
-                    menu.render(menuContainer);
-                    menu.cmpEl.attr({tabindex: "-1"});
-
-                    menu.on({
-                        'show:after': function(cmp) {
-                            if (cmp && cmp.menuAlignEl)
-                                cmp.menuAlignEl.toggleClass('over', true);
-                        },
-                        'hide:after': function(cmp) {
-                            if (cmp && cmp.menuAlignEl)
-                                cmp.menuAlignEl.toggleClass('over', false);
-                        }
-                    });
-                }
-                menu.items[1].setDisabled(this._locked);
-
-                menu.items[0].cmpEl.attr('data-value', record.get('certificateId')); // view certificate
-                menu.cmpEl.attr('data-value', record.get('guid'));
-
-                menuContainer.css({left: showPoint[0], top: showPoint[1]});
-
+                menu.menuAlign = 'tr-br';
                 menu.menuAlignEl = currentTarget;
                 menu.setOffset(-20, -currentTarget.height()/2 + 3);
                 menu.show();
@@ -230,6 +225,36 @@ define([
                 e.stopPropagation();
                 e.preventDefault();
             }
+        },
+
+        showSignatureMenu: function(record, showPoint) {
+            var menu = this.signatureMenu,
+                parent = $(this.el),
+                menuContainer = parent.find('#menu-signature-container');
+            if (!menu.rendered) {
+                if (menuContainer.length < 1) {
+                    menuContainer = $('<div id="menu-signature-container" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id);
+                    parent.append(menuContainer);
+                }
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+
+                menu.on({
+                    'show:after': function(cmp) {
+                        if (cmp && cmp.menuAlignEl)
+                            cmp.menuAlignEl.toggleClass('over', true);
+                    },
+                    'hide:after': function(cmp) {
+                        if (cmp && cmp.menuAlignEl)
+                            cmp.menuAlignEl.toggleClass('over', false);
+                    }
+                });
+            }
+            menu.items[1].setDisabled(this._locked);
+            menu.items[0].cmpEl.attr('data-value', record.get('certificateId')); // view certificate
+            menu.cmpEl.attr('data-value', record.get('guid'));
+
+            menuContainer.css({left: showPoint[0], top: showPoint[1]});
         },
 
         onMenuSignatureClick:  function(menu, item) {

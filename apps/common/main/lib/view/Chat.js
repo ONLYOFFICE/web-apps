@@ -60,22 +60,23 @@ define([
         storeMessages: undefined,
 
         tplUser: ['<li id="<%= user.get("iid") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
-                        '<div class="name"><%= scope.getUserName(user.get("username")) %>',
-                            '<div class="color" style="background-color: <%= user.get("color") %>;" ></div>',
+                        '<div class="name"><div class="color" style="background-color: <%= user.get("color") %>;" ></div><%= scope.getUserName(user.get("username")) %>',
                         '</div>',
                     '</li>'].join(''),
 
         templateUserList: _.template('<ul>' +
-                        '<% _.each(users, function(item) { %>' +
-                            '<%= _.template(usertpl)({user: item, scope: scope}) %>' +
-                        '<% }); %>' +
+                            '<% for (originalId in users) { %>' +
+                                '<%= _.template(usertpl)({user: users[originalId][0], scope: scope}) %>' +
+                            '<% } %>' +
                     '</ul>'),
 
         tplMsg: ['<li>',
                     '<% if (msg.get("type")==1) { %>',
                         '<div class="message service" data-can-copy="true"><%= msg.get("message") %></div>',
                     '<% } else { %>',
-                        '<div class="user" data-can-copy="true" style="color: <%= msg.get("usercolor") %>;"><%= scope.getUserName(msg.get("username")) %></div>',
+                        '<div class="user-name" data-can-copy="true">',
+                            '<div class="color" style="display: inline-block; background-color: <% if (msg.get("usercolor")!==null) { %><%=msg.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(msg.get("username")) %>',
+                        '</div>',
                         '<label class="message user-select" data-can-copy="true"><%= msg.get("message") %></label>',
                     '<% } %>',
             '</li>'].join(''),
@@ -98,8 +99,8 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
 
             this.storeUsers.bind({
-                add     : _.bind(this._onAddUser, this),
-                change  : _.bind(this._onUsersChanged, this),
+                add     : _.bind(this._onResetUsers, this),
+                change  : _.bind(this._onResetUsers, this),
                 reset   : _.bind(this._onResetUsers, this)
             });
 
@@ -160,23 +161,10 @@ define([
             }
         },
 
-        _onAddUser: function(m, c, opts) {
-            if (this.panelUsers) {
-                this.panelUsers.find('ul').append(_.template(this.tplUser)({user: m, scope: this}));
-                this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
-            }
-        },
-
-        _onUsersChanged: function(m) {
-            if (m.changed.online != undefined && this.panelUsers) {
-                this.panelUsers.find('#' + m.get('iid'))[m.changed.online?'removeClass':'addClass']('offline');
-                this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
-            }
-        },
-
         _onResetUsers: function(c, opts) {
             if (this.panelUsers) {
-                this.panelUsers.html(this.templateUserList({users: c.models, usertpl: this.tplUser, scope: this}));
+                this.panelUsers.html(this.templateUserList({users: this.storeUsers.chain().filter(function(item){return item.get('online');}).groupBy(function(item) {return item.get('idOriginal');}).value(),
+                                                            usertpl: this.tplUser, scope: this}));
                 this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
             }
         },
@@ -217,9 +205,9 @@ define([
         },
 
         _prepareMessage: function(m) {
-            var user    = this.storeUsers.findUser(m.get('userid'));
+            var user    = this.storeUsers.findOriginalUser(m.get('userid'));
             m.set({
-                usercolor   : user ? user.get('color') : '#000',
+                usercolor   : user ? user.get('color') : null,
                 message     : this._pickLink(Common.Utils.String.htmlEncode(m.get('message')))
             }, {silent:true});
         },

@@ -3,7 +3,9 @@
 
         <!-- comment block -->
 
-        <div class="user-name"><%=scope.getUserName(username)%></div>
+        <div class="user-name">
+            <div class="color" style="display: inline-block; background-color: <% if (usercolor!==null) { %><%=usercolor%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(username) %>
+        </div>
         <div class="user-date"><%=date%></div>
         <% if (quote!==null && quote!=='') { %>
         <div class="user-quote"><%=scope.getFixedQuote(quote)%></div>
@@ -24,7 +26,9 @@
             <div class="reply-arrow img-commonctrl"></div>
             <% _.each(replys, function (item) { %>
                 <div class="reply-item-ct">
-                    <div class="user-name"><%=scope.getUserName(item.get("username"))%></div>
+                    <div class="user-name">
+                        <div class="color" style="display: inline-block; background-color: <% if (item.get("usercolor")!==null) { %><%=item.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(item.get("username")) %>
+                    </div>
                     <div class="user-date"><%=item.get("date")%></div>
                     <% if (!item.get("editText")) { %>
                         <div class="user-message" data-can-copy="true"><%=scope.pickLink(item.get("reply"))%></div>

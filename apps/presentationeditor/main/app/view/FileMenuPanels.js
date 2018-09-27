@@ -55,6 +55,7 @@ define([
         formats: [[
             {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
+            // {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP}
         ]],
 
@@ -64,7 +65,9 @@ define([
                 '<% _.each(rows, function(row) { %>',
                     '<tr>',
                         '<% _.each(row, function(item) { %>',
-                            '<td><span class="btn-doc-format <%= item.imgCls %>" /></td>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>">',
+                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
                         '<% }) %>',
                     '</tr>',
                 '<% }) %>',
@@ -88,19 +91,13 @@ define([
                 });
             }
 
-            this.flatFormats = _.flatten(this.formats);
             return this;
         },
 
         onFormatClick: function(e) {
-            var format = /\s(\w+)/.exec(e.currentTarget.className);
-            if (format) {
-                format = format[1];
-                var item = _.findWhere(this.flatFormats, {imgCls: format});
-
-                if (item && this.menu) {
-                    this.menu.fireEvent('saveas:format', [this.menu, item.type]);
-                }
+            var type = e.currentTarget.attributes['format'];
+            if (!_.isUndefined(type) && this.menu) {
+                this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
             }
         }
     });
@@ -436,7 +433,11 @@ define([
         template: _.template([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
-                '<div class="blank-document-btn"></div>',
+                '<div class="blank-document-btn">',
+                    '<svg class="btn-doc-format">',
+                        '<use xlink:href="#svg-format-pptx"></use>',
+                    '</svg>',
+                '</div>',
                 '<div class="blank-document-info">',
                     '<h3><%= scope.newDocumentText %></h3>',
                     '<%= scope.newDescriptionText %>',
@@ -446,7 +447,13 @@ define([
             '<div class="thumb-list">',
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
-                        '<div class="thumb"<% if (!_.isEmpty(item.icon)) { %> style="background-image: url(<%= item.icon %>);" <% } %> />',
+                        '<div class="thumb"',
+                            '<% if (!_.isEmpty(item.icon)) { ' +
+                                'print(\" style=\'background-image: url(item.icon);\'>\")' +
+                            ' } else { ' +
+                                'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                            ' } %>',
+                        '</div>',
                         '<div class="title"><%= item.name %></div>',
                     '</div>',
                 '<% }) %>',
@@ -931,7 +938,8 @@ define([
             this.btnDeletePwd.render(this.$el.find('#fms-btn-delete-pwd'));
             this.btnDeletePwd.on('click', _.bind(this.closeMenu, this));
 
-            this.cntPassword = $('#id-fms-view-pwd');
+            this.cntPassword = $('#id-fms-password');
+            this.cntPasswordView = $('#id-fms-view-pwd');
 
             this.btnAddInvisibleSign = protection.getButton('signature');
             this.btnAddInvisibleSign.render(this.$el.find('#fms-btn-invisible-sign'));
@@ -960,7 +968,8 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            this.cntSignature.toggleClass('hidden', !this.mode.canProtect);
+            this.cntSignature.toggleClass('hidden', !this.mode.isSignatureSupport);
+            this.cntPassword.toggleClass('hidden', !this.mode.isPasswordSupport);
         },
 
         setApi: function(o) {
@@ -1015,7 +1024,7 @@ define([
         },
 
         updateEncrypt: function() {
-            this.cntPassword.toggleClass('hidden', this.btnAddPwd.isVisible());
+            this.cntPasswordView.toggleClass('hidden', this.btnAddPwd.isVisible());
         },
 
         strProtect: 'Protect Presentation',

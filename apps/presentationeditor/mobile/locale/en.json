@@ -60,6 +60,7 @@
   "PE.Controllers.Main.advDRMPassword": "Password",
   "PE.Controllers.Main.applyChangesTextText": "Loading data...",
   "PE.Controllers.Main.applyChangesTitleText": "Loading Data",
+  "PE.Controllers.Main.closeButtonText": "Close File",
   "PE.Controllers.Main.convertationTimeoutText": "Conversion timeout exceeded.",
   "PE.Controllers.Main.criticalErrorExtText": "Press 'OK' to return to document list.",
   "PE.Controllers.Main.criticalErrorTitle": "Error",

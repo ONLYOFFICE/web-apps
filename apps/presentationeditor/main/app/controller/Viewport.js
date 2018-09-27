@@ -114,6 +114,8 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange', this.onApiZoomChange.bind(this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
+            Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
 
@@ -196,6 +198,14 @@ define([
                     checkable: true,
                     value: 'toolbar'
                 });
+                if (!config.isEdit) {
+                    me.header.mnuitemCompactToolbar.hide();
+                    Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
+                        if (action=='plugins' && visible) {
+                            me.header.mnuitemCompactToolbar.show();
+                        }
+                    }, this));
+                }
 
                 var mnuitemHideStatusBar = new Common.UI.MenuItem({
                     caption: me.header.textHideStatusBar,
@@ -213,6 +223,8 @@ define([
                     checkable: true,
                     value: 'rulers'
                 });
+                if (!config.isEdit)
+                    mnuitemHideRulers.hide();
 
                 me.header.mnuitemFitPage = new Common.UI.MenuItem({
                     caption: me.textFitPage,
@@ -321,12 +333,16 @@ define([
                 reporterObject.translations = {
                     reset: me.previewPanel.txtReset,
                     endSlideshow: me.previewPanel.txtEndSlideshow,
-                    slideOf: me.previewPanel.slideIndexText
+                    slideOf: me.previewPanel.slideIndexText,
+                    finalMessage: me.previewPanel.txtFinalMessage
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
             }
 
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
+                setTimeout(function(){
+                    Common.UI.Menu.Manager.hideAll();
+                }, 100);
                 this.previewPanel.show();
                 var _onWindowResize = function() {
                     if (isResized) return;
@@ -367,6 +383,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable );
             me.header.lockHeaderBtns( 'redo', _need_disable );
             me.header.lockHeaderBtns( 'opts', _need_disable );
+            me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
         onApiZoomChange: function(percent, type) {
@@ -399,6 +416,17 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            }
+        },
+
+        onApiCoAuthoringDisconnect: function() {
+            if (this.header) {
+                if (this.header.btnDownload)
+                    this.header.btnDownload.hide();
+                if (this.header.btnPrint)
+                    this.header.btnPrint.hide();
+                if (this.header.btnEdit)
+                    this.header.btnEdit.hide();
             }
         },
 

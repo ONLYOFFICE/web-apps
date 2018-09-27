@@ -100,7 +100,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect, this));
-            // Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiDisconnect, this));
+            Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiDisconnect, this));
             // this.api.asc_registerCallback('asc_onUpdateTabColor', _.bind(this.onApiUpdateTabColor, this));
             // this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onWorkbookLocked, this));
@@ -336,6 +336,63 @@ define([
             }
         },
 
+        renameWorksheet: function() {
+            var me = this;
+            if (me.api.asc_getWorksheetsCount() > 0) {
+                var sindex = me.api.asc_getActiveWorksheetIndex();
+                if (me.api.asc_isWorksheetLockedOrDeleted(sindex)) {
+                    return;
+                }
+                var current = me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex());
+
+                var renameDlg = uiApp.modal({
+                    title: me.strRenameSheet,
+                    afterText: '<div class="input-field"><input type="text" name="modal-sheet-name" placeholder="' + me.strSheetName + '" class="modal-text-input"></div>',
+                    buttons: [
+                        {
+                            text: 'OK',
+                            bold: true,
+                            onClick: function () {
+                                var s = $(renameDlg).find('.modal-text-input[name="modal-sheet-name"]').val(),
+                                    wc = me.api.asc_getWorksheetsCount(), items = [],
+                                    err = _.isEmpty(s) ? me.errNotEmpty : ((s.length > 2 && s[0]=='"' && s[s.length-1]=='"' || !/[:\\\/\*\?\[\]\']/.test(s)) ? null : me.errNameWrongChar);
+                                if (!err) {
+                                    while (wc--) {
+                                        if (sindex !== wc) {
+                                            items.push(me.api.asc_getWorksheetName(wc).toLowerCase());
+                                        }
+                                    }
+                                    if (items) {
+                                        var testval = s.toLowerCase();
+                                        for (var i = items.length - 1; i >= 0; --i) {
+                                            if (items[i] === testval) {
+                                                err = me.errNameExists;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (err) {
+                                    uiApp.alert(
+                                        err,
+                                        me.notcriticalErrorTitle,
+                                        function () {
+                                            _.defer(function() {
+                                                me.renameWorksheet();
+                                            });
+                                        }
+                                    );
+                                } else if (s != current)
+                                    me.api.asc_renameWorksheet(s);
+                            }
+                        },
+                        {
+                            text: me.cancelButtonText
+                        }
+                    ]
+                });
+            }
+        },
+
         // colors
 
         onApiUpdateTabColor: function (index) {
@@ -463,6 +520,7 @@ define([
                     me.statusbar.showTabContextMenu(items, model);
                 });
                 break;
+            case 'ren': me.renameWorksheet(); break;
             default:
                 var _re = /reveal\:(\d+)/.exec(event);
                 if ( _re && !!_re[1] ) {
@@ -483,6 +541,10 @@ define([
                 },{
                     caption: this.menuDelete,
                     event: 'del',
+                    locked: wbLocked || shLocked
+                },{
+                    caption: this.menuRename,
+                    event: 'ren',
                     locked: wbLocked || shLocked
                 },{
                     caption: this.menuHide,
@@ -508,6 +570,15 @@ define([
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',
         warnDeleteSheet : 'The worksheet maybe has data. Proceed operation?',
-        strSheet        : 'Sheet'
+        strSheet        : 'Sheet',
+        menuRename      : 'Rename',
+        errNameExists   : 'Worksheet with such name already exist.',
+        errNameWrongChar: 'A sheet name cannot contains characters: \\, \/, *, ?, [, ], :',
+        errNotEmpty: 'Sheet name must not be empty',
+        strRenameSheet: 'Rename Sheet',
+        strSheetName  : 'Sheet Name',
+        cancelButtonText: 'Cancel',
+        notcriticalErrorTitle: 'Warning'
+
     }, SSE.Controllers.Statusbar || {}));
 });

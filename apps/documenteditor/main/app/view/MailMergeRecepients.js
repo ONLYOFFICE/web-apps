@@ -116,7 +116,7 @@ define([
         },
 
         _onMessage: function(msg) {
-            if (msg /*&& msg.Referer == "onlyoffice"*/ && msg.file !== undefined) {
+            if (msg && msg.Referer == "onlyoffice" && msg.file !== undefined) {
                 Common.NotificationCenter.trigger('window:close', this);
                 var me = this;
                 setTimeout(function() {

@@ -60,6 +60,7 @@
   "PE.Controllers.Main.advDRMPassword": "Password",
   "PE.Controllers.Main.applyChangesTextText": "Caricamento dei dati in corso...",
   "PE.Controllers.Main.applyChangesTitleText": "Caricamento dei dati",
+  "PE.Controllers.Main.closeButtonText": "Chiudi File",
   "PE.Controllers.Main.convertationTimeoutText": "È stato superato il tempo limite della conversione.",
   "PE.Controllers.Main.criticalErrorExtText": "Clicca 'OK' per tornare alla lista documento",
   "PE.Controllers.Main.criticalErrorTitle": "Errore",

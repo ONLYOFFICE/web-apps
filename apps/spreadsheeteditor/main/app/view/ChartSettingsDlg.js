@@ -205,7 +205,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 name        : 'range',
                 style       : 'width: 100%;',
                 allowBlank  : true,
-                blankError  : this.txtEmpty,
                 validateOnChange: true
             });
 
@@ -1514,7 +1513,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     if (isvalid == Asc.c_oAscError.ID.No)
                         return true;
                 } else
-                    this.txtDataRange.showError([this.txtEmpty]);
+                    return true;
 
                 this.setActiveCategory(0);
                 if (isvalid == Asc.c_oAscError.ID.StockChartError) {

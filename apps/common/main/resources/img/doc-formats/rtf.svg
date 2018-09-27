@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 127" version="1.1" width="100" height="127">
+<symbol id="svg-format-rtf">
+    <path d="M95,23v96a2.9,2.9,0,0,1-2.8,3H8a2.9,2.9,0,0,1-3-2.8V8A2.9,2.9,0,0,1,7.8,5H77Z" style="fill: #635e9b"/>
+    <path d="M95,23H80a2.9,2.9,0,0,1-3-2.8V5Z" style="opacity: 0.20000000298023224;isolation: isolate"/>
+    <g>
+      <path d="M42.2,109.7V113H40.3v-8.6h2.5a3.5,3.5,0,0,1,2.6.7,2.1,2.1,0,0,1,.9,1.9,2,2,0,0,1-.4,1.3,4,4,0,0,1-1.2,1l2.5,3.7h-2l-2.1-3.3Zm0-1.5h.6l1.2-.3c.3-.1.4-.4.4-.9a.9.9,0,0,0-.4-.8,2.8,2.8,0,0,0-1.3-.3h-.5Z" style="fill: #fff"/>
+      <path d="M51.6,113H49.8v-7.1H47.4v-1.5h6.5v1.5H51.6Z" style="fill: #fff"/>
+      <path d="M57,113H55.2v-8.6h4.9v1.5H57v2.2h2.9v1.5H57Z" style="fill: #fff"/>
+    </g>
+    <rect x="49" y="38" width="25" height="2" style="fill: #fff"/>
+    <rect x="49" y="44" width="25" height="2" style="fill: #fff"/>
+    <rect x="49" y="50" width="25" height="2" style="fill: #fff"/>
+    <rect x="49" y="56" width="25" height="2" style="fill: #fff"/>
+    <rect x="25" y="62" width="49" height="2" style="fill: #fff"/>
+    <rect x="25" y="68" width="49" height="2" style="fill: #fff"/>
+    <rect x="25" y="74" width="49" height="2" style="fill: #fff"/>
+    <rect x="25" y="80" width="49" height="2" style="fill: #fff"/>
+    <rect x="25" y="86" width="49" height="2" style="fill: #fff"/>
+    <rect x="25" y="38" width="20" height="20" style="fill: #fff"/>
+  </symbol>
+</svg>

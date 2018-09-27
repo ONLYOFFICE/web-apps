@@ -52,24 +52,24 @@
         }
 
         .color {
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin-top: 1px;
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 5px 3px 0;
             width: 12px;
             height: 12px;
             border: 1px solid @gray-dark;
         }
 
         .name {
+            font-size: 12px;
+            font-weight: bold;
             display: block;
-            position: relative;
-            padding: 0 10px 0 16px;
-            margin-top: -2px;
+            padding: 0 10px 0 0;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            font-weight: bold;
+            line-height: normal;
+            height: 16px;
         }
     }
 
@@ -98,6 +98,23 @@
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                }
+
+                .user-name {
+                    color: @gray-deep;
+                    font-size: 12px;
+                    font-weight: bold;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .color {
+                    width: 12px;
+                    height: 12px;
+                    border: 1px solid @gray-dark;
+                    margin: 0 5px 3px 0;
+                    vertical-align: middle;
                 }
 
                 .message {

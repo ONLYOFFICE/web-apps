@@ -140,6 +140,7 @@
   "Common.Views.RenameDialog.txtInvalidName": "Názov súboru nemôže obsahovať žiadny z nasledujúcich znakov:",
   "Common.Views.ReviewChanges.strFast": "Rýchly",
   "Common.Views.ReviewChanges.tipAcceptCurrent": "Akceptovať aktuálnu zmenu",
+  "Common.Views.ReviewChanges.tipReviewView": "Vyberte režim, v ktorom chcete zobraziť zmeny",
   "Common.Views.ReviewChanges.txtAccept": "Akceptovať",
   "Common.Views.ReviewChanges.txtAcceptAll": "Akceptovať všetky zmeny",
   "Common.Views.ReviewChanges.txtAcceptChanges": "Akceptovať zmeny",

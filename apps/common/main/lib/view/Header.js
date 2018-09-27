@@ -57,16 +57,18 @@ define([
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
-                    '<div class="color" style="background-color: <%= user.get("color") %>;" >' +
-                        '<label class="name"><%= fnEncode(user.get("username")) %></label>' +
-                    '</div>' +
+                    '<div class="user-name">' +
+                        '<div class="color" style="background-color: <%= user.get("color") %>;"></div>'+
+                        '<label><%= fnEncode(user.get("username")) %></label>' +
+                        '<% if (len>1) { %><label style="margin-left:3px;">(<%=len%>)</label><% } %>' +
+                    '</div>'+
                 '</li>';
 
         var templateUserList = _.template(
                 '<ul>' +
-                    '<% _.each(users, function(item) { %>' +
-                        '<%= usertpl({user: item, fnEncode: fnEncode}) %>' +
-                    '<% }); %>' +
+                    '<% for (originalId in users) { %>' +
+                        '<%= usertpl({user: users[originalId][0], fnEncode: fnEncode, len: users[originalId].length}) %>' +
+                    '<% } %>' +
                 '</ul>');
 
         var templateRightBox = '<section>' +
@@ -115,64 +117,38 @@ define([
                                 '<label id="title-user-name" style="pointer-events: none;"></label>' +
                             '</section>';
 
-        function onAddUser(model, collection, opts) {
-            if ( $userList ) {
-                var $ul = $userList.find('ul');
-                if ( !$ul.length ) {
-                    $userList.html( templateUserList({
-                                        users: collection.models,
-                                        usertpl: _.template(templateUserItem),
-                                        fnEncode: Common.Utils.String.htmlEncode
-                                    })
-                    );
-                } else {
-                    $ul.append( _.template(templateUserItem)({
-                        user: model,
-                        fnEncode: Common.Utils.String.htmlEncode
-                    }) );
-                }
-
-                $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
-            }
-
-            applyUsers( collection.getEditingCount() );
-        };
-
-        function onUsersChanged(model, collection) {
-            if (model.changed.online != undefined && $userList) {
-                $userList.find('#'+ model.get('iid'))[model.changed.online ? 'removeClass' : 'addClass']('offline');
-                $userList.scroller && $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
-            }
-
-            applyUsers(model.collection.getEditingCount());
-        };
-
         function onResetUsers(collection, opts) {
             var usercount = collection.getEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.canComments) {
+                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit) {
                     $userList.html(templateUserList({
-                        users: collection.models,
+                        users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
                         fnEncode: Common.Utils.String.htmlEncode
                     }));
 
-                    $userList.scroller = new Common.UI.Scroller({
-                        el: $userList.find('ul'),
-                        useKeyboard: true,
-                        minScrollbarLength: 40,
-                        alwaysVisibleY: true
-                    });
+                    if (!$userList.scroller)
+                        $userList.scroller = new Common.UI.Scroller({
+                            el: $userList.find('ul'),
+                            useKeyboard: true,
+                            minScrollbarLength: 40,
+                            alwaysVisibleY: true
+                        });
+                    $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
                 } else {
                     $userList.empty();
                 }
             }
 
-            applyUsers( usercount );
+            applyUsers( usercount, collection.getEditingOriginalCount() );
         };
 
-        function applyUsers(count) {
-            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.canComments; // has other user(s) who edit document
+        function onUsersChanged(model) {
+            onResetUsers(model.collection);
+        };
+
+        function applyUsers(count, originalCount) {
+            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit; // has other user(s) who edit document
             if ( has_edit_users ) {
                 $btnUsers
                     .attr('data-toggle', 'dropdown')
@@ -192,7 +168,7 @@ define([
             $btnUsers.find('.caption')
                 .css({'font-size': ((has_edit_users) ? '12px' : '14px'),
                     'margin-top': ((has_edit_users) ? '0' : '-1px')})
-                .html((has_edit_users) ? count : '&plus;');
+                .html((has_edit_users) ? originalCount : '&plus;');
 
             var usertip = $btnUsers.data('bs.tooltip');
             if ( usertip ) {
@@ -205,16 +181,14 @@ define([
             if ( !$btnUsers.menu ) {
                 $panelUsers.removeClass('open');
                 this.fireEvent('click:users', this);
+            } else {
+                var usertip = $btnUsers.data('bs.tooltip');
+                if ( usertip ) {
+                    if ( usertip.dontShow===undefined)
+                        usertip.dontShow = true;
 
-                return false;
-            }
-
-            var usertip = $btnUsers.data('bs.tooltip');
-            if ( usertip ) {
-                if ( usertip.dontShow===undefined)
-                    usertip.dontShow = true;
-
-                usertip.hide();
+                    usertip.hide();
+                }
             }
         }
 
@@ -248,7 +222,7 @@ define([
 
             var editingUsers = storeUsers.getEditingCount();
             $btnUsers.tooltip({
-                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.canComments) ? me.tipViewUsers : me.tipAccessRights,
+                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
                 titleNorm: me.tipAccessRights,
                 titleExt: me.tipViewUsers,
                 placement: 'bottom',
@@ -264,7 +238,7 @@ define([
             });
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
-            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.canComments || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
 
             if ( $saveStatus ) {
                 $saveStatus.attr('data-width', me.textSaveExpander);
@@ -393,7 +367,7 @@ define([
 
                 storeUsers = this.options.storeUsers;
                 storeUsers.bind({
-                    add     : onAddUser,
+                    add     : onUsersChanged,
                     change  : onUsersChanged,
                     reset   : onResetUsers
                 });
@@ -484,9 +458,8 @@ define([
 
                         if ( config.canEdit && config.canRequestEditRights )
                             this.btnEdit = createTitleButton('svg-btn-edit', $html.find('#slot-hbtn-edit'));
-                    } else {
-                        me.btnOptions.render($html.find('#slot-btn-options'));
                     }
+                    me.btnOptions.render($html.find('#slot-btn-options'));
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
@@ -667,7 +640,7 @@ define([
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
                         $btnUsers.removeClass('disabled').attr('disabled', '');
                 } else {
-                    function _lockButton(btn) {
+                    var _lockButton = function (btn) {
                         if ( btn ) {
                             if ( lock ) {
                                 btn.keepState = {
@@ -679,7 +652,7 @@ define([
                                 delete btn.keepState;
                             }
                         }
-                    }
+                    };
 
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;

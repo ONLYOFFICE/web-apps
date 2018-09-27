@@ -1,23 +1,8 @@
 <section class="toolbar">
     <section class="box-tabs">
         <div class="extra left"></div>
-        <section class="tabs">
-            <a href="#" class="scroll left">
-                <i class="icon">&lt;</i>
-            </a>
-            <ul>
-                <% for(var i in tabs) { %>
-                <li class="ribtab<% if (tabs[i].extcls) print(' ' + tabs[i].extcls) %>">
-                    <a data-tab="<%= tabs[i].action %>" data-title="<%= tabs[i].caption %>"><%= tabs[i].caption %></a>
-                </li>
-                <% } %>
-            </ul>
-            <a href="#" class="scroll right">
-                <i class="icon">&gt;</i>
-            </a>
-        </section>
-        <div class="extra right">
-        </div>
+        <%= tabsmarkup %>
+        <div class="extra right"></div>
     </section>
     <section class="box-controls">
         <section class="panel static">
@@ -149,6 +134,20 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
+                </div>
+            </section>
+            <section class="panel" data-tab="layout">
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-pagemargins"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-img-align"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-group"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
+                    <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                 </div>
             </section>
         </section>

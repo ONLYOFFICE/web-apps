@@ -109,6 +109,8 @@
     }
 
     .user-name {
+        color: @gray-deep;
+        font-size: 12px;
         font-weight: bold;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -116,6 +118,14 @@
         padding: 10px 65px 0 0px;
         height: 26px;
         cursor: default;
+    }
+
+    .color {
+        width: 12px;
+        height: 12px;
+        border: 1px solid @gray-dark;
+        margin: 0 5px 3px 0;
+        vertical-align: middle;
     }
 
     .user-name-colored {
@@ -336,8 +346,13 @@
 
 .comments-popover {
     width:100%;
-    height:100%;
+    position: relative;
+    overflow-y: hidden;
     margin-bottom: 5px;
+
+    .dataview-ct.inner {
+        overflow: visible;
+    }
 }
 
 .comments-arrow {

@@ -91,7 +91,8 @@ define([
                 el      : $('#fm-btn-save',this.el),
                 action  : 'save',
                 caption : this.btnSaveCaption,
-                canFocused: false
+                canFocused: false,
+                disabled: true
             });
 
             this.miEdit = new Common.UI.MenuItem({
@@ -157,6 +158,13 @@ define([
                 canFocused: false
             });
 
+            this.miHelp = new Common.UI.MenuItem({
+                el      : $('#fm-btn-help',this.el),
+                action  : 'help',
+                caption : this.btnHelpCaption,
+                canFocused: false
+            });
+
             this.items = [];
             this.items.push(
                 new Common.UI.MenuItem({
@@ -187,12 +195,7 @@ define([
                     caption : this.btnSettingsCaption,
                     canFocused: false
                 }),
-                new Common.UI.MenuItem({
-                    el      : $('#fm-btn-help',this.el),
-                    action  : 'help',
-                    caption : this.btnHelpCaption,
-                    canFocused: false
-                }),
+                this.miHelp,
                 new Common.UI.MenuItem({
                     el      : $('#fm-btn-back',this.el),
                     action  : 'exit',
@@ -206,8 +209,7 @@ define([
                 'saveas'    : (new PE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
                 'opts'      : (new PE.Views.FileMenuPanels.Settings({menu:me})).render(),
                 'info'      : (new PE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                'help'      : (new PE.Views.FileMenuPanels.Help({menu:me})).render()
+                'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render()
             };
 
             me.$el.find('.content-box').hide();
@@ -238,7 +240,7 @@ define([
         applyMode: function() {
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.miProtect[(this.mode.isProtectSupport && this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) ?'show':'hide']();
+            this.miProtect[this.mode.canProtect ?'show':'hide']();
             this.miProtect.$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
@@ -258,6 +260,9 @@ define([
             this.mode.canBack ? this.$el.find('#fm-btn-back').show().prev().show() :
                                     this.$el.find('#fm-btn-back').hide().prev().hide();
 
+            this.miHelp[this.mode.canHelp ?'show':'hide']();
+            this.miHelp.$el.prev()[this.mode.canHelp ?'show':'hide']();
+
             this.panels['opts'].setMode(this.mode);
             this.panels['info'].setMode(this.mode).updateInfo(this.document);
             this.panels['rights'].setMode(this.mode).updateInfo(this.document);
@@ -275,15 +280,18 @@ define([
                 }
             }
 
-            if (this.mode.isProtectSupport && this.mode.isDesktopApp && this.mode.isOffline) {
+            if (this.mode.isDesktopApp && this.mode.isOffline)
                 this.$el.find('#fm-btn-create, #fm-btn-back, #fm-btn-create+.devider').hide();
-                if (this.mode.isEdit) {
-                    this.panels['protect'] = (new PE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
-                    this.panels['protect'].setMode(this.mode);
-                }
+
+            if (this.mode.canProtect) {
+                this.panels['protect'] = (new PE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
+                this.panels['protect'].setMode(this.mode);
             }
 
-            this.panels['help'].setLangConfig(this.mode.lang);
+            if (this.mode.canHelp) {
+                this.panels['help'] = ((new PE.Views.FileMenuPanels.Help({menu: this})).render());
+                this.panels['help'].setLangConfig(this.mode.lang);
+            }
         },
 
         setMode: function(mode, delay) {
@@ -315,7 +323,7 @@ define([
             if ( menu ) {
                 var item = this._getMenuItem(menu),
                     panel   = this.panels[menu];
-                if ( item.isDisabled() ) {
+                if ( item.isDisabled() || !item.isVisible()) {
                     item = this._getMenuItem(defMenu);
                     panel   = this.panels[defMenu];
                 }

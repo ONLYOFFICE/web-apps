@@ -57,6 +57,7 @@ define([
     'spreadsheeteditor/main/app/view/TableSettings',
     'spreadsheeteditor/main/app/view/PivotSettings',
     'spreadsheeteditor/main/app/view/SignatureSettings',
+    'spreadsheeteditor/main/app/view/CellSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -133,6 +134,14 @@ define([
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
+            this.btnCell = new Common.UI.Button({
+                hint: this.txtCellSettings,
+                asctype: Common.Utils.documentSettingsType.Cell,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
+            });
 
             this._settings = [];
             this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
@@ -142,6 +151,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt]     = {panel: "id-textart-settings",    btn: this.btnTextArt};
             this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
             this._settings[Common.Utils.documentSettingsType.Pivot]       = {panel: "id-pivot-settings",      btn: this.btnPivot};
+            this._settings[Common.Utils.documentSettingsType.Cell]        = {panel: "id-cell-settings",       btn: this.btnCell};
 
             return this;
         },
@@ -151,7 +161,8 @@ define([
 
             this.trigger('render:before', this);
 
-            el.css('width', '40px');
+            var open = !Common.localStorage.getBool("sse-hide-right-settings");
+            el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.css('z-index', 101);
             el.show();
 
@@ -164,6 +175,7 @@ define([
             this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
             this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnPivot.setElement($('#id-right-menu-pivot'), false);         this.btnPivot.render();
+            this.btnCell.setElement($('#id-right-menu-cell'), false);           this.btnCell.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
@@ -172,6 +184,7 @@ define([
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnPivot.on('click',           _.bind(this.onBtnMenuClick, this));
+            this.btnCell.on('click',           _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new SSE.Views.ParagraphSettings();
             this.imageSettings = new SSE.Views.ImageSettings();
@@ -180,23 +193,9 @@ define([
             this.textartSettings = new SSE.Views.TextArtSettings();
             this.tableSettings = new SSE.Views.TableSettings();
             this.pivotSettings = new SSE.Views.PivotSettings();
+            this.cellSettings = new SSE.Views.CellSettings();
 
-            if (mode && mode.canProtect) {
-                this.btnSignature = new Common.UI.Button({
-                    hint: this.txtSignatureSettings,
-                    asctype: Common.Utils.documentSettingsType.Signature,
-                    enableToggle: true,
-                    disabled: true,
-                    toggleGroup: 'tabpanelbtnsGroup'
-                });
-                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
-
-                this.btnSignature.el    = $('#id-right-menu-signature'); this.btnSignature.render().setVisible(true);
-                this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
-                this.signatureSettings = new SSE.Views.SignatureSettings();
-            }
-
-            if (mode && mode.canProtect) {
+            if (mode && mode.isSignatureSupport) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
                     asctype: Common.Utils.documentSettingsType.Signature,
@@ -219,6 +218,11 @@ define([
                 });
             }
 
+            if (open) {
+                $('#id-cell-settings').parent().css("display", "inline-block" );
+                $('#id-cell-settings').addClass("active");
+            }
+
             this.trigger('render:after', this);
 
             return this;
@@ -233,6 +237,7 @@ define([
             this.textartSettings.setApi(api);
             this.tableSettings.setApi(api);
             this.pivotSettings.setApi(api);
+            this.cellSettings.setApi(api);
             if (this.signatureSettings) this.signatureSettings.setApi(api);
             return this;
         },
@@ -313,6 +318,7 @@ define([
         txtSparklineSettings:       'Sparkline Settings',
         txtTableSettings:           'Table Settings',
         txtPivotSettings:           'Pivot Table Settings',
-        txtSignatureSettings:       'Signature Settings'
+        txtSignatureSettings:       'Signature Settings',
+        txtCellSettings:            'Cell Settings'
     }, SSE.Views.RightMenu || {}));
 });

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 127" version="1.1" width="100" height="127">
+  <title>csv</title>
+  <symbol id="svg-format-csv">
+    <path d="M95,23v96a2.9,2.9,0,0,1-2.8,3H8a2.9,2.9,0,0,1-3-2.8V8A2.9,2.9,0,0,1,7.8,5H77Z" style="fill: #646464"/>
+    <path d="M95,23H80a2.9,2.9,0,0,1-3-2.8V5Z" style="opacity: 0.20000000298023224;isolation: isolate"/>
+    <g>
+      <path d="M43.7,105.8a2.1,2.1,0,0,0-1.6.8,3.9,3.9,0,0,0-.6,2.1c0,2,.8,2.9,2.2,2.9a5.4,5.4,0,0,0,2.2-.4v1.5a6.7,6.7,0,0,1-2.4.4,3.4,3.4,0,0,1-2.8-1.1,4.8,4.8,0,0,1-1-3.3,3.7,3.7,0,0,1,.5-2.3,3.6,3.6,0,0,1,1.4-1.6,5.1,5.1,0,0,1,4.6.1l-.6,1.5-1-.4Z" style="fill: #fff"/>
+      <path d="M52.8,110.6a2.1,2.1,0,0,1-.9,1.8,3.2,3.2,0,0,1-2.3.7,6.9,6.9,0,0,1-2.4-.5v-1.7l1.4.6h1.1l1-.2a.9.9,0,0,0,.3-.7.5.5,0,0,0-.2-.4.8.8,0,0,0-.4-.4l-1.1-.6-1.2-.7-.6-.8a1.4,1.4,0,0,1-.2-1.1A2,2,0,0,1,48,105a3.4,3.4,0,0,1,2.2-.7l1.2.2,1.3.4-.6,1.4-1.1-.4h-.9a1.1,1.1,0,0,0-.8.3.7.7,0,0,0-.3.6l.2.4.3.4,1.2.6a3.6,3.6,0,0,1,1.6,1.1A2.1,2.1,0,0,1,52.8,110.6Z" style="fill: #fff"/>
+      <path d="M59.2,104.4H61L58.1,113h-2l-2.9-8.6h1.9l1.6,5.1a4.3,4.3,0,0,1,.2,1.1c.1.4.2.7.2.8s.2-1,.5-1.9Z" style="fill: #fff"/>
+    </g>
+    <rect x="21" y="90" width="17" height="2" style="fill: #fff"/>
+    <rect x="21" y="83" width="17" height="2" style="fill: #fff"/>
+    <rect x="21" y="76" width="17" height="2" style="fill: #fff"/>
+    <rect x="21" y="69" width="17" height="2" style="fill: #fff"/>
+    <rect x="21" y="62" width="17" height="2" style="fill: #fff"/>
+    <rect x="21" y="55" width="17" height="2" style="fill: #fff"/>
+    <rect x="21" y="48" width="17" height="2" style="fill: #fff"/>
+    <rect x="21" y="41" width="17" height="2" style="fill: #fff"/>
+    <rect x="21" y="34" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="90" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="83" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="76" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="69" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="62" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="55" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="48" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="41" width="17" height="2" style="fill: #fff"/>
+    <rect x="42" y="34" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="90" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="83" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="76" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="69" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="62" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="55" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="48" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="41" width="17" height="2" style="fill: #fff"/>
+    <rect x="63" y="34" width="17" height="2" style="fill: #fff"/>
+</symbol>
+</svg>

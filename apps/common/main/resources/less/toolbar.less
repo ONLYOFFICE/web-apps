@@ -142,6 +142,7 @@
 
     .box-panels {
         flex-grow: 1;
+        -ms-flex: 1;
 
         .panel:not(.active) {
             display: none;
@@ -250,6 +251,10 @@
         ul {
             z-index: @zindex-navbar + 4;
         }
+    }
+
+    &:not(.cover):not(.z-clear) {
+        z-index: @zindex-navbar + 1;
     }
 }
 

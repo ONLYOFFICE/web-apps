@@ -136,7 +136,7 @@ define([
 
                 var me = this;
 
-                if ('#edit-shape-style' == pageId) {
+                if ('#edit-shape-style' == pageId || '#edit-shape-style-nofill' == pageId ) {
                     me.initStylePage();
                 } else if ('#edit-shape-border-color-view' == pageId) {
                     me.initBorderColorPage();
@@ -151,6 +151,7 @@ define([
 
             initRootPage: function () {
                 $('#shape-remove').single('click', _.bind(this.onRemoveShape, this));
+                this.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().asc_getCanFill();
             },
 
             initStylePage: function () {
@@ -423,6 +424,8 @@ define([
                 };
 
                 _shapeObject = getTopObject(shapes);
+                if (_shapeObject)
+                    this.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().asc_getCanFill();
             },
 
             // Helpers

@@ -1,10 +1,6 @@
 @tabs-bg-color: #40865c;
 
 .toolbar {
-    &:not(.cover) {
-        z-index: 1001;
-    }
-
     &.masked {
         button.disabled .icon:not(.no-mask) {
             background-position-x: 0px !important;
@@ -152,7 +148,7 @@
 .toolbar-btn-icon(btn-currency-style,   52, @toolbar-icon-size);
 .toolbar-btn-icon(btn-addcell,          53, @toolbar-icon-size);
 .toolbar-btn-icon(btn-delcell,          54, @toolbar-icon-size);
-.toolbar-btn-icon(btn-ttempl,           55, @toolbar-icon-size);
+.toolbar-btn-icon(btn-ttempl,           80, @toolbar-icon-size);
 //
 .toolbar-btn-icon(btn-showmode,         56, @toolbar-icon-size);
 .toolbar-btn-icon(btn-settings,         57, @toolbar-icon-size);
@@ -213,6 +209,16 @@
 //
 .menu-btn-icon(mnu-text-subscript,       38, @menu-icon-size);
 .menu-btn-icon(mnu-text-superscript,     39, @menu-icon-size);
+
+.menu-btn-icon(mnu-orient-portrait,     48, @menu-icon-size);
+.menu-btn-icon(mnu-orient-landscape,    49, @menu-icon-size);
+
+.menu-btn-icon(mnu-img-align-center,          41, @menu-icon-size);
+.menu-btn-icon(mnu-img-align-left,            40, @menu-icon-size);
+.menu-btn-icon(mnu-img-align-right,           42, @menu-icon-size);
+.menu-btn-icon(mnu-img-align-bottom,          45, @menu-icon-size);
+.menu-btn-icon(mnu-img-align-middle,          44, @menu-icon-size);
+.menu-btn-icon(mnu-img-align-top,             43, @menu-icon-size);
 
 .username-tip {
     background-color: #ee3525;

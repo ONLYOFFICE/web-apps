@@ -98,32 +98,15 @@
   }
 }
 
-.img-doc-format {
-  .background-ximage('@{app-image-path}/docformat.png', '@{app-image-path}/docformat@2x.png', 1020px);
-}
-
 .btn-doc-format {
   display: block;
   width: 98px;
   height: 125px;
   cursor: pointer;
 
-  .icon-document-format(@shift-x, @shift-y: 0) {
-    background-position: @shift-x @shift-y;
-
-    &:hover {
-      background-position: @shift-x+102 @shift-y;
-    }
+  svg&:hover {
+    opacity:0.85;
   }
-
-  &.docx  {.icon-document-format(-306px);}
-  &.doc   {.icon-document-format(-102px);}
-  &.odt   {.icon-document-format(-102px,-128px);}
-  &.rtf   {.icon-document-format(-510px,-128px);}
-  &.txt   {.icon-document-format(-714px,-128px);}
-  &.html  {.icon-document-format(-714px);}
-  &.epub  {.icon-document-format(-510px);}
-  &.pdf   {.icon-document-format(-306px,-128px);}
 }
 
 #panel-settings {
@@ -190,15 +173,10 @@
   .blank-document-btn {
     display: inline-block;
     margin: 25px 20px 65px;
-    background-position: -816px 0;
 
     width: 102px;
     height: 128px;
     cursor: pointer;
-
-    &:hover {
-      background-position: -918px 0;
-    }
   }
 
   hr {
@@ -218,9 +196,6 @@
       .thumb {
         width: 102px;
         height: 128px;
-        //                .background-ximage('@{app-image-path}/docformat.png', '@{app-image-path}/docformat@2x.png', 1020px);
-        //                background-repeat: no-repeat;
-        //                background-position: -816px -129px;
       }
 
       .title {
@@ -296,6 +271,7 @@
       .box-shadow(none);
       margin: 0;
       font-size: 12px;
+      float: none;
 
       &:not(.header-name) {
         &:hover,
@@ -311,11 +287,12 @@
     }
 
     .help-item-wrap {
-      padding: 7px 2px 7px 20px;
+      padding: 4px 2px 4px 20px;
     }
 
     .header-name {
-      padding: 7px 2px 7px 10px;
+      padding: 16px 2px 4px 10px;
+      font-size: 12px;
     }
   }
 }
