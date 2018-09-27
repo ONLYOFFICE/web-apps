@@ -354,7 +354,7 @@ define([
                 }
 
                 me._saveCopyDlg = new DE.Views.MailMergeSaveDlg({
-                    mergeFolderUrl: me.mode.saveCopyFolderUrl,
+                    mergeFolderUrl: me.mode.saveAsUrl,
                     mergedFileUrl: url,
                     defFileName: defFileName
                 });
