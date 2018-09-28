@@ -122,7 +122,7 @@ define([
                 el: $('#slide-combo-fill-src'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrFillSrc,
                 disabled: true
@@ -151,7 +151,7 @@ define([
                 el: $('#slide-combo-effect-name'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrEffectName,
                 disabled: true
@@ -186,7 +186,7 @@ define([
                 el: $('#slide-combo-effect-type'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrEffectType,
                 disabled: true

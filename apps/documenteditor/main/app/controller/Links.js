@@ -150,7 +150,7 @@ define([
                 item.setDisabled(need_disable);
             }, this);
 
-            need_disable = paragraph_locked || header_locked || control_plain;
+            need_disable = paragraph_locked || header_locked || in_header || control_plain;
             this.view.btnBookmarks.setDisabled(need_disable);
         },
 
@@ -256,8 +256,7 @@ define([
                     win.show();
                     break;
                 case 'remove':
-                    if (currentTOC)
-                        currentTOC = props.get_InternalClass();
+                    currentTOC = (currentTOC && props) ? props.get_InternalClass() : undefined;
                     this.api.asc_RemoveTableOfContents(currentTOC);
                     break;
             }
@@ -265,9 +264,12 @@ define([
         },
 
         onTableContentsUpdate: function(type, currentTOC){
-            if (currentTOC)
-                currentTOC = this.api.asc_GetTableOfContentsPr(currentTOC).get_InternalClass();
-            this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            var props = this.api.asc_GetTableOfContentsPr(currentTOC);
+            if (props) {
+                if (currentTOC && props)
+                    currentTOC = props.get_InternalClass();
+                this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 

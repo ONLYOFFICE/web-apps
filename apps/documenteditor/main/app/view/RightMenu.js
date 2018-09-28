@@ -195,7 +195,7 @@ define([
                 this.mergeSettings = new DE.Views.MailMergeSettings();
             }
 
-            if (mode && mode.canProtect) {
+            if (mode && mode.isSignatureSupport) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
                     asctype: Common.Utils.documentSettingsType.Signature,

@@ -143,27 +143,20 @@ define([
                         }
                     }
 
-                    if ( config.isReviewOnly ) {
+                    if ( config.isReviewOnly || Common.localStorage.getBool("de-track-changes-" + (config.fileKey || ''))) {
                         _process_changestip();
-                    } else
-                    if ( me.api.asc_IsTrackRevisions() ) {
-                        if ( Common.localStorage.getBool("de-track-changes") ) {
-                            // show tooltip "track changes in this document"
-                            _process_changestip();
-                        } else {
-                            var showNewChangesTip = !Common.localStorage.getBool("de-new-changes");
-                            if ( me.api.asc_HaveRevisionsChanges() && showNewChangesTip ) {
-                                me.btnTurnReview.updateHint('');
+                    } else if ( me.api.asc_IsTrackRevisions() ) {
+                        var showNewChangesTip = !Common.localStorage.getBool("de-new-changes");
+                        if ( me.api.asc_HaveRevisionsChanges() && showNewChangesTip ) {
+                            me.btnTurnReview.updateHint('');
 
-                                if (me.newChangesTooltip === undefined)
-                                    me.newChangesTooltip = me.createChangesTip(me.textHasChanges, 'de-new-changes', true);
+                            if (me.newChangesTooltip === undefined)
+                                me.newChangesTooltip = me.createChangesTip(me.textHasChanges, 'de-new-changes', true);
 
-                                me.newChangesTooltip.show();
-                            } else
-                                me.btnTurnReview.updateHint(me.tipReview);
-                        }
+                            me.newChangesTooltip.show();
+                        } else
+                            me.btnTurnReview.updateHint(me.tipReview);
                     }
-
                 }
             });
         },

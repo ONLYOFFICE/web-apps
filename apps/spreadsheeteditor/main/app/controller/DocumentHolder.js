@@ -1057,7 +1057,7 @@ define([
                                 coAuthTip.y_point + coAuthTip.XY[1]
                             ];
 
-                            if (showPoint[1] > coAuthTip.XY[1] &&
+                            if (showPoint[1] >= coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
                                 src.text(getUserName(data.asc_getUserId()));
                                 if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.width() ) {
@@ -1079,7 +1079,7 @@ define([
                     }
                 }
 
-                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible())) {
+                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
                     var data  = dataarray[index_filter-1],
                         str = me.makeFilterTip(data.asc_getFilter());
                     if (filterTip.ref && filterTip.ref.isVisible()) {
@@ -1207,7 +1207,7 @@ define([
 
                 str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + customFilters[0].asc_getVal() + "\"";
                 if (customFilters.length>1) {
-                    str += (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
+                    str = str + " " + (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
                     str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + customFilters[1].asc_getVal() + "\"";
                 }
             } else if (filterType === Asc.c_oAscAutoFilterTypes.ColorFilter) {
@@ -1254,7 +1254,7 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + props.asc_getColumnName() + ":</b><br>" + str;
+            str = "<b>" + (props.asc_getColumnName() || '(' + this.txtColumn + ' ' + props.asc_getSheetColumnName() + ')') + ":</b><br>" + str;
             return str;
         },
 
@@ -1462,7 +1462,7 @@ define([
                             documentHolder.mnuImgAdvanced.imageInfo = elValue;
                             isimagemenu = true;
                         }
-                        if (this.permissions.canProtect)
+                        if (this.permissions.isSignatureSupport)
                             signGuid = elValue.asc_getSignatureId();
                     }
                 }
@@ -1703,7 +1703,7 @@ define([
 
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
-            if (isimagemenu && this.permissions.canProtect) {
+            if (isimagemenu && this.permissions.isSignatureSupport) {
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
                 for (var i = 0; i < selectedObjects.length; i++) {
                     if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
@@ -1856,7 +1856,13 @@ define([
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
-
+                funcarr.sort(function (a,b) {
+                    var aname = a.asc_getName().toLocaleUpperCase(),
+                        bname = b.asc_getName().toLocaleUpperCase();
+                    if (aname < bname) return -1;
+                    if (aname > bname) return 1;
+                    return 0;
+                });
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
                         mnu = new Common.UI.MenuItem({
@@ -2029,7 +2035,7 @@ define([
 
 
             if (right > width) {
-                showPoint[0] = leftTop.asc_getX();
+                showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() : (width-btnSize[0]-3); // leftTop is undefined when paste to text box
                 if (bottom > height)
                     showPoint[0] -= (btnSize[0]+3);
                 if (showPoint[0]<0) showPoint[0] = width - 3 - btnSize[0];
@@ -3019,7 +3025,8 @@ define([
         txtEqualsToCellColor: 'Equals to cell color',
         txtEqualsToFontColor: 'Equals to font color',
         txtAll: '(All)',
-        txtBlanks: '(Blanks)'
+        txtBlanks: '(Blanks)',
+        txtColumn: 'Column'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

@@ -46,6 +46,7 @@
                     comment: <can comment in view mode> // default = edit,
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                     modifyContentControl: <can modify content controls in documenteditor> // default = true
+                   fillForms:  <can edit forms in view mode> // default = edit || review
                 }
             },
             editorConfig: {

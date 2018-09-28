@@ -53,12 +53,23 @@ define([
             var t = this,
                 _options = {};
 
+            var width, height;
+
+            if (options.preview) {
+                width = 414;
+                height = 277;
+            } else {
+                width = (options.type !== Asc.c_oAscAdvancedOptionsID.DRM) ? 340 : (options.warning ? 370 : 262);
+                height = (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 190 : (options.warning ? 187 : 147);
+            }
+
             _.extend(_options,  {
-                closable        : false,
+                mode            : 1, // open settings
+                closable        : (options.mode==2), // if save settings
                 preview         : options.preview,
                 warning         : options.warning,
-                width           : (options.preview) ? 414 : ((options.type == Asc.c_oAscAdvancedOptionsID.DRM && options.warning) ? 370 : 262),
-                height          : (options.preview) ? 277 : ((options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 190 : (options.warning ? 187 : 147)),
+                width           : width,
+                height          : height,
                 header          : true,
                 cls             : 'open-dlg',
                 contentTemplate : '',
@@ -85,10 +96,10 @@ define([
                         '</div>',
                         '<% } %>',
                     '<% } else { %>',
-                        '<div style="display: inline-block; margin-bottom:15px;margin-right: 10px;">',
+                        '<div style="<% if (!!preview && type == Asc.c_oAscAdvancedOptionsID.CSV) { %>width: 230px;margin-right: 10px;display: inline-block;<% } else { %>width: 100%;<% } %>margin-bottom:15px;">',
                             '<label class="header">' + t.txtEncoding + '</label>',
                             '<div>',
-                            '<div id="id-codepages-combo" class="input-group-nr" style="display: inline-block; vertical-align: middle;"></div>',
+                            '<div id="id-codepages-combo" class="input-group-nr" style="width: 100%; display: inline-block; vertical-align: middle;"></div>',
                             '</div>',
                         '</div>',
                         '<% if (type == Asc.c_oAscAdvancedOptionsID.CSV) { %>',
@@ -120,7 +131,7 @@ define([
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
                     '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + ((_options.mode == 1) ? t.closeButtonText : t.cancelButtonText) + '</button>',
                     '<% } %>',
                 '</div>'
             ].join('');
@@ -211,7 +222,7 @@ define([
                         delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                         delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
                     (delimiter == -1) && (delimiter = null);
-                    this.handler.call(this, encoding, delimiter, delimiterChar);
+                    this.handler.call(this, state, encoding, delimiter, delimiterChar);
                 } else {
                     this.handler.call(this, state, this.inputPwd.getValue());
                 }
@@ -250,16 +261,16 @@ define([
                 _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
-                    '<div style="display: inline-block;"><%= item.displayValue %></div>',
-                    '<label style="text-align: right;width:' + lcid_width + 'px;"><%= item.lcid %></label>',
+                        '<div style="display: inline-block;"><%= item.displayValue %></div>',
+                        '<label style="text-align: right;width:' + lcid_width + 'px;"><%= item.lcid %></label>',
                     '</a></li>',
                     '<% }); %>'
                 ].join(''));
 
             this.cmbEncoding = new Common.UI.ComboBox({
                 el: $('#id-codepages-combo', this.$window),
-                style: 'width: 230px;',
-                menuStyle: 'min-width: 230px; max-height: 200px;',
+                style: 'width: 100%;',
+                menuStyle: 'min-width: 100%; max-height: 200px;',
                 cls: 'input-group-nr',
                 menuCls: 'scrollable-menu',
                 data: listItems,
@@ -277,7 +288,7 @@ define([
                 var ul = this.cmbEncoding.cmpEl.find('ul'),
                     a = ul.find('li:nth(0) a'),
                     width = ul.width() - parseInt(a.css('padding-left')) - parseInt(a.css('padding-right')) - 50;
-                ul.find('li div').width(width + 10);
+                ul.find('li div').width(width);
             }
 
             if (this.type == Asc.c_oAscAdvancedOptionsID.CSV) {

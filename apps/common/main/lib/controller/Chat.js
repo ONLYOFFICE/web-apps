@@ -68,7 +68,7 @@ define([
             var me = this;
             Common.NotificationCenter.on('layout:changed', function(area){
                 Common.Utils.asyncCall(function(e) {
-                    if ( e == 'toolbar' && me.panelChat.$el.is(':visible') ) {
+                    if ( (e == 'toolbar' || e == 'status') && me.panelChat.$el.is(':visible') ) {
                         me.panelChat.updateLayout(true);
                         me.panelChat.setupAutoSizingTextBox();
                     }

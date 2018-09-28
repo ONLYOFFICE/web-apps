@@ -316,6 +316,9 @@ define([
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
+            toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
@@ -363,6 +366,7 @@ define([
             this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
+            this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings',_.bind(this.onChangeSdtGlobalSettings, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -574,14 +578,14 @@ define([
 
             var width = this._state.pgorient ? w : h,
                 height = this._state.pgorient ? h : w;
-            if (Math.abs(this._state.pgsize[0] - w) > 0.01 ||
-                Math.abs(this._state.pgsize[1] - h) > 0.01) {
+            if (Math.abs(this._state.pgsize[0] - w) > 0.1 ||
+                Math.abs(this._state.pgsize[1] - h) > 0.1) {
                 this._state.pgsize = [w, h];
                 if (this.toolbar.mnuPageSize) {
                     this.toolbar.mnuPageSize.clearAll();
                     _.each(this.toolbar.mnuPageSize.items, function(item){
                         if (item.value && typeof(item.value) == 'object' &&
-                            Math.abs(item.value[0] - width) < 0.01 && Math.abs(item.value[1] - height) < 0.01) {
+                            Math.abs(item.value[0] - width) < 0.1 && Math.abs(item.value[1] - height) < 0.1) {
                             item.setChecked(true);
                             return false;
                         }
@@ -597,16 +601,16 @@ define([
                     right = props.get_RightMargin(),
                     bottom = props.get_BottomMargin();
 
-                if (!this._state.pgmargins || Math.abs(this._state.pgmargins[0] - top) > 0.01 ||
-                    Math.abs(this._state.pgmargins[1] - left) > 0.01 || Math.abs(this._state.pgmargins[2] - bottom) > 0.01 ||
-                    Math.abs(this._state.pgmargins[3] - right) > 0.01) {
+                if (!this._state.pgmargins || Math.abs(this._state.pgmargins[0] - top) > 0.1 ||
+                    Math.abs(this._state.pgmargins[1] - left) > 0.1 || Math.abs(this._state.pgmargins[2] - bottom) > 0.1 ||
+                    Math.abs(this._state.pgmargins[3] - right) > 0.1) {
                     this._state.pgmargins = [top, left, bottom, right];
                     if (this.toolbar.btnPageMargins.menu) {
                         this.toolbar.btnPageMargins.menu.clearAll();
                         _.each(this.toolbar.btnPageMargins.menu.items, function(item){
                             if (item.value && typeof(item.value) == 'object' &&
-                                Math.abs(item.value[0] - top) < 0.01 && Math.abs(item.value[1] - left) < 0.01 &&
-                                Math.abs(item.value[2] - bottom) < 0.01 && Math.abs(item.value[3] - right) < 0.01) {
+                                Math.abs(item.value[0] - top) < 0.1 && Math.abs(item.value[1] - left) < 0.1 &&
+                                Math.abs(item.value[2] - bottom) < 0.1 && Math.abs(item.value[3] - right) < 0.1) {
                                 item.setChecked(true);
                                 return false;
                             }
@@ -743,10 +747,12 @@ define([
             need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
             toolbar.btnsPageBreak.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
-            toolbar.btnInsertImage.setDisabled(need_disable);
+            need_disable = paragraph_locked || header_locked || in_equation || control_plain;
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
+
+            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
+            toolbar.btnInsertImage.setDisabled(need_disable);
             toolbar.btnInsertTextArt.setDisabled(need_disable || in_image || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
@@ -883,6 +889,19 @@ define([
 
         onApiInitEditorStyles: function(styles) {
             this._onInitEditorStyles(styles);
+        },
+
+        onChangeSdtGlobalSettings: function() {
+            var show = this.api.asc_GetGlobalContentControlShowHighlight();
+            this.toolbar.mnuNoControlsColor.setChecked(!show, true);
+            this.toolbar.mnuControlsColorPicker.clearSelection();
+            if (show){
+                var clr = this.api.asc_GetGlobalContentControlHighlightColor();
+                if (clr) {
+                    clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
+                    this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
+                }
+            }
         },
 
         onNewDocument: function(btn, e) {
@@ -1623,6 +1642,7 @@ define([
                             var me = this;
                             (new DE.Views.ControlSettingsDialog({
                                 props: props,
+                                api: me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         me.api.asc_SetContentControlProperties(value, id);
@@ -1644,6 +1664,26 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onNewControlsColor: function(picker, color) {
+            this.toolbar.mnuControlsColorPicker.addNewColor();
+        },
+
+        onNoControlsColor: function(item) {
+            this.api.asc_SetGlobalContentControlShowHighlight(!item.isChecked());
+            if (!item.isChecked())
+                this.api.asc_SetGlobalContentControlHighlightColor(220, 220, 220);
+        },
+
+        onSelectControlsColor: function(picker, color) {
+            var clr = Common.Utils.ThemeColor.getRgbColor(color);
+            if (this.api) {
+                this.api.asc_SetGlobalContentControlShowHighlight(true);
+                this.api.asc_SetGlobalContentControlHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
+            }
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Content Controls Color');
         },
 
         onColumnsSelect: function(menu, item) {
@@ -2517,6 +2557,9 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
+
+            updateColors(this.toolbar.mnuControlsColorPicker, 1);
+            this.onChangeSdtGlobalSettings();
         },
 
         _onInitEditorStyles: function(styles) {
@@ -2727,7 +2770,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
 
-                    if ( config.isProtectSupport && config.isOffline ) {
+                    if ( config.canProtect ) {
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 

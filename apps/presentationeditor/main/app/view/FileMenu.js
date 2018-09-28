@@ -91,7 +91,8 @@ define([
                 el      : $('#fm-btn-save',this.el),
                 action  : 'save',
                 caption : this.btnSaveCaption,
-                canFocused: false
+                canFocused: false,
+                disabled: true
             });
 
             this.miEdit = new Common.UI.MenuItem({
@@ -248,7 +249,7 @@ define([
         applyMode: function() {
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
-            this.miProtect[(this.mode.isEdit && this.mode.isDesktopApp && this.mode.isOffline) ?'show':'hide']();
+            this.miProtect[this.mode.canProtect ?'show':'hide']();
             this.miProtect.$el.find('+.devider')[!this.mode.isDisconnected?'show':'hide']();
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
@@ -289,12 +290,12 @@ define([
                 }
             }
 
-            if (this.mode.isDesktopApp && this.mode.isOffline) {
+            if (this.mode.isDesktopApp && this.mode.isOffline)
                 this.$el.find('#fm-btn-create, #fm-btn-back, #fm-btn-create+.devider').hide();
-                if (this.mode.isEdit) {
-                    this.panels['protect'] = (new PE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
-                    this.panels['protect'].setMode(this.mode);
-                }
+
+            if (this.mode.canProtect) {
+                this.panels['protect'] = (new PE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
+                this.panels['protect'].setMode(this.mode);
             }
 
             if (this.mode.canHelp) {

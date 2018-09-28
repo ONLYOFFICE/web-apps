@@ -224,6 +224,8 @@ define([
                     checkable: true,
                     value: 'rulers'
                 });
+                if (!config.isEdit)
+                    mnuitemHideRulers.hide();
 
                 me.header.mnuitemFitPage = new Common.UI.MenuItem({
                     caption: me.textFitPage,
@@ -343,6 +345,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable );
             me.header.lockHeaderBtns( 'redo', _need_disable );
             me.header.lockHeaderBtns( 'opts', _need_disable );
+            me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
         onApiZoomChange: function(percent, type) {

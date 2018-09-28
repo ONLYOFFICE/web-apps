@@ -586,6 +586,7 @@ Common.Utils.isBrowserSupported = function() {
 };
 
 Common.Utils.showBrowserRestriction = function() {
+    if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length>0) return;
     var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : 'that');
     var newDiv = document.createElement("div");
     newDiv.innerHTML = '<div class="app-error-panel">' +

@@ -145,7 +145,7 @@ define([
                 cls         : 'input-group-nr',
                 style       : 'width: 234px;',
                 menuCls     : 'scrollable-menu',
-                menuStyle   : 'min-width: 55px;max-height: 270px;',
+                menuStyle   : 'min-width: 234px;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
                 recent      : 0,
                 hint        : me.tipFontName

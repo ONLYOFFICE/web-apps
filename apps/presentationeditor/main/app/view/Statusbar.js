@@ -235,10 +235,22 @@ define([
                 );
 
                 this.btnPreview = new Common.UI.Button({
-                    el: $('#status-btn-preview',this.el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'btn-preview',
                     hint: this.tipPreview,
-                    hintAnchor: 'top'
+                    hintAnchor: 'top',
+                    split: true,
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'bl-tl',
+                        style: 'margin-top:-5px;',
+                        items: [
+                            {caption: this.textShowBegin, value: 0},
+                            {caption: this.textShowCurrent, value: 1},
+                            {caption: this.textShowPresenterView, value: 2}
+                        ]
+                    })
                 });
+                this.btnPreview.render($('#slot-status-btn-preview'));
 
                 this.btnDocLanguage = new Common.UI.Button({
                     el: $('#btn-doc-lang',this.el),
@@ -413,7 +425,10 @@ define([
             tipAccessRights : 'Manage document access rights',
             tipSetLang      : 'Set Text Language',
             tipSetDocLang   : 'Set Document Language',
-            tipSetSpelling  : 'Spell checking'
+            tipSetSpelling  : 'Spell checking',
+            textShowBegin: 'Show from Beginning',
+            textShowCurrent: 'Show from Current slide',
+            textShowPresenterView: 'Show presenter view'
         }, PE.Views.Statusbar || {}));
     }
 );

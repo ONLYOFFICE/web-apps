@@ -43,6 +43,7 @@
   "DE.Controllers.Main.advTxtOptions": "Выбрать параметры текстового файла",
   "DE.Controllers.Main.applyChangesTextText": "Загрузка данных...",
   "DE.Controllers.Main.applyChangesTitleText": "Загрузка данных",
+  "DE.Controllers.Main.closeButtonText": "Закрыть файл",
   "DE.Controllers.Main.convertationTimeoutText": "Превышено время ожидания конвертации.",
   "DE.Controllers.Main.criticalErrorExtText": "Нажмите 'OK' для возврата к списку документов.",
   "DE.Controllers.Main.criticalErrorTitle": "Ошибка",

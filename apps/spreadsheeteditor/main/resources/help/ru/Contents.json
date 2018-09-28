@@ -3,6 +3,7 @@
 	{"src": "ProgramInterface/FileTab.htm", "name": "Вкладка Файл"},
 	{"src": "ProgramInterface/HomeTab.htm", "name": "Вкладка Главная"},
     { "src": "ProgramInterface/InsertTab.htm", "name": "Вкладка Вставка" },
+    { "src": "ProgramInterface/LayoutTab.htm", "name": "Вкладка Макет" },
     { "src": "ProgramInterface/PivotTableTab.htm", "name": "Вкладка Сводная таблица" },
     {"src": "ProgramInterface/CollaborationTab.htm", "name": "Вкладка Совместная работа"},
 	{"src": "ProgramInterface/PluginsTab.htm", "name": "Вкладка Плагины"},

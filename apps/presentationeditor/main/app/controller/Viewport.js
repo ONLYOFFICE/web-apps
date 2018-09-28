@@ -227,6 +227,8 @@ define([
                     checkable: true,
                     value: 'rulers'
                 });
+                if (!config.isEdit)
+                    mnuitemHideRulers.hide();
 
                 me.header.mnuitemFitPage = new Common.UI.MenuItem({
                     caption: me.textFitPage,
@@ -335,12 +337,16 @@ define([
                 reporterObject.translations = {
                     reset: me.previewPanel.txtReset,
                     endSlideshow: me.previewPanel.txtEndSlideshow,
-                    slideOf: me.previewPanel.slideIndexText
+                    slideOf: me.previewPanel.slideIndexText,
+                    finalMessage: me.previewPanel.txtFinalMessage
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
             }
 
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
+                setTimeout(function(){
+                    Common.UI.Menu.Manager.hideAll();
+                }, 100);
                 this.previewPanel.show();
                 var _onWindowResize = function() {
                     if (isResized) return;
@@ -381,6 +387,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable );
             me.header.lockHeaderBtns( 'redo', _need_disable );
             me.header.lockHeaderBtns( 'opts', _need_disable );
+            me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
         onApiZoomChange: function(percent, type) {

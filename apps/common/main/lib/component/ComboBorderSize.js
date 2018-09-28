@@ -77,7 +77,7 @@ define([
     Common.UI.ComboBorderSize = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>"></div>',
+                '<div class="form-control" style="padding-top:2px; <%= style %>"></div>',
                 '<div style="display: table-cell;"></div>',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                 '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',

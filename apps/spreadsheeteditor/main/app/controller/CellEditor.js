@@ -131,6 +131,8 @@ define([
             if (state == Asc.c_oAscCellEditorState.editStart){
                 this.api.isCellEdited = true;
                 this.editor.cellNameDisabled(true);
+            } else if (state == Asc.c_oAscCellEditorState.editInCell) {
+                this.api.isCEditorFocused = 'clear';
             } else if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.api.isCellEdited = false;
                 this.api.isCEditorFocused = false;

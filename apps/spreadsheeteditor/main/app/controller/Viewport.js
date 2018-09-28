@@ -260,6 +260,19 @@ define([
                     })
                 );
 
+                if (!config.isEdit) {
+                    var menu = me.header.btnOptions.menu;
+                    me.header.mnuitemHideHeadings.hide();
+                    me.header.mnuitemHideGridlines.hide();
+                    me.header.mnuitemFreezePanes.hide();
+                    menu.items[5].hide();
+                    menu.items[7].hide();
+                    if (!config.canComments) { // show advanced settings for editing and commenting mode
+                        mnuitemAdvSettings.hide();
+                        menu.items[9].hide();
+                    }
+                }
+
                 var _on_btn_zoom = function (btn) {
                     if ( btn == 'up' ) {
                         var _f = Math.floor(this.api.asc_getZoom() * 10)/10;
@@ -374,6 +387,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable );
             me.header.lockHeaderBtns( 'redo', _need_disable );
             me.header.lockHeaderBtns( 'opts', _need_disable );
+            me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
         onApiZoomChange: function(zf, type){

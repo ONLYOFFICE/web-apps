@@ -195,22 +195,7 @@ define([
             this.pivotSettings = new SSE.Views.PivotSettings();
             this.cellSettings = new SSE.Views.CellSettings();
 
-            if (mode && mode.canProtect) {
-                this.btnSignature = new Common.UI.Button({
-                    hint: this.txtSignatureSettings,
-                    asctype: Common.Utils.documentSettingsType.Signature,
-                    enableToggle: true,
-                    disabled: true,
-                    toggleGroup: 'tabpanelbtnsGroup'
-                });
-                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
-
-                this.btnSignature.el    = $('#id-right-menu-signature'); this.btnSignature.render().setVisible(true);
-                this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
-                this.signatureSettings = new SSE.Views.SignatureSettings();
-            }
-
-            if (mode && mode.canProtect) {
+            if (mode && mode.isSignatureSupport) {
                 this.btnSignature = new Common.UI.Button({
                     hint: this.txtSignatureSettings,
                     asctype: Common.Utils.documentSettingsType.Signature,

@@ -320,6 +320,33 @@ define([
             }
         },
 
+        selectByRGB: function(rgb, suppressEvent) {
+            var el = $(this.el);
+            el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+
+            var color = (typeof(rgb) == 'object') ? rgb.color : rgb;
+            if (/#?[a-fA-F0-9]{6}/.test(color)) {
+                color = /#?([a-fA-F0-9]{6})/.exec(color)[1].toUpperCase();
+            }
+
+            if (/^[a-fA-F0-9]{6}|transparent$/.test(color)) {
+                if (color != this.value || this.options.allowReselect) {
+                    var co = (color == 'transparent') ? el.find('a.color-transparent') : el.find('a.color-' + color).first();
+                    if (co.length==0)
+                        co = el.find('#'+color).first();
+                    if (co.length==0)
+                        co = el.find('a[color="'+color+'"]').first();
+                    if (co.length>0) {
+                        co.addClass(this.selectedCls);
+                        this.value = color;
+                    }
+                    if (suppressEvent !== true) {
+                        this.fireEvent('select', this, color);
+                    }
+                }
+            }
+        },
+
         updateColors: function(effectcolors, standartcolors, value) {
             if (effectcolors===undefined || standartcolors===undefined) return;
 

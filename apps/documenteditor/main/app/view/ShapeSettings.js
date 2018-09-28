@@ -1164,7 +1164,7 @@ define([
                 el: $('#shape-combo-fill-src'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrFillSrc
             });

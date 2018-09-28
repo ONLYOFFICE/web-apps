@@ -43,6 +43,7 @@
   "DE.Controllers.Main.advTxtOptions": "Seleziona Opzioni TXT",
   "DE.Controllers.Main.applyChangesTextText": "Caricamento dei dati in corso...",
   "DE.Controllers.Main.applyChangesTitleText": "Caricamento dei dati",
+  "DE.Controllers.Main.closeButtonText": "Chiudi File",
   "DE.Controllers.Main.convertationTimeoutText": "È stato superato il tempo limite della conversione.",
   "DE.Controllers.Main.criticalErrorExtText": "Clicca 'OK' per tornare alla lista documento",
   "DE.Controllers.Main.criticalErrorTitle": "Errore",
