@@ -57,7 +57,7 @@
                 canBackToFolder: <can return to folder> - deprecated. use "customization.goback" parameter,
                 createUrl: 'create document url', 
                 sharingSettingsUrl: 'document sharing settings url',
-                fileChoiceUrl: 'mail merge sources url',
+                fileChoiceUrl: 'source url', // for mail merge or image from storage
                 callbackUrl: <url for connection between sdk and portal>,
                 mergeFolderUrl: 'folder for saving merged file', // must be deprecated, use saveAsUrl instead
                 saveAsUrl: 'folder for saving files'

@@ -282,6 +282,8 @@
   "Common.Views.ReviewPopover.textResolve": "Resolve",
   "Common.Views.SaveAsDlg.textLoading": "Loading",
   "Common.Views.SaveAsDlg.textTitle": "Folder for save",
+  "Common.Views.SelectFileDlg.textLoading": "Loading",
+  "Common.Views.SelectFileDlg.textTitle": "Select Data Source",
   "Common.Views.SignDialog.cancelButtonText": "Cancel",
   "Common.Views.SignDialog.okButtonText": "Ok",
   "Common.Views.SignDialog.textBold": "Bold",
@@ -1380,8 +1382,8 @@
   "DE.Views.MailMergeEmailDlg.textTo": "To",
   "DE.Views.MailMergeEmailDlg.textWarning": "Warning!",
   "DE.Views.MailMergeEmailDlg.textWarningMsg": "Please note that mailing cannot be stopped once your click the 'Send' button.",
-  "DE.Views.MailMergeRecepients.textLoading": "Loading",
-  "DE.Views.MailMergeRecepients.textTitle": "Select Data Source",
+  "del_DE.Views.MailMergeRecepients.textLoading": "Loading",
+  "del_DE.Views.MailMergeRecepients.textTitle": "Select Data Source",
   "del_DE.Views.MailMergeSaveDlg.textLoading": "Loading",
   "del_DE.Views.MailMergeSaveDlg.textTitle": "Folder for save",
   "DE.Views.MailMergeSettings.downloadMergeTitle": "Merging",
@@ -1968,5 +1970,6 @@
   "DE.Views.Toolbar.txtScheme6": "Concourse",
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
-  "DE.Views.Toolbar.txtScheme9": "Foundry"
+  "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.mniImageFromStorage": "Image from Storage"
 }

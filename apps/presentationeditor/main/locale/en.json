@@ -204,6 +204,8 @@
   "Common.Views.ReviewPopover.textResolve": "Resolve",
   "Common.Views.SaveAsDlg.textLoading": "Loading",
   "Common.Views.SaveAsDlg.textTitle": "Folder for save",
+  "Common.Views.SelectFileDlg.textLoading": "Loading",
+  "Common.Views.SelectFileDlg.textTitle": "Select Data Source",
   "Common.Views.SignDialog.cancelButtonText": "Cancel",
   "Common.Views.SignDialog.okButtonText": "Ok",
   "Common.Views.SignDialog.textBold": "Bold",
@@ -1567,5 +1569,6 @@
   "PE.Views.Toolbar.txtScheme7": "Equity",
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.mniImageFromStorage": "Image from Storage"
 }

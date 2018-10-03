@@ -43,7 +43,7 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/Switcher',
     'common/main/lib/view/SaveAsDlg',
-    'documenteditor/main/app/view/MailMergeRecepients',
+    'common/main/lib/view/SelectFileDlg',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';

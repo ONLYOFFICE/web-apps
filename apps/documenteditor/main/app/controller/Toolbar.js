@@ -46,10 +46,10 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
-    'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
@@ -1359,7 +1359,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (item.value === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1381,6 +1381,14 @@ define([
                         }
                     }
                 })).show();
+            } else if (item.value === 'storage') {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    me.toolbar.fireEvent('insertimage', me.toolbar);
+                    me.api.AddImageUrl(file.url);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                }).show();
             }
         },
 
@@ -2713,10 +2721,10 @@ define([
             if (this._mailMergeDlg) return;
 
             var me = this;
-            me._mailMergeDlg = new DE.Views.MailMergeRecepients({
-                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl
+            me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
                         });
-            me._mailMergeDlg.on('mailmergerecepients', function(obj, recepients){
+            me._mailMergeDlg.on('selectfile', function(obj, recepients){
                 me.api.asc_StartMailMerge(recepients);
                 if (!me.mergeEditor)
                     me.mergeEditor = me.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');

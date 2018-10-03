@@ -43,6 +43,7 @@ define([
     'common/main/lib/component/Window',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
@@ -822,7 +823,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (item.value === 'url') {
                 var me = this;
 
                 (new Common.Views.ImageFromUrlDialog({
@@ -846,6 +847,15 @@ define([
                         }
                     }
                 })).show();
+            } else if (item.value === 'storage') {
+                var me = this;
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    me.toolbar.fireEvent('insertimage', me.toolbar);
+                    me.api.asc_addImageDrawingObject(file.url);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                }).show();
             }
         },
 

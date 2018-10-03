@@ -675,7 +675,8 @@ define([
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: me.mniImageFromFile, value: 'file' },
-                            { caption: me.mniImageFromUrl,  value: 'url' }
+                            { caption: me.mniImageFromUrl,  value: 'url' },
+                            { caption: me.mniImageFromStorage, value: 'storage'}
                         ]
                     })
                 });
@@ -1537,6 +1538,7 @@ define([
                         $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                     } else
                         this.btnPageMargins.menu.items[0].setVisible(false);
+                    this.btnInsertImage.menu.items[2].setVisible(mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
                 }
 
                 me.setTab('home');
@@ -2412,6 +2414,7 @@ define([
         textBottom: 'Bottom: ',
         textRight: 'Right: ',
         textPortrait: 'Portrait',
-        textLandscape: 'Landscape'
+        textLandscape: 'Landscape',
+        mniImageFromStorage: 'Image from Storage'
     }, SSE.Views.Toolbar || {}));
 });
