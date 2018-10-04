@@ -111,7 +111,7 @@ define([
                 this.btnsDelPwd = [];
                 this.btnsChangePwd = [];
 
-                this._state = {disabled: false, hasPassword: false, disabledPassword: false};
+                this._state = {disabled: false, hasPassword: false, disabledPassword: false, invisibleSignDisabled: false};
 
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -226,7 +226,7 @@ define([
                         cls: 'btn-text-default',
                         style: 'width: 100%;',
                         caption: this.txtInvisibleSignature,
-                        disabled: this._state.disabled
+                        disabled: this._state.invisibleSignDisabled
                     });
                     this.btnsInvisibleSignature.push(button);
 
@@ -269,6 +269,7 @@ define([
 
             SetDisabled: function (state, canProtect) {
                 this._state.disabled = state;
+                this._state.invisibleSignDisabled = state && !canProtect;
                 this.btnsInvisibleSignature && this.btnsInvisibleSignature.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state && !canProtect);
