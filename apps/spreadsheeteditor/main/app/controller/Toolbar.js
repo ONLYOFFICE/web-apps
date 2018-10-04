@@ -357,6 +357,8 @@ define([
                 toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
                 toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
                 toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
+                toolbar.btnPrintArea.menu.on('item:click',                  _.bind(this.onPrintAreaClick, this));
+                toolbar.btnPrintArea.menu.on('show:after',                  _.bind(this.onPrintAreaMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
                 toolbar.btnImgBackward.menu.on('item:click',                _.bind(this.onImgArrangeSelect, this));
                 toolbar.btnImgForward.menu.on('item:click',                 _.bind(this.onImgArrangeSelect, this));
@@ -1715,6 +1717,7 @@ define([
             this.onApiPageMargins(props.asc_getPageMargins());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
+            this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
         },
 
         onUpdateDocumentProps: function(nIndex) {
@@ -3039,6 +3042,9 @@ define([
 
         onLockDefNameManager: function(state) {
             this._state.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
+
+            this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(this.api.asc_getActiveWorksheetIndex()), {array: [this.toolbar.btnPrintArea]});
+            this.toolbar.lockToolbar(SSE.enumLock.namedRangeLock, this._state.namedrange_locked, {array: [this.toolbar.btnPrintArea.menu.items[0], this.toolbar.btnPrintArea.menu.items[2]]});
         },
 
         activateControls: function() {
@@ -3276,6 +3282,20 @@ define([
                 this.api.asc_setSelectedDrawingObjectAlign(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Objects Align');
+        },
+
+        onPrintAreaClick: function(menu, item) {
+            if (this.api) {
+                this.api.asc_ChangePrintArea(item.value);
+                Common.component.Analytics.trackEvent('ToolBar', 'Print Area');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPrintAreaMenuOpen: function() {
+            if (this.api)
+                this.toolbar.btnPrintArea.menu.items[2].setVisible(this.api.asc_CanAddPrintArea());
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
