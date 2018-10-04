@@ -9,6 +9,7 @@
 ### Document Editor
 
 ### Spreadsheet Editor
+* Set print area
 
 ### Presentation Editor
 * Enter the slide number manually for internal hyperlinks
