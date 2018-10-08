@@ -190,6 +190,7 @@
   "SSE.Controllers.Main.saveTitleText": "Saving Document",
   "SSE.Controllers.Main.sendMergeText": "Sending Merge...",
   "SSE.Controllers.Main.sendMergeTitle": "Sending Merge",
+  "SSE.Controllers.Main.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "SSE.Controllers.Main.textAnonymous": "Anonymous",
   "SSE.Controllers.Main.textBack": "Back",
   "SSE.Controllers.Main.textBuyNow": "Visit website",

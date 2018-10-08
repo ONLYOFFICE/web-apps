@@ -367,6 +367,16 @@ var ApplicationController = new(function(){
     }
 
     function onError(id, level, errData) {
+        if (id == Asc.c_oAscError.ID.LoadingScriptError) {
+            $('#id-critical-error-title').text(me.criticalErrorTitle);
+            $('#id-critical-error-message').text(me.scriptLoadError);
+            $('#id-critical-error-close').off().on('click', function(){
+                window.location.reload();
+            });
+            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
+            return;
+        }
+
         hidePreloader();
 
         var message;
@@ -542,6 +552,7 @@ var ApplicationController = new(function(){
         convertationErrorText   : 'Convertation failed.',
         downloadErrorText       : 'Download failed.',
         criticalErrorTitle      : 'Error',
-        notcriticalErrorTitle   : 'Warning'
+        notcriticalErrorTitle   : 'Warning',
+        scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
     }
 })();
