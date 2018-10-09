@@ -392,6 +392,10 @@ var ApplicationController = new(function(){
                 message = me.downloadErrorText;
                 break;
 
+            case Asc.c_oAscError.ID.ConvertationPassword:
+                message = me.errorFilePassProtect;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -536,6 +540,7 @@ var ApplicationController = new(function(){
         downloadErrorText       : 'Download failed.',
         criticalErrorTitle      : 'Error',
         notcriticalErrorTitle   : 'Warning',
-        scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
+        scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+        errorFilePassProtect: 'The file is password protected and cannot be opened.'
     }
 })();
