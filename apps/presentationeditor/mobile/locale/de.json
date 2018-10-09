@@ -112,6 +112,7 @@
   "PE.Controllers.Main.savePreparingTitle": "Speichervorbereitung. Bitte warten...",
   "PE.Controllers.Main.saveTextText": "Dokument wird gespeichert...",
   "PE.Controllers.Main.saveTitleText": "Dokument wird gespeichert...",
+  "PE.Controllers.Main.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
   "PE.Controllers.Main.splitDividerErrorText": "Die Anzahl der Zeilen muss einen Divisor von %1 sein. ",
   "PE.Controllers.Main.splitMaxColsErrorText": "Spaltenanzahl muss weniger als %1 sein",
   "PE.Controllers.Main.splitMaxRowsErrorText": "Die Anzahl der Zeilen muss weniger als %1 sein",

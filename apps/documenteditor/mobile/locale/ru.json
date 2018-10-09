@@ -96,6 +96,7 @@
   "DE.Controllers.Main.savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
   "DE.Controllers.Main.saveTextText": "Сохранение документа...",
   "DE.Controllers.Main.saveTitleText": "Сохранение документа",
+  "DE.Controllers.Main.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
   "DE.Controllers.Main.sendMergeText": "Отправка результатов слияния...",
   "DE.Controllers.Main.sendMergeTitle": "Отправка результатов слияния",
   "DE.Controllers.Main.splitDividerErrorText": "Число строк должно являться делителем для %1",
