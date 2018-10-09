@@ -292,6 +292,7 @@
   "PE.Controllers.Main.savePreparingTitle": "Préparation à l'enregistrement en cours. Veuillez patienter...",
   "PE.Controllers.Main.saveTextText": "Enregistrement de la présentation...",
   "PE.Controllers.Main.saveTitleText": "Enregistrement de la présentation",
+  "PE.Controllers.Main.scriptLoadError": "La connexion est trop lente, certains  éléments ne peuvent pas être chargés. Veuillez recharger la page.",
   "PE.Controllers.Main.splitDividerErrorText": "Le nombre de lignes doit être un diviseur de %1.",
   "PE.Controllers.Main.splitMaxColsErrorText": "Le nombre de colonnes doivent être inférieure à %1.",
   "PE.Controllers.Main.splitMaxRowsErrorText": "Le nombre de lignes doit être inférieure à %1.",

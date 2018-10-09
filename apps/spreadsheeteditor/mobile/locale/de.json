@@ -188,6 +188,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Speichervorbereitung. Bitte warten...",
   "SSE.Controllers.Main.saveTextText": "Dokument wird gespeichert...",
   "SSE.Controllers.Main.saveTitleText": "Dokument wird gespeichert...",
+  "SSE.Controllers.Main.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
   "SSE.Controllers.Main.sendMergeText": "Merge-Vesand...",
   "SSE.Controllers.Main.sendMergeTitle": "Merge-Vesand",
   "SSE.Controllers.Main.textAnonymous": "Anonym",

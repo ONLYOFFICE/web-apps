@@ -188,6 +188,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Preparando para guardar. Espere, por favor...",
   "SSE.Controllers.Main.saveTextText": "Guardando documento...",
   "SSE.Controllers.Main.saveTitleText": "Guardando documento",
+  "SSE.Controllers.Main.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",
   "SSE.Controllers.Main.sendMergeText": "Envío de los resultados de fusión...",
   "SSE.Controllers.Main.sendMergeTitle": "Envío de los resultados de fusión",
   "SSE.Controllers.Main.textAnonymous": "Anónimo",

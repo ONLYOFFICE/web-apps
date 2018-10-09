@@ -112,6 +112,7 @@
   "PE.Controllers.Main.savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
   "PE.Controllers.Main.saveTextText": "Сохранение документа...",
   "PE.Controllers.Main.saveTitleText": "Сохранение документа",
+  "PE.Controllers.Main.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
   "PE.Controllers.Main.splitDividerErrorText": "Число строк должно являться делителем для %1",
   "PE.Controllers.Main.splitMaxColsErrorText": "Число столбцов должно быть меньше, чем %1",
   "PE.Controllers.Main.splitMaxRowsErrorText": "Число строк должно быть меньше, чем %1",

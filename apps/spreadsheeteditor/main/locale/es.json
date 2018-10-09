@@ -465,6 +465,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Preparando para guardar.Espere por favor...",
   "SSE.Controllers.Main.saveTextText": "Guardando hoja de cálculo...",
   "SSE.Controllers.Main.saveTitleText": "Guardando hoja de cálculo",
+  "SSE.Controllers.Main.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",
   "SSE.Controllers.Main.textAnonymous": "Anónimo",
   "SSE.Controllers.Main.textBuyNow": "Visitar sitio web",
   "SSE.Controllers.Main.textClose": "Cerrar",
