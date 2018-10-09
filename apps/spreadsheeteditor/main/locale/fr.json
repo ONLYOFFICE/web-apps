@@ -465,6 +465,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Préparation à l'enregistrement en cours. Veuillez patienter...",
   "SSE.Controllers.Main.saveTextText": "Enregistrement de la feuille de calcul en cours ...",
   "SSE.Controllers.Main.saveTitleText": "Enregistrement  de la feuille de calcul",
+  "SSE.Controllers.Main.scriptLoadError": "La connexion est trop lente, certains  éléments ne peuvent pas être chargés. Veuillez recharger la page.",
   "SSE.Controllers.Main.textAnonymous": "Anonyme",
   "SSE.Controllers.Main.textBuyNow": "Visiter le site web",
   "SSE.Controllers.Main.textClose": "Fermer",

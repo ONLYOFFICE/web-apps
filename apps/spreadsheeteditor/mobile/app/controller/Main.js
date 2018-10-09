@@ -735,6 +735,14 @@ define([
             },
 
             onError: function(id, level, errData) {
+                if (id == Asc.c_oAscError.ID.LoadingScriptError) {
+                    uiApp.addNotification({
+                        title: this.criticalErrorTitle,
+                        message: this.scriptLoadError
+                    });
+                    return;
+                }
+
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
@@ -1522,7 +1530,8 @@ define([
             errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
             errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
             errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.',
-            closeButtonText: 'Close File'
+            closeButtonText: 'Close File',
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
         }
     })(), SSE.Controllers.Main || {}))
 });

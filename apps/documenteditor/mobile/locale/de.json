@@ -96,6 +96,7 @@
   "DE.Controllers.Main.savePreparingTitle": "Speichervorbereitung. Bitte warten...",
   "DE.Controllers.Main.saveTextText": "Dokument wird gespeichert...",
   "DE.Controllers.Main.saveTitleText": "Dokument wird gespeichert...",
+  "DE.Controllers.Main.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
   "DE.Controllers.Main.sendMergeText": "Merge-Vesand...",
   "DE.Controllers.Main.sendMergeTitle": "Merge-Vesand",
   "DE.Controllers.Main.splitDividerErrorText": "Die Anzahl der Zeilen muss einen Divisor von %1 sein. ",

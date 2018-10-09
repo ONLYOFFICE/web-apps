@@ -292,6 +292,7 @@
   "PE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "PE.Controllers.Main.saveTextText": "Saving presentation...",
   "PE.Controllers.Main.saveTitleText": "Saving Presentation",
+  "PE.Controllers.Main.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "PE.Controllers.Main.splitDividerErrorText": "The number of rows must be a divisor of %1.",
   "PE.Controllers.Main.splitMaxColsErrorText": "The number of columns must be less than %1.",
   "PE.Controllers.Main.splitMaxRowsErrorText": "The number of rows must be less than %1.",

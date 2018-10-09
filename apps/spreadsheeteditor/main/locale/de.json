@@ -465,6 +465,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Speichervorbereitung. Bitte warten...",
   "SSE.Controllers.Main.saveTextText": "Kalkulationstabelle wird gespeichert...",
   "SSE.Controllers.Main.saveTitleText": "Speichern der Kalkulationstabelle",
+  "SSE.Controllers.Main.scriptLoadError": "Die Verbindung ist zu langsam, einige der Komponenten konnten nicht geladen werden. Bitte laden Sie die Seite erneut.",
   "SSE.Controllers.Main.textAnonymous": "Anonym",
   "SSE.Controllers.Main.textBuyNow": "Webseite besuchen",
   "SSE.Controllers.Main.textClose": "Schließen",

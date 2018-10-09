@@ -381,6 +381,7 @@
   "DE.Controllers.Main.savePreparingTitle": "Preparando para guardar.Espere por favor...",
   "DE.Controllers.Main.saveTextText": "Guardando documento...",
   "DE.Controllers.Main.saveTitleText": "Guardando documento",
+  "DE.Controllers.Main.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",
   "DE.Controllers.Main.sendMergeText": "Envío de fusión...",
   "DE.Controllers.Main.sendMergeTitle": "Envío de fusión",
   "DE.Controllers.Main.splitDividerErrorText": "El número de filas debe ser un divisor de %1.",
