@@ -674,6 +674,27 @@ define([
                     return '';
                 });
 
+/*            message.replace(Common.Utils.emailAddStrongRe, function(subStr, addStr, mailStr) {
+                // var addition = subStr.match(/^(\s[@]|\s[+])(\S*)/) || '';
+                // if (addition) {
+                //     subStr = addition[2];
+                //     addition = addition[1]; // + or @
+                //     console.log(subStr);
+                // }
+                // if (addStr)
+                //     console.log(subStr + ', ' + mailStr); // send email
+                var ref = (! /((^mailto:)\/\/)/i.test(mailStr) ) ? ('mailto:' + mailStr) : mailStr;
+                offset = arguments[arguments.length-2];
+                len = subStr.length;
+                var elem = _.find(arr, function(item){
+                    return ( (offset>=item.start) && (offset<item.end) ||
+                             (offset<=item.start) && (offset+len>item.start));
+                });
+                if (!elem)
+                    arr.push({start: offset, end: len+offset, str: (addStr || '') + '<a href="' + ref + '">' + mailStr + '</a>'});
+                return '';
+            });
+*/
             message.replace(Common.Utils.emailStrongRe, function(subStr) {
                 var ref = (! /((^mailto:)\/\/)/i.test(subStr) ) ? ('mailto:' + subStr) : subStr;
                 offset = arguments[arguments.length-2];
@@ -698,6 +719,12 @@ define([
             }
 
             return str_res;
+        },
+
+        pickEMail: function (message) {
+            var arr = Common.Utils.String.htmlEncode(message).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._]+\.[A-Z]+\b/gi);
+            console.log(arr); // send e-mails
+            return arr;
         },
 
         textComments            : 'Comments',
