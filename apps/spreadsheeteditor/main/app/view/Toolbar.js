@@ -1438,6 +1438,27 @@ define([
                     })
                 });
 
+                me.btnEditHeader = new Common.UI.Button({
+                    id: 'tlbtn-editheader',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-editheader',
+                    caption: me.capBtnInsHeader,
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.printAreaLock, _set.lostConnect, _set.coAuth],
+                    menu: new Common.UI.Menu({
+                        cls: 'ppm-toolbar',
+                        items: [
+                            {
+                                caption: me.mniEditHeader,
+                                value: 'header'
+                            },
+                            {
+                                caption: me.mniEditFooter,
+                                value: 'footer'
+                            }
+                        ]
+                    })
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
@@ -1493,7 +1514,7 @@ define([
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnAutofilter, me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnEditHeader
                 ];
 
                 var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
@@ -1669,6 +1690,7 @@ define([
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
+            _injectComponent('#slot-btn-editheader',    this.btnEditHeader);
 
             // replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                this.btnHorizontalAlign);
             // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
@@ -1742,6 +1764,7 @@ define([
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
             _updateHint(this.btnPrintArea, this.tipPrintArea);
+            _updateHint(this.btnEditHeader, this.tipEditHeader);
 
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
@@ -2451,6 +2474,10 @@ define([
         textSetPrintArea: 'Set Print Area',
         textClearPrintArea: 'Clear Print Area',
         textAddPrintArea: 'Add to Print Area',
-        tipPrintArea: 'Print Area'
+        tipPrintArea: 'Print Area',
+        capBtnInsHeader: 'Headers/Footers',
+        tipEditHeader: 'Edit Header or Footer',
+        mniEditHeader: 'Edit Header',
+        mniEditFooter: 'Edit Footer'
     }, SSE.Views.Toolbar || {}));
 });

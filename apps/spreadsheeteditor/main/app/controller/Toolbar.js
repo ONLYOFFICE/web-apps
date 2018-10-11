@@ -54,7 +54,8 @@ define([
     'spreadsheeteditor/main/app/view/NamedRangePasteDlg',
     'spreadsheeteditor/main/app/view/NameManagerDlg',
     'spreadsheeteditor/main/app/view/FormatSettingsDialog',
-    'spreadsheeteditor/main/app/view/PageMarginsDialog'
+    'spreadsheeteditor/main/app/view/PageMarginsDialog',
+    'spreadsheeteditor/main/app/view/HeaderFooterDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -365,6 +366,7 @@ define([
                 toolbar.btnImgAlign.menu.on('item:click',                   _.bind(this.onImgAlignSelect, this));
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
+                toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderClick, this));
 
                 this.onSetupCopyStyleButton();
             }
@@ -3296,6 +3298,40 @@ define([
         onPrintAreaMenuOpen: function() {
             if (this.api)
                 this.toolbar.btnPrintArea.menu.items[2].setVisible(this.api.asc_CanAddPrintArea());
+        },
+
+        onEditHeaderClick: function(menu, item) {
+            var me = this;
+            if (_.isUndefined(me.fontStore)) {
+                me.fontStore = new Common.Collections.Fonts();
+                var fonts = me.toolbar.cmbFontName.store.toJSON();
+                var arr = [];
+                _.each(fonts, function(font, index){
+                    if (!font.cloneid) {
+                        arr.push(_.clone(font));
+                    }
+                });
+                me.fontStore.add(arr);
+            }
+
+            var win = new SSE.Views.HeaderFooterDialog({
+                api: me.api,
+                fontStore: me.fontStore,
+                type: item.value,
+                handler: function(dlg, result) {
+                    if (result == 'ok') {
+                        var props = dlg.getSettings();
+                        // if (item.value == 'header')
+                        //     me.api.asc_editHeader(props);
+                        // else
+                        //     me.api.asc_editFooter(props);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete');
+                }
+            });
+            win.show();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',
