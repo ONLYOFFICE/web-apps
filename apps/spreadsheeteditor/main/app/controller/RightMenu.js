@@ -367,6 +367,7 @@ define([
                 this.rightmenu.chartSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.pivotSettings.disableControls(disabled);
+                this.rightmenu.cellSettings.disableControls(disabled);
 
                 if (!allowSignature && this.rightmenu.signatureSettings) {
                     this.rightmenu.btnSignature.setDisabled(disabled);
@@ -384,6 +385,7 @@ define([
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
                     this.rightmenu.btnPivot.setDisabled(disabled);
+                    this.rightmenu.btnCell.setDisabled(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }
