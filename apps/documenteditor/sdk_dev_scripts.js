@@ -86,6 +86,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/word/Editor/GraphicObjects/Format/ImagePrototype.js",
     "../../../../sdkjs/word/Editor/GraphicObjects/Format/GroupPrototype.js",
     "../../../../sdkjs/word/Editor/GraphicObjects/Format/ChartSpacePrototype.js",
+    "../../../../sdkjs/common/Drawings/Format/LockedCanvas.js",
     "../../../../sdkjs/word/Editor/GraphicObjects/GraphicObjects.js",
     "../../../../sdkjs/word/Editor/GraphicObjects/GraphicPage.js",
     "../../../../sdkjs/word/Editor/GraphicObjects/WrapManager.js",

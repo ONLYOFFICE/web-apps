@@ -127,6 +127,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/cell/model/DrawingObjects/Format/ImagePrototype.js",
 	"../../../../sdkjs/cell/model/DrawingObjects/Format/GroupPrototype.js",
 	"../../../../sdkjs/cell/model/DrawingObjects/Format/ChartSpacePrototype.js",
+    "../../../../sdkjs/common/Drawings/Format/LockedCanvas.js",
 	"../../../../sdkjs/cell/model/PivotTables.js",
 	"../../../../sdkjs/word/Editor/DocumentContentElementBase.js",
 	"../../../../sdkjs/word/Editor/ParagraphContentBase.js",
