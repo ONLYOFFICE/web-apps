@@ -189,7 +189,7 @@
   "Common.Views.OpenDialog.cancelButtonText": "Abbrechen",
   "Common.Views.OpenDialog.closeButtonText": "Datei schließen",
   "Common.Views.OpenDialog.okButtonText": "OK",
-  "Common.Views.OpenDialog.txtEncoding": "Verschlüsselung ",
+  "Common.Views.OpenDialog.txtEncoding": "Zeichenkodierung",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Kennwort ist falsch.",
   "Common.Views.OpenDialog.txtPassword": "Kennwort",
   "Common.Views.OpenDialog.txtPreview": "Vorschau",

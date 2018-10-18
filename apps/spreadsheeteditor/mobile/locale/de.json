@@ -218,7 +218,7 @@
   "SSE.Controllers.Main.txtDelimiter": "Trennzeichen",
   "SSE.Controllers.Main.txtDiagramTitle": "Diagrammtitel",
   "SSE.Controllers.Main.txtEditingMode": "Bearbeitungsmodus einschalten...",
-  "SSE.Controllers.Main.txtEncoding": "Verschlüsselung ",
+  "SSE.Controllers.Main.txtEncoding": "Zeichenkodierung",
   "SSE.Controllers.Main.txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen",
   "SSE.Controllers.Main.txtFiguredArrows": "Geformte Pfeile",
   "SSE.Controllers.Main.txtLines": "Linien",

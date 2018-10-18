@@ -106,7 +106,7 @@
   "Common.Views.OpenDialog.txtColon": "Doppelpunkt",
   "Common.Views.OpenDialog.txtComma": "Komma",
   "Common.Views.OpenDialog.txtDelimiter": "Trennzeichen",
-  "Common.Views.OpenDialog.txtEncoding": "Verschlüsselung",
+  "Common.Views.OpenDialog.txtEncoding": "Zeichenkodierung",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Kennwort ist falsch.",
   "Common.Views.OpenDialog.txtOther": "Sonstige",
   "Common.Views.OpenDialog.txtPassword": "Kennwort",
