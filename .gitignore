@@ -1,7 +1,7 @@
 .idea
 Thumbs.db
 .DS_Store
-deploy
+/deploy
 build/node_modules
 apps/documenteditor/embed/resources/less/node_modules
 apps/presentationeditor/embed/resources/less/node_modules
