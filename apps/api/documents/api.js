@@ -692,7 +692,7 @@
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
                 if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + config.editorConfig.customization.loaderName;
             } else
-                params += "&customer=ONLYOFFICE";
+                params += "&customer=Р7-Офис";
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
             }
