@@ -53,10 +53,10 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this,arguments);
 
             this.txtVersionNum = '{{PRODUCT_VERSION}}';
-            this.txtAscMail = 'support@onlyoffice.com';
-            this.txtAscTelNum = '+371 660-16425';
-            this.txtAscUrl = 'www.onlyoffice.com';
-            this.txtAscName = 'Ascensio System SIA';
+            this.txtAscMail = 'support@r7-office.ru';
+            this.txtAscTelNum = '+7 831 422 48 30';
+            this.txtAscUrl = 'r7-office.ru';
+            this.txtAscName = 'АО "Новые коммуникационные технологии"';
 
             this.template = _.template([
                 '<table id="id-about-licensor-logo" cols="1" style="width: 100%; margin-top: 20px;">',

@@ -1,7 +1,7 @@
 /**
- * Copyright (c) Ascensio System SIA 2013. All rights reserved
+ * Copyright (c) AO "NOVYE KOMMUNIKACIONNYE TEHNOLOGII" 2018. All rights reserved
  *
- * http://www.onlyoffice.com
+ * http://r7-office.ru
  */
 
 ;(function(DocsAPI, window, document, undefined) {
@@ -570,7 +570,7 @@
         width: '100%',
         height: '100%',
         editorConfig: {
-            lang: 'en',
+            lang: 'ru',
             canCoAuthoring: true,
             customization: {
                 about: true,
