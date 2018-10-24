@@ -261,6 +261,10 @@ define([
 
             $window.find('.dlg-btn').on('click', _.bind(me.onBtnClick, me));
 
+            $window.find('#headerfooter-left-img').on('click', _.bind(me.onCanvasClick, me, '#headerfooter-left-img'));
+            $window.find('#headerfooter-center-img').on('click', _.bind(me.onCanvasClick, me, '#headerfooter-center-img'));
+            $window.find('#headerfooter-right-img').on('click', _.bind(me.onCanvasClick, me, '#headerfooter-right-img'));
+
             this.scrollerYL = new Common.UI.Scroller({
                 el: this.$window.find('#headerfooter-left-img').parent(),
                 minScrollbarLength  : 20
@@ -297,8 +301,10 @@ define([
             this.cmbFonts.fillFonts(this.fontStore);
             this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.font.name}) || this.fontStore.at(0));
 
-            this.signObject = new AscCommon.CSignatureDrawer('headerfooter-left-img', this.api, 50, 50);
-            // this.HFObject = new AscCommon.CHeaderDrawer('headerfooter-left-img', 'headerfooter-center-img', 'headerfooter-right-img');
+            // this.signObject = new AscCommon.CSignatureDrawer('headerfooter-left-img', this.api, 50, 50);
+            this.HFObject = new AscCommonExcel.CHeaderFooterEditor('headerfooter-left-img', 'headerfooter-center-img', 'headerfooter-right-img', 190);
+
+
         },
 
         getSettings: function () {
@@ -326,6 +332,10 @@ define([
             this.scrollerYL.update();
             this.scrollerYR.update();
             this.scrollerYC.update();
+        },
+
+        onCanvasClick: function(id, event){
+            this.HFObject.click(id, event.pageX*Common.Utils.zoom(), event.pageY*Common.Utils.zoom());
         },
 
         cancelButtonText:   'Cancel',
