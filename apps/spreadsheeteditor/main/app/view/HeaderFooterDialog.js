@@ -291,10 +291,8 @@ define([
         close: function() {
             Common.UI.Window.prototype.close.apply(this, arguments);
 
-            if (this.signObject)
-                this.signObject.destroy();
-            // if (this.HFObject)
-            //     this.HFObject.destroy();
+            if (this.HFObject)
+                this.HFObject.destroy();
         },
 
         afterRender: function () {
