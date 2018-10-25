@@ -322,8 +322,8 @@ define([
                 this.mode.canOpenRecent = this.mode.canCreateNew = false;
                 this.mode.isDisconnected = mode.isDisconnected;
                 this.mode.canRename = false;
-                this.mode.canPrint = false;
-                this.mode.canDownload = this.mode.canDownloadOrigin = false;
+                if (!mode.enableDownload)
+                    this.mode.canPrint = this.mode.canDownload = this.mode.canDownloadOrigin = false;
             } else {
                 this.mode = mode;
             }

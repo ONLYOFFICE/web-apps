@@ -2003,7 +2003,7 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.btnSave.setDisabled(true);
-                    if (mode.disableDownload)
+                    if (!mode.enableDownload)
                         this.btnPrint.setDisabled(true);
                 }
 

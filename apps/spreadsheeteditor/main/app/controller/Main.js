@@ -710,8 +710,8 @@ define([
                     }
 
                     if (me.needToUpdateVersion) {
-                        Common.NotificationCenter.trigger('api:disconnect');
-                        toolbarController.onApiCoAuthoringDisconnect();
+                        Common.NotificationCenter.trigger('api:disconnect', true);
+                        toolbarController.onApiCoAuthoringDisconnect(true);
                     }
 
                     var timer_sl = setInterval(function(){
@@ -746,7 +746,7 @@ define([
                                 formulasDlgController.setMode(me.appOptions).setApi(me.api);
                             }
                             if (me.needToUpdateVersion)
-                                toolbarController.onApiCoAuthoringDisconnect();
+                                toolbarController.onApiCoAuthoringDisconnect(true);
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
@@ -811,7 +811,7 @@ define([
                     }
 
                     this.disableEditing(true);
-                    Common.NotificationCenter.trigger('api:disconnect');
+                    Common.NotificationCenter.trigger('api:disconnect', true);
 
                     var value = Common.localStorage.getItem("sse-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
@@ -1326,6 +1326,10 @@ define([
                         config.msg = this.errorDataEncrypted;
                         break;
 
+                    case Asc.c_oAscError.ID.EditingError:
+                        config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1361,6 +1365,9 @@ define([
                         if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
                             (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.api.asc_DownloadAs() : this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
+                        } else if (id == Asc.c_oAscError.ID.EditingError) {
+                            this.disableEditing(true);
+                            Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -2251,7 +2258,9 @@ define([
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             textClose: 'Close',
             textPaidFeature: 'Paid feature',
-            textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department'
+            textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department',
+            errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
         }
     })(), SSE.Controllers.Main || {}))
 });
