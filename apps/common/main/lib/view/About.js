@@ -61,7 +61,7 @@ define([
             this.template = _.template([
                 '<table id="id-about-licensor-logo" cols="1" style="width: 100%; margin-top: 20px;">',
                     '<tr>',
-                        '<td align="center"><div class="asc-about-office"/></td>',
+                        '<td align="center"><div><img class="asc-about-office"></div></td>',
                     '</tr>',
                     '<tr>',
                         '<td align="center"><label class="asc-about-version">' + options.appName.toUpperCase() + '</label></td>',
