@@ -90,8 +90,6 @@
                         imageEmbedded: url,
                         url: http://...
                     },
-                    backgroundColor: 'header background color',
-                    textColor: 'header text color',
                     customer: {
                         name: 'SuperPuper',
                         address: 'New-York, 125f-25',
