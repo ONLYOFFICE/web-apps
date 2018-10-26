@@ -143,7 +143,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/locale/",
-                    "src": "*",
+                    "src": "ru.json",
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/locale/"
                 }
             ],
@@ -151,7 +151,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/resources/help/",
-                    "src": ["**","!*_/**"],
+                    "src": ["*.css","ru/**"],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/"
                 }
             ],
@@ -341,7 +341,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/mobile/locale/",
-                    "src": "*",
+                    "src": "ru.json",
                     "dest": "../deploy/web-apps/apps/presentationeditor/mobile/locale/"
                 }
             ],

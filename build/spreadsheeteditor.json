@@ -151,7 +151,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/main/locale/",
-                    "src": "*",
+                    "src": "ru.json",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/locale/"
                 },
                 {
@@ -165,7 +165,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/main/resources/help/",
-                    "src": ["**","!*_/**"],
+                    "src": ["*.css","ru/**"],
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/"
                 }
             ],
@@ -343,7 +343,7 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/mobile/locale/",
-                    "src": "*",
+                    "src": "ru.json",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/locale/"
                 }
             ],
