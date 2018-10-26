@@ -293,7 +293,7 @@ define([
             },
 
             onShowHelp: function () {
-                window.open('http://support.onlyoffice.com/', "_blank");
+                window.open('http://helpcenter.r7-office.ru/', "_blank");
                 this.hideModal();
             },
 

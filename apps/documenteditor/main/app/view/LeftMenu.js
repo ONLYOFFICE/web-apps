@@ -79,7 +79,7 @@ define([
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
                         window.open(config.feedback.url) :
-                        window.open('http://support.onlyoffice.com');
+                        window.open('http://helpcenter.r7-office.ru');
                 }
             }
         },
@@ -167,7 +167,7 @@ define([
 
             this.menuFile = new DE.Views.FileMenu();
             this.menuFile.render();
-            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Document Editor'})).render();
+            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Редактор документов'})).render();
 
             return this;
         },
