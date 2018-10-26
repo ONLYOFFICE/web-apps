@@ -116,6 +116,7 @@
                     compactToolbar: false,
                     leftMenu: true,
                     rightMenu: true,
+                    hideRightMenu: false, // hide or show right panel on first loading
                     toolbar: true,
                     header: true,
                     statusBar: true,
