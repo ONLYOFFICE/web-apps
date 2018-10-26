@@ -710,8 +710,8 @@ define([
                     }
 
                     if (me.needToUpdateVersion) {
-                        Common.NotificationCenter.trigger('api:disconnect', true);
-                        toolbarController.onApiCoAuthoringDisconnect(true);
+                        Common.NotificationCenter.trigger('api:disconnect');
+                        toolbarController.onApiCoAuthoringDisconnect();
                     }
 
                     var timer_sl = setInterval(function(){
@@ -746,7 +746,7 @@ define([
                                 formulasDlgController.setMode(me.appOptions).setApi(me.api);
                             }
                             if (me.needToUpdateVersion)
-                                toolbarController.onApiCoAuthoringDisconnect(true);
+                                toolbarController.onApiCoAuthoringDisconnect();
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
@@ -811,7 +811,7 @@ define([
                     }
 
                     this.disableEditing(true);
-                    Common.NotificationCenter.trigger('api:disconnect', true);
+                    Common.NotificationCenter.trigger('api:disconnect');
 
                     var value = Common.localStorage.getItem("sse-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;

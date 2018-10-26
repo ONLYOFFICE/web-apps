@@ -712,7 +712,7 @@ define([
                     }
 
                     if (me.needToUpdateVersion)
-                        Common.NotificationCenter.trigger('api:disconnect', true);
+                        Common.NotificationCenter.trigger('api:disconnect');
                     var timer_sl = setInterval(function(){
                         if (window.styles_loaded) {
                             clearInterval(timer_sl);
@@ -734,7 +734,7 @@ define([
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
                             toolbarController.activateControls();
                             if (me.needToUpdateVersion)
-                                toolbarController.onApiCoAuthoringDisconnect(true);
+                                toolbarController.onApiCoAuthoringDisconnect();
                             me.api.UpdateInterfaceState();
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
@@ -784,7 +784,7 @@ define([
                     }
 
                     this.disableEditing(true);
-                    Common.NotificationCenter.trigger('api:disconnect', true);
+                    Common.NotificationCenter.trigger('api:disconnect');
 
                     var value = Common.localStorage.getItem("pe-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
