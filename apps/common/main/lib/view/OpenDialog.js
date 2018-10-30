@@ -173,7 +173,7 @@ define([
                             return me.txtIncorrectPwd;
                         }
                     });
-                    this.$window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+
                     this.$window.find('input').on('input', function(){
                         if ($(this).val() !== '') {
                             ($(this).attr('type') !== 'password') && $(this).attr('type', 'password');
@@ -185,11 +185,11 @@ define([
                     this.initCodePages();
                     if (this.preview)
                         this.updatePreview();
-                    this.onPrimary = function() {
-                        me._handleInput('ok');
-                        return false;
-                    };
                 }
+                this.onPrimary = function() {
+                    me._handleInput('ok');
+                    return false;
+                };
             }
         },
 
@@ -204,13 +204,6 @@ define([
                          me.inputPwd.checkValidate();
                  }, 500);
              }
-        },
-
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            } else if (this.closable && event.keyCode == Common.UI.Keys.ESC)
-                this._handleInput('cancel');
         },
 
         onBtnClick: function(event) {

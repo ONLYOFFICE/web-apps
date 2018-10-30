@@ -5,6 +5,7 @@
     <li id="fm-btn-save" class="fm-btn" />
     <li id="fm-btn-edit" class="fm-btn" />
     <li id="fm-btn-download" class="fm-btn" />
+    <li id="fm-btn-save-copy" class="fm-btn" />
     <li id="fm-btn-save-desktop" class="fm-btn" />
     <li id="fm-btn-print" class="fm-btn" />
     <li id="fm-btn-rename" class="fm-btn" />
@@ -24,6 +25,7 @@
 </div>
 <div class="panel-context">
     <div id="panel-saveas" class="content-box" />
+    <div id="panel-savecopy" class="content-box" />
     <div id="panel-recentfiles" class="content-box" />
     <div id="panel-createnew" class="content-box" />
     <div id="panel-info" class="content-box" />

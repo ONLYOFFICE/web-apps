@@ -124,7 +124,8 @@ define([
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-print no-mask'
+                        iconCls: 'btn-print no-mask',
+                        signals: ['disabled']
                     });
                     this.toolbarControls.push(this.btnPrint);
 
@@ -493,7 +494,8 @@ define([
                         menu: new Common.UI.Menu({
                             items: [
                                 {caption: this.mniImageFromFile, value: 'file'},
-                                {caption: this.mniImageFromUrl, value: 'url'}
+                                {caption: this.mniImageFromUrl, value: 'url'},
+                                {caption: this.mniImageFromStorage, value: 'storage'}
                             ]
                         })
                     });
@@ -2001,7 +2003,7 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.btnSave.setDisabled(true);
-                    if (mode.disableDownload)
+                    if (!mode.enableDownload)
                         this.btnPrint.setDisabled(true);
                 }
 
@@ -2011,6 +2013,7 @@ define([
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
                 this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
                 this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
+                this.mnuInsertImage.items[2].setVisible(this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -2367,7 +2370,8 @@ define([
             mniEditControls: 'Settings',
             tipControls: 'Insert content control',
             mniHighlightControls: 'Highlight settings',
-            textNoHighlight: 'No highlighting'
+            textNoHighlight: 'No highlighting',
+            mniImageFromStorage: 'Image from Storage'
         }
     })(), DE.Views.Toolbar || {}));
 });

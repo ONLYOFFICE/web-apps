@@ -96,6 +96,10 @@ define([
                                 me.header.btnRedo.keepState.disabled = state;
                             else me.header.btnRedo.setDisabled(state);
                     },
+                    'print:disabled' : function (state) {
+                        if ( me.header.btnPrint )
+                            me.header.btnPrint.setDisabled(state);
+                    },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
@@ -377,11 +381,11 @@ define([
             }
         },
 
-        onApiCoAuthoringDisconnect: function() {
+        onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
-                if (this.header.btnDownload)
+                if (this.header.btnDownload && !enableDownload)
                     this.header.btnDownload.hide();
-                if (this.header.btnPrint)
+                if (this.header.btnPrint && !enableDownload)
                     this.header.btnPrint.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();

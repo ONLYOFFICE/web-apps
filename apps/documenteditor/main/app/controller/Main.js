@@ -305,6 +305,7 @@ define([
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.mergeFolderUrl  = this.editorConfig.mergeFolderUrl;
+                this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.customization   = this.editorConfig.customization;
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
@@ -1434,6 +1435,10 @@ define([
                         config.msg = this.errorDataEncrypted;
                         break;
 
+                    case Asc.c_oAscError.ID.EditingError:
+                        config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1487,6 +1492,9 @@ define([
                                     }
                                 })).show();
                             },10);
+                        } else if (id == Asc.c_oAscError.ID.EditingError) {
+                            this.disableEditing(true);
+                            Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -2307,7 +2315,9 @@ define([
             textClose: 'Close',
             textPaidFeature: 'Paid feature',
             textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+            errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
         }
     })(), DE.Controllers.Main || {}))
 });

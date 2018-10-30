@@ -239,7 +239,6 @@ define([
             (me.signType == 'visible') ? me.cntInvisibleSign.addClass('hidden') : me.cntVisibleSign.addClass('hidden');
 
             $window.find('.dlg-btn').on('click', _.bind(me.onBtnClick, me));
-            $window.find('input').on('keypress', _.bind(me.onKeyPress, me));
 
             me.afterRender();
         },
@@ -297,11 +296,9 @@ define([
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-                return false;
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

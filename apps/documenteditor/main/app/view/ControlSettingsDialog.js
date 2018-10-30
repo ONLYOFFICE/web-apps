@@ -297,10 +297,6 @@ define([
             this.close();
         },
 
-        onPrimary: function() {
-            return true;
-        },
-
         applyAllClick: function(btn, eOpts){
             if (this.api) {
                 var props   = new AscCommon.CContentControlPr();

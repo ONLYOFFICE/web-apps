@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu'
 ], function () {
@@ -85,6 +86,7 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -141,8 +143,9 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
+            this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -229,6 +232,10 @@ define([
                 if ( isopts ) close_menu = false;
                 else this.clickSaveAsFormat(undefined);
                 break;
+            case 'save-copy':
+                if ( isopts ) close_menu = false;
+                else this.clickSaveCopyAsFormat(undefined);
+                break;
             case 'print': this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
@@ -305,6 +312,70 @@ define([
                 }
             } else
                 this.api.asc_DownloadOrigin();
+        },
+
+        clickSaveCopyAsFormat: function(menu, format, ext) {
+            if (menu) {
+                if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
+                    Common.UI.warning({
+                        closable: false,
+                        title: this.notcriticalErrorTitle,
+                        msg: (format == Asc.c_oAscFileType.TXT) ? this.warnDownloadAs : this.warnDownloadAsRTF,
+                        buttons: ['ok', 'cancel'],
+                        callback: _.bind(function(btn){
+                            if (btn == 'ok') {
+                                this.isFromFileDownloadAs = ext;
+                                this.api.asc_DownloadAs(format, true);
+                                menu.hide();
+                            }
+                        }, this)
+                    });
+                } else {
+                    this.isFromFileDownloadAs = ext;
+                    this.api.asc_DownloadAs(format, true);
+                    menu.hide();
+                }
+            } else {
+                this.isFromFileDownloadAs = true;
+                this.api.asc_DownloadOrigin(true);
+            }
+        },
+
+        onDownloadUrl: function(url) {
+            if (this.isFromFileDownloadAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                if (typeof this.isFromFileDownloadAs == 'string') {
+                    var idx = defFileName.lastIndexOf('.');
+                    if (idx>0)
+                        defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
+                }
+
+                me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                    saveFolderUrl: me.mode.saveAsUrl,
+                    saveFileUrl: url,
+                    defFileName: defFileName
+                });
+                me._saveCopyDlg.on('saveaserror', function(obj, err){
+                    var config = {
+                        closable: false,
+                        title: me.notcriticalErrorTitle,
+                        msg: err,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: function(btn){
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    };
+                    Common.UI.alert(config);
+                }).on('close', function(obj){
+                    me._saveCopyDlg = undefined;
+                });
+                me._saveCopyDlg.show();
+            }
+            this.isFromFileDownloadAs = false;
         },
 
         applySettings: function(menu) {
@@ -493,7 +564,7 @@ define([
             }
         },
 
-        onApiServerDisconnect: function(disableDownload) {
+        onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
 
@@ -504,7 +575,7 @@ define([
             this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnNavigation.setDisabled(true);
 
-            this.leftMenu.getMenu('file').setMode({isDisconnected: true, disableDownload: !!disableDownload});
+            this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
             if ( this.dlgSearch ) {
                 this.leftMenu.btnSearch.toggle(false, true);
                 this.dlgSearch['hide']();
@@ -733,6 +804,7 @@ define([
         notcriticalErrorTitle: 'Warning',
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
         warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
-        warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
+        warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
+        txtUntitled: 'Untitled'
     }, DE.Controllers.LeftMenu || {}));
 });

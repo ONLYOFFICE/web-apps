@@ -196,7 +196,7 @@ define([
                             }
 
                             parentView.scroller.scrollTop(scrollPos);
-                            view.autoScrollToEditButtons();
+                            parentView.autoScrollToEditButtons();
                         }
 
                         if (textBox && textBox.length) {
@@ -215,23 +215,6 @@ define([
                         if (this.textBox) {
                             this.textBox.unbind('input propertychange');
                             this.textBox = undefined;
-                        }
-                    },
-                    autoScrollToEditButtons: function () {
-                        var button = $('#id-comments-change-popover'),  // TODO: add to cache
-                            btnBounds = null,
-                            contentBounds = this.el.getBoundingClientRect(),
-                            moveY = 0,
-                            padding = 7;
-
-                        if (button.length) {
-                            btnBounds = button.get(0).getBoundingClientRect();
-                            if (btnBounds && contentBounds) {
-                                moveY = contentBounds.bottom - (btnBounds.bottom + padding);
-                                if (moveY < 0) {
-                                    parentView.scroller.scrollTop(parentView.scroller.getScrollTop() - moveY);
-                                }
-                            }
                         }
                     }
                 }
@@ -328,7 +311,7 @@ define([
 
                                     me.hookTextBox();
 
-                                    this.autoScrollToEditButtons();
+                                    me.autoScrollToEditButtons();
                                     this.setFocusToTextBox();
                                 } else {
                                     if (!showEditBox) {
@@ -347,7 +330,7 @@ define([
 
                                         me.hookTextBox();
 
-                                        this.autoScrollToEditButtons();
+                                        me.autoScrollToEditButtons();
                                         this.setFocusToTextBox();
                                     }
                                 }
@@ -380,7 +363,7 @@ define([
                                 this.autoHeightTextBox();
                                 me.hookTextBox();
 
-                                this.autoScrollToEditButtons();
+                                me.autoScrollToEditButtons();
                                 this.setFocusToTextBox();
                             } else if (btn.hasClass('btn-reply', false)) {
                                 if (showReplyBox) {
@@ -388,6 +371,7 @@ define([
 
                                     me.fireEvent('comment:addReply', [commentId, this.getActiveTextBoxVal()]);
                                     me.fireEvent('comment:closeEditing');
+                                    me.calculateSizeOfContent();
 
                                     readdresolves();
                                 }
@@ -774,6 +758,8 @@ define([
                 sdkBoundsTopPos = 0;
 
             if (commentsView && arrowView && commentsView.get(0)) {
+                var scrollPos = this.scroller.getScrollTop();
+
                 commentsView.css({height: '100%'});
 
                 contentBounds = commentsView.get(0).getBoundingClientRect();
@@ -813,6 +799,7 @@ define([
                                 arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.width));
 
                                 arrowView.css({top: arrowPosY + 'px'});
+                                this.scroller.scrollTop(scrollPos);
                             } else {
 
                                 outerHeight = windowHeight;
@@ -920,6 +907,24 @@ define([
             if (!this.popover)
                 this.popover = new Common.Views.ReviewPopover(options);
             return this.popover;
+        },
+
+        autoScrollToEditButtons: function () {
+            var button = $('#id-comments-change-popover'),  // TODO: add to cache
+                btnBounds = null,
+                contentBounds = this.$window[0].getBoundingClientRect(),
+                moveY = 0,
+                padding = 7;
+
+            if (button.length) {
+                btnBounds = button.get(0).getBoundingClientRect();
+                if (btnBounds && contentBounds) {
+                    moveY = contentBounds.bottom - (btnBounds.bottom + padding);
+                    if (moveY < 0) {
+                        this.scroller.scrollTop(this.scroller.getScrollTop() - moveY);
+                    }
+                }
+            }
         },
 
         textAddReply            : 'Add Reply',

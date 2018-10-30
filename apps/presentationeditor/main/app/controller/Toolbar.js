@@ -47,6 +47,7 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
@@ -255,6 +256,7 @@ define([
             toolbar.btnPreview.on('click',                              _.bind(this.onPreviewBtnClick, this));
             toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -337,7 +339,7 @@ define([
             this.api.asc_registerCallback('asc_onCanUnGroup',           _.bind(this.onApiCanUnGroup, this));
             this.api.asc_registerCallback('asc_onPresentationSize',     _.bind(this.onApiPageSize, this));
 
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onZoomChange',           _.bind(this.onApiZoomChange, this));
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
@@ -607,7 +609,7 @@ define([
                 this._state.no_slides = (count<=0);
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, {array: [
-                    this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnCopy, this.toolbar.btnPaste,
+                    this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart,
                     this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme
@@ -768,8 +770,8 @@ define([
             this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
-        onApiCoAuthoringDisconnect: function(disableDownload) {
-            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
+        onApiCoAuthoringDisconnect: function(enableDownload) {
+            this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
         },
 
@@ -1339,7 +1341,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (opts === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1361,6 +1363,14 @@ define([
                         }
                     }
                 })).show();
+            } else if (opts === 'storage') {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    me.toolbar.fireEvent('insertimage', me.toolbar);
+                    me.api.AddImageUrl(file.url);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                }).show();
             }
         },
 

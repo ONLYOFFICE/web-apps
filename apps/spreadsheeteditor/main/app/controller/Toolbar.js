@@ -43,6 +43,7 @@ define([
     'common/main/lib/component/Window',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
@@ -124,6 +125,7 @@ define([
             this.editMode = true;
             this._isAddingShape = false;
             this._state = {
+                activated: false,
                 prstyle: undefined,
                 clrtext: undefined,
                 pralign: undefined,
@@ -263,6 +265,7 @@ define([
                 toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
             } else {
                 toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+                toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
                 toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
                 toolbar.btnSave.on('disabled',                              _.bind(this.onBtnChangeState, this, 'save:disabled'));
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -354,6 +357,8 @@ define([
                 toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
                 toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
                 toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
+                toolbar.btnPrintArea.menu.on('item:click',                  _.bind(this.onPrintAreaClick, this));
+                toolbar.btnPrintArea.menu.on('show:after',                  _.bind(this.onPrintAreaMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
                 toolbar.btnImgBackward.menu.on('item:click',                _.bind(this.onImgArrangeSelect, this));
                 toolbar.btnImgForward.menu.on('item:click',                 _.bind(this.onImgArrangeSelect, this));
@@ -376,7 +381,7 @@ define([
             }
 
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
             this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
@@ -820,7 +825,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (item.value === 'url') {
                 var me = this;
 
                 (new Common.Views.ImageFromUrlDialog({
@@ -844,6 +849,15 @@ define([
                         }
                     }
                 })).show();
+            } else if (item.value === 'storage') {
+                var me = this;
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    me.toolbar.fireEvent('insertimage', me.toolbar);
+                    me.api.asc_addImageDrawingObject(file.url);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                }).show();
             }
         },
 
@@ -1456,7 +1470,8 @@ define([
                         e.stopPropagation();
                     },
                     'command+k,ctrl+k': function (e) {
-                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot)
+                        if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
+                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible())
                             me.onHyperlink();
                         e.preventDefault();
                     },
@@ -1612,8 +1627,8 @@ define([
             window.styles_loaded = true;
         },
 
-        onApiCoAuthoringDisconnect: function(disableDownload) {
-            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
+        onApiCoAuthoringDisconnect: function(enableDownload) {
+            this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
         },
 
@@ -1702,6 +1717,7 @@ define([
             this.onApiPageMargins(props.asc_getPageMargins());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
+            this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
         },
 
         onUpdateDocumentProps: function(nIndex) {
@@ -3026,6 +3042,14 @@ define([
 
         onLockDefNameManager: function(state) {
             this._state.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
+
+            this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(this.api.asc_getActiveWorksheetIndex()), {array: [this.toolbar.btnPrintArea]});
+            this.toolbar.lockToolbar(SSE.enumLock.namedRangeLock, this._state.namedrange_locked, {array: [this.toolbar.btnPrintArea.menu.items[0], this.toolbar.btnPrintArea.menu.items[2]]});
+        },
+
+        activateControls: function() {
+            this.toolbar.lockToolbar(SSE.enumLock.disableOnStart, false, {array: [this.toolbar.btnPrint]});
+            this._state.activated = true;
         },
 
         DisableToolbar: function(disable, viewMode) {
@@ -3079,6 +3103,7 @@ define([
                     me.toolbar.btnSave && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
                     me.toolbar.btnUndo && me.toolbar.btnUndo.on('disabled', _.bind(me.onBtnChangeState, me, 'undo:disabled'));
                     me.toolbar.btnRedo && me.toolbar.btnRedo.on('disabled', _.bind(me.onBtnChangeState, me, 'redo:disabled'));
+                    me.toolbar.btnPrint && me.toolbar.btnPrint.on('disabled', _.bind(me.onBtnChangeState, me, 'print:disabled'));
                     me.toolbar.setApi(me.api);
 
                     if ( !config.isEditDiagram && !config.isEditMailMerge ) {
@@ -3257,6 +3282,20 @@ define([
                 this.api.asc_setSelectedDrawingObjectAlign(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Objects Align');
+        },
+
+        onPrintAreaClick: function(menu, item) {
+            if (this.api) {
+                this.api.asc_ChangePrintArea(item.value);
+                Common.component.Analytics.trackEvent('ToolBar', 'Print Area');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPrintAreaMenuOpen: function() {
+            if (this.api)
+                this.toolbar.btnPrintArea.menu.items[2].setVisible(this.api.asc_CanAddPrintArea());
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

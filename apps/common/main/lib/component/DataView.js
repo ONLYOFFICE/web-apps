@@ -424,7 +424,7 @@ define([
                         innerEl.prepend(view.render().el); else
                         innerEl.append(view.render().el);
 
-                    innerEl.find('.empty-text').remove();
+                    (this.dataViewItems.length<1) && innerEl.find('.empty-text').remove();
                     var idx = _.indexOf(this.store.models, record);
                     this.dataViewItems = this.dataViewItems.slice(0, idx).concat(view).concat(this.dataViewItems.slice(idx));
 

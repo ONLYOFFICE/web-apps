@@ -175,9 +175,10 @@ define([
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-print no-mask',
-                        lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint]
+                        lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint, _set.disableOnStart],
+                        signals: ['disabled']
                     });
-                    me.paragraphControls.push(me.btnPrint);
+                    me.slideOnlyControls.push(me.btnPrint);
 
                     me.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
@@ -1026,12 +1027,14 @@ define([
                         new Common.UI.Menu({
                             items: [
                                 {caption: me.mniImageFromFile, value: 'file'},
-                                {caption: me.mniImageFromUrl, value: 'url'}
+                                {caption: me.mniImageFromUrl, value: 'url'},
+                                {caption: me.mniImageFromStorage, value: 'storage'}
                             ]
                         }).on('item:click', function (menu, item, e) {
                             me.fireEvent('insert:image', [item.value]);
                         })
                     );
+                    btn.menu.items[2].setVisible(config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
                 });
 
                 me.btnsInsertText.forEach(function (btn) {
@@ -1271,9 +1274,6 @@ define([
                         me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
                 });
 
-//            // Enable none paragraph components
-                this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
-
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
 
@@ -1316,7 +1316,11 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.lockToolbar(PE.enumLock.lostConnect, true);
-                }
+                    if (!mode.enableDownload)
+                        this.lockToolbar(PE.enumLock.cantPrint, true, {array: [this.btnPrint]});
+                } else
+                    this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+
                 this.mode = mode;
                 if (!mode.nativeApp) {
                     var nativeBtnGroup = $('.toolbar-group-native');
@@ -1328,8 +1332,6 @@ define([
 
                 if (mode.isDesktopApp)
                     $('.toolbar-group-native').hide();
-
-                this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -1733,7 +1735,8 @@ define([
             textSurface: 'Surface',
             textShowPresenterView: 'Show presenter view',
             textTabCollaboration: 'Collaboration',
-            textTabProtect: 'Protection'
+            textTabProtect: 'Protection',
+            mniImageFromStorage: 'Image from Storage'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -43,8 +43,8 @@ define([
 
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
-            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
-            // {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
         ],[
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
@@ -93,6 +93,66 @@ define([
             var type = e.currentTarget.attributes['format'];
             if (!_.isUndefined(type) && this.menu) {
                 this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
+            }
+        }
+    });
+
+    SSE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
+        el: '#panel-savecopy',
+        menu: undefined,
+
+        formats: [[
+            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX,  ext: '.xlsx'},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF,   ext: '.pdf'},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA,  ext: '.pdf'}
+        ],[
+            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS,   ext: '.ods'},
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV,   ext: '.csv'}
+        ]
+//        ,[
+//            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML,  ext: '.html'}
+//        ]
+        ],
+
+        template: _.template([
+            '<table><tbody>',
+                '<% _.each(rows, function(row) { %>',
+                    '<tr>',
+                        '<% _.each(row, function(item) { %>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
+                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
+                        '<% }) %>',
+                    '</tr>',
+                '<% }) %>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function() {
+            $(this.el).html(this.template({rows:this.formats}));
+            $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        onFormatClick: function(e) {
+            var type = e.currentTarget.attributes['format'],
+                ext = e.currentTarget.attributes['format-ext'];
+            if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
+                this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
             }
         }
     });

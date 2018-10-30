@@ -139,6 +139,46 @@ define([
                 this.fireEvent('editcomplete', this);
             }, this));
 
+            this.btnRotate270 = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'rotate-270',
+                value: 0,
+                hint: this.textHint270
+            });
+            this.btnRotate270.render( $('#image-button-270', this.$el));
+            this.btnRotate270.on('click', _.bind(this.onBtnRotateClick, this));
+            this.lockedControls.push(this.btnRotate270);
+
+            this.btnRotate90 = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'rotate-90',
+                value: 1,
+                hint: this.textHint90
+            });
+            this.btnRotate90.render( $('#image-button-90', this.$el));
+            this.btnRotate90.on('click', _.bind(this.onBtnRotateClick, this));
+            this.lockedControls.push(this.btnRotate90);
+
+            this.btnFlipV = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'flip-vert',
+                value: 0,
+                hint: this.textHintFlipV
+            });
+            this.btnFlipV.render( $('#image-button-flipv', this.$el));
+            this.btnFlipV.on('click', _.bind(this.onBtnFlipClick, this));
+            this.lockedControls.push(this.btnFlipV);
+
+            this.btnFlipH = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'flip-hor',
+                value: 1,
+                hint: this.textHintFlipH
+            });
+            this.btnFlipH.render( $('#image-button-fliph', this.$el));
+            this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
+            this.lockedControls.push(this.btnFlipH);
+
             this.linkAdvanced = $('#image-advanced-link');
             this.lblReplace = $('#image-lbl-replace');
             $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
@@ -268,6 +308,23 @@ define([
             }
         },
 
+        onBtnRotateClick: function(btn) {
+            var properties = new Asc.asc_CImgProperty();
+            properties.asc_putRot((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            this.api.ImgApply(properties);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onBtnFlipClick: function(btn) {
+            var properties = new Asc.asc_CImgProperty();
+            if (btn.options.value==1)
+                properties.asc_putFlipH(true);
+            else
+                properties.asc_putFlipV(true);
+            this.api.ImgApply(properties);
+            this.fireEvent('editcomplete', this);
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -293,7 +350,14 @@ define([
         textFromFile:   'From File',
         textAdvanced:   'Show advanced settings',
         textEditObject: 'Edit Object',
-        textEdit:       'Edit'
+        textEdit:       'Edit',
+        textRotation: 'Rotation',
+        textRotate90: 'Rotate 90°',
+        textFlip: 'Flip',
+        textHint270: 'Rotate Left 90°',
+        textHint90: 'Rotate Right 90°',
+        textHintFlipV: 'Flip Vertical',
+        textHintFlipH: 'Flip Horizontal'
 
     }, PE.Views.ImageSettings || {}));
 });

@@ -195,7 +195,7 @@ define([
                 if (view) {
                     var innerEl = $(this.el).find('.inner').addBack().filter('.inner');
                     if (innerEl) {
-                        innerEl.find('.empty-text').remove();
+                        (this.dataViewItems.length<1) && innerEl.find('.empty-text').remove();
 
                         if (opts && opts.at!==undefined) {
                             var idx = opts.at;

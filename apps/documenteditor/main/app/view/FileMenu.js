@@ -105,6 +105,13 @@ define([
                 canFocused: false
             });
 
+            this.miSaveCopyAs = new Common.UI.MenuItem({
+                el      : $('#fm-btn-save-copy',this.el),
+                action  : 'save-copy',
+                caption : this.btnSaveCopyAsCaption,
+                canFocused: false
+            });
+
             this.miSaveAs = new Common.UI.MenuItem({
                 el      : $('#fm-btn-save-desktop',this.el),
                 action  : 'save-desktop',
@@ -179,6 +186,7 @@ define([
                 this.miSave,
                 this.miEdit,
                 this.miDownload,
+                this.miSaveCopyAs,
                 this.miSaveAs,
                 this.miPrint,
                 this.miRename,
@@ -251,6 +259,7 @@ define([
             this.miNew.$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
 
             this.miDownload[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
+            this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && this.mode.saveAsUrl ?'show':'hide']();
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
 //            this.hkSaveAs[this.mode.canDownload?'enable':'disable']();
 
@@ -295,6 +304,10 @@ define([
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
+            if (this.mode.canDownload && this.mode.saveAsUrl) {
+                this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render());
+            }
+
             if (this.mode.canHelp) {
                 this.panels['help'] = ((new DE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
@@ -309,8 +322,8 @@ define([
                 this.mode.canOpenRecent = this.mode.canCreateNew = false;
                 this.mode.isDisconnected = mode.isDisconnected;
                 this.mode.canRename = false;
-                this.mode.canPrint = false;
-                this.mode.canDownload = this.mode.canDownloadOrigin = false;
+                if (!mode.enableDownload)
+                    this.mode.canPrint = this.mode.canDownload = this.mode.canDownloadOrigin = false;
             } else {
                 this.mode = mode;
             }
@@ -385,6 +398,7 @@ define([
         textDownload            : 'Download',
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
-        btnProtectCaption: 'Protect'
+        btnProtectCaption: 'Protect',
+        btnSaveCopyAsCaption    : 'Save Copy as...'
     }, DE.Views.FileMenu || {}));
 });

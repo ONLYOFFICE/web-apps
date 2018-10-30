@@ -90,7 +90,6 @@ define([
             });
 
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
-            me.inputRange.cmpEl.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             this.on('close', _.bind(this.onClose, this));
 
@@ -151,12 +150,6 @@ define([
             Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.None);
 
             SSE.getController('RightMenu').SetDisabled(false);
-        },
-
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
         },
 
         _handleInput: function(state) {

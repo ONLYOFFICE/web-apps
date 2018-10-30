@@ -1314,6 +1314,46 @@ define([
             this.btnChangeShape.render( $('#shape-btn-change')) ;
             this.lockedControls.push(this.btnChangeShape);
 
+            this.btnRotate270 = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'rotate-270',
+                value: 0,
+                hint: this.textHint270
+            });
+            this.btnRotate270.render( $('#shape-button-270', me.$el));
+            this.btnRotate270.on('click', _.bind(this.onBtnRotateClick, this));
+            this.lockedControls.push(this.btnRotate270);
+
+            this.btnRotate90 = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'rotate-90',
+                value: 1,
+                hint: this.textHint90
+            });
+            this.btnRotate90.render( $('#shape-button-90', me.$el));
+            this.btnRotate90.on('click', _.bind(this.onBtnRotateClick, this));
+            this.lockedControls.push(this.btnRotate90);
+
+            this.btnFlipV = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'flip-vert',
+                value: 0,
+                hint: this.textHintFlipV
+            });
+            this.btnFlipV.render( $('#shape-button-flipv', me.$el));
+            this.btnFlipV.on('click', _.bind(this.onBtnFlipClick, this));
+            this.lockedControls.push(this.btnFlipV);
+
+            this.btnFlipH = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'flip-hor',
+                value: 1,
+                hint: this.textHintFlipH
+            });
+            this.btnFlipH.render( $('#shape-button-fliph', me.$el));
+            this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
+            this.lockedControls.push(this.btnFlipH);
+
             $(this.el).on('click', '#shape-advanced-link', _.bind(this.openAdvancedSettings, this));
             this.linkAdvanced = $('#shape-advanced-link');
         },
@@ -1461,6 +1501,25 @@ define([
                         me.btnChangeShape.menu.hide();
                 });
             }
+        },
+
+        onBtnRotateClick: function(btn) {
+            var props = new Asc.asc_CShapeProperty();
+            props.asc_putRot((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            this.imgprops.asc_putShapeProperties(props);
+            this.api.asc_setGraphicObjectProps(this.imgprops);
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onBtnFlipClick: function(btn) {
+            var props = new Asc.asc_CShapeProperty();
+            if (btn.options.value==1)
+                props.asc_putFlipH(true);
+            else
+                props.asc_putFlipV(true);
+            this.imgprops.asc_putShapeProperties(props);
+            this.api.asc_setGraphicObjectProps(this.imgprops);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         UpdateThemeColors: function() {
@@ -1668,6 +1727,13 @@ define([
         textStyle: 'Style',
         textGradient: 'Gradient',
         textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
-        strType: 'Type'
+        strType: 'Type',
+        textRotation: 'Rotation',
+        textRotate90: 'Rotate 90°',
+        textFlip: 'Flip',
+        textHint270: 'Rotate Left 90°',
+        textHint90: 'Rotate Right 90°',
+        textHintFlipV: 'Flip Vertical',
+        textHintFlipH: 'Flip Horizontal'
     }, SSE.Views.ShapeSettings || {}));
 });

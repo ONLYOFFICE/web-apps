@@ -46,10 +46,10 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
-    'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
@@ -238,6 +238,7 @@ define([
              */
 
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
@@ -357,7 +358,7 @@ define([
             this.api.asc_registerCallback('asc_onMarkerFormatChanged',  _.bind(this.onApiStartHighlight, this));
             this.api.asc_registerCallback('asc_onTextHighLight',        _.bind(this.onApiHighlightColor, this));
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
@@ -1358,7 +1359,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (item.value === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1380,6 +1381,14 @@ define([
                         }
                     }
                 })).show();
+            } else if (item.value === 'storage') {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    me.toolbar.fireEvent('insertimage', me.toolbar);
+                    me.api.AddImageUrl(file.url);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                }).show();
             }
         },
 
@@ -2665,8 +2674,8 @@ define([
             });
         },
 
-        onApiCoAuthoringDisconnect: function(disableDownload) {
-            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
+        onApiCoAuthoringDisconnect: function(enableDownload) {
+            this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
             this.DisableToolbar(true, true);
         },
@@ -2712,10 +2721,10 @@ define([
             if (this._mailMergeDlg) return;
 
             var me = this;
-            me._mailMergeDlg = new DE.Views.MailMergeRecepients({
-                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl
+            me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
                         });
-            me._mailMergeDlg.on('mailmergerecepients', function(obj, recepients){
+            me._mailMergeDlg.on('selectfile', function(obj, recepients){
                 me.api.asc_StartMailMerge(recepients);
                 if (!me.mergeEditor)
                     me.mergeEditor = me.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
