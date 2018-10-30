@@ -70,9 +70,10 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 210px;">',
-                    '<div id="id-dlg-hf-fonts" class="input-row" style="display: inline-block;"></div>',
-                    '<div id="id-dlg-hf-font-size" class="input-row" style="display: inline-block;margin-left: 3px;"></div>',
-                    '<div id="id-dlg-hf-bold" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-hf-italic" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-hf-fonts" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-hf-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
+                    '<div id="id-dlg-hf-textcolor" style="display: inline-block;margin-left: 3px;"></div>',
+                    '<div id="id-dlg-hf-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-hf-italic" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-hf-underline" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-hf-strikeout" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-hf-subscript" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-hf-superscript" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-hf-pagenum" style="display: inline-block;margin-left: 10px;"></div>','<div id="id-dlg-hf-pagecount" style="display: inline-block;margin-left: 2px;"></div>',
@@ -119,7 +120,7 @@ define([
             me.cmbFonts = new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-hf-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 234px;',
+                style       : 'width: 220px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 234px;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -251,6 +252,39 @@ define([
                 }
             });
 
+            me.btnTextColor = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-fontcolor',
+                hint        : me.textColor,
+                menu        : new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-dlg-hf-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="id-dlg-hf-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                    ]
+                })
+            });
+            me.btnTextColor.render($('#id-dlg-hf-textcolor'));
+            if (me.btnTextColor && me.btnTextColor.cmpEl) {
+                var colorVal = $('<div class="btn-color-value-line"></div>');
+                $('button:first-child', this.btnTextColor.cmpEl).append(colorVal);
+                colorVal.css('background-color', this.btnTextColor.currentColor || '#000000');
+                me.mnuTextColorPicker = new Common.UI.ThemeColorPalette({
+                    el: $('#id-dlg-hf-menu-fontcolor')
+                });
+            }
+            this.btnTextColor.menu.cmpEl.on('click', '#id-dlg-hf-menu-new-fontcolor', _.bind(function() {
+                me.mnuTextColorPicker.addNewColor((typeof(me.btnTextColor.color) == 'object') ? me.btnTextColor.color.color : me.btnTextColor.color);
+            }, me));
+            me.mnuTextColorPicker.on('select', function(picker, color, fromBtn) {
+                var clr = (typeof(color) == 'object') ? color.color : color;
+
+                me.btnTextColor.currentColor = color;
+                $('.btn-color-value-line', me.btnTextColor.cmpEl).css('background-color', '#' + clr);
+
+                me.mnuTextColorPicker.currentColor = color;
+                if (me.HFObject)
+                    me.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));
+            });
 
             var onHeaderFooterFieldClick = function(btn){
                 if (me.HFObject)
@@ -363,8 +397,13 @@ define([
         afterRender: function () {
             this.cmbFonts.fillFonts(this.fontStore);
             this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.font.name}) || this.fontStore.at(0));
+            this.updateThemeColors();
 
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor('headerfooter-left-img', 'headerfooter-center-img', 'headerfooter-right-img', 190);
+        },
+
+        updateThemeColors: function() {
+            this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         getSettings: function () {
@@ -425,7 +464,9 @@ define([
         textTime: 'Insert time',
         textFilePath: 'Insert file path',
         textFileName: 'Insert file name',
-        textSheet: 'Insert sheet name'
+        textSheet: 'Insert sheet name',
+        textColor: 'Text color',
+        textNewColor: 'Add New Custom Color'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });
