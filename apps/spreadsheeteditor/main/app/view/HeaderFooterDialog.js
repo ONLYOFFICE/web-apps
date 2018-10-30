@@ -48,7 +48,7 @@ define([
 
     SSE.Views.HeaderFooterDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 654,
+            width: 660,
             style: 'min-width: 350px;',
             cls: 'modal-dlg'
         },
@@ -78,19 +78,19 @@ define([
                     '<div style="margin-top: 15px;">',
                         '<div style="display: inline-block;margin-right: 10px;">',
                             '<label style="font-weight: bold;">' + this.textLeft + '</label>',
-                            '<div style="border: 1px solid #cbcbcb;width: 200px; height: 150px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 150px; position:relative; overflow:hidden;">',
                                 '<div id="headerfooter-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-right: 10px;">',
                             '<label style="font-weight: bold;">' + this.textCenter + '</label>',
-                            '<div style="border: 1px solid #cbcbcb;width: 200px; height: 150px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 150px; position:relative; overflow:hidden;">',
                                 '<div id="headerfooter-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;">',
                             '<label style="font-weight: bold;">' + this.textRight + '</label>',
-                            '<div style="border: 1px solid #cbcbcb;width: 200px; height: 150px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 150px; position:relative; overflow:hidden;">',
                                 '<div id="headerfooter-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
@@ -122,8 +122,8 @@ define([
                 recent      : 0,
                 hint        : me.tipFontName
             }).on('selected', function(combo, record) {
-                if (me.signObject) {
-                    me.signObject.setText('Some text', record.name, me.font.size, me.font.italic, me.font.bold);
+                if (me.HFObject) {
+                    me.HFObject.setFontName(record.name);
                     me.scrollerUpdate();
                 }
                 me.font.name = record.name;
@@ -155,8 +155,8 @@ define([
                     { value: 72, displayValue: "72" }
                 ]
             }).on('selected', function(combo, record) {
-                if (me.signObject) {
-                    me.signObject.setText('Some text', me.font.name, record.value, me.font.italic, me.font.bold);
+                if (me.HFObject) {
+                    me.HFObject.setFontSize(record.value);
                     me.scrollerUpdate();
                 }
                 me.font.size = record.value;
@@ -171,8 +171,8 @@ define([
             });
             me.btnBold.render($('#id-dlg-sign-bold')) ;
             me.btnBold.on('click', function(btn, e) {
-                if (me.signObject) {
-                    me.signObject.setText('Some text', me.font.name, me.font.size, me.font.italic, btn.pressed);
+                if (me.HFObject) {
+                    me.HFObject.setBold(btn.pressed);
                     me.scrollerUpdate();
                 }
                 me.font.bold = btn.pressed;
@@ -186,8 +186,8 @@ define([
             });
             me.btnItalic.render($('#id-dlg-sign-italic')) ;
             me.btnItalic.on('click', function(btn, e) {
-                if (me.signObject) {
-                    me.signObject.setText('Some text', me.font.name, me.font.size, btn.pressed, me.font.bold);
+                if (me.HFObject) {
+                    me.HFObject.setItalic(btn.pressed);
                     me.scrollerUpdate();
                 }
                 me.font.italic = btn.pressed;
@@ -201,8 +201,8 @@ define([
             });
             me.btnUnderline.render($('#id-dlg-sign-underline')) ;
             me.btnUnderline.on('click', function(btn, e) {
-                if (me.signObject) {
-                    me.signObject.setText('Some text', me.font.name, me.font.size, me.font.italic, me.font.bold);
+                if (me.HFObject) {
+                    me.HFObject.setUnderline(btn.pressed);
                     me.scrollerUpdate();
                 }
                 me.font.underline = btn.pressed;
@@ -216,8 +216,8 @@ define([
             });
             me.btnStrikeout.render($('#id-dlg-sign-strikeout')) ;
             me.btnStrikeout.on('click', function(btn, e) {
-                if (me.signObject) {
-                    me.signObject.setText('Some text', me.font.name, me.font.size, me.font.italic, me.font.bold);
+                if (me.HFObject) {
+                    me.HFObject.setStrikeout(btn.pressed);
                     me.scrollerUpdate();
                 }
                 me.font.strikeout = btn.pressed;
@@ -232,8 +232,8 @@ define([
             });
             me.btnSuperscript.render($('#id-dlg-sign-superscript')) ;
             me.btnSuperscript.on('click', function(btn, e) {
-                if (me.signObject) {
-                    me.signObject.setText('Some text', me.font.name, me.font.size, me.font.italic, me.font.bold);
+                if (me.HFObject) {
+                    me.HFObject.setSuperscript(btn.pressed);
                     me.scrollerUpdate();
                 }
                 me.font.superscript = btn.pressed;
@@ -248,8 +248,8 @@ define([
             });
             me.btnSubscript.render($('#id-dlg-sign-subscript')) ;
             me.btnSubscript.on('click', function(btn, e) {
-                if (me.signObject) {
-                    me.signObject.setText('Some text', me.font.name, me.font.size, me.font.italic, me.font.bold);
+                if (me.HFObject) {
+                    me.HFObject.setSubscript(btn.pressed);
                     me.scrollerUpdate();
                 }
                 me.font.subscript = btn.pressed;
@@ -323,6 +323,10 @@ define([
             if (this.options.handler) {
                 this.options.handler.call(this, this, state);
             }
+            if (this.HFObject) {
+                this.HFObject.destroy(state=='ok');
+                this.HFObject = null;
+            }
             this.close();
         },
 
@@ -333,7 +337,9 @@ define([
         },
 
         onCanvasClick: function(id, event){
-            this.HFObject.click(id, event.pageX*Common.Utils.zoom(), event.pageY*Common.Utils.zoom());
+            var parent = $(event.currentTarget).parent(),
+                offset = parent.offset();
+            this.HFObject.click(id, event.pageX*Common.Utils.zoom() - offset.left, event.pageY*Common.Utils.zoom() - offset.top + parent.scrollTop());
         },
 
         cancelButtonText:   'Cancel',
