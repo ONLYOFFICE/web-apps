@@ -3,8 +3,9 @@ module.exports = function(grunt) {
         defaultConfig,
         packageFile;
 
+    const copyrightHeader = 'Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved'
     var copyright = '/*\n' +
-                    ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
+                    ' * ' + (process.env['APP_COPYRIGHT'] || copyrightHeader) + '\n' +
                     ' *\n' +
                     ' * <%= pkg.homepage %> \n' +
                     ' *\n' +
@@ -416,6 +417,7 @@ module.exports = function(grunt) {
     grunt.registerTask('increment-build', function() {
         var pkg = grunt.file.readJSON(defaultConfig);
         pkg.build = parseInt(pkg.build) + 1;
+        packageFile.homepage = (process.env['PUBLISHER_URL'] || pkg.homepage);
         packageFile.version = (process.env['PRODUCT_VERSION'] || pkg.version);
         packageFile.build = (process.env['BUILD_NUMBER'] || pkg.build);
         grunt.file.write(defaultConfig, JSON.stringify(pkg, null, 4));

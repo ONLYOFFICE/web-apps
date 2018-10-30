@@ -1410,7 +1410,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
                     caption: me.capImgAlign,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth, _set.coAuthText],
                     menu: true
                 });
 
@@ -1418,7 +1418,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-group',
                     caption: me.capImgGroup,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroupUngroup, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroupUngroup, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     menu: true
                 });
                 me.btnImgForward = new Common.UI.Button({
@@ -1426,14 +1426,14 @@ define([
                     iconCls: 'btn-img-frwd',
                     caption: me.capImgForward,
                     split: true,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     menu: true
                 });
                 me.btnImgBackward = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-bkwd',
                     caption: me.capImgBackward,
-                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     split: true,
                     menu: true
                 });

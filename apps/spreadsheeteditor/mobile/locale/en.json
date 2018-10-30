@@ -188,6 +188,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "SSE.Controllers.Main.saveTextText": "Saving document...",
   "SSE.Controllers.Main.saveTitleText": "Saving Document",
+  "SSE.Controllers.Main.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "SSE.Controllers.Main.sendMergeText": "Sending Merge...",
   "SSE.Controllers.Main.sendMergeTitle": "Sending Merge",
   "SSE.Controllers.Main.textAnonymous": "Anonymous",

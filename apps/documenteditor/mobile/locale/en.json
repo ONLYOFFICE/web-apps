@@ -96,6 +96,7 @@
   "DE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "DE.Controllers.Main.saveTextText": "Saving document...",
   "DE.Controllers.Main.saveTitleText": "Saving Document",
+  "DE.Controllers.Main.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "DE.Controllers.Main.sendMergeText": "Sending Merge...",
   "DE.Controllers.Main.sendMergeTitle": "Sending Merge",
   "DE.Controllers.Main.splitDividerErrorText": "The number of rows must be a divisor of %1",

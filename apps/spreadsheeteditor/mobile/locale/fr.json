@@ -188,6 +188,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Préparation à l'enregistrement en cours. Veuillez patienter...",
   "SSE.Controllers.Main.saveTextText": "Enregistrement du document...",
   "SSE.Controllers.Main.saveTitleText": "Enregistrement du document",
+  "SSE.Controllers.Main.scriptLoadError": "La connexion est trop lente, certains  éléments ne peuvent pas être chargés. Veuillez recharger la page.",
   "SSE.Controllers.Main.sendMergeText": "Envoie du résultat de la fusion...",
   "SSE.Controllers.Main.sendMergeTitle": "Envoie du résultat de la fusion",
   "SSE.Controllers.Main.textAnonymous": "Anonyme",

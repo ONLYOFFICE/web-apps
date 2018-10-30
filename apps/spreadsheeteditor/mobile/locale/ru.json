@@ -188,6 +188,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
   "SSE.Controllers.Main.saveTextText": "Сохранение документа...",
   "SSE.Controllers.Main.saveTitleText": "Сохранение документа",
+  "SSE.Controllers.Main.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
   "SSE.Controllers.Main.sendMergeText": "Отправка результатов слияния...",
   "SSE.Controllers.Main.sendMergeTitle": "Отправка результатов слияния",
   "SSE.Controllers.Main.textAnonymous": "Анонимный пользователь",

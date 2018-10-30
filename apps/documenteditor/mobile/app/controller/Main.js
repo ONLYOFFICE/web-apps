@@ -767,6 +767,14 @@ define([
             },
 
             onError: function(id, level, errData) {
+                if (id == Asc.c_oAscError.ID.LoadingScriptError) {
+                    uiApp.addNotification({
+                        title: this.criticalErrorTitle,
+                        message: this.scriptLoadError
+                    });
+                    return;
+                }
+
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
@@ -1347,7 +1355,8 @@ define([
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
-            closeButtonText: 'Close File'
+            closeButtonText: 'Close File',
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
         }
     })(), DE.Controllers.Main || {}))
 });

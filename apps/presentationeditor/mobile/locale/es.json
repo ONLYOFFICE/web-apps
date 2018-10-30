@@ -112,6 +112,7 @@
   "PE.Controllers.Main.savePreparingTitle": "Preparando para guardar. Espere, por favor...",
   "PE.Controllers.Main.saveTextText": "Guardando documento...",
   "PE.Controllers.Main.saveTitleText": "Guardando documento",
+  "PE.Controllers.Main.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",
   "PE.Controllers.Main.splitDividerErrorText": "El número de filas debe ser un divisor de %1",
   "PE.Controllers.Main.splitMaxColsErrorText": "El número de columnas debe ser menos que %1",
   "PE.Controllers.Main.splitMaxRowsErrorText": "El número de filas debe ser menos que %1",
