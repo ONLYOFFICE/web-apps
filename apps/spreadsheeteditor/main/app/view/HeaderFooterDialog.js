@@ -70,11 +70,15 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 210px;">',
-                    '<div id="id-dlg-sign-fonts" class="input-row" style="display: inline-block;"></div>',
-                    '<div id="id-dlg-sign-font-size" class="input-row" style="display: inline-block;margin-left: 3px;"></div>',
-                    '<div id="id-dlg-sign-bold" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-sign-italic" style="display: inline-block;margin-left: 3px;"></div>',
-                    '<div id="id-dlg-sign-underline" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-sign-strikeout" style="display: inline-block;margin-left: 3px;"></div>',
-                    '<div id="id-dlg-sign-subscript" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-sign-superscript" style="display: inline-block;margin-left: 3px;"></div>',
+                    '<div id="id-dlg-hf-fonts" class="input-row" style="display: inline-block;"></div>',
+                    '<div id="id-dlg-hf-font-size" class="input-row" style="display: inline-block;margin-left: 3px;"></div>',
+                    '<div id="id-dlg-hf-bold" style="display: inline-block;margin-left: 3px;"></div>','<div id="id-dlg-hf-italic" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-hf-underline" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-hf-strikeout" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-hf-subscript" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-hf-superscript" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-hf-pagenum" style="display: inline-block;margin-left: 10px;"></div>','<div id="id-dlg-hf-pagecount" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-hf-date" style="display: inline-block;margin-left: 10px;"></div>','<div id="id-dlg-hf-time" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-hf-filepath" style="display: inline-block;margin-left: 10px;"></div>', '<div id="id-dlg-hf-filename" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-hf-sheet" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div style="margin-top: 15px;">',
                         '<div style="display: inline-block;margin-right: 10px;">',
                             '<label style="font-weight: bold;">' + this.textLeft + '</label>',
@@ -113,7 +117,7 @@ define([
                 $window = this.getChild();
 
             me.cmbFonts = new Common.UI.ComboBoxFonts({
-                el          : $('#id-dlg-sign-fonts'),
+                el          : $('#id-dlg-hf-fonts'),
                 cls         : 'input-group-nr',
                 style       : 'width: 234px;',
                 menuCls     : 'scrollable-menu',
@@ -126,11 +130,10 @@ define([
                     me.HFObject.setFontName(record.name);
                     me.scrollerUpdate();
                 }
-                me.font.name = record.name;
             });
 
             this.cmbFontSize = new Common.UI.ComboBox({
-                el: $('#id-dlg-sign-font-size'),
+                el: $('#id-dlg-hf-font-size'),
                 cls: 'input-group-nr',
                 style: 'width: 55px;',
                 menuCls     : 'scrollable-menu',
@@ -159,7 +162,6 @@ define([
                     me.HFObject.setFontSize(record.value);
                     me.scrollerUpdate();
                 }
-                me.font.size = record.value;
             });
             this.cmbFontSize.setValue(this.font.size);
 
@@ -169,13 +171,12 @@ define([
                 enableToggle: true,
                 hint: me.textBold
             });
-            me.btnBold.render($('#id-dlg-sign-bold')) ;
+            me.btnBold.render($('#id-dlg-hf-bold')) ;
             me.btnBold.on('click', function(btn, e) {
                 if (me.HFObject) {
                     me.HFObject.setBold(btn.pressed);
                     me.scrollerUpdate();
                 }
-                me.font.bold = btn.pressed;
             });
 
             me.btnItalic = new Common.UI.Button({
@@ -184,13 +185,12 @@ define([
                 enableToggle: true,
                 hint: me.textItalic
             });
-            me.btnItalic.render($('#id-dlg-sign-italic')) ;
+            me.btnItalic.render($('#id-dlg-hf-italic')) ;
             me.btnItalic.on('click', function(btn, e) {
                 if (me.HFObject) {
                     me.HFObject.setItalic(btn.pressed);
                     me.scrollerUpdate();
                 }
-                me.font.italic = btn.pressed;
             });
 
             me.btnUnderline = new Common.UI.Button({
@@ -199,13 +199,12 @@ define([
                 enableToggle: true,
                 hint: me.textUnderline
             });
-            me.btnUnderline.render($('#id-dlg-sign-underline')) ;
+            me.btnUnderline.render($('#id-dlg-hf-underline')) ;
             me.btnUnderline.on('click', function(btn, e) {
                 if (me.HFObject) {
                     me.HFObject.setUnderline(btn.pressed);
                     me.scrollerUpdate();
                 }
-                me.font.underline = btn.pressed;
             });
 
             me.btnStrikeout = new Common.UI.Button({
@@ -214,13 +213,12 @@ define([
                 enableToggle: true,
                 hint: me.textStrikeout
             });
-            me.btnStrikeout.render($('#id-dlg-sign-strikeout')) ;
+            me.btnStrikeout.render($('#id-dlg-hf-strikeout')) ;
             me.btnStrikeout.on('click', function(btn, e) {
                 if (me.HFObject) {
                     me.HFObject.setStrikeout(btn.pressed);
                     me.scrollerUpdate();
                 }
-                me.font.strikeout = btn.pressed;
             });
 
             this.btnSuperscript = new Common.UI.Button({
@@ -230,13 +228,12 @@ define([
                 toggleGroup: 'superscriptHFGroup',
                 hint: me.textSuperscript
             });
-            me.btnSuperscript.render($('#id-dlg-sign-superscript')) ;
+            me.btnSuperscript.render($('#id-dlg-hf-superscript')) ;
             me.btnSuperscript.on('click', function(btn, e) {
                 if (me.HFObject) {
                     me.HFObject.setSuperscript(btn.pressed);
                     me.scrollerUpdate();
                 }
-                me.font.superscript = btn.pressed;
             });
 
             this.btnSubscript = new Common.UI.Button({
@@ -246,14 +243,82 @@ define([
                 toggleGroup: 'superscriptHFGroup',
                 hint: me.textSubscript
             });
-            me.btnSubscript.render($('#id-dlg-sign-subscript')) ;
+            me.btnSubscript.render($('#id-dlg-hf-subscript')) ;
             me.btnSubscript.on('click', function(btn, e) {
                 if (me.HFObject) {
                     me.HFObject.setSubscript(btn.pressed);
                     me.scrollerUpdate();
                 }
-                me.font.subscript = btn.pressed;
             });
+
+
+            var onHeaderFooterFieldClick = function(btn){
+                if (me.HFObject)
+                    me.HFObject.addField(btn.options.value);
+            };
+
+            me.btnPageNum = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-align-just',
+                hint: me.textPageNum,
+                value: Asc.c_oAscHeaderFooterField.pageNumber
+            });
+            me.btnPageNum.render($('#id-dlg-hf-pagenum')) ;
+            me.btnPageNum.on('click', onHeaderFooterFieldClick);
+
+            me.btnPageCount = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-align-just',
+                hint: me.textPageCount,
+                value: Asc.c_oAscHeaderFooterField.pageCount
+            });
+            me.btnPageCount.render($('#id-dlg-hf-pagecount')) ;
+            me.btnPageCount.on('click', onHeaderFooterFieldClick);
+
+            me.btnDate = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-align-just',
+                hint: me.textDate,
+                value: Asc.c_oAscHeaderFooterField.date
+            });
+            me.btnDate.render($('#id-dlg-hf-date')) ;
+            me.btnDate.on('click', onHeaderFooterFieldClick);
+
+            me.btnTime = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-align-just',
+                hint: me.textTime,
+                value: Asc.c_oAscHeaderFooterField.time
+            });
+            me.btnTime.render($('#id-dlg-hf-time')) ;
+            me.btnTime.on('click', onHeaderFooterFieldClick);
+
+            me.btnFilePath = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-align-just',
+                hint: me.textFilePath,
+                value: Asc.c_oAscHeaderFooterField.filePath
+            });
+            me.btnFilePath.render($('#id-dlg-hf-filepath')) ;
+            me.btnFilePath.on('click', onHeaderFooterFieldClick);
+
+            me.btnFileName = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-align-just',
+                hint: me.textFileName,
+                value: Asc.c_oAscHeaderFooterField.fileName
+            });
+            me.btnFileName.render($('#id-dlg-hf-filename')) ;
+            me.btnFileName.on('click', onHeaderFooterFieldClick);
+
+            me.btnSheet = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-align-just',
+                hint: me.textSheet,
+                value: Asc.c_oAscHeaderFooterField.sheetName
+            });
+            me.btnSheet.render($('#id-dlg-hf-sheet')) ;
+            me.btnSheet.on('click', onHeaderFooterFieldClick);
 
             me.btnOk = new Common.UI.Button({
                 el: $window.find('.primary')
@@ -299,10 +364,7 @@ define([
             this.cmbFonts.fillFonts(this.fontStore);
             this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.font.name}) || this.fontStore.at(0));
 
-            // this.signObject = new AscCommon.CSignatureDrawer('headerfooter-left-img', this.api, 50, 50);
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor('headerfooter-left-img', 'headerfooter-center-img', 'headerfooter-right-img', 190);
-
-
         },
 
         getSettings: function () {
@@ -356,7 +418,14 @@ define([
         textFooter: 'Footer',
         textLeft: 'Left',
         textCenter: 'Center',
-        textRight: 'Right'
+        textRight: 'Right',
+        textPageNum: 'Insert page number',
+        textPageCount: 'Insert page count',
+        textDate: 'Insert date',
+        textTime: 'Insert time',
+        textFilePath: 'Insert file path',
+        textFileName: 'Insert file name',
+        textSheet: 'Insert sheet name'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });
