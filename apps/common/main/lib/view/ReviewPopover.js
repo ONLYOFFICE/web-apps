@@ -903,9 +903,9 @@ define([
                 textBox && textBox.on('input', function (event) {
                     var $this = $(this),
                         start = this.selectionStart,
-                        val = $this.val(),
+                        val = $this.val().replace(/[\n]$/, ""),
                         left = 0, right = val.length-1;
-                    for (var i=start; i>=0; i--) {
+                    for (var i=start-1; i>=0; i--) {
                         if (val.charCodeAt(i) == 32 /*space*/ || val.charCodeAt(i) == 13 || val.charCodeAt(i) == 10 || val.charCodeAt(i) == 9) {
                             left = i+1; break;
                         }
@@ -1012,9 +1012,9 @@ define([
                     menu.addItem(mnu);
                 });
 
-                if (arr.length>0) {
-                    var textbox = this.commentsView.getTextBox(),
-                        textboxDom = textbox[0],
+                var textbox = this.commentsView.getTextBox();
+                if (arr.length>0 && textbox) {
+                    var textboxDom = textbox[0],
                         showPoint = [textboxDom.offsetLeft, textboxDom.offsetTop + textboxDom.clientHeight + 3];
 
                     if (!menu.rendered) {
@@ -1029,7 +1029,8 @@ define([
                         menu.cmpEl.attr({tabindex: "-1"});
                         menu.on('hide:after', function(){
                             setTimeout(function(){
-                                me.commentsView.getTextBox().focus();
+                                var tb = me.commentsView.getTextBox();
+                                tb && tb.focus();
                             }, 10);
                         });
                     }
@@ -1051,6 +1052,9 @@ define([
             var textBox = this.commentsView.getTextBox(),
                 val = textBox.val();
             textBox.val(val.substring(0, left) + '+' + str + val.substring(right+1, val.length));
+            setTimeout(function(){
+                textBox[0].selectionStart = textBox[0].selectionEnd = left + str.length + 1;
+            }, 10);
         },
 
         textAddReply            : 'Add Reply',
