@@ -1124,9 +1124,11 @@ define([
             if (_.isUndefined(this.popover)) {
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     commentsStore : this.popoverComments,
-                    renderTo : this.sdkViewName
+                    renderTo : this.sdkViewName,
+                    userEmail: this.mode.userEmail
                 });
                 this.popover.setCommentsStore(this.popoverComments);
+                this.popover.setUserEmail(this.mode.userEmail);
             }
             return this.popover;
         },

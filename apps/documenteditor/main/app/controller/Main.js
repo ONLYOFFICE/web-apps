@@ -1160,6 +1160,7 @@ define([
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && (this.appOptions.canComments || this.appOptions.canFillForms);
                 if (this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
                     this.appOptions.canComments = false;
+                this.appOptions.userEmail = ["ivanov.ivan@gmail.com", "petrov.petr@gmail.com", "abggg.sdf@gmail.com", "absss.ivan@yandex.ru"];
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =

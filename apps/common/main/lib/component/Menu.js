@@ -550,7 +550,7 @@ define([
                 return this.offset;
             },
 
-            alignPosition: function() {
+            alignPosition: function(fixedAlign, fixedOffset) {
                 var menuRoot    = (this.cmpEl.attr('role') === 'menu')
                         ? this.cmpEl
                         : this.cmpEl.find('[role=menu]'),
@@ -597,8 +597,13 @@ define([
                         }
                     }
                 } else {
-                    if (top + menuH > docH)
-                        top = docH - menuH;
+                    if (top + menuH > docH) {
+                        if (fixedAlign) {
+                            m = fixedAlign.match(/^([a-z]+)-([a-z]+)/);
+                            top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1] + (fixedOffset || 0);
+                        } else
+                            top = docH - menuH;
+                    }
 
                     if (top < 0)
                         top = 0;
