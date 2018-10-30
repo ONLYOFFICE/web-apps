@@ -1,11 +1,15 @@
 .about-dlg {
     .asc-about-office {
         background-repeat: no-repeat;
-        .background-ximage('@{common-image-path}/about/OnlyOffice.png', '@{common-image-path}/about/OnlyOffice@2x.png', 340px);
-
-        width: 340px;
-        height: 55px;
         margin-bottom: 5px;
+        content: data-uri('@{common-image-path}/about/logo.png');
+
+        @media
+        only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (min-resolution: 2dppx),
+        only screen and (min-resolution: 192dpi) {
+            content: data-uri('@{common-image-path}/about/logo@2x.png');
+        }
     }
 
     .asc-about-header {

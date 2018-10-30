@@ -1484,8 +1484,10 @@ define([
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
-
-
+                documentHolder.mnuBringToFront.setDisabled(isObjLocked);
+                documentHolder.mnuSendToBack.setDisabled(isObjLocked);
+                documentHolder.mnuBringForward.setDisabled(isObjLocked);
+                documentHolder.mnuSendBackward.setDisabled(isObjLocked);
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);

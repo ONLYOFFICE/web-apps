@@ -1289,6 +1289,12 @@ define([
             },
 
             onError: function(id, level, errData) {
+                if (id == Asc.c_oAscError.ID.LoadingScriptError) {
+                    this.showTips([this.scriptLoadError]);
+                    this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
+                    return;
+                }
+
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
@@ -2309,6 +2315,7 @@ define([
             textClose: 'Close',
             textPaidFeature: 'Paid feature',
             textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department',
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
             errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
         }

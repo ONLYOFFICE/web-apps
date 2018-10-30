@@ -465,6 +465,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
   "SSE.Controllers.Main.saveTextText": "Сохранение электронной таблицы...",
   "SSE.Controllers.Main.saveTitleText": "Сохранение электронной таблицы",
+  "SSE.Controllers.Main.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",
   "SSE.Controllers.Main.textAnonymous": "Аноним",
   "SSE.Controllers.Main.textBuyNow": "Перейти на сайт",
   "SSE.Controllers.Main.textClose": "Закрыть",

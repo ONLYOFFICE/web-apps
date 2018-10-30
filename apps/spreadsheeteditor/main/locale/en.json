@@ -472,6 +472,7 @@
   "SSE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "SSE.Controllers.Main.saveTextText": "Saving spreadsheet...",
   "SSE.Controllers.Main.saveTitleText": "Saving Spreadsheet",
+  "SSE.Controllers.Main.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "SSE.Controllers.Main.textAnonymous": "Anonymous",
   "SSE.Controllers.Main.textBuyNow": "Visit website",
   "SSE.Controllers.Main.textClose": "Close",

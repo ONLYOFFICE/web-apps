@@ -381,6 +381,7 @@
   "DE.Controllers.Main.savePreparingTitle": "Préparation à l'enregistrement en cours. Veuillez patienter...",
   "DE.Controllers.Main.saveTextText": "Enregistrement du document...",
   "DE.Controllers.Main.saveTitleText": "Enregistrement du document",
+  "DE.Controllers.Main.scriptLoadError": "La connexion est trop lente, certains  éléments ne peuvent pas être chargés. Veuillez recharger la page.",
   "DE.Controllers.Main.sendMergeText": "Envoie du résultat de la fusion...",
   "DE.Controllers.Main.sendMergeTitle": "Envoie du résultat de la fusion",
   "DE.Controllers.Main.splitDividerErrorText": "Le nombre de lignes doit être un diviseur de %1.",
