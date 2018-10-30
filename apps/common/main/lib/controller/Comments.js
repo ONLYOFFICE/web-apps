@@ -1125,10 +1125,10 @@ define([
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     commentsStore : this.popoverComments,
                     renderTo : this.sdkViewName,
-                    userEmail: this.mode.userEmail
+                    userEmail: (this.mode) ? this.mode.userEmail : undefined
                 });
                 this.popover.setCommentsStore(this.popoverComments);
-                this.popover.setUserEmail(this.mode.userEmail);
+                (this.mode) && this.popover.setUserEmail(this.mode.userEmail);
             }
             return this.popover;
         },
@@ -1343,7 +1343,7 @@ define([
 
                     this.api.asc_addComment(comment);
                     this.view.showEditContainer(false);
-                    this.view.pickEMail(commentVal);
+                    this.mode && this.mode.userEmail && this.view.pickEMail(commentVal);
                     if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                         this.api.asc_SetDocumentPlaceChangedEnabled(false);
                     }

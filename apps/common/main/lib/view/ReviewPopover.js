@@ -894,9 +894,16 @@ define([
                 textBox && textBox.keydown(function (event) {
                     if ( event.keyCode == Common.UI.Keys.SPACE ||
                         event.keyCode == Common.UI.Keys.HOME || event.keyCode == Common.UI.Keys.END || event.keyCode == Common.UI.Keys.RIGHT ||
-                        event.keyCode == Common.UI.Keys.LEFT || event.keyCode == Common.UI.Keys.UP || event.keyCode == Common.UI.Keys.DOWN) {
+                        event.keyCode == Common.UI.Keys.LEFT || event.keyCode == Common.UI.Keys.UP) {
                         // hide email menu
                         me.onEmailListMenu();
+                    } else if (event.keyCode == Common.UI.Keys.DOWN) {
+                        if (me.emailMenu && me.emailMenu.rendered && me.emailMenu.isVisible())
+                            _.delay(function() {
+                                var selected = me.emailMenu.cmpEl.find('li:not(.divider):first');
+                                selected = selected.find('a');
+                                selected.focus();
+                            }, 10);
                     }
                     me.e = event;
                 });
