@@ -1496,18 +1496,7 @@ define([
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup
                 ];
 
-                var _temp_array = [me.cmbFontName, me.cmbFontSize, me.btnAlignLeft,me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust,me.btnAlignTop,
-                    me.btnAlignMiddle, me.btnAlignBottom, me.btnHorizontalAlign, me.btnVerticalAlign,
-                    me.btnInsertImage, me.btnInsertText, me.btnInsertTextArt, me.btnInsertShape, me.btnInsertEquation, me.btnIncFontSize,
-                    me.btnDecFontSize, me.btnBold, me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnBackColor,
-                    me.btnInsertHyperlink, me.btnBorders, me.btnTextOrient, me.btnPercentStyle, me.btnCurrencyStyle, me.btnColorSchemas,
-                    me.btnInsertFormula, me.btnNamedRange, me.btnDecDecimal, me.btnIncDecimal, me.cmbNumberFormat, me.btnWrap,
-                    me.btnInsertChart, me.btnMerge, me.btnAddCell, me.btnDeleteCell, me.btnPrint,
-                    me.btnAutofilter, me.btnSortUp, me.btnSortDown, me.btnTableTemplate, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnSave, me.btnClearStyle, me.btnCopyStyle, me.btnCopy, me.btnPaste];
-
-                // Enable none paragraph components
-                _.each(_temp_array, function(cmp) {
+                _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
                     if (cmp && _.isFunction(cmp.setDisabled))
                         cmp.setDisabled(true);
                 });

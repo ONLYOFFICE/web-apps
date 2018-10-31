@@ -1333,6 +1333,7 @@ define([
 
                         me.btnsPageBreak.add(button);
                     });
+                    me.btnsPageBreak.setDisabled(true);
 
                     Array.prototype.push.apply(me.paragraphControls, me.btnsPageBreak);
                 }.call(this);
