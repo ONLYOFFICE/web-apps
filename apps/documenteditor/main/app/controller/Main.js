@@ -1921,7 +1921,7 @@ define([
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        closable: me.appOptions.canRequestClose,
+                        closeFile: me.appOptions.canRequestClose,
                         type: type,
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
