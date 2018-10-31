@@ -1590,8 +1590,10 @@ define([
                                     me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
                                     me.loadMask && me.loadMask.show();
                                 }
-                            } else
+                            } else {
                                 Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
                             me._state.openDlg = null;
                         }
                     });

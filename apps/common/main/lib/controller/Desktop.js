@@ -70,6 +70,11 @@ define([
                 }
 
                 return false;
+            },
+            requestClose: function () {
+                if ( config.isDesktopApp && !!app ) {
+                    app.execCommand('editor:request', 'close');
+                }
             }
         };
     };
