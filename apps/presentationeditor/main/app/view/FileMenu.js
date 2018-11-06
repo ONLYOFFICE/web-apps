@@ -321,6 +321,7 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            this.panels['info'].setApi(api);
             if (this.panels['protect']) this.panels['protect'].setApi(api);
             this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
         },

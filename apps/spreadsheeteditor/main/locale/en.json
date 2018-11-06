@@ -1289,6 +1289,7 @@
   "SSE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Location",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtRights": "Persons who have rights",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Spreadsheet Title",
+  "SSE.Views.FileMenuPanels.DocumentInfo.txtAppName": "Application",
   "SSE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "SSE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.okButtonText": "Apply",

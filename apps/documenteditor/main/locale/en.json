@@ -1150,6 +1150,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtStatistics": "Statistics",
   "DE.Views.FileMenuPanels.DocumentInfo.txtSymbols": "Symbols",
   "DE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Document Title",
+  "DE.Views.FileMenuPanels.DocumentInfo.txtAppName": "Application",
   "DE.Views.FileMenuPanels.DocumentInfo.txtWords": "Words",
   "DE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "DE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",

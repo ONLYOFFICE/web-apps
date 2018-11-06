@@ -1041,6 +1041,10 @@ define([
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
                     '</tr>',
+                    '<tr class="appname">',
+                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                        '<td class="right"><label id="id-info-appname">-</label></td>',
+                    '</tr>',
                     '<tr class="date">',
                         '<td class="left"><label>' + this.txtDate + '</label></td>',
                         '<td class="right"><label id="id-info-date">-</label></td>',
@@ -1059,6 +1063,7 @@ define([
             this.lblPlacement = $('#id-info-placement');
             this.lblDate = $('#id-info-date');
             this.lblAuthor = $('#id-info-author');
+            this.lblApplication = $('#id-info-appname');
 
             this.rendered = true;
 
@@ -1102,6 +1107,12 @@ define([
                 this._ShowHideInfoItem('placement', doc.info.folder!==undefined && doc.info.folder!==null);
             } else
                 this._ShowHideDocInfo(false);
+            var appname = (this.api) ? this.api.asc_getAppProps() : null;
+            if (appname) {
+                appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
+                this.lblApplication.text(appname);
+            }
+            this._ShowHideInfoItem('appname', !!appname);
         },
 
         _ShowHideInfoItem: function(cls, visible) {
@@ -1118,10 +1129,17 @@ define([
             return this;
         },
 
+        setApi: function(o) {
+            this.api = o;
+            this.updateInfo(this.doc);
+            return this;
+        },
+
         txtTitle: 'Document Title',
         txtAuthor: 'Author',
         txtPlacement: 'Placement',
-        txtDate: 'Creation Date'
+        txtDate: 'Creation Date',
+        txtAppName: 'Application'
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
