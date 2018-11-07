@@ -839,7 +839,7 @@ define([
                 var elem = document.getElementById('loadmask-text');
                 var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
                 proc = this.textLoadingDocument + ': ' + Math.min(Math.round(proc*100), 100) + '%';
-                elem ? elem.innerHTML = proc : this.loadMask.setTitle(proc);
+                elem ? elem.innerHTML = proc : this.loadMask && this.loadMask.setTitle(proc);
             },
 
             onEditorPermissions: function(params) {
