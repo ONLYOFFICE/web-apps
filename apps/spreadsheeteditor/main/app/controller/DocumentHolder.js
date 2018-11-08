@@ -1847,6 +1847,8 @@ define([
         },
 
         onFormulaCompleteMenu: function(funcarr) {
+            if (!this.documentHolder.funcMenu) return;
+
             if (funcarr) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,

@@ -772,13 +772,15 @@ define([
                 }
                 if (props && props.get_Checked()===false && props.get_Variants() !== null && props.get_Variants() !== undefined) {
                     me.addWordVariants();
-                    if (me.textMenu.isVisible()) {
+                    if (me.textMenu && me.textMenu.isVisible()) {
                         me.textMenu.alignPosition();
                     }
                 }
             };
 
             this.addWordVariants = function(isParagraph) {
+                if (!me.textMenu) return;
+
                 if (_.isUndefined(isParagraph)) {
                     isParagraph = me.textMenu.isVisible();
                 }
