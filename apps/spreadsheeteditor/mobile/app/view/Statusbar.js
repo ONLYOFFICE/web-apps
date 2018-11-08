@@ -90,8 +90,8 @@ define([
                     var $el = tab.get('el');
                     if ( $el ) {
                         var rightbound = this.$boxTabs.width();
-                        var left = tab.position().left,
-                            right = left + parseInt(tab.css('width'));
+                        var left = $el.position().left,
+                            right = left + parseInt($el.css('width'));
 
                         if (left < 0) {
                             this.$boxTabs.scrollLeft(/*this.$boxTabs.scrollLeft() + */left - 26);
