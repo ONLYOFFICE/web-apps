@@ -614,6 +614,7 @@ define([
                 var coord  = specialPasteShowOptions.asc_getCellCoord(),
                     pasteContainer = me.cmpEl.find('#special-paste-container'),
                     pasteItems = specialPasteShowOptions.asc_getOptions();
+                if (!pasteItems) return;
 
                 // Prepare menu container
                 if (pasteContainer.length < 1) {
