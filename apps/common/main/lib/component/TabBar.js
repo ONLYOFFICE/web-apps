@@ -206,6 +206,7 @@ define([
 
                     function dragComplete() {
                         if (!_.isUndefined(me.drag)) {
+                            me.drag.tab.removeClass('dragged');
                             me.drag.tab.$el.css('z-index', '');
                             me.bar.dragging = false;
                             var tab = null;
@@ -250,6 +251,8 @@ define([
                     }
 
                     if (!_.isUndefined(bar) && !_.isUndefined(tab) && bar.tabs.length > 1) {
+                        tab.addClass('dragged');
+
                         var index   = bar.tabs.indexOf(tab),
                             _clientX = e.clientX*Common.Utils.zoom();
                         me.bar      = bar;
