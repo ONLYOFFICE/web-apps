@@ -453,6 +453,10 @@ define([
                     '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
                     '<td class="right"><span id="fms-chb-forcesave" /></td>',
                 '</tr>','<tr class="divider forcesave"></tr>',
+                '<tr>',
+                    '<td class="left"><label><%= scope.textRefStyle %></label></td>',
+                    '<td class="right"><div id="fms-chb-r1c1-style"/></td>',
+                '</tr>','<tr class="divider"></tr>',
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
@@ -511,6 +515,11 @@ define([
             this.chResolvedComment = new Common.UI.CheckBox({
                 el: $('#fms-chb-resolved-comment'),
                 labelText: this.strResolvedComment
+            });
+
+            this.chR1C1Style = new Common.UI.CheckBox({
+                el: $('#fms-chb-r1c1-style'),
+                labelText: this.strR1C1
             });
 
             this.cmbCoAuthMode = new Common.UI.ComboBox({
@@ -694,6 +703,7 @@ define([
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
             this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("sse-settings-resolvedcomment"));
+            this.chR1C1Style.setValue(Common.Utils.InternalSettings.get("sse-settings-r1c1"));
 
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
@@ -745,6 +755,7 @@ define([
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring)
                 Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
             /** coauthoring end **/
+            Common.localStorage.setItem("sse-settings-r1c1", this.chR1C1Style.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
@@ -829,7 +840,9 @@ define([
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments'
+        strResolvedComment: 'Turn on display of the resolved comments',
+        textRefStyle: 'Reference Style',
+        strR1C1: 'Turn on R1C1 style'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

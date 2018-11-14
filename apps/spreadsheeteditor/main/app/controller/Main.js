@@ -329,6 +329,10 @@ define([
                 }
                 if (value) this.api.asc_setLocalization(value);
 
+                value = Common.localStorage.getBool("sse-settings-r1c1");
+                Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
+                this.api.asc_setR1C1Mode(value);
+
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
