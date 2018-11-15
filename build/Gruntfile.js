@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     var copyright = '/*\n' +
                     ' * ' + (process.env['APP_COPYRIGHT'] || copyrightHeader) + '\n' +
                     ' *\n' +
-                    ' * <%= pkg.homepage %> \n' +
+                    ' * ' + (process.env['APP_HOMEPAGE'] || '<%= pkg.homepage %>') + ' \n' +
                     ' *\n' +
                     ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
                     ' */\n';
