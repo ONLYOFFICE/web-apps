@@ -8,6 +8,7 @@
 * Add customization parameter 'hideRightMenu' for hiding right panel on first loading (bug #39096)
 
 ### Document Editor
+* Search selected text
 
 ### Spreadsheet Editor
 * Set print area

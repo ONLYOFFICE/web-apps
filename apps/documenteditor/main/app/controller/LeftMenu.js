@@ -535,9 +535,10 @@ define([
                 var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
                 if (this.dlgSearch.isVisible()) {
                     this.dlgSearch.setMode(mode);
+                    this.dlgSearch.setSearchText(this.api.asc_GetSelectedText());
                     this.dlgSearch.focus();
                 } else {
-                    this.dlgSearch.show(mode);
+                    this.dlgSearch.show(mode, this.api.asc_GetSelectedText());
                 }
             } else this.dlgSearch['hide']();
         },
