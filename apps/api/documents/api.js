@@ -574,7 +574,8 @@
             canCoAuthoring: true,
             customization: {
                 about: true,
-                feedback: false
+                feedback: false,
+                url: "http://r7-office.ru"
             }
         }
     };
