@@ -575,7 +575,9 @@
             customization: {
                 about: true,
                 feedback: false,
-                url: "http://r7-office.ru"
+                logo: {
+                    url: "http://r7-office.ru"
+                }
             }
         }
     };
