@@ -88,7 +88,7 @@ define([
 
                 var _template_tabs =
                     '<section class="tabs">' +
-                        '<a class="scroll left"><i class="icon">&lt;</i></a>' +
+                        '<a class="scroll left"></a>' +
                         '<ul>' +
                             '<% for(var i in items) { %>' +
                                 '<li class="ribtab' +
@@ -98,7 +98,7 @@ define([
                                 '</li>' +
                             '<% } %>' +
                         '</ul>' +
-                        '<a class="scroll right"><i class="icon">&gt;</i></a>' +
+                        '<a class="scroll right"></a>' +
                     '</section>';
 
                 this.$layout = $(options.template({

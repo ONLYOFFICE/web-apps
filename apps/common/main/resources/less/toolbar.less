@@ -108,20 +108,46 @@
         .scroll {
             line-height: @height-tabs;
             min-width: 20px;
-            text-align: center;
             z-index: 1;
             cursor: pointer;
-            color: #fff;
+            position: relative;
+            display: flex;
+            align-items: center;
 
             &:hover {
                 text-decoration: none;
             }
 
+            &:not(:hover) {
+                &:after {
+                    opacity: .8;
+                }
+            }
+
             &.left{
-                box-shadow: 5px 0 20px 5px @tabs-bg-color
+                box-shadow: 5px 0 20px 5px @tabs-bg-color;
+
+                &:after {
+                    transform: rotate(135deg);
+                    margin-left: 8px;
+                }
             }
             &.right{
-                box-shadow: -5px 0 20px 5px @tabs-bg-color
+                box-shadow: -5px 0 20px 5px @tabs-bg-color;
+
+                &:after {
+                    transform: rotate(-45deg);
+                    margin-left: 4px;
+                }
+            }
+
+            @arrow-length: 8px;
+            &:after {
+                content: ' ';
+                width: @arrow-length;
+                height: @arrow-length;
+                border: solid white;
+                border-width: 0 2px 2px 0;
             }
         }
     }
