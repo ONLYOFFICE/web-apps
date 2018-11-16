@@ -423,7 +423,7 @@ module.exports = function(grunt) {
         grunt.file.write(defaultConfig, JSON.stringify(pkg, null, 4));
     });
 
-    //Hack for build desktop version
+    //quick workaround for build desktop version
     var apiCopyTask = grunt.option('desktop')? "copy": "copy:script";
 
     grunt.registerTask('deploy-api',                    ['api-init', 'clean', apiCopyTask, 'replace:writeVersion']);
