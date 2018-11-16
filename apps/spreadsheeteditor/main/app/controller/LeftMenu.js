@@ -151,11 +151,14 @@ define([
                 if (this.mode.canComments) {
                     this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
-                    var collection = this.getApplication().getCollection('Common.Collections.Comments');
-                    for (var i = 0; i < collection.length; ++i) {
-                        if (collection.at(i).get('userid') !== this.mode.user.id) {
-                            this.leftMenu.markCoauthOptions('comments', true);
-                            break;
+                    var comments = this.getApplication().getController('Common.Controllers.Comments').groupCollection;
+                    for (var name in comments) {
+                        var collection = comments[name];
+                        for (var i = 0; i < collection.length; ++i) {
+                            if (collection.at(i).get('userid') !== this.mode.user.id) {
+                                this.leftMenu.markCoauthOptions('comments', true);
+                                break;
+                            }
                         }
                     }
                 }

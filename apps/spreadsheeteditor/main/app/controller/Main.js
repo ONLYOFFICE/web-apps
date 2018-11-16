@@ -718,9 +718,7 @@ define([
                         if (window.styles_loaded || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) {
                             clearInterval(timer_sl);
 
-                            Common.NotificationCenter.trigger('comments:updatefilter',
-                                {property: 'uid',
-                                    value: new RegExp('^(doc_|sheet' + me.api.asc_getActiveWorksheetId() + '_)')});
+                            Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()]);
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
@@ -1619,14 +1617,8 @@ define([
                 if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram && window.editor_elements_prepared) {
                     this.application.getController('Statusbar').selectTab(index);
 
-                    if (this.appOptions.isEdit && !this.dontCloseDummyComment) {
-                        Common.NotificationCenter.trigger('comments:updatefilter',
-                            {
-                                property: 'uid',
-                                value: new RegExp('^(doc_|sheet' + this.api.asc_getWorksheetId(index) + '_)')
-                            },
-                            false //  hide popover
-                        );
+                    if (this.appOptions.canComments && !this.dontCloseDummyComment) {
+                        Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getWorksheetId(index)], false ); //  hide popover
                     }
                 }
             },
