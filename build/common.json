@@ -64,6 +64,10 @@
                     "!**/*.desktop"
                 ],
                 "dest": "../deploy/web-apps/apps/api/"
+            },
+            "desktop": {
+                "src": "../apps/api/documents/index.html.desktop",
+                "dest": "../deploy/web-apps/apps/api/documents/index.html"
             }
         }
     },
