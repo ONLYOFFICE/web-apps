@@ -312,6 +312,7 @@ define([
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
+            toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
@@ -746,6 +747,7 @@ define([
             var in_footnote = this.api.asc_IsCursorInFootnote();
             need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
             toolbar.btnsPageBreak.setDisabled(need_disable);
+            toolbar.btnBlankPage.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_equation || control_plain;
             toolbar.btnInsertShape.setDisabled(need_disable);
@@ -1854,6 +1856,14 @@ define([
                 this.toolbar.btnEditHeader.menu.hide();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Page Number');
+        },
+
+        onBtnBlankPageClick: function(btn) {
+            if (this.api)
+                this.api.put_AddPageBreak();//insertBlankPage();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Blank Page');
         },
 
         onListStyleSelect: function(combo, record) {

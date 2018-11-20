@@ -9,6 +9,7 @@
 
 ### Document Editor
 * Search selected text
+* Add blank page
 
 ### Spreadsheet Editor
 * Set print area
