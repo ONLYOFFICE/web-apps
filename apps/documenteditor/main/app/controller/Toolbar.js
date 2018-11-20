@@ -1860,7 +1860,7 @@ define([
 
         onBtnBlankPageClick: function(btn) {
             if (this.api)
-                this.api.put_AddPageBreak();//insertBlankPage();
+                this.api.asc_AddBlankPage();
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Blank Page');
