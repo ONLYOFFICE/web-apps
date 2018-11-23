@@ -235,6 +235,21 @@ define([
             this.$window.css('top',top);
         }
 
+        function _setVisible() {
+            if (window.innerHeight == undefined) {
+                var main_width  = document.documentElement.offsetWidth;
+                var main_height = document.documentElement.offsetHeight;
+            } else {
+                main_width  = Common.Utils.innerWidth();
+                main_height = Common.Utils.innerHeight();
+            }
+
+            if (this.getLeft() + this.getWidth() > main_width)
+                this.$window.css('left', main_width - this.getWidth());
+            if (this.getTop() + this.getHeight() > main_height)
+                this.$window.css('top', main_height - this.getHeight());
+        }
+
         function _getTransformation(end) {
             return {
                 '-webkit-transition': '0.3s opacity',
@@ -653,6 +668,7 @@ define([
                 } else
                 if (!this.$window.is(':visible')) {
                     this.$window.css({opacity: 0});
+                    _setVisible.call(this);
                     this.$window.show()
                 }
 
