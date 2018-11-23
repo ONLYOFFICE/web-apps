@@ -2825,17 +2825,6 @@ define([
 //            });
         },
 
-        onSheetChanged: function() {
-            if (this.api) {
-                var params = this.api.asc_getSheetViewSettings();
-                var menu = this.getMenuHideOptions();
-                if (menu) {
-                    menu.items.getAt(3).setChecked(!params.asc_getShowRowColHeaders());
-                    menu.items.getAt(4).setChecked(!params.asc_getShowGridLines());
-                }
-            }
-        },
-
         _disableEditOptions: function(seltype, coauth_disable) {
             if (this.api.isCellEdited) return true;
             if (this.api.isRangeSelection) return true;

@@ -560,6 +560,14 @@ define([
                     this.paragraphControls.push(this.mnuInsertPageCount);
                     this.toolbarControls.push(this.btnEditHeader);
 
+                    this.btnBlankPage = new Common.UI.Button({
+                        id: 'id-toolbar-btn-blankpage',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-blankpage',
+                        caption: me.capBtnBlankPage
+                    });
+                    this.paragraphControls.push(this.btnBlankPage);
+
                     this.btnInsertShape = new Common.UI.Button({
                         id: 'tlbtn-insertshape',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1295,6 +1303,7 @@ define([
                 _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
                 _injectComponent('#slot-btn-pageorient', this.btnPageOrient);
@@ -1538,6 +1547,7 @@ define([
                 this.btnInsertText.updateHint(this.tipInsertText);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnDropCap.updateHint(this.tipDropCap);
@@ -2372,7 +2382,9 @@ define([
             tipControls: 'Insert content control',
             mniHighlightControls: 'Highlight settings',
             textNoHighlight: 'No highlighting',
-            mniImageFromStorage: 'Image from Storage'
+            mniImageFromStorage: 'Image from Storage',
+            capBtnBlankPage: 'Blank Page',
+            tipBlankPage: 'Insert blank page'
         }
     })(), DE.Views.Toolbar || {}));
 });

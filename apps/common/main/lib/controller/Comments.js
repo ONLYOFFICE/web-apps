@@ -150,6 +150,8 @@ define([
                 this.popoverComments.comparator =   function (collection) { return collection.get('time'); };
             }
 
+            this.groupCollection = [];
+
             this.view = this.createView('Common.Views.Comments', { store: this.collection });
             this.view.render();
 
@@ -229,12 +231,12 @@ define([
                 this.api.asc_removeComment(id);
             }
         },
-        onResolveComment: function (uid, id) {
+        onResolveComment: function (uid) {
             var t = this,
                 reply = null,
                 addReply = null,
                 ascComment = buildCommentData(),   //  new asc_CCommentData(null),
-                comment = t.findComment(uid, id);
+                comment = t.findComment(uid);
 
             if (_.isUndefined(uid)) {
                 uid = comment.get('uid');
@@ -279,7 +281,7 @@ define([
         onShowComment: function (id, selected) {
             if (this.previewmode) return;
 
-            var comment = this.findComment(id, undefined);
+            var comment = this.findComment(id);
             if (comment) {
                 if (null !== comment.get('quote')) {
                     if (this.api) {
@@ -596,47 +598,40 @@ define([
             if (filter) {
                 if (!this.view.isVisible()) {
                     this.view.needUpdateFilter = filter;
-                    this.filter = {
-                        property    :   filter.property,
-                        value       :   filter.value
-                    };
-                    return;
+                    applyOnly = true;
                 }
-                this.view.needUpdateFilter = false;
+                this.filter = filter;
 
-                this.filter = {
-                    property    :   filter.property,
-                    value       :   filter.value
-                };
+                var me = this,
+                    comments = [];
+                this.filter.forEach(function(item){
+                    if (!me.groupCollection[item])
+                        me.groupCollection[item] = new Backbone.Collection([], { model: Common.Models.Comment});
+                    comments = comments.concat(me.groupCollection[item].models);
+                });
+                this.collection.reset(comments);
+                this.collection.groups = this.filter;
 
                 if (!applyOnly) {
                     if (this.getPopover()) {
                         this.getPopover().hide();
                     }
-                }
+                    this.view.needUpdateFilter = false;
 
-                var t = this, endComment = null;
-
-                this.collection.each(function (model) {
-                    var prop = model.get(t.filter.property);
-                    if (prop) {
-                        model.set('hide', (null === prop.match(t.filter.value)), {silent: !!applyOnly});
+                    var end = true;
+                    for (var i = this.collection.length - 1; i >= 0; --i) {
+                        if (end) {
+                            this.collection.at(i).set('last', true, {silent: true});
+                        } else {
+                            if (this.collection.at(i).get('last')) {
+                                this.collection.at(i).set('last', false, {silent: true});
+                            }
+                        }
+                        end = false;
                     }
-
-                    if (model.get('last')) {
-                        model.set('last', false, {silent:!!applyOnly});
-                    }
-
-                    if (!model.get('hide')) {
-                        endComment = model;
-                    }
-                });
-
-                if (endComment) {
-                    endComment.set('last', true, {silent: !!applyOnly});
-                }
-                if (!applyOnly)
+                    this.view.render();
                     this.view.update();
+                }
             }
         },
         onAppAddComment: function (sender, to_doc) {
@@ -644,12 +639,23 @@ define([
             this.addDummyComment();
         },
 
+        addCommentToGroupCollection: function(comment) {
+            var groupname = comment.get('groupName');
+            if (!this.groupCollection[groupname])
+                this.groupCollection[groupname] = new Backbone.Collection([], { model: Common.Models.Comment});
+            this.groupCollection[groupname].push(comment);
+        },
+
         // SDK
 
         onApiAddComment: function (id, data) {
             var comment = this.readSDKComment(id, data);
             if (comment) {
-                this.collection.push(comment);
+                if (comment.get('groupName')) {
+                    this.addCommentToGroupCollection(comment);
+                    (_.indexOf(this.collection.groups, comment.get('groupName'))>-1) && this.collection.push(comment);
+                } else
+                    this.collection.push(comment);
 
                 this.updateComments(true);
 
@@ -668,12 +674,20 @@ define([
         onApiAddComments: function (data) {
             for (var i = 0; i < data.length; ++i) {
                 var comment = this.readSDKComment(data[i].asc_getId(), data[i]);
-                this.collection.push(comment);
+                comment.get('groupName') ? this.addCommentToGroupCollection(comment) : this.collection.push(comment);
             }
 
             this.updateComments(true);
         },
         onApiRemoveComment: function (id, silentUpdate) {
+            for (var name in this.groupCollection) {
+                var store = this.groupCollection[name],
+                    model = store.findWhere({uid: id});
+                if (model) {
+                    store.remove(model);
+                    break;
+                }
+            }
             if (this.collection.length) {
                 var model = this.collection.findWhere({uid: id});
                 if (model) {
@@ -717,7 +731,7 @@ define([
                 replies = null,
                 repliesCount = 0,
                 dateReply = null,
-                comment = this.findComment(id);
+                comment = this.findComment(id) || this.findCommentInGroup(id);
 
             if (comment) {
                 t = this;
@@ -776,7 +790,7 @@ define([
             }
         },
         onApiLockComment: function (id,userId) {
-            var cur = this.findComment(id),
+            var cur = this.findComment(id) || this.findCommentInGroup(id),
                 user = null;
 
             if (cur) {
@@ -792,7 +806,7 @@ define([
             }
         },
         onApiUnLockComment: function (id) {
-            var cur = this.findComment(id);
+            var cur = this.findComment(id) || this.findCommentInGroup(id);
             if (cur) {
                 cur.set('lock', false);
                 this.getPopover() && this.getPopover().loadText();
@@ -999,11 +1013,6 @@ define([
         // internal
 
         updateComments: function (needRender, disableSort) {
-            if (needRender && !this.view.isVisible()) {
-                this.view.needRender = needRender;
-                return;
-            }
-
             var me = this;
             me.updateCommentsTime = new Date();
             if (me.timerUpdateComments===undefined)
@@ -1017,6 +1026,12 @@ define([
         },
 
         updateCommentsView: function (needRender, disableSort) {
+            if (needRender && !this.view.isVisible()) {
+                this.view.needRender = needRender;
+                this.onUpdateFilter(this.filter, true);
+                return;
+            }
+
             var i, end = true;
 
             if (_.isUndefined(disableSort)) {
@@ -1024,6 +1039,8 @@ define([
             }
 
             if (needRender) {
+                this.onUpdateFilter(this.filter, true);
+
                 for (i = this.collection.length - 1; i >= 0; --i) {
                     if (end) {
                         this.collection.at(i).set('last', true, {silent: true});
@@ -1035,23 +1052,24 @@ define([
                     end = false;
                 }
 
-                this.onUpdateFilter(this.filter, true);
-
                 this.view.render();
                 this.view.needRender = false;
             }
 
             this.view.update();
         },
-        findComment: function (uid, id) {
-            if (_.isUndefined(uid)) {
-                return this.collection.findWhere({id: id});
-            }
-
+        findComment: function (uid) {
             return this.collection.findWhere({uid: uid});
         },
         findPopupComment: function (id) {
             return this.popoverComments.findWhere({id: id});
+        },
+        findCommentInGroup: function (id) {
+            for (var name in this.groupCollection) {
+                var store = this.groupCollection[name],
+                    model = store.findWhere({uid: id});
+                if (model) return model;
+            }
         },
 
         closeEditing: function (id) {
@@ -1117,8 +1135,21 @@ define([
         // helpers
 
         onUpdateUsers: function() {
-            var users = this.userCollection;
-            this.collection.each(function (model) {
+            var users = this.userCollection,
+                hasGroup = false;
+            for (var name in this.groupCollection) {
+                hasGroup = true;
+                this.groupCollection[name].each(function (model) {
+                    var user = users.findOriginalUser(model.get('userid'));
+                    model.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+
+                    model.get('replys').forEach(function (reply) {
+                        user = users.findOriginalUser(reply.get('userid'));
+                        reply.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                    });
+                });
+            }
+            !hasGroup && this.collection.each(function (model) {
                 var user = users.findOriginalUser(model.get('userid'));
                 model.set('usercolor', (user) ? user.get('color') : null, {silent: true});
 
@@ -1135,7 +1166,8 @@ define([
         readSDKComment: function (id, data) {
             var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                 ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
-            var user = this.userCollection.findOriginalUser(data.asc_getUserId());
+            var user = this.userCollection.findOriginalUser(data.asc_getUserId()),
+                groupname = id.match(/^(doc|sheet[0-9]+)_/);
             var comment = new Common.Models.Comment({
                 uid                 : id,
                 userid              : data.asc_getUserId(),
@@ -1155,7 +1187,8 @@ define([
                 showReplyInPopover  : false,
                 hideAddReply        : !_.isUndefined(this.hidereply) ? this.hidereply : (this.showPopover ? true : false),
                 scope               : this.view,
-                editable            : this.mode.canEditComments || (data.asc_getUserId() == this.currentUserId)
+                editable            : this.mode.canEditComments || (data.asc_getUserId() == this.currentUserId),
+                groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
             if (comment) {
                 var replies = this.readSDKReplies(data);

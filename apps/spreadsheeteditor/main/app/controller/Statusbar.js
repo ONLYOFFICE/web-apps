@@ -384,9 +384,7 @@ define([
             if (!_.isUndefined(silent)) {
                 me.api.asc_showWorksheet(items[index].inindex);
 
-                Common.NotificationCenter.trigger('comments:updatefilter',
-                    {property: 'uid',
-                        value: new RegExp('^(doc_|sheet' + this.api.asc_getActiveWorksheetId() + '_)')});
+                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()]);
 
                 if (!_.isUndefined(destPos)) {
                     me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex);
@@ -418,12 +416,7 @@ define([
                 this.api.asc_closeCellEditor();
                 this.api.asc_addWorksheet(this.createSheetName());
 
-                Common.NotificationCenter.trigger('comments:updatefilter',
-                    {property: 'uid',
-                        value: new RegExp('^(doc_|sheet' + this.api.asc_getActiveWorksheetId() + '_)')
-                    },
-                    false   //  hide popover
-                );
+                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false);  //  hide popover
             }
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },

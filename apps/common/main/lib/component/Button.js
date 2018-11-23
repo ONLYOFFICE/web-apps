@@ -132,7 +132,8 @@ define([
         };
 
         ButtonsArray.prototype.setDisabled = function(disable) {
-            if ( _disabled != disable ) {
+            // if ( _disabled != disable ) //bug when disable buttons outside the group
+            {
                 _disabled = disable;
 
                 this.forEach( function(button) {

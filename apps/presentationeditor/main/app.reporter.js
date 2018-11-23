@@ -108,6 +108,7 @@ require([
             docInfo.put_Options(data.options);
             docInfo.put_Token(data.token);
             docInfo.put_Permissions( data.permissions);
+            window.document.title = 'Presenter View' + (data.title ? (' - ' + data.title) : '');
         }
 
         api.preloadReporter(data);

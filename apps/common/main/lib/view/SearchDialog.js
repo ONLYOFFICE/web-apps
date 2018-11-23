@@ -87,10 +87,10 @@
                 '<div class="box">',
                     '<div class="input-row">',
                         '<span class="btn-placeholder" id="search-placeholder-btn-options"></span>',
-                        '<input type="text" id="sd-text-search" class="form-control" maxlength="100" placeholder="'+this.textSearchStart+'">',
+                        '<input type="text" id="sd-text-search" class="form-control" maxlength="255" placeholder="'+this.textSearchStart+'">',
                     '</div>',
                     '<div class="input-row">',
-                        '<input type="text" id="sd-text-replace" class="form-control" maxlength="100" placeholder="'+this.textReplaceDef+'">',
+                        '<input type="text" id="sd-text-replace" class="form-control" maxlength="255" placeholder="'+this.textReplaceDef+'">',
                     '</div>',
                     '<div class="input-row">',
                         '<label class="link" id="search-label-replace" result="replaceshow">'+this.txtBtnReplace+'</label>',
@@ -176,11 +176,13 @@
             return this;
         },
 
-        show: function(mode) {
+        show: function(mode, text) {
             Common.UI.Window.prototype.show.call(this);
 
             !this.mode && !mode && (mode = 'search');
             if (mode && this.mode != mode) this.setMode(mode);
+
+            text && this.setSearchText(text);
 
             if (this.options.markresult && this.miHighlight.checked) {
                 this.fireEvent('search:highlight', [this, true]);
@@ -269,6 +271,10 @@
                     this.setHeight(230);
                 }
             }
+        },
+
+        setSearchText: function(value) {
+            this.txtSearch && this.txtSearch.val(value);
         },
 
         onShowReplace: function(e) {
