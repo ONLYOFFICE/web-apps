@@ -48,6 +48,10 @@
                         "dest": "../deploy/sdkjs/slide/"
                     }
                 ]
+            },
+            "desktop": {
+                "src": "../../sdkjs/common/HtmlFileInternal/AllFonts.js",
+                "dest": "../deploy/sdkjs/common/AllFonts.js"
             }
         }
     },
