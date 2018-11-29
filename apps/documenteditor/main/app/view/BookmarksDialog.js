@@ -271,12 +271,12 @@ define([
         gotoBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
             if (rec.length>0) {
-                this.props.asc_GoToBookmark(rec[0].get('value'));
+                this.props.asc_SelectBookmark(rec[0].get('value'));
             }
         },
 
         onDblClickBookmark: function(listView, itemView, record) {
-            this.props.asc_GoToBookmark(record.get('value'));
+            this.props.asc_SelectBookmark(record.get('value'));
         },
 
         deleteBookmark: function(btn, eOpts){

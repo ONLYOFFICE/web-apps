@@ -277,8 +277,10 @@ define([
                                     this.$el.find('#fm-btn-back').hide().prev().hide();
 
             this.panels['opts'].setMode(this.mode);
-            this.panels['info'].setMode(this.mode).updateInfo(this.document);
-            this.panels['rights'].setMode(this.mode).updateInfo(this.document);
+            this.panels['info'].setMode(this.mode);
+            !this.mode.isDisconnected && this.panels['info'].updateInfo(this.document);
+            this.panels['rights'].setMode(this.mode);
+            !this.mode.isDisconnected && this.panels['rights'].updateInfo(this.document);
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
