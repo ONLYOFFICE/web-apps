@@ -945,7 +945,7 @@ define([
                     var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
                     if (commentsController) {
                         commentsController.setMode(this.appOptions);
-                        commentsController.setConfig({config: this.editorConfig}, this.api);
+                        commentsController.setConfig({config: this.editorConfig, sdkviewname: '#id_main_parent'}, this.api);
                     }
                     /** coauthoring end **/
                 }
