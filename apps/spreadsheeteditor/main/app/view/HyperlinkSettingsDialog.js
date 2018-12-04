@@ -155,7 +155,7 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false,
                 validation  : function(value) {
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, true);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
                     if (isvalid == Asc.c_oAscError.ID.No) {
                         return true;
                     } else {
