@@ -139,6 +139,7 @@ define([
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -452,6 +453,17 @@ define([
 //            this.api.asc_selectSearchingResults(false);
         },
 
+        onApiTextReplaced: function(found,replaced) {
+            var me = this;
+            if (found) {
+                !(found - replaced > 0) ?
+                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
+                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
+            } else {
+                Common.UI.info({msg: this.textNoTextFound});
+            }
+        },
+
         onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
@@ -670,6 +682,8 @@ define([
         newDocumentTitle        : 'Unnamed document',
         requestEditRightsText   : 'Requesting editing rights...',
         notcriticalErrorTitle: 'Warning',
-        txtUntitled: 'Untitled'
+        txtUntitled: 'Untitled',
+        textReplaceSuccess      : 'Search has been done. {0} occurrences have been replaced',
+        textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.'
     }, PE.Controllers.LeftMenu || {}));
 });
