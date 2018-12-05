@@ -98,7 +98,9 @@ define([
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
                     'search:back': _.bind(this.onQuerySearch, this, 'back'),
-                    'search:next': _.bind(this.onQuerySearch, this, 'next')
+                    'search:next': _.bind(this.onQuerySearch, this, 'next'),
+                    'search:replace': _.bind(this.onQueryReplace, this),
+                    'search:replaceall': _.bind(this.onQueryReplaceAll, this)
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
@@ -117,6 +119,7 @@ define([
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
                     'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
+                    'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
                     'alt+f': _.bind(this.onShortcut, this, 'file'),
                     'esc': _.bind(this.onShortcut, this, 'escape'),
                     /** coauthoring begin **/
@@ -375,7 +378,7 @@ define([
 
         onQuerySearch: function(d, w, opts) {
             if (opts.textsearch && opts.textsearch.length) {
-                if (!this.api.findText(opts.textsearch, d != 'back')) {
+                if (!this.api.findText(opts.textsearch, d != 'back', opts.matchcase)) {
                     var me = this;
                     Common.UI.info({
                         msg: this.textNoTextFound,
@@ -387,14 +390,41 @@ define([
             }
         },
 
-        showSearchDlg: function(show) {
+        onQueryReplace: function(w, opts) {
+            if (!_.isEmpty(opts.textsearch)) {
+                if (!this.api.asc_replaceText(opts.textsearch, opts.textreplace, false, opts.matchcase)) {
+                    var me = this;
+                    Common.UI.info({
+                        msg: this.textNoTextFound,
+                        callback: function() {
+                            me.dlgSearch.focus();
+                        }
+                    });
+                }
+            }
+        },
+
+        onQueryReplaceAll: function(w, opts) {
+            if (!_.isEmpty(opts.textsearch)) {
+                this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase);
+            }
+        },
+
+        showSearchDlg: function(show,action) {
             if ( !this.dlgSearch ) {
-                this.dlgSearch = (new Common.UI.SearchDialog({}));
+                this.dlgSearch = (new Common.UI.SearchDialog({
+                    matchcase: true
+                }));
             }
 
             if (show) {
-                this.dlgSearch.isVisible() ? this.dlgSearch.focus() :
-                    this.dlgSearch.show('no-replace');
+                var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
+                if (this.dlgSearch.isVisible()) {
+                    this.dlgSearch.setMode(mode);
+                    this.dlgSearch.focus();
+                } else {
+                    this.dlgSearch.show(mode);
+                }
             } else this.dlgSearch['hide']();
         },
 
@@ -515,11 +545,12 @@ define([
             var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
 
             switch (s) {
+                case 'replace':
                 case 'search':
                     if ((!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides)  {
                         Common.UI.Menu.Manager.hideAll();
                         var full_menu_pressed = this.leftMenu.btnAbout.pressed;
-                        this.showSearchDlg(true);
+                        this.showSearchDlg(true,s);
                         this.leftMenu.btnSearch.toggle(true,true);
                         this.leftMenu.btnAbout.toggle(false);
                         full_menu_pressed && this.menuExpand(this.leftMenu.btnAbout, 'files', false);
