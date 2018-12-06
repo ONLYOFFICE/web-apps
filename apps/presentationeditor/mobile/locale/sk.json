@@ -60,6 +60,7 @@
   "PE.Controllers.Main.advDRMPassword": "Heslo",
   "PE.Controllers.Main.applyChangesTextText": "Načítavanie dát...",
   "PE.Controllers.Main.applyChangesTitleText": "Načítavanie dát",
+  "PE.Controllers.Main.closeButtonText": "Zatvoriť súbor",
   "PE.Controllers.Main.convertationTimeoutText": "Prekročený čas konverzie.",
   "PE.Controllers.Main.criticalErrorExtText": "Stlačením tlačidla 'OK' sa vrátite do zoznamu dokumentov.",
   "PE.Controllers.Main.criticalErrorTitle": "Chyba",
