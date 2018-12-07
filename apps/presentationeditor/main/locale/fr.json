@@ -20,7 +20,7 @@
   "Common.UI.SearchDialog.textMatchCase": "Сas sensible",
   "Common.UI.SearchDialog.textReplaceDef": "Saisissez le texte de remplacement",
   "Common.UI.SearchDialog.textSearchStart": "Entrez votre texte ici",
-  "Common.UI.SearchDialog.textTitle": "Recherche",
+  "Common.UI.SearchDialog.textTitle": "Rechercher et remplacer",
   "Common.UI.SearchDialog.textTitle2": "Rechercher",
   "Common.UI.SearchDialog.textWholeWords": "Seulement les mots entiers",
   "Common.UI.SearchDialog.txtBtnHideReplace": "Masquer le champ de remplacement",

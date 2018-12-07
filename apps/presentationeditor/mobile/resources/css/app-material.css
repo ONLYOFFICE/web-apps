@@ -5838,8 +5838,14 @@ html.phone .document-menu .list-block .item-link {
 .about .logo {
   background: url('../../../../common/mobile/resources/img/about/onlyoffice.svg') no-repeat center;
 }
-.tablet .searchbar.document .left {
-  min-width: 15px;
+.tablet .searchbar.document.replace .center > .replace {
+  display: flex;
+}
+.tablet .searchbar.document.replace .right .replace {
+  display: flex;
+}
+.tablet .searchbar.document.replace .link.replace {
+  font-size: 16px;
 }
 .tablet .searchbar.document .center {
   width: 100%;
@@ -5853,13 +5859,31 @@ html.phone .document-menu .list-block .item-link {
 .tablet .searchbar.document .center .searchbar.search {
   padding: 0;
 }
+.tablet .searchbar.document .center > .replace {
+  display: none;
+}
+.tablet .searchbar.document .right .replace {
+  display: none;
+}
+.phone .searchbar.document.replace {
+  height: 96px;
+}
+.phone .searchbar.document.replace .link.replace {
+  font-size: 16px;
+}
+.phone .searchbar.document.replace .left {
+  margin-top: -48px;
+}
+.phone .searchbar.document.replace .center .replace {
+  display: block;
+}
+.phone .searchbar.document.replace .right > .replace {
+  display: flex;
+}
 .phone .searchbar.document .left,
 .phone .searchbar.document .center,
 .phone .searchbar.document .right {
   flex-direction: column;
-}
-.phone .searchbar.document .left {
-  min-width: 15px;
 }
 .phone .searchbar.document .center {
   width: 100%;
@@ -5869,11 +5893,17 @@ html.phone .document-menu .list-block .item-link {
 .phone .searchbar.document .center .searchbar {
   padding: 0;
 }
+.phone .searchbar.document .center .replace {
+  display: none;
+}
 .phone .searchbar.document .right > p {
   margin: 0;
 }
 .phone .searchbar.document .right > p a.link {
   height: 48px;
+}
+.phone .searchbar.document .right > .replace {
+  display: none;
 }
 i.icon.icon-expand-up {
   width: 17px;

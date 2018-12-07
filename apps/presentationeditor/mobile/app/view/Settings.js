@@ -221,7 +221,8 @@ define([
             textSlideSize: 'Slide Size',
             mniSlideStandard: 'Standard (4:3)',
             mniSlideWide: 'Widescreen (16:9)',
-            textPoweredBy: 'Powered by'
+            textPoweredBy: 'Powered by',
+            textFindAndReplace: 'Find and Replace'
         }
     })(), PE.Views.Settings || {}))
 });
