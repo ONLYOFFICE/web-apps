@@ -204,11 +204,12 @@ define([
 
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
-                    var _url = !!me.branding && !!me.branding.logo && !!me.branding.logo.url ?
-                        me.branding.logo.url : 'http://www.onlyoffice.com';
-
-                    var newDocumentPage = window.open(_url);
-                    newDocumentPage && newDocumentPage.focus();
+                    var _url = !!me.branding && !!me.branding.logo && (me.branding.logo.url!==undefined) ?
+                        me.branding.logo.url : 'https://www.onlyoffice.com';
+                    if (_url) {
+                        var newDocumentPage = window.open(_url);
+                        newDocumentPage && newDocumentPage.focus();
+                    }
                 });
 
             onResetUsers(storeUsers);
@@ -412,6 +413,7 @@ define([
                     if (this.branding && this.branding.logo && this.branding.logo.image && this.logo) {
                         this.logo.html('<img src="' + this.branding.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                         this.logo.css({'background-image': 'none', width: 'auto'});
+                        (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
                     }
 
                     return $html;
@@ -522,6 +524,7 @@ define([
                         if (element) {
                             element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                             element.css({'background-image': 'none', width: 'auto'});
+                            (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                         }
                     }
                 }

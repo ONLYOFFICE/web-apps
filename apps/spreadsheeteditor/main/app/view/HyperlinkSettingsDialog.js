@@ -155,12 +155,8 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false,
                 validation  : function(value) {
-                    var isvalid = /^[A-Z]+[1-9]\d*:[A-Z]+[1-9]\d*$/.test(value);
-
-                    if (!isvalid)
-                        isvalid = /^[A-Z]+[1-9]\d*$/.test(value);
-
-                    if (isvalid) {
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
+                    if (isvalid == Asc.c_oAscError.ID.No) {
                         return true;
                     } else {
                         return me.textInvalidRange;

@@ -109,7 +109,8 @@ define([
 
         if (this.cmbLanguage.scroller) this.cmbLanguage.scroller.update({alwaysVisibleY: true});
         this.cmbLanguage.on('selected', _.bind(this.onLangSelect, this));
-        this.cmbLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(this.options.current)[0]);
+        var langname = Common.util.LanguageInfo.getLocalLanguageName(this.options.current);
+        this.cmbLanguage.setValue(langname[0], langname[1]);
         this.onLangSelect(this.cmbLanguage, this.cmbLanguage.getSelectedRecord());
     },
 
@@ -133,7 +134,7 @@ define([
             plang   = icon.attr('lang');
 
         if (plang) icon.removeClass(plang);
-        icon.addClass(rec.value).attr('lang',rec.value);
+        rec && icon.addClass(rec.value).attr('lang',rec.value);
     },
 
     onPrimary: function() {

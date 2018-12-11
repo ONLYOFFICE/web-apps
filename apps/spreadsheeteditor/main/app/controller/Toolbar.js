@@ -1310,6 +1310,7 @@ define([
         onFontNameSelect: function(combo, record) {
             if (this.api) {
                 if (record.isNewFont) {
+                    !this.getApplication().getController('Main').isModalShowed &&
                     Common.UI.warning({
                         width: 500,
                         closable: false,
@@ -3100,7 +3101,7 @@ define([
                             tab = {action: 'pivot', caption: me.textPivot};
                             $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
                             if ($panel) {
-                                me.toolbar.addTab(tab, $panel, 4);
+                                me.toolbar.addTab(tab, $panel, 3);
                                 me.toolbar.setVisible('pivot', true);
                             }
                         }
@@ -3108,7 +3109,7 @@ define([
                         var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                         var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                         if ( $panel )
-                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.addTab(tab, $panel, 4);
 
                         if ( config.isDesktopApp ) {
                             // hide 'print' and 'save' buttons group and next separator
@@ -3125,7 +3126,7 @@ define([
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
-                                    me.toolbar.addTab(tab, $panel, 6);
+                                    me.toolbar.addTab(tab, $panel, 5);
                             }
                         }
                     }

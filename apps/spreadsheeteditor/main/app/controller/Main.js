@@ -331,6 +331,10 @@ define([
                 }
                 if (value) this.api.asc_setLocalization(value);
 
+                value = Common.localStorage.getBool("sse-settings-r1c1");
+                Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
+                this.api.asc_setR1C1Mode(value);
+
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
@@ -865,7 +869,7 @@ define([
                 var elem = document.getElementById('loadmask-text');
                 var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
                 proc = this.textLoadingDocument + ': ' + Math.min(Math.round(proc*100), 100) + '%';
-                elem ? elem.innerHTML = proc : this.loadMask.setTitle(proc);
+                elem ? elem.innerHTML = proc : this.loadMask && this.loadMask.setTitle(proc);
             },
 
             onEditorPermissions: function(params) {
@@ -1598,8 +1602,10 @@ define([
                                     me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
                                     me.loadMask && me.loadMask.show();
                                 }
-                            } else
+                            } else {
                                 Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
                             me._state.openDlg = null;
                         }
                     });
@@ -2027,7 +2033,8 @@ define([
                 var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                     isEdit = this.appOptions.isEdit;
                 if (plugins) {
-                    var arr = [], arrUI = [];
+                    var arr = [], arrUI = [],
+                        lang = this.appOptions.lang.split(/[\-\_]/)[0];
                     plugins.pluginsData.forEach(function(item){
                         if (_.find(arr, function(arritem) {
                                 return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
@@ -2044,8 +2051,12 @@ define([
                                 visible && arrUI.push(item.baseUrl + itemVar.url);
                             } else {
                                 var model = new Common.Models.PluginVariation(itemVar);
+                                var description = itemVar.description;
+                                if (typeof itemVar.descriptionLocale == 'object')
+                                    description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
 
                                 model.set({
+                                    description: description,
                                     index: variationsArr.length,
                                     url: itemVar.url,
                                     icons: itemVar.icons,
@@ -2055,9 +2066,13 @@ define([
                                 variationsArr.push(model);
                             }
                         });
-                        if (variationsArr.length>0 && !item.isUICustomizer)
+                        if (variationsArr.length>0 && !item.isUICustomizer) {
+                            var name = item.name;
+                            if (typeof item.nameLocale == 'object')
+                                name = item.nameLocale[lang] || item.nameLocale['en'] || name || '';
+
                             arr.push(new Common.Models.Plugin({
-                                name : item.name,
+                                name : name,
                                 guid: item.guid,
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
@@ -2066,6 +2081,7 @@ define([
                                 groupName: (item.group) ? item.group.name : '',
                                 groupRank: (item.group) ? item.group.rank : 0
                             }));
+                        }
                     });
 
                     if (uiCustomize!==false)  // from ui customizer in editor config or desktop event

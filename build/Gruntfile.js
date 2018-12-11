@@ -423,9 +423,11 @@ module.exports = function(grunt) {
         grunt.file.write(defaultConfig, JSON.stringify(pkg, null, 4));
     });
 
+    //quick workaround for build desktop version
+    var copyTask = grunt.option('desktop')? "copy": "copy:script";
 
-    grunt.registerTask('deploy-api',                    ['api-init', 'clean', 'copy', 'replace:writeVersion']);
-    grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-api',                    ['api-init', 'clean', copyTask, 'replace:writeVersion']);
+    grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
     grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
     grunt.registerTask('deploy-xregexp',                ['xregexp-init', 'clean', 'copy']);

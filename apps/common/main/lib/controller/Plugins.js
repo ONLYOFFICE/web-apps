@@ -63,7 +63,7 @@ define([
                             var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
                             me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
 
-                            toolbar.addTab(tab, me.$toolbarPanelPlugins, 4);     // TODO: clear plugins list in left panel
+                            toolbar.addTab(tab, me.$toolbarPanelPlugins, 10);     // TODO: clear plugins list in left panel
                         }
                     }
                 },

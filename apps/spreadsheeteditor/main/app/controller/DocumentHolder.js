@@ -1848,6 +1848,8 @@ define([
         },
 
         onFormulaCompleteMenu: function(funcarr) {
+            if (!this.documentHolder.funcMenu) return;
+
             if (funcarr) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
@@ -1958,6 +1960,7 @@ define([
                 coord  = specialPasteShowOptions.asc_getCellCoord(),
                 pasteContainer = documentHolderView.cmpEl.find('#special-paste-container'),
                 pasteItems = specialPasteShowOptions.asc_getOptions();
+            if (!pasteItems) return;
 
             // Prepare menu container
             if (pasteContainer.length < 1) {

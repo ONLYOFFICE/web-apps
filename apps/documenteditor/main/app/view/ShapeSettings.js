@@ -376,8 +376,10 @@ define([
         onTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = newValue;
-            this.api.setEndPointHistory();
-            this._transparencyApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -515,8 +517,10 @@ define([
         onGradientChangeComplete: function(slider, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = true;
-            this.api.setEndPointHistory();
-            this._gradientApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._gradientApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
