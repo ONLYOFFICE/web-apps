@@ -285,6 +285,10 @@ define([
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
 
+            value = Common.localStorage.getBool("sse-settings-r1c1");
+            Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
+            this.api.asc_setR1C1Mode(value);
+
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 value = Common.localStorage.getBool("sse-settings-coauthmode", true);
                 Common.Utils.InternalSettings.set("sse-settings-coauthmode", value);

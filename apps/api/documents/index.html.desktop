@@ -58,6 +58,7 @@
                 editorConfig: cfg,
                 events: {
                     onInternalMessage: onInternalMessage,
+                    onRequestClose: e => {return 0;}
                 }
             });
 

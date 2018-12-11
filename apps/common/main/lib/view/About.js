@@ -61,7 +61,7 @@ define([
             this.template = _.template([
                 '<table id="id-about-licensor-logo" cols="1" style="width: 100%; margin-top: 20px;">',
                     '<tr>',
-                        '<td align="center"><div><img class="asc-about-office"></div></td>',
+                        '<td align="center"><div class="asc-about-office"></div></td>',
                     '</tr>',
                     '<tr>',
                         '<td align="center"><label class="asc-about-version">' + options.appName.toUpperCase() + '</label></td>',
@@ -77,7 +77,7 @@ define([
                     '<tr>',
                         '<td colspan="3" align="center" class="padding-small">',
                         '<label class="asc-about-desc-name">' + this.txtAddress + '</label>',
-                        '<label class="asc-about-desc">' + this.txtAscAddress + '</label>',
+                        '<label class="asc-about-desc">' + "20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050" + '</label>',
                         '</td>',
                     '</tr>',
                     '<tr>',
@@ -247,7 +247,6 @@ define([
         txtLicensor: 'LICENSOR',
         txtLicensee: 'LICENSEE',
         txtAddress: 'address: ',
-        txtAscAddress: 'Lubanas st. 125a-25, Riga, Latvia, EU, LV-1021',
         txtMail: 'email: ',
         txtTel: 'tel.: ',
         txtEdition: 'Integration Edition '
