@@ -312,7 +312,8 @@ define([
 
                     if (_.isArray(arrBtns)) {
                         _.each(arrBtns, function(b, index){
-                            newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                            if (b.visible)
+                                newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
                         });
                     }
 

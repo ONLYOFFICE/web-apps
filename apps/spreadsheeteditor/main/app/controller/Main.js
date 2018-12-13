@@ -2053,11 +2053,18 @@ define([
                                 if (typeof itemVar.descriptionLocale == 'object')
                                     description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
 
+                                _.each(itemVar.buttons, function(b, index){
+                                    if (typeof b.textLocale == 'object')
+                                        b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                                    b.visible = (isEdit || b.isViewer !== false);
+                                });
+
                                 model.set({
                                     description: description,
                                     index: variationsArr.length,
                                     url: itemVar.url,
                                     icons: itemVar.icons,
+                                    buttons: itemVar.buttons,
                                     visible: visible
                                 });
 
