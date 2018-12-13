@@ -2099,7 +2099,7 @@ define([
                         var variationsArr = [],
                             pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'word');
+                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'word');
                             if ( visible ) pluginVisible = true;
 
                             if (item.isUICustomizer ) {

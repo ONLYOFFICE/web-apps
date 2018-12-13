@@ -2042,7 +2042,7 @@ define([
                         var variationsArr = [],
                             pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'cell');
+                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'cell');
                             if ( visible ) pluginVisible = true;
 
                             if ( item.isUICustomizer ) {
