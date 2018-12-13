@@ -292,12 +292,13 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
-        onPluginShow: function(plugin, variationIndex, frameId) {
+        onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var url = variation.get_Url();
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
-
+                if (urlAddition)
+                    url += urlAddition;
                 if (variation.get_InsideMode()) {
                     if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url, frameId))
                         this.api.asc_pluginButtonClick(-1);
