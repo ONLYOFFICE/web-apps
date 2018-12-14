@@ -25,6 +25,12 @@
                     </ul>
                 </li>
                 <li class="onlineDocumentFeatures"><b>Autosave</b> is used to turn on/off automatic saving of changes you make while editing.</li>
+                <li><b>Reference Style</b> is used to turn on/off the <b>R1C1 reference style</b>. By default, this option is disabled and the <b>A1 reference style</b> is used.
+                <p>When the <b>A1 reference style</b> is used, columns are designated by letters, and rows are designated by numbers. If you select the cell located in row 3 and column 2, its address displayed in the box to the left of the the formula bar looks like this: <b>B3</b>. If the <b>R1C1 reference style</b> is enabled, both rows and columns are designated by numbers. If you select the cell at the intersection of row 3 and column 2, its address will look like this: <b>R3C2</b>. Letter R indicates the row number and letter C indicates the column number.</p>
+                <p><img alt="Active cell" src="../images/activecell.png" /></p>
+                <p>In case you refer to other cells using the <b>R1C1 reference style</b>, the reference to a target cell is formed based on the distance from an active cell. For example, when you select the cell in row 5 and column 1 and refer to the cell in row 3 and column 2, the reference is <b>R[-2]C[1]</b>. Numbers in square brackets designate the position of the cell you refer to relative to the current cell position, i.e. the target cell is 2 rows up and 1 column to the right of the active cell. If you select the cell in row 1 and column 2 and refer to the same cell in row 3 and column 2, the reference is <b>R[2]C</b>, i.e. the target cell is 2 rows down from the active cell and in the same column.</p>
+                <p><img alt="Relative reference" src="../images/relativereference.png" /></p>
+                </li>
                 <li class="onlineDocumentFeatures"><b>Co-editing Mode</b> is used to select the display of the changes made during the co-editing:
                     <ul>
                         <li>By default the <b>Fast</b> mode is selected, the users who take part in the document co-editing will see the changes in real time once they are made by other users.</li>
