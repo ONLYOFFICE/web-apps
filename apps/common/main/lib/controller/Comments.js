@@ -1167,7 +1167,7 @@ define([
             var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                 ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
             var user = this.userCollection.findOriginalUser(data.asc_getUserId()),
-                groupname = id.match(/^(doc|sheet[0-9]+)_/);
+                groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
             var comment = new Common.Models.Comment({
                 uid                 : id,
                 userid              : data.asc_getUserId(),
