@@ -179,6 +179,50 @@ define([
         doLayout: function() {
         },
 
+        changeLayout: function(items) {
+            var panel, resizer, stretch = false;
+            this.panels = [];
+            items.forEach(function(item) {
+                item.el instanceof HTMLElement && (item.el = $(item.el));
+                panel = _.extend(new LayoutPanel(), item);
+                if ( panel.stretch ) {
+                    stretch         = true;
+                    panel.rely      = false;
+                    panel.resize    = false;
+                }
+
+                this.panels.push(panel);
+
+                if (panel.resize) {
+                    resizer = {
+                        isresizer   : true,
+                        minpos      : panel.resize.min||0,
+                        maxpos      : panel.resize.max||0,
+                        fmin        : panel.resize.fmin,
+                        fmax        : panel.resize.fmax,
+                        behaviour   : panel.behaviour,
+                        index       : this.splitters.length,
+                        offset      : panel.resize.offset || 0
+                    };
+
+                    if (!stretch) {
+                        panel.resize.el =
+                            resizer.el = panel.el.after('<div class="layout-resizer after"></div>').next();
+                        this.panels.push(resizer);
+                    } else {
+                        panel.resize.el =
+                            resizer.el = panel.el.before('<div class="layout-resizer before"></div>').prev();
+                        this.panels.splice(this.panels.length - 1, 0, resizer);
+                    }
+
+                    this.splitters.push({resizer:resizer});
+
+                    panel.resize.hidden && resizer.el.hide();
+                    Common.Gateway.on('processmouse', this.resize.eventStop);
+                }
+            }, this);
+        },
+
         getElementHeight: function(el) {
             return parseInt(el.css('height'));
         },

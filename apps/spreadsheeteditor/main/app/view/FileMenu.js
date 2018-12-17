@@ -255,8 +255,8 @@ define([
             this.miAccess[(!this.mode.isOffline && this.document&&this.document.info&&(this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                                                                                        this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length))?'show':'hide']();
 
-            this.miSettings[(this.mode.isEdit || this.mode.canComments)?'show':'hide']();
-            this.miSettings.$el.prev()[(this.mode.isEdit || this.mode.canComments)?'show':'hide']();
+            // this.miSettings[(this.mode.isEdit || this.mode.canViewComments)?'show':'hide']();
+            // this.miSettings.$el.prev()[(this.mode.isEdit || this.mode.canViewComments)?'show':'hide']();
 
             this.mode.canBack ? this.$el.find('#fm-btn-back').show().prev().show() :
                                     this.$el.find('#fm-btn-back').hide().prev().hide();

@@ -1112,6 +1112,7 @@ define([
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
                 this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
@@ -1204,12 +1205,11 @@ define([
             },
 
             applyModeEditorElements: function() {
-                if (this.appOptions.canComments || this.appOptions.isEdit) {
-                    /** coauthoring begin **/
-                    this.contComments.setMode(this.appOptions);
-                    this.contComments.setConfig({config: this.editorConfig}, this.api);
-                    /** coauthoring end **/
-                }
+                /** coauthoring begin **/
+                this.contComments.setMode(this.appOptions);
+                this.contComments.setConfig({config: this.editorConfig}, this.api);
+                /** coauthoring end **/
+
                 if (this.appOptions.isEdit) {
                     var me = this,
                         application         = this.getApplication(),

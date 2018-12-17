@@ -401,7 +401,7 @@ define([
             /** coauthoring begin **/
             $('tr.coauth', this.el)[mode.isEdit && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring && (mode.isEdit || mode.canComments) ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
         },
 

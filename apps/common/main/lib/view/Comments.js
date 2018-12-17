@@ -549,6 +549,17 @@ define([
             this.autoHeightTextBox();
         },
 
+        changeLayout: function(mode) {
+            if (!mode.canComments) {
+                var add = $('.new-comment-ct', this.el),
+                    to = $('.add-link-ct', this.el),
+                    msgs = $('.messages-ct', this.el);
+                add.hide(); to.hide();
+                msgs.addClass('stretch');
+                this.layout.changeLayout([{el: msgs[0], rely: false, stretch: true}]);
+            }
+        },
+
         updateLayout: function () {
             var container = $('#comments-box', this.el), add = $('.new-comment-ct', this.el);
             if (add.css('display') !== 'none') {
@@ -561,6 +572,7 @@ define([
         autoHeightTextBox: function () {
             var me = this, domTextBox = null, lineHeight = 0, minHeight = 44;
             var textBox = $('#comment-msg-new', this.el);
+            if (textBox.length<1) return;
 
             function updateTextBoxHeight() {
 

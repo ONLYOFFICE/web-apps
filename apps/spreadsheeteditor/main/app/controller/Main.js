@@ -902,6 +902,7 @@ define([
                     /** coauthoring end **/
                     this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? (this.permissions.edit !== false) : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                    this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
@@ -1001,19 +1002,17 @@ define([
             },
 
             applyModeEditorElements: function(prevmode) {
-                if (this.appOptions.canComments || this.appOptions.isEdit) {
-                    /** coauthoring begin **/
-                    var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
-                    if (commentsController) {
-                        commentsController.setMode(this.appOptions);
-                        commentsController.setConfig({
-                                config      : this.editorConfig,
-                                sdkviewname : '#ws-canvas-outer',
-                                hintmode    : true},
-                            this.api);
-                    }
-                    /** coauthoring end **/
+                /** coauthoring begin **/
+                var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
+                if (commentsController) {
+                    commentsController.setMode(this.appOptions);
+                    commentsController.setConfig({
+                            config      : this.editorConfig,
+                            sdkviewname : '#ws-canvas-outer',
+                            hintmode    : true},
+                        this.api);
                 }
+                /** coauthoring end **/
 
                 if (this.appOptions.isEdit) {
                     var me = this,
@@ -1623,7 +1622,7 @@ define([
                 if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram && window.editor_elements_prepared) {
                     this.application.getController('Statusbar').selectTab(index);
 
-                    if (this.appOptions.canComments && !this.dontCloseDummyComment) {
+                    if (this.appOptions.canViewComments && !this.dontCloseDummyComment) {
                         Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getWorksheetId(index)], false ); //  hide popover
                     }
                 }

@@ -267,9 +267,9 @@ define([
                     me.header.mnuitemFreezePanes.hide();
                     menu.items[5].hide();
                     menu.items[7].hide();
-                    if (!config.canComments) { // show advanced settings for editing and commenting mode
-                        mnuitemAdvSettings.hide();
-                        menu.items[9].hide();
+                    if (!config.canViewComments) { // show advanced settings for editing and commenting mode
+                        // mnuitemAdvSettings.hide();
+                        // menu.items[9].hide();
                     }
                 }
 

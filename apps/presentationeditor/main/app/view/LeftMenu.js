@@ -218,7 +218,7 @@ define([
         onCoauthOptions: function(e) {
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
+                if (this.mode.canViewComments) {
                     if (this.btnComments.pressed && this.btnComments.$el.hasClass('notify'))
                         this.btnComments.$el.removeClass('notify');
                     this.panelComments[this.btnComments.pressed?'show':'hide']();
@@ -274,7 +274,7 @@ define([
             this.$el.width(SCALE_MIN);
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
+                if (this.mode.canViewComments) {
                     this.panelComments['hide']();
                     if (this.btnComments.pressed)
                         this.fireEvent('comments:hide', this);

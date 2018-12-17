@@ -188,8 +188,8 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[(this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
-                if (this.mode.canComments)
+                this.leftMenu.btnComments[(this.mode.canViewComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
+                if (this.mode.canViewComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView());
 
                 this.leftMenu.btnChat[(this.mode.canChat && !this.mode.isLightVersion) ? 'show' : 'hide']();
@@ -406,7 +406,7 @@ define([
             Common.Utils.InternalSettings.set("de-settings-livecomment", value);
             var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
-            if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
+            if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             /** coauthoring end **/
@@ -653,7 +653,7 @@ define([
             if (value && this.leftMenu._state.pluginIsRunning) {
                 this.leftMenu.panelPlugins.show();
                 if (this.mode.canCoAuthoring) {
-                    this.mode.canComments && this.leftMenu.panelComments['hide']();
+                    this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                     this.mode.canChat && this.leftMenu.panelChat['hide']();
                 }
             }
@@ -751,7 +751,7 @@ define([
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.canComments && !this.mode.isLightVersion) {
+                    if (this.mode.canCoAuthoring && this.mode.canViewComments && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();

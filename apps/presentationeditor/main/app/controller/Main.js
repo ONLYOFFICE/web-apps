@@ -876,6 +876,7 @@ define([
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canPrint       = (this.permissions.print !== false);
                 this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
@@ -940,15 +941,13 @@ define([
             },
 
             applyModeEditorElements: function(prevmode) {
-                if (this.appOptions.canComments || this.appOptions.isEdit) {
-                    /** coauthoring begin **/
-                    var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
-                    if (commentsController) {
-                        commentsController.setMode(this.appOptions);
-                        commentsController.setConfig({config: this.editorConfig, sdkviewname: '#id_main_parent'}, this.api);
-                    }
-                    /** coauthoring end **/
+                /** coauthoring begin **/
+                var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
+                if (commentsController) {
+                    commentsController.setMode(this.appOptions);
+                    commentsController.setConfig({config: this.editorConfig, sdkviewname: '#id_main_parent'}, this.api);
                 }
+                /** coauthoring end **/
                 if (this.appOptions.isEdit) {
                     var me = this,
                         application         = this.getApplication(),

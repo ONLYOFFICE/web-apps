@@ -980,7 +980,7 @@ define([
                     }
                 }
 
-                if (me.permissions.isEdit || me.permissions.canComments) {
+                if (me.permissions.isEdit || me.permissions.canViewComments) {
                     if (index_comments && !this.popupmenu) {
                         data = dataarray[index_comments - 1];
                         if (!commentTip.editCommentId && commentTip.moveCommentId != data.asc_getCommentIndexes()[0]) {
@@ -1015,7 +1015,7 @@ define([
 
                             var commentsController = this.getApplication().getController('Common.Controllers.Comments');
                             if (commentsController) {
-                                if (this.permissions.canCoAuthoring && this.permissions.canComments)
+                                if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
                                     setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
                                 else
                                     commentsController.onApiHideComment(true);

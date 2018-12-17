@@ -194,6 +194,10 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.isModeChanged = true; // change show-comment mode from/to hint mode using canComments flag
+            if (!this.mode.canComments) {
+                this.view.changeLayout(mode);
+            }
+
             return this;
         },
         //
@@ -1188,6 +1192,7 @@ define([
                 hideAddReply        : !_.isUndefined(this.hidereply) ? this.hidereply : (this.showPopover ? true : false),
                 scope               : this.view,
                 editable            : this.mode.canEditComments || (data.asc_getUserId() == this.currentUserId),
+                hint                : !this.mode.canComments,
                 groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
             if (comment) {
@@ -1403,12 +1408,12 @@ define([
                     if ('none' !== panel.css('display')) {
                         this.view.txtComment.focus();
                     }
-                    if (this.view.needRender)
-                        this.updateComments(true);
-                    else if (this.view.needUpdateFilter)
-                        this.onUpdateFilter(this.view.needUpdateFilter);
-                    this.view.update();
                 }
+                if (this.view.needRender)
+                    this.updateComments(true);
+                else if (this.view.needUpdateFilter)
+                    this.onUpdateFilter(this.view.needUpdateFilter);
+                this.view.update();
             }
         },
 
