@@ -245,12 +245,12 @@ define([
                         me.collapse();
                     } else {
                         me.setTab(tab);
-                        me.processPanelVisible();
+                        me.processPanelVisible(null, true);
                     }
                 } else {
                     if ( !$target.hasClass('active') && !islone ) {
                         me.setTab(tab);
-                        me.processPanelVisible();
+                        me.processPanelVisible(null, true);
                     }
                 }
             },
@@ -354,13 +354,13 @@ define([
              * hide button's caption to decrease panel width
              * ##adopt-panel-width
             **/
-            processPanelVisible: function(panel) {
+            processPanelVisible: function(panel, now) {
                 var me = this;
                 if ( me._timer_id ) clearTimeout(me._timer_id);
 
                 function _fc() {
                     let $active = panel || me.$panels.filter('.active');
-                    if ($active) {
+                    if ( $active && $active.length ) {
                         var _maxright = $active.parents('.box-controls').width();
                         var data = $active.data(),
                             _rightedge = data.rightedge;
@@ -382,6 +382,7 @@ define([
                     }
                 };
 
+                if ( now === true ) _fc(); else
                 me._timer_id =  setTimeout(function() {
                     delete me._timer_id;
                     _fc();
