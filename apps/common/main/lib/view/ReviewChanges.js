@@ -126,11 +126,11 @@ define([
                 this.btnsTurnReview.forEach(function (button) {
                     button.on('click', _click_turnpreview.bind(me));
                 });
-
+            }
+            if (this.appConfig.canViewReview)
                 this.btnReviewView.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('reviewchanges:view', [menu, item]);
                 });
-            }
 
             this.btnsSpelling.forEach(function(button) {
                 button.on('click', function (b, e) {
@@ -206,7 +206,8 @@ define([
                         enableToggle: true
                     });
                     this.btnsTurnReview = [this.btnTurnOn];
-
+                }
+                if (this.appConfig.canViewReview) {
                     this.btnReviewView = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-reviewview',
@@ -223,7 +224,7 @@ define([
                     });
                 }
 
-                if (!this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
+                if (this.appConfig.isEdit && !this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
                     this.btnCoAuthMode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-coedit',
@@ -311,6 +312,10 @@ define([
                         );
                         me.btnReject.updateHint([me.tipRejectCurrent, me.txtRejectChanges]);
 
+                        me.btnAccept.setDisabled(config.isReviewOnly);
+                        me.btnReject.setDisabled(config.isReviewOnly);
+                    }
+                    if (me.appConfig.canViewReview) {
                         me.btnReviewView.setMenu(
                             new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
@@ -345,11 +350,7 @@ define([
                                 ]
                             }));
                         me.btnReviewView.updateHint(me.tipReviewView);
-
-                        me.btnAccept.setDisabled(config.isReviewOnly);
-                        me.btnReject.setDisabled(config.isReviewOnly);
                     }
-
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
                     me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
                     me.btnChat && me.btnChat.updateHint(me.txtChat + Common.Utils.String.platformKey('Alt+Q'));
@@ -392,7 +393,7 @@ define([
 
                     var separator_sharing = !(me.btnSharing || me.btnCoAuthMode) ? me.$el.find('.separator.sharing') : '.separator.sharing',
                         separator_comments = !(config.canComments && config.canCoAuthoring) ? me.$el.find('.separator.comments') : '.separator.comments',
-                        separator_review = !config.canReview ? me.$el.find('.separator.review') : '.separator.review',
+                        separator_review = !(config.canReview || config.canViewReview) ? me.$el.find('.separator.review') : '.separator.review',
                         separator_chat = !me.btnChat ? me.$el.find('.separator.chat') : '.separator.chat',
                         separator_last;
 
@@ -419,7 +420,7 @@ define([
                     if (!me.btnHistory && separator_last)
                         me.$el.find(separator_last).hide();
 
-                    Common.NotificationCenter.trigger('tab:visible', 'review', true);
+                    Common.NotificationCenter.trigger('tab:visible', 'review', config.isEdit || config.canViewReview);
 
                     setEvents.call(me);
                 });
@@ -434,8 +435,8 @@ define([
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
-                    this.btnReviewView.render(this.$el.find('#btn-review-view'));
                 }
+                this.btnReviewView && this.btnReviewView.render(this.$el.find('#btn-review-view'));
 
                 this.btnSharing && this.btnSharing.render(this.$el.find('#slot-btn-sharing'));
                 this.btnCoAuthMode && this.btnCoAuthMode.render(this.$el.find('#slot-btn-coauthmode'));

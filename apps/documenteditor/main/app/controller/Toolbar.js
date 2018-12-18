@@ -2718,7 +2718,7 @@ define([
 
             toolbar._state.previewmode = reviewmode && disable;
             if (reviewmode) {
-                toolbar._state.previewmode && toolbar.btnSave.setDisabled(true);
+                toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
@@ -2768,14 +2768,13 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+            if ( $panel )
+                me.toolbar.addTab(tab, $panel, 4);
+
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
-
-                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-
-                if ( $panel )
-                    me.toolbar.addTab(tab, $panel, 4);
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
                 if ( config.isDesktopApp ) {

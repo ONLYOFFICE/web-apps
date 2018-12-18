@@ -115,7 +115,7 @@ define([
             if (api) {
                 this.api = api;
 
-                if (this.appConfig.canReview) {
+                if (this.appConfig.canReview || this.appConfig.canViewReview) {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
                 }
@@ -157,7 +157,7 @@ define([
 
                     this.getPopover().showReview(animate, lock, lockUser);
 
-                    if (!this.appConfig.isReviewOnly && this._state.lock !== lock) {
+                    if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== lock) {
                         this.view.btnAccept.setDisabled(lock==true);
                         this.view.btnReject.setDisabled(lock==true);
                         if (this.dlgChanges) {
@@ -207,7 +207,7 @@ define([
         },
 
         getPopover: function () {
-            if (this.appConfig.canReview && _.isUndefined(this.popover)) {
+            if ((this.appConfig.canReview || this.appConfig.canViewReview) && _.isUndefined(this.popover)) {
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     reviewStore : this.popoverChanges,
                     renderTo : this.sdkViewName
@@ -408,7 +408,8 @@ define([
                         lockuser    : item.get_LockUserId(),
                         type        : item.get_Type(),
                         changedata  : item,
-                        scope       : me.view
+                        scope       : me.view,
+                        hint        : !me.appConfig.canReview
                     });
 
                 arr.push(change);
@@ -561,13 +562,16 @@ define([
 
         disableEditing: function(disable) {
             var app = this.getApplication();
-            app.getController('RightMenu').getView('RightMenu').clearSelection();
             app.getController('Toolbar').DisableToolbar(disable, false, true);
-            app.getController('RightMenu').SetDisabled(disable, false);
-            app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
             app.getController('DocumentHolder').getView().SetDisabled(disable);
-            app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
-            app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+
+            if (this.appConfig.canReview) {
+                app.getController('RightMenu').getView('RightMenu').clearSelection();
+                app.getController('RightMenu').SetDisabled(disable, false);
+                app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+                app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+            }
 
             var leftMenu = app.getController('LeftMenu').leftMenu;
             leftMenu.btnComments.setDisabled(disable);
@@ -626,6 +630,8 @@ define([
                         me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
                     }
                 });
+            } else {
+                config.canViewReview && (config.canViewReview = me.api.asc_HaveRevisionsChanges());
             }
 
             if (me.view && me.view.btnChat) {
