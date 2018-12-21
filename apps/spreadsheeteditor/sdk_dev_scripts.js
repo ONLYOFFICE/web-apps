@@ -86,6 +86,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/common/wordcopypaste.js",
 	"../../../../sdkjs/common/easysax.js",
 	"../../../../sdkjs/common/openxml.js",
+	"../../../../sdkjs/common/intervalTree.js",
 	"../../../../sdkjs/cell/document/empty-workbook.js",
 	"../../../../sdkjs/cell/model/UndoRedo.js",
 	"../../../../sdkjs/cell/model/clipboard.js",
