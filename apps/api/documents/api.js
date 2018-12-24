@@ -716,6 +716,12 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
+		
+		if (config.type == "mobile")
+		{
+			iframe.style.position = "fixed";
+			iframe.style.overflow = "hidden";
+		}
         return iframe;
     }
 
