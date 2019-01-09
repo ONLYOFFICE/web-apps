@@ -157,7 +157,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "La versione file è stata moificata. La pagina verrà ricaricata.",
   "SSE.Controllers.Main.errorUserDrop": "Impossibile accedere al file in questo momento.",
   "SSE.Controllers.Main.errorUsersExceed": "È stato superato il numero di utenti consentito dal piano tariffario",
-  "SSE.Controllers.Main.errorViewerDisconnect": "La connessione è stata persa. Puoi ancora vedere il documento,<br>ma non puoi scaricarlo o stamparlo fino a che la connessione non sarà ripristinata.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Connessione assente. È possibile visualizzare il documento, <br>ma non sarà possibile scaricarlo fino a che la connessione verrà ristabilita",
   "SSE.Controllers.Main.errorWrongBracketsCount": "Un errore nella formula inserita.<br>E' stato utilizzato un numero errato tra parentesi.",
   "SSE.Controllers.Main.errorWrongOperator": "Un errore nella formula inserita.<br>È stato utilizzato un operatore errato.<br>Correggere per continuare.",
   "SSE.Controllers.Main.leavePageText": "Ci sono delle modifiche non salvate in questo documento. Clicca su 'Rimani in questa pagina, in attesa del salvataggio automatico del documento. Clicca su 'Lascia questa pagina' per annullare le modifiche.",

@@ -156,7 +156,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "Verzia súboru bola zmenená. Stránka sa znova načíta.",
   "SSE.Controllers.Main.errorUserDrop": "K súboru nie je možné práve teraz získať prístup.",
   "SSE.Controllers.Main.errorUsersExceed": "Počet používateľov povolených cenovým plánom bol prekročený",
-  "SSE.Controllers.Main.errorViewerDisconnect": "Spojenie je prerušené. Dokument môžete zobraziť,<br>ale nemôžete ho stiahnuť ani vytlačiť, kým sa spojenie neobnoví.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Spojenie sa stratilo. Dokument môžete zobraziť,<br>ale nebude možné ho prevziať, kým sa obnoví spojenie.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "Chyba v zadanom vzorci.<br>Používa sa nesprávny počet zátvoriek.",
   "SSE.Controllers.Main.errorWrongOperator": "Chyba v zadanom vzorci. Používa sa nesprávny operátor. <br> Prosím, opravte chybu.",
   "SSE.Controllers.Main.leavePageText": "V tomto dokumente máte neuložené zmeny. Kliknutím na položku 'Zostať na tejto stránke' čakáte na automatické uloženie dokumentu. Kliknutím na položku 'Odísť z tejto stránky' odstránite všetky neuložené zmeny.",

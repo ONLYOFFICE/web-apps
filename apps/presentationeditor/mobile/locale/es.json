@@ -84,7 +84,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "Se ha cambiado la versión del archivo. La página será actualizada.",
   "PE.Controllers.Main.errorUserDrop": "No se puede acceder al archivo ahora.",
   "PE.Controllers.Main.errorUsersExceed": "El número de usuarios fue superado",
-  "PE.Controllers.Main.errorViewerDisconnect": "Se pierde la conexión. Usted todavía puede visualizar el documento,<br> pero no puede descargar o imprimirlo hasta que la conexión sea restaurada.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Se pierde la conexión. Usted todavía puede visualizar el documento,<br> pero no puede descargarlo antes de que conexión sea restaurada.",
   "PE.Controllers.Main.leavePageText": "Hay cambios no guardados en este documento. Haga clic en \"Permanecer en esta página\" para esperar la función de guardar automáticamente del documento. Haga clic en \"Abandonar esta página\" para descartar todos los cambios no guardados.",
   "PE.Controllers.Main.loadFontsTextText": "Cargando datos...",
   "PE.Controllers.Main.loadFontsTitleText": "Cargando datos",

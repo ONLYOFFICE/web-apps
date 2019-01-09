@@ -84,7 +84,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "La version du fichier a été changée. La page sera rechargée.",
   "PE.Controllers.Main.errorUserDrop": "Impossible d'accéder au fichier.",
   "PE.Controllers.Main.errorUsersExceed": "Le nombre des utilisateurs a été dépassé",
-  "PE.Controllers.Main.errorViewerDisconnect": "La connexion a été perdue. Vous pouvez toujours afficher le document,<br>mais ne pouvez pas le télécharger jusqu'à ce que la connexion soit rétablie.",
+  "PE.Controllers.Main.errorViewerDisconnect": "La connexion a été perdue. Vous pouvez toujours afficher le document,<br>mais vous ne pourrez pas le téléсharger tant que la connexion n'est pas restaurée.",
   "PE.Controllers.Main.leavePageText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur 'Rester sur cette Page' pour la sauvegarde automatique du document. Cliquez sur 'Quitter cette Page' pour ignorer toutes les modifications non enregistrées.",
   "PE.Controllers.Main.loadFontsTextText": "Chargement des données en cours...",
   "PE.Controllers.Main.loadFontsTitleText": "Chargement des données",

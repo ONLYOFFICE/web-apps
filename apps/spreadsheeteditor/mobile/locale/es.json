@@ -157,7 +157,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "Se ha cambiado la versión del archivo. La página será actualizada.",
   "SSE.Controllers.Main.errorUserDrop": "No se puede acceder al archivo ahora.",
   "SSE.Controllers.Main.errorUsersExceed": "El número de usuarios permitido según su plan de precios fue excedido",
-  "SSE.Controllers.Main.errorViewerDisconnect": "Se pierde la conexión. Usted todavía puede visualizar el documento,<br> pero no puede descargar o imprimirlo hasta que la conexión sea restaurada.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Se pierde la conexión. Usted todavía puede visualizar el documento,<br> pero no puede descargarlo antes de que conexión sea restaurada.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "Un error en la fórmula introducida.<br>Se usa un número incorrecto de corchetes.",
   "SSE.Controllers.Main.errorWrongOperator": "Hay un error en la fórmula introducida. Se usa un operador inválido.<br>Por favor, corrija el error.",
   "SSE.Controllers.Main.leavePageText": "Hay cambios no guardados en este documento. Haga clic en \"Permanecer en esta página\" para esperar la función de guardar automáticamente del documento. Haga clic en \"Abandonar esta página\" para descartar todos los cambios no guardados.",

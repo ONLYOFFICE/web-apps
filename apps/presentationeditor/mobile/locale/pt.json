@@ -82,7 +82,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "A versão do arquivo foi alterada. A página será recarregada.",
   "PE.Controllers.Main.errorUserDrop": "O arquivo não pode ser acessado agora.",
   "PE.Controllers.Main.errorUsersExceed": "O número de usuários foi excedido",
-  "PE.Controllers.Main.errorViewerDisconnect": "A conexão foi perdida. Você ainda pode ver o documento,<br>mas não pode fazer o download ou imprimir até que a conexão seja restaurada.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Perda de conexão Você ainda pode exibir o documento, mas não será capaz de fazer o download até que a conexão seja restaurada.",
   "PE.Controllers.Main.leavePageText": "Você tem alterações não salvas neste documento. Clique em \"Ficar nesta Página\" para aguardar o salvamento automático do documento. Clique em \"Sair desta página\" para descartar as alterações não salvas.",
   "PE.Controllers.Main.loadFontsTextText": "Carregando dados...",
   "PE.Controllers.Main.loadFontsTitleText": "Carregando dados",
