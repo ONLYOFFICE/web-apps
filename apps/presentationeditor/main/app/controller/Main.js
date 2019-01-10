@@ -407,11 +407,11 @@ define([
                 }
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     var href = me.appOptions.customization.goback.url;
-                    if (me.appOptions.customization.goback.blank!==false) {
+                    if (!current && me.appOptions.customization.goback.blank!==false) {
                         window.open(href, "_blank");
                     } else {
                         parent.location.href = href;
@@ -1185,9 +1185,9 @@ define([
 
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
-                        config.fn = function(btn) {
+                        config.callback = function(btn) {
                             if (btn == 'ok') {
-                                Common.NotificationCenter.trigger('goback');
+                                Common.NotificationCenter.trigger('goback', true);
                             }
                         }
                     }
