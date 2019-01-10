@@ -631,7 +631,7 @@ define([
                     }
                 });
             } else {
-                config.canViewReview && (config.canViewReview = me.api.asc_HaveRevisionsChanges());
+                config.canViewReview && (config.canViewReview = me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
             }
 
             if (me.view && me.view.btnChat) {
