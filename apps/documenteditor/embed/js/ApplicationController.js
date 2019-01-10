@@ -216,8 +216,6 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        Common.Gateway.documentReady();
-
         hidePreloader();
 
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -2);
@@ -320,7 +318,7 @@ var ApplicationController = new(function(){
                 }, 2000);
             }
         });
-
+        Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
 

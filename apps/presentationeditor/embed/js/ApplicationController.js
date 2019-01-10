@@ -213,8 +213,6 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        Common.Gateway.documentReady();
-
         api.ShowThumbnails(false);
         api.asc_DeleteVerticalScroll();
 
@@ -394,6 +392,7 @@ var ApplicationController = new(function(){
         });
 
         $('#btn-play').on('click', onPlayStart);
+        Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
 

@@ -601,8 +601,6 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.Gateway.documentReady();
-
                 if (this._state.openDlg)
                     this._state.openDlg.close();
 
@@ -785,6 +783,8 @@ define([
                 if (typeof document.hidden !== 'undefined' && document.hidden) {
                     document.addEventListener('visibilitychange', checkWarns);
                 } else checkWarns();
+
+                Common.Gateway.documentReady();
             },
 
             onLicenseChanged: function(params) {

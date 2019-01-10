@@ -168,8 +168,6 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        Common.Gateway.documentReady();
-
         hidePreloader();
 
         if ( !embedConfig.shareUrl )
@@ -292,6 +290,7 @@ var ApplicationController = new(function(){
             }
         });
 
+        Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
 
