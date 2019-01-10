@@ -403,6 +403,11 @@ define([
             },
 
             onDownloadAs: function(format) {
+                if ( !this.appOptions.canDownload && !this.appOptions.canDownloadOrigin) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+
                 this._state.isFromGatewayDownloadAs = true;
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 if (type && typeof type[1] === 'string')

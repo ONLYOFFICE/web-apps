@@ -306,6 +306,11 @@ define([
             },
 
             onDownloadAs: function() {
+                if ( !this.appOptions.canDownload) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+                this._state.isFromGatewayDownloadAs = true;
                 this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
             },
 

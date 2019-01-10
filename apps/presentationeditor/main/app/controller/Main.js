@@ -383,6 +383,11 @@ define([
             },
 
             onDownloadAs: function(format) {
+                if ( !this.appOptions.canDownload ) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+
                 this._state.isFromGatewayDownloadAs = true;
                 var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
                     _supported = [

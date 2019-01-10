@@ -68,6 +68,7 @@
   "PE.Controllers.Main.downloadErrorText": "Download failed.",
   "PE.Controllers.Main.downloadTextText": "Downloading document...",
   "PE.Controllers.Main.downloadTitleText": "Downloading Document",
+  "PE.Controllers.Main.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "PE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. You can't edit anymore.",
   "PE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",

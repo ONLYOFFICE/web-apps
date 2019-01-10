@@ -306,6 +306,11 @@ define([
             },
 
             onDownloadAs: function() {
+                if ( !this.appOptions.canDownload && !this.appOptions.canDownloadOrigin) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+
                this._state.isFromGatewayDownloadAs = true;
                var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
 
@@ -888,6 +893,10 @@ define([
                         config.msg = this.errorDataEncrypted;
                         break;
 
+                    case Asc.c_oAscError.ID.AccessDeny:
+                        config.msg = this.errorAccessDeny;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1355,7 +1364,8 @@ define([
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             closeButtonText: 'Close File',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
         }
     })(), DE.Controllers.Main || {}))
 });
