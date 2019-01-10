@@ -168,6 +168,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
+                Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -408,6 +409,7 @@ define([
             },
 
             onDownloadAs: function(format) {
+                this._state.isFromGatewayDownloadAs = true;
                 var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
                     _supported = [
                         Asc.c_oAscFileType.XLSX,
@@ -1526,7 +1528,13 @@ define([
             },
 
             onDownloadUrl: function(url) {
-                Common.Gateway.downloadAs(url);
+                if (this._state.isFromGatewayDownloadAs)
+                    Common.Gateway.downloadAs(url);
+                this._state.isFromGatewayDownloadAs = false;
+            },
+
+            onDownloadCancel: function() {
+                this._state.isFromGatewayDownloadAs = false;
             },
 
             onUpdateVersion: function(callback) {
