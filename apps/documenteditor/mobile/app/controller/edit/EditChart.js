@@ -265,6 +265,8 @@ define([
             },
 
             _initBorderColorView: function () {
+                if (!_shapeObject) return;
+
                 var me = this,
                     paletteBorderColor = me.getView('EditChart').paletteBorderColor,
                     stroke = _shapeObject.get_ShapeProperties().get_stroke();
