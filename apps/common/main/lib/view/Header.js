@@ -106,6 +106,7 @@ define([
                             '</section>';
 
         var templateTitleBox = '<section id="box-document-title">' +
+                                '<div class="extra"></div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +

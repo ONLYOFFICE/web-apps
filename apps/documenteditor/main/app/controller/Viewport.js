@@ -76,7 +76,8 @@ define([
                     'render:before' : function (toolbar) {
                         var config = DE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        toolbar.setExtra('left', me.header.getPanel('left', config));
+                        if (!config.isEdit)
+                            toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.header.mnuitemCompactToolbar.setChecked(state, true);
@@ -161,9 +162,10 @@ define([
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
             }
 
-            if ( config.isDesktopApp && config.isEdit ) {
+            if ( config.isEdit ) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
+                $title.find('.extra').html(me.header.getPanel('left', config));
 
                 var toolbar = me.viewport.vlayout.getItem('toolbar');
                 toolbar.el.addClass('top-title');
