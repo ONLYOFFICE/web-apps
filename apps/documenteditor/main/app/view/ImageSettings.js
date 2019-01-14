@@ -426,7 +426,7 @@ define([
 
         onBtnRotateClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
-            properties.asc_putRot((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
             this.api.ImgApply(properties);
             this.fireEvent('editcomplete', this);
         },
@@ -434,9 +434,9 @@ define([
         onBtnFlipClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
             if (btn.options.value==1)
-                properties.asc_putFlipH(true);
+                properties.asc_putFlipHInvert(true);
             else
-                properties.asc_putFlipV(true);
+                properties.asc_putFlipVInvert(true);
             this.api.ImgApply(properties);
             this.fireEvent('editcomplete', this);
         },

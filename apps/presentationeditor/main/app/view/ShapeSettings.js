@@ -1590,7 +1590,7 @@ define([
 
         onBtnRotateClick: function(btn) {
             var properties = new Asc.asc_CShapeProperty();
-            properties.asc_putRot((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
             this.api.ShapeApply(properties);
             this.fireEvent('editcomplete', this);
         },
@@ -1598,9 +1598,9 @@ define([
         onBtnFlipClick: function(btn) {
             var properties = new Asc.asc_CShapeProperty();
             if (btn.options.value==1)
-                properties.asc_putFlipH(true);
+                properties.asc_putFlipHInvert(true);
             else
-                properties.asc_putFlipV(true);
+                properties.asc_putFlipVInvert(true);
             this.api.ShapeApply(properties);
             this.fireEvent('editcomplete', this);
         },
