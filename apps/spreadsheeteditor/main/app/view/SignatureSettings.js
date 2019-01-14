@@ -389,8 +389,8 @@ define([
                 SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 SSE.getController('DocumentHolder').SetDisabled(disable, true);
 
-                var leftMenu = SSE.getController('LeftMenu').leftMenu;
-                leftMenu.btnComments.setDisabled(disable);
+                // var leftMenu = SSE.getController('LeftMenu').leftMenu;
+                // leftMenu.btnComments.setDisabled(disable);
                 var comments = SSE.getController('Common.Controllers.Comments');
                 if (comments)
                     comments.setPreviewMode(disable);
