@@ -49,6 +49,10 @@ define([
     'use strict';
 
     Common.Collections.Plugins = Backbone.Collection.extend({
-        model: Common.Models.Plugin
+        model: Common.Models.Plugin,
+
+        hasVisible: function() {
+            return !!this.findWhere({visible: true});
+        }
     });
 });
