@@ -56,6 +56,7 @@ define([
                 index: 0,
                 icons: undefined,
                 isViewer: false,
+                isDisplayedInViewer: true,
                 EditorsSupport: ["word", "cell", "slide"],
                 isVisual: false,
                 isCustomWindow: false,

@@ -168,6 +168,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
+                Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -408,6 +409,12 @@ define([
             },
 
             onDownloadAs: function(format) {
+                if ( !this.appOptions.canDownload) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+
+                this._state.isFromGatewayDownloadAs = true;
                 var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
                     _supported = [
                         Asc.c_oAscFileType.XLSX,
@@ -436,11 +443,11 @@ define([
                 }
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     var href = me.appOptions.customization.goback.url;
-                    if (me.appOptions.customization.goback.blank!==false) {
+                    if (!current && me.appOptions.customization.goback.blank!==false) {
                         window.open(href, "_blank");
                     } else {
                         parent.location.href = href;
@@ -600,8 +607,6 @@ define([
             onDocumentReady: function() {
                 if (this._isDocReady)
                     return;
-
-                Common.Gateway.documentReady();
 
                 if (this._state.openDlg)
                     this._state.openDlg.close();
@@ -785,6 +790,8 @@ define([
                 if (typeof document.hidden !== 'undefined' && document.hidden) {
                     document.addEventListener('visibilitychange', checkWarns);
                 } else checkWarns();
+
+                Common.Gateway.documentReady();
             },
 
             onLicenseChanged: function(params) {
@@ -1354,7 +1361,7 @@ define([
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
-                                Common.NotificationCenter.trigger('goback');
+                                Common.NotificationCenter.trigger('goback', true);
                             }
                         }
                     }
@@ -1526,7 +1533,13 @@ define([
             },
 
             onDownloadUrl: function(url) {
-                Common.Gateway.downloadAs(url);
+                if (this._state.isFromGatewayDownloadAs)
+                    Common.Gateway.downloadAs(url);
+                this._state.isFromGatewayDownloadAs = false;
+            },
+
+            onDownloadCancel: function() {
+                this._state.isFromGatewayDownloadAs = false;
             },
 
             onUpdateVersion: function(callback) {
@@ -2043,7 +2056,7 @@ define([
                         var variationsArr = [],
                             pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'cell');
+                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'cell');
                             if ( visible ) pluginVisible = true;
 
                             if ( item.isUICustomizer ) {
@@ -2054,11 +2067,18 @@ define([
                                 if (typeof itemVar.descriptionLocale == 'object')
                                     description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
 
+                                _.each(itemVar.buttons, function(b, index){
+                                    if (typeof b.textLocale == 'object')
+                                        b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                                    b.visible = (isEdit || b.isViewer !== false);
+                                });
+
                                 model.set({
                                     description: description,
                                     index: variationsArr.length,
                                     url: itemVar.url,
                                     icons: itemVar.icons,
+                                    buttons: itemVar.buttons,
                                     visible: visible
                                 });
 

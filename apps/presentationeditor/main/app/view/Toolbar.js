@@ -869,8 +869,10 @@ define([
                     }
                 });
 
-                if ( mode.isEdit )
+                if ( mode.isEdit ) {
                     me.setTab('home');
+                    me.processPanelVisible();
+                }
 
                 if ( me.isCompactView )
                     me.setFolded(true);
@@ -1427,7 +1429,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: this.mode.isDesktopApp ? 'inc-index' : undefined,
+                    extCls: 'inc-index',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {

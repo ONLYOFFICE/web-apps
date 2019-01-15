@@ -144,6 +144,7 @@ define([
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiServerDisconnect, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',          _.bind(this.onDownloadUrl, this));
+            Common.NotificationCenter.on('download:cancel',             _.bind(this.onDownloadCancel, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -335,6 +336,10 @@ define([
                 });
                 me._saveCopyDlg.show();
             }
+            this.isFromFileDownloadAs = false;
+        },
+
+        onDownloadCancel: function() {
             this.isFromFileDownloadAs = false;
         },
 

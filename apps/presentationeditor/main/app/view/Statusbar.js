@@ -392,7 +392,7 @@ define([
             },
 
             onApiFocusObject: function(selectedObjects) {
-                if (!this.mode.isEdit) return;
+                if (!this.mode || !this.mode.isEdit) return;
 
                 this._state.no_paragraph = true;
                 var i = -1;

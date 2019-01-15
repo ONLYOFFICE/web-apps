@@ -106,6 +106,7 @@ define([
                             '</section>';
 
         var templateTitleBox = '<section id="box-document-title">' +
+                                '<div class="extra"></div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
@@ -148,6 +149,8 @@ define([
         };
 
         function applyUsers(count, originalCount) {
+            if (!$btnUsers) return;
+
             var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit; // has other user(s) who edit document
             if ( has_edit_users ) {
                 $btnUsers

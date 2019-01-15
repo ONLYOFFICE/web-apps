@@ -194,6 +194,8 @@ define([
             },
 
             _initBorderColorView: function () {
+                if (!_shapeObject) return;
+
                 var me = this,
                     paletteBorderColor = me.getView('EditShape').paletteBorderColor,
                     stroke = _shapeObject.get_stroke();

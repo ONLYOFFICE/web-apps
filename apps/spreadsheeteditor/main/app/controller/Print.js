@@ -227,7 +227,11 @@ define([
         },
 
         openPrintSettings: function(type, cmp, format, asUrl) {
-            if (this.printSettingsDlg && this.printSettingsDlg.isVisible()) return;
+            if (this.printSettingsDlg && this.printSettingsDlg.isVisible()) {
+                asUrl && Common.NotificationCenter.trigger('download:cancel');
+                return;
+            }
+
             if (this.api) {
                 this.asUrl = asUrl;
                 this.downloadFormat = format;
@@ -266,8 +270,10 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', view);
                 } else
                     return true;
-            } else
+            } else {
+                this.asUrl && Common.NotificationCenter.trigger('download:cancel');
                 Common.NotificationCenter.trigger('edit:complete', view);
+            }
             this.printSettingsDlg = null;
         },
 

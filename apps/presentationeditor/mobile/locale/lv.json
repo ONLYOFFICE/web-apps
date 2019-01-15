@@ -82,7 +82,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "Faila versija ir mainīta. Lapa tiks pārlādēta.",
   "PE.Controllers.Main.errorUserDrop": "Failam šobrīd nevar piekļūt.",
   "PE.Controllers.Main.errorUsersExceed": "Ir pārsniegts lietotāju skaits",
-  "PE.Controllers.Main.errorViewerDisconnect": "Pārtraukts savienojums. Jūs joprojām varat aplūkot dokumentu,<br>taču nevarēsit lejupielādēt vai drukāt, līdz nav atjaunots savienojums.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Zudis savienojums. Jūs joprojām varat aplūkot dokumentu, <br> taču jūs nevarēsit to lejupielādēt, kamēr savienojums nebūs atjaunots.",
   "PE.Controllers.Main.leavePageText": "Šim dokumentam ir nesaglabātas izmaiņas. Spiediet \"palikt lapā\", lai sagaidītu dokumenta automātisko noglabāšanu. Spiediet \"pamest lapu\", lai atceltu visas nesaglabātās izmaiņas.",
   "PE.Controllers.Main.loadFontsTextText": "Ielādē datus...",
   "PE.Controllers.Main.loadFontsTitleText": "Ielādē datus",
