@@ -350,6 +350,7 @@ define([
                                 ]
                             }));
                         me.btnReviewView.updateHint(me.tipReviewView);
+                        !me.appConfig.canReview && me.turnDisplayMode(Common.localStorage.getItem(me.appPrefix + "review-mode") || 'original');
                     }
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
                     me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
@@ -528,6 +529,14 @@ define([
 
             turnChat: function (state) {
                 this.btnChat && this.btnChat.toggle(state, true);
+            },
+
+            turnDisplayMode: function(mode) {
+                if (this.btnReviewView) {
+                    this.btnReviewView.menu.items[0].setChecked(mode=='markup', true);
+                    this.btnReviewView.menu.items[1].setChecked(mode=='final', true);
+                    this.btnReviewView.menu.items[2].setChecked(mode=='original', true);
+                }
             },
 
             SetDisabled: function (state, langs) {

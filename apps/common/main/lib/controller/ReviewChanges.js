@@ -514,17 +514,22 @@ define([
         },
 
         onReviewViewClick: function(menu, item, e) {
+            this.turnDisplayMode(item.value);
+            !this.appConfig.canReview && Common.localStorage.setItem(this.view.appPrefix + "review-mode", item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        turnDisplayMode: function(mode) {
             if (this.api) {
-                if (item.value === 'final')
+                if (mode === 'final')
                     this.api.asc_BeginViewModeInReview(true);
-                else if (item.value === 'original')
+                else if (mode === 'original')
                     this.api.asc_BeginViewModeInReview(false);
                 else
                     this.api.asc_EndViewModeInReview();
             }
-            this.disableEditing(item.value !== 'markup');
-            this._state.previewMode = (item.value !== 'markup');
-            Common.NotificationCenter.trigger('edit:complete', this.view);
+            this.disableEditing(mode == 'final' || mode == 'original');
+            this._state.previewMode = (mode == 'final' || mode == 'original');
         },
 
         isPreviewChangesMode: function() {
@@ -628,8 +633,9 @@ define([
                         me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
                     }
                 });
-            } else {
-                config.canViewReview && (config.canViewReview = me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
+            } else if (config.canViewReview) {
+                config.canViewReview = me.api.asc_HaveRevisionsChanges(true); // check revisions from all users
+                config.canViewReview && me.turnDisplayMode(Common.localStorage.getItem(me.view.appPrefix + "review-mode") || 'original'); // load display mode only in viewer
             }
 
             if (me.view && me.view.btnChat) {
