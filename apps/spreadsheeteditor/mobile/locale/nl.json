@@ -155,7 +155,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "De bestandsversie is gewijzigd. De pagina wordt opnieuw geladen.",
   "SSE.Controllers.Main.errorUserDrop": "Toegang tot het bestand is op dit moment niet mogelijk.",
   "SSE.Controllers.Main.errorUsersExceed": "Het onder het prijsplan toegestane aantal gebruikers is overschreden",
-  "SSE.Controllers.Main.errorViewerDisconnect": "Verbinding is verbroken. U kunt het document nog wel bekijken,<br>maar u kunt het pas downloaden of afdrukken als de verbinding is hersteld.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Verbinding is verbroken. U kunt het document nog wel bekijken,<br>maar kunt het pas downloaden wanneer de verbinding is hersteld.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "De ingevoerde formule bevat een fout.<br>Verkeerd aantal haakjes gebruikt.",
   "SSE.Controllers.Main.errorWrongOperator": "De ingevoerde formule bevat een fout. Verkeerde operator gebruikt.<br>Corrigeer de fout.",
   "SSE.Controllers.Main.leavePageText": "Dit document bevat niet-opgeslagen wijzigingen. Klik op 'Op deze pagina blijven' om te wachten totdat het document automatisch wordt opgeslagen. Klik op 'Deze pagina verlaten' om de niet-opgeslagen wijzigingen te negeren.",

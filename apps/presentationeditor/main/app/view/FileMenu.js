@@ -226,7 +226,7 @@ define([
             this.$el.show();
             this.selectMenu(panel, defPanel);
 
-            this.api.asc_enableKeyEvents(false);
+            this.api && this.api.asc_enableKeyEvents(false);
 
             this.fireEvent('menu:show', [this]);
         },
@@ -234,7 +234,7 @@ define([
         hide: function() {
             this.$el.hide();
             this.fireEvent('menu:hide', [this]);
-            this.api.asc_enableKeyEvents(true);
+            this.api && this.api.asc_enableKeyEvents(true);
         },
 
         applyMode: function() {

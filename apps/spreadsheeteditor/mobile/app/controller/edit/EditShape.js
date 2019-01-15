@@ -199,6 +199,8 @@ define([
             },
 
             _initBorderColorView: function () {
+                if (!_shapeObject) return;
+
                 var me = this,
                     stroke = _shapeObject.get_ShapeProperties().get_stroke();
 

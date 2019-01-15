@@ -82,7 +82,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "Phiên bản file này đã được thay đổi. Trang này sẽ được tải lại.",
   "PE.Controllers.Main.errorUserDrop": "Không thể truy cập file ngay lúc này.",
   "PE.Controllers.Main.errorUsersExceed": "Đã vượt quá số lượng người dùng",
-  "PE.Controllers.Main.errorViewerDisconnect": "Mất kết nối. Bạn vẫn có thể xem tài liệu,<br>nhưng không thể tải về hoặc in cho đến khi kết nối được khôi phục.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Mất kết nối. Bạn vẫn có thể xem tài liệu,<br>nhưng sẽ không thể tải về cho đến khi kết nối được khôi phục.",
   "PE.Controllers.Main.leavePageText": "Bạn có những thay đổi chưa lưu trong tài liệu này. Nhấp vào 'Ở lại Trang này' để chờ tự động lưu tài liệu. Nhấp vào 'Rời Trang này' để bỏ tất cả các thay đổi chưa lưu.",
   "PE.Controllers.Main.loadFontsTextText": "Đang tải dữ liệu...",
   "PE.Controllers.Main.loadFontsTitleText": "Đang tải Dữ liệu",

@@ -591,10 +591,10 @@ define([
                 app.getController('LeftMenu').SetDisabled(disable, true);
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     var href = this.appOptions.customization.goback.url;
-                    if (this.appOptions.customization.goback.blank!==false) {
+                    if (!current && this.appOptions.customization.goback.blank!==false) {
                         window.open(href, "_blank");
                     } else {
                         parent.location.href = href;
@@ -1452,7 +1452,7 @@ define([
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok')
-                                Common.NotificationCenter.trigger('goback');
+                                Common.NotificationCenter.trigger('goback', true);
                         }
                     }
                     if (id == Asc.c_oAscError.ID.DataEncrypted) {
@@ -2099,7 +2099,7 @@ define([
                         var variationsArr = [],
                             pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'word');
+                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'word');
                             if ( visible ) pluginVisible = true;
 
                             if (item.isUICustomizer ) {
@@ -2110,11 +2110,18 @@ define([
                                 if (typeof itemVar.descriptionLocale == 'object')
                                     description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
 
+                                _.each(itemVar.buttons, function(b, index){
+                                    if (typeof b.textLocale == 'object')
+                                        b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                                    b.visible = (isEdit || b.isViewer !== false);
+                                });
+
                                 model.set({
                                     description: description,
                                     index: variationsArr.length,
                                     url: itemVar.url,
                                     icons: itemVar.icons,
+                                    buttons: itemVar.buttons,
                                     visible: visible
                                 });
 
