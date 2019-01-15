@@ -155,7 +155,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
   "SSE.Controllers.Main.errorUserDrop": "파일에 지금 액세스 할 수 없습니다.",
   "SSE.Controllers.Main.errorUsersExceed": "가격 책정 계획에서 허용 한 사용자 수가 초과되었습니다.",
-  "SSE.Controllers.Main.errorViewerDisconnect": "연결이 끊어졌습니다. 문서를 볼 수는 <br> <br>하지만 연결이 복원 될 때까지 다운로드하거나 인쇄 할 수 없습니다.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "연결이 끊어졌습니다. 문서를 볼 수는 <br> <br>하지만 연결이 복원 될 때까지 다운로드 할 수 없습니다.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "입력 된 수식에 오류가 있습니다. <br> 괄호가 잘못 사용되었습니다.",
   "SSE.Controllers.Main.errorWrongOperator": "입력 한 수식에 오류가 있습니다. 잘못된 연산자가 사용되었습니다. <br> 오류를 수정하십시오.",
   "SSE.Controllers.Main.leavePageText": "이 문서에서 변경 사항을 저장하지 않았습니다.이 페이지에 머물러 있으면 문서의 자동 저장을 기다릴 수 있습니다. '저장'을 클릭하여 저장하지 않은 모든 변경 사항을 버려주십시오.",

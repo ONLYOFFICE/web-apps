@@ -173,6 +173,22 @@
         .panel:not(.active) {
             display: none;
         }
+
+        /* ##adopt-panel-width */
+        .panel.compactwidth:not(#plugns-panel) {
+            .btn-group, .btn-toolbar {
+                &.x-huge {
+                    .caption {
+                        display: none;
+                    }
+
+                    .inner-box-caption {
+                        justify-content: center;
+                    }
+                }
+            }
+        }
+        /**/
     }
 
     background-color: @gray-light;

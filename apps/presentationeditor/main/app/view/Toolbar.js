@@ -869,8 +869,10 @@ define([
                     }
                 });
 
-                if ( mode.isEdit )
+                if ( mode.isEdit ) {
                     me.setTab('home');
+                    me.processPanelVisible();
+                }
 
                 if ( me.isCompactView )
                     me.setFolded(true);

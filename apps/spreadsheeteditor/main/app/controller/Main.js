@@ -443,11 +443,11 @@ define([
                 }
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     var href = me.appOptions.customization.goback.url;
-                    if (me.appOptions.customization.goback.blank!==false) {
+                    if (!current && me.appOptions.customization.goback.blank!==false) {
                         window.open(href, "_blank");
                     } else {
                         parent.location.href = href;
@@ -1361,7 +1361,7 @@ define([
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
-                                Common.NotificationCenter.trigger('goback');
+                                Common.NotificationCenter.trigger('goback', true);
                             }
                         }
                     }
@@ -2056,7 +2056,7 @@ define([
                         var variationsArr = [],
                             pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'cell');
+                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'cell');
                             if ( visible ) pluginVisible = true;
 
                             if ( item.isUICustomizer ) {
@@ -2067,11 +2067,18 @@ define([
                                 if (typeof itemVar.descriptionLocale == 'object')
                                     description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
 
+                                _.each(itemVar.buttons, function(b, index){
+                                    if (typeof b.textLocale == 'object')
+                                        b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                                    b.visible = (isEdit || b.isViewer !== false);
+                                });
+
                                 model.set({
                                     description: description,
                                     index: variationsArr.length,
                                     url: itemVar.url,
                                     icons: itemVar.icons,
+                                    buttons: itemVar.buttons,
                                     visible: visible
                                 });
 

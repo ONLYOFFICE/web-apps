@@ -82,7 +82,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "Dosya versiyonu değiştirildi. Sayfa yenilenecektir.",
   "PE.Controllers.Main.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "PE.Controllers.Main.errorUsersExceed": "Kullanıcı sayısı aşıldı",
-  "PE.Controllers.Main.errorViewerDisconnect": "Bağlantı kesildi. Belgeyi yine de görüntüleyebilirsiniz,<br>ancak bağlantı geri yüklenene kadar indirme veya yazdırma yapamazsınız.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Bağlantı kaybedildi. Yine belgeyi görüntüleyebilirsiniz, <br> bağlantı geri gelmeden önce indirme işlemi yapılamayacak.",
   "PE.Controllers.Main.leavePageText": "Bu belgede kaydedilmemiş değişiklikleriniz var. 'Sayfada Kal' tuşuna tıklayarak otomatik kaydetmeyi bekleyebilirsiniz. 'Sayfadan Ayrıl' tuşuna tıklarsanız kaydedilmemiş tüm değişiklikler silinecektir.",
   "PE.Controllers.Main.loadFontsTextText": "Veri yükleniyor...",
   "PE.Controllers.Main.loadFontsTitleText": "Veri yükleniyor",
