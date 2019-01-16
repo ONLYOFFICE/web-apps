@@ -74,7 +74,7 @@ define([
         subEditStrings : {},
         filter : undefined,
         hintmode : false,
-        previewmode: false,
+        viewmode: false,
         isSelectedComment : false,
         uids : [],
         oldUids : [],
@@ -169,7 +169,7 @@ define([
                 this.currentUserName    =   data.config.user.fullname;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
                 this.hintmode           =   data['hintmode'] || false;
-                this.previewmode        =   data['previewmode'] || false;
+                this.viewmode        =   data['viewmode'] || false;
             }
         },
         setApi: function (api) {
@@ -194,10 +194,8 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.isModeChanged = true; // change show-comment mode from/to hint mode using canComments flag
-            if (!this.mode.canComments) {
-                this.view.changeLayout(mode);
-            }
-
+            this.view.viewmode = !this.mode.canComments;
+            this.view.changeLayout(mode);
             return this;
         },
         //
@@ -283,8 +281,6 @@ define([
             return false;
         },
         onShowComment: function (id, selected) {
-            if (this.previewmode) return;
-
             var comment = this.findComment(id);
             if (comment) {
                 if (null !== comment.get('quote')) {
@@ -818,11 +814,9 @@ define([
             }
         },
         onApiShowComment: function (uids, posX, posY, leftX, opts, hint) {
-            if (this.previewmode) return;
-            this.isModeChanged = false;
             var same_uids = (0 === _.difference(this.uids, uids).length) && (0 === _.difference(uids, this.uids).length);
             
-            if (hint && this.isSelectedComment && same_uids) {
+            if (hint && this.isSelectedComment && same_uids && !this.isModeChanged) {
                 // хотим показать тот же коментарий что был и выбран
                 return;
             }
@@ -833,7 +827,7 @@ define([
             if (popover) {
                 this.clearDummyComment();
 
-                if (this.isSelectedComment && same_uids) {
+                if (this.isSelectedComment && same_uids && !this.isModeChanged) {
                     //NOTE: click to sdk view ?
                     if (this.api) {
                         //this.view.txtComment.blur();
@@ -905,6 +899,7 @@ define([
                 popover.setLeftTop(posX, posY, leftX);
                 popover.showComments(animate, false, true, text);
             }
+            this.isModeChanged = false;
         },
         onApiHideComment: function (hint) {
             var t = this;
@@ -940,8 +935,6 @@ define([
             }
         },
         onApiUpdateCommentPosition: function (uids, posX, posY, leftX) {
-            if (this.previewmode) return;
-
             var i, useAnimation = false,
                 comment = null,
                 text = undefined,
@@ -1480,9 +1473,16 @@ define([
         },
 
         setPreviewMode: function(mode) {
-            this.previewmode = mode;
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+            if (mode)
+                this.prevcanComments = this.mode.canComments;
+            this.mode.canComments = (mode) ? false : this.prevcanComments;
+            this.closeEditing();
+            this.setMode(this.mode);
+            this.updateComments(true);
             if (this.getPopover())
-                this.getPopover().hide();
+                this.getPopover().update(true);
         }
 
     }, Common.Controllers.Comments || {}));

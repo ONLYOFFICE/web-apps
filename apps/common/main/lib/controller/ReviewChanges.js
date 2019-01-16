@@ -115,7 +115,7 @@ define([
             if (api) {
                 this.api = api;
 
-                if (this.appConfig.canReview) {
+                if (this.appConfig.canReview || this.appConfig.canViewReview) {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
                 }
@@ -157,7 +157,7 @@ define([
 
                     this.getPopover().showReview(animate, lock, lockUser);
 
-                    if (!this.appConfig.isReviewOnly && this._state.lock !== lock) {
+                    if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== lock) {
                         this.view.btnAccept.setDisabled(lock==true);
                         this.view.btnReject.setDisabled(lock==true);
                         if (this.dlgChanges) {
@@ -207,7 +207,7 @@ define([
         },
 
         getPopover: function () {
-            if (this.appConfig.canReview && _.isUndefined(this.popover)) {
+            if ((this.appConfig.canReview || this.appConfig.canViewReview) && _.isUndefined(this.popover)) {
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     reviewStore : this.popoverChanges,
                     renderTo : this.sdkViewName
@@ -408,7 +408,8 @@ define([
                         lockuser    : item.get_LockUserId(),
                         type        : item.get_Type(),
                         changedata  : item,
-                        scope       : me.view
+                        scope       : me.view,
+                        hint        : !me.appConfig.canReview
                     });
 
                 arr.push(change);
@@ -513,17 +514,22 @@ define([
         },
 
         onReviewViewClick: function(menu, item, e) {
+            this.turnDisplayMode(item.value);
+            !this.appConfig.canReview && Common.localStorage.setItem(this.view.appPrefix + "review-mode", item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        turnDisplayMode: function(mode) {
             if (this.api) {
-                if (item.value === 'final')
+                if (mode === 'final')
                     this.api.asc_BeginViewModeInReview(true);
-                else if (item.value === 'original')
+                else if (mode === 'original')
                     this.api.asc_BeginViewModeInReview(false);
                 else
                     this.api.asc_EndViewModeInReview();
             }
-            this.disableEditing(item.value !== 'markup');
-            this._state.previewMode = (item.value !== 'markup');
-            Common.NotificationCenter.trigger('edit:complete', this.view);
+            this.disableEditing(mode == 'final' || mode == 'original');
+            this._state.previewMode = (mode == 'final' || mode == 'original');
         },
 
         isPreviewChangesMode: function() {
@@ -561,21 +567,22 @@ define([
 
         disableEditing: function(disable) {
             var app = this.getApplication();
-            app.getController('RightMenu').getView('RightMenu').clearSelection();
             app.getController('Toolbar').DisableToolbar(disable, false, true);
-            app.getController('RightMenu').SetDisabled(disable, false);
-            app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
             app.getController('DocumentHolder').getView().SetDisabled(disable);
-            app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
-            app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
 
-            var leftMenu = app.getController('LeftMenu').leftMenu;
-            leftMenu.btnComments.setDisabled(disable);
-            if (disable) leftMenu.close();
+            if (this.appConfig.canReview) {
+                app.getController('RightMenu').getView('RightMenu').clearSelection();
+                app.getController('RightMenu').SetDisabled(disable, false);
+                app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+                app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+            }
+
             var comments = app.getController('Common.Controllers.Comments');
             if (comments)
                 comments.setPreviewMode(disable);
 
+            var leftMenu = app.getController('LeftMenu').leftMenu;
             leftMenu.getMenu('file').miProtect.setDisabled(disable);
 
             if (this.view) {
@@ -626,6 +633,9 @@ define([
                         me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
                     }
                 });
+            } else if (config.canViewReview) {
+                config.canViewReview = me.api.asc_HaveRevisionsChanges(true); // check revisions from all users
+                config.canViewReview && me.turnDisplayMode(Common.localStorage.getItem(me.view.appPrefix + "review-mode") || 'original'); // load display mode only in viewer
             }
 
             if (me.view && me.view.btnChat) {
