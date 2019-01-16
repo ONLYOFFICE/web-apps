@@ -297,7 +297,8 @@ define([
                             }
                         } else {
                             var model = this.popoverComments.findWhere({uid: id});
-                            if (model) {
+                            if (model && !this.getPopover().isVisible()) {
+                                this.getPopover().showComments(true);
                                 return;
                             }
                         }
