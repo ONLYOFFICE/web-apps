@@ -156,6 +156,7 @@ define([
                     variation.set_Icons(itemVar.get('icons'));
                     variation.set_Visual(itemVar.get('isVisual'));
                     variation.set_CustomWindow(itemVar.get('isCustomWindow'));
+                    variation.set_System(itemVar.get('isSystem'));
                     variation.set_Viewer(itemVar.get('isViewer'));
                     variation.set_EditorsSupport(itemVar.get('EditorsSupport'));
                     variation.set_Modal(itemVar.get('isModal'));

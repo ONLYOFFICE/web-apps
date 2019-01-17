@@ -1845,7 +1845,7 @@ define([
                         var variationsArr = [],
                             pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'slide');
+                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'slide') && !itemVar.isSystem;
                             if ( visible ) pluginVisible = true;
 
                             if ( item.isUICustomizer ) {

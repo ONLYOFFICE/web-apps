@@ -55,6 +55,7 @@ define([
                 url: "",
                 index: 0,
                 icons: undefined,
+                isSystem: false,
                 isViewer: false,
                 isDisplayedInViewer: true,
                 EditorsSupport: ["word", "cell", "slide"],
