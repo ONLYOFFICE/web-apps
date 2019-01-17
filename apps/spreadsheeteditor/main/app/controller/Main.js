@@ -168,6 +168,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
+                Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -331,6 +332,10 @@ define([
                 }
                 if (value) this.api.asc_setLocalization(value);
 
+                value = Common.localStorage.getBool("sse-settings-r1c1");
+                Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
+                this.api.asc_setR1C1Mode(value);
+
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
@@ -404,6 +409,12 @@ define([
             },
 
             onDownloadAs: function(format) {
+                if ( !this.appOptions.canDownload) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+
+                this._state.isFromGatewayDownloadAs = true;
                 var _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[ format.toUpperCase() ] : null,
                     _supported = [
                         Asc.c_oAscFileType.XLSX,
@@ -432,11 +443,11 @@ define([
                 }
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     var href = me.appOptions.customization.goback.url;
-                    if (me.appOptions.customization.goback.blank!==false) {
+                    if (!current && me.appOptions.customization.goback.blank!==false) {
                         window.open(href, "_blank");
                     } else {
                         parent.location.href = href;
@@ -597,8 +608,6 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.Gateway.documentReady();
-
                 if (this._state.openDlg)
                     this._state.openDlg.close();
 
@@ -718,9 +727,7 @@ define([
                         if (window.styles_loaded || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) {
                             clearInterval(timer_sl);
 
-                            Common.NotificationCenter.trigger('comments:updatefilter',
-                                {property: 'uid',
-                                    value: new RegExp('^(doc_|sheet' + me.api.asc_getActiveWorksheetId() + '_)')});
+                            Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()]);
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
@@ -783,6 +790,8 @@ define([
                 if (typeof document.hidden !== 'undefined' && document.hidden) {
                     document.addEventListener('visibilitychange', checkWarns);
                 } else checkWarns();
+
+                Common.Gateway.documentReady();
             },
 
             onLicenseChanged: function(params) {
@@ -867,7 +876,7 @@ define([
                 var elem = document.getElementById('loadmask-text');
                 var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
                 proc = this.textLoadingDocument + ': ' + Math.min(Math.round(proc*100), 100) + '%';
-                elem ? elem.innerHTML = proc : this.loadMask.setTitle(proc);
+                elem ? elem.innerHTML = proc : this.loadMask && this.loadMask.setTitle(proc);
             },
 
             onEditorPermissions: function(params) {
@@ -900,6 +909,7 @@ define([
                     /** coauthoring end **/
                     this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? (this.permissions.edit !== false) : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                    this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
@@ -999,19 +1009,17 @@ define([
             },
 
             applyModeEditorElements: function(prevmode) {
-                if (this.appOptions.canComments || this.appOptions.isEdit) {
-                    /** coauthoring begin **/
-                    var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
-                    if (commentsController) {
-                        commentsController.setMode(this.appOptions);
-                        commentsController.setConfig({
-                                config      : this.editorConfig,
-                                sdkviewname : '#ws-canvas-outer',
-                                hintmode    : true},
-                            this.api);
-                    }
-                    /** coauthoring end **/
+                /** coauthoring begin **/
+                var commentsController  = this.getApplication().getController('Common.Controllers.Comments');
+                if (commentsController) {
+                    commentsController.setMode(this.appOptions);
+                    commentsController.setConfig({
+                            config      : this.editorConfig,
+                            sdkviewname : '#ws-canvas-outer',
+                            hintmode    : true},
+                        this.api);
                 }
+                /** coauthoring end **/
 
                 if (this.appOptions.isEdit) {
                     var me = this,
@@ -1093,6 +1101,12 @@ define([
             },
 
             onError: function(id, level, errData) {
+                if (id == Asc.c_oAscError.ID.LoadingScriptError) {
+                    this.showTips([this.scriptLoadError]);
+                    this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);
+                    return;
+                }
+
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
@@ -1326,6 +1340,10 @@ define([
                         config.msg = this.errorDataEncrypted;
                         break;
 
+                    case Asc.c_oAscError.ID.EditingError:
+                        config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1343,7 +1361,7 @@ define([
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
-                                Common.NotificationCenter.trigger('goback');
+                                Common.NotificationCenter.trigger('goback', true);
                             }
                         }
                     }
@@ -1361,6 +1379,9 @@ define([
                         if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
                             (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.api.asc_DownloadAs() : this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
+                        } else if (id == Asc.c_oAscError.ID.EditingError) {
+                            this.disableEditing(true);
+                            Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -1512,7 +1533,13 @@ define([
             },
 
             onDownloadUrl: function(url) {
-                Common.Gateway.downloadAs(url);
+                if (this._state.isFromGatewayDownloadAs)
+                    Common.Gateway.downloadAs(url);
+                this._state.isFromGatewayDownloadAs = false;
+            },
+
+            onDownloadCancel: function() {
+                this._state.isFromGatewayDownloadAs = false;
             },
 
             onUpdateVersion: function(callback) {
@@ -1576,7 +1603,7 @@ define([
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        closable: me.appOptions.canRequestClose,
+                        closeFile: me.appOptions.canRequestClose,
                         type: type,
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
@@ -1587,8 +1614,10 @@ define([
                                     me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
                                     me.loadMask && me.loadMask.show();
                                 }
-                            } else
+                            } else {
                                 Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
                             me._state.openDlg = null;
                         }
                     });
@@ -1606,14 +1635,8 @@ define([
                 if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram && window.editor_elements_prepared) {
                     this.application.getController('Statusbar').selectTab(index);
 
-                    if (this.appOptions.isEdit && !this.dontCloseDummyComment) {
-                        Common.NotificationCenter.trigger('comments:updatefilter',
-                            {
-                                property: 'uid',
-                                value: new RegExp('^(doc_|sheet' + this.api.asc_getWorksheetId(index) + '_)')
-                            },
-                            false //  hide popover
-                        );
+                    if (this.appOptions.canViewComments && !this.dontCloseDummyComment) {
+                        Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getWorksheetId(index)], false ); //  hide popover
                     }
                 }
             },
@@ -2022,7 +2045,8 @@ define([
                 var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                     isEdit = this.appOptions.isEdit;
                 if (plugins) {
-                    var arr = [], arrUI = [];
+                    var arr = [], arrUI = [],
+                        lang = this.appOptions.lang.split(/[\-\_]/)[0];
                     plugins.pluginsData.forEach(function(item){
                         if (_.find(arr, function(arritem) {
                                 return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
@@ -2032,27 +2056,42 @@ define([
                         var variationsArr = [],
                             pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'cell');
+                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'cell');
                             if ( visible ) pluginVisible = true;
 
                             if ( item.isUICustomizer ) {
                                 visible && arrUI.push(item.baseUrl + itemVar.url);
                             } else {
                                 var model = new Common.Models.PluginVariation(itemVar);
+                                var description = itemVar.description;
+                                if (typeof itemVar.descriptionLocale == 'object')
+                                    description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
+
+                                _.each(itemVar.buttons, function(b, index){
+                                    if (typeof b.textLocale == 'object')
+                                        b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                                    b.visible = (isEdit || b.isViewer !== false);
+                                });
 
                                 model.set({
+                                    description: description,
                                     index: variationsArr.length,
                                     url: itemVar.url,
                                     icons: itemVar.icons,
+                                    buttons: itemVar.buttons,
                                     visible: visible
                                 });
 
                                 variationsArr.push(model);
                             }
                         });
-                        if (variationsArr.length>0 && !item.isUICustomizer)
+                        if (variationsArr.length>0 && !item.isUICustomizer) {
+                            var name = item.name;
+                            if (typeof item.nameLocale == 'object')
+                                name = item.nameLocale[lang] || item.nameLocale['en'] || name || '';
+
                             arr.push(new Common.Models.Plugin({
-                                name : item.name,
+                                name : name,
                                 guid: item.guid,
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
@@ -2061,6 +2100,7 @@ define([
                                 groupName: (item.group) ? item.group.name : '',
                                 groupRank: (item.group) ? item.group.rank : 0
                             }));
+                        }
                     });
 
                     if (uiCustomize!==false)  // from ui customizer in editor config or desktop event
@@ -2251,7 +2291,10 @@ define([
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             textClose: 'Close',
             textPaidFeature: 'Paid feature',
-            textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department'
+            textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department',
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+            errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
         }
     })(), SSE.Controllers.Main || {}))
 });

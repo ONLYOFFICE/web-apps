@@ -68,7 +68,7 @@ define([
             },
 
             initEvents: function() {
-                //
+                $('#search-settings').single('click', _.bind(this.showSettings, this));
             },
 
             // Render layout
@@ -88,12 +88,67 @@ define([
                 this.render();
             },
 
+            showSettings: function (e) {
+                var me = this;
+
+                uiApp.closeModal();
+
+                if (Common.SharedSettings.get('phone')) {
+                    me.picker = $$(uiApp.popup([
+                        '<div class="popup settings">',
+                            '<div class="view search-settings-view navbar-through">',
+                                _layout.find('#search-settings-view').html(),
+                            '</div>',
+                        '</div>'].join('')
+                    ))
+                } else {
+                    me.picker = uiApp.popover([
+                            '<div class="popover settings" style="width: 280px; height: 300px;">',
+                                '<div class="popover-angle"></div>',
+                                '<div class="popover-inner">',
+                                    '<div class="content-block">',
+                                        '<div class="view popover-view search-settings-view navbar-through" style="height: 300px;">',
+                                            _layout.find('#search-settings-view').html(),
+                                        '</div>',
+                                    '</div>',
+                                '</div>',
+                            '</div>'].join(''),
+                        $$('#search-settings')
+                    );
+
+                    // Prevent hide overlay. Conflict popover and modals.
+                    var $overlay = $('.modal-overlay');
+
+                    $$(me.picker).on('opened', function () {
+                        $overlay.on('removeClass', function () {
+                            if (!$overlay.hasClass('modal-overlay-visible')) {
+                                $overlay.addClass('modal-overlay-visible')
+                            }
+                        });
+                    }).on('close', function () {
+                        $overlay.off('removeClass');
+                        $overlay.removeClass('modal-overlay-visible')
+                    });
+                }
+
+                if (Common.SharedSettings.get('android')) {
+                    $$('.view.search-settings-view.navbar-through').removeClass('navbar-through').addClass('navbar-fixed');
+                    $$('.view.search-settings-view .navbar').prependTo('.view.search-settings-view > .pages > .page');
+                }
+
+                me.fireEvent('searchbar:showsettings', me);
+            },
+
             showSearch: function () {
                 var me = this,
                     searchBar = $$('.searchbar.document');
 
                 if (searchBar.length < 1) {
                     $(me.el).find('.pages .page').first().prepend(_layout.find('#search-panel-view').html());
+
+                    // Show replace mode if needed
+                    var isReplace = Common.SharedSettings.get('search-is-replace');
+                    $('.searchbar.document').toggleClass('replace', !_.isUndefined(isReplace) && (isReplace === true));
 
                     me.fireEvent('searchbar:render', me);
                     me.fireEvent('searchbar:show', me);
@@ -133,7 +188,13 @@ define([
                 }
             },
 
-            textSearch: 'Search'
+            textFind: 'Find',
+            textFindAndReplace: 'Find and Replace',
+            textDone: 'Done',
+            textSearch: 'Search',
+            textReplace: 'Replace',
+            textCase: 'Case sensitive',
+            textHighlight: 'Highlight results'
         }
     })(), PE.Views.Search || {}))
 });

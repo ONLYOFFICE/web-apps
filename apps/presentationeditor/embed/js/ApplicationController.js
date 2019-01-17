@@ -213,8 +213,6 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        Common.Gateway.documentReady();
-
         api.ShowThumbnails(false);
         api.asc_DeleteVerticalScroll();
 
@@ -394,6 +392,7 @@ var ApplicationController = new(function(){
         });
 
         $('#btn-play').on('click', onPlayStart);
+        Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
 
@@ -459,6 +458,16 @@ var ApplicationController = new(function(){
     }
 
     function onError(id, level, errData) {
+        if (id == Asc.c_oAscError.ID.LoadingScriptError) {
+            $('#id-critical-error-title').text(me.criticalErrorTitle);
+            $('#id-critical-error-message').text(me.scriptLoadError);
+            $('#id-critical-error-close').off().on('click', function(){
+                window.location.reload();
+            });
+            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
+            return;
+        }
+
         hidePreloader();
 
         var message;
@@ -479,6 +488,10 @@ var ApplicationController = new(function(){
 
             case Asc.c_oAscError.ID.DownloadError:
                 message = me.downloadErrorText;
+                break;
+
+            case Asc.c_oAscError.ID.ConvertationPassword:
+                message = me.errorFilePassProtect;
                 break;
 
             default:
@@ -539,6 +552,10 @@ var ApplicationController = new(function(){
     }
 
     function onDownloadAs() {
+        if ( permissions.download === false) {
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            return;
+        }
         if (api) api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
     }
     // Helpers
@@ -595,6 +612,9 @@ var ApplicationController = new(function(){
         convertationErrorText   : 'Convertation failed.',
         downloadErrorText       : 'Download failed.',
         criticalErrorTitle      : 'Error',
-        notcriticalErrorTitle   : 'Warning'
+        notcriticalErrorTitle   : 'Warning',
+        scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+        errorFilePassProtect: 'The file is password protected and cannot be opened.',
+        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
     }
 })();

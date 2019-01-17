@@ -376,8 +376,10 @@ define([
         onTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = newValue;
-            this.api.setEndPointHistory();
-            this._transparencyApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -515,8 +517,10 @@ define([
         onGradientChangeComplete: function(slider, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = true;
-            this.api.setEndPointHistory();
-            this._gradientApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._gradientApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -1565,7 +1569,7 @@ define([
 
         onBtnRotateClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
-            properties.asc_putRot((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
             this.api.ImgApply(properties);
             this.fireEvent('editcomplete', this);
         },
@@ -1573,9 +1577,9 @@ define([
         onBtnFlipClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
             if (btn.options.value==1)
-                properties.asc_putFlipH(true);
+                properties.asc_putFlipHInvert(true);
             else
-                properties.asc_putFlipV(true);
+                properties.asc_putFlipVInvert(true);
             this.api.ImgApply(properties);
             this.fireEvent('editcomplete', this);
         },

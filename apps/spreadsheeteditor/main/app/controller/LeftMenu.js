@@ -108,7 +108,7 @@ define([
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
                     'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
-                    'command+h,ctrl+h': _.bind(this.onShortcut, this, 'replace'),
+                    'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
                     'alt+f': _.bind(this.onShortcut, this, 'file'),
                     'esc': _.bind(this.onShortcut, this, 'escape'),
                     /** coauthoring begin **/
@@ -141,9 +141,10 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onRenameCellTextEnd',    _.bind(this.onRenameText, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiServerDisconnect, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',          _.bind(this.onDownloadUrl, this));
+            Common.NotificationCenter.on('download:cancel',             _.bind(this.onDownloadCancel, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -151,11 +152,14 @@ define([
                 if (this.mode.canComments) {
                     this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
-                    var collection = this.getApplication().getCollection('Common.Collections.Comments');
-                    for (var i = 0; i < collection.length; ++i) {
-                        if (collection.at(i).get('userid') !== this.mode.user.id) {
-                            this.leftMenu.markCoauthOptions('comments', true);
-                            break;
+                    var comments = this.getApplication().getController('Common.Controllers.Comments').groupCollection;
+                    for (var name in comments) {
+                        var collection = comments[name];
+                        for (var i = 0; i < collection.length; ++i) {
+                            if (collection.at(i).get('userid') !== this.mode.user.id) {
+                                this.leftMenu.markCoauthOptions('comments', true);
+                                break;
+                            }
                         }
                     }
                 }
@@ -186,8 +190,8 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[(this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
-                if (this.mode.canComments)
+                this.leftMenu.btnComments[(this.mode.canViewComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
+                if (this.mode.canViewComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView('Common.Views.Comments'));
 
                 this.leftMenu.btnChat[(this.mode.canChat && !this.mode.isLightVersion) ? 'show' : 'hide']();
@@ -335,6 +339,10 @@ define([
             this.isFromFileDownloadAs = false;
         },
 
+        onDownloadCancel: function() {
+            this.isFromFileDownloadAs = false;
+        },
+
         applySettings: function(menu) {
             var value = Common.localStorage.getItem("sse-settings-fontrender");
             Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
@@ -346,9 +354,13 @@ define([
             var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", resolved);
 
-            if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
+            if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
+
+            value = Common.localStorage.getBool("sse-settings-r1c1");
+            Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
+            this.api.asc_setR1C1Mode(value);
 
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 value = Common.localStorage.getBool("sse-settings-coauthmode", true);
@@ -621,7 +633,7 @@ define([
             }
         },
 
-        onApiServerDisconnect: function(disableDownload) {
+        onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
 
@@ -631,7 +643,7 @@ define([
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
 
-            this.leftMenu.getMenu('file').setMode({isDisconnected: true, disableDownload: !!disableDownload});
+            this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
             if ( this.dlgSearch ) {
                 this.leftMenu.btnSearch.toggle(false, true);
                 this.dlgSearch['hide']();
@@ -706,7 +718,7 @@ define([
                 if (!state && this.leftMenu._state.pluginIsRunning) {
                     this.leftMenu.panelPlugins.show();
                     if (this.mode.canCoAuthoring) {
-                        this.mode.canComments && this.leftMenu.panelComments['hide']();
+                        this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                         this.mode.canChat && this.leftMenu.panelChat['hide']();
                     }
                 }
@@ -811,7 +823,7 @@ define([
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.canComments && !this.mode.isLightVersion) {
+                    if (this.mode.canCoAuthoring && this.mode.canViewComments && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();

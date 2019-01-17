@@ -383,7 +383,7 @@ define([
             }
 
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
             this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
@@ -414,7 +414,7 @@ define([
         onSave: function(e) {
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = this.toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
+                var isSyncButton = this.toolbar.btnCollabChanges && this.toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
@@ -1312,6 +1312,7 @@ define([
         onFontNameSelect: function(combo, record) {
             if (this.api) {
                 if (record.isNewFont) {
+                    !this.getApplication().getController('Main').isModalShowed &&
                     Common.UI.warning({
                         width: 500,
                         closable: false,
@@ -1629,8 +1630,8 @@ define([
             window.styles_loaded = true;
         },
 
-        onApiCoAuthoringDisconnect: function(disableDownload) {
-            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
+        onApiCoAuthoringDisconnect: function(enableDownload) {
+            this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
         },
 
@@ -2827,17 +2828,6 @@ define([
 //            });
         },
 
-        onSheetChanged: function() {
-            if (this.api) {
-                var params = this.api.asc_getSheetViewSettings();
-                var menu = this.getMenuHideOptions();
-                if (menu) {
-                    menu.items.getAt(3).setChecked(!params.asc_getShowRowColHeaders());
-                    menu.items.getAt(4).setChecked(!params.asc_getShowGridLines());
-                }
-            }
-        },
-
         _disableEditOptions: function(seltype, coauth_disable) {
             if (this.api.isCellEdited) return true;
             if (this.api.isRangeSelection) return true;
@@ -3113,7 +3103,7 @@ define([
                             tab = {action: 'pivot', caption: me.textPivot};
                             $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
                             if ($panel) {
-                                me.toolbar.addTab(tab, $panel, 4);
+                                me.toolbar.addTab(tab, $panel, 3);
                                 me.toolbar.setVisible('pivot', true);
                             }
                         }
@@ -3121,24 +3111,24 @@ define([
                         var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                         var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                         if ( $panel )
-                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.addTab(tab, $panel, 4);
+
+                        // hide 'print' and 'save' buttons group and next separator
+                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+
+                        // hide 'undo' and 'redo' buttons and get container
+                        var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+
+                        // move 'paste' button to the container instead of 'undo' and 'redo'
+                        me.toolbar.btnPaste.$el.detach().appendTo($box);
+                        me.toolbar.btnCopy.$el.removeClass('split');
 
                         if ( config.isDesktopApp ) {
-                            // hide 'print' and 'save' buttons group and next separator
-                            me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
-
-                            // hide 'undo' and 'redo' buttons and get container
-                            var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
-
-                            // move 'paste' button to the container instead of 'undo' and 'redo'
-                            me.toolbar.btnPaste.$el.detach().appendTo($box);
-                            me.toolbar.btnCopy.$el.removeClass('split');
-
                             if ( config.canProtect ) {
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
-                                    me.toolbar.addTab(tab, $panel, 6);
+                                    me.toolbar.addTab(tab, $panel, 5);
                             }
                         }
                     }

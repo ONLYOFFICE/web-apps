@@ -155,7 +155,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "Faila versija ir mainīta. Lapa tiks pārlādēta.",
   "SSE.Controllers.Main.errorUserDrop": "Failam šobrīd nevar piekļūt.",
   "SSE.Controllers.Main.errorUsersExceed": "Tika pārsniegts cenu plāna atļautais lietotāju skaits.",
-  "SSE.Controllers.Main.errorViewerDisconnect": "Pārtraukts savienojums. Jūs joprojām varat aplūkot dokumentu,<br>taču nevarēsit lejupielādēt vai drukāt, līdz nav atjaunots savienojums.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Zudis savienojums. Jūs joprojām varat aplūkot dokumentu, <br> taču jūs nevarēsit to lejupielādēt, kamēr savienojums nebūs atjaunots.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "Kļūda ievadītā formulā.<br>Ir izmantots nepareizs iekavas skaits.",
   "SSE.Controllers.Main.errorWrongOperator": "Kļūda ievadītā formulā.<br>Ir izmantots nepareizs operātors.",
   "SSE.Controllers.Main.leavePageText": "Šim dokumentam ir nesaglabātas izmaiņas. Spiediet \"palikt lapā\", lai sagaidītu dokumenta automātisko noglabāšanu. Spiediet \"pamest lapu\", lai atceltu visas nesaglabātās izmaiņas.",

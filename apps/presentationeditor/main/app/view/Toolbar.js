@@ -869,8 +869,10 @@ define([
                     }
                 });
 
-                if ( mode.isEdit )
+                if ( mode.isEdit ) {
                     me.setTab('home');
+                    me.processPanelVisible();
+                }
 
                 if ( me.isCompactView )
                     me.setFolded(true);
@@ -1316,7 +1318,11 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.lockToolbar(PE.enumLock.lostConnect, true);
-                }
+                    if (!mode.enableDownload)
+                        this.lockToolbar(PE.enumLock.cantPrint, true, {array: [this.btnPrint]});
+                } else
+                    this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+
                 this.mode = mode;
                 if (!mode.nativeApp) {
                     var nativeBtnGroup = $('.toolbar-group-native');
@@ -1328,8 +1334,6 @@ define([
 
                 if (mode.isDesktopApp)
                     $('.toolbar-group-native').hide();
-
-                this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -1425,7 +1429,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: this.mode.isDesktopApp ? 'inc-index' : undefined,
+                    extCls: 'inc-index',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {

@@ -74,7 +74,8 @@ define([
                 cls             : 'open-dlg',
                 contentTemplate : '',
                 title           : (options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? t.txtTitleProtected : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT'),
-                toolcallback    : _.bind(t.onToolClose, t)
+                toolcallback    : _.bind(t.onToolClose, t),
+                closeFile       : false
 
             }, options);
 
@@ -130,8 +131,11 @@ define([
                 '</div>',
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
+                    '<% if (closeFile) { %>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
+                    '<% } %>',
                     '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + ((_options.mode == 1) ? t.closeButtonText : t.cancelButtonText) + '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.cancelButtonText + '</button>',
                     '<% } %>',
                 '</div>'
             ].join('');

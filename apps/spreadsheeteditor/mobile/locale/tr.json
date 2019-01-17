@@ -154,7 +154,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "Dosya versiyonu değiştirildi. Sayfa yenilenecektir.",
   "SSE.Controllers.Main.errorUserDrop": "Belgeye şu an erişilemiyor.",
   "SSE.Controllers.Main.errorUsersExceed": "Fiyat planının izin verdiği kullanıcı sayısı aşıldı",
-  "SSE.Controllers.Main.errorViewerDisconnect": "Bağlantı kesildi. Belgeyi yine de görüntüleyebilirsiniz,<br>ancak bağlantı geri yüklenene kadar indirme veya yazdırma yapamazsınız.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Bağlantı kaybedildi. Yine belgeyi görüntüleyebilirsiniz, <br> bağlantı geri gelmeden önce indirme işlemi yapılamayacak.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "Girilen formülde hata oluştu.<br>Yanlış sayıda köşeli parantez kullanıldı.",
   "SSE.Controllers.Main.errorWrongOperator": "Girilen formülde hata oluştu. Yanlış operatör kullanıldı.<br>Lütfen hatayı düzeltin.",
   "SSE.Controllers.Main.leavePageText": "Bu belgede kaydedilmemiş değişiklikleriniz var. 'Sayfada Kal' tuşuna tıklayarak otomatik kaydetmeyi bekleyebilirsiniz. 'Sayfadan Ayrıl' tuşuna tıklarsanız kaydedilmemiş tüm değişiklikler silinecektir.",

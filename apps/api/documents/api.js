@@ -90,8 +90,6 @@
                         imageEmbedded: url,
                         url: http://...
                     },
-                    backgroundColor: 'header background color',
-                    textColor: 'header text color',
                     customer: {
                         name: 'SuperPuper',
                         address: 'New-York, 125f-25',
@@ -116,6 +114,7 @@
                     compactToolbar: false,
                     leftMenu: true,
                     rightMenu: true,
+                    hideRightMenu: false, // hide or show right panel on first loading
                     toolbar: true,
                     header: true,
                     statusBar: true,
@@ -718,6 +717,12 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
+		
+		if (config.type == "mobile")
+		{
+			iframe.style.position = "fixed";
+			iframe.style.overflow = "hidden";
+		}
         return iframe;
     }
 

@@ -306,8 +306,7 @@ define([
         createDelayedElements: function() {
             var me = this;
             if (this.api) {
-                 var open = Common.localStorage.getItem("sse-hide-right-settings");
-                this._openRightMenu = (open===null || parseInt(open) == 0);
+                this._openRightMenu = !Common.localStorage.getBool("sse-hide-right-settings", this.rightmenu.defaultHideRightMenu);
                 
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
@@ -367,6 +366,7 @@ define([
                 this.rightmenu.chartSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.pivotSettings.disableControls(disabled);
+                this.rightmenu.cellSettings.disableControls(disabled);
 
                 if (!allowSignature && this.rightmenu.signatureSettings) {
                     this.rightmenu.btnSignature.setDisabled(disabled);
@@ -384,6 +384,7 @@ define([
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
                     this.rightmenu.btnPivot.setDisabled(disabled);
+                    this.rightmenu.btnCell.setDisabled(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }

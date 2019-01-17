@@ -52,6 +52,7 @@ define([
 
     Common.Collections.Comments = Backbone.Collection.extend({
         model: Common.Models.Comment,
+        groups: null,
 
         clearEditing: function () {
             this.each(function(comment) {

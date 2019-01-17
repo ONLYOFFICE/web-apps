@@ -88,7 +88,7 @@ define([
 
                 var _template_tabs =
                     '<section class="tabs">' +
-                        '<a class="scroll left"><i class="icon">&lt;</i></a>' +
+                        '<a class="scroll left"></a>' +
                         '<ul>' +
                             '<% for(var i in items) { %>' +
                                 '<li class="ribtab' +
@@ -98,7 +98,7 @@ define([
                                 '</li>' +
                             '<% } %>' +
                         '</ul>' +
-                        '<a class="scroll right"><i class="icon">&gt;</i></a>' +
+                        '<a class="scroll right"></a>' +
                     '</section>';
 
                 this.$layout = $(options.template({
@@ -226,6 +226,8 @@ define([
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
                 }
+
+                this.processPanelVisible();
             },
 
             onTabClick: function (e) {
@@ -243,10 +245,12 @@ define([
                         me.collapse();
                     } else {
                         me.setTab(tab);
+                        me.processPanelVisible(null, true);
                     }
                 } else {
                     if ( !$target.hasClass('active') && !islone ) {
                         me.setTab(tab);
+                        me.processPanelVisible(null, true);
                     }
                 }
             },
@@ -344,6 +348,47 @@ define([
 
                 return true;
             },
+
+            /**
+             * in case panel partly visible.
+             * hide button's caption to decrease panel width
+             * ##adopt-panel-width
+            **/
+            processPanelVisible: function(panel, now) {
+                var me = this;
+                if ( me._timer_id ) clearTimeout(me._timer_id);
+
+                function _fc() {
+                    let $active = panel || me.$panels.filter('.active');
+                    if ( $active && $active.length ) {
+                        var _maxright = $active.parents('.box-controls').width();
+                        var data = $active.data(),
+                            _rightedge = data.rightedge;
+
+                        if ( !_rightedge ) {
+                            _rightedge = $active.get(0).getBoundingClientRect().right;
+                        }
+
+                        if ( _rightedge > _maxright ) {
+                            if ( !$active.hasClass('compactwidth') ) {
+                                $active.addClass('compactwidth');
+                                data.rightedge = _rightedge;
+                            }
+                        } else {
+                            if ($active.hasClass('compactwidth')) {
+                                $active.removeClass('compactwidth');
+                            }
+                        }
+                    }
+                };
+
+                if ( now === true ) _fc(); else
+                me._timer_id =  setTimeout(function() {
+                    delete me._timer_id;
+                    _fc();
+                }, 100);
+            },
+            /**/
 
             setExtra: function (place, el) {
                 if ( !!el ) {

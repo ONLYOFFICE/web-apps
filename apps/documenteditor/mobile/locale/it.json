@@ -96,6 +96,7 @@
   "DE.Controllers.Main.savePreparingTitle": "Preparazione al salvataggio. Attendere prego...",
   "DE.Controllers.Main.saveTextText": "Salvataggio del documento in corso...",
   "DE.Controllers.Main.saveTitleText": "Salvataggio del documento",
+  "DE.Controllers.Main.scriptLoadError": "La connessione è troppo lenta, alcuni componenti non possono essere caricati. Si prega di ricaricare la pagina.",
   "DE.Controllers.Main.sendMergeText": "Sending Merge...",
   "DE.Controllers.Main.sendMergeTitle": "Invio unione",
   "DE.Controllers.Main.splitDividerErrorText": "Il numero di righe deve essere un divisore di %1",

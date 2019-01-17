@@ -572,8 +572,10 @@ define([
         onGradientChangeComplete: function(slider, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = true;
-            this.api.setEndPointHistory();
-            this._gradientApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._gradientApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 

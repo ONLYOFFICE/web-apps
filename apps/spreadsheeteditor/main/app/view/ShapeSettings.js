@@ -372,8 +372,10 @@ define([
         onTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = newValue;
-            this.api.setEndPointHistory();
-            this._transparencyApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -511,8 +513,10 @@ define([
         onGradientChangeComplete: function(slider, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = true;
-            this.api.setEndPointHistory();
-            this._gradientApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._gradientApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -1505,7 +1509,7 @@ define([
 
         onBtnRotateClick: function(btn) {
             var props = new Asc.asc_CShapeProperty();
-            props.asc_putRot((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            props.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
             this.imgprops.asc_putShapeProperties(props);
             this.api.asc_setGraphicObjectProps(this.imgprops);
             Common.NotificationCenter.trigger('edit:complete', this);
@@ -1514,9 +1518,9 @@ define([
         onBtnFlipClick: function(btn) {
             var props = new Asc.asc_CShapeProperty();
             if (btn.options.value==1)
-                props.asc_putFlipH(true);
+                props.asc_putFlipHInvert(true);
             else
-                props.asc_putFlipV(true);
+                props.asc_putFlipVInvert(true);
             this.imgprops.asc_putShapeProperties(props);
             this.api.asc_setGraphicObjectProps(this.imgprops);
             Common.NotificationCenter.trigger('edit:complete', this);

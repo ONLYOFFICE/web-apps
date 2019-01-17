@@ -216,12 +216,6 @@ define([
 
             if (documentHolderEl) {
                 documentHolderEl.on({
-                    keydown: function(e) {
-                        if (e.keyCode == e.F10 && e.shiftKey) {
-                            e.stopEvent();
-                            me.showObjectMenu(e);
-                        }
-                    },
                     mousedown: function(e) {
                         if (e.target.localName == 'canvas' && e.button != 2) {
                             Common.UI.Menu.Manager.hideAll();
@@ -980,7 +974,7 @@ define([
                     }
                 }
 
-                if (me.permissions.isEdit || me.permissions.canComments) {
+                if (me.permissions.isEdit || me.permissions.canViewComments) {
                     if (index_comments && !this.popupmenu) {
                         data = dataarray[index_comments - 1];
                         if (!commentTip.editCommentId && commentTip.moveCommentId != data.asc_getCommentIndexes()[0]) {
@@ -1015,7 +1009,7 @@ define([
 
                             var commentsController = this.getApplication().getController('Common.Controllers.Comments');
                             if (commentsController) {
-                                if (this.permissions.canCoAuthoring && this.permissions.canComments)
+                                if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
                                     setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
                                 else
                                     commentsController.onApiHideComment(true);
@@ -1434,7 +1428,7 @@ define([
             }
 
             if (isimagemenu || isshapemenu || ischartmenu) {
-                if (!showMenu && !documentHolder.imgMenu.isVisible()) return;
+                if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = false;
                 var has_chartprops = false,
@@ -1484,8 +1478,10 @@ define([
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
-
-
+                documentHolder.mnuBringToFront.setDisabled(isObjLocked);
+                documentHolder.mnuSendToBack.setDisabled(isObjLocked);
+                documentHolder.mnuBringForward.setDisabled(isObjLocked);
+                documentHolder.mnuSendBackward.setDisabled(isObjLocked);
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
@@ -1499,7 +1495,7 @@ define([
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
             } else if (istextshapemenu || istextchartmenu) {
-                if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
+                if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
                 
                 documentHolder.pmiTextAdvanced.textInfo = undefined;
 
@@ -1559,7 +1555,7 @@ define([
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
             seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText)) {
-                if (!showMenu && !documentHolder.ssMenu.isVisible()) return;
+                if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;
                 
                 var iscelledit = this.api.isCellEdited,
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
@@ -1846,6 +1842,8 @@ define([
         },
 
         onFormulaCompleteMenu: function(funcarr) {
+            if (!this.documentHolder.funcMenu) return;
+
             if (funcarr) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
@@ -1956,6 +1954,7 @@ define([
                 coord  = specialPasteShowOptions.asc_getCellCoord(),
                 pasteContainer = documentHolderView.cmpEl.find('#special-paste-container'),
                 pasteItems = specialPasteShowOptions.asc_getOptions();
+            if (!pasteItems) return;
 
             // Prepare menu container
             if (pasteContainer.length < 1) {

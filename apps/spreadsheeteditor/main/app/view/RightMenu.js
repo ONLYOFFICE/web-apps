@@ -161,7 +161,8 @@ define([
 
             this.trigger('render:before', this);
 
-            var open = !Common.localStorage.getBool("sse-hide-right-settings");
+            this.defaultHideRightMenu = mode.customization && !!mode.customization.hideRightMenu;
+            var open = !Common.localStorage.getBool("sse-hide-right-settings", this.defaultHideRightMenu);
             el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.css('z-index', 101);
             el.show();

@@ -235,7 +235,7 @@ define([
             this.$el.show();
             this.selectMenu(panel, defPanel);
 
-            this.api.asc_enableKeyEvents(false);
+            this.api && this.api.asc_enableKeyEvents(false);
 
             this.fireEvent('menu:show', [this]);
         },
@@ -243,7 +243,7 @@ define([
         hide: function() {
             this.$el.hide();
             this.fireEvent('menu:hide', [this]);
-            this.api.asc_enableKeyEvents(true);
+            this.api && this.api.asc_enableKeyEvents(true);
         },
 
         applyMode: function() {
@@ -274,8 +274,10 @@ define([
             this.miHelp.$el.prev()[this.mode.canHelp ?'show':'hide']();
 
             this.panels['opts'].setMode(this.mode);
-            this.panels['info'].setMode(this.mode).updateInfo(this.document);
-            this.panels['rights'].setMode(this.mode).updateInfo(this.document);
+            this.panels['info'].setMode(this.mode);
+            !this.mode.isDisconnected && this.panels['info'].updateInfo(this.document);
+            this.panels['rights'].setMode(this.mode);
+            !this.mode.isDisconnected && this.panels['rights'].updateInfo(this.document);
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
@@ -310,8 +312,8 @@ define([
                 this.mode.canOpenRecent = this.mode.canCreateNew = false;
                 this.mode.isDisconnected = mode.isDisconnected;
                 this.mode.canRename = false;
-                this.mode.canPrint = false;
-                this.mode.canDownload = false;
+                if (!mode.enableDownload)
+                    this.mode.canPrint = this.mode.canDownload = false;
             } else {
                 this.mode = mode;
             }
@@ -321,6 +323,7 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            this.panels['info'].setApi(api);
             if (this.panels['protect']) this.panels['protect'].setApi(api);
             this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
         },

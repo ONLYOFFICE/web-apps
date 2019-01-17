@@ -154,7 +154,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "Phiên bản file này đã được thay đổi. Trang này sẽ được tải lại.",
   "SSE.Controllers.Main.errorUserDrop": "Không thể truy cập file ngay lúc này.",
   "SSE.Controllers.Main.errorUsersExceed": "Đã vượt quá số người dùng được phép của gói dịch vụ này",
-  "SSE.Controllers.Main.errorViewerDisconnect": "Mất kết nối. Bạn vẫn có thể xem tài liệu,<br>nhưng không thể tải về hoặc in cho đến khi kết nối được khôi phục.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Mất kết nối. Bạn vẫn có thể xem tài liệu,<br>nhưng sẽ không thể tải về cho đến khi kết nối được khôi phục.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "Lỗi trong công thức đã nhập.<br>Đã sử dụng sai số dấu ngoặc.",
   "SSE.Controllers.Main.errorWrongOperator": "Lỗi trong công thức đã nhập. Dùng sai toán tử.<br>Vui lòng sửa lỗi.",
   "SSE.Controllers.Main.leavePageText": "Bạn có những thay đổi chưa lưu trong tài liệu này. Nhấp vào 'Ở lại Trang này' để chờ tự động lưu tài liệu. Nhấp vào 'Rời Trang này' để bỏ tất cả các thay đổi chưa lưu.",

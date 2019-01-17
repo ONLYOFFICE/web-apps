@@ -390,8 +390,8 @@ define([
                 DE.getController('DocumentHolder').getView().SetDisabled(disable, true);
                 DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
 
-                var leftMenu = DE.getController('LeftMenu').leftMenu;
-                leftMenu.btnComments.setDisabled(disable);
+                // var leftMenu = DE.getController('LeftMenu').leftMenu;
+                // leftMenu.btnComments.setDisabled(disable);
                 var comments = DE.getController('Common.Controllers.Comments');
                 if (comments)
                     comments.setPreviewMode(disable);
