@@ -729,7 +729,7 @@ define([
 
             value = Common.Utils.InternalSettings.get("sse-settings-func-locale");
             item = this.cmbFuncLocale.store.findWhere({value: value});
-            if (!item)
+            if (!item && value)
                 item = this.cmbFuncLocale.store.findWhere({value: value.split(/[\-\_]/)[0]});
             this.cmbFuncLocale.setValue(item ? item.get('value') : 'en');
             this.updateFuncExample(item ? item.get('exampleValue') : this.txtExampleEn);

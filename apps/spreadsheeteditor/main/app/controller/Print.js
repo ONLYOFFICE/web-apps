@@ -50,6 +50,7 @@ define([
             this.adjPrintParams.asc_setPrintType(value);
 
             this._changedProps = null;
+            this._originalPageSettings = null;
 
             this.addListeners({
                 'MainSettingsPrint': {
@@ -114,6 +115,7 @@ define([
 
         fillPageOptions: function(panel, props) {
             var opt = props.asc_getPageSetup();
+            this._originalPageSettings = opt;
 
             var item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
@@ -136,7 +138,8 @@ define([
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
-                panel.cmbPaperSize.setValue('Custom (' + w +' x ' + h + ')');
+                panel.cmbPaperSize.setValue('Custom (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                                                         parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
 
             var fitwidth = opt.asc_getFitToWidth(),
                 fitheight = opt.asc_getFitToHeight();
@@ -185,9 +188,8 @@ define([
             var pagew = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
             var pageh = /\d{3}\.?\d*$/.exec(panel.cmbPaperSize.getValue());
 
-            opt.asc_setWidth(!pagew ? undefined : parseFloat(pagew[0]));
-            opt.asc_setHeight(!pageh? undefined : parseFloat(pageh[0]));
-
+            opt.asc_setWidth(pagew ? parseFloat(pagew[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getWidth() : undefined));
+            opt.asc_setHeight(pageh? parseFloat(pageh[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : undefined));
 
             var value = panel.cmbLayout.getValue();
             opt.asc_setFitToWidth(value==1 || value==2);
@@ -286,8 +288,8 @@ define([
                 pageheight = /^\d{3}\.?\d*/.exec(panel.cmbPaperSize.getValue());
                 pagewidth = /\d{3}\.?\d*$/.exec(panel.cmbPaperSize.getValue());
             }
-            pagewidth = parseFloat(pagewidth[0]);
-            pageheight = parseFloat(pageheight[0]);
+            pagewidth = pagewidth ? parseFloat(pagewidth[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getWidth() : 0);
+            pageheight = pageheight ? parseFloat(pageheight[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : 0);
 
             var ml = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginLeft.getNumberValue());
             var mr = Common.Utils.Metric.fnRecalcToMM(panel.spnMarginRight.getNumberValue());
