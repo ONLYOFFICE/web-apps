@@ -359,7 +359,7 @@ define([
                 if ( me._timer_id ) clearTimeout(me._timer_id);
 
                 function _fc() {
-                    let $active = panel || me.$panels.filter('.active');
+                    var $active = panel || me.$panels.filter('.active');
                     if ( $active && $active.length ) {
                         var _maxright = $active.parents('.box-controls').width();
                         var data = $active.data(),
