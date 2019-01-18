@@ -546,6 +546,7 @@
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textWarning": "Warning",
+  "SSE.Controllers.Print.txtCustom": "Custom",
   "SSE.Controllers.Print.warnCheckMargings": "Margins are incorrect",
   "SSE.Controllers.Statusbar.errorLastSheet": "Workbook must have at least one visible worksheet.",
   "SSE.Controllers.Statusbar.errorRemoveSheet": "Cannot delete the worksheet.",

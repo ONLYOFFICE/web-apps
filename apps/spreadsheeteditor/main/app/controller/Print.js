@@ -136,7 +136,7 @@ define([
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
-                panel.cmbPaperSize.setValue('Custom (' + w +' x ' + h + ')');
+                panel.cmbPaperSize.setValue(this.txtCustom + ' (' + w +' x ' + h + ')');
 
             var fitwidth = opt.asc_getFitToWidth(),
                 fitheight = opt.asc_getFitToHeight();
@@ -346,6 +346,7 @@ define([
         
         warnCheckMargings:      'Margins are incorrect',
         strAllSheets:           'All Sheets',
-        textWarning: 'Warning'
+        textWarning: 'Warning',
+        txtCustom: 'Custom'
     }, SSE.Controllers.Print || {}));
 });
