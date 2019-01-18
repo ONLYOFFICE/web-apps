@@ -1493,7 +1493,7 @@ define([
             onBeforeUnload: function() {
                 Common.localStorage.save();
 
-                var isEdit = this.permissions.edit !== false && this.editorConfig.mode !== 'view' && this.editorConfig.mode !== 'editdiagram';
+                var isEdit = this.permissions.edit !== false && this.editorConfig.mode !== 'view' && this.editorConfig.mode !== 'editdiagram' && this.editorConfig.mode !== 'editmerge';
                 if (isEdit && this.api.asc_isDocumentModified()) {
                     var me = this;
                     this.api.asc_stopSaving();
