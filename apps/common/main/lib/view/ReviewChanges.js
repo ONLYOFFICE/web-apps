@@ -99,14 +99,6 @@ define([
             var me = this;
 
             if ( me.appConfig.canReview ) {
-                this.btnPrev.on('click', function (e) {
-                    me.fireEvent('reviewchange:preview', [me.btnPrev, 'prev']);
-                });
-
-                this.btnNext.on('click', function (e) {
-                    me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
-                });
-
                 this.btnAccept.on('click', function (e) {
                     me.fireEvent('reviewchange:accept', [me.btnAccept, 'current']);
                 });
@@ -127,10 +119,19 @@ define([
                     button.on('click', _click_turnpreview.bind(me));
                 });
             }
-            if (this.appConfig.canViewReview)
+            if (this.appConfig.canViewReview) {
+                this.btnPrev.on('click', function (e) {
+                    me.fireEvent('reviewchange:preview', [me.btnPrev, 'prev']);
+                });
+
+                this.btnNext.on('click', function (e) {
+                    me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
+                });
+
                 this.btnReviewView.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('reviewchanges:view', [menu, item]);
                 });
+            }
 
             this.btnsSpelling.forEach(function(button) {
                 button.on('click', function (b, e) {
@@ -173,18 +174,6 @@ define([
                 this.appConfig = options.mode;
 
                 if ( this.appConfig.canReview ) {
-                    this.btnPrev = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'review-prev',
-                        caption: this.txtPrev
-                    });
-
-                    this.btnNext = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'review-next',
-                        caption: this.txtNext
-                    });
-
                     this.btnAccept = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtAccept,
@@ -208,6 +197,18 @@ define([
                     this.btnsTurnReview = [this.btnTurnOn];
                 }
                 if (this.appConfig.canViewReview) {
+                    this.btnPrev = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'review-prev',
+                        caption: this.txtPrev
+                    });
+
+                    this.btnNext = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'review-next',
+                        caption: this.txtNext
+                    });
+
                     this.btnReviewView = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-reviewview',
@@ -276,8 +277,6 @@ define([
                         '<% } %></a>');
 
                     if ( config.canReview ) {
-                        me.btnPrev.updateHint(me.hintPrev);
-                        me.btnNext.updateHint(me.hintNext);
                         me.btnTurnOn.updateHint(me.tipReview);
 
                         me.btnAccept.setMenu(
@@ -316,6 +315,9 @@ define([
                         me.btnReject.setDisabled(config.isReviewOnly);
                     }
                     if (me.appConfig.canViewReview) {
+                        me.btnPrev.updateHint(me.hintPrev);
+                        me.btnNext.updateHint(me.hintNext);
+
                         me.btnReviewView.setMenu(
                             new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
@@ -431,12 +433,12 @@ define([
                 this.$el = $(_.template(template)( {} ));
 
                 if ( this.appConfig.canReview ) {
-                    this.btnPrev.render(this.$el.find('#btn-change-prev'));
-                    this.btnNext.render(this.$el.find('#btn-change-next'));
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
                 }
+                this.btnPrev && this.btnPrev.render(this.$el.find('#btn-change-prev'));
+                this.btnNext && this.btnNext.render(this.$el.find('#btn-change-next'));
                 this.btnReviewView && this.btnReviewView.render(this.$el.find('#btn-review-view'));
 
                 this.btnSharing && this.btnSharing.render(this.$el.find('#slot-btn-sharing'));
