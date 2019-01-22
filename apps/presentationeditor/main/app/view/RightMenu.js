@@ -269,8 +269,10 @@ define([
                 if ( !target_pane.hasClass('active') ) {
                     target_pane.parent().find('> .active').removeClass('active');
                     target_pane.addClass("active");
-                    if (this.scroller)
+                    if (this.scroller) {
                         this.scroller.update();
+                        this.scroller.scrollTop(0);
+                    }
                 }
                 if (!this._settings[type].btn.isActive())
                     this._settings[type].btn.toggle(true, false);
