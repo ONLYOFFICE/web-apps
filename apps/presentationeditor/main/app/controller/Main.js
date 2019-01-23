@@ -1625,9 +1625,22 @@ define([
             },
 
             loadLanguages: function(apiLangs) {
-                var langs = [], info;
+                var langs = [], info,
+                    addlangs = [0x0804];
+
                 _.each(apiLangs, function(lang, index, list){
                     lang = parseInt(lang);
+                    info = Common.util.LanguageInfo.getLocalLanguageName(lang);
+                    langs.push({
+                        title:  info[1],
+                        tip:    info[0],
+                        code:   lang
+                    });
+                    var idx = _.indexOf(addlangs, lang);
+                    (idx>-1) && addlangs.splice(idx, 1);
+                }, this);
+
+                _.each(addlangs, function(lang, index, list){
                     info = Common.util.LanguageInfo.getLocalLanguageName(lang);
                     langs.push({
                         title:  info[1],
