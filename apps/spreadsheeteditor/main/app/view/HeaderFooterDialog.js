@@ -48,18 +48,17 @@ define([
 
     SSE.Views.HeaderFooterDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 660,
+            width: 647,
             style: 'min-width: 350px;',
             cls: 'modal-dlg'
         },
 
         initialize : function(options) {
             _.extend(this.options, {
-                title: (this.options.type == 'header') ? this.textHeader : this.textFooter
+                title: this.textTitle
             }, options || {});
 
             this.api = this.options.api;
-            this.type = this.options.type || 'header';
             this.fontStore = this.options.fontStore;
             this.font = {
                 size: 11,
@@ -70,22 +69,22 @@ define([
 
             this.template = [
                 '<div class="box" style="height: 310px;">',
+                    '<label style="display: block; margin-bottom: 3px;">' + this.textHeader + '</label>',
                     '<div id="id-dlg-h-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
-                    '<div id="id-dlg-h-insert" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-h-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
                     '<div id="id-dlg-h-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
                     '<div id="id-dlg-h-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
                     '<div id="id-dlg-h-textcolor" style="display: inline-block;margin-left: 3px;"></div>',
                     '<div id="id-dlg-h-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-italic" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 2px;"></div>',
-                    '<label style="display: block; margin-top: 15px;">' + this.textHeader + '</label>',
-                    '<div style="">',
-                        '<div style="display: inline-block;margin-right: 10px;">',
+                    '<div style="margin-top: 7px;">',
+                        '<div style="display: inline-block;margin-right: 5px;">',
                             '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="header-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: 10px;">',
+                        '<div style="display: inline-block;margin-right: 5px;">',
                             '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="header-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
@@ -96,22 +95,22 @@ define([
                             '</div>',
                         '</div>',
                     '</div>',
-                    '<label style="margin-top: 15px;">' + this.textFooter + '</label>',
+                    '<label style="display: block; margin-top: 15px;margin-bottom: 3px;">' + this.textFooter + '</label>',
                     '<div id="id-dlg-f-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
-                    '<div id="id-dlg-f-insert" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
+                    '<div id="id-dlg-f-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
                     '<div id="id-dlg-f-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
                     '<div id="id-dlg-f-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
                     '<div id="id-dlg-f-textcolor" style="display: inline-block;margin-left: 3px;"></div>',
                     '<div id="id-dlg-f-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-italic" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 2px;"></div>',
-                    '<div style="">',
-                        '<div style="display: inline-block;margin-right: 10px;">',
+                    '<div style="margin-top: 7px;">',
+                        '<div style="display: inline-block;margin-right: 5px;">',
                             '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="footer-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: 10px;">',
+                        '<div style="display: inline-block;margin-right: 5px;">',
                             '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="footer-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
@@ -139,6 +138,28 @@ define([
             var me = this,
                 $window = this.getChild();
 
+            this.cmbPresetsH = new Common.UI.ComboBox({
+                el          : $('#id-dlg-h-presets'),
+                cls         : 'input-group-nr',
+                style       : 'width: 115px;',
+                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
+                editable    : false,
+                data: data
+            });
+            this.cmbPresetsH.on('selected', _.bind(this.onPresetSelect, this));
+            this.cmbPresetsH.setValue(this.textPresets);
+
+            this.cmbPresetsF = new Common.UI.ComboBox({
+                el          : $('#id-dlg-f-presets'),
+                cls         : 'input-group-nr',
+                style       : 'width: 115px;',
+                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
+                editable    : false,
+                data: data
+            });
+            this.cmbPresetsF.on('selected', _.bind(this.onPresetSelect, this));
+            this.cmbPresetsF.setValue(this.textPresets);
+
             var data = [
                 {displayValue: this.textPageNum, value: Asc.c_oAscHeaderFooterField.pageNumber},
                 {displayValue: this.textPageCount, value: Asc.c_oAscHeaderFooterField.pageCount},
@@ -152,19 +173,26 @@ define([
             this.cmbInsertH = new Common.UI.ComboBox({
                 el          : $('#id-dlg-h-insert'),
                 cls         : 'input-group-nr',
-                style       : 'width: 120px;',
+                style       : 'width: 115px;',
                 menuStyle   : 'min-width: 100%; max-heigh: 100px;',
                 editable    : false,
                 data: data
             });
-            this.cmbInsertH.on('selected', _.bind(function(combo, record) {
-                combo.setValue(this.textInsert);
-                if (this.HFObject)
-                    this.HFObject.addField(record.value);
-            }, this));
+            this.cmbInsertH.on('selected', _.bind(this.onObjectSelect, this));
             this.cmbInsertH.setValue(this.textInsert);
 
-            me.cmbFonts = new Common.UI.ComboBoxFonts({
+            this.cmbInsertF = new Common.UI.ComboBox({
+                el          : $('#id-dlg-f-insert'),
+                cls         : 'input-group-nr',
+                style       : 'width: 115px;',
+                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
+                editable    : false,
+                data: data
+            });
+            this.cmbInsertF.on('selected', _.bind(this.onObjectSelect, this));
+            this.cmbInsertF.setValue(this.textInsert);
+
+            me.cmbFontsH = new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-h-fonts'),
                 cls         : 'input-group-nr',
                 style       : 'width: 150px;',
@@ -173,165 +201,208 @@ define([
                 store       : new Common.Collections.Fonts(),
                 recent      : 0,
                 hint        : me.tipFontName
-            }).on('selected', function(combo, record) {
-                if (me.HFObject) {
-                    me.HFObject.setFontName(record.name);
-                    me.scrollerUpdate();
-                }
-            });
+            }).on('selected', _.bind(this.onFontSelect, this));
+            me.cmbFontsF = new Common.UI.ComboBoxFonts({
+                el          : $('#id-dlg-f-fonts'),
+                cls         : 'input-group-nr',
+                style       : 'width: 150px;',
+                menuCls     : 'scrollable-menu',
+                menuStyle   : 'min-width: 100%;max-height: 270px;',
+                store       : new Common.Collections.Fonts(),
+                recent      : 0,
+                hint        : me.tipFontName
+            }).on('selected', _.bind(this.onFontSelect, this));
 
-            this.cmbFontSize = new Common.UI.ComboBox({
+            data = [
+                { value: 8, displayValue: "8" },
+                { value: 9, displayValue: "9" },
+                { value: 10, displayValue: "10" },
+                { value: 11, displayValue: "11" },
+                { value: 12, displayValue: "12" },
+                { value: 14, displayValue: "14" },
+                { value: 16, displayValue: "16" },
+                { value: 18, displayValue: "18" },
+                { value: 20, displayValue: "20" },
+                { value: 22, displayValue: "22" },
+                { value: 24, displayValue: "24" },
+                { value: 26, displayValue: "26" },
+                { value: 28, displayValue: "28" },
+                { value: 36, displayValue: "36" },
+                { value: 48, displayValue: "48" },
+                { value: 72, displayValue: "72" }
+            ];
+            this.cmbFontSizeH = new Common.UI.ComboBox({
                 el: $('#id-dlg-h-font-size'),
                 cls: 'input-group-nr',
                 style: 'width: 55px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle: 'min-width: 55px;max-height: 270px;',
                 hint: this.tipFontSize,
-                data: [
-                    { value: 8, displayValue: "8" },
-                    { value: 9, displayValue: "9" },
-                    { value: 10, displayValue: "10" },
-                    { value: 11, displayValue: "11" },
-                    { value: 12, displayValue: "12" },
-                    { value: 14, displayValue: "14" },
-                    { value: 16, displayValue: "16" },
-                    { value: 18, displayValue: "18" },
-                    { value: 20, displayValue: "20" },
-                    { value: 22, displayValue: "22" },
-                    { value: 24, displayValue: "24" },
-                    { value: 26, displayValue: "26" },
-                    { value: 28, displayValue: "28" },
-                    { value: 36, displayValue: "36" },
-                    { value: 48, displayValue: "48" },
-                    { value: 72, displayValue: "72" }
-                ]
-            }).on('selected', function(combo, record) {
-                if (me.HFObject) {
-                    me.HFObject.setFontSize(record.value);
-                    me.scrollerUpdate();
-                }
-            });
-            this.cmbFontSize.setValue(this.font.size);
+                data: data
+            }).on('selected', _.bind(this.onFontSizeSelect, this));
+            this.cmbFontSizeH.setValue(this.font.size);
+            this.cmbFontSizeF = new Common.UI.ComboBox({
+                el: $('#id-dlg-f-font-size'),
+                cls: 'input-group-nr',
+                style: 'width: 55px;',
+                menuCls     : 'scrollable-menu',
+                menuStyle: 'min-width: 55px;max-height: 270px;',
+                hint: this.tipFontSize,
+                data: data
+            }).on('selected', _.bind(this.onFontSizeSelect, this));
+            this.cmbFontSizeF.setValue(this.font.size);
 
-            me.btnBold = new Common.UI.Button({
+            me.btnBoldH = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'btn-bold',
                 enableToggle: true,
                 hint: me.textBold
             });
-            me.btnBold.render($('#id-dlg-h-bold')) ;
-            me.btnBold.on('click', function(btn, e) {
-                if (me.HFObject) {
-                    me.HFObject.setBold(btn.pressed);
-                    me.scrollerUpdate();
-                }
-            });
+            me.btnBoldH.render($('#id-dlg-h-bold')) ;
+            me.btnBoldH.on('click', _.bind(this.onBoldClick, this));
 
-            me.btnItalic = new Common.UI.Button({
+            me.btnBoldF = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'btn-bold',
+                enableToggle: true,
+                hint: me.textBold
+            });
+            me.btnBoldF.render($('#id-dlg-f-bold')) ;
+            me.btnBoldF.on('click', _.bind(this.onBoldClick, this));
+
+            me.btnItalicH = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'btn-italic',
                 enableToggle: true,
                 hint: me.textItalic
             });
-            me.btnItalic.render($('#id-dlg-h-italic')) ;
-            me.btnItalic.on('click', function(btn, e) {
-                if (me.HFObject) {
-                    me.HFObject.setItalic(btn.pressed);
-                    me.scrollerUpdate();
-                }
-            });
+            me.btnItalicH.render($('#id-dlg-h-italic')) ;
+            me.btnItalicH.on('click', _.bind(this.onItalicClick, this));
 
-            me.btnUnderline = new Common.UI.Button({
+            me.btnItalicF = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'btn-italic',
+                enableToggle: true,
+                hint: me.textItalic
+            });
+            me.btnItalicF.render($('#id-dlg-f-italic')) ;
+            me.btnItalicF.on('click', _.bind(this.onItalicClick, this));
+
+            me.btnUnderlineH = new Common.UI.Button({
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-underline',
                 enableToggle: true,
                 hint: me.textUnderline
             });
-            me.btnUnderline.render($('#id-dlg-h-underline')) ;
-            me.btnUnderline.on('click', function(btn, e) {
-                if (me.HFObject) {
-                    me.HFObject.setUnderline(btn.pressed);
-                    me.scrollerUpdate();
-                }
-            });
+            me.btnUnderlineH.render($('#id-dlg-h-underline')) ;
+            me.btnUnderlineH.on('click', _.bind(this.onUnderlineClick, this));
 
-            me.btnStrikeout = new Common.UI.Button({
+            me.btnUnderlineF = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-underline',
+                enableToggle: true,
+                hint: me.textUnderline
+            });
+            me.btnUnderlineF.render($('#id-dlg-f-underline')) ;
+            me.btnUnderlineF.on('click', _.bind(this.onUnderlineClick, this));
+
+            me.btnStrikeoutH = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'btn-strikeout',
                 enableToggle: true,
                 hint: me.textStrikeout
             });
-            me.btnStrikeout.render($('#id-dlg-h-strikeout')) ;
-            me.btnStrikeout.on('click', function(btn, e) {
-                if (me.HFObject) {
-                    me.HFObject.setStrikeout(btn.pressed);
-                    me.scrollerUpdate();
-                }
+            me.btnStrikeoutH.render($('#id-dlg-h-strikeout')) ;
+            me.btnStrikeoutH.on('click',_.bind(this.onStrikeoutClick, this));
+            me.btnStrikeoutF = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'btn-strikeout',
+                enableToggle: true,
+                hint: me.textStrikeout
             });
+            me.btnStrikeoutF.render($('#id-dlg-f-strikeout')) ;
+            me.btnStrikeoutF.on('click',_.bind(this.onStrikeoutClick, this));
 
-            this.btnSuperscript = new Common.UI.Button({
+            this.btnSuperscriptH = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: me.textSuperscript
             });
-            me.btnSuperscript.render($('#id-dlg-h-superscript')) ;
-            me.btnSuperscript.on('click', function(btn, e) {
-                if (me.HFObject) {
-                    me.HFObject.setSuperscript(btn.pressed);
-                    me.scrollerUpdate();
-                }
+            me.btnSuperscriptH.render($('#id-dlg-h-superscript')) ;
+            me.btnSuperscriptH.on('click', _.bind(this.onSuperscriptClick, this));
+            this.btnSuperscriptF = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'btn-superscript',
+                enableToggle: true,
+                toggleGroup: 'superscriptHFGroup',
+                hint: me.textSuperscript
             });
+            me.btnSuperscriptF.render($('#id-dlg-f-superscript')) ;
+            me.btnSuperscriptF.on('click', _.bind(this.onSuperscriptClick, this));
 
-            this.btnSubscript = new Common.UI.Button({
+            this.btnSubscriptH = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: me.textSubscript
             });
-            me.btnSubscript.render($('#id-dlg-h-subscript')) ;
-            me.btnSubscript.on('click', function(btn, e) {
-                if (me.HFObject) {
-                    me.HFObject.setSubscript(btn.pressed);
-                    me.scrollerUpdate();
-                }
+            me.btnSubscriptH.render($('#id-dlg-h-subscript')) ;
+            me.btnSubscriptH.on('click', _.bind(this.onSubscriptClick, this));
+            this.btnSubscriptF = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'btn-subscript',
+                enableToggle: true,
+                toggleGroup: 'superscriptHFGroup',
+                hint: me.textSubscript
             });
+            me.btnSubscriptF.render($('#id-dlg-f-subscript')) ;
+            me.btnSubscriptF.on('click', _.bind(this.onSubscriptClick, this));
 
-            me.btnTextColor = new Common.UI.Button({
+            var initNewColor = function(btn, picker_el) {
+                if (btn && btn.cmpEl) {
+                    var colorVal = $('<div class="btn-color-value-line"></div>');
+                    $('button:first-child', btn.cmpEl).append(colorVal);
+                    colorVal.css('background-color', btn.currentColor || '#000000');
+                    var picker = new Common.UI.ThemeColorPalette({
+                        el: $(picker_el)
+                    });
+                }
+                btn.menu.cmpEl.on('click', picker_el+'-new', _.bind(function() {
+                    picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
+                }, me));
+                picker.on('select', _.bind(me.onColorSelect, me, btn));
+                return picker;
+            };
+            me.btnTextColorH = new Common.UI.Button({
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
                 hint        : me.textColor,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="id-dlg-h-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                        { template: _.template('<a id="id-dlg-h-menu-fontcolor-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 })
             });
-            me.btnTextColor.render($('#id-dlg-h-textcolor'));
-            if (me.btnTextColor && me.btnTextColor.cmpEl) {
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnTextColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnTextColor.currentColor || '#000000');
-                me.mnuTextColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#id-dlg-h-menu-fontcolor')
-                });
-            }
-            this.btnTextColor.menu.cmpEl.on('click', '#id-dlg-h-menu-new-fontcolor', _.bind(function() {
-                me.mnuTextColorPicker.addNewColor((typeof(me.btnTextColor.color) == 'object') ? me.btnTextColor.color.color : me.btnTextColor.color);
-            }, me));
-            me.mnuTextColorPicker.on('select', function(picker, color, fromBtn) {
-                var clr = (typeof(color) == 'object') ? color.color : color;
+            me.btnTextColorH.render($('#id-dlg-h-textcolor'));
+            me.mnuTextColorPickerH = initNewColor(me.btnTextColorH, "#id-dlg-h-menu-fontcolor");
 
-                me.btnTextColor.currentColor = color;
-                $('.btn-color-value-line', me.btnTextColor.cmpEl).css('background-color', '#' + clr);
-
-                me.mnuTextColorPicker.currentColor = color;
-                if (me.HFObject)
-                    me.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));
+            me.btnTextColorF = new Common.UI.Button({
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-fontcolor',
+                hint        : me.textColor,
+                menu        : new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="id-dlg-f-menu-fontcolor-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                    ]
+                })
             });
+            me.btnTextColorF.render($('#id-dlg-f-textcolor'));
+            me.mnuTextColorPickerF = initNewColor(me.btnTextColorF, "#id-dlg-f-menu-fontcolor");
 
             me.btnOk = new Common.UI.Button({
                 el: $window.find('.primary')
@@ -363,6 +434,10 @@ define([
 
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
+            var me = this;
+            _.delay(function(){
+                me.HFObject && me.HFObject.click('#header-left-img', 0, 0);
+            },500);
         },
 
         close: function() {
@@ -373,15 +448,18 @@ define([
         },
 
         afterRender: function () {
-            this.cmbFonts.fillFonts(this.fontStore);
-            this.cmbFonts.selectRecord(this.fontStore.findWhere({name: this.font.name}) || this.fontStore.at(0));
+            this.cmbFontsH.fillFonts(this.fontStore);
+            this.cmbFontsH.selectRecord(this.fontStore.findWhere({name: this.font.name}) || this.fontStore.at(0));
+            this.cmbFontsF.fillFonts(this.fontStore);
+            this.cmbFontsF.selectRecord(this.fontStore.findWhere({name: this.font.name}) || this.fontStore.at(0));
             this.updateThemeColors();
 
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor('header-left-img', 'header-center-img', 'header-right-img', 190);
         },
 
         updateThemeColors: function() {
-            this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            this.mnuTextColorPickerH.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            this.mnuTextColorPickerF.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         getSettings: function () {
@@ -421,6 +499,82 @@ define([
             this.HFObject.click(id, event.pageX*Common.Utils.zoom() - offset.left, event.pageY*Common.Utils.zoom() - offset.top + parent.scrollTop());
         },
 
+        onPresetSelect: function(combo, record) {
+            // if (this.HFObject)
+            //     this.HFObject.setPreset(record.value);
+        },
+
+        onObjectSelect: function(combo, record) {
+            combo.setValue(this.textInsert);
+            if (this.HFObject)
+                this.HFObject.addField(record.value);
+        },
+
+        onFontSelect: function(combo, record) {
+            if (this.HFObject) {
+                this.HFObject.setFontName(record.name);
+                this.scrollerUpdate();
+            }
+        },
+
+        onFontSizeSelect: function(combo, record) {
+            if (this.HFObject) {
+                this.HFObject.setFontSize(record.value);
+                this.scrollerUpdate();
+            }
+        },
+
+        onBoldClick: function(btn, e) {
+            if (this.HFObject) {
+                this.HFObject.setBold(btn.pressed);
+                this.scrollerUpdate();
+            }
+        },
+
+        onItalicClick: function(btn, e) {
+            if (this.HFObject) {
+                this.HFObject.setItalic(btn.pressed);
+                this.scrollerUpdate();
+            }
+        },
+
+        onUnderlineClick: function(btn, e) {
+            if (this.HFObject) {
+                this.HFObject.setUnderline(btn.pressed);
+                this.scrollerUpdate();
+            }
+        },
+
+        onStrikeoutClick: function(btn, e) {
+            if (this.HFObject) {
+                this.HFObject.setStrikeout(btn.pressed);
+                this.scrollerUpdate();
+            }
+        },
+
+        onSuperscriptClick: function(btn, e) {
+            if (this.HFObject) {
+                this.HFObject.setSuperscript(btn.pressed);
+                this.scrollerUpdate();
+            }
+        },
+
+        onSubscriptClick: function(btn, e) {
+            if (this.HFObject) {
+                this.HFObject.setSubscript(btn.pressed);
+                this.scrollerUpdate();
+            }
+        },
+
+        onColorSelect: function(btn, picker, color) {
+            var clr = (typeof(color) == 'object') ? color.color : color;
+            btn.currentColor = color;
+            $('.btn-color-value-line', btn.cmpEl).css('background-color', '#' + clr);
+            picker.currentColor = color;
+            if (this.HFObject)
+                this.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));
+        },
+
         cancelButtonText:   'Cancel',
         okButtonText:       'Ok',
         tipFontName: 'Font Name',
@@ -431,6 +585,7 @@ define([
         textStrikeout: 'Strikeout',
         textSuperscript: 'Superscript',
         textSubscript: 'Subscript',
+        textTitle: 'Header/Footer Settings',
         textHeader: 'Header',
         textFooter: 'Footer',
         textLeft: 'Left',
@@ -445,7 +600,8 @@ define([
         textSheet: 'Sheet name',
         textColor: 'Text color',
         textNewColor: 'Add New Custom Color',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        textPresets: 'Presets'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });

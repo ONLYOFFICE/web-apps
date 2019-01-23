@@ -1443,20 +1443,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-editheader',
                     caption: me.capBtnInsHeader,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.printAreaLock, _set.lostConnect, _set.coAuth],
-                    menu: new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
-                        items: [
-                            {
-                                caption: me.mniEditHeader,
-                                value: 'header'
-                            },
-                            {
-                                caption: me.mniEditFooter,
-                                value: 'footer'
-                            }
-                        ]
-                    })
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.printAreaLock, _set.lostConnect, _set.coAuth]
                 });
 
                 me.btnImgAlign = new Common.UI.Button({
@@ -2466,8 +2453,6 @@ define([
         textAddPrintArea: 'Add to Print Area',
         tipPrintArea: 'Print Area',
         capBtnInsHeader: 'Headers/Footers',
-        tipEditHeader: 'Edit Header or Footer',
-        mniEditHeader: 'Edit Header',
-        mniEditFooter: 'Edit Footer'
+        tipEditHeader: 'Edit Header or Footer'
     }, SSE.Views.Toolbar || {}));
 });

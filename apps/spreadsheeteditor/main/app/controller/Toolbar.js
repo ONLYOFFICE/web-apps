@@ -366,7 +366,7 @@ define([
                 toolbar.btnImgAlign.menu.on('item:click',                   _.bind(this.onImgAlignSelect, this));
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
-                toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderClick, this));
+                toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this));
 
                 this.onSetupCopyStyleButton();
             }
@@ -3290,7 +3290,7 @@ define([
                 this.toolbar.btnPrintArea.menu.items[2].setVisible(this.api.asc_CanAddPrintArea());
         },
 
-        onEditHeaderClick: function(menu, item) {
+        onEditHeaderClick: function(btn) {
             var me = this;
             if (_.isUndefined(me.fontStore)) {
                 me.fontStore = new Common.Collections.Fonts();
@@ -3307,14 +3307,10 @@ define([
             var win = new SSE.Views.HeaderFooterDialog({
                 api: me.api,
                 fontStore: me.fontStore,
-                type: item.value,
                 handler: function(dlg, result) {
                     if (result == 'ok') {
                         var props = dlg.getSettings();
-                        // if (item.value == 'header')
                         //     me.api.asc_editHeader(props);
-                        // else
-                        //     me.api.asc_editFooter(props);
                     }
                     Common.NotificationCenter.trigger('edit:complete');
                 }
