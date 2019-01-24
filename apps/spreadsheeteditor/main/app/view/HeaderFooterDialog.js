@@ -68,7 +68,31 @@ define([
             };
 
             this.template = [
-                '<div class="box" style="height: 310px;">',
+                '<div class="box" style="height: 400px;">',
+                    '<table cols="2" style="width: 450px;margin-bottom: 30px;">',
+                        '<tr>',
+                            '<td style="padding-bottom: 8px;">',
+                                '<div id="id-dlg-hf-ch-first"></div>',
+                            '</td>',
+                            '<td style="padding-bottom: 8px;">',
+                                '<div id="id-dlg-hf-ch-scale"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td>',
+                                '<div id="id-dlg-hf-ch-odd"></div>',
+                            '</td>',
+                            '<td>',
+                                '<div id="id-dlg-hf-ch-align"></div>',
+                            '</td>',
+                        '</tr>',
+                    '</table>',
+                    '<div class="input-row" style="margin-bottom: 15px; border-bottom: 1px solid #cfcfcf;">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all" style="border-radius: 0;">', this.textAll,'</button>',
+                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd" style="border-radius: 0;">', this.textOdd,'</button>',
+                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0; margin-left:-1px;">', this.textEven,'</button>',
+                        '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-first" style="border-radius: 0; margin-left:-1px;">', this.textFirst,'</button>',
+                    '</div>',
                     '<label style="display: block; margin-bottom: 3px;">' + this.textHeader + '</label>',
                     '<div id="id-dlg-h-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
                     '<div id="id-dlg-h-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
@@ -79,23 +103,23 @@ define([
                     '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div style="margin-top: 7px;">',
-                        '<div style="display: inline-block;margin-right: 5px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="header-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: 5px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="header-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="header-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                     '</div>',
-                    '<label style="display: block; margin-top: 15px;margin-bottom: 3px;">' + this.textFooter + '</label>',
+                    '<label style="display: block; margin-top: 10px;margin-bottom: 3px;">' + this.textFooter + '</label>',
                     '<div id="id-dlg-f-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
                     '<div id="id-dlg-f-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
                     '<div id="id-dlg-f-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
@@ -105,18 +129,18 @@ define([
                     '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 2px;"></div>',
                     '<div style="margin-top: 7px;">',
-                        '<div style="display: inline-block;margin-right: 5px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="footer-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: 5px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="footer-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 201px; height: 90px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
                                 '<div id="footer-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
@@ -137,6 +161,95 @@ define([
 
             var me = this,
                 $window = this.getChild();
+
+            this.chFirstPage = new Common.UI.CheckBox({
+                el: $('#id-dlg-hf-ch-first'),
+                labelText: this.textDiffFirst
+            });
+            this.chFirstPage.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()=='checked');
+                // if (this.HFObject)
+                //     this.HFObject.setFirst(checked);
+
+                this.btnFirst.setVisible(checked);
+                if (!checked && this.btnFirst.isActive())
+                    (this.btnAll.isVisible()) ? this.btnAll.toggle(true) : this.btnOdd.toggle(true);
+
+                this.cmbPresetsF.setDisabled(checked);
+                this.cmbPresetsH.setDisabled(checked);
+            }, this));
+
+            this.chOddPage = new Common.UI.CheckBox({
+                el: $('#id-dlg-hf-ch-odd'),
+                labelText: this.textDiffOdd
+            });
+            this.chOddPage.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()=='checked');
+                // if (this.HFObject)
+                //     this.HFObject.setOdd(checked);
+
+                this.btnOdd.setVisible(checked);
+                this.btnEven.setVisible(checked);
+                this.btnAll.setVisible(!checked);
+                if (!checked && (this.btnOdd.isActive() || this.btnEven.isActive()))
+                    this.btnAll.toggle(true);
+                if (checked && this.btnAll.isActive())
+                    this.btnOdd.toggle(true);
+                this.cmbPresetsF.setDisabled(checked);
+                this.cmbPresetsH.setDisabled(checked);
+            }, this));
+
+            this.chScale = new Common.UI.CheckBox({
+                el: $('#id-dlg-hf-ch-scale'),
+                labelText: this.textScale
+            });
+            this.chScale.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()=='checked');
+                // if (this.HFObject)
+                //     this.HFObject.setScale(checked);
+            }, this));
+
+            this.chAlign = new Common.UI.CheckBox({
+                el: $('#id-dlg-hf-ch-align'),
+                labelText: this.textAlign
+            });
+            this.chAlign.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()=='checked');
+                // if (this.HFObject)
+                //     this.HFObject.setAlign(checked);
+            }, this));
+
+            this.btnAll = new Common.UI.Button({
+                el: $('#id-dlg-hf-btn-all'),
+                enableToggle: true,
+                toggleGroup: 'hf-pages',
+                allowDepress: false,
+                pressed: true
+            });
+
+            this.btnOdd = new Common.UI.Button({
+                el: $('#id-dlg-hf-btn-odd'),
+                enableToggle: true,
+                toggleGroup: 'hf-pages',
+                allowDepress: false
+            });
+            this.btnOdd.on('click', _.bind(this.onPageTypeClick, this, 0));
+
+            this.btnEven = new Common.UI.Button({
+                el: $('#id-dlg-hf-btn-even'),
+                enableToggle: true,
+                toggleGroup: 'hf-pages',
+                allowDepress: false
+            });
+            this.btnEven.on('click', _.bind(this.onPageTypeClick, this, 1));
+
+            this.btnFirst = new Common.UI.Button({
+                el: $('#id-dlg-hf-btn-first'),
+                enableToggle: true,
+                toggleGroup: 'hf-pages',
+                allowDepress: false
+            });
+            this.btnFirst.on('click', _.bind(this.onPageTypeClick, this, 2));
 
             this.cmbPresetsH = new Common.UI.ComboBox({
                 el          : $('#id-dlg-h-presets'),
@@ -575,6 +688,10 @@ define([
                 this.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));
         },
 
+        onPageTypeClick: function(type, btn, event) {
+
+        },
+
         cancelButtonText:   'Cancel',
         okButtonText:       'Ok',
         tipFontName: 'Font Name',
@@ -601,7 +718,15 @@ define([
         textColor: 'Text color',
         textNewColor: 'Add New Custom Color',
         textInsert: 'Insert',
-        textPresets: 'Presets'
+        textPresets: 'Presets',
+        textDiffFirst: 'Different first page',
+        textDiffOdd: 'Different odd and even pages',
+        textScale: 'Scale with document',
+        textAlign: 'Align with page margins',
+        textFirst: 'First page',
+        textOdd: 'Odd page',
+        textEven: 'Even page',
+        textAll: 'All pages'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });
