@@ -95,13 +95,13 @@ define([
                     '</div>',
                     '<label style="display: block; margin-bottom: 3px;">' + this.textHeader + '</label>',
                     '<div id="id-dlg-h-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
-                    '<div id="id-dlg-h-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
-                    '<div id="id-dlg-h-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
-                    '<div id="id-dlg-h-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
-                    '<div id="id-dlg-h-textcolor" style="display: inline-block;margin-left: 3px;"></div>',
-                    '<div id="id-dlg-h-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-italic" style="display: inline-block;margin-left: 2px;"></div>',
-                    '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 2px;"></div>',
-                    '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-h-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
+                    '<div id="id-dlg-h-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
+                    '<div id="id-dlg-h-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
+                    '<div id="id-dlg-h-textcolor" style="display: inline-block;margin-left: 6px;"></div>',
+                    '<div id="id-dlg-h-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-italic" style="display: inline-block;margin-left: 6px;"></div>',
+                    '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
+                    '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div style="margin-top: 7px;">',
                         '<div style="display: inline-block;margin-right: -1px;">',
                             '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
@@ -121,13 +121,13 @@ define([
                     '</div>',
                     '<label style="display: block; margin-top: 10px;margin-bottom: 3px;">' + this.textFooter + '</label>',
                     '<div id="id-dlg-f-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
-                    '<div id="id-dlg-f-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
-                    '<div id="id-dlg-f-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
-                    '<div id="id-dlg-f-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 3px;"></div>',
-                    '<div id="id-dlg-f-textcolor" style="display: inline-block;margin-left: 3px;"></div>',
-                    '<div id="id-dlg-f-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-italic" style="display: inline-block;margin-left: 2px;"></div>',
-                    '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 2px;"></div>',
-                    '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 2px;"></div>',
+                    '<div id="id-dlg-f-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
+                    '<div id="id-dlg-f-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
+                    '<div id="id-dlg-f-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
+                    '<div id="id-dlg-f-textcolor" style="display: inline-block;margin-left: 6px;"></div>',
+                    '<div id="id-dlg-f-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-italic" style="display: inline-block;margin-left: 6px;"></div>',
+                    '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
+                    '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div style="margin-top: 7px;">',
                         '<div style="display: inline-block;margin-right: -1px;">',
                             '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
@@ -254,7 +254,7 @@ define([
             this.cmbPresetsH = new Common.UI.ComboBox({
                 el          : $('#id-dlg-h-presets'),
                 cls         : 'input-group-nr',
-                style       : 'width: 115px;',
+                style       : 'width: 110px;',
                 menuStyle   : 'min-width: 100%; max-heigh: 100px;',
                 editable    : false,
                 data: data
@@ -265,7 +265,7 @@ define([
             this.cmbPresetsF = new Common.UI.ComboBox({
                 el          : $('#id-dlg-f-presets'),
                 cls         : 'input-group-nr',
-                style       : 'width: 115px;',
+                style       : 'width: 110px;',
                 menuStyle   : 'min-width: 100%; max-heigh: 100px;',
                 editable    : false,
                 data: data
@@ -286,7 +286,7 @@ define([
             this.cmbInsertH = new Common.UI.ComboBox({
                 el          : $('#id-dlg-h-insert'),
                 cls         : 'input-group-nr',
-                style       : 'width: 115px;',
+                style       : 'width: 110px;',
                 menuStyle   : 'min-width: 100%; max-heigh: 100px;',
                 editable    : false,
                 data: data
@@ -297,7 +297,7 @@ define([
             this.cmbInsertF = new Common.UI.ComboBox({
                 el          : $('#id-dlg-f-insert'),
                 cls         : 'input-group-nr',
-                style       : 'width: 115px;',
+                style       : 'width: 110px;',
                 menuStyle   : 'min-width: 100%; max-heigh: 100px;',
                 editable    : false,
                 data: data
@@ -308,7 +308,7 @@ define([
             me.cmbFontsH = new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-h-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 150px;',
+                style       : 'width: 142px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -318,7 +318,7 @@ define([
             me.cmbFontsF = new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-f-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 150px;',
+                style       : 'width: 142px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -567,7 +567,7 @@ define([
             this.cmbFontsF.selectRecord(this.fontStore.findWhere({name: this.font.name}) || this.fontStore.at(0));
             this.updateThemeColors();
 
-            this.HFObject = new AscCommonExcel.CHeaderFooterEditor('header-left-img', 'header-center-img', 'header-right-img', 190);
+            this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
         },
 
         updateThemeColors: function() {
