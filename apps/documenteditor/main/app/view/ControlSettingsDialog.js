@@ -223,6 +223,7 @@ define([
 
         onColorsSelect: function(picker, color) {
             this.btnColor.setColor(color);
+            this._isColorChanged = true;
         },
 
         updateThemeColors: function() {
@@ -254,7 +255,7 @@ define([
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
 
                 val = props.get_Color();
-                val = (val) ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()) : '#000000';
+                val = (val) ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()) : 'transparent';
                 this.btnColor.setColor(val);
                 this.colors.selectByRGB(val,true);
 
@@ -271,8 +272,10 @@ define([
             props.put_Tag(this.txtTag.getValue());
             props.put_Appearance(this.cmbShow.getValue());
 
-            var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-            props.put_Color(color.get_r(), color.get_g(), color.get_b());
+            if (this._isColorChanged) {
+                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+            }
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
 
