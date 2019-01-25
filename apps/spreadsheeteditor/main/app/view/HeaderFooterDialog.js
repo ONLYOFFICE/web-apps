@@ -59,6 +59,7 @@ define([
             }, options || {});
 
             this.api = this.options.api;
+            this.props = this.options.props;
             this.fontStore = this.options.fontStore;
             this.font = {
                 size: 11,
@@ -174,9 +175,6 @@ define([
                 this.btnFirst.setVisible(checked);
                 if (!checked && this.btnFirst.isActive())
                     (this.btnAll.isVisible()) ? this.btnAll.toggle(true) : this.btnOdd.toggle(true);
-
-                this.cmbPresetsF.setDisabled(checked);
-                this.cmbPresetsH.setDisabled(checked);
             }, this));
 
             this.chOddPage = new Common.UI.CheckBox({
@@ -195,8 +193,6 @@ define([
                     this.btnAll.toggle(true);
                 if (checked && this.btnAll.isActive())
                     this.btnOdd.toggle(true);
-                this.cmbPresetsF.setDisabled(checked);
-                this.cmbPresetsH.setDisabled(checked);
             }, this));
 
             this.chScale = new Common.UI.CheckBox({
@@ -226,6 +222,7 @@ define([
                 allowDepress: false,
                 pressed: true
             });
+            this.btnAll.on('toggle', _.bind(this.onPageTypeToggle, this, Asc.c_oAscHeaderFooterType.odd));
 
             this.btnOdd = new Common.UI.Button({
                 el: $('#id-dlg-hf-btn-odd'),
@@ -233,7 +230,7 @@ define([
                 toggleGroup: 'hf-pages',
                 allowDepress: false
             });
-            this.btnOdd.on('click', _.bind(this.onPageTypeClick, this, 0));
+            this.btnOdd.on('toggle', _.bind(this.onPageTypeToggle, this, Asc.c_oAscHeaderFooterType.odd));
 
             this.btnEven = new Common.UI.Button({
                 el: $('#id-dlg-hf-btn-even'),
@@ -241,7 +238,7 @@ define([
                 toggleGroup: 'hf-pages',
                 allowDepress: false
             });
-            this.btnEven.on('click', _.bind(this.onPageTypeClick, this, 1));
+            this.btnEven.on('toggle', _.bind(this.onPageTypeToggle, this, Asc.c_oAscHeaderFooterType.even));
 
             this.btnFirst = new Common.UI.Button({
                 el: $('#id-dlg-hf-btn-first'),
@@ -249,7 +246,7 @@ define([
                 toggleGroup: 'hf-pages',
                 allowDepress: false
             });
-            this.btnFirst.on('click', _.bind(this.onPageTypeClick, this, 2));
+            this.btnFirst.on('toggle', _.bind(this.onPageTypeToggle, this, Asc.c_oAscHeaderFooterType.first));
 
             this.cmbPresetsH = new Common.UI.ComboBox({
                 el          : $('#id-dlg-h-presets'),
@@ -568,6 +565,22 @@ define([
             this.updateThemeColors();
 
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
+            this._setDefaults(this.props);
+        },
+
+        _setDefaults: function (props) {
+            if (props) {
+                // this.chOddPage.setValue(props.getOdd());
+                // this.chFirstPage.setValue(props.getFirst());
+            }
+            var value = (this.chOddPage.getValue() == 'checked');
+            this.btnOdd.setVisible(value);
+            this.btnEven.setVisible(value);
+            this.btnAll.setVisible(!value);
+            value ? this.btnOdd.toggle(true) : this.btnAll.toggle(true);
+
+            value = (this.chFirstPage.getValue() == 'checked');
+            this.btnFirst.setVisible(value);
         },
 
         updateThemeColors: function() {
@@ -688,8 +701,9 @@ define([
                 this.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));
         },
 
-        onPageTypeClick: function(type, btn, event) {
-
+        onPageTypeToggle: function(type, btn, state) {
+            if (state && this.HFObject)
+                this.HFObject.switchHeaderFooterType(type);
         },
 
         cancelButtonText:   'Cancel',
