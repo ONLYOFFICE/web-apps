@@ -2153,12 +2153,21 @@ define([
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -2222,12 +2231,21 @@ define([
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -3241,10 +3259,17 @@ define([
                 me.langTableMenu.menu.removeAll();
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem">',
+                            '<i class="icon <% if (options.spellcheck) { %> lang-flag <% } %>"></i>',
+                            '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3258,10 +3283,17 @@ define([
                     }));
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem">',
+                            '<i class="icon <% if (options.spellcheck) { %> lang-flag <% } %>"></i>',
+                            '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3274,9 +3306,6 @@ define([
                         }
                     }));
                 });
-
-                me.langTableMenu.menu.doLayout();
-                me.langParaMenu.menu.doLayout();
             }
         },
 

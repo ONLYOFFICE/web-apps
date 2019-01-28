@@ -215,8 +215,8 @@ define([
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
             this.statusbar.setLanguage({
-                    tip:    info[0],
-                    title:  info[1],
+                    value:    info[0],
+                    displayValue:  info[1],
                     code:   langId
             });
         },

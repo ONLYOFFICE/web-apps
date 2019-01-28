@@ -1839,20 +1839,23 @@ define([
             },
 
             loadLanguages: function(apiLangs) {
-                var langs = [], info;
-                _.each(apiLangs, function(lang, index, list){
-                    lang = parseInt(lang);
-                    info = Common.util.LanguageInfo.getLocalLanguageName(lang);
-                    langs.push({
-                        title:  info[1],
-                        tip:    info[0],
-                        code:   lang
-                    });
-                }, this);
+                var langs = [], info,
+                    allLangs = Common.util.LanguageInfo.getLanguages();
+                for (var code in allLangs) {
+                    if (allLangs.hasOwnProperty(code)) {
+                        info = allLangs[code];
+                        info[2] && langs.push({
+                            displayValue:   info[1],
+                            value:          info[0],
+                            code:           parseInt(code),
+                            spellcheck:     _.indexOf(apiLangs, code)>-1
+                        });
+                    }
+                }
 
                 langs.sort(function(a, b){
-                    if (a.tip < b.tip) return -1;
-                    if (a.tip > b.tip) return 1;
+                    if (a.value < b.value) return -1;
+                    if (a.value > b.value) return 1;
                     return 0;
                 });
 
@@ -1861,6 +1864,9 @@ define([
             },
 
             setLanguages: function() {
+                if (!this.languages || this.languages.length<1) {
+                    this.loadLanguages([]);
+                }
                 if (this.languages && this.languages.length>0) {
                     this.getApplication().getController('DocumentHolder').getView().setLanguages(this.languages);
                     this.getApplication().getController('Statusbar').setLanguages(this.languages);

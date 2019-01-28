@@ -96,7 +96,7 @@ define([
                 '<% _.each(items, function(item) { %>',
                 '<li id="<%= item.id %>" data-value="<%= item.value %>">',
                 '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
-                '<i class="icon lang-flag <%= item.value %>" style="position: absolute;margin-left:-21px;"></i>',
+                '<i class="icon <% if (item.spellcheck) { %> lang-flag <% } %>" style="position: absolute;margin-left:-21px;"></i>',
                 '<%= scope.getDisplayValue(item) %>',
                 '</a>',
                 '</li>',
@@ -130,11 +130,8 @@ define([
     },
 
     onLangSelect: function(cmb, rec, e) {
-        var icon    = cmb.$el.find('.input-icon'),
-            plang   = icon.attr('lang');
-
-        if (plang) icon.removeClass(plang);
-        rec && icon.addClass(rec.value).attr('lang',rec.value);
+        cmb.$el.find('.input-icon').toggleClass('lang-flag', rec.spellcheck);
+        cmb._input.css('padding-left', rec.spellcheck ? 25 : 3);
     },
 
     onPrimary: function() {
