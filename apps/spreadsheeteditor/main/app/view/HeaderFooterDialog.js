@@ -252,22 +252,24 @@ define([
                 el          : $('#id-dlg-h-presets'),
                 cls         : 'input-group-nr',
                 style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
+                menuStyle   : 'min-width: 100%; max-height: 200px;',
                 editable    : false,
-                data: data
+                scrollAlwaysVisible: true,
+                data: []
             });
-            this.cmbPresetsH.on('selected', _.bind(this.onPresetSelect, this));
+            this.cmbPresetsH.on('selected', _.bind(this.onPresetSelect, this, false));
             this.cmbPresetsH.setValue(this.textPresets);
 
             this.cmbPresetsF = new Common.UI.ComboBox({
                 el          : $('#id-dlg-f-presets'),
                 cls         : 'input-group-nr',
                 style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
+                menuStyle   : 'min-width: 100%; max-height: 200px;',
                 editable    : false,
-                data: data
+                scrollAlwaysVisible: true,
+                data: []
             });
-            this.cmbPresetsF.on('selected', _.bind(this.onPresetSelect, this));
+            this.cmbPresetsF.on('selected', _.bind(this.onPresetSelect, this, true));
             this.cmbPresetsF.setValue(this.textPresets);
 
             var data = [
@@ -573,6 +575,15 @@ define([
                 // this.chOddPage.setValue(props.getOdd());
                 // this.chFirstPage.setValue(props.getFirst());
             }
+            var presets = [];
+            this.HFObject.getTextPresetsArr().forEach(function(item, index){
+                presets.push({displayValue: item, value: index});
+            });
+            this.cmbPresetsH.setData(presets);
+            this.cmbPresetsH.setValue(this.textPresets);
+            this.cmbPresetsF.setData(presets);
+            this.cmbPresetsF.setValue(this.textPresets);
+
             var value = (this.chOddPage.getValue() == 'checked');
             this.btnOdd.setVisible(value);
             this.btnEven.setVisible(value);
@@ -625,9 +636,9 @@ define([
             this.HFObject.click(id, event.pageX*Common.Utils.zoom() - offset.left, event.pageY*Common.Utils.zoom() - offset.top + parent.scrollTop());
         },
 
-        onPresetSelect: function(combo, record) {
-            // if (this.HFObject)
-            //     this.HFObject.setPreset(record.value);
+        onPresetSelect: function(footer, combo, record) {
+            if (this.HFObject)
+                this.HFObject.applyPreset(record.value, !!footer);
         },
 
         onObjectSelect: function(combo, record) {
