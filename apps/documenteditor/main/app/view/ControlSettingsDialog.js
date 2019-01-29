@@ -223,7 +223,7 @@ define([
 
         onColorsSelect: function(picker, color) {
             this.btnColor.setColor(color);
-            this._isColorChanged = true;
+            this._isCanApplyColor = true;
         },
 
         updateThemeColors: function() {
@@ -255,6 +255,7 @@ define([
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
 
                 val = props.get_Color();
+                this._isCanApplyColor = !!val;
                 val = (val) ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()) : 'transparent';
                 this.btnColor.setColor(val);
                 this.colors.selectByRGB(val,true);
@@ -272,7 +273,7 @@ define([
             props.put_Tag(this.txtTag.getValue());
             props.put_Appearance(this.cmbShow.getValue());
 
-            if (this._isColorChanged) {
+            if (this._isCanApplyColor) {
                 var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
                 props.put_Color(color.get_r(), color.get_g(), color.get_b());
             }
@@ -308,8 +309,10 @@ define([
             if (this.api) {
                 var props   = new AscCommon.CContentControlPr();
                 props.put_Appearance(this.cmbShow.getValue());
-                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                if (this._isCanApplyColor) {
+                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                }
                 this.api.asc_SetContentControlProperties(props, null, true);
             }
         },
