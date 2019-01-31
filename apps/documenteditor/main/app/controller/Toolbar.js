@@ -1682,16 +1682,16 @@ define([
         },
 
         onNoControlsColor: function(item) {
-            this.api.asc_SetGlobalContentControlShowHighlight(!item.isChecked());
             if (!item.isChecked())
-                this.api.asc_SetGlobalContentControlHighlightColor(220, 220, 220);
+                this.api.asc_SetGlobalContentControlShowHighlight(true, 220, 220, 220);
+            else
+                this.api.asc_SetGlobalContentControlShowHighlight(false);
         },
 
         onSelectControlsColor: function(picker, color) {
             var clr = Common.Utils.ThemeColor.getRgbColor(color);
             if (this.api) {
-                this.api.asc_SetGlobalContentControlShowHighlight(true);
-                this.api.asc_SetGlobalContentControlHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
+                this.api.asc_SetGlobalContentControlShowHighlight(true, clr.get_r(), clr.get_g(), clr.get_b());
             }
 
             Common.component.Analytics.trackEvent('ToolBar', 'Content Controls Color');
