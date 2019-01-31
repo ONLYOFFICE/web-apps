@@ -74,7 +74,6 @@ define([
             toolbar: '#viewport #toolbar',
             leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
             rightMenu: '#viewport #right-menu',
-            header: '#viewport #header',
             statusBar: '#statusbar'
         };
 
@@ -1061,7 +1060,6 @@ define([
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                         var options = {};
-                        JSON.parse(Common.localStorage.getItem('sse-hidden-title')) && (options.title = true);
                         JSON.parse(Common.localStorage.getItem('sse-hidden-formula')) && (options.formula = true);
                         application.getController('Toolbar').hideElements(options);
                     } else

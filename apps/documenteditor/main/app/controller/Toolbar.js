@@ -2032,16 +2032,6 @@ define([
             }
         },
 
-        // onHideTitleBar: function(item, checked) {
-        //     var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-        //     headerView  && headerView.setVisible(!checked);
-        //
-        //     Common.localStorage.setItem('de-hidden-title', checked ? 1 : 0);
-        //
-        //     Common.NotificationCenter.trigger('layout:changed', 'header');
-        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        // },
-
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
             this.toolbar.btnNumbers.toggle(false, true);

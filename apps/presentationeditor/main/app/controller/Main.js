@@ -70,7 +70,6 @@ define([
             toolbar: '#viewport #toolbar',
             leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
             rightMenu: '#viewport #right-menu',
-            header: '#viewport #header',
             statusBar: '#statusbar'
         };
 
@@ -923,17 +922,11 @@ define([
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
-                // var value = Common.localStorage.getItem("pe-hidden-title");
-                // value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
-
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder').getView('DocumentHolder'),
                     toolbarController = app.getController('Toolbar');
-
-                // appHeader.setHeaderCaption(this.appOptions.isEdit ? 'Presentation Editor' : 'Presentation Viewer');
-                // appHeader.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
 
                 viewport && viewport.setMode(this.appOptions, true);
                 statusbarView && statusbarView.setMode(this.appOptions);

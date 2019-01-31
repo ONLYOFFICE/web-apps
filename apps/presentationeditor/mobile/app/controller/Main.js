@@ -952,15 +952,6 @@ define([
             },
 
             hidePreloader: function() {
-                // if (!!this.appOptions.customization && !this.appOptions.customization.done) {
-                //     this.appOptions.customization.done = true;
-                //     if (!this.appOptions.isDesktopApp)
-                //         this.appOptions.customization.about = true;
-                //     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
-                //     if (this.appOptions.canBrandingExt)
-                //         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
-                // }
-
                 $('#loading-mask').hide().remove();
             },
 
