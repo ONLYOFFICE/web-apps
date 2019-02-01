@@ -343,6 +343,7 @@ define([
                     finalMessage: me.previewPanel.txtFinalMessage
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
+                reporterObject.customization = me.viewport.mode.customization;
             }
 
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
