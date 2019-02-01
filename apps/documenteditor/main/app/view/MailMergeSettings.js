@@ -801,11 +801,15 @@ define([
         disableEditing: function(disable) {
             DE.getController('Toolbar').DisableToolbar(disable, disable);
             DE.getController('RightMenu').SetDisabled(disable, true);
-            DE.getController('LeftMenu').SetDisabled(disable);
             DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-            if (this.mode.canComments) {
-                DE.getController('Common.Controllers.Comments').setMode(disable ? {canComments: false} : this.mode).onApiHideComment();
-            }
+            DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+            DE.getController('DocumentHolder').getView().SetDisabled(disable);
+            DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
+
+            var comments = DE.getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
+
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
         },
 
