@@ -35,26 +35,27 @@ if (Common === undefined) {
 }
 
 Common.Locale = new(function() {
+    "use strict";
     var l10n = {};
 
-    var _createXMLHTTPObject = function() {
-        var xmlhttp;
-        try {
-            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-        } 
-        catch (e) {
-            try {
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            } 
-            catch (E) {
-                xmlhttp = false;
-            }
-        }
-        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-            xmlhttp = new XMLHttpRequest();
-        }
-        return xmlhttp;
-    };
+    // var _createXMLHTTPObject = function() {
+    //     var xmlhttp;
+    //     try {
+    //         xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    //     }
+    //     catch (e) {
+    //         try {
+    //             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    //         }
+    //         catch (E) {
+    //             xmlhttp = false;
+    //         }
+    //     }
+    //     if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+    //         xmlhttp = new XMLHttpRequest();
+    //     }
+    //     return xmlhttp;
+    // };
 
     var _applyLocalization = function() {
         try {
@@ -96,21 +97,102 @@ Common.Locale = new(function() {
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     };
 
+    // {
+    //     let lang = (_getUrlParameterByName('lang') || 'en').split(/[\-_]/)[0];
+    //     let httpGet = function(url) {
+    //         return new Promise(
+    //             function (resolve, reject) {
+    //                 var request = new XMLHttpRequest();
+    //                 request.onload = function() {
+    //                     if ( this.readyState === 4 )
+    //                         if ( this.status == 200 ) {
+    //                             resolve(this.responseText);
+    //                         } else {
+    //                             resolve('failed');
+    //                         }
+    //                     else reject('error: ' + this.readyState);
+    //                 };
+    //                 request.onerror = function () {
+    //                     reject(new Error(
+    //                         'XMLHttpRequest Error: '+this.statusText));
+    //                 };
+    //                 request.open('GET', url);
+    //                 request.send(null);
+    //             });
+    //     }
+    //
+    //     httpGet('locale/' + lang + '.json')
+    //         .then(function(result) {
+    //             // console.log('httpget result: ' + result);
+    //
+    //             if ( result == 'failed' ) {
+    //                 if ( lang != 'en' )
+    //                     return httpGet('locale/en.json');
+    //
+    //                 return result;
+    //             }
+    //
+    //             return result;
+    //         }).then(function(result) {
+    //             if (result == 'failed')
+    //                 throw new Error('server error');
+    //             else {
+    //                 let _l10n = JSON.parse(result);
+    //                 // console.log('ok: ' + _l10n);
+    //                 console.log('ok: ');
+    //             }
+    //         }).catch(function(e) {
+    //             console.log('httpget error: ' + e);
+    //         });
+    // }
+
+    var _requireLang = function () {
+        var lang = (_getUrlParameterByName('lang') || 'en').split(/[\-_]/)[0];
+        fetch('locale/' + lang + '.json')
+            .then(function(response) {
+                if (!response.ok) {
+                    if (lang != 'en')
+                        /* load default lang if fetch failed */
+                        return fetch('locale/en.json');
+
+                    throw new Error('server error');
+                }
+                return response.json();
+            }).then(function(response) {
+                if ( response.then )
+                    return response.json();
+                else {
+                    l10n = response;
+                    /* to break promises chain */
+                    throw new Error('loaded');
+                }
+            }).then(function(json) {
+                if ( !!json ) l10n = json;
+            }).catch(function(e) {
+                console.log('fetch error: ' + e);
+            });
+    };
+
+    if ( !window.fetch ) {
+        /* use fetch polifill if native method isn't supported */
+        require(['../vendor/fetch/fetch.umd'], _requireLang);
+    } else _requireLang();
+
     try {
-        var langParam = _getUrlParameterByName('lang');
-        var xhrObj = _createXMLHTTPObject();
-        if (xhrObj && langParam) {
-            var lang = langParam.split(/[\-\_]/)[0];
-            xhrObj.open('GET', 'locale/' + lang + '.json', false);
-            xhrObj.send('');
-            l10n = eval("(" + xhrObj.responseText + ")");
-        }
+        // var langParam = _getUrlParameterByName('lang');
+        // var xhrObj = _createXMLHTTPObject();
+        // if (xhrObj && langParam) {
+        //     var lang = langParam.split(/[\-\_]/)[0];
+            // xhrObj.open('GET', 'locale/' + lang + '.json', false);
+            // xhrObj.send('');
+            // l10n = eval("(" + xhrObj.responseText + ")");
+        // }
     }
     catch (e) {
         try {
-            xhrObj.open('GET', 'locale/en.json', false);
-            xhrObj.send('');
-            l10n = eval("(" + xhrObj.responseText + ")");
+            // xhrObj.open('GET', 'locale/en.json', false);
+            // xhrObj.send('');
+            // l10n = eval("(" + xhrObj.responseText + ")");
         }
         catch (e) {
         }
