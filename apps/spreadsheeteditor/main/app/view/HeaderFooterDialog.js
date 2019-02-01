@@ -341,6 +341,7 @@ define([
             }));
             this.cmbFonts[1].on('selected', _.bind(this.onFontSelect, this));
             this.footerControls.push(this.cmbFonts[1]);
+            Common.NotificationCenter.on('fonts:change', _.bind(this.onApiChangeFont, this));
 
             data = [
                 { value: 8, displayValue: "8" },
@@ -537,6 +538,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
                 hint        : this.textColor,
+                split       : true,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
@@ -545,6 +547,7 @@ define([
                 })
             }));
             this.btnTextColor[0].render($('#id-dlg-h-textcolor'));
+            this.btnTextColor[0].on('click', _.bind(this.onTextColor, this));
             this.mnuTextColorPicker = [];
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[0], "#id-dlg-h-menu-fontcolor"));
             this.headerControls.push(this.btnTextColor[0]);
@@ -553,6 +556,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-fontcolor',
                 hint        : this.textColor,
+                split       : true,
                 menu        : new Common.UI.Menu({
                     items: [
                         { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
@@ -561,6 +565,7 @@ define([
                 })
             }));
             this.btnTextColor[1].render($('#id-dlg-f-textcolor'));
+            this.btnTextColor[1].on('click', _.bind(this.onTextColor, this));
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[1], "#id-dlg-f-menu-fontcolor"));
             this.footerControls.push(this.btnTextColor[1]);
 
@@ -725,17 +730,15 @@ define([
         },
 
         onFontSelect: function(combo, record) {
-            if (this.HFObject) {
+            if (this.HFObject)
                 this.HFObject.setFontName(record.name);
-                this.scrollerUpdate();
-            }
+            this.onCanvasClick(this.currentCanvas);
         },
 
         onFontSizeSelect: function(combo, record) {
-            if (this.HFObject) {
+            if (this.HFObject)
                 this.HFObject.setFontSize(record.value);
-                this.scrollerUpdate();
-            }
+            this.onCanvasClick(this.currentCanvas);
         },
 
         onBoldClick: function(btn, e) {
@@ -780,6 +783,12 @@ define([
             }
         },
 
+
+        onTextColor: function() {
+            var mnuTextColorPicker = this.mnuTextColorPicker[this.isFooter ? 1 : 0];
+            mnuTextColorPicker.trigger('select', mnuTextColorPicker, mnuTextColorPicker.currentColor, true);
+        },
+
         onColorSelect: function(btn, picker, color) {
             var clr = (typeof(color) == 'object') ? color.color : color;
             btn.currentColor = color;
@@ -787,6 +796,7 @@ define([
             picker.currentColor = color;
             if (this.HFObject)
                 this.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));
+            this.onCanvasClick(this.currentCanvas);
         },
 
         onPageTypeToggle: function(type, btn, state) {
@@ -794,6 +804,10 @@ define([
                 this.HFObject.switchHeaderFooterType(type);
                 this.onCanvasClick(this.currentCanvas);
             }
+        },
+
+        onApiChangeFont: function(font) {
+            this.cmbFonts[this.isFooter ? 1 : 0].onApiChangeFont(font);
         },
 
         onApiEditorSelectionChanged: function(fontobj) {

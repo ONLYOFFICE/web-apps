@@ -387,6 +387,7 @@ define([
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
             this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
+            Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
         },
 
         // onNewDocument: function(btn, e) {
@@ -402,6 +403,10 @@ define([
         //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         //     Common.component.Analytics.trackEvent('ToolBar', 'Open Document');
         // },
+
+        onApiChangeFont: function(font) {
+            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
+        },
 
         onContextMenu: function() {
             this.toolbar.collapse();

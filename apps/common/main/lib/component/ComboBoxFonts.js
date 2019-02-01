@@ -95,7 +95,7 @@ define([
 
                 this.recent = _.isNumber(options.recent) ? options.recent : 3;
 
-                Common.NotificationCenter.on('fonts:change',    _.bind(this.onApiChangeFont, this));
+                // Common.NotificationCenter.on('fonts:change',    _.bind(this.onApiChangeFont, this));
                 Common.NotificationCenter.on('fonts:load',      _.bind(this.fillFonts, this));
             },
 
@@ -114,8 +114,6 @@ define([
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
                 this._input.on('focus',     _.bind(function() {this.inFormControl = true;}, this));
                 this._input.on('blur',      _.bind(function() {this.inFormControl = false;}, this));
-
-                this._modalParents = this.cmpEl.closest('.asc-window');
 
                 return this;
             },
@@ -334,8 +332,6 @@ define([
                 var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName());
 
                 if (this.getRawValue() !== name) {
-                    if (this._modalParents.length > 0) return;
-
                     var record = this.store.findWhere({
                         name: name
                     });

@@ -368,6 +368,7 @@ define([
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
             this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings',_.bind(this.onChangeSdtGlobalSettings, this));
+            Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -390,6 +391,10 @@ define([
 
         onContextMenu: function() {
             this.toolbar.collapse();
+        },
+
+        onApiChangeFont: function(font) {
+            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
