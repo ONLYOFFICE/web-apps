@@ -135,6 +135,19 @@ define([
             if (this.dlgChanges)
                 this.dlgChanges.close();
             this.view && this.view.SetDisabled(state, this.langs);
+            this.setPreviewMode(state);
+        },
+
+        setPreviewMode: function(mode) { //disable accept/reject in popover
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+            if (mode)
+                this.prevcanReview = this.appConfig.canReview;
+            this.appConfig.canReview = (mode) ? false : this.prevcanReview;
+            var me = this;
+            this.popoverChanges && this.popoverChanges.each(function (model) {
+                model.set('hint', !me.appConfig.canReview);
+            });
         },
 
         onApiShowChange: function (sdkchange) {
