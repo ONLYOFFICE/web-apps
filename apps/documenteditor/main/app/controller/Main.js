@@ -2083,6 +2083,18 @@ define([
                     }
                 });
 
+                /**/
+                Promise.all(pluginsData.map(url => {
+                    return fetch(url)
+                                .then(response => response.json());
+                                // .then(json => json);
+                })).then( values => {
+                    console.log('plugins: ' + values);
+                }).catch(e => {
+                    console.log('error: ' + e.message);
+                });
+                /**/
+
                 if (arr.length>0) {
                     var autostart = plugins.autostart || plugins.autoStartGuid;
                     if (typeof (autostart) == 'string')

@@ -169,7 +169,10 @@ Common.Locale = new(function() {
             }).then(function(json) {
                 if ( !!json ) l10n = json;
             }).catch(function(e) {
-                console.log('fetch error: ' + e);
+                if ( e.message == 'loaded' ) {
+
+                } else
+                    console.log('fetch error: ' + e);
             });
     };
 
