@@ -53,6 +53,7 @@
   "DE.Controllers.Main.downloadMergeTitle": "Letöltés",
   "DE.Controllers.Main.downloadTextText": "Dokumentum letöltése...",
   "DE.Controllers.Main.downloadTitleText": "Dokumentum letöltése",
+  "DE.Controllers.Main.errorAccessDeny": "Olyan műveletet próbál végrehajtani, melyre nincs jogosultsága.<br>Vegye fel a kapcsolatot a Document Server adminisztrátorával.",
   "DE.Controllers.Main.errorBadImageUrl": "Hibás kép URL",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "A szerver elveszítette a kapcsolatot. A további szerkesztés nem lehetséges.",
   "DE.Controllers.Main.errorConnectToServer": "A dokumentum mentése nem lehetséges. Kérjük ellenőrizze a kapcsolódási beállításokat vagy lépjen kapcsolatba a rendszer adminisztrátorral.<br>Ha az 'OK'-ra kattint letöltheti a dokumentumot.<br><br>Bővebb információk a Dokumentum Szerverhez kapcsolódásról <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">itt</a> találhat.",
