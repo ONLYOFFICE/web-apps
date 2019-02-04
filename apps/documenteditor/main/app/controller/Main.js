@@ -2054,12 +2054,18 @@ define([
                 if (!pluginsPath) return;
 
                 var config_plugins = (this.plugins && this.plugins.pluginsData && this.plugins.pluginsData.length>0) ? this.updatePlugins(this.plugins, false) : null, // return plugins object
-                    request_plugins = this.updatePlugins( Common.Utils.getConfigJson(pluginsPath), false );
+                    request_plugins /*= this.updatePlugins( Common.Utils.getConfigJson(pluginsPath), false )*/;
 
-                this.updatePluginsList({
-                    autostart: (config_plugins&&config_plugins.autostart ? config_plugins.autostart : []).concat(request_plugins&&request_plugins.autostart ? request_plugins.autostart : []),
-                    pluginsData: (config_plugins ? config_plugins.pluginsData : []).concat(request_plugins ? request_plugins.pluginsData : [])
-                }, false);
+                var me = this;
+                Common.Utils.loadConfig(pluginsPath, function(json) {
+                    if (json != 'error') {
+                        request_plugins  = me.updatePlugins(json);
+                        me.updatePluginsList({
+                            autostart: (config_plugins&&config_plugins.autostart ? config_plugins.autostart : []).concat(request_plugins&&request_plugins.autostart ? request_plugins.autostart : []),
+                            pluginsData: (config_plugins ? config_plugins.pluginsData : []).concat(request_plugins ? request_plugins.pluginsData : [])
+                        }, false);
+                    }
+                });
             },
 
             updatePlugins: function(plugins, uiCustomize) { // plugins from config

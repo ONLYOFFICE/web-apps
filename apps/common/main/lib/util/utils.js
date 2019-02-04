@@ -738,6 +738,19 @@ Common.Utils.getConfigJson = function (url) {
     return null;
 }
 
+Common.Utils.loadConfig = function(url, callback) {
+    "use strict";
+
+    fetch(url)
+        .then(function(response){
+            if ( response.ok )
+                return response.json();
+            else return 'error';
+        }).then(function(json){
+            callback(json);
+        });
+};
+
 Common.Utils.asyncCall = function (callback, scope, args) {
     (new Promise(function (resolve, reject) {
         resolve();
