@@ -164,6 +164,11 @@ define([
 
                 $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
             }
+
+            if ( config.canBranding ) {
+                if ( config.customization.toolbarBreakTabs )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+            }
         },
 
         onAppReady: function (config) {

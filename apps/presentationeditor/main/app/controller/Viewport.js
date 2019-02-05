@@ -184,6 +184,11 @@ define([
                 toolbar = me.getApplication().getController('Toolbar').getView('Toolbar');
                 toolbar.btnCollabChanges = me.header.btnSave;
             }
+
+            if ( config.canBranding ) {
+                if ( config.customization.toolbarBreakTabs )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+            }
         },
 
         onAppReady: function (config) {

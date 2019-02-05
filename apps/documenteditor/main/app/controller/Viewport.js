@@ -162,6 +162,10 @@ define([
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
             }
 
+            if ( config.canBranding ) {
+                if ( config.customization.toolbarBreakTabs )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+            }
             if ( config.isEdit && (!config.canBranding || !config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();

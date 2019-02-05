@@ -123,7 +123,8 @@
                     commentAuthorOnly: false,
                     showReviewChanges: false,
                     help: true,
-                    compactHeader: false
+                    compactHeader: false,
+                    toolbarBreakTabs: false
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -578,6 +579,8 @@
             customization: {
                 about: true,
                 feedback: false
+                // ,compactHeader:true
+                // ,toolbarBreakTabs:true
             }
         }
     };
