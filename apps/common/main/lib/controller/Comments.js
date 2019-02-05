@@ -1484,6 +1484,11 @@ define([
             this.updateComments(true);
             if (this.getPopover())
                 this.getPopover().update(true);
+        },
+
+        clearCollections: function() {
+            this.collection.reset();
+            this.groupCollection = [];
         }
 
     }, Common.Controllers.Comments || {}));

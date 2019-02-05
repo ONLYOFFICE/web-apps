@@ -588,12 +588,12 @@ define([
                 var app = this.getApplication();
                 if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
                     app.getController('RightMenu').getView('RightMenu').clearSelection();
-                    app.getController('Toolbar').DisableToolbar(disable, disable);
                     app.getController('RightMenu').SetDisabled(disable, false);
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 }
                 app.getController('LeftMenu').SetDisabled(disable, true);
+                app.getController('Toolbar').DisableToolbar(disable, disable);
+                app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
             },
 
             goBack: function(current) {
@@ -675,6 +675,10 @@ define([
                 else if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) &&
                         this._state.fastCoauth)
                     this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
+
+                if ( id == Asc.c_oAscAsyncAction['Open']) {
+                    Common.Utils.InternalSettings.get("de-settings-livecomment") ? this.api.asc_showComments(Common.Utils.InternalSettings.get("de-settings-resolvedcomment")) : this.api.asc_hideComments();
+                }
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&

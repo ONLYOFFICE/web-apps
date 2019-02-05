@@ -589,6 +589,9 @@ define([
 
             /** coauthoring begin **/
             this.leftMenu.btnComments.setDisabled(disable);
+            var comments = this.getApplication().getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
             this.leftMenu.btnChat.setDisabled(disable);
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(disable);
