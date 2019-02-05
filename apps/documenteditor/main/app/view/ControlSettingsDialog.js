@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -223,6 +223,7 @@ define([
 
         onColorsSelect: function(picker, color) {
             this.btnColor.setColor(color);
+            this._isCanApplyColor = true;
         },
 
         updateThemeColors: function() {
@@ -254,7 +255,8 @@ define([
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
 
                 val = props.get_Color();
-                val = (val) ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()) : '#000000';
+                this._isCanApplyColor = !!val;
+                val = (val) ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()) : 'transparent';
                 this.btnColor.setColor(val);
                 this.colors.selectByRGB(val,true);
 
@@ -271,8 +273,10 @@ define([
             props.put_Tag(this.txtTag.getValue());
             props.put_Appearance(this.cmbShow.getValue());
 
-            var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-            props.put_Color(color.get_r(), color.get_g(), color.get_b());
+            if (this._isCanApplyColor) {
+                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+            }
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
 
@@ -305,8 +309,10 @@ define([
             if (this.api) {
                 var props   = new AscCommon.CContentControlPr();
                 props.put_Appearance(this.cmbShow.getValue());
-                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                if (this._isCanApplyColor) {
+                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                }
                 this.api.asc_SetContentControlProperties(props, null, true);
             }
         },
