@@ -42,7 +42,8 @@
  */
 
 define([
-    'backbone'
+    'backbone',
+    'common/main/lib/component/BaseView'
 ], function (Backbone) {
     'use strict';
 
