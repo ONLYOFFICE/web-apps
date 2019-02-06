@@ -124,7 +124,8 @@
                     showReviewChanges: false,
                     help: true,
                     compactHeader: false,
-                    toolbarBreakTabs: false
+                    toolbarBreakTabs: false,
+                    toolbarHideFileName: false
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],

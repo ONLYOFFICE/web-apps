@@ -165,7 +165,11 @@ define([
             if ( config.canBranding ) {
                 if ( config.customization.toolbarBreakTabs )
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+
+                if ( config.customization.toolbarHideFileName )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
+
             if ( config.isEdit && (!config.canBranding || !config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();

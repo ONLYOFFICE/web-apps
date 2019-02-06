@@ -188,6 +188,9 @@ define([
             if ( config.canBranding ) {
                 if ( config.customization.toolbarBreakTabs )
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+
+                if ( config.customization.toolbarHideFileName )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
         },
 
