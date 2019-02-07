@@ -78,10 +78,10 @@ define([
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        if (!config.isEdit || config.canBranding && !!config.customization.compactHeader)
+                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
-                        if ( me.appConfig && me.appConfig.isEdit && (!config.canBranding || !config.customization.compactHeader) && toolbar.btnCollabChanges )
+                        if ( me.appConfig && me.appConfig.isEdit && !(config.customization && config.customization.compactHeader) && toolbar.btnCollabChanges )
                             toolbar.btnCollabChanges = me.header.btnSave;
 
                     },
@@ -148,7 +148,7 @@ define([
                 me.viewport.vlayout.getItem('toolbar').height = 41;
             }
 
-            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && (!config.canBranding || !config.customization.compactHeader)) {
+            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !(config.customization && config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));
@@ -165,7 +165,7 @@ define([
                 $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
             }
 
-            if ( config.canBranding ) {
+            if ( config.customization ) {
                 if ( config.customization.toolbarBreakTabs )
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
 

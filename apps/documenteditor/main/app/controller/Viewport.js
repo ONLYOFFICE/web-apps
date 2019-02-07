@@ -76,7 +76,7 @@ define([
                     'render:before' : function (toolbar) {
                         var config = DE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        if (!config.isEdit || config.canBranding && !!config.customization.compactHeader)
+                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
@@ -162,7 +162,7 @@ define([
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
             }
 
-            if ( config.canBranding ) {
+            if ( config.customization ) {
                 if ( config.customization.toolbarBreakTabs )
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
 
@@ -170,7 +170,7 @@ define([
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
 
-            if ( config.isEdit && (!config.canBranding || !config.customization.compactHeader)) {
+            if ( config.isEdit && (!(config.customization && config.customization.compactHeader))) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));

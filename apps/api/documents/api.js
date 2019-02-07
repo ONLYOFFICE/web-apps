@@ -580,8 +580,6 @@
             customization: {
                 about: true,
                 feedback: false
-                // ,compactHeader:true
-                // ,toolbarBreakTabs:true
             }
         }
     };

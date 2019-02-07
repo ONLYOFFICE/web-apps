@@ -1565,9 +1565,6 @@ define([
 
                 var me = this;
 
-                // if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
-                //     this.mnuitemHideTitleBar.hide();
-
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         style: 'min-width: 139px',
@@ -2111,7 +2108,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: (this.mode.canBranding && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
+                    extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {

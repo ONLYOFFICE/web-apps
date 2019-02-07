@@ -2092,7 +2092,7 @@ define([
 
         createSynchTip: function () {
             this.synchTooltip = new Common.UI.SynchronizeTip({
-                extCls: (this.mode.canBranding && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
+                extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
                 target: this.btnCollabChanges.$el
             });
             this.synchTooltip.on('dontshowclick', function() {

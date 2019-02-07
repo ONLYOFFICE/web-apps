@@ -3111,7 +3111,7 @@ define([
                         if ( $panel )
                             me.toolbar.addTab(tab, $panel, 4);
 
-                        if (!config.canBranding || !config.customization.compactHeader) {
+                        if (!(config.customization && config.customization.compactHeader)) {
                             // hide 'print' and 'save' buttons group and next separator
                             me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
