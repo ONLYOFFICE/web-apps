@@ -916,6 +916,10 @@ define([
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
+                    else if (typeof this.editorConfig.customization == 'object') {
+                        this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarBreakTabs =
+                        this.editorConfig.customization.toolbarHideFileName = false;
+                    }
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
                 } else

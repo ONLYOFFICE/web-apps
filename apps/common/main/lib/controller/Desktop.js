@@ -53,7 +53,21 @@ define([
                     Common.NotificationCenter.on('app:ready', function (opts) {
                         _.extend(config, opts);
                         !!app && app.execCommand('doc:onready', '');
+
+                        $('.toolbar').addClass('editor-native-color');
                     });
+
+                    app.on_native_message = function (cmd, param) {
+                        if (/^style:change/.test(cmd)) {
+                            var obj = JSON.parse(param);
+
+                            if ( obj.element == 'toolbar' ) {
+                                if ( obj.action == 'off' && obj.style == 'native-color' ) {
+                                    $('.toolbar').removeClass('editor-native-color');
+                                }
+                            }
+                        }
+                    }
                 }
             },
             process: function (opts) {

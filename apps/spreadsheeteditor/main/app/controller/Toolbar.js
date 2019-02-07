@@ -3111,15 +3111,17 @@ define([
                         if ( $panel )
                             me.toolbar.addTab(tab, $panel, 4);
 
-                        // hide 'print' and 'save' buttons group and next separator
-                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                        if (!(config.customization && config.customization.compactHeader)) {
+                            // hide 'print' and 'save' buttons group and next separator
+                            me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                        // hide 'undo' and 'redo' buttons and get container
-                        var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                            // hide 'undo' and 'redo' buttons and get container
+                            var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                        // move 'paste' button to the container instead of 'undo' and 'redo'
-                        me.toolbar.btnPaste.$el.detach().appendTo($box);
-                        me.toolbar.btnCopy.$el.removeClass('split');
+                            // move 'paste' button to the container instead of 'undo' and 'redo'
+                            me.toolbar.btnPaste.$el.detach().appendTo($box);
+                            me.toolbar.btnCopy.$el.removeClass('split');
+                        }
 
                         if ( config.isDesktopApp ) {
                             if ( config.canProtect ) {

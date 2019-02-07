@@ -121,7 +121,10 @@
                     forcesave: false,
                     commentAuthorOnly: false,
                     showReviewChanges: false,
-                    help: true
+                    help: true,
+                    compactHeader: false,
+                    toolbarBreakTabs: false,
+                    toolbarHideFileName: false
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -369,6 +372,7 @@
                     // _config.editorConfig.canBackToFolder = false;
                     if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
                     _config.editorConfig.customization.about = false;
+                    _config.editorConfig.customization.compactHeader = false;
 
                     if ( window.AscDesktopEditor ) window.AscDesktopEditor.execCommand('webapps:events', 'loading');
                 }

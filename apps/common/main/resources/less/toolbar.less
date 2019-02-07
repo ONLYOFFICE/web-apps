@@ -297,7 +297,115 @@
             left: 0;
         }
     }
+}
 
+.style-off-tabs {
+    .toolbar {
+        @underscore_height: 2px;
+
+        .tabs, .extra {
+            background-color: transparent;
+            box-shadow: inset 0 -1px 0 0 @gray;
+        }
+
+        .tabs {
+            ul {
+                padding: 0;
+            }
+
+            li {
+                position: relative;
+
+                &:after {
+                    //transition: opacity .1s;
+                    //transition: bottom .1s;
+                    border-top: @underscore_height solid @gray-deep;
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    bottom: -@underscore_height;
+                    opacity: 0;
+                }
+
+                &.active {
+                    background-color: transparent;
+
+                    &:after {
+                        opacity: 1;
+                        bottom: 0;
+                    }
+                }
+
+                &:hover:not(.active) {
+                    background-color: rgba(0, 0, 0, .05);
+                    //background-color: @secondary;
+                }
+
+                > a {
+                    color: @gray-deep;
+                }
+            }
+        }
+
+        .extra {
+            #header-logo {
+                i {
+                    .background-ximage('@{common-image-path}/header/dark-logo.png', '@{common-image-path}/header/dark-logo@2x.png', 86px);
+                }
+            }
+        }
+
+        .tabs .scroll {
+            &.left {
+                box-shadow: 5px 0 20px 5px @gray-light;
+            }
+
+            &.right {
+                box-shadow: -5px 0 20px 5px @gray-light;
+            }
+
+            &:after {
+                border-color: @gray-deep;
+            }
+        }
+
+        // TODO: move to appropriate module
+        .btn-header {
+            svg.icon {
+                fill: #000;
+            }
+
+            &:hover:not(.disabled) {
+                background-color: @secondary;
+            }
+
+            &:active, &.active {
+                &:not(.disabled) {
+                    background-color: @primary;
+
+                    svg.icon {
+                        fill: #fff;
+                    }
+                }
+            }
+        }
+
+        #rib-doc-name {
+            color: @gray-deep;
+        }
+
+        &.editor-native-color {
+            .tabs li:after {
+                border-color: @tabs-bg-color;
+            }
+        }
+    }
+
+    &.style-skip-docname .toolbar {
+        #box-doc-name > input {
+            display: none;
+        }
+    }
 }
 
 .toolbar-fullview-panel {
