@@ -3265,9 +3265,9 @@ define([
                         langid      : lang.code,
                         spellcheck   : lang.spellcheck,
                         template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem">',
-                            '<i class="icon <% if (options.spellcheck) { %> lang-flag <% } %>"></i>',
-                            '<%= caption %>',
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
                             '</a>'
                         ].join(''))
                     }).on('click', function(item, e){
@@ -3289,9 +3289,9 @@ define([
                         langid      : lang.code,
                         spellcheck   : lang.spellcheck,
                         template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem">',
-                            '<i class="icon <% if (options.spellcheck) { %> lang-flag <% } %>"></i>',
-                            '<%= caption %>',
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
                             '</a>'
                         ].join(''))
                     }).on('click', function(item, e){

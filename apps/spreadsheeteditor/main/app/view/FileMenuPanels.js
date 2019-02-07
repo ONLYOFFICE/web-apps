@@ -696,7 +696,7 @@ define([
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control">',
+                    '<input type="text" class="form-control" style="padding-left: 25px !important;">',
                     '<span class="icon input-icon lang-flag"></span>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                         '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',

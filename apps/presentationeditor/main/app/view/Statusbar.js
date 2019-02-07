@@ -268,8 +268,8 @@ define([
                     maxHeight: 300,
                     restoreHeight: 300,
                     itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem">',
-                            '<i class="icon <% if (options.spellcheck) { %> lang-flag <% } %>"></i>',
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                             '<%= caption %>',
                         '</a>'
                     ].join('')),

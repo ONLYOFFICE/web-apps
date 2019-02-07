@@ -89,19 +89,19 @@ define([
             editable: false,
             template: _.template([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                '<input type="text" class="form-control">',
-                '<span class="icon input-icon lang-flag"></span>',
-                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
-                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
-                '<% _.each(items, function(item) { %>',
-                '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
-                '<i class="icon <% if (item.spellcheck) { %> lang-flag <% } %>" style="position: absolute;margin-left:-21px;"></i>',
-                '<%= scope.getDisplayValue(item) %>',
-                '</a>',
-                '</li>',
-                '<% }); %>',
-                '</ul>',
+                    '<input type="text" class="form-control">',
+                    '<span class="icon input-icon spellcheck-lang img-toolbarmenu"></span>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                        '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (item.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= scope.getDisplayValue(item) %>',
+                            '</a>',
+                        '</li>',
+                        '<% }); %>',
+                    '</ul>',
                 '</span>'
             ].join('')),
             data: this.options.languages
@@ -130,7 +130,7 @@ define([
     },
 
     onLangSelect: function(cmb, rec, e) {
-        cmb.$el.find('.input-icon').toggleClass('lang-flag', rec.spellcheck);
+        cmb.$el.find('.input-icon').toggleClass('spellcheck-lang', rec.spellcheck);
         cmb._input.css('padding-left', rec.spellcheck ? 25 : 3);
     },
 
