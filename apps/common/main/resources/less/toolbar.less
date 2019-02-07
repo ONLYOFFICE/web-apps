@@ -336,6 +336,20 @@
             }
         }
 
+        .tabs .scroll {
+            &.left {
+                box-shadow: 5px 0 20px 5px @gray-light;
+            }
+
+            &.right {
+                box-shadow: -5px 0 20px 5px @gray-light;
+            }
+
+            &:after {
+                border-color: @gray-deep;
+            }
+        }
+
         // TODO: move to appropriate module
         .btn-header {
             svg.icon {
