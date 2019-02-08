@@ -810,7 +810,7 @@ define([
                 el: $('#textart-combo-fill-src'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrFillSrc
             });
@@ -1080,7 +1080,7 @@ define([
                     value: '000000'
                 });
                 this.colorsBorder.on('select', _.bind(this.onColorsBorderSelect, this));
-                $(this.el).on('click', '#textart-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
+                this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1099,7 +1099,7 @@ define([
                     value: '000000'
                 });
                 this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
-                $(this.el).on('click', '#textart-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+                this.btnGradColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1119,7 +1119,7 @@ define([
                     transparent: true
                 });
                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                $(this.el).on('click', '#textart-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
             }
 
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

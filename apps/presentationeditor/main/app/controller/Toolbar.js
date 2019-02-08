@@ -149,7 +149,8 @@ define([
 
                         var _supported = [
                             Asc.c_oAscFileType.PPTX,
-                            Asc.c_oAscFileType.ODP
+                            Asc.c_oAscFileType.ODP,
+                            Asc.c_oAscFileType.PDFA
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -888,7 +889,7 @@ define([
             var toolbar = this.toolbar;
             if (this.api && this.api.asc_isDocumentCanSave) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = this.toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
+                var isSyncButton = this.toolbar.btnCollabChanges && this.toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
@@ -2017,7 +2018,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
 
-                    if ( config.isOffline ) {
+                    if ( config.canProtect ) { // don't add protect panel to toolbar
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                         if ($panel)

@@ -605,6 +605,30 @@ define([
                 })
             });
 
+            me.mnuBringToFront = new Common.UI.MenuItem({
+                caption : this.textArrangeFront,
+                    iconCls : 'mnu-arrange-front',
+                type    : 'arrange',
+                value   : Asc.c_oAscDrawingLayerType.BringToFront
+            });
+            me.mnuSendToBack = new Common.UI.MenuItem({
+                caption : this.textArrangeBack,
+                    iconCls : 'mnu-arrange-back',
+                    type    : 'arrange',
+                    value   : Asc.c_oAscDrawingLayerType.SendToBack
+            });
+            me.mnuBringForward = new Common.UI.MenuItem({
+                caption : this.textArrangeForward,
+                    iconCls : 'mnu-arrange-forward',
+                    type    : 'arrange',
+                    value   : Asc.c_oAscDrawingLayerType.BringForward
+            });
+            me.mnuSendBackward = new Common.UI.MenuItem({
+                caption: this.textArrangeBackward,
+                    iconCls : 'mnu-arrange-backward',
+                    type    : 'arrange',
+                    value   : Asc.c_oAscDrawingLayerType.SendBackward
+            });
             this.imgMenu = new Common.UI.Menu({
                 items: [
                     me.pmiImgCut,
@@ -614,27 +638,10 @@ define([
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
                     me.menuEditSignSeparator,
-                    {
-                        caption : this.textArrangeFront,
-                        iconCls : 'mnu-arrange-front',
-                        type    : 'arrange',
-                        value   : Asc.c_oAscDrawingLayerType.BringToFront
-                    },{
-                        caption : this.textArrangeBack,
-                        iconCls : 'mnu-arrange-back',
-                        type    : 'arrange',
-                        value   : Asc.c_oAscDrawingLayerType.SendToBack
-                    },{
-                        caption : this.textArrangeForward,
-                        iconCls : 'mnu-arrange-forward',
-                        type    : 'arrange',
-                        value   : Asc.c_oAscDrawingLayerType.BringForward
-                    },{
-                        caption: this.textArrangeBackward,
-                        iconCls : 'mnu-arrange-backward',
-                        type    : 'arrange',
-                        value   : Asc.c_oAscDrawingLayerType.SendBackward
-                    },
+                    me.mnuBringToFront,
+                    me.mnuSendToBack,
+                    me.mnuBringForward,
+                    me.mnuSendBackward,
                     {caption: '--'},
                     me.mnuGroupImg,
                     me.mnuUnGroupImg,
@@ -945,7 +952,13 @@ define([
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',
         txtText:            'Text',
-        textMoreFormats: 'More formats'
+        textMoreFormats: 'More formats',
+        textShapeAlignLeft      : 'Align Left',
+        textShapeAlignRight     : 'Align Right',
+        textShapeAlignCenter    : 'Align Center',
+        textShapeAlignTop       : 'Align Top',
+        textShapeAlignBottom    : 'Align Bottom',
+        textShapeAlignMiddle    : 'Align Middle'
 
     }, SSE.Views.DocumentHolder || {}));
 });

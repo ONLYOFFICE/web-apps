@@ -123,11 +123,24 @@ define([
                 el          : $('#bookmarks-txt-name'),
                 allowBlank  : true,
                 validateOnChange: true,
-                validateOnBlur: false,
+                validateOnBlur: true,
                 style       : 'width: 195px;',
                 value       : '',
-                maxLength: 40
-            }).on('changing', _.bind(this.onNameChanging, this));
+                maxLength: 40,
+                validation  : function(value) {
+                    var exist = me.props.asc_HaveBookmark(value),
+                        check = me.props.asc_CheckNewBookmarkName(value);
+                    if (exist)
+                        me.bookmarksList.selectRecord(me.bookmarksList.store.findWhere({value: value}));
+                    else
+                        me.bookmarksList.deselectAll();
+                    me.btnAdd.setDisabled(!check && !exist);
+                    me.btnGoto.setDisabled(!exist);
+                    me.btnDelete.setDisabled(!exist);
+
+                    return (check || _.isEmpty(value)) ? true : me.txtInvalidName;
+                }
+            });
 
             this.radioName = new Common.UI.RadioBox({
                 el: $('#bookmarks-radio-name'),
@@ -190,6 +203,12 @@ define([
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+
+            var me = this;
+            _.delay(function(){
+                var input = $('input', me.txtName.cmpEl).select();
+                input.focus();
+            },100);
         },
 
         close: function() {
@@ -285,17 +304,6 @@ define([
             this.refreshBookmarks();
         },
 
-        onNameChanging: function (input, value) {
-            var exist = this.props.asc_HaveBookmark(value);
-            if (exist)
-                this.bookmarksList.selectRecord(this.bookmarksList.store.findWhere({value: value}));
-            else
-                this.bookmarksList.deselectAll();
-            this.btnAdd.setDisabled(!this.props.asc_CheckNewBookmarkName(value) && !exist);
-            this.btnGoto.setDisabled(!exist);
-            this.btnDelete.setDisabled(!exist);
-        },
-
         textTitle:    'Bookmarks',
         textLocation: 'Location',
         textBookmarkName: 'Bookmark name',
@@ -305,7 +313,8 @@ define([
         textGoto: 'Go to',
         textDelete: 'Delete',
         textClose: 'Close',
-        textHidden: 'Hidden bookmarks'
+        textHidden: 'Hidden bookmarks',
+        txtInvalidName: 'Bookmark name can only contain letters, digits and underscores, and should begin with the letter'
 
     }, DE.Views.BookmarksDialog || {}))
 });

@@ -643,6 +643,23 @@ define([
                                 {
                                     caption: this.mniEditControls,
                                     value: 'settings'
+                                },
+                                {
+                                    caption: this.mniHighlightControls,
+                                    value: 'highlight',
+                                    menu: new Common.UI.Menu({
+                                        menuAlign   : 'tl-tr',
+                                        items: [
+                                            this.mnuNoControlsColor = new Common.UI.MenuItem({
+                                                id: 'id-toolbar-menu-no-highlight-controls',
+                                                caption: this.textNoHighlight,
+                                                checkable: true
+                                            }),
+                                            {caption: '--'},
+                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                            {template: _.template('<a id="id-toolbar-menu-new-control-color" style="padding-left:12px;">' + this.textNewColor + '</a>')}
+                                        ]
+                                    })
                                 }
                             ]
                         })
@@ -1151,22 +1168,6 @@ define([
                             ]
                         }
                     );
-                    Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if (action=='plugins' && visible) {
-                            var compactview = false;
-                            if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
-                                compactview = Common.localStorage.getBool("de-compact-toolbar");
-                            } else if ( config.customization && config.customization.compactToolbar )
-                                compactview = true;
-
-                            if (!compactview) {
-                                me.setFolded(false);
-                                me.setTab('plugins');
-                                me.fireEvent('view:compact', [me, compactview]);
-                                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
-                            }
-                        }
-                    }, this));
                 }
                 return this;
             },
@@ -1949,6 +1950,12 @@ define([
                         transparent: true
                     });
                 }
+
+                if (this.btnContentControls.cmpEl) {
+                    this.mnuControlsColorPicker = new Common.UI.ThemeColorPalette({
+                        el: $('#id-toolbar-menu-controls-color')
+                    });
+                }
             },
 
             updateMetricUnit: function () {
@@ -2002,6 +2009,8 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
+                this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -2215,7 +2224,7 @@ define([
             tipLineSpace: 'Paragraph Line Spacing',
             tipPrColor: 'Background color',
             tipInsertTable: 'Insert Table',
-            tipInsertImage: 'Insert Picture',
+            tipInsertImage: 'Insert Image',
             tipPageBreak: 'Insert Page or Section break',
             tipInsertNum: 'Insert Page Number',
             tipClearStyle: 'Clear Style',
@@ -2225,8 +2234,8 @@ define([
             tipBack: 'Back',
             tipInsertShape: 'Insert Autoshape',
             tipInsertEquation: 'Insert Equation',
-            mniImageFromFile: 'Picture from file',
-            mniImageFromUrl: 'Picture from url',
+            mniImageFromFile: 'Image from file',
+            mniImageFromUrl: 'Image from url',
             mniCustomTable: 'Insert Custom Table',
             textTitleError: 'Error',
             textInsertPageNumber: 'Insert page number',
@@ -2317,13 +2326,13 @@ define([
             textCharts: 'Charts',
             tipChangeChart: 'Change Chart Type',
             capBtnInsPagebreak: 'Page Break',
-            capBtnInsImage: 'Picture',
+            capBtnInsImage: 'Image',
             capBtnInsTable: 'Table',
             capBtnInsChart: 'Chart',
             textTabFile: 'File',
             textTabHome: 'Home',
             textTabInsert: 'Insert',
-            textTabLayout: 'Page Layout',
+            textTabLayout: 'Layout',
             textTabReview: 'Review',
             capBtnInsShape: 'Shape',
             capBtnInsTextbox: 'Text Box',
@@ -2338,12 +2347,12 @@ define([
             tipImgAlign: 'Align objects',
             tipImgGroup: 'Group objects',
             tipImgWrapping: 'Wrap text',
-            tipSendForward: 'Send forward',
+            tipSendForward: 'Bring forward',
             tipSendBackward: 'Send backward',
             capImgAlign: 'Align',
             capImgGroup: 'Group',
-            capImgForward: 'Move forward',
-            capImgBackward: 'Move backward',
+            capImgForward: 'Bring Forward',
+            capImgBackward: 'Send Backward',
             capImgWrapping: 'Wrapping',
             capBtnComment: 'Comment',
             textColumnsCustom: 'Custom Columns',
@@ -2356,7 +2365,9 @@ define([
             textPlainControl: 'Plain text',
             textRemoveControl: 'Remove',
             mniEditControls: 'Settings',
-            tipControls: 'Insert content control'
+            tipControls: 'Insert content control',
+            mniHighlightControls: 'Highlight settings',
+            textNoHighlight: 'No highlighting'
         }
     })(), DE.Views.Toolbar || {}));
 });

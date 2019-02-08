@@ -1064,7 +1064,7 @@ define([
                 el: $('#textart-combo-fill-src'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrFillSrc
             });
@@ -1487,7 +1487,7 @@ define([
                     value: '000000'
                 });
                 this.colorsBorder.on('select', _.bind(this.onColorsBorderSelect, this));
-                $(this.el).on('click', '#textart-border-color-new', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
+                this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1507,7 +1507,7 @@ define([
                     transparent: true
                 });
                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                $(this.el).on('click', '#textart-back-color-new', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
 
                 this.btnFGColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1526,7 +1526,7 @@ define([
                     value: '000000'
                 });
                 this.colorsFG.on('select', _.bind(this.onColorsFGSelect, this));
-                $(this.el).on('click', '#textart-foreground-color-new', _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
+                this.btnFGColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
 
                 this.btnBGColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1545,7 +1545,7 @@ define([
                     value: 'ffffff'
                 });
                 this.colorsBG.on('select', _.bind(this.onColorsBGSelect, this));
-                $(this.el).on('click', '#textart-background-color-new', _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
+                this.btnBGColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
 
                 this.btnGradColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -1564,7 +1564,7 @@ define([
                     value: '000000'
                 });
                 this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
-                $(this.el).on('click', '#textart-gradient-color-new', _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+                this.btnGradColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
             }
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

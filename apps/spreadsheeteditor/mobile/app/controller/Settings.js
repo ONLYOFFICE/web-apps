@@ -68,7 +68,7 @@ define([
                     'Settings': {
                         'page:show' : this.onPageShow
                         , 'settings:showhelp': function(e) {
-                            window.open('http://support.onlyoffice.com/', "_blank");
+                            window.open('http://helpcenter.r7-office.ru/', "_blank");
                             this.hideModal();
                         }
                     }

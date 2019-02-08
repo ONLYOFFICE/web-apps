@@ -53,7 +53,8 @@ define([
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
-    'documenteditor/main/app/view/ControlSettingsDialog'
+    'documenteditor/main/app/view/ControlSettingsDialog',
+    'documenteditor/main/app/view/NumberingValueDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -1876,6 +1877,7 @@ define([
                 if (item.value == 'settings') {
                     (new DE.Views.ControlSettingsDialog({
                         props: props,
+                        api: me.api,
                         handler: function (result, value) {
                             if (result == 'ok') {
                                 me.api.asc_SetContentControlProperties(value, props.get_InternalId());
@@ -1889,6 +1891,29 @@ define([
                 }
             }
             me.fireEvent('editcomplete', me);
+        },
+
+        onContinueNumbering: function(item, e) {
+            this.api.asc_ContinueNumbering();
+            this.fireEvent('editcomplete', this);
+        },
+
+        onStartNumbering: function(startfrom, item, e) {
+            if (startfrom == 1)
+                this.api.asc_RestartNumbering(item.value.start);
+            else {
+                var me = this;
+                (new DE.Views.NumberingValueDialog({
+                    title: me.textNumberingValue,
+                    props: item.value,
+                    handler: function (result, value) {
+                        if (result == 'ok')
+                            me.api.asc_RestartNumbering(value);
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            }
+            this.fireEvent('editcomplete', this);
         },
 
         createDelayedElementsViewer: function() {
@@ -1922,7 +1947,7 @@ define([
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
-                        signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
+                        signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         signProps = (signGuid) ? me.api.asc_getSignatureSetup(signGuid) : null,
                         isInSign = !!signProps && me._canProtect,
                         canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled;
@@ -2408,7 +2433,7 @@ define([
                     menuImgCut.setDisabled(islocked || !cancopy);
                     menuImgPaste.setDisabled(islocked);
 
-                    var signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
+                    var signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         isInSign = !!signGuid;
                     menuSignatureEditSign.setVisible(isInSign);
                     menuSignatureEditSetup.setVisible(isInSign);
@@ -2757,6 +2782,30 @@ define([
                 })
             });
 
+            var menuTableStartNewList = new Common.UI.MenuItem({
+                caption: me.textStartNewList
+            }).on('click', _.bind(me.onStartNumbering, me, 1));
+
+            var menuTableStartNumberingFrom = new Common.UI.MenuItem({
+                caption: me.textStartNumberingFrom
+            }).on('click', _.bind(me.onStartNumbering, me, 'advanced'));
+
+            var menuTableContinueNumbering = new Common.UI.MenuItem({
+                caption: me.textContinueNumbering
+            }).on('click', _.bind(me.onContinueNumbering, me));
+
+            var menuNumberingTable = new Common.UI.MenuItem({
+                caption     : me.bulletsText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        menuTableStartNewList,
+                        menuTableStartNumberingFrom,
+                        menuTableContinueNumbering
+                    ]
+                })
+            });
+
             this.tableMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     // table properties
@@ -2800,6 +2849,22 @@ define([
                     menuTableCut.setDisabled(disabled || !cancopy);
                     menuTablePaste.setDisabled(disabled);
 
+                    // bullets & numbering
+                    var listId = me.api.asc_GetCurrentNumberingId(),
+                        in_list = (listId !== null);
+                    menuNumberingTable.setVisible(in_list);
+                    if (in_list) {
+                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                            format = numLvl.get_Format(),
+                            start = me.api.asc_GetCalculatedNumberingValue();
+                        menuTableStartNewList.setVisible(numLvl.get_Start()!=start);
+                        menuTableStartNewList.value = {start: numLvl.get_Start()};
+                        menuTableStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
+                        menuTableStartNumberingFrom.value = {format: format, start: start};
+                        menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
+                        menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                    }
+
                     // hyperlink properties
                     var text = null;
                     if (me.api) {
@@ -2807,7 +2872,7 @@ define([
                     }
                     menuAddHyperlinkTable.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
-                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
+                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible());
 
                     menuEditHyperlinkTable.hyperProps = value.hyperProps;
                     menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
@@ -2862,6 +2927,7 @@ define([
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        menuTableControlSettings.setVisible(me.mode.canEditContentControl);
                     }
                     menuTableTOC.setVisible(in_toc);
                 },
@@ -2981,6 +3047,7 @@ define([
                 /** coauthoring begin **/
                     menuAddCommentTable,
                 /** coauthoring end **/
+                    menuNumberingTable,
                     menuAddHyperlinkTable,
                     menuHyperlinkTable,
                     menuHyperlinkSeparator,
@@ -3298,6 +3365,22 @@ define([
                 caption     : '--'
             });
 
+            var menuParaStartNewList = new Common.UI.MenuItem({
+                caption: me.textStartNewList
+            }).on('click', _.bind(me.onStartNumbering, me, 1));
+
+            var menuParaStartNumberingFrom = new Common.UI.MenuItem({
+                caption: me.textStartNumberingFrom
+            }).on('click', _.bind(me.onStartNumbering, me, 'advanced'));
+
+            var menuParaContinueNumbering = new Common.UI.MenuItem({
+                caption: me.textContinueNumbering
+            }).on('click', _.bind(me.onContinueNumbering, me));
+
+            var menuParaNumberingSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
@@ -3402,7 +3485,7 @@ define([
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl() ;
                     menuParaRemoveControl.setVisible(in_control);
-                    menuParaControlSettings.setVisible(in_control);
+                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl);
                     menuParaControlSeparator.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
@@ -3419,6 +3502,24 @@ define([
                     menuParaFieldSeparator.setVisible(!!in_field);
                     if (in_field) {
                         menuParaRefreshField.options.fieldProps = in_field;
+                    }
+
+                    var listId = me.api.asc_GetCurrentNumberingId(),
+                        in_list = (listId !== null);
+                    menuParaNumberingSeparator.setVisible(in_list); // hide when first item is selected
+                    menuParaStartNewList.setVisible(in_list);
+                    menuParaStartNumberingFrom.setVisible(in_list);
+                    menuParaContinueNumbering.setVisible(in_list);
+                    if (in_list) {
+                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                            format = numLvl.get_Format(),
+                            start = me.api.asc_GetCalculatedNumberingValue();
+                        menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
+                        menuParaStartNewList.value = {start: numLvl.get_Start()};
+                        menuParaStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
+                        menuParaStartNumberingFrom.value = {format: format, start: start};
+                        menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
+                        menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
                     }
                 },
                 items: [
@@ -3455,6 +3556,10 @@ define([
                     menuHyperlinkParaSeparator,
                     menuAddHyperlinkPara,
                     menuHyperlinkPara,
+                    menuParaNumberingSeparator,
+                    menuParaStartNewList,
+                    menuParaStartNumberingFrom,
+                    menuParaContinueNumbering,
                     menuStyleSeparator,
                     menuStyle
                 ]
@@ -3775,7 +3880,14 @@ define([
         txtPasteSourceFormat: 'Keep source formatting',
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
-        textFromFile:   'From File'
+        textFromFile:   'From File',
+        textStartNumberingFrom: 'Set numbering value',
+        textStartNewList: 'Start new list',
+        textContinueNumbering: 'Continue numbering',
+        textSeparateList: 'Separate list',
+        textJoinList: 'Join to previous list',
+        textNumberingValue: 'Numbering Value',
+        bulletsText: 'Bullets and Numbering'
 
     }, DE.Views.DocumentHolder || {}));
 });

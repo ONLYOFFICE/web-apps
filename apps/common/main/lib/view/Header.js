@@ -120,7 +120,7 @@ define([
         function onResetUsers(collection, opts) {
             var usercount = collection.getEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.canComments) {
+                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit) {
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
@@ -148,7 +148,7 @@ define([
         };
 
         function applyUsers(count, originalCount) {
-            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.canComments; // has other user(s) who edit document
+            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit; // has other user(s) who edit document
             if ( has_edit_users ) {
                 $btnUsers
                     .attr('data-toggle', 'dropdown')
@@ -181,16 +181,14 @@ define([
             if ( !$btnUsers.menu ) {
                 $panelUsers.removeClass('open');
                 this.fireEvent('click:users', this);
+            } else {
+                var usertip = $btnUsers.data('bs.tooltip');
+                if ( usertip ) {
+                    if ( usertip.dontShow===undefined)
+                        usertip.dontShow = true;
 
-                return false;
-            }
-
-            var usertip = $btnUsers.data('bs.tooltip');
-            if ( usertip ) {
-                if ( usertip.dontShow===undefined)
-                    usertip.dontShow = true;
-
-                usertip.hide();
+                    usertip.hide();
+                }
             }
         }
 
@@ -224,7 +222,7 @@ define([
 
             var editingUsers = storeUsers.getEditingCount();
             $btnUsers.tooltip({
-                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.canComments) ? me.tipViewUsers : me.tipAccessRights,
+                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
                 titleNorm: me.tipAccessRights,
                 titleExt: me.tipViewUsers,
                 placement: 'bottom',
@@ -240,7 +238,7 @@ define([
             });
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
-            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.canComments || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
 
             if ( $saveStatus ) {
                 $saveStatus.attr('data-width', me.textSaveExpander);
@@ -642,7 +640,7 @@ define([
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
                         $btnUsers.removeClass('disabled').attr('disabled', '');
                 } else {
-                    function _lockButton(btn) {
+                    var _lockButton = function (btn) {
                         if ( btn ) {
                             if ( lock ) {
                                 btn.keepState = {
@@ -654,7 +652,7 @@ define([
                                 delete btn.keepState;
                             }
                         }
-                    }
+                    };
 
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;

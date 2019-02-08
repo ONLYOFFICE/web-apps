@@ -106,7 +106,7 @@ define([
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
                     'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
-                    'command+h,ctrl+h': _.bind(this.onShortcut, this, 'replace'),
+                    'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
                     'alt+f': _.bind(this.onShortcut, this, 'file'),
                     'esc': _.bind(this.onShortcut, this, 'escape'),
                     /** coauthoring begin **/
@@ -261,9 +261,9 @@ define([
                         }
                     }, this)
                 });
-            } else if (format == Asc.c_oAscFileType.PDF) {
+            } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
                 menu.hide();
-                Common.NotificationCenter.trigger('download:settings', this.leftMenu);
+                Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
             } else {
                 this.api.asc_DownloadAs(format);
                 menu.hide();
@@ -347,7 +347,8 @@ define([
         },
 
         changeToolbarSaveState: function (state) {
-            this.leftMenu.menuFile.getButton('save').setDisabled(state);
+            var btnSave = this.leftMenu.menuFile.getButton('save');
+            btnSave && btnSave.setDisabled(state);
         },
 
         /** coauthoring begin **/

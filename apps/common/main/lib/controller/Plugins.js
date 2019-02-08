@@ -166,6 +166,7 @@ define([
                     variation.set_Buttons(itemVar.get('buttons'));
                     variation.set_Size(itemVar.get('size'));
                     variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
+                    variation.set_Events(itemVar.get('events'));
                     variationsArr.push(variation);
                 });
                 plugin.set_Variations(variationsArr);

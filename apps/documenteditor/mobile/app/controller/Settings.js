@@ -64,12 +64,12 @@ define([
                 { caption: 'US Letter',             subtitle: Common.Utils.String.format('21,59{0} x 27,94{0}', txtCm),  value: [215.9, 279.4] },
                 { caption: 'US Legal',              subtitle: Common.Utils.String.format('21,59{0} x 35,56{0}', txtCm),  value: [215.9, 355.6] },
                 { caption: 'A4',                    subtitle: Common.Utils.String.format('21{0} x 29,7{0}', txtCm),      value: [210, 297] },
-                { caption: 'A5',                    subtitle: Common.Utils.String.format('14,81{0} x 20,99{0}', txtCm),  value: [148.1, 209.9] },
-                { caption: 'B5',                    subtitle: Common.Utils.String.format('17,6{0} x 25,01{0}', txtCm),   value: [176, 250.1] },
+                { caption: 'A5',                    subtitle: Common.Utils.String.format('14,8{0} x 21{0}', txtCm),  value: [148, 210] },
+                { caption: 'B5',                    subtitle: Common.Utils.String.format('17,6{0} x 25{0}', txtCm),   value: [176, 250] },
                 { caption: 'Envelope #10',          subtitle: Common.Utils.String.format('10,48{0} x 24,13{0}', txtCm),  value: [104.8, 241.3] },
-                { caption: 'Envelope DL',           subtitle: Common.Utils.String.format('11,01{0} x 22,01{0}', txtCm),  value: [110.1, 220.1] },
-                { caption: 'Tabloid',               subtitle: Common.Utils.String.format('27,94{0} x 43,17{0}', txtCm),  value: [279.4, 431.7] },
-                { caption: 'A3',                    subtitle: Common.Utils.String.format('29,7{0} x 42,01{0}', txtCm),   value: [297, 420.1] },
+                { caption: 'Envelope DL',           subtitle: Common.Utils.String.format('11{0} x 22{0}', txtCm),  value: [110, 220] },
+                { caption: 'Tabloid',               subtitle: Common.Utils.String.format('27,94{0} x 43,18{0}', txtCm),  value: [279.4, 431.8] },
+                { caption: 'A3',                    subtitle: Common.Utils.String.format('29,7{0} x 42{0}', txtCm),   value: [297, 420] },
                 { caption: 'Tabloid Oversize',      subtitle: Common.Utils.String.format('30,48{0} x 45,71{0}', txtCm),  value: [304.8, 457.1] },
                 { caption: 'ROC 16K',               subtitle: Common.Utils.String.format('19,68{0} x 27,3{0}', txtCm),   value: [196.8, 273] },
                 { caption: 'Envelope Choukei 3',    subtitle: Common.Utils.String.format('11,99{0} x 23,49{0}', txtCm),  value: [119.9, 234.9] },
@@ -293,7 +293,7 @@ define([
             },
 
             onShowHelp: function () {
-                window.open('http://support.onlyoffice.com/', "_blank");
+                window.open('http://helpcenter.r7-office.ru/', "_blank");
                 this.hideModal();
             },
 
@@ -409,12 +409,12 @@ define([
                     var tempW = w; w = h; h = tempW;
                 }
 
-                if (Math.abs(_pageSizesCurrent[0] - w) > 0.01 ||
-                    Math.abs(_pageSizesCurrent[1] - h) > 0.01) {
+                if (Math.abs(_pageSizesCurrent[0] - w) > 0.1 ||
+                    Math.abs(_pageSizesCurrent[1] - h) > 0.1) {
                     _pageSizesCurrent = [w, h];
 
                     _.find(_pageSizes, function(size, index) {
-                        if (Math.abs(size.value[0] - w) < 0.01 && Math.abs(size.value[1] - h) < 0.01) {
+                        if (Math.abs(size.value[0] - w) < 0.1 && Math.abs(size.value[1] - h) < 0.1) {
                             _pageSizesIndex = index;
                         }
                     }, this);

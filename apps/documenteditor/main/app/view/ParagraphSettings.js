@@ -168,7 +168,6 @@ define([
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
             this.cmbLineRule.on('hide:after', _.bind(this.onHideMenus, this));
             $(this.el).on('click', '#paragraph-advanced-link', _.bind(this.openAdvancedSettings, this));
-            $(this.el).on('click', '#paragraph-color-new', _.bind(this.addNewColor, this));
             this.TextOnlySettings = $('.text-only');
         },
 
@@ -453,6 +452,7 @@ define([
                     transparent: true
                 });
                 this.mnuColorPicker.on('select', _.bind(this.onColorPickerSelect, this));
+                this.btnColor.menu.items[1].on('click',  _.bind(this.addNewColor, this));
             }
             this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },

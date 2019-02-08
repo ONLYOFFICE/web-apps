@@ -52,13 +52,6 @@ define([
 
         return {
             initialize: function () {
-                this.addListeners({
-                    'Toolbar': {
-                        'insert:break': function () {
-                            console.log('insert page break');
-                        }
-                    }
-                });
             },
 
             onLaunch: function (view) {

@@ -121,11 +121,22 @@ define([
             var w = opt.asc_getWidth();
             var h = opt.asc_getHeight();
 
-            item = panel.cmbPaperSize.store.findWhere({value: w+'|'+h});
+            var store = panel.cmbPaperSize.store;
+            item = null;
+            for (var i=0; i<store.length; i++) {
+                var rec = store.at(i),
+                    value = rec.get('value'),
+                    pagewidth = parseFloat(/^\d{3}\.?\d*/.exec(value)),
+                    pageheight = parseFloat(/\d{3}\.?\d*$/.exec(value));
+                if (Math.abs(pagewidth - w) < 0.1 && Math.abs(pageheight - h) < 0.1) {
+                    item = rec;
+                    break;
+                }
+            }
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
-                panel.cmbPaperSize.setValue('Custom (' + w +' x ' + h);
+                panel.cmbPaperSize.setValue('Custom (' + w +' x ' + h + ')');
 
             var fitwidth = opt.asc_getFitToWidth(),
                 fitheight = opt.asc_getFitToHeight();
@@ -196,13 +207,8 @@ define([
         },
 
         savePageOptions: function(panel) {
-            var wc = this.api.asc_getWorksheetsCount(),
-                index = -1;
-
-            while (++index < wc) {
-                if (this._changedProps[index])
-                    this.api.asc_setPageOptions(this._changedProps[index], index);
-            }
+            this.api.asc_savePagePrintOptions(this._changedProps);
+            Common.NotificationCenter.trigger('page:settings');
         },
 
         onShowMainSettingsPrint: function() {
@@ -220,9 +226,11 @@ define([
             }
         },
 
-        openPrintSettings: function(type, cmp, asUrl) {
+        openPrintSettings: function(type, cmp, format, asUrl) {
+            if (this.printSettingsDlg && this.printSettingsDlg.isVisible()) return;
             if (this.api) {
                 this.asUrl = asUrl;
+                this.downloadFormat = format;
                 this.printSettingsDlg = (new SSE.Views.PrintSettings({
                     type: type,
                     handler: _.bind(this.resultPrintSettings,this),
@@ -246,12 +254,13 @@ define([
 
                     var printtype = this.printSettingsDlg.getRange();
                     this.adjPrintParams.asc_setPrintType(printtype);
+                    this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     if ( this.printSettingsDlg.type=='print' )
                         this.api.asc_Print(this.adjPrintParams, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
                     else
-                        this.api.asc_DownloadAs(Asc.c_oAscFileType.PDF, this.asUrl, this.adjPrintParams);
+                        this.api.asc_DownloadAs(this.downloadFormat, this.asUrl, this.adjPrintParams);
                     Common.component.Analytics.trackEvent((this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
                     Common.component.Analytics.trackEvent('ToolBar', (this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
                     Common.NotificationCenter.trigger('edit:complete', view);
@@ -259,6 +268,7 @@ define([
                     return true;
             } else
                 Common.NotificationCenter.trigger('edit:complete', view);
+            this.printSettingsDlg = null;
         },
 
         querySavePrintSettings: function() {
