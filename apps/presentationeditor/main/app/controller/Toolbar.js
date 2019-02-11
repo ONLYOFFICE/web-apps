@@ -295,6 +295,7 @@ define([
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
             toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
+            toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlinkClick, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -1209,16 +1210,25 @@ define([
             }
         },
 
+        onBeforeShapeAlign: function() {
+            var value = this.api.asc_getSelectedDrawingObjectsCount(),
+                slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
+            this.toolbar.mniAlignObjects.setDisabled(value<2);
+            this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
+            this.toolbar.mniAlignToSlide.setChecked(value<2 || slide_checked, true);
+        },
+
         onShapeAlign: function(menu, item) {
             if (this.api) {
-                if (item.value < 6) {
-                    this.api.put_ShapesAlign(item.value);
+                var value = this.toolbar.mniAlignToSlide.isChecked() ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                if (item.value>-1 && item.value < 6) {
+                    this.api.put_ShapesAlign(item.value, value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
                 } else if (item.value == 6) {
-                    this.api.DistributeHorizontally();
+                    this.api.DistributeHorizontally(value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
-                } else {
-                    this.api.DistributeVertically();
+                } else if (item.value == 7){
+                    this.api.DistributeVertically(value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);

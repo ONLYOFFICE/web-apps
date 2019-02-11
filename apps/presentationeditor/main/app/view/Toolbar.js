@@ -590,6 +590,23 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
 
+                    me.mniAlignToSlide = new Common.UI.MenuItem({
+                        caption: me.txtSlideAlign,
+                        checkable: true,
+                        toggleGroup: 'slidealign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("pe-align-to-slide", true);
+                    });
+                    me.mniAlignObjects = new Common.UI.MenuItem({
+                        caption: me.txtObjectsAlign,
+                        checkable: true,
+                        toggleGroup: 'slidealign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("pe-align-to-slide", false);
+                    });
+
                     me.btnShapeAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-align',
                         cls: 'btn-toolbar',
@@ -637,7 +654,10 @@ define([
                                     caption: me.txtDistribVert,
                                     iconCls: 'mnu-distrib-vert',
                                     value: 7
-                                }
+                                },
+                                {caption: '--'},
+                                me.mniAlignToSlide,
+                                me.mniAlignObjects
                             ]
                         })
                     });
@@ -1738,7 +1758,9 @@ define([
             textShowPresenterView: 'Show presenter view',
             textTabCollaboration: 'Collaboration',
             textTabProtect: 'Protection',
-            mniImageFromStorage: 'Image from Storage'
+            mniImageFromStorage: 'Image from Storage',
+            txtSlideAlign: 'Align to slide',
+            txtObjectsAlign: 'Align selected objects'
         }
     }()), PE.Views.Toolbar || {}));
 });

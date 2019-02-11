@@ -1746,5 +1746,8 @@
   "PE.Views.Toolbar.txtScheme7": "Equity",
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.txtSlideAlign": "Align to slide",
+  "PE.Views.Toolbar.txtObjectsAlign": "Align selected objects"
+
 }
