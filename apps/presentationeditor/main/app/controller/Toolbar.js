@@ -1216,6 +1216,8 @@ define([
             this.toolbar.mniAlignObjects.setDisabled(value<2);
             this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
             this.toolbar.mniAlignToSlide.setChecked(value<2 || slide_checked, true);
+            this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+            this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
         },
 
         onShapeAlign: function(menu, item) {

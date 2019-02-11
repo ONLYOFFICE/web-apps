@@ -607,6 +607,17 @@ define([
                         Common.Utils.InternalSettings.set("pe-align-to-slide", false);
                     });
 
+                    me.mniDistribHor = new Common.UI.MenuItem({
+                        caption: me.txtDistribHor,
+                        iconCls: 'mnu-distrib-hor',
+                        value: 6
+                    });
+                    me.mniDistribVert = new Common.UI.MenuItem({
+                        caption: me.txtDistribVert,
+                        iconCls: 'mnu-distrib-vert',
+                        value: 7
+                    });
+
                     me.btnShapeAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-align',
                         cls: 'btn-toolbar',
@@ -645,16 +656,8 @@ define([
                                     value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                                 },
                                 {caption: '--'},
-                                {
-                                    caption: me.txtDistribHor,
-                                    iconCls: 'mnu-distrib-hor',
-                                    value: 6
-                                },
-                                {
-                                    caption: me.txtDistribVert,
-                                    iconCls: 'mnu-distrib-vert',
-                                    value: 7
-                                },
+                                me.mniDistribHor,
+                                me.mniDistribVert,
                                 {caption: '--'},
                                 me.mniAlignToSlide,
                                 me.mniAlignObjects
