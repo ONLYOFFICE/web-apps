@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -1049,7 +1049,8 @@ define([
                             {value: 28, displayValue: "28"},
                             {value: 36, displayValue: "36"},
                             {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"}
+                            {value: 72, displayValue: "72"},
+                            {value: 96, displayValue: "96"}
                         ]
                     });
                     this.paragraphControls.push(this.cmbFontSize);
@@ -1564,9 +1565,6 @@ define([
                 // set menus
 
                 var me = this;
-
-                // if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
-                //     this.mnuitemHideTitleBar.hide();
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -2111,7 +2109,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: 'inc-index',
+                    extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {

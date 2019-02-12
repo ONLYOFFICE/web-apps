@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -485,7 +485,8 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.zoom ? parseInt(me.appOptions.customization.zoom) : -1);
                 (zf == -1) ? me.api.zoomFitToPage() : ((zf == -2) ? me.api.zoomFitToWidth() : me.api.zoom(zf>0 ? zf : 100));
 
-                me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
+                value = Common.localStorage.getBool("pe-mobile-spellcheck", false);
+                me.api.asc_setSpellCheck(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
@@ -952,15 +953,6 @@ define([
             },
 
             hidePreloader: function() {
-                // if (!!this.appOptions.customization && !this.appOptions.customization.done) {
-                //     this.appOptions.customization.done = true;
-                //     if (!this.appOptions.isDesktopApp)
-                //         this.appOptions.customization.about = true;
-                //     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
-                //     if (this.appOptions.canBrandingExt)
-                //         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
-                // }
-
                 $('#loading-mask').hide().remove();
             },
 

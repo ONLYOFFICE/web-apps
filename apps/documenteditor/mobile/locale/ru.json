@@ -53,6 +53,7 @@
   "DE.Controllers.Main.downloadMergeTitle": "Загрузка",
   "DE.Controllers.Main.downloadTextText": "Загрузка документа...",
   "DE.Controllers.Main.downloadTitleText": "Загрузка документа",
+  "DE.Controllers.Main.errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "DE.Controllers.Main.errorBadImageUrl": "Неправильный URL-адрес изображения",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Подключение к серверу прервано. Редактирование недоступно.",
   "DE.Controllers.Main.errorConnectToServer": "Не удается сохранить документ. Проверьте параметры подключения или обратитесь к вашему администратору.<br>Когда вы нажмете на кнопку 'OK', вам будет предложено скачать документ.<br><br>Дополнительную информацию о подключении Сервера документов можно найти <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">здесь</a>",

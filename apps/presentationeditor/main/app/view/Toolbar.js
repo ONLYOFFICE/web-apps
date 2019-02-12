@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -254,7 +254,8 @@ define([
                             {value: 28, displayValue: "28"},
                             {value: 36, displayValue: "36"},
                             {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"}
+                            {value: 72, displayValue: "72"},
+                            {value: 96, displayValue: "96"}
                         ]
                     });
                     me.paragraphControls.push(me.cmbFontSize);
@@ -590,6 +591,34 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
 
+                    me.mniAlignToSlide = new Common.UI.MenuItem({
+                        caption: me.txtSlideAlign,
+                        checkable: true,
+                        toggleGroup: 'slidealign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("pe-align-to-slide", true);
+                    });
+                    me.mniAlignObjects = new Common.UI.MenuItem({
+                        caption: me.txtObjectsAlign,
+                        checkable: true,
+                        toggleGroup: 'slidealign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("pe-align-to-slide", false);
+                    });
+
+                    me.mniDistribHor = new Common.UI.MenuItem({
+                        caption: me.txtDistribHor,
+                        iconCls: 'mnu-distrib-hor',
+                        value: 6
+                    });
+                    me.mniDistribVert = new Common.UI.MenuItem({
+                        caption: me.txtDistribVert,
+                        iconCls: 'mnu-distrib-vert',
+                        value: 7
+                    });
+
                     me.btnShapeAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-align',
                         cls: 'btn-toolbar',
@@ -628,16 +657,11 @@ define([
                                     value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                                 },
                                 {caption: '--'},
-                                {
-                                    caption: me.txtDistribHor,
-                                    iconCls: 'mnu-distrib-hor',
-                                    value: 6
-                                },
-                                {
-                                    caption: me.txtDistribVert,
-                                    iconCls: 'mnu-distrib-vert',
-                                    value: 7
-                                }
+                                me.mniDistribHor,
+                                me.mniDistribVert,
+                                {caption: '--'},
+                                me.mniAlignToSlide,
+                                me.mniAlignObjects
                             ]
                         })
                     });
@@ -1429,7 +1453,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: 'inc-index',
+                    extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
@@ -1738,7 +1762,9 @@ define([
             textShowPresenterView: 'Show presenter view',
             textTabCollaboration: 'Collaboration',
             textTabProtect: 'Protection',
-            mniImageFromStorage: 'Image from Storage'
+            mniImageFromStorage: 'Image from Storage',
+            txtSlideAlign: 'Align to Slide',
+            txtObjectsAlign: 'Align Selected Objects'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -295,6 +295,7 @@ define([
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
             toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
+            toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlinkClick, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -1214,16 +1215,27 @@ define([
             }
         },
 
+        onBeforeShapeAlign: function() {
+            var value = this.api.asc_getSelectedDrawingObjectsCount(),
+                slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
+            this.toolbar.mniAlignObjects.setDisabled(value<2);
+            this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
+            this.toolbar.mniAlignToSlide.setChecked(value<2 || slide_checked, true);
+            this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+            this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+        },
+
         onShapeAlign: function(menu, item) {
             if (this.api) {
-                if (item.value < 6) {
-                    this.api.put_ShapesAlign(item.value);
+                var value = this.toolbar.mniAlignToSlide.isChecked() ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                if (item.value>-1 && item.value < 6) {
+                    this.api.put_ShapesAlign(item.value, value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
                 } else if (item.value == 6) {
-                    this.api.DistributeHorizontally();
+                    this.api.DistributeHorizontally(value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
-                } else {
-                    this.api.DistributeVertically();
+                } else if (item.value == 7){
+                    this.api.DistributeVertically(value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1544,16 +1556,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Style');
-        },
-
-        onHideTitleBar: function(item, checked) {
-            var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-            headerView  && headerView.setVisible(!checked);
-
-            Common.localStorage.setItem('pe-hidden-title', checked ? 1 : 0);
-
-            Common.NotificationCenter.trigger('layout:changed', 'header');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         _clearBullets: function() {
@@ -2023,15 +2025,18 @@ define([
                     me.toolbar.addTab(tab, $panel, 3);
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-                // hide 'print' and 'save' buttons group and next separator
-                me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                // hide 'undo' and 'redo' buttons and get container
-                var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                if (!(config.customization && config.customization.compactHeader)) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                // move 'paste' button to the container instead of 'undo' and 'redo'
-                me.toolbar.btnPaste.$el.detach().appendTo($box);
-                me.toolbar.btnCopy.$el.removeClass('split');
+                    // hide 'undo' and 'redo' buttons and get container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnCopy.$el.removeClass('split');
+                }
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) { // don't add protect panel to toolbar
