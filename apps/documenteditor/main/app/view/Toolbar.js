@@ -1049,7 +1049,8 @@ define([
                             {value: 28, displayValue: "28"},
                             {value: 36, displayValue: "36"},
                             {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"}
+                            {value: 72, displayValue: "72"},
+                            {value: 96, displayValue: "96"}
                         ]
                     });
                     this.paragraphControls.push(this.cmbFontSize);
