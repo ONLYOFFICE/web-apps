@@ -191,8 +191,10 @@ define([
                     me.setLicInfo(_licInfo);
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
+                    $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
+                    $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                 }
@@ -290,6 +292,13 @@ define([
                 }
 
                 Common.NotificationCenter.trigger('readermode:change', Common.SharedSettings.get('readerMode'));
+            },
+
+            onSpellcheck: function (e) {
+                var $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("de-mobile-spellcheck", state ? 1 : 0);
+                this.api && this.api.asc_setSpellCheck(state);
             },
 
             onShowHelp: function () {

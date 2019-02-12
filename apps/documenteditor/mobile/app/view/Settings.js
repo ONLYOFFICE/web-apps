@@ -116,6 +116,7 @@ define([
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-document').hide();
+                        $layour.find('#settings-spellcheck').hide();
                     }
                     if (!_canReader)
                         $layour.find('#settings-readermode').hide();
@@ -255,7 +256,8 @@ define([
             textCustomSize: 'Custom Size',
             textDocumentFormats: 'Document Formats',
             textOrientation: 'Orientation',
-            textPoweredBy: 'Powered by'
+            textPoweredBy: 'Powered by',
+            textSpellcheck: 'Spell Checking'
 
     }
     })(), DE.Views.Settings || {}))

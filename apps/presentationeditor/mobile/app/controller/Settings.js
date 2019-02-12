@@ -153,8 +153,10 @@ define([
 
             onPageShow: function(view, pageId) {
                 var me = this;
+                $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("pe-mobile-spellcheck", false));
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
+                $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
                 $('#page-settings-setup-view li').single('click',           _.bind(me._onSlideSize, me));
 
@@ -231,6 +233,13 @@ define([
                 }
 
                 this.hideModal();
+            },
+
+            _onSpellcheck: function (e) {
+                var $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("pe-mobile-spellcheck", state ? 1 : 0);
+                this.api && this.api.asc_setSpellCheck(state);
             },
 
             _onReaderMode: function (e) {

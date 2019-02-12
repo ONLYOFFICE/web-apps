@@ -485,7 +485,8 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.zoom ? parseInt(me.appOptions.customization.zoom) : -1);
                 (zf == -1) ? me.api.zoomFitToPage() : ((zf == -2) ? me.api.zoomFitToWidth() : me.api.zoom(zf>0 ? zf : 100));
 
-                me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
+                value = Common.localStorage.getBool("pe-mobile-spellcheck", false);
+                me.api.asc_setSpellCheck(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));

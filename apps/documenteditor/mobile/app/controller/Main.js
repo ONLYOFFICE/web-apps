@@ -520,7 +520,8 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
+                value = Common.localStorage.getBool("de-mobile-spellcheck", false);
+                me.api.asc_setSpellCheck(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));

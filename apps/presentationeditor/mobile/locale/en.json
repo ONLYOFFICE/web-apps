@@ -456,5 +456,6 @@
   "PE.Views.Settings.textTel": "tel",
   "PE.Views.Settings.textVersion": "Version",
   "PE.Views.Settings.unknownText": "Unknown",
+  "PE.Views.Settings.textSpellcheck": "Spell Checking",
   "PE.Views.Toolbar.textBack": "Back"
 }

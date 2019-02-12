@@ -117,6 +117,7 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
                             .attr('checked', Common.SharedSettings.get('readerMode'))
@@ -222,7 +223,8 @@ define([
             mniSlideStandard: 'Standard (4:3)',
             mniSlideWide: 'Widescreen (16:9)',
             textPoweredBy: 'Powered by',
-            textFindAndReplace: 'Find and Replace'
+            textFindAndReplace: 'Find and Replace',
+            textSpellcheck: 'Spell Checking'
         }
     })(), PE.Views.Settings || {}))
 });
