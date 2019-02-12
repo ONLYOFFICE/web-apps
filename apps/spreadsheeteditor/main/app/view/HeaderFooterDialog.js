@@ -286,7 +286,6 @@ define([
                 {displayValue: this.textPageCount, value: Asc.c_oAscHeaderFooterField.pageCount},
                 {displayValue: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
                 {displayValue: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
-                {displayValue: this.textFilePath, value: Asc.c_oAscHeaderFooterField.filePath},
                 {displayValue: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
                 {displayValue: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
             ];
@@ -520,12 +519,14 @@ define([
 
             var initNewColor = function(btn, picker_el) {
                 if (btn && btn.cmpEl) {
+                    btn.currentColor = '#000000';
                     var colorVal = $('<div class="btn-color-value-line"></div>');
                     $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor || '#000000');
+                    colorVal.css('background-color', btn.currentColor);
                     var picker = new Common.UI.ThemeColorPalette({
                         el: $(picker_el)
                     });
+                    picker.currentColor = btn.currentColor;
                 }
                 btn.menu.cmpEl.on('click', picker_el+'-new', _.bind(function() {
                     picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
@@ -711,7 +712,7 @@ define([
                     offset = parent.offset();
                 this.HFObject.click(id, event.pageX*Common.Utils.zoom() - offset.left, event.pageY*Common.Utils.zoom() - offset.top + parent.scrollTop());
             } else
-                this.HFObject.click(id, 0, 0);
+                this.HFObject.click(id);
 
             this.scrollerUpdate();
         },
@@ -897,7 +898,6 @@ define([
         textPageCount: 'Page count',
         textDate: 'Date',
         textTime: 'Time',
-        textFilePath: 'File path',
         textFileName: 'File name',
         textSheet: 'Sheet name',
         textColor: 'Text color',
