@@ -825,7 +825,6 @@ define([
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
                     if (now - value > 86400000) {
-                        Common.localStorage.setItem("sse-license-warning", now);
                         Common.UI.info({
                             width: 500,
                             title: this.textNoLicenseTitle,
@@ -833,6 +832,7 @@ define([
                             buttons: buttons,
                             primary: primary,
                             callback: function(btn) {
+                                Common.localStorage.setItem("sse-license-warning", now);
                                 if (btn == 'buynow')
                                     window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
