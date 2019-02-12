@@ -43,8 +43,8 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <div class="elset" style="width:195px;">
-                        <span class="btn-slot" style="float: left; width: 148px;" id="slot-field-fontname"></span>
+                    <div class="elset" style="width:191px;">
+                        <span class="btn-slot" style="float: left; width: 144px;" id="slot-field-fontname"></span>
                         <span class="btn-slot" style="float: left; width: 45px; margin-left: 2px;" id="slot-field-fontsize"></span>
                     </div>
                     <div class="elset font-attr">
@@ -96,7 +96,7 @@
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
-                <div class="group" id="slot-field-styles" style="width: 100%; min-width: 140px;"></div>
+                <div class="group" id="slot-field-styles" style="width: 100%; min-width: 148px;"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">

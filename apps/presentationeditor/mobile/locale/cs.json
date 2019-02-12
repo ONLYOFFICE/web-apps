@@ -82,7 +82,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "Verze souboru byla změněna. Stránka bude znovu načtena.",
   "PE.Controllers.Main.errorUserDrop": "Tento soubor není nyní přístupný.",
   "PE.Controllers.Main.errorUsersExceed": "Počet uživatelů byl překročen",
-  "PE.Controllers.Main.errorViewerDisconnect": "Spojení je ztraceno. Stále můžete zobrazit dokument,<br>ale nebudete moct stahovat ani tisknout, dokud nebude obnoveno připojení.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Spojení je přerušeno. Stále můžete zobrazit dokument,<br>ale nebudete moci stahovat, dokud neobnovíte připojení.",
   "PE.Controllers.Main.leavePageText": "V tomto dokumentu máte neuložené změny. Klikněte na tlačítko \"Zůstat na této stránce\" a počkejte na automatické ukládání dokumentu.Klikněte na tlačítko \"Opustit tuto stránku\", abyste zrušili všechny neuložené změny.",
   "PE.Controllers.Main.loadFontsTextText": "Načítání dat...",
   "PE.Controllers.Main.loadFontsTitleText": "Načítání dat",

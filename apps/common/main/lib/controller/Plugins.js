@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -63,7 +63,7 @@ define([
                             var tab = {action: 'plugins', caption: me.panelPlugins.groupCaption};
                             me.$toolbarPanelPlugins = me.panelPlugins.getPanel();
 
-                            toolbar.addTab(tab, me.$toolbarPanelPlugins, 4);     // TODO: clear plugins list in left panel
+                            toolbar.addTab(tab, me.$toolbarPanelPlugins, 10);     // TODO: clear plugins list in left panel
                         }
                     }
                 },
@@ -156,6 +156,7 @@ define([
                     variation.set_Icons(itemVar.get('icons'));
                     variation.set_Visual(itemVar.get('isVisual'));
                     variation.set_CustomWindow(itemVar.get('isCustomWindow'));
+                    variation.set_System(itemVar.get('isSystem'));
                     variation.set_Viewer(itemVar.get('isViewer'));
                     variation.set_EditorsSupport(itemVar.get('EditorsSupport'));
                     variation.set_Modal(itemVar.get('isModal'));
@@ -174,7 +175,7 @@ define([
                 arr.push(plugin);
             });
             this.api.asc_pluginsRegister('', arr);
-            if (storePlugins.length>0)
+            if (storePlugins.hasVisible())
                 Common.NotificationCenter.trigger('tab:visible', 'plugins', true);
         },
 
@@ -292,12 +293,13 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
-        onPluginShow: function(plugin, variationIndex, frameId) {
+        onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var url = variation.get_Url();
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
-
+                if (urlAddition)
+                    url += urlAddition;
                 if (variation.get_InsideMode()) {
                     if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url, frameId))
                         this.api.asc_pluginButtonClick(-1);
@@ -311,7 +313,8 @@ define([
 
                     if (_.isArray(arrBtns)) {
                         _.each(arrBtns, function(b, index){
-                            newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                            if (b.visible)
+                                newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
                         });
                     }
 

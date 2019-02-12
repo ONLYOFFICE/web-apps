@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -55,7 +55,7 @@ define([
         formats: [[
             {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            // {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP}
         ]],
 
@@ -102,6 +102,60 @@ define([
         }
     });
 
+    PE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
+        el: '#panel-savecopy',
+        menu: undefined,
+
+        formats: [[
+            {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX, ext: '.pptx'},
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF,  ext: '.pdf'},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
+            {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP,  ext: '.odp'}
+        ]],
+
+        template: _.template([
+            '<table><tbody>',
+                '<% _.each(rows, function(row) { %>',
+                    '<tr>',
+                        '<% _.each(row, function(item) { %>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
+                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
+                        '<% }) %>',
+                    '</tr>',
+                '<% }) %>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function() {
+            $(this.el).html(this.template({rows:this.formats}));
+            $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        onFormatClick: function(e) {
+            var type = e.currentTarget.attributes['format'],
+                ext = e.currentTarget.attributes['format-ext'];
+            if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
+                this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
+            }
+        }
+    });
+
     PE.Views.FileMenuPanels.Settings = Common.UI.BaseView.extend(_.extend({
         el: '#panel-settings',
         menu: undefined,
@@ -132,7 +186,7 @@ define([
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;"/>',
+                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
@@ -521,6 +575,10 @@ define([
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
                     '</tr>',
+                    '<tr class="appname">',
+                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                        '<td class="right"><label id="id-info-appname">-</label></td>',
+                    '</tr>',
                     '<tr class="date">',
                         '<td class="left"><label>' + this.txtDate + '</label></td>',
                         '<td class="right"><label id="id-info-date">-</label></td>',
@@ -539,6 +597,7 @@ define([
             this.lblPlacement = $('#id-info-placement');
             this.lblDate = $('#id-info-date');
             this.lblAuthor = $('#id-info-author');
+            this.lblApplication = $('#id-info-appname');
 
             this.rendered = true;
 
@@ -582,6 +641,12 @@ define([
                 this._ShowHideInfoItem('placement', doc.info.folder!==undefined && doc.info.folder!==null);
             } else
                 this._ShowHideDocInfo(false);
+            var appname = (this.api) ? this.api.asc_getAppProps() : null;
+            if (appname) {
+                appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
+                this.lblApplication.text(appname);
+            }
+            this._ShowHideInfoItem('appname', !!appname);
         },
 
         _ShowHideInfoItem: function(cls, visible) {
@@ -598,10 +663,17 @@ define([
             return this;
         },
 
+        setApi: function(o) {
+            this.api = o;
+            this.updateInfo(this.doc);
+            return this;
+        },
+
         txtTitle: 'Document Title',
         txtAuthor: 'Author',
         txtPlacement: 'Placement',
-        txtDate: 'Creation Date'
+        txtDate: 'Creation Date',
+        txtAppName: 'Application'
     }, PE.Views.FileMenuPanels.DocumentInfo || {}));
 
     PE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({

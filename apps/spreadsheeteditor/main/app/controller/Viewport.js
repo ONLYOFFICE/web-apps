@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -78,10 +78,10 @@ define([
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        toolbar.setExtra('left', me.header.getPanel('left', config));
+                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                            toolbar.setExtra('left', me.header.getPanel('left', config));
 
-                        if ( me.appConfig && me.appConfig.isDesktopApp &&
-                                me.appConfig.isEdit && toolbar.btnCollabChanges )
+                        if ( me.appConfig && me.appConfig.isEdit && !(config.customization && config.customization.compactHeader) && toolbar.btnCollabChanges )
                             toolbar.btnCollabChanges = me.header.btnSave;
 
                     },
@@ -103,6 +103,10 @@ define([
                                 me.header.btnRedo.keepState.disabled = state;
                             else me.header.btnRedo.setDisabled(state);
                         }
+                    },
+                    'print:disabled' : function (state) {
+                        if ( me.header.btnPrint )
+                            me.header.btnPrint.setDisabled(state);
                     },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
@@ -144,9 +148,10 @@ define([
                 me.viewport.vlayout.getItem('toolbar').height = 41;
             }
 
-            if ( config.isDesktopApp && config.isEdit && !config.isEditDiagram && !config.isEditMailMerge ) {
+            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !(config.customization && config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
+                $title.find('.extra').html(me.header.getPanel('left', config));
 
                 var toolbar = me.viewport.vlayout.getItem('toolbar');
                 toolbar.el.addClass('top-title');
@@ -158,6 +163,14 @@ define([
                 _intvars.set('toolbar-height-normal', _tabs_new_height + _intvars.get('toolbar-height-controls'));
 
                 $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
+            }
+
+            if ( config.customization ) {
+                if ( config.customization.toolbarBreakTabs )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+
+                if ( config.customization.toolbarHideFileName )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
         },
 
@@ -263,9 +276,9 @@ define([
                     me.header.mnuitemFreezePanes.hide();
                     menu.items[5].hide();
                     menu.items[7].hide();
-                    if (!config.canComments) { // show advanced settings for editing and commenting mode
-                        mnuitemAdvSettings.hide();
-                        menu.items[9].hide();
+                    if (!config.canViewComments) { // show advanced settings for editing and commenting mode
+                        // mnuitemAdvSettings.hide();
+                        // menu.items[9].hide();
                     }
                 }
 
@@ -433,11 +446,11 @@ define([
             }
         },
 
-        onApiCoAuthoringDisconnect: function() {
+        onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
-                if (this.header.btnDownload)
+                if (this.header.btnDownload && !enableDownload)
                     this.header.btnDownload.hide();
-                if (this.header.btnPrint)
+                if (this.header.btnPrint && !enableDownload)
                     this.header.btnPrint.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();

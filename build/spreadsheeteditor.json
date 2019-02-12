@@ -345,6 +345,12 @@
                     "cwd": "../apps/spreadsheeteditor/mobile/locale/",
                     "src": "ru.json",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/locale/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/resources/l10n/functions",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/l10n/functions"
                 }
             ],
             "images-app": [

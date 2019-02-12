@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -271,12 +271,12 @@ define([
         gotoBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
             if (rec.length>0) {
-                this.props.asc_GoToBookmark(rec[0].get('value'));
+                this.props.asc_SelectBookmark(rec[0].get('value'));
             }
         },
 
         onDblClickBookmark: function(listView, itemView, record) {
-            this.props.asc_GoToBookmark(record.get('value'));
+            this.props.asc_SelectBookmark(record.get('value'));
         },
 
         deleteBookmark: function(btn, eOpts){

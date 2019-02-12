@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -43,8 +43,8 @@ define([
 
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
-            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
-            // {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
         ],[
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
@@ -93,6 +93,66 @@ define([
             var type = e.currentTarget.attributes['format'];
             if (!_.isUndefined(type) && this.menu) {
                 this.menu.fireEvent('saveas:format', [this.menu, parseInt(type.value)]);
+            }
+        }
+    });
+
+    SSE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
+        el: '#panel-savecopy',
+        menu: undefined,
+
+        formats: [[
+            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX,  ext: '.xlsx'},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF,   ext: '.pdf'},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA,  ext: '.pdf'}
+        ],[
+            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS,   ext: '.ods'},
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV,   ext: '.csv'}
+        ]
+//        ,[
+//            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML,  ext: '.html'}
+//        ]
+        ],
+
+        template: _.template([
+            '<table><tbody>',
+                '<% _.each(rows, function(row) { %>',
+                    '<tr>',
+                        '<% _.each(row, function(item) { %>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
+                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
+                        '<% }) %>',
+                    '</tr>',
+                '<% }) %>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function() {
+            $(this.el).html(this.template({rows:this.formats}));
+            $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        onFormatClick: function(e) {
+            var type = e.currentTarget.attributes['format'],
+                ext = e.currentTarget.attributes['format-ext'];
+            if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
+                this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
             }
         }
     });
@@ -453,10 +513,14 @@ define([
                     '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
                     '<td class="right"><span id="fms-chb-forcesave" /></td>',
                 '</tr>','<tr class="divider forcesave"></tr>',
+                '<tr>',
+                    '<td class="left"><label><%= scope.textRefStyle %></label></td>',
+                    '<td class="right"><div id="fms-chb-r1c1-style"/></td>',
+                '</tr>','<tr class="divider"></tr>',
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;"/>',
+                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
@@ -475,13 +539,13 @@ define([
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strFuncLocale %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;"/>',
+                        '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
                         '<label id="fms-lbl-func-locale" style="vertical-align: middle;"><%= scope.strFuncLocaleEx %></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strRegSettings %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;"/>',
+                        '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
@@ -511,6 +575,11 @@ define([
             this.chResolvedComment = new Common.UI.CheckBox({
                 el: $('#fms-chb-resolved-comment'),
                 labelText: this.strResolvedComment
+            });
+
+            this.chR1C1Style = new Common.UI.CheckBox({
+                el: $('#fms-chb-r1c1-style'),
+                labelText: this.strR1C1
             });
 
             this.cmbCoAuthMode = new Common.UI.ComboBox({
@@ -609,9 +678,9 @@ define([
                 this.updateFuncExample(record.exampleValue);
             }, this));
 
-            var regdata = [{ value: 0x042C }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+            var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
                             { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
-                            { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
+                            { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             regdata.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
                 item.displayValue = langinfo[1];
@@ -627,7 +696,7 @@ define([
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control">',
+                    '<input type="text" class="form-control" style="padding-left: 25px !important;">',
                     '<span class="icon input-icon lang-flag"></span>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                         '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
@@ -677,7 +746,7 @@ define([
                 this.lblAutosave.text(this.textAutoRecover);
             }
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring && (mode.isEdit || mode.canComments) ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
         },
 
@@ -694,6 +763,7 @@ define([
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
             this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("sse-settings-resolvedcomment"));
+            this.chR1C1Style.setValue(Common.Utils.InternalSettings.get("sse-settings-r1c1"));
 
             var fast_coauth = Common.Utils.InternalSettings.get("sse-settings-coauthmode");
             item = this.cmbCoAuthMode.store.findWhere({value: fast_coauth ? 1 : 0});
@@ -719,7 +789,7 @@ define([
 
             value = Common.Utils.InternalSettings.get("sse-settings-func-locale");
             item = this.cmbFuncLocale.store.findWhere({value: value});
-            if (!item)
+            if (!item && value)
                 item = this.cmbFuncLocale.store.findWhere({value: value.split(/[\-\_]/)[0]});
             this.cmbFuncLocale.setValue(item ? item.get('value') : 'en');
             this.updateFuncExample(item ? item.get('exampleValue') : this.txtExampleEn);
@@ -745,6 +815,7 @@ define([
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring)
                 Common.localStorage.setItem("sse-settings-coauthmode", this.cmbCoAuthMode.getValue());
             /** coauthoring end **/
+            Common.localStorage.setItem("sse-settings-r1c1", this.chR1C1Style.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
@@ -829,7 +900,9 @@ define([
         txtInch: 'Inch',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments'
+        strResolvedComment: 'Turn on display of the resolved comments',
+        textRefStyle: 'Reference Style',
+        strR1C1: 'Turn on R1C1 style'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -981,6 +1054,10 @@ define([
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
                     '</tr>',
+                    '<tr class="appname">',
+                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                        '<td class="right"><label id="id-info-appname">-</label></td>',
+                    '</tr>',
                     '<tr class="date">',
                         '<td class="left"><label>' + this.txtDate + '</label></td>',
                         '<td class="right"><label id="id-info-date">-</label></td>',
@@ -999,6 +1076,7 @@ define([
             this.lblPlacement = $('#id-info-placement');
             this.lblDate = $('#id-info-date');
             this.lblAuthor = $('#id-info-author');
+            this.lblApplication = $('#id-info-appname');
 
             this.rendered = true;
 
@@ -1042,6 +1120,12 @@ define([
                 this._ShowHideInfoItem('placement', doc.info.folder!==undefined && doc.info.folder!==null);
             } else
                 this._ShowHideDocInfo(false);
+            var appname = (this.api) ? this.api.asc_getAppProps() : null;
+            if (appname) {
+                appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
+                this.lblApplication.text(appname);
+            }
+            this._ShowHideInfoItem('appname', !!appname);
         },
 
         _ShowHideInfoItem: function(cls, visible) {
@@ -1058,10 +1142,17 @@ define([
             return this;
         },
 
+        setApi: function(o) {
+            this.api = o;
+            this.updateInfo(this.doc);
+            return this;
+        },
+
         txtTitle: 'Document Title',
         txtAuthor: 'Author',
         txtPlacement: 'Placement',
-        txtDate: 'Creation Date'
+        txtDate: 'Creation Date',
+        txtAppName: 'Application'
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({

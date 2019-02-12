@@ -5,6 +5,7 @@
         <meta charset="utf-8" />
         <meta name="description" content="Suchergebnisse" />
         <link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
         <script src="js/jquery.min.js"></script>
         <script src="indexes.js"></script>
         <script src="js/lunr.js"></script>
@@ -90,7 +91,8 @@
                                         info.title.slice(position[0], position[0] + position[1]),
                                         "</span>",
                                         info.title.slice(position[0] + position[1])
-                                    ].join('')
+                                    ].join(''),
+                                    onclick: "onhyperlinkclick(this)"
                                })
                             )
                             .append($('<p>').text(info.body.substring(0, 250) + "..."))
@@ -124,7 +126,7 @@
                             }
 
                             if (commonLength > 450 && sentenceCount > 2) {
-                                displayBody = displayBody.substring(0, 450) + "..."
+                                displayBody = displayBody.substring(0, 450) + "...";
                                 return false;
                             }
                         });
@@ -134,7 +136,8 @@
                             .append(
                                 $('<a>', {
                                     href: "../" + result.ref,
-                                    html: info.title.substring(0, 150)
+                                    html: info.title.substring(0, 150),
+                                    onclick: "onhyperlinkclick(this)"
                                })
                             )
                             .append(

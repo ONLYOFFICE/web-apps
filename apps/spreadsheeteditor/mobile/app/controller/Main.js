@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -306,12 +306,17 @@ define([
             },
 
             onDownloadAs: function() {
+                if ( !this.appOptions.canDownload) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+                this._state.isFromGatewayDownloadAs = true;
                 this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 var href = this.appOptions.customization.goback.url;
-                if (this.appOptions.customization.goback.blank!==false) {
+                if (!current && this.appOptions.customization.goback.blank!==false) {
                     window.open(href, "_blank");
                 } else {
                     parent.location.href = href;
@@ -466,8 +471,6 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.Gateway.documentReady();
-
                 if (this._state.openDlg)
                     uiApp.closeModal(this._state.openDlg);
 
@@ -550,6 +553,7 @@ define([
                 });
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+                Common.Gateway.documentReady();
             },
 
             onLicenseChanged: function(params) {
@@ -990,7 +994,7 @@ define([
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '</br></br>' + this.criticalErrorExtText;
                         config.callback = function() {
-                            Common.NotificationCenter.trigger('goback');
+                            Common.NotificationCenter.trigger('goback', true);
                         }
                     }
                     if (id == Asc.c_oAscError.ID.DataEncrypted) {

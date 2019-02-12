@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -106,6 +106,7 @@ define([
                             '</section>';
 
         var templateTitleBox = '<section id="box-document-title">' +
+                                '<div class="extra"></div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
@@ -148,6 +149,8 @@ define([
         };
 
         function applyUsers(count, originalCount) {
+            if (!$btnUsers) return;
+
             var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit; // has other user(s) who edit document
             if ( has_edit_users ) {
                 $btnUsers
@@ -204,11 +207,12 @@ define([
 
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
-                    var _url = !!me.branding && !!me.branding.logo && !!me.branding.logo.url ?
-                        me.branding.logo.url : 'http://www.onlyoffice.com';
-
-                    var newDocumentPage = window.open(_url);
-                    newDocumentPage && newDocumentPage.focus();
+                    var _url = !!me.branding && !!me.branding.logo && (me.branding.logo.url!==undefined) ?
+                        me.branding.logo.url : 'https://www.onlyoffice.com';
+                    if (_url) {
+                        var newDocumentPage = window.open(_url);
+                        newDocumentPage && newDocumentPage.focus();
+                    }
                 });
 
             onResetUsers(storeUsers);
@@ -412,6 +416,7 @@ define([
                     if (this.branding && this.branding.logo && this.branding.logo.image && this.logo) {
                         this.logo.html('<img src="' + this.branding.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                         this.logo.css({'background-image': 'none', width: 'auto'});
+                        (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
                     }
 
                     return $html;
@@ -481,7 +486,7 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html));
+                        me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html), true);
                     }
 
                     me.btnSave = createTitleButton('svg-btn-save', $('#slot-btn-dt-save', $html), true);
@@ -522,6 +527,7 @@ define([
                         if (element) {
                             element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                             element.css({'background-image': 'none', width: 'auto'});
+                            (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -109,6 +109,13 @@ define([
                 canFocused: false
             });
 
+            this.miSaveCopyAs = new Common.UI.MenuItem({
+                el      : $('#fm-btn-save-copy',this.el),
+                action  : 'save-copy',
+                caption : this.btnSaveCopyAsCaption,
+                canFocused: false
+            });
+
             this.miSaveAs = new Common.UI.MenuItem({
                 el      : $('#fm-btn-save-desktop',this.el),
                 action  : 'save-desktop',
@@ -176,6 +183,7 @@ define([
                 this.miSave,
                 this.miEdit,
                 this.miDownload,
+                this.miSaveCopyAs,
                 this.miSaveAs,
                 this.miPrint,
                 this.miRename,
@@ -207,6 +215,7 @@ define([
             var me = this;
             me.panels = {
                 'saveas'    : (new PE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
+                'save-copy' : (new PE.Views.FileMenuPanels.ViewSaveCopy({menu:me})).render(),
                 'opts'      : (new PE.Views.FileMenuPanels.Settings({menu:me})).render(),
                 'info'      : (new PE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
                 'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render()
@@ -226,7 +235,7 @@ define([
             this.$el.show();
             this.selectMenu(panel, defPanel);
 
-            this.api.asc_enableKeyEvents(false);
+            this.api && this.api.asc_enableKeyEvents(false);
 
             this.fireEvent('menu:show', [this]);
         },
@@ -234,7 +243,7 @@ define([
         hide: function() {
             this.$el.hide();
             this.fireEvent('menu:hide', [this]);
-            this.api.asc_enableKeyEvents(true);
+            this.api && this.api.asc_enableKeyEvents(true);
         },
 
         applyMode: function() {
@@ -247,6 +256,7 @@ define([
             this.miNew.$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
 
             this.miDownload[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
+            this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && this.mode.saveAsUrl ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
 
 //            this.hkSaveAs[this.mode.canDownload?'enable':'disable']();
@@ -264,8 +274,10 @@ define([
             this.miHelp.$el.prev()[this.mode.canHelp ?'show':'hide']();
 
             this.panels['opts'].setMode(this.mode);
-            this.panels['info'].setMode(this.mode).updateInfo(this.document);
-            this.panels['rights'].setMode(this.mode).updateInfo(this.document);
+            this.panels['info'].setMode(this.mode);
+            !this.mode.isDisconnected && this.panels['info'].updateInfo(this.document);
+            this.panels['rights'].setMode(this.mode);
+            !this.mode.isDisconnected && this.panels['rights'].updateInfo(this.document);
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
@@ -300,8 +312,8 @@ define([
                 this.mode.canOpenRecent = this.mode.canCreateNew = false;
                 this.mode.isDisconnected = mode.isDisconnected;
                 this.mode.canRename = false;
-                this.mode.canPrint = false;
-                this.mode.canDownload = false;
+                if (!mode.enableDownload)
+                    this.mode.canPrint = this.mode.canDownload = false;
             } else {
                 this.mode = mode;
             }
@@ -311,6 +323,7 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            this.panels['info'].setApi(api);
             if (this.panels['protect']) this.panels['protect'].setApi(api);
             this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
         },
@@ -383,6 +396,7 @@ define([
         btnSaveAsCaption        : 'Save as',
         btnRenameCaption        : 'Rename...',
         btnCloseMenuCaption     : 'Close Menu',
-        btnProtectCaption: 'Protect'
+        btnProtectCaption: 'Protect',
+        btnSaveCopyAsCaption    : 'Save Copy as...'
     }, PE.Views.FileMenu || {}));
 });

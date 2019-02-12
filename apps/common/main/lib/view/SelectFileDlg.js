@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -32,8 +32,7 @@
 */
 /**
  * User: Julia.Radzhabova
- * Date: 15.04.15
- * Time: 13:56
+ * Date: 09.02.15
  */
 
 define([
@@ -41,26 +40,23 @@ define([
     'common/main/lib/component/LoadMask'
 ], function () { 'use strict';
 
-    DE.Views.MailMergeSaveDlg = Common.UI.Window.extend(_.extend({
+    Common.Views.SelectFileDlg = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
                 title: this.textTitle,
-                width: 420,
-                height: 681,
+                width: 1024,
+                height: 621,
                 header: true
             }, options);
 
             this.template = [
-                '<div id="id-mail-merge-folder-placeholder"></div>'
+                '<div id="id-select-file-placeholder"></div>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
 
-            this.mergeFolderUrl = options.mergeFolderUrl || '';
-            this.mergedFileUrl = options.mergedFileUrl || '';
-            this.defFileName = options.defFileName || '';
-            this.mergeFolderUrl = this.mergeFolderUrl.replace("{title}", encodeURIComponent(this.defFileName)).replace("{fileuri}", encodeURIComponent(this.mergedFileUrl));
+            this.fileChoiceUrl = options.fileChoiceUrl || '';
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
@@ -70,18 +66,18 @@ define([
 
             var iframe = document.createElement("iframe");
             iframe.width        = '100%';
-            iframe.height       = 645;
+            iframe.height       = 585;
             iframe.align        = "top";
             iframe.frameBorder  = 0;
             iframe.scrolling    = "no";
             iframe.onload       = _.bind(this._onLoad,this);
-            $('#id-mail-merge-folder-placeholder').append(iframe);
+            $('#id-select-file-placeholder').append(iframe);
 
-            this.loadMask = new Common.UI.LoadMask({owner: $('#id-mail-merge-folder-placeholder')});
+            this.loadMask = new Common.UI.LoadMask({owner: $('#id-select-file-placeholder')});
             this.loadMask.setTitle(this.textLoading);
             this.loadMask.show();
 
-            iframe.src = this.mergeFolderUrl;
+            iframe.src = this.fileChoiceUrl;
 
             var me = this;
             this._eventfunc = function(msg) {
@@ -89,7 +85,7 @@ define([
             };
             this._bindWindowEvents.call(this);
 
-             this.on('close', function(obj){
+            this.on('close', function(obj){
                 me._unbindWindowEvents();
             });
         },
@@ -120,14 +116,14 @@ define([
         },
 
         _onMessage: function(msg) {
-            if (msg && msg.Referer == "onlyoffice") {
-                if ( !_.isEmpty(msg.error) ) {
-                    this.trigger('mailmergeerror', this, msg.error);
-                }
-//                if ( !_.isEmpty(msg.folder) ) {
-//                    this.trigger('mailmergefolder', this, msg.folder); // save last folder url
-//                }
+            if (msg && msg.Referer == "onlyoffice" && msg.file !== undefined) {
                 Common.NotificationCenter.trigger('window:close', this);
+                var me = this;
+                setTimeout(function() {
+                    if ( !_.isEmpty(msg.file) ) {
+                        me.trigger('selectfile', me, msg.file);
+                    }
+                }, 50);
             }
         },
 
@@ -136,8 +132,7 @@ define([
                 this.loadMask.hide();
         },
 
-        textTitle   : 'Folder for save',
+        textTitle   : 'Select Data Source',
         textLoading : 'Loading'
-    }, DE.Views.MailMergeSaveDlg || {}));
+    }, Common.Views.SelectFileDlg || {}));
 });
-

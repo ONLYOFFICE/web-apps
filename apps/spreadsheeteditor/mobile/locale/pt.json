@@ -154,7 +154,7 @@
   "SSE.Controllers.Main.errorUpdateVersion": "A versão do arquivo foi alterada. A página será recarregada.",
   "SSE.Controllers.Main.errorUserDrop": "O arquivo não pode ser acessado agora.",
   "SSE.Controllers.Main.errorUsersExceed": "O número de usuários permitidos pelo plano de preços foi excedido",
-  "SSE.Controllers.Main.errorViewerDisconnect": "A conexão foi perdida. Você ainda pode ver o documento,<br>mas não pode fazer o download ou imprimir até que a conexão seja restaurada.",
+  "SSE.Controllers.Main.errorViewerDisconnect": "Perda de conexão Você ainda pode exibir o documento, mas não será capaz de fazer o download até que a conexão seja restaurada.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "Um erro na fórmula inserida.<br>Número errado de parênteses está sendo usado.",
   "SSE.Controllers.Main.errorWrongOperator": "Um erro na fórmula inserida. Operador errado está sendo usado.<br>Corrija o erro.",
   "SSE.Controllers.Main.leavePageText": "Você tem alterações não salvas neste documento. Clique em \"Ficar nesta Página\" para aguardar o salvamento automático do documento. Clique em \"Sair desta página\" para descartar as alterações não salvas.",

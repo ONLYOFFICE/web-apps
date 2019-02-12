@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -76,7 +76,8 @@ define([
                     'render:before' : function (toolbar) {
                         var config = DE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        toolbar.setExtra('left', me.header.getPanel('left', config));
+                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                            toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.header.mnuitemCompactToolbar.setChecked(state, true);
@@ -95,6 +96,10 @@ define([
                             if ( me.header.btnRedo.keepState )
                                 me.header.btnRedo.keepState.disabled = state;
                             else me.header.btnRedo.setDisabled(state);
+                    },
+                    'print:disabled' : function (state) {
+                        if ( me.header.btnPrint )
+                            me.header.btnPrint.setDisabled(state);
                     },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
@@ -157,9 +162,18 @@ define([
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
             }
 
-            if ( config.isDesktopApp && config.isEdit ) {
+            if ( config.customization ) {
+                if ( config.customization.toolbarBreakTabs )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+
+                if ( config.customization.toolbarHideFileName )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
+            }
+
+            if ( config.isEdit && (!(config.customization && config.customization.compactHeader))) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
+                $title.find('.extra').html(me.header.getPanel('left', config));
 
                 var toolbar = me.viewport.vlayout.getItem('toolbar');
                 toolbar.el.addClass('top-title');
@@ -377,11 +391,11 @@ define([
             }
         },
 
-        onApiCoAuthoringDisconnect: function() {
+        onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
-                if (this.header.btnDownload)
+                if (this.header.btnDownload && !enableDownload)
                     this.header.btnDownload.hide();
-                if (this.header.btnPrint)
+                if (this.header.btnPrint && !enableDownload)
                     this.header.btnPrint.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();

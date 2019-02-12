@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -46,10 +46,10 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
-    'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
@@ -238,6 +238,7 @@ define([
              */
 
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
@@ -311,6 +312,7 @@ define([
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
+            toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
@@ -357,7 +359,7 @@ define([
             this.api.asc_registerCallback('asc_onMarkerFormatChanged',  _.bind(this.onApiStartHighlight, this));
             this.api.asc_registerCallback('asc_onTextHighLight',        _.bind(this.onApiHighlightColor, this));
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
@@ -745,6 +747,7 @@ define([
             var in_footnote = this.api.asc_IsCursorInFootnote();
             need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
             toolbar.btnsPageBreak.setDisabled(need_disable);
+            toolbar.btnBlankPage.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_equation || control_plain;
             toolbar.btnInsertShape.setDisabled(need_disable);
@@ -1138,6 +1141,7 @@ define([
         onFontNameSelect: function(combo, record) {
             if (this.api) {
                 if (record.isNewFont) {
+                    !this.getApplication().getController('Main').isModalShowed &&
                     Common.UI.warning({
                         width: 500,
                         closable: false,
@@ -1358,7 +1362,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (item.value === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1380,6 +1384,14 @@ define([
                         }
                     }
                 })).show();
+            } else if (item.value === 'storage') {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    me.toolbar.fireEvent('insertimage', me.toolbar);
+                    me.api.AddImageUrl(file.url);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                }).show();
             }
         },
 
@@ -1670,16 +1682,16 @@ define([
         },
 
         onNoControlsColor: function(item) {
-            this.api.asc_SetGlobalContentControlShowHighlight(!item.isChecked());
             if (!item.isChecked())
-                this.api.asc_SetGlobalContentControlHighlightColor(220, 220, 220);
+                this.api.asc_SetGlobalContentControlShowHighlight(true, 220, 220, 220);
+            else
+                this.api.asc_SetGlobalContentControlShowHighlight(false);
         },
 
         onSelectControlsColor: function(picker, color) {
             var clr = Common.Utils.ThemeColor.getRgbColor(color);
             if (this.api) {
-                this.api.asc_SetGlobalContentControlShowHighlight(true);
-                this.api.asc_SetGlobalContentControlHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
+                this.api.asc_SetGlobalContentControlShowHighlight(true, clr.get_r(), clr.get_g(), clr.get_b());
             }
 
             Common.component.Analytics.trackEvent('ToolBar', 'Content Controls Color');
@@ -1847,6 +1859,14 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Page Number');
         },
 
+        onBtnBlankPageClick: function(btn) {
+            if (this.api)
+                this.api.asc_AddBlankPage();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Blank Page');
+        },
+
         onListStyleSelect: function(combo, record) {
             this._state.prstyle = undefined;
             if (this.api)
@@ -2011,16 +2031,6 @@ define([
                 this.api.asc_AddNewStyle(newStyle);
             }
         },
-
-        // onHideTitleBar: function(item, checked) {
-        //     var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-        //     headerView  && headerView.setVisible(!checked);
-        //
-        //     Common.localStorage.setItem('de-hidden-title', checked ? 1 : 0);
-        //
-        //     Common.NotificationCenter.trigger('layout:changed', 'header');
-        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        // },
 
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
@@ -2665,8 +2675,8 @@ define([
             });
         },
 
-        onApiCoAuthoringDisconnect: function(disableDownload) {
-            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
+        onApiCoAuthoringDisconnect: function(enableDownload) {
+            this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
             this.DisableToolbar(true, true);
         },
@@ -2698,7 +2708,7 @@ define([
 
             toolbar._state.previewmode = reviewmode && disable;
             if (reviewmode) {
-                toolbar._state.previewmode && toolbar.btnSave.setDisabled(true);
+                toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
@@ -2712,10 +2722,10 @@ define([
             if (this._mailMergeDlg) return;
 
             var me = this;
-            me._mailMergeDlg = new DE.Views.MailMergeRecepients({
-                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl
+            me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
                         });
-            me._mailMergeDlg.on('mailmergerecepients', function(obj, recepients){
+            me._mailMergeDlg.on('selectfile', function(obj, recepients){
                 me.api.asc_StartMailMerge(recepients);
                 if (!me.mergeEditor)
                     me.mergeEditor = me.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
@@ -2748,27 +2758,29 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+            if ( $panel )
+                me.toolbar.addTab(tab, $panel, 4);
+
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
 
-                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-
-                if ( $panel )
-                    me.toolbar.addTab(tab, $panel, 4);
-
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-                if ( config.isDesktopApp ) {
+
+                if (!(config.customization && config.customization.compactHeader)) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
                     // hide 'undo' and 'redo' buttons and retrieve parent container
-                    var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
                     // move 'paste' button to the container instead of 'undo' and 'redo'
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
+                }
 
+                if ( config.isDesktopApp ) {
                     if ( config.canProtect ) {
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();

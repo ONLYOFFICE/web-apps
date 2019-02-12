@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -70,7 +70,6 @@ define([
             toolbar: '#viewport #toolbar',
             leftMenu: '#viewport #left-menu, #viewport #id-toolbar-full-placeholder-btn-settings, #viewport #id-toolbar-short-placeholder-btn-settings',
             rightMenu: '#viewport #right-menu',
-            header: '#viewport #header',
             statusBar: '#statusbar'
         };
 
@@ -305,6 +304,7 @@ define([
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.mergeFolderUrl  = this.editorConfig.mergeFolderUrl;
+                this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.customization   = this.editorConfig.customization;
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
@@ -402,6 +402,11 @@ define([
             },
 
             onDownloadAs: function(format) {
+                if ( !this.appOptions.canDownload && !this.appOptions.canDownloadOrigin) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+
                 this._state.isFromGatewayDownloadAs = true;
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 if (type && typeof type[1] === 'string')
@@ -583,18 +588,18 @@ define([
                 var app = this.getApplication();
                 if (this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
                     app.getController('RightMenu').getView('RightMenu').clearSelection();
-                    app.getController('Toolbar').DisableToolbar(disable, disable);
                     app.getController('RightMenu').SetDisabled(disable, false);
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 }
                 app.getController('LeftMenu').SetDisabled(disable, true);
+                app.getController('Toolbar').DisableToolbar(disable, disable);
+                app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 if ( !Common.Controllers.Desktop.process('goback') ) {
                     var href = this.appOptions.customization.goback.url;
-                    if (this.appOptions.customization.goback.blank!==false) {
+                    if (!current && this.appOptions.customization.goback.blank!==false) {
                         window.open(href, "_blank");
                     } else {
                         parent.location.href = href;
@@ -670,6 +675,10 @@ define([
                 else if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) &&
                         this._state.fastCoauth)
                     this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
+
+                if ( id == Asc.c_oAscAsyncAction['Open']) {
+                    Common.Utils.InternalSettings.get("de-settings-livecomment") ? this.api.asc_showComments(Common.Utils.InternalSettings.get("de-settings-resolvedcomment")) : this.api.asc_hideComments();
+                }
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
@@ -800,8 +809,6 @@ define([
             onDocumentContentReady: function() {
                 if (this._isDocReady)
                     return;
-
-                Common.Gateway.documentReady();
 
                 if (this._state.openDlg)
                     this._state.openDlg.close();
@@ -993,6 +1000,7 @@ define([
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+                Common.Gateway.documentReady();
             },
 
             onLicenseChanged: function(params) {
@@ -1025,7 +1033,6 @@ define([
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
                     if (now - value > 86400000) {
-                        Common.localStorage.setItem("de-license-warning", now);
                         Common.UI.info({
                             width: 500,
                             title: this.textNoLicenseTitle,
@@ -1033,6 +1040,7 @@ define([
                             buttons: buttons,
                             primary: primary,
                             callback: function(btn) {
+                                Common.localStorage.setItem("de-license-warning", now);
                                 if (btn == 'buynow')
                                     window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
@@ -1067,7 +1075,7 @@ define([
                 var elem = document.getElementById('loadmask-text');
                 var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
                 proc = this.textLoadingDocument + ': ' + Math.min(Math.round(proc*100), 100) + '%';
-                elem ? elem.innerHTML = proc : this.loadMask.setTitle(proc);
+                elem ? elem.innerHTML = proc : this.loadMask && this.loadMask.setTitle(proc);
             },
 
             onEditorPermissions: function(params) {
@@ -1104,6 +1112,7 @@ define([
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
                 this.appOptions.canReview      = this.permissions.review === true && this.appOptions.canLicense && this.appOptions.isEdit;
+                this.appOptions.canViewReview  = true;
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
@@ -1111,6 +1120,7 @@ define([
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
                 this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
@@ -1149,6 +1159,10 @@ define([
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization);
+                else if (typeof this.editorConfig.customization == 'object') {
+                    this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarBreakTabs =
+                    this.editorConfig.customization.toolbarHideFileName = false;
+                }
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
 
@@ -1175,20 +1189,11 @@ define([
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
-                // var value = Common.localStorage.getItem("de-hidden-title");
-                //     value = this.appOptions.isEdit && (value!==null && parseInt(value) == 1);
-
                 var app             = this.getApplication(),
                     viewport        = app.getController('Viewport').getView('Viewport'),
-                    // headerView      = app.getController('Viewport').getView('Common.Views.Header'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder').getView(),
                     toolbarController   = app.getController('Toolbar');
-
-                // if (headerView) {
-                    // headerView.setHeaderCaption(this.appOptions.isEdit ? 'Document Editor' : 'Document Viewer');
-                    // headerView.setVisible(!this.appOptions.nativeApp && !value && !this.appOptions.isDesktopApp);
-                // }
 
                 viewport && viewport.setMode(this.appOptions);
                 statusbarView && statusbarView.setMode(this.appOptions);
@@ -1203,26 +1208,23 @@ define([
             },
 
             applyModeEditorElements: function() {
-                if (this.appOptions.canComments || this.appOptions.isEdit) {
-                    /** coauthoring begin **/
-                    this.contComments.setMode(this.appOptions);
-                    this.contComments.setConfig({config: this.editorConfig}, this.api);
-                    /** coauthoring end **/
-                }
-                if (this.appOptions.isEdit) {
-                    var me = this,
-                        application         = this.getApplication(),
-                        toolbarController   = application.getController('Toolbar'),
-                        rightmenuController = application.getController('RightMenu'),
-                        fontsControllers    = application.getController('Common.Controllers.Fonts'),
-                        reviewController    = application.getController('Common.Controllers.ReviewChanges');
+                /** coauthoring begin **/
+                this.contComments.setMode(this.appOptions);
+                this.contComments.setConfig({config: this.editorConfig}, this.api);
+                /** coauthoring end **/
 
+                var me = this,
+                    application         = this.getApplication(),
+                    reviewController    = application.getController('Common.Controllers.ReviewChanges');
+                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+
+                if (this.appOptions.isEdit) {
+                    var toolbarController   = application.getController('Toolbar'),
+                        rightmenuController = application.getController('RightMenu'),
+                        fontsControllers    = application.getController('Common.Controllers.Fonts');
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
-
                     rightmenuController && rightmenuController.setApi(me.api);
-
-                    reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (this.appOptions.canProtect)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
@@ -1434,6 +1436,10 @@ define([
                         config.msg = this.errorDataEncrypted;
                         break;
 
+                    case Asc.c_oAscError.ID.EditingError:
+                        config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1452,7 +1458,7 @@ define([
                         config.msg += '<br/><br/>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok')
-                                Common.NotificationCenter.trigger('goback');
+                                Common.NotificationCenter.trigger('goback', true);
                         }
                     }
                     if (id == Asc.c_oAscError.ID.DataEncrypted) {
@@ -1487,6 +1493,9 @@ define([
                                     }
                                 })).show();
                             },10);
+                        } else if (id == Asc.c_oAscError.ID.EditingError) {
+                            this.disableEditing(true);
+                            Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -1757,7 +1766,7 @@ define([
                         store.add({
                             imageUrl : shape.Image,
                             data     : {shapeType: shape.Type},
-                            tip      : me.textShape + ' ' + (idx+1),
+                            tip      : me['txtShape_' + shape.Type] || (me.textShape + ' ' + (idx+1)),
                             allowSelected : true,
                             selected: false
                         });
@@ -1828,20 +1837,23 @@ define([
             },
 
             loadLanguages: function(apiLangs) {
-                var langs = [], info;
-                _.each(apiLangs, function(lang, index, list){
-                    lang = parseInt(lang);
-                    info = Common.util.LanguageInfo.getLocalLanguageName(lang);
-                    langs.push({
-                        title:  info[1],
-                        tip:    info[0],
-                        code:   lang
-                    });
-                }, this);
+                var langs = [], info,
+                    allLangs = Common.util.LanguageInfo.getLanguages();
+                for (var code in allLangs) {
+                    if (allLangs.hasOwnProperty(code)) {
+                        info = allLangs[code];
+                        info[2] && langs.push({
+                            displayValue:   info[1],
+                            value:          info[0],
+                            code:           parseInt(code),
+                            spellcheck:     _.indexOf(apiLangs, code)>-1
+                        });
+                    }
+                }
 
                 langs.sort(function(a, b){
-                    if (a.tip < b.tip) return -1;
-                    if (a.tip > b.tip) return 1;
+                    if (a.value < b.value) return -1;
+                    if (a.value > b.value) return 1;
                     return 0;
                 });
 
@@ -1850,6 +1862,9 @@ define([
             },
 
             setLanguages: function() {
+                if (!this.languages || this.languages.length<1) {
+                    this.loadLanguages([]);
+                }
                 if (this.languages && this.languages.length>0) {
                     this.getApplication().getController('DocumentHolder').getView().setLanguages(this.languages);
                     this.getApplication().getController('Statusbar').setLanguages(this.languages);
@@ -1913,7 +1928,7 @@ define([
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        closable: me.appOptions.canRequestClose,
+                        closeFile: me.appOptions.canRequestClose,
                         type: type,
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
@@ -1924,8 +1939,10 @@ define([
                                     me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(value));
                                     me.loadMask && me.loadMask.show();
                                 }
-                            } else
+                            } else {
                                 Common.Gateway.requestClose();
+                                Common.Controllers.Desktop.requestClose();
+                            }
                             me._state.openDlg = null;
                         }
                     });
@@ -2086,7 +2103,8 @@ define([
                 var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                     isEdit = this.appOptions.isEdit;
                 if (plugins) {
-                    var arr = [], arrUI = [];
+                    var arr = [], arrUI = [],
+                        lang = this.appOptions.lang.split(/[\-\_]/)[0];
                     plugins.pluginsData.forEach(function(item){
                         if (_.find(arr, function(arritem) {
                                 return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
@@ -2096,18 +2114,29 @@ define([
                         var variationsArr = [],
                             pluginVisible = false;
                         item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer) && _.contains(itemVar.EditorsSupport, 'word');
+                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'word') && !itemVar.isSystem;
                             if ( visible ) pluginVisible = true;
 
                             if (item.isUICustomizer ) {
                                 visible && arrUI.push(item.baseUrl + itemVar.url);
                             } else {
                                 var model = new Common.Models.PluginVariation(itemVar);
+                                var description = itemVar.description;
+                                if (typeof itemVar.descriptionLocale == 'object')
+                                    description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
+
+                                _.each(itemVar.buttons, function(b, index){
+                                    if (typeof b.textLocale == 'object')
+                                        b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                                    b.visible = (isEdit || b.isViewer !== false);
+                                });
 
                                 model.set({
+                                    description: description,
                                     index: variationsArr.length,
                                     url: itemVar.url,
                                     icons: itemVar.icons,
+                                    buttons: itemVar.buttons,
                                     visible: visible
                                 });
 
@@ -2115,9 +2144,13 @@ define([
                             }
                         });
 
-                        if (variationsArr.length>0 && !item.isUICustomizer)
+                        if (variationsArr.length>0 && !item.isUICustomizer) {
+                            var name = item.name;
+                            if (typeof item.nameLocale == 'object')
+                                name = item.nameLocale[lang] || item.nameLocale['en'] || name || '';
+
                             arr.push(new Common.Models.Plugin({
-                                name : item.name,
+                                name : name,
                                 guid: item.guid,
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
@@ -2126,6 +2159,7 @@ define([
                                 groupName: (item.group) ? item.group.name : '',
                                 groupRank: (item.group) ? item.group.rank : 0
                             }));
+                        }
                     });
 
                     if ( uiCustomize!==false )  // from ui customizer in editor config or desktop event
@@ -2307,7 +2341,180 @@ define([
             textClose: 'Close',
             textPaidFeature: 'Paid feature',
             textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+            errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
+            txtShape_textRect: 'Text Box',
+            txtShape_rect: 'Rectangle',
+            txtShape_ellipse: 'Ellipse',
+            txtShape_triangle: 'Triangle',
+            txtShape_rtTriangle: 'Right Triangle',
+            txtShape_parallelogram: 'Parallelogram',
+            txtShape_trapezoid: 'Trapezoid',
+            txtShape_diamond: 'Diamond',
+            txtShape_pentagon: 'Pentagon',
+            txtShape_hexagon: 'Hexagon',
+            txtShape_heptagon: 'Heptagon',
+            txtShape_octagon: 'Octagon',
+            txtShape_decagon: 'Decagon',
+            txtShape_dodecagon: 'Dodecagon',
+            txtShape_pie: 'Pie',
+            txtShape_chord: 'Chord',
+            txtShape_teardrop: 'Teardrop',
+            txtShape_frame: 'Frame',
+            txtShape_halfFrame: 'Half Frame',
+            txtShape_corner: 'Corner',
+            txtShape_diagStripe: 'Diagonal Stripe',
+            txtShape_plus: 'Plus',
+            txtShape_plaque: 'Sign',
+            txtShape_can: 'Can',
+            txtShape_cube: 'Cube',
+            txtShape_bevel: 'Bevel',
+            txtShape_donut: 'Donut',
+            txtShape_noSmoking: '"No" Symbol',
+            txtShape_blockArc: 'Block Arc',
+            txtShape_foldedCorner: 'Folded Corner',
+            txtShape_smileyFace: 'Smiley Face',
+            txtShape_heart: 'Heart',
+            txtShape_lightningBolt: 'Lightning Bolt',
+            txtShape_sun: 'Sun',
+            txtShape_moon: 'Moon',
+            txtShape_cloud: 'Cloud',
+            txtShape_arc: 'Arc',
+            txtShape_bracePair: 'Double Brace',
+            txtShape_leftBracket: 'Left Bracket',
+            txtShape_rightBracket: 'Right Bracket',
+            txtShape_leftBrace: 'Left Brace',
+            txtShape_rightBrace: 'Right Brace',
+            txtShape_rightArrow: 'Right Arrow',
+            txtShape_leftArrow: 'Left Arrow',
+            txtShape_upArrow: 'Up Arrow',
+            txtShape_downArrow: 'Down Arrow',
+            txtShape_leftRightArrow: 'Left Right Arrow',
+            txtShape_upDownArrow: 'Up Down Arrow',
+            txtShape_quadArrow: 'Quad Arrow',
+            txtShape_leftRightUpArrow: 'Left Right Up Arrow',
+            txtShape_bentArrow: 'Bent Arrow',
+            txtShape_uturnArrow: 'U-Turn Arrow',
+            txtShape_leftUpArrow: 'Left Up Arrow',
+            txtShape_bentUpArrow: 'Bent Up Arrow',
+            txtShape_curvedRightArrow: 'Curved Right Arrow',
+            txtShape_curvedLeftArrow: 'Curved Left Arrow',
+            txtShape_curvedUpArrow: 'Curved Up Arrow',
+            txtShape_curvedDownArrow: 'Curved Down Arrow',
+            txtShape_stripedRightArrow: 'Striped Right Arrow',
+            txtShape_notchedRightArrow: 'Notched Right Arrow',
+            txtShape_homePlate: 'Pentagon',
+            txtShape_chevron: 'Chevron',
+            txtShape_rightArrowCallout: 'Right Arrow Callout',
+            txtShape_downArrowCallout: 'Down Arrow Callout',
+            txtShape_leftArrowCallout: 'Left Arrow Callout',
+            txtShape_upArrowCallout: 'Up Arrow Callout',
+            txtShape_leftRightArrowCallout: 'Left Right Arrow Callout',
+            txtShape_quadArrowCallout: 'Quad Arrow Callout',
+            txtShape_circularArrow: 'Circular Arrow',
+            txtShape_mathPlus: 'Plus',
+            txtShape_mathMinus: 'Minus',
+            txtShape_mathMultiply: 'Multiply',
+            txtShape_mathDivide: 'Division',
+            txtShape_mathEqual: 'Equal',
+            txtShape_mathNotEqual: 'Not Equal',
+            txtShape_flowChartProcess: 'Flowchart: Process',
+            txtShape_flowChartAlternateProcess: 'Flowchart: Alternate Process',
+            txtShape_flowChartDecision: 'Flowchart: Decision',
+            txtShape_flowChartInputOutput: 'Flowchart: Data',
+            txtShape_flowChartPredefinedProcess: 'Flowchart: Predefined Process',
+            txtShape_flowChartInternalStorage: 'Flowchart: Internal Storage',
+            txtShape_flowChartDocument: 'Flowchart: Document',
+            txtShape_flowChartMultidocument: 'Flowchart: Multidocument ',
+            txtShape_flowChartTerminator: 'Flowchart: Terminator',
+            txtShape_flowChartPreparation: 'Flowchart: Preparation',
+            txtShape_flowChartManualInput: 'Flowchart: Manual Input',
+            txtShape_flowChartManualOperation: 'Flowchart: Manual Operation',
+            txtShape_flowChartConnector: 'Flowchart: Connector',
+            txtShape_flowChartOffpageConnector: 'Flowchart: Off-page Connector',
+            txtShape_flowChartPunchedCard: 'Flowchart: Card',
+            txtShape_flowChartPunchedTape: 'Flowchart: Punched Tape',
+            txtShape_flowChartSummingJunction: 'Flowchart: Summing Junction',
+            txtShape_flowChartOr: 'Flowchart: Or',
+            txtShape_flowChartCollate: 'Flowchart: Collate',
+            txtShape_flowChartSort: 'Flowchart: Sort',
+            txtShape_flowChartExtract: 'Flowchart: Extract',
+            txtShape_flowChartMerge: 'Flowchart: Merge',
+            txtShape_flowChartOnlineStorage: 'Flowchart: Stored Data',
+            txtShape_flowChartDelay: 'Flowchart: Delay',
+            txtShape_flowChartMagneticTape: 'Flowchart: Sequential Access Storage',
+            txtShape_flowChartMagneticDisk: 'Flowchart: Magnetic Disk',
+            txtShape_flowChartMagneticDrum: 'Flowchart: Direct Access Storage',
+            txtShape_flowChartDisplay: 'Flowchart: Display',
+            txtShape_irregularSeal1: 'Explosion 1',
+            txtShape_irregularSeal2: 'Explosion 2',
+            txtShape_star4: '4-Point Star',
+            txtShape_star5: '5-Point Star',
+            txtShape_star6: '6-Point Star',
+            txtShape_star7: '7-Point Star',
+            txtShape_star8: '8-Point Star',
+            txtShape_star10: '10-Point Star',
+            txtShape_star12: '12-Point Star',
+            txtShape_star16: '16-Point Star',
+            txtShape_star24: '24-Point Star',
+            txtShape_star32: '32-Point Star',
+            txtShape_ribbon2: 'Up Ribbon',
+            txtShape_ribbon: 'Down Ribbon',
+            txtShape_ellipseRibbon2: 'Curved Up Ribbon',
+            txtShape_ellipseRibbon: 'Curved Down Ribbon',
+            txtShape_verticalScroll: 'Vertical Scroll',
+            txtShape_horizontalScroll: 'Horizontal Scroll',
+            txtShape_wave: 'Wave',
+            txtShape_doubleWave: 'Double Wave',
+            txtShape_wedgeRectCallout: 'Rectangular Callout',
+            txtShape_wedgeRoundRectCallout: 'Rounded Rectangular Callout',
+            txtShape_wedgeEllipseCallout: 'Oval Callout',
+            txtShape_cloudCallout: 'Cloud Callout',
+            txtShape_borderCallout1: 'Line Callout 1',
+            txtShape_borderCallout2: 'Line Callout 2',
+            txtShape_borderCallout3: 'Line Callout 3',
+            txtShape_accentCallout1: 'Line Callout 1 (Accent Bar)',
+            txtShape_accentCallout2: 'Line Callout 2 (Accent Bar)',
+            txtShape_accentCallout3: 'Line Callout 3 (Accent Bar)',
+            txtShape_callout1: 'Line Callout 1 (No Border)',
+            txtShape_callout2: 'Line Callout 2 (No Border)',
+            txtShape_callout3: 'Line Callout 3 (No Border)',
+            txtShape_accentBorderCallout1: 'Line Callout 1 (Border and Accent Bar)',
+            txtShape_accentBorderCallout2: 'Line Callout 2 (Border and Accent Bar)',
+            txtShape_accentBorderCallout3: 'Line Callout 3 (Border and Accent Bar)',
+            txtShape_actionButtonBackPrevious: 'Back or Previous Button',
+            txtShape_actionButtonForwardNext: 'Forward or Next Button',
+            txtShape_actionButtonBeginning: 'Beginning Button',
+            txtShape_actionButtonEnd: 'End Button',
+            txtShape_actionButtonHome: 'Home Button',
+            txtShape_actionButtonInformation: 'Information Button',
+            txtShape_actionButtonReturn: 'Return Button',
+            txtShape_actionButtonMovie: 'Movie Button',
+            txtShape_actionButtonDocument: 'Document Button',
+            txtShape_actionButtonSound: 'Sound Button',
+            txtShape_actionButtonHelp: 'Help Button',
+            txtShape_actionButtonBlank: 'Blank Button',
+            txtShape_roundRect: 'Round Corner Rectangle',
+            txtShape_snip1Rect: 'Snip Single Corner Rectangle',
+            txtShape_snip2SameRect: 'Snip Same Side Corner Rectangle',
+            txtShape_snip2DiagRect: 'Snip Diagonal Corner Rectangle',
+            txtShape_snipRoundRect: 'Snip and Round Single Corner Rectangle',
+            txtShape_round1Rect: 'Round Single Corner Rectangle',
+            txtShape_round2SameRect: 'Round Same Side Corner Rectangle',
+            txtShape_round2DiagRect: 'Round Diagonal Corner Rectangle',
+            txtShape_line: 'Line',
+            txtShape_lineWithArrow: 'Arrow',
+            txtShape_lineWithTwoArrows: 'Double Arrow',
+            txtShape_bentConnector5: 'Elbow Connector',
+            txtShape_bentConnector5WithArrow: 'Elbow Arrow Connector',
+            txtShape_bentConnector5WithTwoArrows: 'Elbow Double-Arrow Connector',
+            txtShape_curvedConnector3: 'Curved Connector',
+            txtShape_curvedConnector3WithArrow: 'Curved Arrow Connector',
+            txtShape_curvedConnector3WithTwoArrows: 'Curved Double-Arrow Connector',
+            txtShape_spline: 'Curve',
+            txtShape_polyline1: 'Scribble',
+            txtShape_polyline2: 'Freeform'
         }
     })(), DE.Controllers.Main || {}))
 });

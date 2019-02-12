@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -31,8 +31,8 @@
  *
 */
 /**
- * User: Julia.Radzhabova
- * Date: 09.02.15
+ *  Created by Julia.Radzhabova on 9/27/18
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  */
 
 define([
@@ -40,23 +40,26 @@ define([
     'common/main/lib/component/LoadMask'
 ], function () { 'use strict';
 
-    DE.Views.MailMergeRecepients = Common.UI.Window.extend(_.extend({
+    Common.Views.SaveAsDlg = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
                 title: this.textTitle,
-                width: 1024,
-                height: 621,
+                width: 420,
+                height: 681,
                 header: true
             }, options);
 
             this.template = [
-                '<div id="id-mail-recepients-placeholder"></div>'
+                '<div id="id-saveas-folder-placeholder"></div>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
 
-            this.fileChoiceUrl = options.fileChoiceUrl || '';
+            this.saveFolderUrl = options.saveFolderUrl || '';
+            this.saveFileUrl = options.saveFileUrl || '';
+            this.defFileName = options.defFileName || '';
+            this.saveFolderUrl = this.saveFolderUrl.replace("{title}", encodeURIComponent(this.defFileName)).replace("{fileuri}", encodeURIComponent(this.saveFileUrl));
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
@@ -66,18 +69,18 @@ define([
 
             var iframe = document.createElement("iframe");
             iframe.width        = '100%';
-            iframe.height       = 585;
+            iframe.height       = 645;
             iframe.align        = "top";
             iframe.frameBorder  = 0;
             iframe.scrolling    = "no";
             iframe.onload       = _.bind(this._onLoad,this);
-            $('#id-mail-recepients-placeholder').append(iframe);
+            $('#id-saveas-folder-placeholder').append(iframe);
 
-            this.loadMask = new Common.UI.LoadMask({owner: $('#id-mail-recepients-placeholder')});
+            this.loadMask = new Common.UI.LoadMask({owner: $('#id-saveas-folder-placeholder')});
             this.loadMask.setTitle(this.textLoading);
             this.loadMask.show();
 
-            iframe.src = this.fileChoiceUrl;
+            iframe.src = this.saveFolderUrl;
 
             var me = this;
             this._eventfunc = function(msg) {
@@ -85,7 +88,7 @@ define([
             };
             this._bindWindowEvents.call(this);
 
-            this.on('close', function(obj){
+             this.on('close', function(obj){
                 me._unbindWindowEvents();
             });
         },
@@ -116,14 +119,14 @@ define([
         },
 
         _onMessage: function(msg) {
-            if (msg && msg.Referer == "onlyoffice" && msg.file !== undefined) {
+            if (msg && msg.Referer == "onlyoffice") {
+                if ( !_.isEmpty(msg.error) ) {
+                    this.trigger('saveaserror', this, msg.error);
+                }
+//                if ( !_.isEmpty(msg.folder) ) {
+//                    this.trigger('saveasfolder', this, msg.folder); // save last folder url
+//                }
                 Common.NotificationCenter.trigger('window:close', this);
-                var me = this;
-                setTimeout(function() {
-                    if ( !_.isEmpty(msg.file) ) {
-                        me.trigger('mailmergerecepients', me, msg.file);
-                    }
-                }, 50);
             }
         },
 
@@ -132,7 +135,8 @@ define([
                 this.loadMask.hide();
         },
 
-        textTitle   : 'Select Data Source',
+        textTitle   : 'Folder for save',
         textLoading : 'Loading'
-    }, DE.Views.MailMergeRecepients || {}));
+    }, Common.Views.SaveAsDlg || {}));
 });
+
