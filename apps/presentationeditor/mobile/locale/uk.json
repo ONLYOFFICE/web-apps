@@ -82,7 +82,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "Версія файлу була змінена. Сторінка буде перезавантажена.",
   "PE.Controllers.Main.errorUserDrop": "На даний момент файл не доступний.",
   "PE.Controllers.Main.errorUsersExceed": "Кількість користувачів перевищено",
-  "PE.Controllers.Main.errorViewerDisconnect": "З'єднання втрачено. Ви все ще можете переглядати документ <br>, але не зможете завантажувати чи роздруковувати, доки не буде відновлено з'єднання.",
+  "PE.Controllers.Main.errorViewerDisconnect": "З'єднання втрачено. Ви все ще можете переглянути документ <br>, але не зможете завантажувати його до відновлення.",
   "PE.Controllers.Main.leavePageText": "У цьому документі є незбережені зміни. Натисніть \"Залишатися на цій сторінці\", щоб дочекатись автоматичного збереження документа. Натисніть \"Покинути цю сторінку\", щоб відхилити всі незбережені зміни.",
   "PE.Controllers.Main.loadFontsTextText": "Завантаження дати...",
   "PE.Controllers.Main.loadFontsTitleText": "Дата завантаження",

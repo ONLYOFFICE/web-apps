@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -206,6 +206,7 @@ define([
 
                     function dragComplete() {
                         if (!_.isUndefined(me.drag)) {
+                            me.drag.tab.removeClass('dragged');
                             me.drag.tab.$el.css('z-index', '');
                             me.bar.dragging = false;
                             var tab = null;
@@ -250,6 +251,8 @@ define([
                     }
 
                     if (!_.isUndefined(bar) && !_.isUndefined(tab) && bar.tabs.length > 1) {
+                        tab.addClass('dragged');
+
                         var index   = bar.tabs.indexOf(tab),
                             _clientX = e.clientX*Common.Utils.zoom();
                         me.bar      = bar;

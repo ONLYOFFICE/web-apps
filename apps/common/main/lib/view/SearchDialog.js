@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -87,10 +87,10 @@
                 '<div class="box">',
                     '<div class="input-row">',
                         '<span class="btn-placeholder" id="search-placeholder-btn-options"></span>',
-                        '<input type="text" id="sd-text-search" class="form-control" maxlength="100" placeholder="'+this.textSearchStart+'">',
+                        '<input type="text" id="sd-text-search" class="form-control" maxlength="255" placeholder="'+this.textSearchStart+'">',
                     '</div>',
                     '<div class="input-row">',
-                        '<input type="text" id="sd-text-replace" class="form-control" maxlength="100" placeholder="'+this.textReplaceDef+'">',
+                        '<input type="text" id="sd-text-replace" class="form-control" maxlength="255" placeholder="'+this.textReplaceDef+'">',
                     '</div>',
                     '<div class="input-row">',
                         '<label class="link" id="search-label-replace" result="replaceshow">'+this.txtBtnReplace+'</label>',
@@ -176,11 +176,13 @@
             return this;
         },
 
-        show: function(mode) {
+        show: function(mode, text) {
             Common.UI.Window.prototype.show.call(this);
 
             !this.mode && !mode && (mode = 'search');
             if (mode && this.mode != mode) this.setMode(mode);
+
+            text && this.setSearchText(text);
 
             if (this.options.markresult && this.miHighlight.checked) {
                 this.fireEvent('search:highlight', [this, true]);
@@ -269,6 +271,10 @@
                     this.setHeight(230);
                 }
             }
+        },
+
+        setSearchText: function(value) {
+            this.txtSearch && this.txtSearch.val(value);
         },
 
         onShowReplace: function(e) {

@@ -2,13 +2,16 @@
     .asc-about-office {
         background-repeat: no-repeat;
         margin-bottom: 5px;
-        content: data-uri('@{common-image-path}/about/logo.png');
 
-        @media
-        only screen and (-webkit-min-device-pixel-ratio: 2),
-        only screen and (min-resolution: 2dppx),
-        only screen and (min-resolution: 192dpi) {
-            content: data-uri('@{common-image-path}/about/logo@2x.png');
+        &:before {
+            content: data-uri('@{common-image-path}/about/logo.png');
+
+            @media
+            only screen and (-webkit-min-device-pixel-ratio: 2),
+            only screen and (min-resolution: 2dppx),
+            only screen and (min-resolution: 192dpi) {
+                content: data-uri('@{common-image-path}/about/logo@2x.png');
+            }
         }
     }
 

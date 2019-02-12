@@ -30,7 +30,7 @@
         <section class="box-panels">
             <section class="panel" data-tab="home">
                 <div class="group">
-                    <div class="elset" style="width:265px;">
+                    <div class="elset" style="width:260px;">
                         <span class="btn-slot" id="slot-field-fontname"></span>
                         <span class="btn-slot" id="slot-field-fontsize"></span>
                         <span class="btn-slot border" id="slot-btn-incfont"></span>
@@ -81,6 +81,7 @@
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-blankpage"></span>
                     <span class="btn-slot text x-huge btn-pagebreak"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
                 </div>

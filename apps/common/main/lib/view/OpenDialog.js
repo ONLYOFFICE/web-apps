@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -74,7 +74,8 @@ define([
                 cls             : 'open-dlg',
                 contentTemplate : '',
                 title           : (options.type == Asc.c_oAscAdvancedOptionsID.DRM) ? t.txtTitleProtected : t.txtTitle.replace('%1', (options.type == Asc.c_oAscAdvancedOptionsID.CSV) ? 'CSV' : 'TXT'),
-                toolcallback    : _.bind(t.onToolClose, t)
+                toolcallback    : _.bind(t.onToolClose, t),
+                closeFile       : false
 
             }, options);
 
@@ -130,8 +131,11 @@ define([
                 '</div>',
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
+                    '<% if (closeFile) { %>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
+                    '<% } %>',
                     '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + ((_options.mode == 1) ? t.closeButtonText : t.cancelButtonText) + '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="margin-left:10px;">' + t.cancelButtonText + '</button>',
                     '<% } %>',
                 '</div>'
             ].join('');
@@ -173,7 +177,7 @@ define([
                             return me.txtIncorrectPwd;
                         }
                     });
-                    this.$window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+
                     this.$window.find('input').on('input', function(){
                         if ($(this).val() !== '') {
                             ($(this).attr('type') !== 'password') && $(this).attr('type', 'password');
@@ -185,11 +189,11 @@ define([
                     this.initCodePages();
                     if (this.preview)
                         this.updatePreview();
-                    this.onPrimary = function() {
-                        me._handleInput('ok');
-                        return false;
-                    };
                 }
+                this.onPrimary = function() {
+                    me._handleInput('ok');
+                    return false;
+                };
             }
         },
 
@@ -204,13 +208,6 @@ define([
                          me.inputPwd.checkValidate();
                  }, 500);
              }
-        },
-
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            } else if (this.closable && event.keyCode == Common.UI.Keys.ESC)
-                this._handleInput('cancel');
         },
 
         onBtnClick: function(event) {

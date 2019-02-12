@@ -53,6 +53,7 @@
   "DE.Controllers.Main.downloadMergeTitle": "Downloading",
   "DE.Controllers.Main.downloadTextText": "Downloading document...",
   "DE.Controllers.Main.downloadTitleText": "Downloading Document",
+  "DE.Controllers.Main.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "DE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. You can't edit anymore.",
   "DE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
@@ -384,5 +385,6 @@
   "DE.Views.Settings.textVersion": "Version",
   "DE.Views.Settings.textWords": "Words",
   "DE.Views.Settings.unknownText": "Unknown",
+  "DE.Views.Settings.textSpellcheck": "Spell Checking",
   "DE.Views.Toolbar.textBack": "Back"
 }

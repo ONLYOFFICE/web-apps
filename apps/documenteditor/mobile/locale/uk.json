@@ -69,7 +69,7 @@
   "DE.Controllers.Main.errorUpdateVersion": "Версія файлу була змінена. Сторінка буде перезавантажена.",
   "DE.Controllers.Main.errorUserDrop": "На даний момент файл не доступний.",
   "DE.Controllers.Main.errorUsersExceed": "Кількість користувачів перевищено",
-  "DE.Controllers.Main.errorViewerDisconnect": "З'єднання втрачено. Ви все ще можете переглянути документ <br> <br>, але не зможете завантажувати його до відновлення.",
+  "DE.Controllers.Main.errorViewerDisconnect": "З'єднання втрачено. Ви все ще можете переглянути документ <br>, але не зможете завантажувати його до відновлення.",
   "DE.Controllers.Main.leavePageText": "У цьому документі є незбережені зміни. Натисніть \"Залишатися на цій сторінці\", щоб дочекатись автоматичного збереження документа. Натисніть \"Покинути цю сторінку\", щоб відхилити всі незбережені зміни.",
   "DE.Controllers.Main.loadFontsTextText": "Завантаження дати...",
   "DE.Controllers.Main.loadFontsTitleText": "Дата завантаження",

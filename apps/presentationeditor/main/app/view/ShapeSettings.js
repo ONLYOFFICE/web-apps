@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -361,8 +361,10 @@ define([
         onTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = newValue;
-            this.api.setEndPointHistory();
-            this._transparencyApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -496,8 +498,10 @@ define([
         onGradientChangeComplete: function(slider, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = true;
-            this.api.setEndPointHistory();
-            this._gradientApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._gradientApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -1290,6 +1294,46 @@ define([
             this.btnChangeShape.render( $('#shape-btn-change')) ;
             this.lockedControls.push(this.btnChangeShape);
 
+            this.btnRotate270 = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'rotate-270',
+                value: 0,
+                hint: this.textHint270
+            });
+            this.btnRotate270.render( $('#shape-button-270', me.$el));
+            this.btnRotate270.on('click', _.bind(this.onBtnRotateClick, this));
+            this.lockedControls.push(this.btnRotate270);
+
+            this.btnRotate90 = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'rotate-90',
+                value: 1,
+                hint: this.textHint90
+            });
+            this.btnRotate90.render( $('#shape-button-90', me.$el));
+            this.btnRotate90.on('click', _.bind(this.onBtnRotateClick, this));
+            this.lockedControls.push(this.btnRotate90);
+
+            this.btnFlipV = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'flip-vert',
+                value: 0,
+                hint: this.textHintFlipV
+            });
+            this.btnFlipV.render( $('#shape-button-flipv', me.$el));
+            this.btnFlipV.on('click', _.bind(this.onBtnFlipClick, this));
+            this.lockedControls.push(this.btnFlipV);
+
+            this.btnFlipH = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'flip-hor',
+                value: 1,
+                hint: this.textHintFlipH
+            });
+            this.btnFlipH.render( $('#shape-button-fliph', me.$el));
+            this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
+            this.lockedControls.push(this.btnFlipH);
+
             this.linkAdvanced = $('#shape-advanced-link');
             $(this.el).on('click', '#shape-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -1544,6 +1588,23 @@ define([
             this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
+        onBtnRotateClick: function(btn) {
+            var properties = new Asc.asc_CShapeProperty();
+            properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            this.api.ShapeApply(properties);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onBtnFlipClick: function(btn) {
+            var properties = new Asc.asc_CShapeProperty();
+            if (btn.options.value==1)
+                properties.asc_putFlipHInvert(true);
+            else
+                properties.asc_putFlipVInvert(true);
+            this.api.ShapeApply(properties);
+            this.fireEvent('editcomplete', this);
+        },
+
         _pt2mm: function(value) {
             return (value * 25.4 / 72.0);
         },
@@ -1643,6 +1704,13 @@ define([
         textStyle: 'Style',
         textGradient: 'Gradient',
         textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
-        strType: 'Type'
+        strType: 'Type',
+        textRotation: 'Rotation',
+        textRotate90: 'Rotate 90°',
+        textFlip: 'Flip',
+        textHint270: 'Rotate Left 90°',
+        textHint90: 'Rotate Right 90°',
+        textHintFlipV: 'Flip Vertical',
+        textHintFlipH: 'Flip Horizontal'
     }, PE.Views.ShapeSettings || {}));
 });

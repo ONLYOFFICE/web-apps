@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -40,7 +40,8 @@
 
 define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner'
+    'common/main/lib/component/MetricSpinner',
+    'common/main/lib/component/CheckBox'
 ], function (contentTemplate) {
     'use strict';
 
@@ -59,6 +60,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 title: this.textTitle,
                 items: [
                     {panelId: 'id-adv-image-size',       panelCaption: this.textPlacement},
+                    {panelId: 'id-adv-image-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
@@ -171,6 +173,27 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             });
             this.spinners.push(this.spnY);
 
+            // Rotation
+            this.spnAngle = new Common.UI.MetricSpinner({
+                el: $('#image-advanced-spin-angle'),
+                step: 1,
+                width: 80,
+                defaultUnit : "°",
+                value: '0 °',
+                maxValue: 3600,
+                minValue: -3600
+            });
+
+            this.chFlipHor = new Common.UI.CheckBox({
+                el: $('#image-advanced-checkbox-hor'),
+                labelText: this.textHorizontally
+            });
+
+            this.chFlipVert = new Common.UI.CheckBox({
+                el: $('#image-advanced-checkbox-vert'),
+                labelText: this.textVertically
+            });
+
             // Alt Text
 
             this.inputAltTitle = new Common.UI.InputField({
@@ -225,6 +248,11 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                     this.spnY.setValue('', true);
                 }
 
+                value = props.asc_getRot();
+                this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
+                this.chFlipHor.setValue(props.asc_getFlipH());
+                this.chFlipVert.setValue(props.asc_getFlipV());
+
                 value = props.asc_getTitle();
                 this.inputAltTitle.setValue(value ? value : '');
 
@@ -253,6 +281,10 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
             if (this.isAltDescChanged)
                 properties.asc_putDescription(this.textareaAltDescription.val());
+
+            properties.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
+            properties.asc_putFlipH(this.chFlipHor.getValue()=='checked');
+            properties.asc_putFlipV(this.chFlipVert.getValue()=='checked');
 
             return { imageProps: properties };
         },
@@ -289,7 +321,12 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',
-        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
+        textRotation: 'Rotation',
+        textAngle: 'Angle',
+        textFlipped: 'Flipped',
+        textHorizontally: 'Horizontally',
+        textVertically: 'Vertically'
 
     }, PE.Views.ImageSettingsAdvanced || {}));
 });

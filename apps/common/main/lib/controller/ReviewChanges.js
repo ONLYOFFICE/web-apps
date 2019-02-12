@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -115,7 +115,7 @@ define([
             if (api) {
                 this.api = api;
 
-                if (this.appConfig.canReview) {
+                if (this.appConfig.canReview || this.appConfig.canViewReview) {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
                 }
@@ -135,6 +135,19 @@ define([
             if (this.dlgChanges)
                 this.dlgChanges.close();
             this.view && this.view.SetDisabled(state, this.langs);
+            this.setPreviewMode(state);
+        },
+
+        setPreviewMode: function(mode) { //disable accept/reject in popover
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+            if (mode)
+                this.prevcanReview = this.appConfig.canReview;
+            this.appConfig.canReview = (mode) ? false : this.prevcanReview;
+            var me = this;
+            this.popoverChanges && this.popoverChanges.each(function (model) {
+                model.set('hint', !me.appConfig.canReview);
+            });
         },
 
         onApiShowChange: function (sdkchange) {
@@ -157,7 +170,7 @@ define([
 
                     this.getPopover().showReview(animate, lock, lockUser);
 
-                    if (!this.appConfig.isReviewOnly && this._state.lock !== lock) {
+                    if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== lock) {
                         this.view.btnAccept.setDisabled(lock==true);
                         this.view.btnReject.setDisabled(lock==true);
                         if (this.dlgChanges) {
@@ -207,7 +220,7 @@ define([
         },
 
         getPopover: function () {
-            if (this.appConfig.canReview && _.isUndefined(this.popover)) {
+            if ((this.appConfig.canReview || this.appConfig.canViewReview) && _.isUndefined(this.popover)) {
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     reviewStore : this.popoverChanges,
                     renderTo : this.sdkViewName
@@ -408,7 +421,8 @@ define([
                         lockuser    : item.get_LockUserId(),
                         type        : item.get_Type(),
                         changedata  : item,
-                        scope       : me.view
+                        scope       : me.view,
+                        hint        : !me.appConfig.canReview
                     });
 
                 arr.push(change);
@@ -513,17 +527,22 @@ define([
         },
 
         onReviewViewClick: function(menu, item, e) {
+            this.turnDisplayMode(item.value);
+            !this.appConfig.canReview && Common.localStorage.setItem(this.view.appPrefix + "review-mode", item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        turnDisplayMode: function(mode) {
             if (this.api) {
-                if (item.value === 'final')
+                if (mode === 'final')
                     this.api.asc_BeginViewModeInReview(true);
-                else if (item.value === 'original')
+                else if (mode === 'original')
                     this.api.asc_BeginViewModeInReview(false);
                 else
                     this.api.asc_EndViewModeInReview();
             }
-            this.disableEditing(item.value !== 'markup');
-            this._state.previewMode = (item.value !== 'markup');
-            Common.NotificationCenter.trigger('edit:complete', this.view);
+            this.disableEditing(mode == 'final' || mode == 'original');
+            this._state.previewMode = (mode == 'final' || mode == 'original');
         },
 
         isPreviewChangesMode: function() {
@@ -561,21 +580,22 @@ define([
 
         disableEditing: function(disable) {
             var app = this.getApplication();
-            app.getController('RightMenu').getView('RightMenu').clearSelection();
             app.getController('Toolbar').DisableToolbar(disable, false, true);
-            app.getController('RightMenu').SetDisabled(disable, false);
-            app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
             app.getController('DocumentHolder').getView().SetDisabled(disable);
-            app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
-            app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
 
-            var leftMenu = app.getController('LeftMenu').leftMenu;
-            leftMenu.btnComments.setDisabled(disable);
-            if (disable) leftMenu.close();
+            if (this.appConfig.canReview) {
+                app.getController('RightMenu').getView('RightMenu').clearSelection();
+                app.getController('RightMenu').SetDisabled(disable, false);
+                app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+                app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+            }
+
             var comments = app.getController('Common.Controllers.Comments');
             if (comments)
                 comments.setPreviewMode(disable);
 
+            var leftMenu = app.getController('LeftMenu').leftMenu;
             leftMenu.getMenu('file').miProtect.setDisabled(disable);
 
             if (this.view) {
@@ -626,6 +646,9 @@ define([
                         me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
                     }
                 });
+            } else if (config.canViewReview) {
+                config.canViewReview = me.api.asc_HaveRevisionsChanges(true); // check revisions from all users
+                config.canViewReview && me.turnDisplayMode(Common.localStorage.getItem(me.view.appPrefix + "review-mode") || 'original'); // load display mode only in viewer
             }
 
             if (me.view && me.view.btnChat) {
@@ -658,21 +681,13 @@ define([
         },
 
         onDocLanguage: function() {
-            var langs = _.map(this.langs, function(item){
-                return {
-                    displayValue:   item.title,
-                    value:          item.tip,
-                    code:           item.code
-                }
-            });
-
             var me = this;
             (new Common.Views.LanguageDialog({
-                languages: langs,
+                languages: me.langs,
                 current: me.api.asc_getDefaultLanguage(),
-                handler: function(result, tip) {
+                handler: function(result, value) {
                     if (result=='ok') {
-                        var record = _.findWhere(langs, {'value':tip});
+                        var record = _.findWhere(me.langs, {'value':value});
                         record && me.api.asc_setDefaultLanguage(record.code);
                     }
                 }

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -233,6 +233,21 @@ define([
 
             this.$window.css('left',left);
             this.$window.css('top',top);
+        }
+
+        function _setVisible() {
+            if (window.innerHeight == undefined) {
+                var main_width  = document.documentElement.offsetWidth;
+                var main_height = document.documentElement.offsetHeight;
+            } else {
+                main_width  = Common.Utils.innerWidth();
+                main_height = Common.Utils.innerHeight();
+            }
+
+            if (this.getLeft() + this.getWidth() > main_width)
+                this.$window.css('left', main_width - this.getWidth());
+            if (this.getTop() + this.getHeight() > main_height)
+                this.$window.css('top', main_height - this.getHeight());
         }
 
         function _getTransformation(end) {
@@ -612,9 +627,10 @@ define([
                     this.setResizable(this.initConfig.resizable);
 
                 var me = this;
-                Common.NotificationCenter.on('window:close', function() {
-                    if (me.$window && me.isVisible()) me.close();
-                });
+                this.binding.winclose = function(obj) {
+                    if (me.$window && me.isVisible() && me.$window == obj.$window) me.close();
+                };
+                Common.NotificationCenter.on('window:close', this.binding.winclose);
 
                 this.fireEvent('render:after',this);
                 return this;
@@ -652,6 +668,7 @@ define([
                 } else
                 if (!this.$window.is(':visible')) {
                     this.$window.css({opacity: 0});
+                    _setVisible.call(this);
                     this.$window.show()
                 }
 
@@ -704,6 +721,7 @@ define([
                 if ( this.initConfig.header ) {
                     this.$window.find('.header').off('mousedown', this.binding.dragStart);
                 }
+                Common.NotificationCenter.off({'window:close': this.binding.winclose});
 
                 if (this.initConfig.modal) {
                     var mask = _getMask(),

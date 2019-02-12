@@ -17,17 +17,6 @@
     }
 }
 
-.toolbar-mask {
-    position: absolute;
-    top: 32px;
-    left: 48px;
-    right: 0;
-    bottom: 0;
-    opacity: 0;
-    background-color: @gray-light;
-    /*z-index: @zindex-tooltip + 1;*/
-}
-
 .menu-layouts {
     .dataview.inner {
         & > div:not(.grouped-data):not([class^=ps-scrollbar]) {
@@ -288,6 +277,11 @@
 .toolbar-btn-icon(btn-zoomout,          60, @toolbar-icon-size);
 .toolbar-btn-icon(btn-save-coauth,      69, @toolbar-icon-size);
 //.toolbar-btn-icon(btn-insertequation,   74, @toolbar-icon-size);
+
+.toolbar-btn-icon(rotate-90,      79, @toolbar-icon-size);
+.toolbar-btn-icon(rotate-270,     80, @toolbar-icon-size);
+.toolbar-btn-icon(flip-hor,       81, @toolbar-icon-size);
+.toolbar-btn-icon(flip-vert,      82, @toolbar-icon-size);
 
 // add slide
 //.btn-toolbar .btn-addslide {background-position: 0 -120px;}

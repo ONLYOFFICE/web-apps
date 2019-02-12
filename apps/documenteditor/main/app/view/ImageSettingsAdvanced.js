@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -64,6 +64,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 items: [
                     {panelId: 'id-adv-image-width',      panelCaption: this.textSize},
                     {panelId: 'id-adv-shape-size',       panelCaption: this.textSize},
+                    {panelId: 'id-adv-image-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-image-wrap',       panelCaption: this.textBtnWrap},
                     {panelId: 'id-adv-image-position',   panelCaption: this.textPosition},
                     {panelId: 'id-adv-image-shape',      panelCaption: this.textWeightArrows},
@@ -369,6 +370,27 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbHeightPc.setDisabled(true);
             this.cmbHeightPc.setValue(this._state.ShapeHeightPcFrom);
             this.cmbHeightPc.on('selected', _.bind(this.onCmbHeightPcSelect, this));
+
+            // Rotation
+            this.spnAngle = new Common.UI.MetricSpinner({
+                el: $('#image-advanced-spin-angle'),
+                step: 1,
+                width: 80,
+                defaultUnit : "°",
+                value: '0 °',
+                maxValue: 3600,
+                minValue: -3600
+            });
+
+            this.chFlipHor = new Common.UI.CheckBox({
+                el: $('#image-advanced-checkbox-hor'),
+                labelText: this.textHorizontally
+            });
+
+            this.chFlipVert = new Common.UI.CheckBox({
+                el: $('#image-advanced-checkbox-vert'),
+                labelText: this.textVertically
+            });
 
             // Wrapping
 
@@ -1268,9 +1290,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 this.btnOriginalSize.setVisible(!(shapeprops || chartprops));
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
-                this.btnsCategory[4].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Shapes
-                this.btnsCategory[5].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Margins
-                this.btnsCategory[2].setDisabled(props.get_FromGroup()); // Wrapping
+                this.btnsCategory[5].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Shapes
+                this.btnsCategory[6].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Margins
+                this.btnsCategory[3].setDisabled(props.get_FromGroup()); // Wrapping
+                this.btnsCategory[2].setVisible(!chartprops); // Rotation
 
                 if (shapeprops) {
                     this._objectType = Asc.c_oAscTypeSelectElement.Shape;
@@ -1333,8 +1356,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         this.spnMarginBottom.setValue((null !== val && undefined !== val) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
                     }
 
-                    this.btnsCategory[5].setDisabled(null === margins);   // Margins
-                    this.btnsCategory[4].setDisabled(shapeprops.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+                    this.btnsCategory[6].setDisabled(null === margins);   // Margins
+                    this.btnsCategory[5].setDisabled(shapeprops.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                 } else {
                     value = props.asc_getLockAspect();
@@ -1353,6 +1376,13 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.spnWidth.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
                     value = props.get_Height();
                     this.spnHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
+                }
+
+                if (!chartprops) {
+                    value = props.asc_getRot();
+                    this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
+                    this.chFlipHor.setValue(props.asc_getFlipH());
+                    this.chFlipVert.setValue(props.asc_getFlipV());
                 }
 
                 value = props.asc_getTitle();
@@ -1395,6 +1425,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     val = this._originalProps.get_Value_Y(Asc.c_oAscRelativeFromV.Paragraph);
                     properties.get_PositionV().put_Value(val);
                 }
+            }
+
+            if (this._objectType != Asc.c_oAscTypeSelectElement.Chart) {
+                properties.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
+                properties.asc_putFlipH(this.chFlipHor.getValue()=='checked');
+                properties.asc_putFlipV(this.chFlipVert.getValue()=='checked');
             }
 
             if (this.isAltTitleChanged)
@@ -1515,7 +1551,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnTop.setDisabled(disabledTB);
             this.spnBottom.setDisabled(disabledTB);
 
-            this.btnsCategory[3].setDisabled(btnId == Asc.c_oAscWrapStyle2.Inline);
+            this.btnsCategory[4].setDisabled(btnId == Asc.c_oAscWrapStyle2.Inline);
         },
 
         onHAlignSelect: function(combo, record){
@@ -2033,7 +2069,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textAltTitle: 'Title',
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
-        textWeightArrows: 'Weights & Arrows'
+        textWeightArrows: 'Weights & Arrows',
+        textRotation: 'Rotation',
+        textAngle: 'Angle',
+        textFlipped: 'Flipped',
+        textHorizontally: 'Horizontally',
+        textVertically: 'Vertically'
 
     }, DE.Views.ImageSettingsAdvanced || {}));
 });

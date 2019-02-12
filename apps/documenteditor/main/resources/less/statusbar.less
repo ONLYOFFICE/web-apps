@@ -78,14 +78,6 @@
         color: #000;
         margin-left: 6px;
 
-        .dropdown-toggle > .icon.lang-flag {
-            position: relative;
-            top: 3px;
-            margin-left: 3px;
-            margin-right: 2px;
-            display: inline-block;
-        }
-
         .caret.up {
             background-position: @arrow-up-small-offset-x @arrow-up-small-offset-y;
 
@@ -98,17 +90,9 @@
             cursor: pointer;
         }
 
-        .dropdown-menu {
-            > li .icon {
-                display: inline-block;
-                vertical-align: text-bottom;
-                margin: 1px 5px 0 2px;
-            }
-        }
-
         &.disabled {
             cursor: default;
-            label, .icon.lang-flag {
+            label {
                 cursor: default;
                 opacity: 0.4;
             }
@@ -215,3 +199,4 @@
 .button-normal-icon(btn-ic-zoomtowidth, 55, @toolbar-icon-size);
 .button-normal-icon(btn-ic-zoomtopage,  56, @toolbar-icon-size);
 .button-normal-icon(btn-ic-changes,     30, @toolbar-icon-size);
+.button-normal-icon(spellcheck-lang,    69, @toolbar-icon-size);

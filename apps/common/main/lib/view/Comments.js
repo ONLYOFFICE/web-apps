@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -79,6 +79,7 @@ define([
         addCommentHeight: 45,
         newCommentHeight: 110,
         textBoxAutoSizeLocked: undefined, // disable autosize textbox
+        viewmode: false,
 
         initialize: function (options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -549,6 +550,42 @@ define([
             this.autoHeightTextBox();
         },
 
+        changeLayout: function(mode) {
+            var me = this,
+                add = $('.new-comment-ct', this.el),
+                to = $('.add-link-ct', this.el),
+                msgs = $('.messages-ct', this.el);
+            msgs.toggleClass('stretch', !mode.canComments);
+            if (!mode.canComments) {
+                add.hide(); to.hide();
+                this.layout.changeLayout([{el: msgs[0], rely: false, stretch: true}]);
+            } else {
+                var container = $('#comments-box', this.el),
+                    items = container.find(' > .layout-item');
+                to.show();
+                this.layout.changeLayout([{el: items[0], rely: true,
+                    resize: {
+                        hidden: false,
+                        autohide: false,
+                        fmin: (function () {
+                            var height = container.height();
+                            if (add.css('display') !== 'none') {
+                                if (height * 0.5 < me.newCommentHeight)
+                                    return height - me.newCommentHeight;
+                            }
+                            return height * 0.5;
+                        }),
+                        fmax: (function () {
+                            if (add.css('display') !== 'none')
+                                return container.height() - me.newCommentHeight;
+                            return container.height() - me.addCommentHeight;
+                        })
+                }},
+                {el: items[1], stretch: true},
+                {el: items[2], stretch: true}]);
+            }
+        },
+
         updateLayout: function () {
             var container = $('#comments-box', this.el), add = $('.new-comment-ct', this.el);
             if (add.css('display') !== 'none') {
@@ -561,6 +598,7 @@ define([
         autoHeightTextBox: function () {
             var me = this, domTextBox = null, lineHeight = 0, minHeight = 44;
             var textBox = $('#comment-msg-new', this.el);
+            if (textBox.length<1) return;
 
             function updateTextBoxHeight() {
 

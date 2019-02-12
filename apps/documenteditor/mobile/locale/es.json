@@ -53,6 +53,7 @@
   "DE.Controllers.Main.downloadMergeTitle": "Descargando",
   "DE.Controllers.Main.downloadTextText": "Cargando documento...",
   "DE.Controllers.Main.downloadTitleText": "Cargando documento",
+  "DE.Controllers.Main.errorAccessDeny": "Usted no tiene permisos para realizar la acción que está intentando hacer.<br> Por favor, contacte con su Administrador del Servidor de Documentos.",
   "DE.Controllers.Main.errorBadImageUrl": "URL de imagen es incorrecto",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "La conexión al servidor se ha perdido. Usted ya no puede editar.",
   "DE.Controllers.Main.errorConnectToServer": "No se consiguió guardar el documento. Por favor, verifique los ajustes de conexión o contacte con su administrador.<br>Cuando pulsa el botón 'OK', se le solicitará que descargue el documento.<br><br>Encuentre más información acerca de la conexión de Servidor de Documentos <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">aquí</a>",

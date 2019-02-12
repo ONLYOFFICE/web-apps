@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -614,6 +614,7 @@ define([
                 var coord  = specialPasteShowOptions.asc_getCellCoord(),
                     pasteContainer = me.cmpEl.find('#special-paste-container'),
                     pasteItems = specialPasteShowOptions.asc_getOptions();
+                if (!pasteItems) return;
 
                 // Prepare menu container
                 if (pasteContainer.length < 1) {
@@ -674,7 +675,7 @@ define([
 
             var onDialogAddHyperlink = function() {
                 var win, props, text;
-                if (me.api && me.mode.isEdit && !me._isDisabled){
+                if (me.api && me.mode.isEdit && !me._isDisabled && !DE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
@@ -772,13 +773,15 @@ define([
                 }
                 if (props && props.get_Checked()===false && props.get_Variants() !== null && props.get_Variants() !== undefined) {
                     me.addWordVariants();
-                    if (me.textMenu.isVisible()) {
+                    if (me.textMenu && me.textMenu.isVisible()) {
                         me.textMenu.alignPosition();
                     }
                 }
             };
 
             this.addWordVariants = function(isParagraph) {
+                if (!me.textMenu) return;
+
                 if (_.isUndefined(isParagraph)) {
                     isParagraph = me.textMenu.isVisible();
                 }
@@ -2639,27 +2642,21 @@ define([
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    var self = this;
-
-                    // TODO: scroll to checked item
-//                    self.el.show();
-//                    self.callParent(arguments);
-//                    if (self.floating && self.constrain) {
-//                        var y = self.el.getY();
-//                        self.doConstrain();
-//                        var h = self.getHeight();
-//                        var maxHeight = Ext.Element.getViewportHeight();
-//                        if (y+h > maxHeight)
-//                            y = maxHeight-h;
-//                        self.el.setY(y);
-//                        if (self.currentCheckedItem!== undefined)
-//                            self.currentCheckedItem.getEl().scrollIntoView(self.layout.getRenderTarget());
-//                    }
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -3243,27 +3240,21 @@ define([
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
-//                    var self = this;
-//
-//                    self.el.show();
-//                    self.callParent(arguments);
-//                    if (self.floating && self.constrain) {
-//                        var y = self.el.getY();
-//                        self.doConstrain();
-//                        var h = self.getHeight();
-//                        var maxHeight = Ext.Element.getViewportHeight();
-//                        if (y+h > maxHeight)
-//                            y = maxHeight-h;
-//                        self.el.setY(y);
-//                        if (self.currentCheckedItem!== undefined)
-//                            self.currentCheckedItem.getEl().scrollIntoView(self.layout.getRenderTarget());
-//                    }
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -3623,10 +3614,17 @@ define([
                 me.langTableMenu.menu.removeAll();
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3640,10 +3638,17 @@ define([
                     }));
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3656,9 +3661,6 @@ define([
                         }
                     }));
                 });
-
-                me.langTableMenu.menu.doLayout();
-                me.langParaMenu.menu.doLayout();
             }
         },
 

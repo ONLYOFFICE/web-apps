@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -303,12 +303,17 @@ define([
             },
 
             onDownloadAs: function() {
+                if ( !this.appOptions.canDownload) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+                this._state.isFromGatewayDownloadAs = true;
                 this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 var href = this.appOptions.customization.goback.url;
-                if (this.appOptions.customization.goback.blank!==false) {
+                if (!current && this.appOptions.customization.goback.blank!==false) {
                     window.open(href, "_blank");
                 } else {
                     parent.location.href = href;
@@ -464,8 +469,6 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.Gateway.documentReady();
-
                 if (this._state.openDlg)
                     uiApp.closeModal(this._state.openDlg);
 
@@ -482,7 +485,8 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.zoom ? parseInt(me.appOptions.customization.zoom) : -1);
                 (zf == -1) ? me.api.zoomFitToPage() : ((zf == -2) ? me.api.zoomFitToWidth() : me.api.zoom(zf>0 ? zf : 100));
 
-                me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
+                value = Common.localStorage.getBool("pe-mobile-spellcheck", false);
+                me.api.asc_setSpellCheck(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
@@ -533,6 +537,7 @@ define([
                 me.applyLicense();
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+                Common.Gateway.documentReady();
             },
 
             onLicenseChanged: function(params) {
@@ -799,7 +804,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
+                        config.msg = this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -839,6 +844,10 @@ define([
                         config.msg = this.errorDataEncrypted;
                         break;
 
+                    case Asc.c_oAscError.ID.AccessDeny:
+                        config.msg = this.errorAccessDeny;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -856,7 +865,7 @@ define([
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '</br></br>' + this.criticalErrorExtText;
                         config.callback = function() {
-                            Common.NotificationCenter.trigger('goback');
+                            Common.NotificationCenter.trigger('goback', true);
                         }
                     }
                     if (id == Asc.c_oAscError.ID.DataEncrypted) {
@@ -944,15 +953,6 @@ define([
             },
 
             hidePreloader: function() {
-                // if (!!this.appOptions.customization && !this.appOptions.customization.done) {
-                //     this.appOptions.customization.done = true;
-                //     if (!this.appOptions.isDesktopApp)
-                //         this.appOptions.customization.about = true;
-                //     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
-                //     if (this.appOptions.canBrandingExt)
-                //         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
-                // }
-
                 $('#loading-mask').hide().remove();
             },
 
@@ -1310,7 +1310,7 @@ define([
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
             textContactUs: 'Contact sales',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
@@ -1348,7 +1348,8 @@ define([
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             closeButtonText: 'Close File',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
         }
     })(), PE.Controllers.Main || {}))
 });
