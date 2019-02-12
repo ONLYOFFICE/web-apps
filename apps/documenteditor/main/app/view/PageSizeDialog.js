@@ -103,7 +103,7 @@ define([
                 width: 86,
                 defaultUnit : "cm",
                 value: '10 cm',
-                maxValue: 55.88,
+                maxValue: 118.9,
                 minValue: 0
             });
             this.spinners.push(this.spnWidth);
@@ -118,7 +118,7 @@ define([
                 width: 86,
                 defaultUnit : "cm",
                 value: '20 cm',
-                maxValue: 55.88,
+                maxValue: 118.9,
                 minValue: 0
             });
             this.spinners.push(this.spnHeight);
