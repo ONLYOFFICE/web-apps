@@ -2564,11 +2564,20 @@ define([
                 menu        : (function(){
                     function onItemClick(item) {
                         if (me.api) {
-                            me.api.put_ShapesAlign(item.value);
+                            var value = me.api.asc_getSelectedDrawingObjectsCount()<2 || Common.Utils.InternalSettings.get("pe-align-to-slide");
+                            value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                            if (item.value < 6) {
+                                me.api.put_ShapesAlign(item.value, value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                            } else if (item.value == 6) {
+                                me.api.DistributeHorizontally(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                            } else if (item.value == 7){
+                                me.api.DistributeVertically(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
+                            }
                         }
-
                         me.fireEvent('editcomplete', me);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Align');
                     }
 
                     return new Common.UI.Menu({
@@ -2607,26 +2616,14 @@ define([
                             {caption    : '--'},
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribHor,
-                                iconCls     : 'mnu-distrib-hor'
-                            }).on('click', function(item) {
-                                    if (me.api) {
-                                        me.api.DistributeHorizontally();
-                                    }
-
-                                me.fireEvent('editcomplete', me);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
-                            }),
+                                iconCls     : 'mnu-distrib-hor',
+                                value       : 6
+                            }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribVert,
-                                iconCls     : 'mnu-distrib-vert'
-                            }).on('click', function(item) {
-                                if (me.api) {
-                                    me.api.DistributeVertically();
-                                }
-
-                                me.fireEvent('editcomplete', me);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
-                            })
+                                iconCls     : 'mnu-distrib-vert',
+                                value       : 7
+                            }).on('click', _.bind(onItemClick, me))
                         ]
                     })
                 })()
@@ -3200,6 +3197,12 @@ define([
                     menuAddCommentImg.setDisabled(disabled);
                     /** coauthoring end **/
                     menuImgShapeAlign.setDisabled(disabled);
+                    if (!disabled) {
+                        var objcount = me.api.asc_getSelectedDrawingObjectsCount(),
+                            slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
+                        menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
+                        menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
+                    }
                     menuImageAdvanced.setDisabled(disabled);
                     menuShapeAdvanced.setDisabled(disabled);
                     if (menuChartEdit.isVisible())

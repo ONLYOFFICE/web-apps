@@ -1762,8 +1762,8 @@ define([
             textTabCollaboration: 'Collaboration',
             textTabProtect: 'Protection',
             mniImageFromStorage: 'Image from Storage',
-            txtSlideAlign: 'Align to slide',
-            txtObjectsAlign: 'Align selected objects'
+            txtSlideAlign: 'Align to Slide',
+            txtObjectsAlign: 'Align Selected Objects'
         }
     }()), PE.Views.Toolbar || {}));
 });
