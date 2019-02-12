@@ -2010,19 +2010,18 @@ define([
                 menu        : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new Asc.asc_CImgProperty();
-                            if (!_.isUndefined(item.options.halign)) {
-                                properties.put_PositionH(new Asc.CImagePositionH());
-                                properties.get_PositionH().put_UseAlign(true);
-                                properties.get_PositionH().put_Align(item.options.halign);
-                                properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Margin);
-                            } else {
-                                properties.put_PositionV(new Asc.CImagePositionV());
-                                properties.get_PositionV().put_UseAlign(true);
-                                properties.get_PositionV().put_Align(item.options.valign);
-                                properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Margin);
+                            var alignto = Common.Utils.InternalSettings.get("de-img-align-to"),
+                                value = (alignto==1) ? Asc.c_oAscObjectsAlignType.Page : ((me.api.asc_getSelectedDrawingObjectsCount()<2 && !alignto || alignto==2) ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
+                            if (item.value < 6) {
+                                me.api.put_ShapesAlign(item.value, value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                            } else if (item.value == 6) {
+                                me.api.DistributeHorizontally(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                            } else if (item.value == 7){
+                                me.api.DistributeVertically(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                             }
-                            me.api.ImgApply(properties);
                         }
                         me.fireEvent('editcomplete', me);
                     }
@@ -2059,6 +2058,17 @@ define([
                                 caption : me.textShapeAlignBottom,
                                 iconCls : 'mnu-img-align-bottom',
                                 valign  : Asc.c_oAscAlignV.Bottom
+                            }).on('click', onItemClick),
+                            {caption    : '--'},
+                            new Common.UI.MenuItem({
+                                caption     : me.txtDistribHor,
+                                iconCls     : 'mnu-distrib-hor',
+                                value       : 6
+                            }).on('click', onItemClick),
+                            new Common.UI.MenuItem({
+                                caption     : me.txtDistribVert,
+                                iconCls     : 'mnu-distrib-vert',
+                                value       : 7
                             }).on('click', onItemClick)
                         ]
                     })
@@ -2421,6 +2431,12 @@ define([
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
                     menuImageAlign.setDisabled( islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline) );
+                    if (!(islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline))) {
+                        var objcount = me.api.asc_getSelectedDrawingObjectsCount(),
+                            alignto = Common.Utils.InternalSettings.get("de-img-align-to"); // 1 - page, 2 - margin, 3 - selected
+                        menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
+                        menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
+                    }
                     menuImageArrange.setDisabled( wrapping == Asc.c_oAscWrapStyle2.Inline );
 
                     if (me.api) {
@@ -3889,7 +3905,9 @@ define([
         textSeparateList: 'Separate list',
         textJoinList: 'Join to previous list',
         textNumberingValue: 'Numbering Value',
-        bulletsText: 'Bullets and Numbering'
+        bulletsText: 'Bullets and Numbering',
+        txtDistribHor           : 'Distribute Horizontally',
+        txtDistribVert          : 'Distribute Vertically',
 
     }, DE.Views.DocumentHolder || {}));
 });

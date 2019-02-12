@@ -1240,6 +1240,8 @@
   "DE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
+  "DE.Views.DocumentHolder.txtDistribHor": "Distribute Horizontally",
+  "DE.Views.DocumentHolder.txtDistribVert": "Distribute Vertically",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "Cancel",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "Ok",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
@@ -2144,5 +2146,10 @@
   "DE.Views.Toolbar.txtScheme6": "Concourse",
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
-  "DE.Views.Toolbar.txtScheme9": "Foundry"
+  "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.txtDistribHor": "Distribute Horizontally",
+  "DE.Views.Toolbar.txtDistribVert": "Distribute Vertically",
+  "DE.Views.Toolbar.txtPageAlign": "Align to Page",
+  "DE.Views.Toolbar.txtMarginAlign": "Align to Margin",
+  "DE.Views.Toolbar.txtObjectsAlign": "Align Selected Objects"
 }
