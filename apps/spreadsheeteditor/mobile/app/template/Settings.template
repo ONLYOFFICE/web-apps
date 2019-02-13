@@ -38,6 +38,18 @@
                             </a>
                         </li>
                         <li>
+                            <a id="settings-print" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-print"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textPrint %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
                             <a id="settings-document-info" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">

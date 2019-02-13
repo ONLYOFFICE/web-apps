@@ -201,6 +201,7 @@ define([
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
+                    $('#settings-print').single('click',                        _.bind(me.onPrint, me));
                 }
             },
 
@@ -340,6 +341,15 @@ define([
 
                 _.defer(function () {
                     me.api.asc_DownloadOrigin();
+                });
+                me.hideModal();
+            },
+
+            onPrint: function(e) {
+                var me = this;
+
+                _.defer(function () {
+                    me.api.asc_Print();
                 });
                 me.hideModal();
             },

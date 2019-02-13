@@ -501,5 +501,6 @@
   "SSE.Views.Settings.textTel": "tel",
   "SSE.Views.Settings.textVersion": "Version",
   "SSE.Views.Settings.unknownText": "Unknown",
+  "SSE.Views.Settings.textPrint": "Print",
   "SSE.Views.Toolbar.textBack": "Back"
 }

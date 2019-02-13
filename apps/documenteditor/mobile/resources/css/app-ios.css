@@ -6351,6 +6351,11 @@ i.icon.icon-download {
   height: 28px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2022%2022%22%20y%3D%220px%22%20x%3D%220px%22%20fill%3D%22%23446995%22%3E%3Cpath%20d%3D%22M12%200H11L11%2014L7.39999%2010.3L6.69999%2011.1L11.5%2016L16.3%2011.1L15.6%2010.3L12%2014L12%200Z%22%2F%3E%3Cpath%20d%3D%22M14%205V6H19V20H4V6H9V5H3V21H20V5H14Z%22%2F%3E%3C%2Fsvg%3E");
 }
+i.icon.icon-print {
+  width: 22px;
+  height: 28px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%22-0%200%2022%2022%22%20y%3D%220px%22%20x%3D%220px%22%20fill%3D%22%23446995%22%20%20stroke%3D%22%23446995%22%3E%3Cg%3E%3Cpath%20d%3D%22M5.5%2016.5H1.5V12.5M5.5%2016.5V20.5H16.5V16.5M5.5%2016.5V12.5M16.5%2016.5H20.5V12.5M16.5%2016.5V12.5M5.5%206.5H1.5V12.5M5.5%206.5V1.5H16.5V6.5M5.5%206.5H16.5M16.5%206.5H20.5V12.5M1.5%2012.5H5.5M20.5%2012.5H16.5M5.5%2012.5H16.5M8%2015.5H14M8%2017.5H14%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
 i.icon.icon-spellcheck {
   width: 22px;
   height: 22px;
