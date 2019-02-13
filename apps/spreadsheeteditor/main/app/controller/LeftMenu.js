@@ -577,7 +577,7 @@ define([
             }
 
             if (show) {
-                var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
 
                 if (this.dlgSearch.isVisible()) {
                     this.dlgSearch.setMode(mode);
@@ -631,6 +631,13 @@ define([
                     });
                 }
             }
+        },
+
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+
+            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
         },
 
         onApiServerDisconnect: function(enableDownload) {

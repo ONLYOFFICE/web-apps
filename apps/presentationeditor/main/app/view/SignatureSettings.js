@@ -345,6 +345,7 @@ define([
 
                 // var leftMenu = PE.getController('LeftMenu').leftMenu;
                 // leftMenu.btnComments.setDisabled(disable);
+                PE.getController('LeftMenu').setPreviewMode(disable);
                 var comments = PE.getController('Common.Controllers.Comments');
                 if (comments)
                     comments.setPreviewMode(disable);

@@ -532,7 +532,7 @@ define([
             }
 
             if (show) {
-                var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
                 if (this.dlgSearch.isVisible()) {
                     this.dlgSearch.setMode(mode);
                     this.dlgSearch.setSearchText(this.api.asc_GetSelectedText());
@@ -583,6 +583,13 @@ define([
             }
         },
 
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+
+            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
+        },
+
         SetDisabled: function(disable, disableFileMenu) {
             this.mode.isEdit = !disable;
             if (disable) this.leftMenu.close();
@@ -592,6 +599,7 @@ define([
             var comments = this.getApplication().getController('Common.Controllers.Comments');
             if (comments)
                 comments.setPreviewMode(disable);
+            this.setPreviewMode(disable);
             this.leftMenu.btnChat.setDisabled(disable);
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(disable);
