@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -71,13 +71,8 @@ define([
 
         function _clickLanguage(menu, item, state) {
             var $parent = menu.$el.parent();
-
             $parent.find('#status-label-lang').text(item.caption);
-            $parent.find('.dropdown-toggle > .icon.lang-flag')
-                .removeClass(this.langMenu.prevTip)
-                .addClass(item.value.tip);
-
-            this.langMenu.prevTip = item.value.tip;
+            this.langMenu.prevTip = item.value.value;
 
             this.fireEvent('langchanged', [this, item.value.code, item.caption]);
         }
@@ -268,15 +263,26 @@ define([
 
                 var panelLang = $('.cnt-lang',this.el);
                 this.langMenu = new Common.UI.Menu({
+                    cls: 'lang-menu',
                     style: 'margin-top:-5px;',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem">',
-                            '<i class="icon lang-flag <%= iconCls %>"></i>',
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                             '<%= caption %>',
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl'
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 });
 
                 this.btnLanguage = new Common.UI.Button({
@@ -348,16 +354,15 @@ define([
                 this.langMenu.removeAll();
                 _.each(array, function(item) {
                     this.langMenu.addItem({
-                        iconCls     : item['tip'],
-                        caption     : item['title'],
-                        value       : {tip: item['tip'], code: item['code']},
+                        caption     : item['displayValue'],
+                        value       : {value: item['value'], code: item['code']},
                         checkable   : true,
-                        checked     : this.langMenu.saved == item.title,
+                        checked     : this.langMenu.saved == item['displayValue'],
+                        spellcheck   : item['spellcheck'],
                         toggleGroup : 'language'
                     });
                 }, this);
 
-                this.langMenu.doLayout();
                 if (this.langMenu.items.length>0) {
                     this.btnLanguage.setDisabled(false || this._state.no_paragraph);
                     this.btnDocLanguage.setDisabled(!!this.mode.isDisconnected);
@@ -365,22 +370,18 @@ define([
             },
 
             setLanguage: function(info) {
-                if (this.langMenu.prevTip != info.tip && info.code !== undefined) {
+                if (this.langMenu.prevTip != info.value && info.code !== undefined) {
                     var $parent = $(this.langMenu.el.parentNode, this.$el);
-                    $parent.find('.dropdown-toggle > .icon.lang-flag')
-                        .removeClass(this.langMenu.prevTip)
-                        .addClass(info.tip);
+                    $parent.find('#status-label-lang').text(info.displayValue);
 
-                    this.langMenu.prevTip = info.tip;
+                    this.langMenu.prevTip = info.value;
 
-                    $parent.find('#status-label-lang').text(info.title);
-
-                    var index = $parent.find('ul li a:contains("'+info.title+'")').parent().index();
+                    var index = $parent.find('ul li a:contains("'+info.displayValue+'")').parent().index();
                     if (index < 0) {
-                        this.langMenu.saved = info.title;
+                        this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();
                     } else
-                        this.langMenu.items[index-1].setChecked(true);
+                        this.langMenu.items[index].setChecked(true);
                 }
             },
 

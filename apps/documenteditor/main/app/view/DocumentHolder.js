@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -2010,19 +2010,18 @@ define([
                 menu        : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new Asc.asc_CImgProperty();
-                            if (!_.isUndefined(item.options.halign)) {
-                                properties.put_PositionH(new Asc.CImagePositionH());
-                                properties.get_PositionH().put_UseAlign(true);
-                                properties.get_PositionH().put_Align(item.options.halign);
-                                properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Margin);
-                            } else {
-                                properties.put_PositionV(new Asc.CImagePositionV());
-                                properties.get_PositionV().put_UseAlign(true);
-                                properties.get_PositionV().put_Align(item.options.valign);
-                                properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Margin);
+                            var alignto = Common.Utils.InternalSettings.get("de-img-align-to"),
+                                value = (alignto==1) ? Asc.c_oAscObjectsAlignType.Page : ((me.api.asc_getSelectedDrawingObjectsCount()<2 && !alignto || alignto==2) ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
+                            if (item.value < 6) {
+                                me.api.put_ShapesAlign(item.value, value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                            } else if (item.value == 6) {
+                                me.api.DistributeHorizontally(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                            } else if (item.value == 7){
+                                me.api.DistributeVertically(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                             }
-                            me.api.ImgApply(properties);
                         }
                         me.fireEvent('editcomplete', me);
                     }
@@ -2059,6 +2058,17 @@ define([
                                 caption : me.textShapeAlignBottom,
                                 iconCls : 'mnu-img-align-bottom',
                                 valign  : Asc.c_oAscAlignV.Bottom
+                            }).on('click', onItemClick),
+                            {caption    : '--'},
+                            new Common.UI.MenuItem({
+                                caption     : me.txtDistribHor,
+                                iconCls     : 'mnu-distrib-hor',
+                                value       : 6
+                            }).on('click', onItemClick),
+                            new Common.UI.MenuItem({
+                                caption     : me.txtDistribVert,
+                                iconCls     : 'mnu-distrib-vert',
+                                value       : 7
                             }).on('click', onItemClick)
                         ]
                     })
@@ -2421,6 +2431,12 @@ define([
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
                     menuImageAlign.setDisabled( islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline) );
+                    if (!(islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline))) {
+                        var objcount = me.api.asc_getSelectedDrawingObjectsCount(),
+                            alignto = Common.Utils.InternalSettings.get("de-img-align-to"); // 1 - page, 2 - margin, 3 - selected
+                        menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
+                        menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
+                    }
                     menuImageArrange.setDisabled( wrapping == Asc.c_oAscWrapStyle2.Inline );
 
                     if (me.api) {
@@ -2642,27 +2658,21 @@ define([
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    var self = this;
-
-                    // TODO: scroll to checked item
-//                    self.el.show();
-//                    self.callParent(arguments);
-//                    if (self.floating && self.constrain) {
-//                        var y = self.el.getY();
-//                        self.doConstrain();
-//                        var h = self.getHeight();
-//                        var maxHeight = Ext.Element.getViewportHeight();
-//                        if (y+h > maxHeight)
-//                            y = maxHeight-h;
-//                        self.el.setY(y);
-//                        if (self.currentCheckedItem!== undefined)
-//                            self.currentCheckedItem.getEl().scrollIntoView(self.layout.getRenderTarget());
-//                    }
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -3246,27 +3256,21 @@ define([
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
-//                    var self = this;
-//
-//                    self.el.show();
-//                    self.callParent(arguments);
-//                    if (self.floating && self.constrain) {
-//                        var y = self.el.getY();
-//                        self.doConstrain();
-//                        var h = self.getHeight();
-//                        var maxHeight = Ext.Element.getViewportHeight();
-//                        if (y+h > maxHeight)
-//                            y = maxHeight-h;
-//                        self.el.setY(y);
-//                        if (self.currentCheckedItem!== undefined)
-//                            self.currentCheckedItem.getEl().scrollIntoView(self.layout.getRenderTarget());
-//                    }
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -3626,10 +3630,17 @@ define([
                 me.langTableMenu.menu.removeAll();
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3643,10 +3654,17 @@ define([
                     }));
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3659,9 +3677,6 @@ define([
                         }
                     }));
                 });
-
-                me.langTableMenu.menu.doLayout();
-                me.langParaMenu.menu.doLayout();
             }
         },
 
@@ -3890,7 +3905,9 @@ define([
         textSeparateList: 'Separate list',
         textJoinList: 'Join to previous list',
         textNumberingValue: 'Numbering Value',
-        bulletsText: 'Bullets and Numbering'
+        bulletsText: 'Bullets and Numbering',
+        txtDistribHor           : 'Distribute Horizontally',
+        txtDistribVert          : 'Distribute Vertically',
 
     }, DE.Views.DocumentHolder || {}));
 });

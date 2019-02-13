@@ -1,4 +1,4 @@
-<section class="toolbar">
+<section class="toolbar toolbar-view">
     <section class="box-tabs">
         <div class="extra left"></div>
         <%= tabsmarkup %>
