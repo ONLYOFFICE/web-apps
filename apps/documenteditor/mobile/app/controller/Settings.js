@@ -79,7 +79,10 @@ define([
                 { caption: 'A2',                    subtitle: Common.Utils.String.format('42{0} x 59,4{0}', txtCm),      value: [420, 594] },
                 { caption: 'A6',                    subtitle: Common.Utils.String.format('10,5{0} x 14,8{0}', txtCm),    value: [105, 148] }
             ],
-            _licInfo;
+            _licInfo,
+            _canReview = false,
+            _isReviewOnly = false,
+            _fileKey;
 
         return {
             models: [],
@@ -120,6 +123,9 @@ define([
                 this.getView('Settings').setMode(mode);
                 if (mode.canBranding)
                     _licInfo = mode.customization;
+                _canReview = mode.canReview;
+                _isReviewOnly = mode.isReviewOnly;
+                _fileKey = mode.fileKey;
             },
 
             initEvents: function () {
@@ -196,9 +202,11 @@ define([
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
+                    $('#settings-review input:checkbox').attr('checked', _isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
+                    $('#settings-review input:checkbox').single('change',       _.bind(me.onTrackChanges, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
@@ -304,6 +312,17 @@ define([
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("de-mobile-spellcheck", state ? 1 : 0);
                 this.api && this.api.asc_setSpellCheck(state);
+            },
+
+            onTrackChanges: function(e) {
+                var $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                if ( _isReviewOnly ) {
+                    $checkbox.attr('checked', true);
+                } else if ( _canReview ) {
+                    this.api.asc_SetTrackRevisions(state);
+                    Common.localStorage.setItem("de-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
+                }
             },
 
             onShowHelp: function () {
