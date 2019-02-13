@@ -1483,7 +1483,7 @@ define([
             this.setMode(this.mode);
             this.updateComments(true);
             if (this.getPopover())
-                this.getPopover().update(true);
+                mode ? this.getPopover().hide() : this.getPopover().update(true);
         },
 
         clearCollections: function() {
