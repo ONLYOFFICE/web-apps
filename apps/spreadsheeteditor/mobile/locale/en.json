@@ -115,6 +115,7 @@
   "SSE.Controllers.Main.errorAutoFilterDataRange": "The operation could not be done for the selected range of cells.<br>Select a uniform data range different from the existing one and try again.",
   "SSE.Controllers.Main.errorAutoFilterHiddenRange": "The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.",
   "SSE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
+  "SSE.Controllers.Main.errorChangeArray": "You cannot change part of an array.",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
   "SSE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again.",
