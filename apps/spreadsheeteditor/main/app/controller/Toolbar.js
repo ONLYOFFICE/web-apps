@@ -1951,6 +1951,10 @@ define([
             toolbar.btnImgGroup.menu.items[1].setDisabled(!canungroup);
             toolbar.lockToolbar(SSE.enumLock.cantGroup, !cangroup, { array: [toolbar.btnImgAlign]});
 
+            var objcount = this.api.asc_getSelectedDrawingObjectsCount();
+            toolbar.btnImgAlign.menu.items[7].setDisabled(objcount<3);
+            toolbar.btnImgAlign.menu.items[8].setDisabled(objcount<3);
+
             if (editOptionsDisabled) return;
 
             /* read font params */
@@ -3270,10 +3274,19 @@ define([
         },
 
         onImgAlignSelect: function(menu, item) {
-            if (this.api)
-                this.api.asc_setSelectedDrawingObjectAlign(item.value);
+            if (this.api) {
+                if (item.value>-1 && item.value < 6) {
+                    this.api.asc_setSelectedDrawingObjectAlign(item.value);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Objects Align');
+                } else if (item.value == 6) {
+                    this.api.asc_DistributeSelectedDrawingObjectHor();
+                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                } else if (item.value == 7){
+                    this.api.asc_DistributeSelectedDrawingObjectVer();
+                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                }
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Objects Align');
         },
 
         onPrintAreaClick: function(menu, item) {

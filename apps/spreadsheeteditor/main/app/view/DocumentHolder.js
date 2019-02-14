@@ -958,7 +958,9 @@ define([
         textShapeAlignCenter    : 'Align Center',
         textShapeAlignTop       : 'Align Top',
         textShapeAlignBottom    : 'Align Bottom',
-        textShapeAlignMiddle    : 'Align Middle'
+        textShapeAlignMiddle    : 'Align Middle',
+        txtDistribHor: 'Distribute Horizontally',
+        txtDistribVert: 'Distribute Vertically'
 
     }, SSE.Views.DocumentHolder || {}));
 });

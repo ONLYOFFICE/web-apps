@@ -366,6 +366,8 @@
   "SSE.Controllers.DocumentHolder.txtUnderbar": "Bar under text",
   "SSE.Controllers.DocumentHolder.txtUndoExpansion": "Undo table autoexpansion",
   "SSE.Controllers.DocumentHolder.txtWidth": "Width",
+  "SSE.Controllers.DocumentHolder.txtDistribHor": "Distribute Horizontally",
+  "SSE.Controllers.DocumentHolder.txtDistribVert": "Distribute Vertically",
   "SSE.Controllers.LeftMenu.newDocumentTitle": "Unnamed spreadsheet",
   "SSE.Controllers.LeftMenu.textByColumns": "By columns",
   "SSE.Controllers.LeftMenu.textByRows": "By rows",
