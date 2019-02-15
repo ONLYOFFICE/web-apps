@@ -2210,7 +2210,7 @@ define([
                     value: 6
                 },
                 {
-                    caption: _holder_view.txtDistribHor,
+                    caption: _holder_view.txtDistribVert,
                     iconCls: 'mnu-distrib-vert',
                     value: 7
                 }]
