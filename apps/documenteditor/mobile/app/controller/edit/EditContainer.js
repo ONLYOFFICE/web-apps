@@ -49,7 +49,8 @@ define([
 
     DE.Controllers.EditContainer = Backbone.Controller.extend(_.extend((function() {
         // Private
-        var _settings = [];
+        var _settings = [],
+            _headerType = 1;
 
         return {
             models: [],
@@ -133,6 +134,13 @@ define([
                             caption: me.textTable,
                             id: 'edit-table',
                             layout: DE.getController('EditTable').getView('EditTable').rootLayout()
+                        })
+                    }
+                    if (_.contains(_settings, 'header')) {
+                        editors.push({
+                            caption: _headerType==2 ? me.textFooter : me.textHeader,
+                            id: 'edit-header',
+                            layout: DE.getController('EditHeader').getView('EditHeader').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'shape')) {
@@ -360,6 +368,9 @@ define([
                         }
                     } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
                         _settings.push('hyperlink');
+                    } else if (Asc.c_oAscTypeSelectElement.Header == type) {
+                        _settings.push('header');
+                        _headerType = object.get_ObjectValue().get_Type();
                     }
                 });
 
@@ -378,8 +389,9 @@ define([
             textShape: 'Shape',
             textImage: 'Image',
             textChart: 'Chart',
-            textHyperlink: 'Hyperlink'
-
+            textHyperlink: 'Hyperlink',
+            textHeader: 'Header',
+            textFooter: 'Footer'
         }
     })(), DE.Controllers.EditContainer || {}))
 });
