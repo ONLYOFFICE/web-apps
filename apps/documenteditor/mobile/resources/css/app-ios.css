@@ -6705,6 +6705,9 @@ i.icon.icon-format-html {
   height: 30px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20width%3D%2262px%22%20height%3D%2262px%22%20viewBox%3D%220%200%2062%2062%22%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill%3A%23446995%3B%7D%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%3E%3Cpath%20class%3D%22cls-1%22%20d%3D%22M24.993%2C38.689L11.34%2C32.753v-3.288l13.653-5.91v3.872l-9.523%2C3.641l9.523%2C3.777V38.689z%22%20%2F%3E%3Cpath%20class%3D%22cls-1%22%20d%3D%22M27.09%2C41.298l4.931-20.596h2.867l-4.986%2C20.596H27.09z%22%20%2F%3E%3Cpath%20class%3D%22cls-1%22%20d%3D%22M36.986%2C38.703v-3.845l9.536-3.75L36.986%2C27.4v-3.817l13.666%2C5.91v3.261L36.986%2C38.703z%22%20%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
+.label-switch input[type="checkbox"]:checked + .checkbox {
+  background: #446995;
+}
 #editor_sdk {
   position: absolute;
   left: 0;

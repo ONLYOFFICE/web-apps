@@ -7073,6 +7073,9 @@ html.pixel-ratio-3 .box-tabs ul > li:after {
 .searchbar.document {
   background: #e4e4e6;
 }
+.label-switch input[type="checkbox"]:checked + .checkbox {
+  background: #40865c;
+}
 #add-table .page,
 #add-shape .page {
   background-color: #fff;
