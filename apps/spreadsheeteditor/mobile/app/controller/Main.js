@@ -977,6 +977,10 @@ define([
                         config.msg = this.errorDataEncrypted;
                         break;
 
+                    case Asc.c_oAscError.ID.CannotChangeFormulaArray:
+                        config.msg = this.errorChangeArray;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1535,7 +1539,8 @@ define([
             errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
             errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.',
             closeButtonText: 'Close File',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+            errorChangeArray: 'You cannot change part of an array.'
         }
     })(), SSE.Controllers.Main || {}))
 });

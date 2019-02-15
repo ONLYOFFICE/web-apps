@@ -82,6 +82,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this._noApply = true;
             this._tabListChanged = false;
             this.Margins = undefined;
+            this.FirstLine = undefined;
+            this.LeftIndent = undefined;
             this.spinners = [];
 
             this.tableStylerRows = this.options.tableStylerRows;
@@ -576,6 +578,26 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this._changedProps.get_Tabs().add_Tab(tab);
                 }, this);
             }
+            if (this._changedProps.get_Ind()!==null && this._changedProps.get_Ind()!==undefined) {
+                var left = this._changedProps.get_Ind().get_Left(),
+                    first = this._changedProps.get_Ind().get_FirstLine();
+                if (first<0 || this.FirstLine<0) {
+                    if (first<0 || first===undefined || first===null) {
+                        if (first === undefined || first === null)
+                            first = this.FirstLine;
+                        if (left === undefined || left === null)
+                            left = this.LeftIndent;
+                        if (left !== undefined && left !== null)
+                            this._changedProps.get_Ind().put_Left(left-first);
+                    } else {
+                        if (left === undefined || left === null)
+                            left = this.LeftIndent;
+                        if (left !== undefined && left !== null)
+                            this._changedProps.get_Ind().put_Left(left);
+                    }
+                }
+            }
+
             return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
         },
 
@@ -585,8 +607,12 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this.hideTextOnlySettings(this.isChart);
 
-                this.numFirstLine.setValue((props.get_Ind() !== null && props.get_Ind().get_FirstLine() !== null ) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_FirstLine()) : '', true);
-                this.numIndentsLeft.setValue((props.get_Ind() !== null && props.get_Ind().get_Left() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Left()) : '', true);
+                this.FirstLine = (props.get_Ind() !== null) ? props.get_Ind().get_FirstLine() : null;
+                this.numFirstLine.setValue(this.FirstLine!== null ? Common.Utils.Metric.fnRecalcFromMM(this.FirstLine) : '', true);
+                this.LeftIndent = (props.get_Ind() !== null) ? props.get_Ind().get_Left() : null;
+                if (this.FirstLine<0 && this.LeftIndent !== null)
+                    this.LeftIndent = this.LeftIndent + this.FirstLine;
+                this.numIndentsLeft.setValue(this.LeftIndent!==null ? Common.Utils.Metric.fnRecalcFromMM(this.LeftIndent) : '', true);
                 this.numIndentsRight.setValue((props.get_Ind() !== null && props.get_Ind().get_Right() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Right()) : '', true);
 
                 this.chKeepLines.setValue((props.get_KeepLines() !== null && props.get_KeepLines() !== undefined) ? props.get_KeepLines() : 'indeterminate', true);

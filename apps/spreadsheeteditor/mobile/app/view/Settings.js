@@ -92,6 +92,7 @@ define([
                     , saveas: {
                         xlsx: Asc.c_oAscFileType.XLSX,
                         pdf: Asc.c_oAscFileType.PDF,
+                        pdfa: Asc.c_oAscFileType.PDFA,
                         ods: Asc.c_oAscFileType.ODS,
                         csv: Asc.c_oAscFileType.CSV
                     }
