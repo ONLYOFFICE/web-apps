@@ -402,5 +402,10 @@
   "DE.Views.Settings.textSpellcheck": "Spell Checking",
   "DE.Views.Settings.textPrint": "Print",
   "DE.Views.Settings.textReview": "Track Changes",
+  "DE.Views.Settings.textMargins": "Margins",
+  "DE.Views.Settings.textTop": "Top",
+  "DE.Views.Settings.textLeft": "Left",
+  "DE.Views.Settings.textBottom": "Bottom",
+  "DE.Views.Settings.textRight": "Right",
   "DE.Views.Toolbar.textBack": "Back"
 }

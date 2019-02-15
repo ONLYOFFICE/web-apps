@@ -84,6 +84,14 @@ define([
             _isReviewOnly = false,
             _fileKey;
 
+        var mm2Cm = function(mm) {
+            return parseFloat((mm/10.).toFixed(2));
+        };
+
+        var cm2Mm = function(cm) {
+            return cm * 10.;
+        };
+
         return {
             models: [],
             collections: [],
@@ -92,13 +100,22 @@ define([
             ],
 
             initialize: function () {
+                var me = this;
+
                 Common.SharedSettings.set('readerMode', false);
                 Common.NotificationCenter.on('settingscontainer:show', _.bind(this.initEvents, this));
 
-                this.addListeners({
+                me.maxMarginsW = me.maxMarginsH = 0;
+                me.localSectionProps = new Asc.CDocumentSectionProps();
+                
+                me.addListeners({
                     'Settings': {
-                        'page:show' : this.onPageShow
+                        'page:show' : me.onPageShow
                     }
+                });
+
+                uiApp.onPageAfterBack('settings-document-view', function (page) {
+                    me.applyPageMarginsIfNeed()
                 });
             },
 
@@ -216,7 +233,8 @@ define([
             initPageDocumentSettings: function () {
                 var me = this,
                     $pageOrientation = $('.page[data-page=settings-document-view] input:radio[name=doc-orientation]'),
-                    $pageSize = $('#settings-document-format');
+                    $pageSize = $('#settings-document-format'),
+                    txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm);
 
                 // Init orientation
                 $pageOrientation.val([_isPortrait]);
@@ -225,6 +243,23 @@ define([
                 // Init format
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
                 $pageSize.find('.item-subtitle').text(_pageSizes[_pageSizesIndex]['subtitle']);
+
+                // Init page margins
+                me.localSectionProps = me.api.asc_GetSectionProps();
+
+                if (me.localSectionProps) {
+                    me.maxMarginsH = me.localSectionProps.get_H() - 26;
+                    me.maxMarginsW = me.localSectionProps.get_W() - 127;
+
+                    $('#document-margin-top .item-after label').text(mm2Cm(me.localSectionProps.get_TopMargin()) + ' ' + txtCm);
+                    $('#document-margin-bottom .item-after label').text(mm2Cm(me.localSectionProps.get_BottomMargin()) + ' ' + txtCm);
+                    $('#document-margin-left .item-after label').text(mm2Cm(me.localSectionProps.get_LeftMargin()) + ' ' + txtCm);
+                    $('#document-margin-right .item-after label').text(mm2Cm(me.localSectionProps.get_RightMargin()) + ' ' + txtCm);
+                }
+
+                _.each(["top", "left", "bottom", "right"], function(align) {
+                    $(Common.Utils.String.format('#document-margin-{0} .button', align)).single('click', _.bind(me.onPageMarginsChange, me, align));
+                })
             },
 
             initPageInfo: function () {
@@ -276,6 +311,29 @@ define([
                     if ( (value = customer.logo) && value.length ) {
                         $('#settings-about-logo').show().html('<img src="'+value+'" style="max-width:216px; max-height: 35px;" />');
                     }
+                }
+            },
+
+            // Utils
+
+            applyPageMarginsIfNeed: function() {
+                var me = this,
+                    originalMarginsProps = me.api.asc_GetSectionProps(),
+                    originalMarginsChecksum = _.reduce([
+                        originalMarginsProps.get_TopMargin(),
+                        originalMarginsProps.get_LeftMargin(),
+                        originalMarginsProps.get_RightMargin(),
+                        originalMarginsProps.get_BottomMargin()
+                    ], function(memo, num){ return memo + num; }, 0),
+                    localMarginsChecksum = _.reduce([
+                        me.localSectionProps.get_TopMargin(),
+                        me.localSectionProps.get_LeftMargin(),
+                        me.localSectionProps.get_RightMargin(),
+                        me.localSectionProps.get_BottomMargin()
+                    ], function(memo, num){ return memo + num; }, 0);
+
+                if (Math.abs(originalMarginsChecksum - localMarginsChecksum) > 0.01) {
+                    me.api.asc_SetSectionProps(me.localSectionProps);
                 }
             },
 
@@ -390,6 +448,38 @@ define([
                 _.delay(function () {
                     me.api.change_PageOrient(value === 'true');
                 }, 300);
+            },
+
+            onPageMarginsChange: function (align, e) {
+                var me = this,
+                    $button = $(e.currentTarget),
+                    step = 1, // mm
+                    txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
+                    marginValue = null;
+
+                switch (align) {
+                    case 'left': marginValue = me.localSectionProps.get_LeftMargin(); break;
+                    case 'top': marginValue = me.localSectionProps.get_TopMargin(); break;
+                    case 'right': marginValue = me.localSectionProps.get_RightMargin(); break;
+                    case 'bottom': marginValue = me.localSectionProps.get_BottomMargin(); break;
+                }
+
+                if ($button.hasClass('decrement')) {
+                    marginValue = Math.max(0, marginValue - step);
+                } else {
+                    marginValue = Math.min((align == 'left' || align == 'right') ? me.maxMarginsW : me.maxMarginsH, marginValue + step);
+                }
+
+                switch (align) {
+                    case 'left': me.localSectionProps.put_LeftMargin(marginValue); break;
+                    case 'top': me.localSectionProps.put_TopMargin(marginValue); break;
+                    case 'right': me.localSectionProps.put_RightMargin(marginValue); break;
+                    case 'bottom': me.localSectionProps.put_BottomMargin(marginValue); break;
+                }
+
+                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(mm2Cm(marginValue) + ' ' + txtCm);
+
+                me.applyPageMarginsIfNeed()
             },
 
             // API handlers
