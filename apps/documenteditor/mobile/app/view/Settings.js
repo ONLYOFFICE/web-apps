@@ -261,7 +261,12 @@ define([
             textOrientation: 'Orientation',
             textPoweredBy: 'Powered by',
             textSpellcheck: 'Spell Checking',
-            textPrint: 'Print'
+            textPrint: 'Print',
+            textMargins: 'Margins',
+            textTop: 'Top',
+            textLeft: 'Left',
+            textBottom: 'Bottom',
+            textRight: 'Right'
 
     }
     })(), DE.Views.Settings || {}))
