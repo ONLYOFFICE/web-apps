@@ -1010,7 +1010,7 @@ define([
 
         // internal
 
-        updateComments: function (needRender, disableSort) {
+        updateComments: function (needRender, disableSort, loadText) {
             var me = this;
             me.updateCommentsTime = new Date();
             if (me.timerUpdateComments===undefined)
@@ -1018,12 +1018,12 @@ define([
                     if ((new Date()) - me.updateCommentsTime>100) {
                         clearInterval(me.timerUpdateComments);
                         me.timerUpdateComments = undefined;
-                        me.updateCommentsView(needRender, disableSort);
+                        me.updateCommentsView(needRender, disableSort, loadText);
                     }
                }, 25);
         },
 
-        updateCommentsView: function (needRender, disableSort) {
+        updateCommentsView: function (needRender, disableSort, loadText) {
             if (needRender && !this.view.isVisible()) {
                 this.view.needRender = needRender;
                 this.onUpdateFilter(this.filter, true);
@@ -1055,6 +1055,8 @@ define([
             }
 
             this.view.update();
+
+            loadText && this.view.loadText();
         },
         findComment: function (uid) {
             return this.collection.findWhere({uid: uid});
@@ -1156,9 +1158,25 @@ define([
                     reply.set('usercolor', (user) ? user.get('color') : null, {silent: true});
                 });
             });
-            this.updateComments(true);
-            if (this.getPopover().isVisible())
-                this.getPopover().update(true);
+            this.view.saveText();
+            this.updateComments(true, undefined, true);
+            if (this.getPopover().isVisible() && !this.isDummyComment) {
+                var t = this,
+                    popover = this.getPopover(),
+                    text = '';
+                this.popoverComments.each(function (model) {
+                    if (model.get('editTextInPopover')) {
+                        text = popover.getEditText();
+                    } else if (model.get('showReplyInPopover')) {
+                        text = t.popover.getEditText();
+                    }
+                });
+                popover.update(true);
+                if (text.length) {
+                    var textBox = popover.commentsView.getTextBox();
+                    textBox && textBox.val(text);
+                }
+            }
         },
 
         readSDKComment: function (id, data) {
