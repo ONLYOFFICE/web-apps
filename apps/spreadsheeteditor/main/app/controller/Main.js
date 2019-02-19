@@ -1350,6 +1350,10 @@ define([
                         config.msg = this.errorChangeArray;
                         break;
 
+                    case Asc.c_oAscError.ID.MultiCellsInTablesFormulaArray:
+                        config.msg = this.errorMultiCellFormula;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2472,7 +2476,8 @@ define([
             txtShape_spline: 'Curve',
             txtShape_polyline1: 'Scribble',
             txtShape_polyline2: 'Freeform',
-            errorChangeArray: 'You cannot change part of an array.'
+            errorChangeArray: 'You cannot change part of an array.',
+            errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.'
         }
     })(), SSE.Controllers.Main || {}))
 });

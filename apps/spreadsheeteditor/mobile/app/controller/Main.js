@@ -985,6 +985,10 @@ define([
                         config.msg = this.errorEditingDownloadas;
                         break;
 
+                    case Asc.c_oAscError.ID.MultiCellsInTablesFormulaArray:
+                        config.msg = this.errorMultiCellFormula;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1545,7 +1549,8 @@ define([
             closeButtonText: 'Close File',
             scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
             errorChangeArray: 'You cannot change part of an array.',
-            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.'
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
+            errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.'
         }
     })(), SSE.Controllers.Main || {}))
 });
