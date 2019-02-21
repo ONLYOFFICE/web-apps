@@ -402,7 +402,9 @@ define([
                         Asc.c_oAscFileType.PPTX,
                         Asc.c_oAscFileType.ODP,
                         Asc.c_oAscFileType.PDF,
-                        Asc.c_oAscFileType.PDFA
+                        Asc.c_oAscFileType.PDFA,
+                        Asc.c_oAscFileType.POTX,
+                        Asc.c_oAscFileType.OTP
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )

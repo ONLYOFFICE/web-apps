@@ -54,14 +54,15 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT}
         ],[
-//            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
+            {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF},
+            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT}
+        ],[
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
-//            {name: 'EPUB',  imgCls: 'doc-format btn-epub',  type: Asc.c_oAscFileType.EPUB}
         ]],
 
 
@@ -114,14 +115,15 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
-            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'}
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'},
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'}
         ],[
-//            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC, ext: '.doc'},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
+            {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX, ext: '.dotx'},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'},
+            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'}
+        ],[
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'}
-//            {name: 'EPUB',  imgCls: 'doc-format btn-epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'}
         ]],
 
 

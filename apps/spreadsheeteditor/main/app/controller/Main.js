@@ -429,7 +429,9 @@ define([
                         Asc.c_oAscFileType.ODS,
                         Asc.c_oAscFileType.CSV,
                         Asc.c_oAscFileType.PDF,
-                        Asc.c_oAscFileType.PDFA
+                        Asc.c_oAscFileType.PDFA,
+                        Asc.c_oAscFileType.XLTX,
+                        Asc.c_oAscFileType.OTS
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )

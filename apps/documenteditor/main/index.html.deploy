@@ -284,10 +284,12 @@
 
     <inline src="resources/img/header/buttons.svg" />
     <inline src="resources/img/doc-formats/docx.svg" />
+    <inline src="resources/img/doc-formats/dotx.svg" />
     <inline src="resources/img/doc-formats/pdf.svg" />
     <inline src="resources/img/doc-formats/pdfa.svg" />
     <inline src="resources/img/doc-formats/txt.svg" />
     <inline src="resources/img/doc-formats/odt.svg" />
+    <inline src="resources/img/doc-formats/ott.svg" />
     <inline src="resources/img/doc-formats/rtf.svg" />
     <inline src="resources/img/doc-formats/html.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
