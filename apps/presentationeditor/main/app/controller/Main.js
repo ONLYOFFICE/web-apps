@@ -228,6 +228,15 @@ define([
                             event.dataTransfer.dropEffect ="none";
                             return false;
                         }
+                    }).on('dragstart', function(e) {
+                        var event = e.originalEvent;
+                        if (event.target ) {
+                            var target = $(event.target);
+                            if (target.closest('.combobox').length>0 || target.closest('.dropdown-menu').length>0 ||
+                                target.closest('.ribtab').length>0 || target.closest('.combo-dataview').length>0) {
+                                event.preventDefault();
+                            }
+                        }
                     });
 
                     Common.NotificationCenter.on({
