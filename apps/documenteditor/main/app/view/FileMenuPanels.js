@@ -54,13 +54,13 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT}
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
-            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF},
-            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT}
+            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT},
+            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF}
         ],[
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
         ]],
@@ -115,13 +115,13 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'}
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT, ext: '.txt'}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX, ext: '.dotx'},
             {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
-            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'},
-            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'}
+            {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'},
+            {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'}
         ],[
             {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'}
         ]],
