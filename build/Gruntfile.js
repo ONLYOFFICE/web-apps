@@ -184,6 +184,33 @@ module.exports = function(grunt) {
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/,
                         to: packageFile.version
+                    },{
+                        from: /\{\{SUPPORT_EMAIL\}\}/g,
+                        to: 'support@onlyoffice.com'
+                    },{
+                        from: /\{\{SUPPORT_URL\}\}/g,
+                        to: 'https://support.onlyoffice.com'
+                    },{
+                        from: /\{\{SALES_EMAIL\}\}/g,
+                        to: 'sales@onlyoffice.com'
+                    },{
+                        from: /\{\{PUBLISHER_URL\}\}/g,
+                        to: 'https://www.onlyoffice.com'
+                    },{
+                        from: /\{\{PUBLISHER_PHONE\}\}/,
+                        to: '+371 660-16425'
+                    },{
+                        from: /\{\{PUBLISHER_NAME\}\}/g,
+                        to: 'Ascensio System SIA'
+                    },{
+                        from: /\{\{PUBLISHER_ADDRESS\}\}/,
+                        to: '20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'
+                    }, {
+                        from: /\{\{API_URL_EDITING_CALLBACK\}\}/,
+                        to: 'https://api.onlyoffice.com/editors/callback'
+                    }, {
+                        from: /\{\{COMPANY_NAME\}\}/,
+                        to: 'ONLYOFFICE'
                     }]
                 },
                 prepareHelp: {
@@ -260,6 +287,22 @@ module.exports = function(grunt) {
                 }
             }
         });
+
+        var extr = process.env['ASCREPLACE'];
+        if ( !!extr ) {
+            var replace = grunt.config.get('replace');
+            var pairs = extr.split(';');
+            for (var i in pairs) {               
+                var v = pairs[i].split(':');
+
+                replace.writeVersion.replacements.push({
+                    from: v[0],
+                    to: v[1] || ''
+                });
+            }
+
+            grunt.config.set('replace', replace);
+        }
     });
 
     grunt.registerTask('deploy-reporter', function(){

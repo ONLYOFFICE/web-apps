@@ -852,9 +852,9 @@ define([
                             callback: function(btn) {
                                 Common.localStorage.setItem("sse-license-warning", now);
                                 if (btn == 'buynow')
-                                    window.open('https://www.onlyoffice.com', "_blank");
+                                    window.open('{{PUBLISHER_URL}}', "_blank");
                                 else if (btn == 'contact')
-                                    window.open('mailto:sales@onlyoffice.com', "_blank");
+                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
                             }
                         });
                     }

@@ -396,7 +396,7 @@ define([
             },
 
             onShowHelp: function () {
-                window.open('http://support.onlyoffice.com/', "_blank");
+                window.open('{{SUPPORT_URL}}', "_blank");
                 this.hideModal();
             },
 
