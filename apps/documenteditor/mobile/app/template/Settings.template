@@ -489,6 +489,30 @@
                                 </div>
                             </a>
                         </li>
+                        <li>
+                            <a data-format="76" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-dotx"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">DOTX</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="79" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-ott"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">OTT</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

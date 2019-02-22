@@ -94,7 +94,9 @@ define([
                         pdf: Asc.c_oAscFileType.PDF,
                         pdfa: Asc.c_oAscFileType.PDFA,
                         ods: Asc.c_oAscFileType.ODS,
-                        csv: Asc.c_oAscFileType.CSV
+                        csv: Asc.c_oAscFileType.CSV,
+                        xltx: Asc.c_oAscFileType.XLTX,
+                        ots: Asc.c_oAscFileType.OTS
                     }
                 }));
 
