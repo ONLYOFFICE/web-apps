@@ -47,7 +47,7 @@ var ApplicationController = new(function(){
     // Initialize analytics
     // -------------------------
 
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded ONLYOFFICE Spreadsheet');
+//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Spreadsheet Editor');
 
 
     // Check browser

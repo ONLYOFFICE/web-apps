@@ -44,7 +44,7 @@ var ApplicationController = new(function(){
     // Initialize analytics
     // -------------------------
 
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded ONLYOFFICE Document');
+//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Document Editor');
 
 
     // Check browser
