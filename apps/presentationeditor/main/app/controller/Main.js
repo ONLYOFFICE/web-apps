@@ -803,9 +803,9 @@ define([
                             callback: function(btn) {
                                 Common.localStorage.setItem("pe-license-warning", now);
                                 if (btn == 'buynow')
-                                    window.open('https://www.onlyoffice.com', "_blank");
+                                    window.open('{{PUBLISHER_URL}}', "_blank");
                                 else if (btn == 'contact')
-                                    window.open('mailto:sales@onlyoffice.com', "_blank");
+                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
                             }
                         });
                     }
@@ -814,7 +814,7 @@ define([
 
             onPaidFeatureError: function() {
                 var buttons = [], primary,
-                    mail = (this.appOptions.canBranding) ? ((this.editorConfig && this.editorConfig.customization && this.editorConfig.customization.customer) ? this.editorConfig.customization.customer.mail : '') : 'sales@onlyoffice.com';
+                    mail = (this.appOptions.canBranding) ? ((this.editorConfig && this.editorConfig.customization && this.editorConfig.customization.customer) ? this.editorConfig.customization.customer.mail : '') : '{{SALES_EMAIL}}';
                 if (mail.length>0) {
                     buttons.push({value: 'contact', caption: this.textContactUs});
                     primary = 'contact';

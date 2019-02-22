@@ -563,13 +563,13 @@ define([
                                         text: me.textBuyNow,
                                         bold: true,
                                         onClick: function() {
-                                            window.open('https://www.onlyoffice.com', "_blank");
+                                            window.open('{{PUBLISHER_URL}}', "_blank");
                                         }
                                     },
                                     {
                                         text: me.textContactUs,
                                         onClick: function() {
-                                            window.open('mailto:sales@onlyoffice.com', "_blank");
+                                            window.open('mailto:{{SALES_EMAIL}}', "_blank");
                                         }
                                     }];
                     }
