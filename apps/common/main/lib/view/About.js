@@ -57,6 +57,7 @@ define([
             this.txtAscTelNum = '+7 831 422 48 30';
             this.txtAscUrl = 'r7-office.ru';
             this.txtAscName = 'АО "Новые коммуникационные технологии"';
+            this.txtAscAddress = '603152 Россия, г. Нижний Новгород, ул. Ларина, 22 лит.Д';
 
             this.template = _.template([
                 '<table id="id-about-licensor-logo" cols="1" style="width: 100%; margin-top: 20px;">',
@@ -77,7 +78,7 @@ define([
                     '<tr>',
                         '<td colspan="3" align="center" class="padding-small">',
                         '<label class="asc-about-desc-name">' + this.txtAddress + '</label>',
-                        '<label class="asc-about-desc">' + "20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050" + '</label>',
+                        '<label class="asc-about-desc">' + this.txtAscAddress + '</label>',
                         '</td>',
                     '</tr>',
                     '<tr>',
