@@ -181,7 +181,6 @@ define([
                 // Initialize api gateway
                 this.editorConfig = {};
                 this.plugins = undefined;
-                this.UICustomizePlugins = [];
                 Common.Gateway.on('init', _.bind(this.loadConfig, this));
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
@@ -677,9 +676,9 @@ define([
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
-                    me.requestPlugins('../../../../plugins.json');
-                    me.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
-                    me.api.asc_registerCallback('asc_onPluginsReset', _.bind(me.resetPluginsList, me));
+                     if ( (me.appOptions.canPlugins = pluginsController.appOptions.canPlugins) )
+                         pluginsController.runAutoStartPlugins();
+                     leftmenuController.enablePlugins();
                  }
 
                 leftMenuView.disableMenu('all',false);
@@ -944,8 +943,6 @@ define([
 
                 if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge) {
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
-                    if (this.appOptions.canBrandingExt)
-                        this.updatePlugins(this.plugins, true);
                 }
 
                 this.applyModeCommonElements();
@@ -1523,7 +1520,7 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
-                        Common.Utils.applyCustomizationPlugins(this.UICustomizePlugins);
+                        this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
                 }
                 
@@ -1996,143 +1993,6 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
-            },
-
-            requestPlugins: function(pluginsPath) { // request plugins
-                if (!pluginsPath) return;
-
-                var config_plugins = (this.plugins && this.plugins.pluginsData && this.plugins.pluginsData.length>0) ? this.updatePlugins(this.plugins, false) : null, // return plugins object
-                    request_plugins = this.updatePlugins( Common.Utils.getConfigJson(pluginsPath), false );
-
-                this.updatePluginsList({
-                    autostart: (config_plugins&&config_plugins.autostart ? config_plugins.autostart : []).concat(request_plugins&&request_plugins.autostart ? request_plugins.autostart : []),
-                    pluginsData: (config_plugins ? config_plugins.pluginsData : []).concat(request_plugins ? request_plugins.pluginsData : [])
-                }, false);
-            },
-
-            updatePlugins: function(plugins, uiCustomize) { // plugins from config
-                if (!plugins) return;
-
-                var pluginsData = (uiCustomize) ? plugins.UIpluginsData : plugins.pluginsData;
-                if (!pluginsData || pluginsData.length<1) return;
-
-                var arr = [];
-                pluginsData.forEach(function(item){
-                    var value = Common.Utils.getConfigJson(item);
-                    if (value) {
-                        value.baseUrl = item.substring(0, item.lastIndexOf("config.json"));
-                        arr.push(value);
-                    }
-                });
-
-                if (arr.length>0) {
-                    var autostart = plugins.autostart || plugins.autoStartGuid;
-                    if (typeof (autostart) == 'string')
-                        autostart = [autostart];
-                    plugins.autoStartGuid && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-
-                    if (uiCustomize)
-                        this.updatePluginsList({
-                            autostart: autostart,
-                            pluginsData: arr
-                        }, !!uiCustomize);
-                    else return {
-                        autostart: autostart,
-                        pluginsData: arr
-                    };
-                }
-            },
-
-            updatePluginsList: function(plugins, uiCustomize) {
-                var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
-                    isEdit = this.appOptions.isEdit;
-                if (plugins) {
-                    var arr = [], arrUI = [],
-                        lang = this.appOptions.lang.split(/[\-\_]/)[0];
-                    plugins.pluginsData.forEach(function(item){
-                        if (_.find(arr, function(arritem) {
-                                return (arritem.get('baseUrl') == item.baseUrl || arritem.get('guid') == item.guid);
-                            }) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
-                            return;
-
-                        var variationsArr = [],
-                            pluginVisible = false;
-                        item.variations.forEach(function(itemVar){
-                            var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, 'cell') && !itemVar.isSystem;
-                            if ( visible ) pluginVisible = true;
-
-                            if ( item.isUICustomizer ) {
-                                visible && arrUI.push(item.baseUrl + itemVar.url);
-                            } else {
-                                var model = new Common.Models.PluginVariation(itemVar);
-                                var description = itemVar.description;
-                                if (typeof itemVar.descriptionLocale == 'object')
-                                    description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
-
-                                _.each(itemVar.buttons, function(b, index){
-                                    if (typeof b.textLocale == 'object')
-                                        b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
-                                    b.visible = (isEdit || b.isViewer !== false);
-                                });
-
-                                model.set({
-                                    description: description,
-                                    index: variationsArr.length,
-                                    url: itemVar.url,
-                                    icons: itemVar.icons,
-                                    buttons: itemVar.buttons,
-                                    visible: visible
-                                });
-
-                                variationsArr.push(model);
-                            }
-                        });
-                        if (variationsArr.length>0 && !item.isUICustomizer) {
-                            var name = item.name;
-                            if (typeof item.nameLocale == 'object')
-                                name = item.nameLocale[lang] || item.nameLocale['en'] || name || '';
-
-                            arr.push(new Common.Models.Plugin({
-                                name : name,
-                                guid: item.guid,
-                                baseUrl : item.baseUrl,
-                                variations: variationsArr,
-                                currentVariation: 0,
-                                visible: pluginVisible,
-                                groupName: (item.group) ? item.group.name : '',
-                                groupRank: (item.group) ? item.group.rank : 0
-                            }));
-                        }
-                    });
-
-                    if (uiCustomize!==false)  // from ui customizer in editor config or desktop event
-                        this.UICustomizePlugins = arrUI;
-
-                    if ( !uiCustomize && pluginStore) {
-                        arr = pluginStore.models.concat(arr);
-                        arr.sort(function(a, b){
-                            var rank_a = a.get('groupRank'),
-                                rank_b = b.get('groupRank');
-                            if (rank_a < rank_b)
-                                return (rank_a==0) ? 1 : -1;
-                            if (rank_a > rank_b)
-                                return (rank_b==0) ? -1 : 1;
-                            return 0;
-                        });
-                        pluginStore.reset(arr);
-                        this.appOptions.canPlugins = !pluginStore.isEmpty();
-                    }
-                } else if (!uiCustomize){
-                    this.appOptions.canPlugins = false;
-                }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
-                if (this.appOptions.canPlugins) {
-                    this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
-                }
-            },
-
-            resetPluginsList: function() {
-                this.getApplication().getCollection('Common.Collections.Plugins').reset();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
