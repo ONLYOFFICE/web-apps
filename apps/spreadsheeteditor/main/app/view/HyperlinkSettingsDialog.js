@@ -189,7 +189,7 @@ define([
             var me = this;
             _.delay(function(){
                 if (me.focusedInput) me.focusedInput.focus();
-            },500);
+            },50);
         },
 
         setSettings: function(settings) {

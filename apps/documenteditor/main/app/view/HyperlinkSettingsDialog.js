@@ -272,7 +272,7 @@ define([
             var me = this;
             _.delay(function(){
                 me.inputUrl.cmpEl.find('input').focus();
-            },500);
+            },50);
         },
 
         setSettings: function (props) {
