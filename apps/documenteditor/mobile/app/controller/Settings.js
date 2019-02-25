@@ -106,7 +106,7 @@ define([
                 Common.NotificationCenter.on('settingscontainer:show', _.bind(this.initEvents, this));
 
                 me.maxMarginsW = me.maxMarginsH = 0;
-                me.localSectionProps = new Asc.CDocumentSectionProps();
+                me.localSectionProps = null;
                 
                 me.addListeners({
                     'Settings': {
