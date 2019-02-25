@@ -107,10 +107,12 @@ define([
             var me = this;
             me.appOptions.lang = data.config.lang;
             me.appOptions.plugins = data.config.plugins;
-            me.appOptions.editor = DE ? 'word' : PE ? 'slide' : 'cell';
+            me.appOptions.editor = !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
 
-            me.plugins.autostart = me.appOptions.plugins.autostart;
-            me.getAppConfigPlugins(me.appOptions.plugins);
+            if ( me.appOptions.plugins  ) {
+                me.plugins.autostart = me.appOptions.plugins.autostart;
+                me.getAppConfigPlugins(me.appOptions.plugins);
+            }
 
             var server_plugins_url = '../../../../plugins.json';
             Common.Utils.loadConfig(server_plugins_url, function (obj) {
@@ -157,10 +159,6 @@ define([
         },
 
         setMode: function(mode) {
-            console.log('set plugins mode');
-            // if (mode.canPlugins) {
-                // this.refreshPluginsList();
-            // }
             return this;
         },
 
@@ -587,8 +585,8 @@ define([
                     });
             })).then(function(values) {
                 me.plugins.serverpluginsdata = values;
-                console.log('server plugins data received');
-            }).catch(e => {
+                // console.log('server plugins data received');
+            }).catch(function(e) {
                 me.plugins.serverpluginsdata = false;
                 console.log('getServerPlugins error: ' + e.message);
             });
@@ -613,7 +611,7 @@ define([
                             .then(function (text) {c.code = text;});
                     });
                 }
-            }).catch(e => {
+            }).catch(function(e) {
                 console.log('error: ' + e.message);
             });
         },
