@@ -1257,11 +1257,14 @@ define([
             if (this.api) {
                 var me = this, anchor = null, date = new Date(), dialog = this.getPopover();
                 if (dialog) {
-                    if (this.popoverComments.length) {
-                        _.delay(function() {
-                            dialog.commentsView.setFocusToTextBox();
-                        }, 200);
-                        return;
+                    if (this.popoverComments.length) {// can add new comment to text with other comments
+                        if (this.isDummyComment) {//don't hide previous dummy comment
+                            _.delay(function() {
+                                dialog.commentsView.setFocusToTextBox();
+                            }, 200);
+                            return;
+                        } else
+                            this.closeEditing(); // add dummy comment and close editing for existing comment
                     }
 
                     var user = this.userCollection.findOriginalUser(this.currentUserId);
