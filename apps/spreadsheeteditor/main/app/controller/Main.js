@@ -54,8 +54,7 @@ define([
     'spreadsheeteditor/main/app/collection/ShapeGroups',
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/collection/EquationGroups',
-    'spreadsheeteditor/main/app/controller/FormulaDialog',
-    'spreadsheeteditor/main/app/view/FormulaLang'
+    'spreadsheeteditor/main/app/controller/FormulaDialog'
 ], function () {
     'use strict';
 
@@ -317,18 +316,6 @@ define([
                 else {
                     this.api.asc_setLocale((this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409);
                 }
-
-                value = Common.localStorage.getItem("sse-settings-func-locale");
-                if (value===null) {
-                    var lang = ((this.editorConfig.lang) ? this.editorConfig.lang : 'en').split(/[\-\_]/)[0].toLowerCase();
-                    Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
-                    if (lang !== 'en')
-                        value = SSE.Views.FormulaLang.get(lang);
-                } else {
-                    Common.Utils.InternalSettings.set("sse-settings-func-locale", value);
-                    value = SSE.Views.FormulaLang.get(value);
-                }
-                if (value) this.api.asc_setLocalization(value);
 
                 value = Common.localStorage.getBool("sse-settings-r1c1");
                 Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
