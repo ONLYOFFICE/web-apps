@@ -2777,6 +2777,48 @@ define([
                 })
             });
 
+            var onImgRotate = function(item) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+                me.api.ShapeApply(properties);
+                me.fireEvent('editcomplete', me);
+            };
+
+            var onImgFlip = function(item) {
+                var properties = new Asc.asc_CShapeProperty();
+                if (item.value==1)
+                    properties.asc_putFlipHInvert(true);
+                else
+                    properties.asc_putFlipVInvert(true);
+                me.api.ShapeApply(properties);
+                me.fireEvent('editcomplete', me);
+            };
+
+            var menuImgShapeRotate = new Common.UI.MenuItem({
+                caption     : me.textRotate,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            value  : 0
+                        }).on('click', _.bind(onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate90,
+                            value  : 1
+                        }).on('click', _.bind(onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipH,
+                            value  : 1
+                        }).on('click', _.bind(onImgFlip, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipV,
+                            value  : 0
+                        }).on('click', _.bind(onImgFlip, me))
+                    ]
+                })
+            });
+
             /** coauthoring begin **/
             var menuAddCommentPara = new Common.UI.MenuItem({
                 caption     : me.addCommentText
@@ -3178,6 +3220,10 @@ define([
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked),
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null;
 
+                    menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgShapeRotate.isVisible())
+                        menuImgShapeRotate.setDisabled(disabled);
+
                     // image properties
                     menuImgOriginalSize.setVisible(isimage);
                     if (menuImgOriginalSize.isVisible())
@@ -3218,6 +3264,7 @@ define([
                     { caption: '--' },
                     menuImgShapeArrange,
                     menuImgShapeAlign,
+                    menuImgShapeRotate,
                     menuImgShapeSeparator,
                     menuImgOriginalSize,
                     menuImgReplace,
@@ -3479,7 +3526,12 @@ define([
         textDistributeCols: 'Distribute columns',
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
-        textFromFile:   'From File'
+        textFromFile:   'From File',
+        textRotate270: 'Rotate Left 90°',
+        textRotate90: 'Rotate Right 90°',
+        textFlipV: 'Flip Vertically',
+        textFlipH: 'Flip Horizontally',
+        textRotate: 'Rotation'
 
     }, PE.Views.DocumentHolder || {}));
 });
