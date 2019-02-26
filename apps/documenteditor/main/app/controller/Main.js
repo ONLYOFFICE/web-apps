@@ -287,9 +287,9 @@ define([
                     });
                 }
 
-                this.warnNoLicense  = this.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
-                this.warnNoLicenseUsers = this.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
-                this.textNoLicenseTitle = this.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
+                me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -1403,7 +1403,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.Warning:
-                        config.msg = this.errorConnectToServer.replace('%1', '<a href=\"{{API_URL_EDITING_CALLBACK}}\" target=\"_blank\">here</a>');
+                        config.msg = this.errorConnectToServer.replace('%1', '{{API_URL_EDITING_CALLBACK}}');
                         config.closable = false;
                         break;
 
@@ -2281,7 +2281,7 @@ define([
             sendMergeText: 'Sending Merge...',
             txtArt: 'Your text here',
             errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
-                                  'Find more information about connecting Document Server %1',
+                                  'Find more information about connecting Document Server <a href=\"%1\" target=\"_blank\">here</a>',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
             textStrict: 'Strict mode',
             txtErrorLoadHistory: 'Loading history failed',
