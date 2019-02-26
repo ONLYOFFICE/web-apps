@@ -287,22 +287,6 @@ module.exports = function(grunt) {
                 }
             }
         });
-
-        var extr = process.env['ASCREPLACE'];
-        if ( !!extr ) {
-            var replace = grunt.config.get('replace');
-            var pairs = extr.split(';');
-            for (var i in pairs) {               
-                var v = pairs[i].split(':');
-
-                replace.writeVersion.replacements.push({
-                    from: v[0],
-                    to: v[1] || ''
-                });
-            }
-
-            grunt.config.set('replace', replace);
-        }
     });
 
     grunt.registerTask('deploy-reporter', function(){
