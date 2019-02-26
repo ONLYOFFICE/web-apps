@@ -525,8 +525,8 @@ define([
         textFlip: 'Flip',
         textHint270: 'Rotate Left 90°',
         textHint90: 'Rotate Right 90°',
-        textHintFlipV: 'Flip Vertical',
-        textHintFlipH: 'Flip Horizontal'
+        textHintFlipV: 'Flip Vertically',
+        textHintFlipH: 'Flip Horizontally'
 
     }, DE.Views.ImageSettings || {}));
 });
