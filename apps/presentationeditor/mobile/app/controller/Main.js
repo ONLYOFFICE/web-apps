@@ -184,6 +184,10 @@ define([
                 }
 
                 me.initNames();
+                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -721,7 +725,7 @@ define([
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
                     uiApp.addNotification({
-                        title: 'ONLYOFFICE',
+                        title: uiApp.params.modalTitle,
                         message: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]
                     });
 
@@ -833,7 +837,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.Warning:
-                        config.msg = this.errorConnectToServer;
+                        config.msg = this.errorConnectToServer.replace('%1', '{{API_URL_EDITING_CALLBACK}}');
                         break;
 
                     case Asc.c_oAscError.ID.UplImageUrl:
@@ -1192,7 +1196,6 @@ define([
 
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
-            defaultTitleText: 'ONLYOFFICE Presentation Editor',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',
@@ -1305,10 +1308,10 @@ define([
             txtSeries: 'Seria',
             txtArt: 'Your text here',
             errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
-            'Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
+            'Find more information about connecting Document Server <a href=\"%1\" target=\"_blank\">here</a>',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             textBuyNow: 'Visit website',
-            textNoLicenseTitle: 'ONLYOFFICE open source version',
+            textNoLicenseTitle: '%1 open source version',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -1342,8 +1345,8 @@ define([
             txtSlideSubtitle: 'Slide subtitle',
             txtSlideTitle: 'Slide title',
             txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset',
-            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicenseUsers: 'This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',

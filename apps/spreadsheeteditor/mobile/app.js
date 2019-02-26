@@ -164,7 +164,7 @@ require([
     //Store Framework7 initialized instance for easy access
     window.uiApp = new Framework7({
         // Default title for modals
-        modalTitle: 'ONLYOFFICE',
+        modalTitle: '{{MOBILE_MODAL_TITLE}}',
 
         // Enable tap hold events
         tapHold: true,

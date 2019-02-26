@@ -12,6 +12,38 @@ module.exports = function(grunt) {
                     ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
                     ' */\n';
 
+    var replacements = [
+                {
+                    from: /\{\{SUPPORT_EMAIL\}\}/g,
+                    to: 'support@onlyoffice.com'
+                },{
+                    from: /\{\{SUPPORT_URL\}\}/g,
+                    to: 'https://support.onlyoffice.com'
+                },{
+                    from: /\{\{SALES_EMAIL\}\}/g,
+                    to: 'sales@onlyoffice.com'
+                },{
+                    from: /\{\{PUBLISHER_URL\}\}/g,
+                    to: 'https://www.onlyoffice.com'
+                },{
+                    from: /\{\{PUBLISHER_PHONE\}\}/,
+                    to: '+371 660-16425'
+                },{
+                    from: /\{\{PUBLISHER_NAME\}\}/g,
+                    to: 'Ascensio System SIA'
+                },{
+                    from: /\{\{PUBLISHER_ADDRESS\}\}/,
+                    to: '20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'
+                },{
+                    from: /\{\{API_URL_EDITING_CALLBACK\}\}/,
+                    to: 'https://api.onlyoffice.com/editors/callback'
+                },{
+                    from: /\{\{COMPANY_NAME\}\}/g,
+                    to: 'ONLYOFFICE'
+                }, {
+                    from: /\{\{APP_TITLE_TEXT\}\}/g,
+                    to: 'ONLYOFFICE'
+                }];
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -183,33 +215,6 @@ module.exports = function(grunt) {
                     replacements: [{
                         from: /\{\{PRODUCT_VERSION\}\}/,
                         to: packageFile.version
-                    },{
-                        from: /\{\{SUPPORT_EMAIL\}\}/g,
-                        to: 'support@onlyoffice.com'
-                    },{
-                        from: /\{\{SUPPORT_URL\}\}/g,
-                        to: 'https://support.onlyoffice.com'
-                    },{
-                        from: /\{\{SALES_EMAIL\}\}/g,
-                        to: 'sales@onlyoffice.com'
-                    },{
-                        from: /\{\{PUBLISHER_URL\}\}/g,
-                        to: 'https://www.onlyoffice.com'
-                    },{
-                        from: /\{\{PUBLISHER_PHONE\}\}/,
-                        to: '+371 660-16425'
-                    },{
-                        from: /\{\{PUBLISHER_NAME\}\}/g,
-                        to: 'Ascensio System SIA'
-                    },{
-                        from: /\{\{PUBLISHER_ADDRESS\}\}/,
-                        to: '20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'
-                    }, {
-                        from: /\{\{API_URL_EDITING_CALLBACK\}\}/,
-                        to: 'https://api.onlyoffice.com/editors/callback'
-                    }, {
-                        from: /\{\{COMPANY_NAME\}\}/,
-                        to: 'ONLYOFFICE'
                     }]
                 }
             },
@@ -272,6 +277,10 @@ module.exports = function(grunt) {
                 }
             }
         });
+
+        var replace = grunt.config.get('replace');
+        replace.writeVersion.replacements.push(...replacements);
+        grunt.config.set('replace', replace);
     });
 
     grunt.registerTask('deploy-reporter', function(){
@@ -393,6 +402,10 @@ module.exports = function(grunt) {
                 }
             }
         });
+
+        var replace = grunt.config.get('replace');
+        replace.writeVersion.replacements.push(...replacements);
+        grunt.config.set('replace', replace);
     });
 
     grunt.registerTask('embed-app-init', function() {
