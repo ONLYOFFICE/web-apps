@@ -1140,43 +1140,47 @@ define([
             for (var name in this.groupCollection) {
                 hasGroup = true;
                 this.groupCollection[name].each(function (model) {
-                    var user = users.findOriginalUser(model.get('userid'));
-                    model.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                    var user = users.findOriginalUser(model.get('userid')),
+                        color = (user) ? user.get('color') : null,
+                        needrender = false;
+                    if (color !== model.get('usercolor')) {
+                        needrender = true;
+                        model.set('usercolor', color, {silent: true});
+                    }
 
                     model.get('replys').forEach(function (reply) {
                         user = users.findOriginalUser(reply.get('userid'));
-                        reply.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                        color = (user) ? user.get('color') : null;
+                        if (color !== reply.get('usercolor')) {
+                            needrender = true;
+                            reply.set('usercolor', color, {silent: true});
+                        }
                     });
+
+                    if (needrender)
+                        model.trigger('change');
                 });
             }
             !hasGroup && this.collection.each(function (model) {
-                var user = users.findOriginalUser(model.get('userid'));
-                model.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                var user = users.findOriginalUser(model.get('userid')),
+                    color = (user) ? user.get('color') : null,
+                    needrender = false;
+                if (color !== model.get('usercolor')) {
+                    needrender = true;
+                    model.set('usercolor', color, {silent: true});
+                }
 
                 model.get('replys').forEach(function (reply) {
                     user = users.findOriginalUser(reply.get('userid'));
-                    reply.set('usercolor', (user) ? user.get('color') : null, {silent: true});
-                });
-            });
-            this.view.saveText();
-            this.updateComments(true, undefined, true);
-            if (this.getPopover().isVisible() && !this.isDummyComment) {
-                var t = this,
-                    popover = this.getPopover(),
-                    text = '';
-                this.popoverComments.each(function (model) {
-                    if (model.get('editTextInPopover')) {
-                        text = popover.getEditText();
-                    } else if (model.get('showReplyInPopover')) {
-                        text = t.popover.getEditText();
+                    color = (user) ? user.get('color') : null;
+                    if (color !== reply.get('usercolor')) {
+                        needrender = true;
+                        reply.set('usercolor', color, {silent: true});
                     }
                 });
-                popover.update(true);
-                if (text.length) {
-                    var textBox = popover.commentsView.getTextBox();
-                    textBox && textBox.val(text);
-                }
-            }
+                if (needrender)
+                    model.trigger('change');
+            });
         },
 
         readSDKComment: function (id, data) {
