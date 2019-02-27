@@ -182,7 +182,9 @@ define([
                 view.pmiAddComment.on('click',                      _.bind(me.onAddComment, me));
                 /** coauthoring end **/
                 view.pmiAddNamedRange.on('click',                   _.bind(me.onAddNamedRange, me));
-                view.imgMenu.on('item:click',                       _.bind(me.onImgMenu, me));
+                view.menuImageArrange.menu.on('item:click',         _.bind(me.onImgMenu, me));
+                view.menuImgRotate.menu.on('item:click',            _.bind(me.onImgMenu, me));
+                view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectNoneBullet, me));
@@ -637,6 +639,41 @@ define([
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                     Common.component.Analytics.trackEvent('DocumentHolder', (item.value == 'grouping') ? 'Grouping' : 'Ungrouping');
+                } else if (item.options.type == 'rotate') {
+                    var properties = new Asc.asc_CImgProperty();
+                    properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+                    this.api.asc_setGraphicObjectProps(properties);
+
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Rotate');
+                } else if (item.options.type == 'flip') {
+                    var properties = new Asc.asc_CImgProperty();
+                    if (item.value==1)
+                        properties.asc_putFlipHInvert(true);
+                    else
+                        properties.asc_putFlipVInvert(true);
+                    this.api.asc_setGraphicObjectProps(properties);
+
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Flip');
+                }
+            }
+        },
+
+        onImgMenuAlign: function(menu, item) {
+            if (this.api) {
+                if (item.value>-1 && item.value < 6) {
+                    this.api.asc_setSelectedDrawingObjectAlign(item.value);
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Objects Align');
+                } else if (item.value == 6) {
+                    this.api.asc_DistributeSelectedDrawingObjectHor();
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
+                } else if (item.value == 7){
+                    this.api.asc_DistributeSelectedDrawingObjectVer();
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
                 }
             }
         },
@@ -1461,8 +1498,15 @@ define([
                     }
                 }
 
+                var cangroup = this.api.asc_canGroupGraphicsObjects();
                 documentHolder.mnuUnGroupImg.setDisabled(isObjLocked || !this.api.asc_canUnGroupGraphicsObjects());
-                documentHolder.mnuGroupImg.setDisabled(isObjLocked || !this.api.asc_canGroupGraphicsObjects());
+                documentHolder.mnuGroupImg.setDisabled(isObjLocked || !cangroup);
+                documentHolder.menuImageAlign.setDisabled(isObjLocked || !cangroup);
+
+                var objcount = this.api.asc_getSelectedDrawingObjectsCount();
+                documentHolder.menuImageAlign.menu.items[7].setDisabled(objcount<3);
+                documentHolder.menuImageAlign.menu.items[8].setDisabled(objcount<3);
+
                 documentHolder.mnuShapeAdvanced.setVisible(isshapemenu && !isimagemenu && !ischartmenu);
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
                 documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
@@ -1478,10 +1522,10 @@ define([
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
-                documentHolder.mnuBringToFront.setDisabled(isObjLocked);
-                documentHolder.mnuSendToBack.setDisabled(isObjLocked);
-                documentHolder.mnuBringForward.setDisabled(isObjLocked);
-                documentHolder.mnuSendBackward.setDisabled(isObjLocked);
+                documentHolder.menuImageArrange.setDisabled(isObjLocked);
+
+                documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
+                documentHolder.menuImgRotate.setDisabled(isObjLocked);
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
