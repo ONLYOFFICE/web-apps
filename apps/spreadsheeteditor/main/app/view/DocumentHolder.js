@@ -695,14 +695,14 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
-                            caption: me.textRotate270,
-                            type   : 'rotate',
-                            value  : 0
-                        }),
-                        new Common.UI.MenuItem({
                             caption: me.textRotate90,
                             type   : 'rotate',
                             value  : 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            type   : 'rotate',
+                            value  : 0
                         }),
                         new Common.UI.MenuItem({
                             caption: me.textFlipH,
@@ -1046,11 +1046,11 @@ define([
         textShapeAlignMiddle    : 'Align Middle',
         txtDistribHor: 'Distribute Horizontally',
         txtDistribVert: 'Distribute Vertically',
-        textRotate270: 'Rotate Left 90°',
-        textRotate90: 'Rotate Right 90°',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
         textFlipV: 'Flip Vertically',
         textFlipH: 'Flip Horizontally',
-        textRotate: 'Rotation',
+        textRotate: 'Rotate',
         textArrange: 'Arrange',
         textAlign: 'Align'
 

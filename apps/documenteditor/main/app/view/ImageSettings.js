@@ -523,8 +523,8 @@ define([
         textRotation: 'Rotation',
         textRotate90: 'Rotate 90°',
         textFlip: 'Flip',
-        textHint270: 'Rotate Left 90°',
-        textHint90: 'Rotate Right 90°',
+        textHint270: 'Rotate 90° Counterclockwise',
+        textHint90: 'Rotate 90° Clockwise',
         textHintFlipV: 'Flip Vertically',
         textHintFlipH: 'Flip Horizontally'
 

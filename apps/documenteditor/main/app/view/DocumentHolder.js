@@ -2363,12 +2363,12 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
-                            caption: this.textRotate270,
-                            value  : 0
-                        }).on('click', _.bind(me.onImgRotate, me)),
-                        new Common.UI.MenuItem({
                             caption: this.textRotate90,
                             value  : 1
+                        }).on('click', _.bind(me.onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: this.textRotate270,
+                            value  : 0
                         }).on('click', _.bind(me.onImgRotate, me)),
                         new Common.UI.MenuItem({
                             caption: this.textFlipH,
@@ -3955,11 +3955,11 @@ define([
         bulletsText: 'Bullets and Numbering',
         txtDistribHor           : 'Distribute Horizontally',
         txtDistribVert          : 'Distribute Vertically',
-        textRotate270: 'Rotate Left 90°',
-        textRotate90: 'Rotate Right 90°',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
         textFlipV: 'Flip Vertically',
         textFlipH: 'Flip Horizontally',
-        textRotate: 'Rotation'
+        textRotate: 'Rotate'
 
     }, DE.Views.DocumentHolder || {}));
 });

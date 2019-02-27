@@ -2800,12 +2800,12 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
-                            caption: me.textRotate270,
-                            value  : 0
-                        }).on('click', _.bind(onImgRotate, me)),
-                        new Common.UI.MenuItem({
                             caption: me.textRotate90,
                             value  : 1
+                        }).on('click', _.bind(onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            value  : 0
                         }).on('click', _.bind(onImgRotate, me)),
                         new Common.UI.MenuItem({
                             caption: me.textFlipH,
@@ -3527,11 +3527,11 @@ define([
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
         textFromFile:   'From File',
-        textRotate270: 'Rotate Left 90°',
-        textRotate90: 'Rotate Right 90°',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
         textFlipV: 'Flip Vertically',
         textFlipH: 'Flip Horizontally',
-        textRotate: 'Rotation'
+        textRotate: 'Rotate'
 
     }, PE.Views.DocumentHolder || {}));
 });
