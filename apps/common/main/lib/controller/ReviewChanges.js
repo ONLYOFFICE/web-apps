@@ -595,8 +595,9 @@ define([
             if (comments)
                 comments.setPreviewMode(disable);
 
-            var leftMenu = app.getController('LeftMenu').leftMenu;
-            leftMenu.getMenu('file').miProtect.setDisabled(disable);
+            var leftMenu = app.getController('LeftMenu');
+            leftMenu.leftMenu.getMenu('file').miProtect.setDisabled(disable);
+            leftMenu.setPreviewMode(disable);
 
             if (this.view) {
                 this.view.$el.find('.no-group-mask').css('opacity', 1);

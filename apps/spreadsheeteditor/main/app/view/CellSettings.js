@@ -69,7 +69,8 @@ define([
 
             this._state = {
                 BackColor: undefined,
-                DisabledControls: true
+                DisabledControls: true,
+                CellAngle: undefined
             };
             this.lockedControls = [];
             this._locked = true;
@@ -131,6 +132,10 @@ define([
 
         onBorderTypeSelect: function(combo, record) {
             this.BorderType = record.value;
+        },
+
+        onAngleChange: function(field, newValue, oldValue, eOpts) {
+            this.api && this.api.asc_setCellAngle(field.getNumberValue());
         },
 
         render: function () {
@@ -218,6 +223,19 @@ define([
             this.btnBackColor.render( $('#cell-back-color-btn'));
             this.btnBackColor.setColor('transparent');
             this.lockedControls.push(this.btnBackColor);
+
+            this.spnAngle = new Common.UI.MetricSpinner({
+                el: $('#cell-spin-angle'),
+                step: 1,
+                width: 60,
+                defaultUnit : "°",
+                value: '0 °',
+                allowDecimal: false,
+                maxValue: 90,
+                minValue: -90
+            });
+            this.lockedControls.push(this.spnAngle);
+            this.spnAngle.on('change', _.bind(this.onAngleChange, this));
         },
 
         createDelayedElements: function() {
@@ -266,6 +284,12 @@ define([
                         this.colorsBack.select(clr, true);
                     }
                     this._state.BackColor = clr;
+                }
+
+                var value = props.asc_getAngle();
+                if ( Math.abs(this._state.CellAngle-value)>0.1 || (this._state.CellAngle===undefined)&&(this._state.CellAngle!==value)) {
+                    this.spnAngle.setValue((value !== null) ? value : '', true);
+                    this._state.CellAngle=value;
                 }
             }
         },
@@ -341,7 +365,9 @@ define([
         tipInnerHor:        'Set Horizontal Inner Lines Only',
         tipOuter:           'Set Outer Border Only',
         tipDiagU:           'Set Diagonal Up Border',
-        tipDiagD:           'Set Diagonal Down Border'
+        tipDiagD:           'Set Diagonal Down Border',
+        textOrientation:    'Text Orientation',
+        textAngle:          'Angle'
 
     }, SSE.Views.CellSettings || {}));
 });

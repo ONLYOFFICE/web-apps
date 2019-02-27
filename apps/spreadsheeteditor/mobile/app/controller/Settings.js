@@ -149,6 +149,7 @@ define([
                 var me = this;
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
+                $('#settings-print').single('click',                        _.bind(me._onPrint, me));
                 me.initSettings(pageId);
             },
 
@@ -207,6 +208,15 @@ define([
                 }
 
                 this.hideModal();
+            },
+
+            _onPrint: function(e) {
+                var me = this;
+
+                _.defer(function () {
+                    me.api.asc_Print();
+                });
+                me.hideModal();
             },
 
             _onSaveFormat: function(e) {

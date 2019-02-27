@@ -319,6 +319,10 @@ define([
                     this.btnInsertFromFile.setVisible(!value);
                     this.btnEditObject.setVisible(value);
                     this.lblReplace.text(value ? this.textEditObject : this.textInsert);
+                    this.btnRotate270.setDisabled(value);
+                    this.btnRotate90.setDisabled(value);
+                    this.btnFlipV.setDisabled(value);
+                    this.btnFlipH.setDisabled(value);
                     this._state.isOleObject=value;
                 }
 

@@ -392,6 +392,7 @@ define([
 
                 // var leftMenu = DE.getController('LeftMenu').leftMenu;
                 // leftMenu.btnComments.setDisabled(disable);
+                DE.getController('LeftMenu').setPreviewMode(disable);
                 var comments = DE.getController('Common.Controllers.Comments');
                 if (comments)
                     comments.setPreviewMode(disable);

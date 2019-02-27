@@ -1411,32 +1411,77 @@ define([
                     }));
 
                     me.btnImgAlign.updateHint(me.tipImgAlign);
+
+                    me.mniAlignToPage = new Common.UI.MenuItem({
+                        caption: me.txtPageAlign,
+                        checkable: true,
+                        toggleGroup: 'imgalign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("de-img-align-to", 1);
+                    });
+                    me.mniAlignToMargin = new Common.UI.MenuItem({
+                        caption: me.txtMarginAlign,
+                        checkable: true,
+                        toggleGroup: 'imgalign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("de-img-align-to", 2);
+                    });
+                    me.mniAlignObjects = new Common.UI.MenuItem({
+                        caption: me.txtObjectsAlign,
+                        checkable: true,
+                        toggleGroup: 'imgalign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("de-img-align-to", 3);
+                    });
+
+                    me.mniDistribHor = new Common.UI.MenuItem({
+                        caption: me.txtDistribHor,
+                        iconCls: 'mnu-distrib-hor',
+                        value: 6
+                    });
+                    me.mniDistribVert = new Common.UI.MenuItem({
+                        caption: me.txtDistribVert,
+                        iconCls: 'mnu-distrib-vert',
+                        value: 7
+                    });
+
                     me.btnImgAlign.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textShapeAlignLeft,
                                 iconCls : 'mnu-img-align-left',
-                                halign  : Asc.c_oAscAlignH.Left
+                                value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }, {
                                 caption : _holder_view.textShapeAlignCenter,
                                 iconCls : 'mnu-img-align-center',
-                                halign  : Asc.c_oAscAlignH.Center
+                                value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }, {
                                 caption : _holder_view.textShapeAlignRight,
                                 iconCls : 'mnu-img-align-right',
-                                halign  : Asc.c_oAscAlignH.Right
+                                value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }, {
                                 caption : _holder_view.textShapeAlignTop,
                                 iconCls : 'mnu-img-align-top',
-                                valign  : Asc.c_oAscAlignV.Top
+                                value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }, {
                                 caption : _holder_view.textShapeAlignMiddle,
                                 iconCls : 'mnu-img-align-middle',
-                                valign  : Asc.c_oAscAlignV.Center
+                                value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }, {
                                 caption : _holder_view.textShapeAlignBottom,
                                 iconCls : 'mnu-img-align-bottom',
-                                valign  : Asc.c_oAscAlignV.Bottom
-                            }]
+                                value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
+                            },
+                            {caption: '--'},
+                            me.mniDistribHor,
+                            me.mniDistribVert,
+                            {caption: '--'},
+                            me.mniAlignToPage,
+                            me.mniAlignToMargin,
+                            me.mniAlignObjects
+                        ]
                     }));
 
                     me.btnImgGroup.updateHint(me.tipImgGroup);
@@ -2382,7 +2427,12 @@ define([
             textNoHighlight: 'No highlighting',
             mniImageFromStorage: 'Image from Storage',
             capBtnBlankPage: 'Blank Page',
-            tipBlankPage: 'Insert blank page'
+            tipBlankPage: 'Insert blank page',
+            txtDistribHor: 'Distribute Horizontally',
+            txtDistribVert: 'Distribute Vertically',
+            txtPageAlign: 'Align to Page',
+            txtMarginAlign: 'Align to Margin',
+            txtObjectsAlign: 'Align Selected Objects'
         }
     })(), DE.Views.Toolbar || {}));
 });

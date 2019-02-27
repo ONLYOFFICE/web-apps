@@ -236,8 +236,11 @@ define([
                 this.isTextChanged = false;
                 this.inputTip.setValue(props.get_ToolTip());
 
-                if (type==c_oHyperlinkType.WebLink)
-                    me.inputUrl.cmpEl.find('input').focus();
+                if (type==c_oHyperlinkType.WebLink) {
+                    _.delay(function(){
+                        me.inputUrl.cmpEl.find('input').focus();
+                    },50);
+                }
             }
         },
 

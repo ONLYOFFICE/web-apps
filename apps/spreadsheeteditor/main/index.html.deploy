@@ -281,9 +281,11 @@
 
     <inline src="resources/img/header/buttons.svg" />
     <inline src="resources/img/doc-formats/xlsx.svg" />
+    <inline src="resources/img/doc-formats/xltx.svg" />
     <inline src="resources/img/doc-formats/pdf.svg" />
     <inline src="resources/img/doc-formats/pdfa.svg" />
     <inline src="resources/img/doc-formats/ods.svg" />
+    <inline src="resources/img/doc-formats/ots.svg" />
     <inline src="resources/img/doc-formats/csv.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
 

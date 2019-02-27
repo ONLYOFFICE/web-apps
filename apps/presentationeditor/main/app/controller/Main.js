@@ -228,6 +228,15 @@ define([
                             event.dataTransfer.dropEffect ="none";
                             return false;
                         }
+                    }).on('dragstart', function(e) {
+                        var event = e.originalEvent;
+                        if (event.target ) {
+                            var target = $(event.target);
+                            if (target.closest('.combobox').length>0 || target.closest('.dropdown-menu').length>0 ||
+                                target.closest('.ribtab').length>0 || target.closest('.combo-dataview').length>0) {
+                                event.preventDefault();
+                            }
+                        }
                     });
 
                     Common.NotificationCenter.on({
@@ -393,7 +402,9 @@ define([
                         Asc.c_oAscFileType.PPTX,
                         Asc.c_oAscFileType.ODP,
                         Asc.c_oAscFileType.PDF,
-                        Asc.c_oAscFileType.PDFA
+                        Asc.c_oAscFileType.PDFA,
+                        Asc.c_oAscFileType.POTX,
+                        Asc.c_oAscFileType.OTP
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )

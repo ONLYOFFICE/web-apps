@@ -54,7 +54,8 @@ define([
             canEdit = false,
             canDownload = false,
             canAbout = true,
-            canHelp = true;
+            canHelp = true,
+            canPrint = false;
 
         return {
             // el: '.view-main',
@@ -98,6 +99,7 @@ define([
                 isEdit = mode.isEdit;
                 canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
                 canDownload = mode.canDownload || mode.canDownloadOrigin;
+                canPrint = mode.canPrint;
 
                 if (mode.customization && mode.canBrandingExt) {
                     canAbout = (mode.customization.about!==false);
@@ -126,6 +128,7 @@ define([
                     if (!canDownload) $layour.find('#settings-download').hide();
                     if (!canAbout) $layour.find('#settings-about').hide();
                     if (!canHelp) $layour.find('#settings-help').hide();
+                    if (!canPrint) $layour.find('#settings-print').hide();
 
                     return $layour.html();
                 }
@@ -224,7 +227,8 @@ define([
             mniSlideWide: 'Widescreen (16:9)',
             textPoweredBy: 'Powered by',
             textFindAndReplace: 'Find and Replace',
-            textSpellcheck: 'Spell Checking'
+            textSpellcheck: 'Spell Checking',
+            textPrint: 'Print'
         }
     })(), PE.Views.Settings || {}))
 });

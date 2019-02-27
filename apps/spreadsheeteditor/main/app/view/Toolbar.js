@@ -2202,6 +2202,17 @@ define([
                     caption : _holder_view.textShapeAlignBottom,
                     iconCls : 'mnu-img-align-bottom',
                     value   : 2
+                },
+                {caption: '--'},
+                {
+                    caption: _holder_view.txtDistribHor,
+                    iconCls: 'mnu-distrib-hor',
+                    value: 6
+                },
+                {
+                    caption: _holder_view.txtDistribVert,
+                    iconCls: 'mnu-distrib-vert',
+                    value: 7
                 }]
             }));
 

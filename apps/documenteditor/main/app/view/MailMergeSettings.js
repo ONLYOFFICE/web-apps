@@ -810,6 +810,8 @@ define([
             if (comments)
                 comments.setPreviewMode(disable);
 
+            DE.getController('LeftMenu').setPreviewMode(disable);
+
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
         },
 

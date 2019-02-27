@@ -286,6 +286,10 @@ define([
                     this.btnInsertFromFile.setVisible(!value);
                     this.btnEditObject.setVisible(value);
                     this.lblReplace.text(value ? this.textEditObject : this.textInsert);
+                    this.btnRotate270.setDisabled(value);
+                    this.btnRotate90.setDisabled(value);
+                    this.btnFlipV.setDisabled(value);
+                    this.btnFlipH.setDisabled(value);
                     this._state.isOleObject=value;
                 }
 
@@ -521,8 +525,8 @@ define([
         textFlip: 'Flip',
         textHint270: 'Rotate Left 90°',
         textHint90: 'Rotate Right 90°',
-        textHintFlipV: 'Flip Vertical',
-        textHintFlipH: 'Flip Horizontal'
+        textHintFlipV: 'Flip Vertically',
+        textHintFlipH: 'Flip Horizontally'
 
     }, DE.Views.ImageSettings || {}));
 });

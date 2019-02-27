@@ -66,6 +66,18 @@
                             </a>
                         </li>
                         <li>
+                            <a id="settings-print" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-print"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textPrint %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
                             <a id="settings-document-info" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
@@ -201,6 +213,18 @@
                             </a>
                         </li>
                         <li>
+                            <a data-format="2305" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-pdfa"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">PDF/A</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
                             <a data-format="131" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
@@ -208,6 +232,30 @@
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">ODP</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="135" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-potx"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">POTX</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="138" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-otp"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">OTP</div>
                                     </div>
                                 </div>
                             </a>

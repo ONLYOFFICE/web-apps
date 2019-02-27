@@ -159,6 +159,7 @@ define([
                 $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
                 $('#page-settings-setup-view li').single('click',           _.bind(me._onSlideSize, me));
+                $('#settings-print').single('click',                        _.bind(me._onPrint, me));
 
                 me.initSettings(pageId);
             },
@@ -233,6 +234,15 @@ define([
                 }
 
                 this.hideModal();
+            },
+
+            _onPrint: function(e) {
+                var me = this;
+
+                _.defer(function () {
+                    me.api.asc_Print();
+                });
+                me.hideModal();
             },
 
             _onSpellcheck: function (e) {

@@ -56,7 +56,10 @@ define([
             _canDownloadOrigin = false,
             _canReader = false,
             _canAbout = true,
-            _canHelp = true;
+            _canHelp = true,
+            _canPrint = false,
+            _canReview = false,
+            _isReviewOnly = false;
 
         return {
             // el: '.view-main',
@@ -97,6 +100,9 @@ define([
                 _canDownload = mode.canDownload;
                 _canDownloadOrigin = mode.canDownloadOrigin;
                 _canReader = !mode.isEdit && mode.canReader;
+                _canPrint = mode.canPrint;
+                _canReview = mode.canReview;
+                _isReviewOnly = mode.isReviewOnly;
 
                 if (mode.customization && mode.canBrandingExt) {
                     _canAbout = (mode.customization.about!==false);
@@ -128,6 +134,9 @@ define([
                     if (!_canDownloadOrigin) $layour.find('#settings-download').hide();
                     if (!_canAbout) $layour.find('#settings-about').hide();
                     if (!_canHelp) $layour.find('#settings-help').hide();
+                    if (!_canPrint) $layour.find('#settings-print').hide();
+                    if (!_canReview) $layour.find('#settings-review').hide();
+                    if (_isReviewOnly) $layour.find('#settings-review').addClass('disabled');
 
                     return $layour.html();
                 }
@@ -257,7 +266,14 @@ define([
             textDocumentFormats: 'Document Formats',
             textOrientation: 'Orientation',
             textPoweredBy: 'Powered by',
-            textSpellcheck: 'Spell Checking'
+            textSpellcheck: 'Spell Checking',
+            textPrint: 'Print',
+            textReview: 'Review',
+            textMargins: 'Margins',
+            textTop: 'Top',
+            textLeft: 'Left',
+            textBottom: 'Bottom',
+            textRight: 'Right'
 
     }
     })(), DE.Views.Settings || {}))

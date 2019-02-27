@@ -65,6 +65,7 @@ define([
                 var me = this;
 
                 me.toolbar.btnImgAlign.menu.on('item:click', me.onClickMenuAlign.bind(me));
+                me.toolbar.btnImgAlign.menu.on('show:before', me.onBeforeShapeAlign.bind(me));
                 me.toolbar.btnImgWrapping.menu.on('item:click', me.onClickMenuWrapping.bind(me));
                 me.toolbar.btnImgGroup.menu.on('item:click', me.onClickMenuGroup.bind(me));
                 me.toolbar.btnImgForward.menu.on('item:click', me.onClickMenuForward.bind(me));
@@ -178,21 +179,29 @@ define([
                 me.toolbar.btnImgWrapping.setDisabled(true);
             },
 
-            onClickMenuAlign: function (menu, item, e) {
-                var props = new Asc.asc_CImgProperty();
-                if ( !_.isUndefined(item.options.halign) ) {
-                    props.put_PositionH(new Asc.CImagePositionH());
-                    props.get_PositionH().put_UseAlign(true);
-                    props.get_PositionH().put_Align(item.options.halign);
-                    props.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Margin);
-                } else {
-                    props.put_PositionV(new Asc.CImagePositionV());
-                    props.get_PositionV().put_UseAlign(true);
-                    props.get_PositionV().put_Align(item.options.valign);
-                    props.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Margin);
-                }
+            onBeforeShapeAlign: function() {
+                var value = this.api.asc_getSelectedDrawingObjectsCount(),
+                    alignto = Common.Utils.InternalSettings.get("de-img-align-to");
+                this.toolbar.mniAlignObjects.setDisabled(value<2);
+                this.toolbar.mniAlignObjects.setChecked(value>1 && (!alignto || alignto==3), true);
+                this.toolbar.mniAlignToMargin.setChecked((value<2 && !alignto || alignto==2), true);
+                this.toolbar.mniAlignToPage.setChecked(alignto==1, true);
+                this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+                this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+            },
 
-                this.api.ImgApply(props);
+            onClickMenuAlign: function (menu, item, e) {
+                var value = this.toolbar.mniAlignToPage.isChecked() ? Asc.c_oAscObjectsAlignType.Page : (this.toolbar.mniAlignToMargin.isChecked() ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
+                if (item.value>-1 && item.value < 6) {
+                    this.api.put_ShapesAlign(item.value, value);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
+                } else if (item.value == 6) {
+                    this.api.DistributeHorizontally(value);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                } else if (item.value == 7){
+                    this.api.DistributeVertically(value);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                }
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
             },
 
