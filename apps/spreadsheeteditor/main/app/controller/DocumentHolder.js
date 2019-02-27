@@ -1468,6 +1468,8 @@ define([
                 if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = false;
+                documentHolder.mnuImgAdvanced.imageInfo = undefined;
+
                 var has_chartprops = false,
                     signGuid;
                 var selectedObjects = this.api.asc_getGraphicObjectProps();

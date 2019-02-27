@@ -2807,6 +2807,7 @@ define([
                             caption: me.textRotate270,
                             value  : 0
                         }).on('click', _.bind(onImgRotate, me)),
+                        { caption: '--' },
                         new Common.UI.MenuItem({
                             caption: me.textFlipH,
                             value  : 1
