@@ -3311,12 +3311,13 @@ define([
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
                         caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
                         langid      : lang.code,
                         spellcheck   : lang.spellcheck,
                         template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
                                 '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                                 '<%= caption %>',
                             '</a>'
@@ -3335,12 +3336,13 @@ define([
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
                         caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
                         langid      : lang.code,
                         spellcheck   : lang.spellcheck,
                         template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
                                 '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                                 '<%= caption %>',
                             '</a>'
