@@ -78,6 +78,7 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.bookmarks = this.options.bookmarks;
+            this.api = this.options.api;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -164,13 +165,11 @@ define([
 
         afterRender: function() {
             this.refreshBookmarks();
-            this._setDefaults(this.props);
+            this._setDefaults();
         },
 
-        _setDefaults: function (props) {
-            if (props) {
-
-            }
+        _setDefaults: function () {
+            this.inputFormula.setValue(this.api.asc_GetTableFormula());
             this.checkFormulaInput(this.inputFormula, this.inputFormula.getValue());
         },
 

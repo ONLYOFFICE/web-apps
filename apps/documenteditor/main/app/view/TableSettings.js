@@ -771,11 +771,12 @@ define([
             if (me.api && !this._locked){
                 (new DE.Views.TableFormulaDialog(
                 {
+                    api: me.api,
                     bookmarks: me.api.asc_GetBookmarksManager(),
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                // me.api.addFormula(value.tableProps);
+                                me.api.asc_AddTableFormula(value);
                             }
                         }
                         me.fireEvent('editcomplete', me);
