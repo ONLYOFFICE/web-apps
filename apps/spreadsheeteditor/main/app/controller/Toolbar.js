@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -104,7 +104,9 @@ define([
                             Asc.c_oAscFileType.XLSX,
                             Asc.c_oAscFileType.ODS,
                             Asc.c_oAscFileType.CSV,
-                            Asc.c_oAscFileType.PDFA
+                            Asc.c_oAscFileType.PDFA,
+                            Asc.c_oAscFileType.XLTX,
+                            Asc.c_oAscFileType.OTS
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -1951,6 +1953,10 @@ define([
             toolbar.btnImgGroup.menu.items[1].setDisabled(!canungroup);
             toolbar.lockToolbar(SSE.enumLock.cantGroup, !cangroup, { array: [toolbar.btnImgAlign]});
 
+            var objcount = this.api.asc_getSelectedDrawingObjectsCount();
+            toolbar.btnImgAlign.menu.items[7].setDisabled(objcount<3);
+            toolbar.btnImgAlign.menu.items[8].setDisabled(objcount<3);
+
             if (editOptionsDisabled) return;
 
             /* read font params */
@@ -2990,18 +2996,12 @@ define([
         onSetupCopyStyleButton: function () {
             this.modeAlwaysSetStyle = false;
 
-            var acsCopyFmtStyleState = {
-                kOff        : 0,
-                kOn         : 1,
-                kMultiple   : 2
-            };
-
             var me = this;
 
             Common.NotificationCenter.on({
                 'edit:complete': function () {
                     if (me.api && me.modeAlwaysSetStyle) {
-                        me.api.asc_formatPainter(acsCopyFmtStyleState.kOff);
+                        me.api.asc_formatPainter(AscCommon.c_oAscFormatPainterState.kOff);
                         me.toolbar.btnCopyStyle.toggle(false, true);
                         me.modeAlwaysSetStyle = false;
                     }
@@ -3012,7 +3012,7 @@ define([
                 if (me.api) {
                     me.modeAlwaysSetStyle = true;
                     me.toolbar.btnCopyStyle.toggle(true, true);
-                    me.api.asc_formatPainter(acsCopyFmtStyleState.kMultiple);
+                    me.api.asc_formatPainter(AscCommon.c_oAscFormatPainterState.kMultiple);
                 }
             });
         },
@@ -3111,15 +3111,17 @@ define([
                         if ( $panel )
                             me.toolbar.addTab(tab, $panel, 4);
 
-                        // hide 'print' and 'save' buttons group and next separator
-                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                        if (!(config.customization && config.customization.compactHeader)) {
+                            // hide 'print' and 'save' buttons group and next separator
+                            me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                        // hide 'undo' and 'redo' buttons and get container
-                        var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                            // hide 'undo' and 'redo' buttons and get container
+                            var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                        // move 'paste' button to the container instead of 'undo' and 'redo'
-                        me.toolbar.btnPaste.$el.detach().appendTo($box);
-                        me.toolbar.btnCopy.$el.removeClass('split');
+                            // move 'paste' button to the container instead of 'undo' and 'redo'
+                            me.toolbar.btnPaste.$el.detach().appendTo($box);
+                            me.toolbar.btnCopy.$el.removeClass('split');
+                        }
 
                         if ( config.isDesktopApp ) {
                             if ( config.canProtect ) {
@@ -3268,10 +3270,19 @@ define([
         },
 
         onImgAlignSelect: function(menu, item) {
-            if (this.api)
-                this.api.asc_setSelectedDrawingObjectAlign(item.value);
+            if (this.api) {
+                if (item.value>-1 && item.value < 6) {
+                    this.api.asc_setSelectedDrawingObjectAlign(item.value);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Objects Align');
+                } else if (item.value == 6) {
+                    this.api.asc_DistributeSelectedDrawingObjectHor();
+                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                } else if (item.value == 7){
+                    this.api.asc_DistributeSelectedDrawingObjectVer();
+                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                }
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Objects Align');
         },
 
         onPrintAreaClick: function(menu, item) {

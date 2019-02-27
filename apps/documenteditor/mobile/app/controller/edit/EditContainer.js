@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -49,7 +49,8 @@ define([
 
     DE.Controllers.EditContainer = Backbone.Controller.extend(_.extend((function() {
         // Private
-        var _settings = [];
+        var _settings = [],
+            _headerType = 1;
 
         return {
             models: [],
@@ -133,6 +134,13 @@ define([
                             caption: me.textTable,
                             id: 'edit-table',
                             layout: DE.getController('EditTable').getView('EditTable').rootLayout()
+                        })
+                    }
+                    if (_.contains(_settings, 'header')) {
+                        editors.push({
+                            caption: _headerType==2 ? me.textFooter : me.textHeader,
+                            id: 'edit-header',
+                            layout: DE.getController('EditHeader').getView('EditHeader').rootLayout()
                         })
                     }
                     if (_.contains(_settings, 'shape')) {
@@ -360,6 +368,9 @@ define([
                         }
                     } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
                         _settings.push('hyperlink');
+                    } else if (Asc.c_oAscTypeSelectElement.Header == type) {
+                        _settings.push('header');
+                        _headerType = object.get_ObjectValue().get_Type();
                     }
                 });
 
@@ -378,8 +389,9 @@ define([
             textShape: 'Shape',
             textImage: 'Image',
             textChart: 'Chart',
-            textHyperlink: 'Hyperlink'
-
+            textHyperlink: 'Hyperlink',
+            textHeader: 'Header',
+            textFooter: 'Footer'
         }
     })(), DE.Controllers.EditContainer || {}))
 });

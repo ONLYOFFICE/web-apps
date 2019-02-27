@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -164,12 +164,19 @@ define([
             if (isvalid == Asc.c_oAscError.ID.No)
                 return true;
             else {
-                if (isvalid == Asc.c_oAscError.ID.AutoFilterDataRangeError) {
-                    Common.UI.warning({msg: this.errorAutoFilterDataRange});
-                } else if (isvalid == Asc.c_oAscError.ID.FTChangeTableRangeError) {
-                    Common.UI.warning({msg: this.errorFTChangeTableRangeError});
-                } else if (isvalid == Asc.c_oAscError.ID.FTRangeIncludedOtherTables) {
-                    Common.UI.warning({msg: this.errorFTRangeIncludedOtherTables});
+                switch (isvalid) {
+                    case Asc.c_oAscError.ID.AutoFilterDataRangeError:
+                        Common.UI.warning({msg: this.errorAutoFilterDataRange});
+                        break;
+                    case Asc.c_oAscError.ID.FTChangeTableRangeError:
+                        Common.UI.warning({msg: this.errorFTChangeTableRangeError});
+                        break;
+                    case Asc.c_oAscError.ID.FTRangeIncludedOtherTables:
+                        Common.UI.warning({msg: this.errorFTRangeIncludedOtherTables});
+                        break;
+                    case Asc.c_oAscError.ID.MultiCellsInTablesFormulaArray:
+                        Common.UI.warning({msg: this.errorMultiCellFormula});
+                        break;
                 }
             }
             return false;
@@ -212,6 +219,7 @@ define([
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.',
         errorFTChangeTableRangeError: 'Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.',
-        errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.'
+        errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.',
+        errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.'
     }, SSE.Views.TableOptionsDialog || {}))
 });

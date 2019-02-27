@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -53,7 +53,8 @@ define([
             canEdit = false,
             canDownload = false,
             canAbout = true,
-            canHelp = true;
+            canHelp = true,
+            canPrint = false;
 
         return {
             // el: '.view-main',
@@ -91,8 +92,11 @@ define([
                     , saveas: {
                         xlsx: Asc.c_oAscFileType.XLSX,
                         pdf: Asc.c_oAscFileType.PDF,
+                        pdfa: Asc.c_oAscFileType.PDFA,
                         ods: Asc.c_oAscFileType.ODS,
-                        csv: Asc.c_oAscFileType.CSV
+                        csv: Asc.c_oAscFileType.CSV,
+                        xltx: Asc.c_oAscFileType.XLTX,
+                        ots: Asc.c_oAscFileType.OTS
                     }
                 }));
 
@@ -103,6 +107,7 @@ define([
                 isEdit = mode.isEdit;
                 canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
                 canDownload = mode.canDownload || mode.canDownloadOrigin;
+                canPrint = mode.canPrint;
 
                 if (mode.customization && mode.canBrandingExt) {
                     canAbout = (mode.customization.about!==false);
@@ -125,6 +130,7 @@ define([
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();
                     if (!canHelp) $layout.find('#settings-help').hide();
+                    if (!canPrint) $layout.find('#settings-print').hide();
 
                     return $layout.html();
                 }
@@ -213,7 +219,8 @@ define([
             textAddress: 'address',
             textEmail: 'email',
             textTel: 'tel',
-            textPoweredBy: 'Powered by'
+            textPoweredBy: 'Powered by',
+            textPrint: 'Print'
     }
     })(), SSE.Views.Settings || {}))
 });

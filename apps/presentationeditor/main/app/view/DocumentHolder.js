@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -1906,7 +1906,7 @@ define([
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    menuSlideSettings.setVisible(value.fromThumbs!==true);
+                    menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
                     for (var i = 9; i < 13; i++) {
@@ -2153,12 +2153,21 @@ define([
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -2222,12 +2231,21 @@ define([
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -2546,11 +2564,20 @@ define([
                 menu        : (function(){
                     function onItemClick(item) {
                         if (me.api) {
-                            me.api.put_ShapesAlign(item.value);
+                            var value = me.api.asc_getSelectedDrawingObjectsCount()<2 || Common.Utils.InternalSettings.get("pe-align-to-slide");
+                            value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                            if (item.value < 6) {
+                                me.api.put_ShapesAlign(item.value, value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                            } else if (item.value == 6) {
+                                me.api.DistributeHorizontally(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                            } else if (item.value == 7){
+                                me.api.DistributeVertically(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
+                            }
                         }
-
                         me.fireEvent('editcomplete', me);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Align');
                     }
 
                     return new Common.UI.Menu({
@@ -2589,26 +2616,14 @@ define([
                             {caption    : '--'},
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribHor,
-                                iconCls     : 'mnu-distrib-hor'
-                            }).on('click', function(item) {
-                                    if (me.api) {
-                                        me.api.DistributeHorizontally();
-                                    }
-
-                                me.fireEvent('editcomplete', me);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
-                            }),
+                                iconCls     : 'mnu-distrib-hor',
+                                value       : 6
+                            }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribVert,
-                                iconCls     : 'mnu-distrib-vert'
-                            }).on('click', function(item) {
-                                if (me.api) {
-                                    me.api.DistributeVertically();
-                                }
-
-                                me.fireEvent('editcomplete', me);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
-                            })
+                                iconCls     : 'mnu-distrib-vert',
+                                value       : 7
+                            }).on('click', _.bind(onItemClick, me))
                         ]
                     })
                 })()
@@ -2758,6 +2773,48 @@ define([
                                 }
                             })).show();
                         })
+                    ]
+                })
+            });
+
+            var onImgRotate = function(item) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+                me.api.ShapeApply(properties);
+                me.fireEvent('editcomplete', me);
+            };
+
+            var onImgFlip = function(item) {
+                var properties = new Asc.asc_CShapeProperty();
+                if (item.value==1)
+                    properties.asc_putFlipHInvert(true);
+                else
+                    properties.asc_putFlipVInvert(true);
+                me.api.ShapeApply(properties);
+                me.fireEvent('editcomplete', me);
+            };
+
+            var menuImgShapeRotate = new Common.UI.MenuItem({
+                caption     : me.textRotate,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate90,
+                            value  : 1
+                        }).on('click', _.bind(onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            value  : 0
+                        }).on('click', _.bind(onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipH,
+                            value  : 1
+                        }).on('click', _.bind(onImgFlip, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipV,
+                            value  : 0
+                        }).on('click', _.bind(onImgFlip, me))
                     ]
                 })
             });
@@ -3163,6 +3220,10 @@ define([
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked),
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null;
 
+                    menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgShapeRotate.isVisible())
+                        menuImgShapeRotate.setDisabled(disabled);
+
                     // image properties
                     menuImgOriginalSize.setVisible(isimage);
                     if (menuImgOriginalSize.isVisible())
@@ -3182,6 +3243,12 @@ define([
                     menuAddCommentImg.setDisabled(disabled);
                     /** coauthoring end **/
                     menuImgShapeAlign.setDisabled(disabled);
+                    if (!disabled) {
+                        var objcount = me.api.asc_getSelectedDrawingObjectsCount(),
+                            slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
+                        menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
+                        menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
+                    }
                     menuImageAdvanced.setDisabled(disabled);
                     menuShapeAdvanced.setDisabled(disabled);
                     if (menuChartEdit.isVisible())
@@ -3197,6 +3264,7 @@ define([
                     { caption: '--' },
                     menuImgShapeArrange,
                     menuImgShapeAlign,
+                    menuImgShapeRotate,
                     menuImgShapeSeparator,
                     menuImgOriginalSize,
                     menuImgReplace,
@@ -3241,10 +3309,17 @@ define([
                 me.langTableMenu.menu.removeAll();
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3258,10 +3333,17 @@ define([
                     }));
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3274,9 +3356,6 @@ define([
                         }
                     }));
                 });
-
-                me.langTableMenu.menu.doLayout();
-                me.langParaMenu.menu.doLayout();
             }
         },
 
@@ -3447,7 +3526,12 @@ define([
         textDistributeCols: 'Distribute columns',
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
-        textFromFile:   'From File'
+        textFromFile:   'From File',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
+        textFlipV: 'Flip Vertically',
+        textFlipH: 'Flip Horizontally',
+        textRotate: 'Rotate'
 
     }, PE.Views.DocumentHolder || {}));
 });

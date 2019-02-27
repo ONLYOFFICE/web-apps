@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -607,28 +607,117 @@ define([
 
             me.mnuBringToFront = new Common.UI.MenuItem({
                 caption : this.textArrangeFront,
-                    iconCls : 'mnu-arrange-front',
+                iconCls : 'mnu-arrange-front',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringToFront
             });
             me.mnuSendToBack = new Common.UI.MenuItem({
                 caption : this.textArrangeBack,
-                    iconCls : 'mnu-arrange-back',
-                    type    : 'arrange',
-                    value   : Asc.c_oAscDrawingLayerType.SendToBack
+                iconCls : 'mnu-arrange-back',
+                type    : 'arrange',
+                value   : Asc.c_oAscDrawingLayerType.SendToBack
             });
             me.mnuBringForward = new Common.UI.MenuItem({
                 caption : this.textArrangeForward,
-                    iconCls : 'mnu-arrange-forward',
-                    type    : 'arrange',
-                    value   : Asc.c_oAscDrawingLayerType.BringForward
+                iconCls : 'mnu-arrange-forward',
+                type    : 'arrange',
+                value   : Asc.c_oAscDrawingLayerType.BringForward
             });
             me.mnuSendBackward = new Common.UI.MenuItem({
                 caption: this.textArrangeBackward,
-                    iconCls : 'mnu-arrange-backward',
-                    type    : 'arrange',
-                    value   : Asc.c_oAscDrawingLayerType.SendBackward
+                iconCls : 'mnu-arrange-backward',
+                type    : 'arrange',
+                value   : Asc.c_oAscDrawingLayerType.SendBackward
             });
+
+            me.menuImageArrange = new Common.UI.MenuItem({
+                caption : me.textArrange,
+                menu    : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.mnuBringToFront,
+                        me.mnuSendToBack,
+                        me.mnuBringForward,
+                        me.mnuSendBackward,
+                        { caption: '--' },
+                        me.mnuGroupImg,
+                        me.mnuUnGroupImg
+                    ]
+                })
+            });
+
+            me.menuImageAlign = new Common.UI.MenuItem({
+                caption     : me.textAlign,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [{
+                        caption : me.textShapeAlignLeft,
+                        iconCls : 'mnu-img-align-left',
+                        value   : 0
+                    }, {
+                        caption : me.textShapeAlignCenter,
+                        iconCls : 'mnu-img-align-center',
+                        value   : 4
+                    }, {
+                        caption : me.textShapeAlignRight,
+                        iconCls : 'mnu-img-align-right',
+                        value   : 1
+                    }, {
+                        caption : me.textShapeAlignTop,
+                        iconCls : 'mnu-img-align-top',
+                        value   : 3
+                    }, {
+                        caption : me.textShapeAlignMiddle,
+                        iconCls : 'mnu-img-align-middle',
+                        value   : 5
+                    }, {
+                        caption : me.textShapeAlignBottom,
+                        iconCls : 'mnu-img-align-bottom',
+                        value   : 2
+                    },
+                    {caption: '--'},
+                    {
+                        caption: me.txtDistribHor,
+                        iconCls: 'mnu-distrib-hor',
+                        value: 6
+                    },
+                    {
+                        caption: me.txtDistribVert,
+                        iconCls: 'mnu-distrib-vert',
+                        value: 7
+                    }]
+                })
+            });
+
+            me.menuImgRotate = new Common.UI.MenuItem({
+                caption     : me.textRotate,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate90,
+                            type   : 'rotate',
+                            value  : 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            type   : 'rotate',
+                            value  : 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipH,
+                            type   : 'flip',
+                            value  : 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipV,
+                            type   : 'flip',
+                            value  : 0
+                        })
+                    ]
+                })
+            });
+
             this.imgMenu = new Common.UI.Menu({
                 items: [
                     me.pmiImgCut,
@@ -638,13 +727,9 @@ define([
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
                     me.menuEditSignSeparator,
-                    me.mnuBringToFront,
-                    me.mnuSendToBack,
-                    me.mnuBringForward,
-                    me.mnuSendBackward,
-                    {caption: '--'},
-                    me.mnuGroupImg,
-                    me.mnuUnGroupImg,
+                    me.menuImageArrange,
+                    me.menuImageAlign,
+                    me.menuImgRotate,
                     me.mnuShapeSeparator,
                     me.mnuChartEdit,
                     me.mnuShapeAdvanced,
@@ -958,7 +1043,16 @@ define([
         textShapeAlignCenter    : 'Align Center',
         textShapeAlignTop       : 'Align Top',
         textShapeAlignBottom    : 'Align Bottom',
-        textShapeAlignMiddle    : 'Align Middle'
+        textShapeAlignMiddle    : 'Align Middle',
+        txtDistribHor: 'Distribute Horizontally',
+        txtDistribVert: 'Distribute Vertically',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
+        textFlipV: 'Flip Vertically',
+        textFlipH: 'Flip Horizontally',
+        textRotate: 'Rotate',
+        textArrange: 'Arrange',
+        textAlign: 'Align'
 
     }, SSE.Views.DocumentHolder || {}));
 });

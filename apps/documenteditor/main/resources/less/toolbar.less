@@ -22,17 +22,6 @@
     }
 }
 
-.toolbar-mask {
-    position: absolute;
-    top: 32px;
-    left: 48px;
-    right: 0;
-    bottom: 0;
-    opacity: 0;
-    background-color: @gray-light;
-    /* z-index: @zindex-tooltip + 1; */
-}
-
 .toolbar-group-mask {
     position: absolute;
     top: 0;
@@ -366,9 +355,8 @@
 .menu-icon-normal(mnu-img-align-top,       16, @menu-icon-size);
 .menu-icon-normal(mnu-img-align-middle,    17, @menu-icon-size);
 .menu-icon-normal(mnu-img-align-bottom,    18, @menu-icon-size);
-//.menu-btn-icon(mnu-,        19, @menu-icon-size);
-//.menu-btn-icon(mnu-,        20, @menu-icon-size);
-
+.menu-icon-normal(mnu-distrib-hor,         19, @menu-icon-size);
+.menu-icon-normal(mnu-distrib-vert,        20, @menu-icon-size);
 .menu-icon-normal(mnu-align-center,        21, @menu-icon-size);
 .menu-icon-normal(mnu-align-just,          22, @menu-icon-size);
 .menu-icon-normal(mnu-align-left,          23, @menu-icon-size);
@@ -451,7 +439,7 @@
 
 #slot-field-fontname {
     float: left;
-    width: 166px;
+    width: 158px;
 }
 
 #slot-field-fontsize {

@@ -1,0 +1,79 @@
+<!-- Root view -->
+<div id="edit-header-root">
+    <div class="list-block">
+        <ul>
+            <li id="header-diff-first">
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textDiffFirst %></div>
+                        <div class="item-after">
+                            <label class="label-switch">
+                                <input type="checkbox">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="header-diff-odd">
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textDiffOdd %></div>
+                        <div class="item-after">
+                            <label class="label-switch">
+                                <input type="checkbox">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="header-same-as">
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textSameAs %></div>
+                        <div class="item-after">
+                            <label class="label-switch">
+                                <input type="checkbox">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="content-block-title"><%= scope.textPageNumbering %></div>
+    <div class="list-block">
+        <ul>
+            <li id="header-numbering-continue">
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textPrev %></div>
+                        <div class="item-after">
+                            <label class="label-switch">
+                                <input type="checkbox">
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li id="header-numbering-start">
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title"><%= scope.textFrom %></div>
+                        <div class="item-after splitter">
+                            <% if (!android) { %><label></label><% } %>
+                            <p class="buttons-row">
+                                <span class="button decrement no-ripple"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                <% if (android) { %><label></label><% } %>
+                                <span class="button increment no-ripple"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

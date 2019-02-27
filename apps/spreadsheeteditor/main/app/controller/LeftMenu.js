@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -154,9 +154,10 @@ define([
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                     var comments = this.getApplication().getController('Common.Controllers.Comments').groupCollection;
                     for (var name in comments) {
-                        var collection = comments[name];
+                        var collection = comments[name],
+                            resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
                         for (var i = 0; i < collection.length; ++i) {
-                            if (collection.at(i).get('userid') !== this.mode.user.id) {
+                            if (collection.at(i).get('userid') !== this.mode.user.id && (resolved || !collection.at(i).get('resolved'))) {
                                 this.leftMenu.markCoauthOptions('comments', true);
                                 break;
                             }
@@ -577,7 +578,7 @@ define([
             }
 
             if (show) {
-                var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
 
                 if (this.dlgSearch.isVisible()) {
                     this.dlgSearch.setMode(mode);
@@ -633,6 +634,13 @@ define([
             }
         },
 
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+
+            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
+        },
+
         onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
@@ -656,13 +664,15 @@ define([
         },
 
         onApiAddComment: function(id, data) {
-            if (data && data.asc_getUserId() !== this.mode.user.id)
+            var resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
+            if (data && data.asc_getUserId() !== this.mode.user.id && (resolved || !data.asc_getSolved()))
                 this.leftMenu.markCoauthOptions('comments');
         },
 
         onApiAddComments: function(data) {
+            var resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }

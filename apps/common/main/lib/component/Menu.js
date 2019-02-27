@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -424,8 +424,21 @@ define([
 
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
-                if (this.options.restoreHeight && this.scroller)
-                    this.scroller.update({minScrollbarLength  : 40});
+                if (this.scroller) {
+                    if (this.options.restoreHeight)
+                        this.scroller.update();
+
+                    var menuRoot = (this.cmpEl.attr('role') === 'menu') ? this.cmpEl : this.cmpEl.find('[role=menu]'),
+                        $selected = menuRoot.find('> li .checked');
+                    if ($selected.length) {
+                        var itemTop = $selected.position().top,
+                            itemHeight = $selected.height(),
+                            listHeight = menuRoot.height();
+                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                            menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        }
+                    }
+                }
 
                 if (this.$el.find('> ul > .menu-scroll').length) {
                     var el = this.$el.find('li .checked')[0];

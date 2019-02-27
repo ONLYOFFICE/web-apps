@@ -75,6 +75,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/Drawings/HatchPattern.js",
     "../../../../sdkjs/common/scroll.js",
     "../../../../sdkjs/common/wordcopypaste.js",
+	"../../../../sdkjs/common/intervalTree.js",
     "../../../../sdkjs/slide/apiDefines.js",
     "../../../../sdkjs/slide/themes/Themes.js",
     "../../../../sdkjs/cell/utils/utils.js",

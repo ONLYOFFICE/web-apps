@@ -73,7 +73,7 @@
   "PE.Controllers.Main.errorDatabaseConnection": "Zewnętrzny błąd.<br>Błąd połączenia z bazą danych. Proszę skontaktuj się z administratorem.",
   "PE.Controllers.Main.errorDataRange": "Błędny zakres danych.",
   "PE.Controllers.Main.errorDefaultMessage": "Kod błędu: %1",
-  "PE.Controllers.Main.errorFilePassProtect": "Dokument jest chroniony hasłem.",
+  "PE.Controllers.Main.errorFilePassProtect": "Dokument jest chroniony hasłem i nie może być otwarty.",
   "PE.Controllers.Main.errorKeyEncrypt": "Nieznany deskryptor klucza",
   "PE.Controllers.Main.errorKeyExpire": "Okres ważności deskryptora klucza wygasł",
   "PE.Controllers.Main.errorProcessSaveResult": "Zapisywanie nie powiodło się.",

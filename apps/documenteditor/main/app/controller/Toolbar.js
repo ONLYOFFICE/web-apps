@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -143,7 +143,9 @@ define([
                             Asc.c_oAscFileType.ODT,
                             Asc.c_oAscFileType.DOCX,
                             Asc.c_oAscFileType.HTML,
-                            Asc.c_oAscFileType.PDFA
+                            Asc.c_oAscFileType.PDFA,
+                            Asc.c_oAscFileType.DOTX,
+                            Asc.c_oAscFileType.OTT
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -1682,16 +1684,16 @@ define([
         },
 
         onNoControlsColor: function(item) {
-            this.api.asc_SetGlobalContentControlShowHighlight(!item.isChecked());
             if (!item.isChecked())
-                this.api.asc_SetGlobalContentControlHighlightColor(220, 220, 220);
+                this.api.asc_SetGlobalContentControlShowHighlight(true, 220, 220, 220);
+            else
+                this.api.asc_SetGlobalContentControlShowHighlight(false);
         },
 
         onSelectControlsColor: function(picker, color) {
             var clr = Common.Utils.ThemeColor.getRgbColor(color);
             if (this.api) {
-                this.api.asc_SetGlobalContentControlShowHighlight(true);
-                this.api.asc_SetGlobalContentControlHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
+                this.api.asc_SetGlobalContentControlShowHighlight(true, clr.get_r(), clr.get_g(), clr.get_b());
             }
 
             Common.component.Analytics.trackEvent('ToolBar', 'Content Controls Color');
@@ -2031,16 +2033,6 @@ define([
                 this.api.asc_AddNewStyle(newStyle);
             }
         },
-
-        // onHideTitleBar: function(item, checked) {
-        //     var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-        //     headerView  && headerView.setVisible(!checked);
-        //
-        //     Common.localStorage.setItem('de-hidden-title', checked ? 1 : 0);
-        //
-        //     Common.NotificationCenter.trigger('layout:changed', 'header');
-        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        // },
 
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
@@ -2658,18 +2650,12 @@ define([
         onSetupCopyStyleButton: function () {
             this.modeAlwaysSetStyle = false;
 
-            var acsCopyFmtStyleState = {
-                kOff        : 0,
-                kOn         : 1,
-                kMultiple   : 2
-            };
-
             var me = this;
 
             Common.NotificationCenter.on({
                 'edit:complete': function () {
                     if (me.api && me.modeAlwaysSetStyle) {
-                        me.api.SetPaintFormat(acsCopyFmtStyleState.kOff);
+                        me.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kOff);
                         me.toolbar.btnCopyStyle.toggle(false, true);
                         me.modeAlwaysSetStyle = false;
                     }
@@ -2680,7 +2666,7 @@ define([
                 if (me.api) {
                     me.modeAlwaysSetStyle = true;
                     me.toolbar.btnCopyStyle.toggle(true, true);
-                    me.api.SetPaintFormat(acsCopyFmtStyleState.kMultiple);
+                    me.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kMultiple);
                 }
             });
         },
@@ -2778,15 +2764,17 @@ define([
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                // hide 'print' and 'save' buttons group and next separator
-                me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                if (!(config.customization && config.customization.compactHeader)) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                // hide 'undo' and 'redo' buttons and retrieve parent container
-                var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    // hide 'undo' and 'redo' buttons and retrieve parent container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                // move 'paste' button to the container instead of 'undo' and 'redo'
-                me.toolbar.btnPaste.$el.detach().appendTo($box);
-                me.toolbar.btnCopy.$el.removeClass('split');
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnCopy.$el.removeClass('split');
+                }
 
                 if ( config.isDesktopApp ) {
                     if ( config.canProtect ) {
