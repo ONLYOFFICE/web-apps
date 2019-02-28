@@ -857,7 +857,7 @@ define([
                     fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
                 })).on('selectfile', function(obj, file){
                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                    me.api.asc_addImageDrawingObject(file.url);
+                    me.api.asc_addImageDrawingObject(file.url, undefined, true);// for loading from storage;
                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                 }).show();
             }
