@@ -1951,6 +1951,8 @@
   "SSE.Views.Statusbar.RenameDialog.labelSheetName": "Sheet Name",
   "SSE.Views.Statusbar.textAverage": "AVERAGE",
   "SSE.Views.Statusbar.textCount": "COUNT",
+  "SSE.Views.Statusbar.textMin": "MIN",
+  "SSE.Views.Statusbar.textMax": "MAX",
   "SSE.Views.Statusbar.textNewColor": "Add New Custom Color",
   "SSE.Views.Statusbar.textNoColor": "No Color",
   "SSE.Views.Statusbar.textSum": "SUM",

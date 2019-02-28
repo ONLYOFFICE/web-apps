@@ -184,6 +184,8 @@ define([
             this.statusbar.setMathInfo({
                 count   : info.asc_getCount(),
                 average : info.asc_getAverage(),
+                min     : info.asc_getMin(),
+                max     : info.asc_getMax(),
                 sum     : info.asc_getSum()
             });
             this.statusbar.updateTabbarBorders();
