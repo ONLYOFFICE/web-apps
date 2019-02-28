@@ -6236,7 +6236,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   margin-right: 5px;
 }
 .about .logo {
-  background: url('../../../../common/mobile/resources/img/about/onlyoffice.svg') no-repeat center;
+  background: url('../../../../common/mobile/resources/img/about/logo.svg') no-repeat center;
   margin-top: 20px;
 }
 .tablet .searchbar.document.replace .center .searchbar:first-child {

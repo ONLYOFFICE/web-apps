@@ -5846,7 +5846,7 @@ html.phone .document-menu .list-block .item-link {
   margin-right: 5px;
 }
 .about .logo {
-  background: url('../../../../common/mobile/resources/img/about/onlyoffice.svg') no-repeat center;
+  background: url('../../../../common/mobile/resources/img/about/logo.svg') no-repeat center;
 }
 .tablet .searchbar.document.replace .center > .replace {
   display: flex;
