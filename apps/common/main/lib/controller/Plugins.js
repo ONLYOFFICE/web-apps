@@ -593,27 +593,29 @@ define([
         },
 
         getAppConfigPlugins: function (config) {
-            var me = this;
-            Promise.all(config.UIpluginsData.map(function(url) {
-                return fetch(url)
-                    .then(function(response) {return response.json();})
-                    .then(function(json) {
-                        json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
-                        return json;
-                    });
-            })).then(function(values) {
-                me.parsePlugins(values, true);
+            if ( config.UIpluginsData ) {
+                var me = this;
+                Promise.all(config.UIpluginsData.map(function(url) {
+                    return fetch(url)
+                        .then(function(response) {return response.json();})
+                        .then(function(json) {
+                            json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
+                            return json;
+                        });
+                })).then(function(values) {
+                    me.parsePlugins(values, true);
 
-                if ( me.plugins.uicustom ) {
-                    me.plugins.uicustom.forEach(function (c) {
-                        fetch(c.url)
-                            .then(function (response) {return response.text();})
-                            .then(function (text) {c.code = text;});
-                    });
-                }
-            }).catch(function(e) {
-                console.log('error: ' + e.message);
-            });
+                    if ( me.plugins.uicustom ) {
+                        me.plugins.uicustom.forEach(function (c) {
+                            fetch(c.url)
+                                .then(function (response) {return response.text();})
+                                .then(function (text) {c.code = text;});
+                        });
+                    }
+                }).catch(function(e) {
+                    console.log('error: ' + e.message);
+                });
+            }
         },
 
     }, Common.Controllers.Plugins || {}));
