@@ -53,7 +53,8 @@ define([
             canEdit = false,
             canDownload = false,
             canAbout = true,
-            canHelp = true;
+            canHelp = true,
+            canPrint = false;
 
         return {
             // el: '.view-main',
@@ -91,8 +92,11 @@ define([
                     , saveas: {
                         xlsx: Asc.c_oAscFileType.XLSX,
                         pdf: Asc.c_oAscFileType.PDF,
+                        pdfa: Asc.c_oAscFileType.PDFA,
                         ods: Asc.c_oAscFileType.ODS,
-                        csv: Asc.c_oAscFileType.CSV
+                        csv: Asc.c_oAscFileType.CSV,
+                        xltx: Asc.c_oAscFileType.XLTX,
+                        ots: Asc.c_oAscFileType.OTS
                     }
                 }));
 
@@ -103,6 +107,7 @@ define([
                 isEdit = mode.isEdit;
                 canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
                 canDownload = mode.canDownload || mode.canDownloadOrigin;
+                canPrint = mode.canPrint;
 
                 if (mode.customization && mode.canBrandingExt) {
                     canAbout = (mode.customization.about!==false);
@@ -125,6 +130,7 @@ define([
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();
                     if (!canHelp) $layout.find('#settings-help').hide();
+                    if (!canPrint) $layout.find('#settings-print').hide();
 
                     return $layout.html();
                 }
@@ -213,7 +219,8 @@ define([
             textAddress: 'address',
             textEmail: 'email',
             textTel: 'tel',
-            textPoweredBy: 'Powered by'
+            textPoweredBy: 'Powered by',
+            textPrint: 'Print'
     }
     })(), SSE.Views.Settings || {}))
 });

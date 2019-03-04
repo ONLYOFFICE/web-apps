@@ -153,9 +153,10 @@ define([
                 if (this.mode.canComments) {
                     this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
-                    var collection = this.getApplication().getCollection('Common.Collections.Comments');
+                    var collection = this.getApplication().getCollection('Common.Collections.Comments'),
+                        resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
                     for (var i = 0; i < collection.length; ++i) {
-                        if (collection.at(i).get('userid') !== this.mode.user.id) {
+                        if (collection.at(i).get('userid') !== this.mode.user.id && (resolved || !collection.at(i).get('resolved'))) {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
@@ -532,7 +533,7 @@ define([
             }
 
             if (show) {
-                var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
                 if (this.dlgSearch.isVisible()) {
                     this.dlgSearch.setMode(mode);
                     this.dlgSearch.setSearchText(this.api.asc_GetSelectedText());
@@ -583,6 +584,13 @@ define([
             }
         },
 
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+
+            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
+        },
+
         SetDisabled: function(disable, disableFileMenu) {
             this.mode.isEdit = !disable;
             if (disable) this.leftMenu.close();
@@ -592,6 +600,7 @@ define([
             var comments = this.getApplication().getController('Common.Controllers.Comments');
             if (comments)
                 comments.setPreviewMode(disable);
+            this.setPreviewMode(disable);
             this.leftMenu.btnChat.setDisabled(disable);
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(disable);
@@ -605,13 +614,15 @@ define([
         },
 
         onApiAddComment: function(id, data) {
-            if (data && data.asc_getUserId() !== this.mode.user.id)
+            var resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
+            if (data && data.asc_getUserId() !== this.mode.user.id && (resolved || !data.asc_getSolved()))
                 this.leftMenu.markCoauthOptions('comments');
         },
 
         onApiAddComments: function(data) {
+            var resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }

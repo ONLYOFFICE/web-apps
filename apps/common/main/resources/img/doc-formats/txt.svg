@@ -1,20 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 127" version="1.1" width="100" height="127">
-<symbol id="svg-format-txt">
-    <path d="M95,23v96a2.9,2.9,0,0,1-2.8,3H8a2.9,2.9,0,0,1-3-2.8V8A2.9,2.9,0,0,1,7.8,5H77Z" style="fill: #7c7c7d"/>
-    <path d="M95,23H80a2.9,2.9,0,0,1-3-2.8V5Z" style="opacity: 0.20000000298023224;isolation: isolate"/>
-    <g>
-      <path d="M43.4,113H41.6v-7.1H39.3v-1.5h6.5v1.5H43.4Z" style="fill: #fff"/>
-      <path d="M54,113H51.9l-2-3.2-2,3.2H46l2.8-4.4-2.6-4.2h2l1.8,3.1,1.8-3.1h2l-2.7,4.3Z" style="fill: #fff"/>
-      <path d="M58.4,113H56.6v-7.1H54.2v-1.5h6.5v1.5H58.4Z" style="fill: #fff"/>
-    </g>
-    <rect x="25" y="38" width="49" height="2" style="fill: #fff"/>
-    <rect x="25" y="44" width="49" height="2" style="fill: #fff"/>
-    <rect x="25" y="50" width="49" height="2" style="fill: #fff"/>
-    <rect x="25" y="56" width="49" height="2" style="fill: #fff"/>
-    <rect x="25" y="62" width="49" height="2" style="fill: #fff"/>
-    <rect x="25" y="68" width="49" height="2" style="fill: #fff"/>
-    <rect x="25" y="74" width="49" height="2" style="fill: #fff"/>
-    <rect x="25" y="80" width="49" height="2" style="fill: #fff"/>
-    <rect x="25" y="86" width="49" height="2" style="fill: #fff"/>
+  <symbol id="svg-format-txt">
+<path d="M95 23V119C95 119.796 94.6839 120.559 94.1213 121.121C93.5587 121.684 92.7956 122 92 122H8C7.20435 122 6.44129 121.684 5.87868 121.121C5.31607 120.559 5 119.796 5 119V8C5 7.20435 5.31607 6.44129 5.87868 5.87868C6.44129 5.31607 7.20435 5 8 5H77L95 23Z" fill="#7C7C7D"/>
+<path opacity="0.2" d="M95 23H80C79.2044 23 78.4413 22.6839 77.8787 22.1213C77.3161 21.5587 77 20.7956 77 20V5L95 23Z" fill="black"/>
+<path d="M43.4329 114H41.6165V106.945H39.2903V105.434H45.759V106.945H43.4329V114ZM54.0032 114H51.929L49.9368 110.76L47.9446 114H45.9993L48.8411 109.582L46.1809 105.434H48.1848L50.0305 108.516L51.8411 105.434H53.7981L51.1086 109.682L54.0032 114ZM58.386 114H56.5696V106.945H54.2434V105.434H60.7122V106.945H58.386V114Z" fill="white"/>
+<path d="M74 38H25V40H74V38Z" fill="white"/>
+<path d="M74 44H25V46H74V44Z" fill="white"/>
+<path d="M74 50H25V52H74V50Z" fill="white"/>
+<path d="M74 56H25V58H74V56Z" fill="white"/>
+<path d="M74 62H25V64H74V62Z" fill="white"/>
+<path d="M74 68H25V70H74V68Z" fill="white"/>
+<path d="M74 74H25V76H74V74Z" fill="white"/>
+<path d="M74 80H25V82H74V80Z" fill="white"/>
+<path d="M74 86H25V88H74V86Z" fill="white"/>
   </symbol>
 </svg>

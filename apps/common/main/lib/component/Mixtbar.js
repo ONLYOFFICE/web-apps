@@ -297,7 +297,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><a data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);

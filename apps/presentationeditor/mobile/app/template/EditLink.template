@@ -160,9 +160,9 @@
                                 <div class="item-after splitter">
                                     <% if (!android) { %><label></label><% } %>
                                     <p class="buttons-row">
-                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <span class="button decrement no-ripple"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
                                         <% if (android) { %><label></label><% } %>
-                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                        <span class="button increment no-ripple"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
                                     </p>
                                 </div>
                             </div>

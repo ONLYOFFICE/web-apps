@@ -502,8 +502,7 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                if (me.appOptions.isReviewOnly)
-                    me.api.asc_SetTrackRevisions(true);
+                me.api.asc_SetTrackRevisions(me.appOptions.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (me.appOptions.fileKey || '')));
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
@@ -689,6 +688,7 @@ define([
                 me.appOptions.canChat         = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                 me.appOptions.canEditStyles   = me.appOptions.canLicense && me.appOptions.canEdit;
                 me.appOptions.canPrint        = (me.permissions.print !== false);
+                me.appOptions.fileKey = me.document.key;
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
                 me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -697,6 +697,10 @@ define([
 
                 me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
                 me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
+
+                if ( me.appOptions.isLightVersion ) {
+                    me.appOptions.canUseHistory = me.appOptions.canReview = me.appOptions.isReviewOnly = false;
+                }
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
@@ -896,6 +900,10 @@ define([
 
                     case Asc.c_oAscError.ID.AccessDeny:
                         config.msg = this.errorAccessDeny;
+                        break;
+
+                    case Asc.c_oAscError.ID.EditingError:
+                        config.msg = this.errorEditingDownloadas;
                         break;
 
                     default:
@@ -1199,7 +1207,7 @@ define([
                 if (!this.appOptions.canPrint) return;
 
                 if (this.api)
-                    this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print();
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -1366,7 +1374,8 @@ define([
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             closeButtonText: 'Close File',
             scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
-            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.'
         }
     })(), DE.Controllers.Main || {}))
 });

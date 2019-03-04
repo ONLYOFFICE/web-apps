@@ -546,7 +546,7 @@ define([
             if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
                 me._mailMergeDlg = new Common.Views.SaveAsDlg({
                                     saveFolderUrl: me.mode.mergeFolderUrl,
-                                    savedFileUrl: url,
+                                    saveFileUrl: url,
                                     defFileName: me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx')
                                 });
                 me._mailMergeDlg.on('saveasfolder', function(obj, folder){ // save last folder
@@ -809,6 +809,8 @@ define([
             var comments = DE.getController('Common.Controllers.Comments');
             if (comments)
                 comments.setPreviewMode(disable);
+
+            DE.getController('LeftMenu').setPreviewMode(disable);
 
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
         },

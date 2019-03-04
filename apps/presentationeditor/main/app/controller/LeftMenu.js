@@ -307,6 +307,10 @@ define([
             }
             /** coauthoring end **/
 
+            value = Common.localStorage.getItem("pe-settings-fontrender");
+            Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
+            this.api.SetFontRenderingMode(parseInt(value));
+
             if (this.mode.isEdit) {
                 value = parseInt(Common.localStorage.getItem("pe-settings-autosave"));
                 Common.Utils.InternalSettings.set("pe-settings-autosave", value);
@@ -419,7 +423,7 @@ define([
             }
 
             if (show) {
-                var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
                 if (this.dlgSearch.isVisible()) {
                     this.dlgSearch.setMode(mode);
                     this.dlgSearch.focus();
@@ -462,6 +466,13 @@ define([
             } else {
                 Common.UI.info({msg: this.textNoTextFound});
             }
+        },
+
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+
+            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
         },
 
         onApiServerDisconnect: function(enableDownload) {

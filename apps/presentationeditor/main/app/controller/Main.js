@@ -121,6 +121,10 @@ define([
                     return;
                 }
 
+                var value = Common.localStorage.getItem("pe-settings-fontrender");
+                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
+
                 // Initialize api
 
                 window["flat_desine"] = true;
@@ -161,6 +165,7 @@ define([
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
+                    this.api.SetFontRenderingMode(parseInt(value));
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
@@ -226,6 +231,15 @@ define([
                             event.preventDefault();
                             event.dataTransfer.dropEffect ="none";
                             return false;
+                        }
+                    }).on('dragstart', function(e) {
+                        var event = e.originalEvent;
+                        if (event.target ) {
+                            var target = $(event.target);
+                            if (target.closest('.combobox').length>0 || target.closest('.dropdown-menu').length>0 ||
+                                target.closest('.ribtab').length>0 || target.closest('.combo-dataview').length>0) {
+                                event.preventDefault();
+                            }
                         }
                     });
 
@@ -392,7 +406,9 @@ define([
                         Asc.c_oAscFileType.PPTX,
                         Asc.c_oAscFileType.ODP,
                         Asc.c_oAscFileType.PDF,
-                        Asc.c_oAscFileType.PDFA
+                        Asc.c_oAscFileType.PDFA,
+                        Asc.c_oAscFileType.POTX,
+                        Asc.c_oAscFileType.OTP
                     ];
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
@@ -1169,6 +1185,10 @@ define([
 
                     case Asc.c_oAscError.ID.EditingError:
                         config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
+                        break;
+
+                    case Asc.c_oAscError.ID.MailToClientMissing:
+                        config.msg = this.errorEmailClient;
                         break;
 
                     default:
@@ -2144,7 +2164,8 @@ define([
             txtShape_curvedConnector3WithTwoArrows: 'Curved Double-Arrow Connector',
             txtShape_spline: 'Curve',
             txtShape_polyline1: 'Scribble',
-            txtShape_polyline2: 'Freeform'
+            txtShape_polyline2: 'Freeform',
+            errorEmailClient: 'No email client could be found'
         }
     })(), PE.Controllers.Main || {}))
 });

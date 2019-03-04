@@ -44,10 +44,12 @@ define([
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
             {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF},
-            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
-        ],[
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV}
+        ],[
+            {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA},
+            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS}
         ]
 //        ,[
 //            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML}
@@ -104,10 +106,12 @@ define([
         formats: [[
             {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX,  ext: '.xlsx'},
             {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF,   ext: '.pdf'},
-            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA,  ext: '.pdf'}
-        ],[
             {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS,   ext: '.ods'},
             {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV,   ext: '.csv'}
+        ],[
+            {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX,   ext: '.xltx'},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA,  ext: '.pdf'},
+            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS,    ext: '.ots'}
         ]
 //        ,[
 //            {name: 'HTML', imgCls: 'html', type: Asc.c_oAscFileType.HTML,  ext: '.html'}

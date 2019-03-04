@@ -2032,32 +2032,32 @@ define([
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignLeft,
                                 iconCls : 'mnu-img-align-left',
-                                halign  : Asc.c_oAscAlignH.Left
+                                value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignCenter,
                                 iconCls : 'mnu-img-align-center',
-                                halign  : Asc.c_oAscAlignH.Center
+                                value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignRight,
                                 iconCls : 'mnu-img-align-right',
-                                halign  : Asc.c_oAscAlignH.Right
+                                value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignTop,
                                 iconCls : 'mnu-img-align-top',
-                                valign  : Asc.c_oAscAlignV.Top
+                                value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignMiddle,
                                 iconCls : 'mnu-img-align-middle',
-                                valign  : Asc.c_oAscAlignV.Center
+                                value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignBottom,
                                 iconCls : 'mnu-img-align-bottom',
-                                valign  : Asc.c_oAscAlignV.Bottom
+                                value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                             }).on('click', onItemClick),
                             {caption    : '--'},
                             new Common.UI.MenuItem({
@@ -2357,6 +2357,32 @@ define([
             var menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 }).on('click', _.bind(me.onSignatureClick, me));
             var menuEditSignSeparator = new Common.UI.MenuItem({ caption: '--' });
 
+            var menuImgRotate = new Common.UI.MenuItem({
+                caption     : me.textRotate,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: this.textRotate90,
+                            value  : 1
+                        }).on('click', _.bind(me.onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: this.textRotate270,
+                            value  : 0
+                        }).on('click', _.bind(me.onImgRotate, me)),
+                        { caption: '--' },
+                        new Common.UI.MenuItem({
+                            caption: this.textFlipH,
+                            value  : 1
+                        }).on('click', _.bind(me.onImgFlip, me)),
+                        new Common.UI.MenuItem({
+                            caption: this.textFlipV,
+                            value  : 0
+                        }).on('click', _.bind(me.onImgFlip, me))
+                    ]
+                })
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
@@ -2417,16 +2443,20 @@ define([
 
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
+                    var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
                     var pluginGuid = value.imgProps.value.asc_getPluginGuid();
                     menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(islocked || pluginGuid===null);
 
-                    var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
+                    menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgRotate.isVisible())
+                        menuImgRotate.setDisabled(islocked);
+
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[14].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[15].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2474,6 +2504,7 @@ define([
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
+                    menuImgRotate,
                     { caption: '--' },
                     me.menuOriginalSize,
                     menuImgReplace,
@@ -3631,12 +3662,13 @@ define([
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
                         caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
                         langid      : lang.code,
                         spellcheck   : lang.spellcheck,
                         template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
                                 '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                                 '<%= caption %>',
                             '</a>'
@@ -3655,12 +3687,13 @@ define([
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
                         caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
                         langid      : lang.code,
                         spellcheck   : lang.spellcheck,
                         template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
                                 '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                                 '<%= caption %>',
                             '</a>'
@@ -3696,6 +3729,23 @@ define([
                     this.api.asc_RemoveSignature(datavalue); //guid
                     break;
             }
+        },
+
+        onImgRotate: function(item) {
+            var properties = new Asc.asc_CImgProperty();
+            properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            this.api.ImgApply(properties);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onImgFlip: function(item) {
+            var properties = new Asc.asc_CImgProperty();
+            if (item.value==1)
+                properties.asc_putFlipHInvert(true);
+            else
+                properties.asc_putFlipVInvert(true);
+            this.api.ImgApply(properties);
+            this.fireEvent('editcomplete', this);
         },
 
         focus: function() {
@@ -3908,6 +3958,11 @@ define([
         bulletsText: 'Bullets and Numbering',
         txtDistribHor           : 'Distribute Horizontally',
         txtDistribVert          : 'Distribute Vertically',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
+        textFlipV: 'Flip Vertically',
+        textFlipH: 'Flip Horizontally',
+        textRotate: 'Rotate'
 
     }, DE.Views.DocumentHolder || {}));
 });
