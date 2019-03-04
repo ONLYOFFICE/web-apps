@@ -1451,6 +1451,10 @@ define([
                         config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
                         break;
 
+                   case Asc.c_oAscError.ID.MailToClientMissing:
+                        config.msg = this.errorEmailClient;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2525,7 +2529,8 @@ define([
             txtShape_curvedConnector3WithTwoArrows: 'Curved Double-Arrow Connector',
             txtShape_spline: 'Curve',
             txtShape_polyline1: 'Scribble',
-            txtShape_polyline2: 'Freeform'
+            txtShape_polyline2: 'Freeform',
+            errorEmailClient: 'No email client could be found'
         }
     })(), DE.Controllers.Main || {}))
 });

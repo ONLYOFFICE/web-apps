@@ -643,6 +643,7 @@
   "DE.Controllers.Main.warnNoLicense": "Эта версия редакторов ONLYOFFICE имеет некоторые ограничения по количеству одновременных подключений к серверу документов.<br>Если требуется больше, рассмотрите вопрос о покупке коммерческой лицензии.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Эта версия редакторов ONLYOFFICE имеет некоторые ограничения по числу одновременно работающих пользователей.<br>Если требуется больше, рассмотрите вопрос о покупке коммерческой лицензии.",
   "DE.Controllers.Main.warnProcessRightsChange": "Вам было отказано в праве на редактирование этого файла.",
+  "DE.Controllers.Main.errorEmailClient": "Не найден почтовый клиент.",
   "DE.Controllers.Navigation.txtBeginning": "Начало документа",
   "DE.Controllers.Navigation.txtGotoBeginning": "Перейти в начало документа",
   "DE.Controllers.Statusbar.textHasChanges": "Отслежены новые изменения",

@@ -1365,6 +1365,10 @@ define([
                         config.msg = this.errorMultiCellFormula;
                         break;
 
+                    case Asc.c_oAscError.ID.MailToClientMissing:
+                        config.msg = this.errorEmailClient;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2488,7 +2492,8 @@ define([
             txtShape_polyline1: 'Scribble',
             txtShape_polyline2: 'Freeform',
             errorChangeArray: 'You cannot change part of an array.',
-            errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.'
+            errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.',
+            errorEmailClient: 'No email client could be found'
         }
     })(), SSE.Controllers.Main || {}))
 });
