@@ -1894,9 +1894,13 @@ define([
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.funcMenu,
-                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection');
+                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
+                    funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
 
                 for (var i = 0; i < menu.items.length; i++) {
+                    var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                    if (tip)
+                        tip.hide();
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
@@ -1909,9 +1913,13 @@ define([
                 });
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
+                        name = menuItem.asc_getName(),
+                        origname = me.api.asc_getFormulaNameByLocale(name),
                         mnu = new Common.UI.MenuItem({
-                        iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
-                        caption: menuItem.asc_getName()
+                            iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
+                            caption: name,
+                            hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : '',
+                            hintAnchor: 'right'
                     }).on('click', function(item, e) {
                         setTimeout(function(){ me.api.asc_insertFormula(item.caption, type, false ); }, 10);
                     });
@@ -1958,6 +1966,13 @@ define([
                             Common.UI.Menu.Manager.hideAll();
                         }
                     };
+                    menu.on('hide:after', function(){
+                        for (var i = 0; i < menu.items.length; i++) {
+                            var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                            if (tip)
+                                tip.hide();
+                        }
+                    });
 
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
@@ -1982,7 +1997,11 @@ define([
                         me.cellEditor.focus();
                     menu.cmpEl.toggleClass('from-cell-edit', infocus);
                     _.delay(function() {
-                        menu.cmpEl.find('li:first a').addClass('focus');
+                        var a = menu.cmpEl.find('li:first a');
+                        a.addClass('focus');
+                        var tip = a.parent().data('bs.tooltip');
+                        if (tip)
+                            tip.show();
                     }, 10);
                     if (!infocus)
                         _.delay(function() {

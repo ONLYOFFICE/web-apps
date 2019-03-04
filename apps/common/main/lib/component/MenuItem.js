@@ -135,6 +135,7 @@ define([
             this.toggleGroup    = me.options.toggleGroup;
             this.template       = me.options.template || this.template;
             this.iconCls        = me.options.iconCls;
+            this.hint           = me.options.hint;
             this.rendered       = false;
 
             if (this.menu !== null && !(this.menu instanceof Common.UI.Menu)) {
@@ -187,6 +188,14 @@ define([
                         if (!_.isEmpty(this.iconCls)) {
                             firstChild.css('background-image', 'none');
                         }
+                    }
+
+                    if (me.options.hint) {
+                        el.attr('data-toggle', 'tooltip');
+                        el.tooltip({
+                            title       : me.options.hint,
+                            placement   : me.options.hintAnchor||'cursor'
+                        });
                     }
 
                     if (this.disabled)
