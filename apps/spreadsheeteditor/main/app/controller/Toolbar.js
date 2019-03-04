@@ -78,9 +78,6 @@ define([
                 'Statusbar': {
                     'sheet:changed': _.bind(this.onApiSheetChanged, this)
                 },
-                'LeftMenu': {
-                    'settings:apply': _.bind(this.applyFormulaSettings, this)
-                },
                 'Common.Views.Header': {
                     'toolbar:setcompact': this.onChangeViewMode.bind(this),
                     'print': function (opts) {
@@ -121,6 +118,7 @@ define([
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
+            Common.NotificationCenter.on('formula:settings', _.bind(this.applyFormulaSettings, this));
 
             this.editMode = true;
             this._isAddingShape = false;

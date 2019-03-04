@@ -56,7 +56,7 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                width           : 310,
+                width           : 350,
                 height          : 490,
                 contentWidth    : 390,
                 header          : true,

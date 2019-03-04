@@ -60,6 +60,9 @@ define([
 
         initialize: function () {
             var me = this;
+            me.langJson = {};
+            me.langDescJson = {};
+
             this.addListeners({
                 'FileMenu': {
                     'settings:apply': function() {
@@ -124,20 +127,50 @@ define([
             var me = this;
             lang = (lang || 'en').split(/[\-_]/)[0].toLowerCase();
 
-            if ( lang != 'en' ) {
-                Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
+            Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
+            if (me.langJson[lang]) {
+                me.api.asc_setLocalization(me.langJson[lang]);
+                Common.NotificationCenter.trigger('formula:settings', this);
+            } else if (lang == 'en') {
+                me.api.asc_setLocalization(undefined);
+                Common.NotificationCenter.trigger('formula:settings', this);
+            } else {
                 Common.Utils.loadConfig('resources/formula-lang/' + lang + '.json',
                     function (config) {
-                        if ( config != 'error' )
+                        if ( config != 'error' ) {
+                            me.langJson[lang] = config;
                             me.api.asc_setLocalization(config);
+                            Common.NotificationCenter.trigger('formula:settings', this);
+                        }
                     });
-            } else me.api.asc_setLocalization(undefined);
+            }
 
-            Common.Utils.loadConfig('resources/formula-lang/' + lang + '_desc.json',
-                function (config) {
-                    if ( config != 'error' )
-                        me.loadingFormulas(config);
-                });
+            if (me.langDescJson[lang])
+                me.loadingFormulas(me.langDescJson[lang]);
+            else  {
+                Common.Utils.loadConfig('resources/formula-lang/' + lang + '_desc.json',
+                    function (config) {
+                        if ( config != 'error' ) {
+                            me.langDescJson[lang] = config;
+                            me.loadingFormulas(config);
+                        } else {
+                            Common.Utils.loadConfig('resources/formula-lang/en_desc.json',
+                                function (config) {
+                                    me.langDescJson[lang] = (config != 'error') ? config : null;
+                                    me.loadingFormulas(me.langDescJson[lang]);
+                                });
+                        }
+                    });
+            }
+        },
+
+        getDescription: function(lang) {
+            if (!lang) return '';
+            lang = lang.toLowerCase() ;
+
+            if (this.langDescJson[lang])
+                return this.langDescJson[lang];
+            return null;
         },
 
         showDialog: function () {
@@ -145,8 +178,10 @@ define([
                 if ( this.needUpdateFormula ) {
                     this.needUpdateFormula = false;
 
-                    this.formulas.fillFormulasGroups();
-                    this.formulas.fillFunctions('All');
+                    if (this.formulas.$window) {
+                        this.formulas.fillFormulasGroups();
+                        this.formulas.fillFunctions('All');
+                    }
                 }
                 this.formulas.show();
             }
