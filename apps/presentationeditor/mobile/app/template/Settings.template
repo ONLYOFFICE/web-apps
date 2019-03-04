@@ -236,6 +236,30 @@
                                 </div>
                             </a>
                         </li>
+                        <li>
+                            <a data-format="135" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-potx"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">POTX</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="138" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-otp"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">OTP</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

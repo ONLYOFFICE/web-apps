@@ -307,6 +307,10 @@ define([
             }
             /** coauthoring end **/
 
+            value = Common.localStorage.getItem("pe-settings-fontrender");
+            Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
+            this.api.SetFontRenderingMode(parseInt(value));
+
             if (this.mode.isEdit) {
                 value = parseInt(Common.localStorage.getItem("pe-settings-autosave"));
                 Common.Utils.InternalSettings.set("pe-settings-autosave", value);

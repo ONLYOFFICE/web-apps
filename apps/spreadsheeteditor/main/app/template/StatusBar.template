@@ -23,6 +23,8 @@
         <div class="separator short" style="margin-right: 12px;" />
         <label id="status-math-average">AVERAGE: 10</label>
         <label id="status-math-count">COUNT: 3</label>
+        <label id="status-math-min">MIN: 1</label>
+        <label id="status-math-max">MAX: 5</label>
         <label id="status-math-sum">SUM: 5</label>
     </div>
     <div id="status-filtered-box" class="status-group">

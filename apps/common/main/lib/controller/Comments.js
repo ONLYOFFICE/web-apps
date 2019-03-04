@@ -1010,7 +1010,7 @@ define([
 
         // internal
 
-        updateComments: function (needRender, disableSort) {
+        updateComments: function (needRender, disableSort, loadText) {
             var me = this;
             me.updateCommentsTime = new Date();
             if (me.timerUpdateComments===undefined)
@@ -1018,12 +1018,12 @@ define([
                     if ((new Date()) - me.updateCommentsTime>100) {
                         clearInterval(me.timerUpdateComments);
                         me.timerUpdateComments = undefined;
-                        me.updateCommentsView(needRender, disableSort);
+                        me.updateCommentsView(needRender, disableSort, loadText);
                     }
                }, 25);
         },
 
-        updateCommentsView: function (needRender, disableSort) {
+        updateCommentsView: function (needRender, disableSort, loadText) {
             if (needRender && !this.view.isVisible()) {
                 this.view.needRender = needRender;
                 this.onUpdateFilter(this.filter, true);
@@ -1055,6 +1055,8 @@ define([
             }
 
             this.view.update();
+
+            loadText && this.view.loadText();
         },
         findComment: function (uid) {
             return this.collection.findWhere({uid: uid});
@@ -1138,27 +1140,47 @@ define([
             for (var name in this.groupCollection) {
                 hasGroup = true;
                 this.groupCollection[name].each(function (model) {
-                    var user = users.findOriginalUser(model.get('userid'));
-                    model.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                    var user = users.findOriginalUser(model.get('userid')),
+                        color = (user) ? user.get('color') : null,
+                        needrender = false;
+                    if (color !== model.get('usercolor')) {
+                        needrender = true;
+                        model.set('usercolor', color, {silent: true});
+                    }
 
                     model.get('replys').forEach(function (reply) {
                         user = users.findOriginalUser(reply.get('userid'));
-                        reply.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                        color = (user) ? user.get('color') : null;
+                        if (color !== reply.get('usercolor')) {
+                            needrender = true;
+                            reply.set('usercolor', color, {silent: true});
+                        }
                     });
+
+                    if (needrender)
+                        model.trigger('change');
                 });
             }
             !hasGroup && this.collection.each(function (model) {
-                var user = users.findOriginalUser(model.get('userid'));
-                model.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                var user = users.findOriginalUser(model.get('userid')),
+                    color = (user) ? user.get('color') : null,
+                    needrender = false;
+                if (color !== model.get('usercolor')) {
+                    needrender = true;
+                    model.set('usercolor', color, {silent: true});
+                }
 
                 model.get('replys').forEach(function (reply) {
                     user = users.findOriginalUser(reply.get('userid'));
-                    reply.set('usercolor', (user) ? user.get('color') : null, {silent: true});
+                    color = (user) ? user.get('color') : null;
+                    if (color !== reply.get('usercolor')) {
+                        needrender = true;
+                        reply.set('usercolor', color, {silent: true});
+                    }
                 });
+                if (needrender)
+                    model.trigger('change');
             });
-            this.updateComments(true);
-            if (this.getPopover().isVisible())
-                this.getPopover().update(true);
         },
 
         readSDKComment: function (id, data) {
@@ -1239,11 +1261,14 @@ define([
             if (this.api) {
                 var me = this, anchor = null, date = new Date(), dialog = this.getPopover();
                 if (dialog) {
-                    if (this.popoverComments.length) {
-                        _.delay(function() {
-                            dialog.commentsView.setFocusToTextBox();
-                        }, 200);
-                        return;
+                    if (this.popoverComments.length) {// can add new comment to text with other comments
+                        if (this.isDummyComment) {//don't hide previous dummy comment
+                            _.delay(function() {
+                                dialog.commentsView.setFocusToTextBox();
+                            }, 200);
+                            return;
+                        } else
+                            this.closeEditing(); // add dummy comment and close editing for existing comment
                     }
 
                     var user = this.userCollection.findOriginalUser(this.currentUserId);

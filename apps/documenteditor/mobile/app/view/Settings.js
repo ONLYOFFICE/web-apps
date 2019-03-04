@@ -268,7 +268,12 @@ define([
             textPoweredBy: 'Powered by',
             textSpellcheck: 'Spell Checking',
             textPrint: 'Print',
-            textReview: 'Review'
+            textReview: 'Review',
+            textMargins: 'Margins',
+            textTop: 'Top',
+            textLeft: 'Left',
+            textBottom: 'Bottom',
+            textRight: 'Right'
 
     }
     })(), DE.Views.Settings || {}))

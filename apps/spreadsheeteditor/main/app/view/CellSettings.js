@@ -230,6 +230,7 @@ define([
                 width: 60,
                 defaultUnit : "°",
                 value: '0 °',
+                allowDecimal: false,
                 maxValue: 90,
                 minValue: -90
             });

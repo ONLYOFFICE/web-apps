@@ -241,6 +241,15 @@ define([
                             event.dataTransfer.dropEffect ="none";
                             return false;
                         }
+                    }).on('dragstart', function(e) {
+                        var event = e.originalEvent;
+                        if (event.target ) {
+                            var target = $(event.target);
+                            if (target.closest('.combobox').length>0 || target.closest('.dropdown-menu').length>0 ||
+                                target.closest('.ribtab').length>0 || target.closest('.combo-dataview').length>0) {
+                                event.preventDefault();
+                            }
+                        }
                     });
 
                     Common.NotificationCenter.on({
@@ -424,7 +433,9 @@ define([
                             Asc.c_oAscFileType.DOCX,
                             Asc.c_oAscFileType.HTML,
                             Asc.c_oAscFileType.PDF,
-                            Asc.c_oAscFileType.PDFA
+                            Asc.c_oAscFileType.PDFA,
+                            Asc.c_oAscFileType.DOTX,
+                            Asc.c_oAscFileType.OTT
                         ];
 
                     if ( !_format || _supported.indexOf(_format) < 0 )
@@ -1443,6 +1454,10 @@ define([
 
                     case Asc.c_oAscError.ID.EditingError:
                         config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
+                        break;
+
+                   case Asc.c_oAscError.ID.MailToClientMissing:
+                        config.msg = this.errorEmailClient;
                         break;
 
                     default:
@@ -2518,7 +2533,8 @@ define([
             txtShape_curvedConnector3WithTwoArrows: 'Curved Double-Arrow Connector',
             txtShape_spline: 'Curve',
             txtShape_polyline1: 'Scribble',
-            txtShape_polyline2: 'Freeform'
+            txtShape_polyline2: 'Freeform',
+            errorEmailClient: 'No email client could be found'
         }
     })(), DE.Controllers.Main || {}))
 });

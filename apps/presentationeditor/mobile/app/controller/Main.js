@@ -852,6 +852,10 @@ define([
                         config.msg = this.errorAccessDeny;
                         break;
 
+                    case Asc.c_oAscError.ID.EditingError:
+                        config.msg = this.errorEditingDownloadas;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1352,7 +1356,8 @@ define([
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             closeButtonText: 'Close File',
             scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
-            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.'
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.'
         }
     })(), PE.Controllers.Main || {}))
 });

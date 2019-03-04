@@ -104,7 +104,9 @@ define([
                             Asc.c_oAscFileType.XLSX,
                             Asc.c_oAscFileType.ODS,
                             Asc.c_oAscFileType.CSV,
-                            Asc.c_oAscFileType.PDFA
+                            Asc.c_oAscFileType.PDFA,
+                            Asc.c_oAscFileType.XLTX,
+                            Asc.c_oAscFileType.OTS
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -855,7 +857,7 @@ define([
                     fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
                 })).on('selectfile', function(obj, file){
                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                    me.api.asc_addImageDrawingObject(file.url);
+                    me.api.asc_addImageDrawingObject(file.url, undefined, true);// for loading from storage;
                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                 }).show();
             }
@@ -2994,18 +2996,12 @@ define([
         onSetupCopyStyleButton: function () {
             this.modeAlwaysSetStyle = false;
 
-            var acsCopyFmtStyleState = {
-                kOff        : 0,
-                kOn         : 1,
-                kMultiple   : 2
-            };
-
             var me = this;
 
             Common.NotificationCenter.on({
                 'edit:complete': function () {
                     if (me.api && me.modeAlwaysSetStyle) {
-                        me.api.asc_formatPainter(acsCopyFmtStyleState.kOff);
+                        me.api.asc_formatPainter(AscCommon.c_oAscFormatPainterState.kOff);
                         me.toolbar.btnCopyStyle.toggle(false, true);
                         me.modeAlwaysSetStyle = false;
                     }
@@ -3016,7 +3012,7 @@ define([
                 if (me.api) {
                     me.modeAlwaysSetStyle = true;
                     me.toolbar.btnCopyStyle.toggle(true, true);
-                    me.api.asc_formatPainter(acsCopyFmtStyleState.kMultiple);
+                    me.api.asc_formatPainter(AscCommon.c_oAscFormatPainterState.kMultiple);
                 }
             });
         },
