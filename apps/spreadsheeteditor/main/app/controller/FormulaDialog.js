@@ -134,7 +134,8 @@ define([
                 funcInd = 0,
                 info = null,
                 allFunctions = [],
-                allFunctionsGroup = null;
+                allFunctionsGroup = null,
+                separator = this.api.asc_getFunctionArgumentSeparator();
 
             if (store) {
                 var value = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
@@ -172,7 +173,7 @@ define([
                                 index : funcInd,
                                 group : ascGroupName,
                                 name  : ascFunctions[j].asc_getLocaleName(),
-                                args  : (value && value[funcname]) ? value[funcname].a : '',
+                                args  : ((value && value[funcname]) ? value[funcname].a : '').replace(/[,;]/g, separator),
                                 desc  : (value && value[funcname]) ? value[funcname].d : ''
                             });
 
