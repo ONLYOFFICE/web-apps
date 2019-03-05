@@ -131,7 +131,9 @@ define([
                         'Diagram Title': this.txtDiagramTitle,
                         'X Axis': this.txtXAxis,
                         'Y Axis': this.txtYAxis,
-                        'Your text here': this.txtArt
+                        'Your text here': this.txtArt,
+                        'Table': this.txtTable,
+                        'Print_Area': this.txtPrintArea
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2493,7 +2495,9 @@ define([
             txtShape_polyline2: 'Freeform',
             errorChangeArray: 'You cannot change part of an array.',
             errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.',
-            errorEmailClient: 'No email client could be found'
+            errorEmailClient: 'No email client could be found',
+            txtPrintArea: 'Print_Area',
+            txtTable: 'Table'
         }
     })(), SSE.Controllers.Main || {}))
 });
