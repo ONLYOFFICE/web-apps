@@ -1951,6 +1951,8 @@
   "SSE.Views.Statusbar.RenameDialog.labelSheetName": "Име на листа",
   "SSE.Views.Statusbar.textAverage": "СРЕДНО АРИТМЕТИЧНО",
   "SSE.Views.Statusbar.textCount": "БРОЯ",
+  "SSE.Views.Statusbar.textMax": "MAX",
+  "SSE.Views.Statusbar.textMin": "MIN",
   "SSE.Views.Statusbar.textNewColor": "Добавяне на нов персонализиран цвят",
   "SSE.Views.Statusbar.textNoColor": "Няма цвят",
   "SSE.Views.Statusbar.textSum": "SUM",

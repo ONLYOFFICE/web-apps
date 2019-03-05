@@ -1952,6 +1952,8 @@
   "SSE.Views.Statusbar.RenameDialog.labelSheetName": "Имя листа",
   "SSE.Views.Statusbar.textAverage": "СРЕДНЕЕ",
   "SSE.Views.Statusbar.textCount": "КОЛИЧЕСТВО",
+  "SSE.Views.Statusbar.textMax": "МАКС",
+  "SSE.Views.Statusbar.textMin": "МИН",
   "SSE.Views.Statusbar.textNewColor": "Пользовательский цвет",
   "SSE.Views.Statusbar.textNoColor": "Без цвета",
   "SSE.Views.Statusbar.textSum": "СУММА",
