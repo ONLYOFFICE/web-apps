@@ -99,28 +99,42 @@ define([
             this.cmbFormat = new Common.UI.ComboBox({
                 el          : $('#id-dlg-formula-format'),
                 cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100%; max-heigh: 200px;'
+                menuStyle   : 'min-width: 100%; max-height: 200px;'
             });
 
             this.cmbFunction = new Common.UI.ComboBox({
                 el          : $('#id-dlg-formula-function'),
                 cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
+                menuStyle   : 'min-width: 100%; max-height: 150px;',
                 editable    : false,
+                scrollAlwaysVisible: true,
                 data: [
                     {displayValue: 'ABS', value: 1},
                     {displayValue: 'AND', value: 1},
                     {displayValue: 'AVERAGE', value: 1},
-                    {displayValue: 'SUM', value: 0}
+                    {displayValue: 'COUNT', value: 1},
+                    {displayValue: 'DEFINED', value: 1},
+                    {displayValue: 'FALSE', value: 0},
+                    {displayValue: 'INT', value: 1},
+                    {displayValue: 'MAX', value: 1},
+                    {displayValue: 'MIN', value: 1},
+                    {displayValue: 'MOD', value: 1},
+                    {displayValue: 'NOT', value: 1},
+                    {displayValue: 'OR', value: 1},
+                    {displayValue: 'PRODUCT', value: 1},
+                    {displayValue: 'ROUND', value: 1},
+                    {displayValue: 'SIGN', value: 1},
+                    {displayValue: 'SUM', value: 1},
+                    {displayValue: 'TRUE', value: 0}
                 ]
             });
             this.cmbFunction.on('selected', _.bind(function(combo, record) {
                 combo.setValue(this.textInsertFunction);
                 var _input = me.inputFormula._input,
                     end = _input[0].selectionEnd;
-                _input.val(_input.val().substring(0, end) + record.displayValue + '()' + _input.val().substring(end));
+                _input.val(_input.val().substring(0, end) + record.displayValue + (record.value ? '()' : '') + _input.val().substring(end));
                 _input.focus();
-                _input[0].selectionStart = _input[0].selectionEnd = end + record.displayValue.length+1;
+                _input[0].selectionStart = _input[0].selectionEnd = end + record.displayValue.length + record.value;
                 this.btnOk.setDisabled(false);
             }, this));
             this.cmbFunction.setValue(this.textInsertFunction);
@@ -128,7 +142,7 @@ define([
             this.cmbBookmark = new Common.UI.ComboBox({
                 el          : $('#id-dlg-formula-bookmark'),
                 cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
+                menuStyle   : 'min-width: 100%; max-heigh: 150px;',
                 editable    : false
             });
             this.cmbBookmark.on('selected', _.bind(function(combo, record) {
@@ -169,7 +183,16 @@ define([
         },
 
         _setDefaults: function () {
-            this.inputFormula.setValue(this.api.asc_GetTableFormula());
+            var arr = [];
+            _.each(this.api.asc_GetTableFormulaFormats(), function(item) {
+                arr.push({value: item, displayValue: item});
+            });
+            this.cmbFormat.setData(arr);
+            var formula = this.api.asc_GetTableFormula(),
+                idx = formula.lastIndexOf('/\#');
+            this.inputFormula.setValue(formula.substring(0, (idx>-1) ? idx : formula.length));
+            if (idx>-1)
+                this.cmbFormat.setValue(formula.substring(idx+2, formula.length));
             this.checkFormulaInput(this.inputFormula, this.inputFormula.getValue());
         },
 
@@ -195,7 +218,7 @@ define([
         },
 
         getSettings: function () {
-            return this.inputFormula.getValue();
+            return (this.inputFormula.getValue() + '/\#' + this.cmbFormat.getValue());
         },
 
         onBtnClick: function(event) {
