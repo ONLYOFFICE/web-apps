@@ -188,11 +188,9 @@ define([
                 arr.push({value: item, displayValue: item});
             });
             this.cmbFormat.setData(arr);
-            var formula = this.api.asc_GetTableFormula(),
-                idx = formula.lastIndexOf('\\#');
-            this.inputFormula.setValue(formula.substring(0, (idx>-1) ? idx : formula.length));
-            if (idx>-1)
-                this.cmbFormat.setValue(formula.substring(idx+2, formula.length));
+            var formula = this.api.asc_ParseTableFormulaInstrLine(this.api.asc_GetTableFormula());
+            this.inputFormula.setValue(formula[0]);
+            this.cmbFormat.setValue(formula[1]);
             this.checkFormulaInput(this.inputFormula, this.inputFormula.getValue());
         },
 
@@ -218,7 +216,7 @@ define([
         },
 
         getSettings: function () {
-            return (this.inputFormula.getValue() + '\\#' + this.cmbFormat.getValue());
+            return this.api.asc_CreateInstructionLine(this.inputFormula.getValue(), this.cmbFormat.getValue());
         },
 
         onBtnClick: function(event) {
