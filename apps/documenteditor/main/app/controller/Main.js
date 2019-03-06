@@ -130,27 +130,38 @@ define([
 
                 var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
-                    translate = {
-                        'Series': this.txtSeries,
-                        'Diagram Title': this.txtDiagramTitle,
-                        'X Axis': this.txtXAxis,
-                        'Y Axis': this.txtYAxis,
-                        'Your text here': this.txtArt,
-                        "Error! Bookmark not defined.": this.txtBookmarkError,
-                        "above": this.txtAbove,
-                        "below": this.txtBelow,
-                        "on page ": this.txtOnPage,
-                        "Header": this.txtHeader,
-                        "Footer": this.txtFooter,
-                        " -Section ": this.txtSection,
-                        "First Page ": this.txtFirstPage,
-                        "Even Page ": this.txtEvenPage,
-                        "Odd Page ": this.txtOddPage,
-                        "Same as Previous": this.txtSameAsPrev,
-                        "Current Document": this.txtCurrentDocument,
-                        "No table of contents entries found.": this.txtNoTableOfContents,
-                        "Table of Contents": this.txtTableOfContents
-                    };
+                translate = {
+                    'Series': this.txtSeries,
+                    'Diagram Title': this.txtDiagramTitle,
+                    'X Axis': this.txtXAxis,
+                    'Y Axis': this.txtYAxis,
+                    'Your text here': this.txtArt,
+                    "Error! Bookmark not defined.": this.txtBookmarkError,
+                    "above": this.txtAbove,
+                    "below": this.txtBelow,
+                    "on page ": this.txtOnPage,
+                    "Header": this.txtHeader,
+                    "Footer": this.txtFooter,
+                    " -Section ": this.txtSection,
+                    "First Page ": this.txtFirstPage,
+                    "Even Page ": this.txtEvenPage,
+                    "Odd Page ": this.txtOddPage,
+                    "Same as Previous": this.txtSameAsPrev,
+                    "Current Document": this.txtCurrentDocument,
+                    "No table of contents entries found.": this.txtNoTableOfContents,
+                    "Table of Contents": this.txtTableOfContents,
+                    "Syntax Error": this.txtSyntaxError,
+                    "Missing Operator": this.txtMissOperator,
+                    "Missing Argument": this.txtMissArg,
+                    "Number Too Large To Format": this.txtTooLarge,
+                    "Zero Divide": this.txtZeroDivide,
+                    "Is Not In Table": this.txtNotInTable,
+                    "Index Too Large": this.txtIndTooLarge,
+                    "The Formula Not In Table": this.txtFormulaNotInTable,
+                    "Table Index Cannot be Zero": this.txtTableInd,
+                    "Undefined Bookmark": this.txtUndefBookmark,
+                    "Unexpected End of Formula": this.txtEndOfFormula
+                };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
@@ -2530,6 +2541,17 @@ define([
             txtShape_spline: 'Curve',
             txtShape_polyline1: 'Scribble',
             txtShape_polyline2: 'Freeform',
+            txtSyntaxError: 'Syntax Error',
+            txtMissOperator: 'Missing Operator',
+            txtMissArg: 'Missing Argument',
+            txtTooLarge: 'Number Too Large To Format',
+            txtZeroDivide: 'Zero Divide',
+            txtNotInTable: 'Is Not In Table',
+            txtIndTooLarge: 'Index Too Large',
+            txtFormulaNotInTable: 'The Formula Not In Table',
+            txtTableInd: 'Table Index Cannot be Zero',
+            txtUndefBookmark: 'Undefined Bookmark',
+            txtEndOfFormula: 'Unexpected End of Formula',
             errorEmailClient: 'No email client could be found'
         }
     })(), DE.Controllers.Main || {}))
