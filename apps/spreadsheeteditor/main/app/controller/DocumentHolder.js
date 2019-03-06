@@ -1905,15 +1905,15 @@ define([
                     i--;
                 }
                 funcarr.sort(function (a,b) {
-                    var aname = a.asc_getName().toLocaleUpperCase(),
-                        bname = b.asc_getName().toLocaleUpperCase();
+                    var aname = a.asc_getName(true).toLocaleUpperCase(),
+                        bname = b.asc_getName(true).toLocaleUpperCase();
                     if (aname < bname) return -1;
                     if (aname > bname) return 1;
                     return 0;
                 });
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
-                        name = menuItem.asc_getName(),
+                        name = menuItem.asc_getName(true),
                         origname = me.api.asc_getFormulaNameByLocale(name),
                         mnu = new Common.UI.MenuItem({
                             iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
