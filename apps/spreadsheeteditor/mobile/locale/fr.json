@@ -143,6 +143,7 @@
   "SSE.Controllers.Main.errorMailMergeSaveFile": "Fusion a échoué.",
   "SSE.Controllers.Main.errorMaxPoints": "Le nombre maximal de points par graphique est 4096.",
   "SSE.Controllers.Main.errorMoveRange": "Impossible de modifier une partie d'une cellule fusionnée",
+  "SSE.Controllers.Main.errorMultiCellFormula": "Formules de tableau plusieurs cellules ne sont pas autorisées dans les classeurs.",
   "SSE.Controllers.Main.errorOpenWarning": "La longueur de l'une des formules dans le fichier a dépassé <br> le nombre de caractères autorisé, et la formule a été supprimée.",
   "SSE.Controllers.Main.errorOperandExpected": "La syntaxe de la saisie est incorrecte. Veuillez vérifier la présence de l'une des parenthèses - '(' ou ')'.",
   "SSE.Controllers.Main.errorPasteMaxRange": "La zone de copie ne correspond pas à la zone de collage.<br>Sélectionnez une zone avec la même taille ou cliquez sur la première cellule d'une ligne pour coller les cellules sélectionnées.",

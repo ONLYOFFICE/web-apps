@@ -200,6 +200,10 @@ define([
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
                     '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr" /></td>',
                 '</tr>','<tr class="divider"></tr>',
+                '<tr>',
+                    '<td class="left"><label><%= scope.strFontRender %></label></td>',
+                    '<td class="right"><span id="fms-cmb-font-render" /></td>',
+                '</tr>','<tr class="divider"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strUnit %></label></td>',
                     '<td class="right"><span id="fms-cmb-unit" /></td>',
@@ -293,6 +297,18 @@ define([
                 labelText: this.strAlignGuides
             });
 
+            this.cmbFontRender = new Common.UI.ComboBox({
+                el          : $('#fms-cmb-font-render'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
+                    { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
+                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
+                ]
+            });
+
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $('#fms-cmb-unit'),
                 style       : 'width: 160px;',
@@ -358,6 +374,10 @@ define([
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
+            value = Common.Utils.InternalSettings.get("pe-settings-fontrender");
+            item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
+            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
+
             value = Common.Utils.InternalSettings.get("pe-settings-unit");
             item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
@@ -383,6 +403,7 @@ define([
                 Common.localStorage.setItem("pe-settings-coauthmode", this.cmbCoAuthMode.getValue());
             }
             /** coauthoring end **/
+            Common.localStorage.setItem("pe-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("pe-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
@@ -404,6 +425,10 @@ define([
         okButtonText: 'Apply',
         txtFitSlide: 'Fit to Slide',
         txtInput: 'Alternate Input',
+        txtWin: 'as Windows',
+        txtMac: 'as OS X',
+        txtNative: 'Native',
+        strFontRender: 'Font Hinting',
         strUnit: 'Unit of Measurement',
         txtCm: 'Centimeter',
         txtPt: 'Point',

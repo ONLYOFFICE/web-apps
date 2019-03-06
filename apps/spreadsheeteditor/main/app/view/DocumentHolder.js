@@ -704,6 +704,7 @@ define([
                             type   : 'rotate',
                             value  : 0
                         }),
+                        { caption: '--' },
                         new Common.UI.MenuItem({
                             caption: me.textFlipH,
                             type   : 'flip',

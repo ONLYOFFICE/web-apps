@@ -1462,6 +1462,10 @@ define([
                         config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.errorEditingSaveas : this.errorEditingDownloadas;
                         break;
 
+                   case Asc.c_oAscError.ID.MailToClientMissing:
+                        config.msg = this.errorEmailClient;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2547,7 +2551,8 @@ define([
             txtFormulaNotInTable: 'The Formula Not In Table',
             txtTableInd: 'Table Index Cannot be Zero',
             txtUndefBookmark: 'Undefined Bookmark',
-            txtEndOfFormula: 'Unexpected End of Formula'
+            txtEndOfFormula: 'Unexpected End of Formula',
+            errorEmailClient: 'No email client could be found'
         }
     })(), DE.Controllers.Main || {}))
 });
