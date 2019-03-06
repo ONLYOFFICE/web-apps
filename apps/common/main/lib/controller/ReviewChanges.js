@@ -604,7 +604,7 @@ define([
 
                 this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
                     if ( button ) {
-                        button.setDisabled(disable || this.langs.length<1);
+                        button.setDisabled(disable || !this.langs || this.langs.length<1);
                     }
                 }, this);
             }
