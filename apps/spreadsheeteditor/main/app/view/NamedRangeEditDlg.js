@@ -137,7 +137,7 @@ define([
                                 return me.textIsLocked;
                             break;
                             case Asc.c_oAscDefinedNameReason.Existed:
-                                return (me.isEdit && me.props.asc_getName().toLowerCase() == value.toLowerCase()) ? true : me.textExistName;
+                                return (me.isEdit && me.props.asc_getName(true).toLowerCase() == value.toLowerCase()) ? true : me.textExistName;
                             case Asc.c_oAscDefinedNameReason.NameReserved:
                                 return (me.isEdit) ? me.textReservedName : true;
                             default:
@@ -204,7 +204,7 @@ define([
                 var val = props.asc_getScope();
                 this.cmbScope.setValue((val===null) ? -255 : val);
 
-                val = props.asc_getName();
+                val = props.asc_getName(true);
                 if ( !_.isEmpty(val) ) this.inputName.setValue(val);
 
                 val = props.asc_getRef();
@@ -248,7 +248,7 @@ define([
         },
 
         getSettings: function() {
-            return (new Asc.asc_CDefName(this.inputName.getValue(), this.txtDataRange.getValue(), (this.cmbScope.getValue()==-255) ? null : this.cmbScope.getValue(), this.props.asc_getIsTable()));
+            return (new Asc.asc_CDefName(this.inputName.getValue(), this.txtDataRange.getValue(), (this.cmbScope.getValue()==-255) ? null : this.cmbScope.getValue(), this.props.asc_getIsTable(), undefined, undefined, undefined, true));
         },
 
         onPrimary: function() {
@@ -295,7 +295,7 @@ define([
         onRefreshDefNameList: function(name) {
             var me = this;
             if (this.isEdit && Common.Utils.InternalSettings.get("sse-settings-coauthmode")) { // fast co-editing
-                if (name && name.asc_getIsLock() && name.asc_getName().toLowerCase() == this.props.asc_getName().toLowerCase() &&
+                if (name && name.asc_getIsLock() && name.asc_getName(true).toLowerCase() == this.props.asc_getName(true).toLowerCase() &&
                     (name.asc_getScope() === null && this.props.asc_getScope() === null || name.asc_getScope().toLowerCase() == this.props.asc_getScope().toLowerCase()) && !this._listRefreshed) {
                     this._listRefreshed = true;
                     Common.UI.alert({
