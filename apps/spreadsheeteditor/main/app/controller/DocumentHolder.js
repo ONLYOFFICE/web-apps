@@ -75,7 +75,8 @@ define([
                 row_column: {
                     ttHeight: 20
                 },
-                filter: {ttHeight: 40}
+                filter: {ttHeight: 40},
+                func_arg: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -280,6 +281,7 @@ define([
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
+                this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
             }
             return this;
         },
@@ -1951,8 +1953,7 @@ define([
                         mnu = new Common.UI.MenuItem({
                             iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
                             caption: name,
-                            hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : '',
-                            hintAnchor: 'right'
+                            hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
                         setTimeout(function(){ me.api.asc_insertFormula(item.caption, type, false ); }, 10);
                     });
@@ -2043,6 +2044,60 @@ define([
                 }, 1);
             } else {
                 this.documentHolder.funcMenu.hide();
+            }
+        },
+
+        onFormulaInfo: function(name) {
+            var functip = this.tooltips.func_arg;
+            functip.isHidden = false;
+
+            if (name) {
+                var funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                    hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+
+                if (functip.ref && functip.ref.isVisible()) {
+                    if (functip.text != hint) {
+                        functip.ref.hide();
+                        functip.isHidden = true;
+                    }
+                }
+
+                if (!functip.ref || !functip.ref.isVisible()) {
+                    functip.text = hint;
+                    functip.ref = new Common.UI.Tooltip({
+                        owner   : this.documentHolder,
+                        html    : true,
+                        title   : hint,
+                        cls: 'auto-tooltip'
+                    }).on('tooltip:hide', function(tip) {
+                        if (tip !== functip) return;
+                        functip.ref = undefined;
+                        functip.text = '';
+                    });
+
+                    functip.ref.show([-10000, -10000]);
+                    functip.isHidden = false;
+                }
+
+                var pos = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    ],
+                    coord  = this.api.asc_getActiveCellCoord(),
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                var tipwidth = functip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+
+                functip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            } else {
+                if (!functip.isHidden && functip.ref) {
+                    functip.ref.hide();
+                    functip.isHidden = true;
+                }
             }
         },
 
