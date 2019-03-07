@@ -194,7 +194,22 @@ define([
                         el.attr('data-toggle', 'tooltip');
                         el.tooltip({
                             title       : me.options.hint,
-                            placement   : me.options.hintAnchor||'cursor'
+                            placement   : me.options.hintAnchor||function(tip, element) {
+                                var pos = this.getPosition(),
+                                    actualWidth = tip.offsetWidth,
+                                    actualHeight = tip.offsetHeight,
+                                    innerWidth = Common.Utils.innerWidth(),
+                                    innerHeight = Common.Utils.innerHeight();
+                                var top = pos.top,
+                                    left = pos.left + pos.width + 2;
+                                if (top + actualHeight > innerHeight) {
+                                    top = innerHeight - actualHeight - 2;
+                                }
+                                if (left + actualWidth > innerWidth) {
+                                    left = pos.left - actualWidth - 2;
+                                }
+                                $(tip).offset({top: top,left: left}).addClass('in');
+                            }
                         });
                     }
 
