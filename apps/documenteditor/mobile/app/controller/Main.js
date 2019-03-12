@@ -767,7 +767,7 @@ define([
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
                     uiApp.addNotification({
-                        title: 'ONLYOFFICE',
+                        title: uiApp.params.modalTitle,
                         message: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]
                     });
 
