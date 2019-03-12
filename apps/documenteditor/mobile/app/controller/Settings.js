@@ -223,6 +223,7 @@ define([
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
+                    $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
                     $('#settings-review input:checkbox').single('change',       _.bind(me.onTrackChanges, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
@@ -370,6 +371,12 @@ define([
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("de-mobile-spellcheck", state ? 1 : 0);
                 this.api && this.api.asc_setSpellCheck(state);
+            },
+
+            onOrthographyCheck: function (e) {
+                this.hideModal();
+
+                // TODO: Do check of orthography
             },
 
             onTrackChanges: function(e) {

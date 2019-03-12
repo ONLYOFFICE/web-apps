@@ -66,6 +66,11 @@ define([
                 (/MSIE 10/.test(ua) && /; Touch/.test(ua)));
         }
 
+        function isSailfish() {
+            var ua = navigator.userAgent;
+            return /Sailfish/.test(ua) || /Jolla/.test(ua);
+        }
+
         return {
             // Specifying a EditorController model
             models: [],
@@ -95,6 +100,7 @@ define([
 
                 Common.SharedSettings.set('android', Framework7.prototype.device.android);
                 Common.SharedSettings.set('phone', phone);
+                Common.SharedSettings.set('sailfish', isSailfish());
 
                 $('html').addClass(phone ? 'phone' : 'tablet');
 
