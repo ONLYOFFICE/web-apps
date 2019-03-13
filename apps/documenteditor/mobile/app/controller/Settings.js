@@ -376,7 +376,7 @@ define([
             onOrthographyCheck: function (e) {
                 this.hideModal();
 
-                // TODO: Do check of orthography
+                this.api && this.api.asc_pluginRun("asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}", 0);
             },
 
             onTrackChanges: function(e) {
