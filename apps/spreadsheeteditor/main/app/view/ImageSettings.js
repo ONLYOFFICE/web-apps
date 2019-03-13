@@ -457,9 +457,9 @@ define([
         textRotation: 'Rotation',
         textRotate90: 'Rotate 90°',
         textFlip: 'Flip',
-        textHint270: 'Rotate Left 90°',
-        textHint90: 'Rotate Right 90°',
-        textHintFlipV: 'Flip Vertical',
-        textHintFlipH: 'Flip Horizontal'
+        textHint270: 'Rotate 90° Counterclockwise',
+        textHint90: 'Rotate 90° Clockwise',
+        textHintFlipV: 'Flip Vertically',
+        textHintFlipH: 'Flip Horizontally'
     }, SSE.Views.ImageSettings || {}));
 });

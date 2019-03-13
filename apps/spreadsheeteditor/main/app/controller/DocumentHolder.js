@@ -75,7 +75,8 @@ define([
                 row_column: {
                     ttHeight: 20
                 },
-                filter: {ttHeight: 40}
+                filter: {ttHeight: 40},
+                func_arg: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -182,7 +183,9 @@ define([
                 view.pmiAddComment.on('click',                      _.bind(me.onAddComment, me));
                 /** coauthoring end **/
                 view.pmiAddNamedRange.on('click',                   _.bind(me.onAddNamedRange, me));
-                view.imgMenu.on('item:click',                       _.bind(me.onImgMenu, me));
+                view.menuImageArrange.menu.on('item:click',         _.bind(me.onImgMenu, me));
+                view.menuImgRotate.menu.on('item:click',            _.bind(me.onImgMenu, me));
+                view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectNoneBullet, me));
@@ -278,6 +281,7 @@ define([
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
+                this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
             }
             return this;
         },
@@ -637,6 +641,41 @@ define([
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                     Common.component.Analytics.trackEvent('DocumentHolder', (item.value == 'grouping') ? 'Grouping' : 'Ungrouping');
+                } else if (item.options.type == 'rotate') {
+                    var properties = new Asc.asc_CImgProperty();
+                    properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+                    this.api.asc_setGraphicObjectProps(properties);
+
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Rotate');
+                } else if (item.options.type == 'flip') {
+                    var properties = new Asc.asc_CImgProperty();
+                    if (item.value==1)
+                        properties.asc_putFlipHInvert(true);
+                    else
+                        properties.asc_putFlipVInvert(true);
+                    this.api.asc_setGraphicObjectProps(properties);
+
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Flip');
+                }
+            }
+        },
+
+        onImgMenuAlign: function(menu, item) {
+            if (this.api) {
+                if (item.value>-1 && item.value < 6) {
+                    this.api.asc_setSelectedDrawingObjectAlign(item.value);
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Objects Align');
+                } else if (item.value == 6) {
+                    this.api.asc_DistributeSelectedDrawingObjectHor();
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
+                } else if (item.value == 7){
+                    this.api.asc_DistributeSelectedDrawingObjectVer();
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
                 }
             }
         },
@@ -804,14 +843,15 @@ define([
             }
         },
 
-        hideHyperlinkTip: function() {
+        hideHyperlinkTip: function(callback) {
             if (!this.tooltips.hyperlink.isHidden && this.tooltips.hyperlink.ref) {
-                this.tooltips.hyperlink.ref.hide();
+                this.tooltips.hyperlink.ref.hide(callback);
                 this.tooltips.hyperlink.isHidden = true;
             }
         },
 
         onApiMouseMove: function(dataarray) {
+            var darray = dataarray;
             if (!this._isFullscreenMenu && dataarray.length) {
                 var index_hyperlink,
                     /** coauthoring begin **/
@@ -857,11 +897,66 @@ define([
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
-                    ];
+                    ],
+                    need_return = false;
 
-                hyperlinkTip.isHidden = false;
-                row_columnTip.isHidden = false;
-                filterTip.isHidden = false;
+                if (this._state.index_hyperlink !== index_hyperlink ||this._state.index_comments !== index_comments ||
+                    this._state.index_locked !== index_locked || this._state.index_column !== index_column ||
+                    this._state.index_row !== index_row || this._state.index_filter !== index_filter) {
+                    if (!index_hyperlink) {
+                        need_return = true;
+                        me.hideHyperlinkTip(function () {
+                            me.onApiMouseMove(darray);
+                        });
+                    }
+                    if (index_column===undefined && index_row===undefined) {
+                        if (!row_columnTip.isHidden && row_columnTip.ref) {
+                            need_return = true;
+                            row_columnTip.ref.hide(function () {
+                                                        me.onApiMouseMove(darray);
+                                                    });
+                            row_columnTip.isHidden = true;
+                        }
+                    }
+                    if (me.permissions.isEdit || me.permissions.canViewComments) {
+                        if (!index_comments || this.popupmenu) {
+                            commentTip.moveCommentId = undefined;
+                            if (commentTip.viewCommentId != undefined) {
+                                commentTip = {};
+
+                                var commentsController = this.getApplication().getController('Common.Controllers.Comments');
+                                if (commentsController) {
+                                    if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
+                                        setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
+                                    else
+                                        commentsController.onApiHideComment(true);
+                                }
+                            }
+                        }
+                    }
+                    if (me.permissions.isEdit) {
+                        if (!index_locked) {
+                            me.hideCoAuthTips();
+                        }
+                    }
+                    if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
+                        if (!filterTip.isHidden && filterTip.ref) {
+                            need_return = true;
+                            filterTip.ref.hide(function () {
+                                me.onApiMouseMove(darray);
+                            });
+                            filterTip.isHidden = true;
+                        }
+                    }
+                    this._state.index_hyperlink = index_hyperlink;
+                    this._state.index_comments = index_comments;
+                    this._state.index_locked = index_locked;
+                    this._state.index_column = index_column;
+                    this._state.index_row = index_row;
+                    this._state.index_filter = index_filter;
+
+                    if (need_return) return;
+                }
 
                 /** coauthoring begin **/
                 var getUserName = function(id){
@@ -905,28 +1000,28 @@ define([
                             html    : true,
                             title   : linkstr
                         }).on('tooltip:hide', function(tip) {
+                            if (tip !== hyperlinkTip) return;
                             hyperlinkTip.ref = undefined;
                             hyperlinkTip.text = '';
                         });
 
                         hyperlinkTip.ref.show([-10000, -10000]);
                         hyperlinkTip.isHidden = false;
+
+                        showPoint = [data.asc_getX(), data.asc_getY()];
+                        showPoint[0] += (pos[0] + 6);
+                        showPoint[1] += (pos[1] - 20);
+                        showPoint[1] -= hyperlinkTip.ref.getBSTip().$tip.height();
+                        var tipwidth = hyperlinkTip.ref.getBSTip().$tip.width();
+                        if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                            showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
+
+                        hyperlinkTip.ref.getBSTip().$tip.css({
+                            top : showPoint[1] + 'px',
+                            left: showPoint[0] + 'px'
+                        });
                     }
 
-                    showPoint = [data.asc_getX(), data.asc_getY()];
-                    showPoint[0] += (pos[0] + 6);
-                    showPoint[1] += (pos[1] - 20);
-                    showPoint[1] -= hyperlinkTip.ref.getBSTip().$tip.height();
-                    var tipwidth = hyperlinkTip.ref.getBSTip().$tip.width();
-                    if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
-                        showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
-
-                    hyperlinkTip.ref.getBSTip().$tip.css({
-                        top : showPoint[1] + 'px',
-                        left: showPoint[0] + 'px'
-                    });
-                } else {
-                    me.hideHyperlinkTip();
                 }
 
                 if (index_column!==undefined || index_row!==undefined) {
@@ -947,6 +1042,7 @@ define([
                             html    : true,
                             title   : str
                         }).on('tooltip:hide', function(tip) {
+                            if (tip !== row_columnTip) return;
                             row_columnTip.ref = undefined;
                             row_columnTip.text = '';
                         });
@@ -967,12 +1063,7 @@ define([
                             left: showPoint[0] + 'px'
                         });
                     }
-                } else {
-                    if (!row_columnTip.isHidden && row_columnTip.ref) {
-                        row_columnTip.ref.hide();
-                        row_columnTip.isHidden = true;
-                    }
-                }
+                } else
 
                 if (me.permissions.isEdit || me.permissions.canViewComments) {
                     if (index_comments && !this.popupmenu) {
@@ -1001,19 +1092,6 @@ define([
                                     }
                                 }
                             }, 400);
-                        }
-                    } else {
-                        commentTip.moveCommentId = undefined;
-                        if (commentTip.viewCommentId != undefined) {
-                            commentTip = {};
-
-                            var commentsController = this.getApplication().getController('Common.Controllers.Comments');
-                            if (commentsController) {
-                                if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
-                                    setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
-                                else
-                                    commentsController.onApiHideComment(true);
-                            }
                         }
                     }
                 }
@@ -1068,8 +1146,6 @@ define([
                                     });
                             }
                         }
-                    } else {
-                        me.hideCoAuthTips();
                     }
                 }
 
@@ -1092,6 +1168,7 @@ define([
                             title   : str,
                             cls: 'auto-tooltip'
                         }).on('tooltip:hide', function(tip) {
+                            if (tip !== filterTip) return;
                             filterTip.ref = undefined;
                             filterTip.text = '';
                         });
@@ -1115,11 +1192,6 @@ define([
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
-                    }
-                } else {
-                    if (!filterTip.isHidden && filterTip.ref) {
-                        filterTip.ref.hide();
-                        filterTip.isHidden = true;
                     }
                 }
             }
@@ -1431,6 +1503,8 @@ define([
                 if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = false;
+                documentHolder.mnuImgAdvanced.imageInfo = undefined;
+
                 var has_chartprops = false,
                     signGuid;
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
@@ -1461,8 +1535,15 @@ define([
                     }
                 }
 
+                var cangroup = this.api.asc_canGroupGraphicsObjects();
                 documentHolder.mnuUnGroupImg.setDisabled(isObjLocked || !this.api.asc_canUnGroupGraphicsObjects());
-                documentHolder.mnuGroupImg.setDisabled(isObjLocked || !this.api.asc_canGroupGraphicsObjects());
+                documentHolder.mnuGroupImg.setDisabled(isObjLocked || !cangroup);
+                documentHolder.menuImageAlign.setDisabled(isObjLocked || !cangroup);
+
+                var objcount = this.api.asc_getSelectedDrawingObjectsCount();
+                documentHolder.menuImageAlign.menu.items[7].setDisabled(objcount<3);
+                documentHolder.menuImageAlign.menu.items[8].setDisabled(objcount<3);
+
                 documentHolder.mnuShapeAdvanced.setVisible(isshapemenu && !isimagemenu && !ischartmenu);
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
                 documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
@@ -1478,10 +1559,10 @@ define([
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
-                documentHolder.mnuBringToFront.setDisabled(isObjLocked);
-                documentHolder.mnuSendToBack.setDisabled(isObjLocked);
-                documentHolder.mnuBringForward.setDisabled(isObjLocked);
-                documentHolder.mnuSendBackward.setDisabled(isObjLocked);
+                documentHolder.menuImageArrange.setDisabled(isObjLocked);
+
+                documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
+                documentHolder.menuImgRotate.setDisabled(isObjLocked);
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
@@ -1848,24 +1929,31 @@ define([
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.funcMenu,
-                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection');
+                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
+                    funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
 
                 for (var i = 0; i < menu.items.length; i++) {
+                    var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                    if (tip)
+                        tip.hide();
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
                 funcarr.sort(function (a,b) {
-                    var aname = a.asc_getName().toLocaleUpperCase(),
-                        bname = b.asc_getName().toLocaleUpperCase();
+                    var aname = a.asc_getName(true).toLocaleUpperCase(),
+                        bname = b.asc_getName(true).toLocaleUpperCase();
                     if (aname < bname) return -1;
                     if (aname > bname) return 1;
                     return 0;
                 });
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
+                        name = menuItem.asc_getName(true),
+                        origname = me.api.asc_getFormulaNameByLocale(name),
                         mnu = new Common.UI.MenuItem({
-                        iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
-                        caption: menuItem.asc_getName()
+                            iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
+                            caption: name,
+                            hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
                         setTimeout(function(){ me.api.asc_insertFormula(item.caption, type, false ); }, 10);
                     });
@@ -1912,6 +2000,13 @@ define([
                             Common.UI.Menu.Manager.hideAll();
                         }
                     };
+                    menu.on('hide:after', function(){
+                        for (var i = 0; i < menu.items.length; i++) {
+                            var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                            if (tip)
+                                tip.hide();
+                        }
+                    });
 
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
@@ -1936,7 +2031,11 @@ define([
                         me.cellEditor.focus();
                     menu.cmpEl.toggleClass('from-cell-edit', infocus);
                     _.delay(function() {
-                        menu.cmpEl.find('li:first a').addClass('focus');
+                        var a = menu.cmpEl.find('li:first a');
+                        a.addClass('focus');
+                        var tip = a.parent().data('bs.tooltip');
+                        if (tip)
+                            tip.show();
                     }, 10);
                     if (!infocus)
                         _.delay(function() {
@@ -1945,6 +2044,60 @@ define([
                 }, 1);
             } else {
                 this.documentHolder.funcMenu.hide();
+            }
+        },
+
+        onFormulaInfo: function(name) {
+            var functip = this.tooltips.func_arg;
+            functip.isHidden = false;
+
+            if (name) {
+                var funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                    hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+
+                if (functip.ref && functip.ref.isVisible()) {
+                    if (functip.text != hint) {
+                        functip.ref.hide();
+                        functip.isHidden = true;
+                    }
+                }
+
+                if (!functip.ref || !functip.ref.isVisible()) {
+                    functip.text = hint;
+                    functip.ref = new Common.UI.Tooltip({
+                        owner   : this.documentHolder,
+                        html    : true,
+                        title   : hint,
+                        cls: 'auto-tooltip'
+                    }).on('tooltip:hide', function(tip) {
+                        if (tip !== functip) return;
+                        functip.ref = undefined;
+                        functip.text = '';
+                    });
+
+                    functip.ref.show([-10000, -10000]);
+                    functip.isHidden = false;
+                }
+
+                var pos = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    ],
+                    coord  = this.api.asc_getActiveCellCoord(),
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                var tipwidth = functip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+
+                functip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            } else {
+                if (!functip.isHidden && functip.ref) {
+                    functip.ref.hide();
+                    functip.isHidden = true;
+                }
             }
         },
 

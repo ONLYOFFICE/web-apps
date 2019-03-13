@@ -57,6 +57,20 @@
                                 </div>
                             </div>
                         </li>
+                        <% if (orthography) { %>
+                        <li>
+                            <a id="settings-orthography" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-spellcheck"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Проверка правописания</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <% } %>
                         <li>
                             <div id="settings-review" class="item-content">
                                 <div class="item-media">

@@ -95,7 +95,7 @@ define([
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                            '<a tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<a tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= item.value %>">',
                                 '<i class="icon <% if (item.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                                 '<%= scope.getDisplayValue(item) %>',
                             '</a>',

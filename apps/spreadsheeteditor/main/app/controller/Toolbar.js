@@ -857,7 +857,7 @@ define([
                     fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
                 })).on('selectfile', function(obj, file){
                     me.toolbar.fireEvent('insertimage', me.toolbar);
-                    me.api.asc_addImageDrawingObject(file.url);
+                    me.api.asc_addImageDrawingObject(file.url, undefined, true);// for loading from storage;
                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
                 }).show();
             }
@@ -1190,7 +1190,7 @@ define([
                     (new SSE.Views.NamedRangePasteDlg({
                         handler: function(result, settings) {
                             if (result == 'ok' && settings) {
-                                me.api.asc_insertFormula(settings.asc_getName(), settings.asc_getIsTable() ? Asc.c_oAscPopUpSelectorType.Table : Asc.c_oAscPopUpSelectorType.Range, false);
+                                me.api.asc_insertFormula(settings.asc_getName(true), settings.asc_getIsTable() ? Asc.c_oAscPopUpSelectorType.Table : Asc.c_oAscPopUpSelectorType.Range, false);
                                 Common.component.Analytics.trackEvent('ToolBar', 'Paste Named Range');
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);

@@ -293,7 +293,10 @@ define([
             textEuro: 'Euro',
             textPound: 'Pound',
             textRouble: 'Rouble',
-            textYen: 'Yen'
+            textYen: 'Yen',
+            textСharacterBold: 'B',
+            textСharacterItalic: 'I',
+            textСharacterUnderline: 'U'
     }
     })(), SSE.Views.EditCell || {}))
 });

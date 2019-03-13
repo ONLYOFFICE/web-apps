@@ -92,6 +92,21 @@
                             </div>
                         </div>
                     </li>
+                    <li id="paragraph-spin-first-line">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFirstLine %></div>
+                                <div class="item-after splitter">
+                                    <% if (!android) { %><label><%= scope.textAuto %></label><% } %>
+                                    <p class="buttons-row">
+                                        <span class="button decrement no-ripple"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <% if (android) { %><label><%= scope.textAuto %></label><% } %>
+                                        <span class="button increment no-ripple"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="list-block">

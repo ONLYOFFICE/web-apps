@@ -88,6 +88,7 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
+                    orthography: Common.SharedSettings.get('sailfish'),
                     scope   : this
                 }));
 
@@ -123,6 +124,7 @@ define([
                     } else {
                         $layour.find('#settings-document').hide();
                         $layour.find('#settings-spellcheck').hide();
+                        $layour.find('#settings-orthography').hide();
                     }
                     if (!_canReader)
                         $layour.find('#settings-readermode').hide();

@@ -51,7 +51,8 @@ define([
         var appLang         = 'en',
             customization   = undefined,
             targetApp       = '',
-            externalEditor  = null;
+            externalEditor  = null,
+            isAppFirstOpened = true;
 
 
         var createExternalEditor = function() {
@@ -106,6 +107,11 @@ define([
 
                             if (externalEditor) {
                                 externalEditor.serviceCommand('setAppDisabled',false);
+                                if (isAppFirstOpened && this.diagramEditorView._isExternalDocReady) {
+                                    isAppFirstOpened = false;
+                                    this.diagramEditorView._chartData && this.setChartData();
+                                }
+
                                 if (this.needDisableEditing && this.diagramEditorView._isExternalDocReady) {
                                     this.onDiagrammEditingDisabled();
                                 }
@@ -150,8 +156,10 @@ define([
             },
 
             setChartData: function() {
-                externalEditor && externalEditor.serviceCommand('setChartData', this.diagramEditorView._chartData);
-                this.diagramEditorView._chartData = null;
+                if (!isAppFirstOpened) {
+                    externalEditor && externalEditor.serviceCommand('setChartData', this.diagramEditorView._chartData);
+                    this.diagramEditorView._chartData = null;
+                }
             },
 
             loadConfig: function(data) {
@@ -190,10 +198,8 @@ define([
                 if (this.diagramEditorView) {
                     if (eventData.type == 'documentReady') {
                         this.diagramEditorView._isExternalDocReady = true;
-                        if (this.diagramEditorView._chartData) {
-                            externalEditor && externalEditor.serviceCommand('setChartData', this.diagramEditorView._chartData);
-                            this.diagramEditorView._chartData = null;
-                        }
+                        this.isExternalEditorVisible && (isAppFirstOpened = false);
+                        this.diagramEditorView._chartData && this.setChartData();
                         if (this.needDisableEditing) {
                             this.onDiagrammEditingDisabled();
                         }

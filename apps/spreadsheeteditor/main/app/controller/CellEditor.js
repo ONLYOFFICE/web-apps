@@ -280,16 +280,16 @@ define([
 
             rangesMenu.removeItems(2, rangesMenu.items.length-1);
             names.sort(function(item1, item2) {
-                var n1 = item1.asc_getName().toLowerCase(),
-                    n2 = item2.asc_getName().toLowerCase();
+                var n1 = item1.asc_getName(true).toLowerCase(),
+                    n2 = item2.asc_getName(true).toLowerCase();
                 if (n1==n2) return 0;
                 return (n1<n2) ? -1 : 1;
             });
             _.each(names, function(field, index) {
-                var name = field.asc_getName();
+                var name = field.asc_getName(true);
                 if (prev_name !== name) {
                     rangesMenu.addItem(new Common.UI.MenuItem({
-                        caption : field.asc_getName()
+                        caption : name
                     }));
                 }
                 prev_name = name;

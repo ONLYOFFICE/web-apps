@@ -2800,13 +2800,14 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
-                            caption: me.textRotate270,
-                            value  : 0
-                        }).on('click', _.bind(onImgRotate, me)),
-                        new Common.UI.MenuItem({
                             caption: me.textRotate90,
                             value  : 1
                         }).on('click', _.bind(onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            value  : 0
+                        }).on('click', _.bind(onImgRotate, me)),
+                        { caption: '--' },
                         new Common.UI.MenuItem({
                             caption: me.textFlipH,
                             value  : 1
@@ -3310,12 +3311,13 @@ define([
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
                         caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
                         langid      : lang.code,
                         spellcheck   : lang.spellcheck,
                         template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
                                 '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                                 '<%= caption %>',
                             '</a>'
@@ -3334,12 +3336,13 @@ define([
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
                         caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
                         langid      : lang.code,
                         spellcheck   : lang.spellcheck,
                         template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;">',
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
                                 '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                                 '<%= caption %>',
                             '</a>'
@@ -3527,11 +3530,11 @@ define([
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
         textFromFile:   'From File',
-        textRotate270: 'Rotate Left 90°',
-        textRotate90: 'Rotate Right 90°',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
         textFlipV: 'Flip Vertically',
         textFlipH: 'Flip Horizontally',
-        textRotate: 'Rotation'
+        textRotate: 'Rotate'
 
     }, PE.Views.DocumentHolder || {}));
 });

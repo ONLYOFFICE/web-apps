@@ -12,10 +12,10 @@
             <li><div class="item-content buttons">
                 <div class="item-inner">
                     <div class="row">
-                        <a id="font-bold" class="button"><b>Ж</b></a>
-                        <a id="font-italic" class="button"><i>К</i></a>
-                        <a id="font-underline" class="button" style="text-decoration: underline;">Ч</a>
-                        <a id="font-strikethrough" class="button" style="text-decoration: line-through">АБВ</a>
+                        <a id="font-bold" class="button"><b><%= scope.textСharacterBold %></b></a>
+                        <a id="font-italic" class="button"><i><%= scope.textСharacterItalic %></i></a>
+                        <a id="font-underline" class="button" style="text-decoration: underline;"><%= scope.textСharacterUnderline %></a>
+                        <a id="font-strikethrough" class="button" style="text-decoration: line-through"><%= scope.textСharacterStrikethrough %></a>
                     </div>
                 </div>
             </div></li>

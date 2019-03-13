@@ -248,7 +248,11 @@ define([
             textLineSpacing: 'Line Spacing',
             textBullets: 'Bullets',
             textNone: 'None',
-            textNumbers: 'Numbers'
+            textNumbers: 'Numbers',
+            textСharacterBold: 'B',
+            textСharacterItalic: 'I',
+            textСharacterUnderline: 'U',
+            textСharacterStrikethrough: 'S'
         }
     })(), DE.Views.EditText || {}))
 });
