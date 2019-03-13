@@ -165,6 +165,7 @@ define([
             textFromText: 'Distance from Text',
             textBefore: 'Before',
             textAuto: 'Auto',
+            textFirstLine: 'First Line',
             textAfter: 'After',
             textSpaceBetween: 'Space Between Paragraphs',
             textPageBreak: 'Page Break Before',
