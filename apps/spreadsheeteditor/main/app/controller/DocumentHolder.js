@@ -843,15 +843,16 @@ define([
             }
         },
 
-        hideHyperlinkTip: function(callback) {
+        hideHyperlinkTip: function() {
             if (!this.tooltips.hyperlink.isHidden && this.tooltips.hyperlink.ref) {
-                this.tooltips.hyperlink.ref.hide(callback);
+                this.tooltips.hyperlink.ref.hide();
+                this.tooltips.hyperlink.ref = undefined;
+                this.tooltips.hyperlink.text = '';
                 this.tooltips.hyperlink.isHidden = true;
             }
         },
 
         onApiMouseMove: function(dataarray) {
-            var darray = dataarray;
             if (!this._isFullscreenMenu && dataarray.length) {
                 var index_hyperlink,
                     /** coauthoring begin **/
@@ -897,67 +898,51 @@ define([
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
-                    ],
-                    need_return = false;
+                    ];
 
-                if (this._state.index_hyperlink !== index_hyperlink ||this._state.index_comments !== index_comments ||
-                    this._state.index_locked !== index_locked || this._state.index_column !== index_column ||
-                    this._state.index_row !== index_row || this._state.index_filter !== index_filter) {
-                    if (!index_hyperlink) {
-                        need_return = true;
-                        me.hideHyperlinkTip(function () {
-                            me.onApiMouseMove(darray);
-                        });
+                //close all tooltips
+                if (!index_hyperlink) {
+                    me.hideHyperlinkTip();
+                }
+                if (index_column===undefined && index_row===undefined) {
+                    if (!row_columnTip.isHidden && row_columnTip.ref) {
+                        row_columnTip.ref.hide();
+                        row_columnTip.ref = undefined;
+                        row_columnTip.text = '';
+                        row_columnTip.isHidden = true;
                     }
-                    if (index_column===undefined && index_row===undefined) {
-                        if (!row_columnTip.isHidden && row_columnTip.ref) {
-                            need_return = true;
-                            row_columnTip.ref.hide(function () {
-                                                        me.onApiMouseMove(darray);
-                                                    });
-                            row_columnTip.isHidden = true;
-                        }
-                    }
-                    if (me.permissions.isEdit || me.permissions.canViewComments) {
-                        if (!index_comments || this.popupmenu) {
-                            commentTip.moveCommentId = undefined;
-                            if (commentTip.viewCommentId != undefined) {
-                                commentTip = {};
+                }
+                if (me.permissions.isEdit || me.permissions.canViewComments) {
+                    if (!index_comments || this.popupmenu) {
+                        commentTip.moveCommentId = undefined;
+                        if (commentTip.viewCommentId != undefined) {
+                            commentTip = {};
 
-                                var commentsController = this.getApplication().getController('Common.Controllers.Comments');
-                                if (commentsController) {
-                                    if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
-                                        setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
-                                    else
-                                        commentsController.onApiHideComment(true);
-                                }
+                            var commentsController = this.getApplication().getController('Common.Controllers.Comments');
+                            if (commentsController) {
+                                if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
+                                    setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
+                                else
+                                    commentsController.onApiHideComment(true);
                             }
                         }
                     }
-                    if (me.permissions.isEdit) {
-                        if (!index_locked) {
-                            me.hideCoAuthTips();
-                        }
+                }
+                if (me.permissions.isEdit) {
+                    if (!index_locked) {
+                        me.hideCoAuthTips();
                     }
-                    if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
-                        if (!filterTip.isHidden && filterTip.ref) {
-                            need_return = true;
-                            filterTip.ref.hide(function () {
-                                me.onApiMouseMove(darray);
-                            });
-                            filterTip.isHidden = true;
-                        }
+                }
+                if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
+                    if (!filterTip.isHidden && filterTip.ref) {
+                        filterTip.ref.hide();
+                        filterTip.ref = undefined;
+                        filterTip.text = '';
+                        filterTip.isHidden = true;
                     }
-                    this._state.index_hyperlink = index_hyperlink;
-                    this._state.index_comments = index_comments;
-                    this._state.index_locked = index_locked;
-                    this._state.index_column = index_column;
-                    this._state.index_row = index_row;
-                    this._state.index_filter = index_filter;
-
-                    if (need_return) return;
                 }
 
+                // show tooltips
                 /** coauthoring begin **/
                 var getUserName = function(id){
                     var usersStore = SSE.getCollection('Common.Collections.Users');
@@ -989,6 +974,8 @@ define([
                     if (hyperlinkTip.ref && hyperlinkTip.ref.isVisible()) {
                         if (hyperlinkTip.text != linkstr) {
                             hyperlinkTip.ref.hide();
+                            hyperlinkTip.ref = undefined;
+                            hyperlinkTip.text = '';
                             hyperlinkTip.isHidden = true;
                         }
                     }
@@ -999,10 +986,6 @@ define([
                             owner   : me.documentHolder,
                             html    : true,
                             title   : linkstr
-                        }).on('tooltip:hide', function(tip) {
-                            if (tip !== hyperlinkTip) return;
-                            hyperlinkTip.ref = undefined;
-                            hyperlinkTip.text = '';
                         });
 
                         hyperlinkTip.ref.show([-10000, -10000]);
@@ -1041,10 +1024,6 @@ define([
                             owner   : me.documentHolder,
                             html    : true,
                             title   : str
-                        }).on('tooltip:hide', function(tip) {
-                            if (tip !== row_columnTip) return;
-                            row_columnTip.ref = undefined;
-                            row_columnTip.text = '';
                         });
 
                         row_columnTip.ref.show([-10000, -10000]);
@@ -1063,7 +1042,7 @@ define([
                             left: showPoint[0] + 'px'
                         });
                     }
-                } else
+                }
 
                 if (me.permissions.isEdit || me.permissions.canViewComments) {
                     if (index_comments && !this.popupmenu) {
@@ -1167,10 +1146,6 @@ define([
                             html    : true,
                             title   : str,
                             cls: 'auto-tooltip'
-                        }).on('tooltip:hide', function(tip) {
-                            if (tip !== filterTip) return;
-                            filterTip.ref = undefined;
-                            filterTip.text = '';
                         });
 
                         filterTip.ref.show([-10000, -10000]);
@@ -1227,6 +1202,8 @@ define([
             var me = this;
             if (!me.tooltips.filter.isHidden && me.tooltips.filter.ref) {
                 me.tooltips.filter.ref.hide();
+                me.tooltips.filter.ref = undefined;
+                me.tooltips.filter.text = '';
                 me.tooltips.filter.isHidden = true;
             }
             if (me.permissions.isEdit && !me.dlgFilter) {
@@ -2049,7 +2026,6 @@ define([
 
         onFormulaInfo: function(name) {
             var functip = this.tooltips.func_arg;
-            functip.isHidden = false;
 
             if (name) {
                 var funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
@@ -2058,6 +2034,8 @@ define([
                 if (functip.ref && functip.ref.isVisible()) {
                     if (functip.text != hint) {
                         functip.ref.hide();
+                        functip.ref = undefined;
+                        functip.text = '';
                         functip.isHidden = true;
                     }
                 }
@@ -2069,10 +2047,6 @@ define([
                         html    : true,
                         title   : hint,
                         cls: 'auto-tooltip'
-                    }).on('tooltip:hide', function(tip) {
-                        if (tip !== functip) return;
-                        functip.ref = undefined;
-                        functip.text = '';
                     });
 
                     functip.ref.show([-10000, -10000]);
@@ -2096,6 +2070,8 @@ define([
             } else {
                 if (!functip.isHidden && functip.ref) {
                     functip.ref.hide();
+                    functip.ref = undefined;
+                    functip.text = '';
                     functip.isHidden = true;
                 }
             }
