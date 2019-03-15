@@ -32,6 +32,7 @@
   "PE.Controllers.DocumentHolder.menuOpenLink": "Open Link",
   "PE.Controllers.DocumentHolder.menuPaste": "Paste",
   "PE.Controllers.DocumentHolder.sheetCancel": "Cancel",
+  "PE.Controllers.DocumentPreview.txtFinalMessage": "The end of slide preview. Click to exit.",
   "PE.Controllers.EditContainer.textChart": "Chart",
   "PE.Controllers.EditContainer.textHyperlink": "Hyperlink",
   "PE.Controllers.EditContainer.textImage": "Image",
