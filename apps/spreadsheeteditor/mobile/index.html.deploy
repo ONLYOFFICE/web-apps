@@ -181,6 +181,18 @@
     </head>
     <body>
         <script type="text/javascript">
+            function isSailfish() {
+                var ua = navigator.userAgent;
+                return /Sailfish/.test(ua) || /Jolla/.test(ua);
+            }
+
+            if (isSailfish()) {
+                var ua = navigator.userAgent + ';Android 5.0;';
+                Object.defineProperty(navigator, 'userAgent', {
+                    get: function () { return ua; }
+                });
+            }
+
             function getUrlParams() {
                 var e,
                     a = /\+/g,  // Regex for replacing addition symbol with a space
