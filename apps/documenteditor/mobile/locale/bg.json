@@ -121,6 +121,7 @@
   "DE.Controllers.Main.textLoadingDocument": "Зареждане на документ",
   "DE.Controllers.Main.textNoLicenseTitle": "Ограничение за връзка ONLYOFFICE",
   "DE.Controllers.Main.textOK": "Добре",
+  "DE.Controllers.Main.textPaidFeature": "Платена функция",
   "DE.Controllers.Main.textPassword": "Парола",
   "DE.Controllers.Main.textPreloader": "Зареждане ...",
   "DE.Controllers.Main.textTryUndoRedo": "Функциите Undo / Redo са забранени за режима Fast co-edit.",

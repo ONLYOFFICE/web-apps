@@ -204,6 +204,7 @@
   "SSE.Controllers.Main.textLoadingDocument": "Chargement feuille de calcul",
   "SSE.Controllers.Main.textNoLicenseTitle": "Limitation de connexion ONLYOFFICE",
   "SSE.Controllers.Main.textOK": "OK",
+  "SSE.Controllers.Main.textPaidFeature": "Fonction payée",
   "SSE.Controllers.Main.textPassword": "Mot de passe",
   "SSE.Controllers.Main.textPreloader": "Chargement en cours...",
   "SSE.Controllers.Main.textShape": "Forme",
