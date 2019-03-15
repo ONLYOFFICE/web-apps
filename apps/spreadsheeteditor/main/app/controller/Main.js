@@ -853,6 +853,18 @@ define([
                             }
                         });
                     }
+                } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
+                    this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
+                    Common.UI.warning({
+                        title: this.textPaidFeature,
+                        msg  : this.textCustomLoader,
+                        buttons: [{value: 'contact', caption: this.textContactUs}, {value: 'close', caption: this.textClose}],
+                        primary: 'contact',
+                        callback: function(btn) {
+                            if (btn == 'contact')
+                                window.open('mailto:sales@onlyoffice.com', "_blank");
+                        }
+                    });
                 }
             },
 
@@ -2497,7 +2509,8 @@ define([
             errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.',
             errorEmailClient: 'No email client could be found',
             txtPrintArea: 'Print_Area',
-            txtTable: 'Table'
+            txtTable: 'Table',
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
         }
     })(), SSE.Controllers.Main || {}))
 });

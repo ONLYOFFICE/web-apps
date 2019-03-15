@@ -269,6 +269,8 @@
   "SSE.Controllers.Main.warnNoLicense": "This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "SSE.Controllers.Main.textPaidFeature": "Paid feature",
+  "SSE.Controllers.Main.textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.",
   "SSE.Controllers.Search.textNoTextFound": "Text not found",
   "SSE.Controllers.Search.textReplaceAll": "Replace All",
   "SSE.Controllers.Settings.notcriticalErrorTitle": "Warning",
