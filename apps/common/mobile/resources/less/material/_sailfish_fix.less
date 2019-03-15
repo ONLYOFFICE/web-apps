@@ -1,0 +1,41 @@
+
+.icon-redefine (@name; @svgres) {
+    i.icon {
+        &.@{name} {
+            background-color: transparent;
+            -webkit-mask-image: none;
+            .encoded-svg-background(@svgres);
+
+            .button.active & {
+                background-color: transparent;
+            }
+        }
+    }
+}
+
+.sailfish {
+    .icon-redefine(icon-text-align-center, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,3v1h21V3H1z M4,7v1h14V7H4z M1,12h21v-1H1V12z M4,15v1h14v-1H4z M1,20h21v-1H1V20z"/></g></svg>');
+    .icon-redefine(icon-text-align-jast, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,3v1h21V3H1z M1,8h21V7H1V8z M1,12h21v-1H1V12z M1,16h21v-1H1V16z M1,20h21v-1H1V20z"/></g></svg>');
+    .icon-redefine(icon-text-align-left, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,3v1h21V3H1z M15,7H1v1h14V7z M1,12h21v-1H1V12z M15,15H1v1h14V15z M1,20h21v-1H1V20z"/></g></svg>');
+    .icon-redefine(icon-text-align-right, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,3v1h21V3H1z M8,8h14V7H8V8z M22,11H1v1h21V11z M8,16h14v-1H8V16z M22,19H1v1h21V19z"/></g></svg>');
+    .icon-redefine(icon-de-indent, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,20v-1h21v1H1z M11,15h11v1H11V15z M11,11h11v1H11V11z M11,7h11v1H11V7z M6.3,7L7,7.7l-3.8,3.8L7,15.3L6.3,16L2,11.8l-0.2-0.3L2,11.2L6.3,7z M1,3h21v1H1V3z"/></g></svg>');
+    .icon-redefine(icon-in-indent, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,20v-1h21v1H1z M12,16H1v-1h11V16z M12,12H1v-1h11V12z M12,8H1V7h11V8z M21,11.2l0.2,0.3L21,11.8L16.7,16L16,15.3l3.8-3.8L16,7.7L16.7,7L21,11.2z M22,4H1V3h21V4z"/></g></svg>');
+    .icon-redefine(icon-block-align-left, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28" fill="@{themeColor}"><g><rect x="1" y="1" width="26" height="1"/><rect x="1" y="4" width="26" height="1"/><rect x="1" y="25" width="26" height="1"/><rect x="1" y="22" width="26" height="1"/><rect x="1" y="8" width="12" height="11"/></g></svg>');
+    .icon-redefine(icon-block-align-center, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28" fill="@{themeColor}"><g><rect y="1" width="26" height="1"/><rect y="4" width="26" height="1"/><rect y="25" width="26" height="1"/><rect y="22" width="26" height="1"/><rect x="7" y="8.08" width="12" height="10.92"/></g></svg>');
+    .icon-redefine(icon-block-align-right, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28" fill="@{themeColor}"><g><rect x="1" y="1" width="26" height="1"/><rect x="1" y="4" width="26" height="1"/><rect x="1" y="25" width="26" height="1"/><rect x="1" y="22" width="26" height="1"/><rect x="15" y="8" width="12" height="11"/></g></svg>');
+
+    .item-content.buttons .item-inner > .row .button.active {
+        background-color: #a2bdde;
+    }
+}
+
+.dataview.shapes {
+    .thumb {
+        -webkit-mask-image: none !important;
+    }
+
+    [data-type=textRect] .thumb {
+        background-image: url('../img/shapes/shape-01.svg');
+        background-color: transparent;
+    }
+}

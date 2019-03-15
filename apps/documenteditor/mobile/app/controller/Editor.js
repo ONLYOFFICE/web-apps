@@ -98,9 +98,13 @@ define([
                 var phone = isPhone();
                 // console.debug('Layout profile:', phone ? 'Phone' : 'Tablet');
 
+                if ( isSailfish() ) {
+                    Common.SharedSettings.set('sailfish', true);
+                    $('html').addClass('sailfish');
+                }
+
                 Common.SharedSettings.set('android', Framework7.prototype.device.android);
                 Common.SharedSettings.set('phone', phone);
-                Common.SharedSettings.set('sailfish', isSailfish());
 
                 $('html').addClass(phone ? 'phone' : 'tablet');
 
