@@ -4,6 +4,7 @@
 	 viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill-rule:evenodd;clip-rule:evenodd;}
+        .st0{fill:#aaa;}
 </style>
 <path class="st0" d="M9,29.5h46.5v5H9V29.5z"/>
 </svg>

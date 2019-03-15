@@ -294,9 +294,9 @@ define([
             textPound: 'Pound',
             textRouble: 'Rouble',
             textYen: 'Yen',
-            textСharacterBold: 'B',
-            textСharacterItalic: 'I',
-            textСharacterUnderline: 'U'
+            textCharacterBold: 'B',
+            textCharacterItalic: 'I',
+            textCharacterUnderline: 'U'
     }
     })(), SSE.Views.EditCell || {}))
 });

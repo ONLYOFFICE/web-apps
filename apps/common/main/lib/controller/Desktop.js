@@ -57,7 +57,7 @@ define([
                         $('.toolbar').addClass('editor-native-color');
                     });
 
-                    app.on_native_message = function (cmd, param) {
+                    !!app && (app.on_native_message = function (cmd, param) {
                         if (/^style:change/.test(cmd)) {
                             var obj = JSON.parse(param);
 
@@ -67,7 +67,7 @@ define([
                                 }
                             }
                         }
-                    }
+                    });
                 }
             },
             process: function (opts) {

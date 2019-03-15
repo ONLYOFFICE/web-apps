@@ -246,6 +246,18 @@
 
         <script type="text/javascript" src="../sdk_dev_scripts.js"></script>
         <script>
+            function isSailfish() {
+                var ua = navigator.userAgent;
+                return /Sailfish/.test(ua) || /Jolla/.test(ua);
+            }
+
+            if (isSailfish()) {
+                var ua = navigator.userAgent + ';Android 5.0;';
+                Object.defineProperty(navigator, 'userAgent', {
+                    get: function () { return ua; }
+                });
+            }
+
             window.sdk_dev_scrpipts.forEach(function(item){
                 document.write('<script type="text/javascript" src="' + item + '"><\/script>');
             });

@@ -258,6 +258,7 @@
   "PE.Controllers.Main.errorDefaultMessage": "Код на грешка: %1",
   "PE.Controllers.Main.errorEditingDownloadas": "Възникна грешка по време на работа с документа. <br> Използвайте опцията 'Download as ...', за да запишете архивното копие на файла на твърдия диск на компютъра.",
   "PE.Controllers.Main.errorEditingSaveas": "Възникна грешка по време на работа с документа. <br> Използвайте опцията „Запазване като ...“, за да запишете архивното копие на файла на твърдия диск на компютъра.",
+  "PE.Controllers.Main.errorEmailClient": "Не може да се намери имейл клиент.",
   "PE.Controllers.Main.errorFilePassProtect": "Файлът е защитен с парола и не може да бъде отворен.",
   "PE.Controllers.Main.errorForceSave": "При запазването на файла възникна грешка. Моля, използвайте опцията \"Изтегляне като\", за да запишете файла на твърдия диск на компютъра или опитайте отново по-късно.",
   "PE.Controllers.Main.errorKeyEncrypt": "Дескриптор на неизвестен ключ",

@@ -400,6 +400,7 @@
   "DE.Controllers.Main.textClose": "Close",
   "DE.Controllers.Main.textCloseTip": "Click to close the tip",
   "DE.Controllers.Main.textContactUs": "Contact sales",
+  "DE.Controllers.Main.textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.",
   "DE.Controllers.Main.textLicencePaidFeature": "The feature you are trying to use is available for extended license.<br>If you need it, please contact Sales Department",
   "DE.Controllers.Main.textLoadingDocument": "Loading document",
   "DE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE connection limitation",

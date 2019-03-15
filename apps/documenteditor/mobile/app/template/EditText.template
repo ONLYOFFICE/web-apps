@@ -16,10 +16,10 @@
                 <div class="item-content buttons">
                     <div class="item-inner">
                         <div class="row">
-                            <a id="font-bold" class="button"><b><%= scope.textСharacterBold %></b></a>
-                            <a id="font-italic" class="button"><i><%= scope.textСharacterItalic %></i></a>
-                            <a id="font-underline" class="button" style="text-decoration: underline;"><%= scope.textСharacterUnderline %></a>
-                            <a id="font-strikethrough" class="button" style="text-decoration: line-through"><%= scope.textСharacterStrikethrough %></a>
+                            <a id="font-bold" class="button"><b><%= scope.textCharacterBold %></b></a>
+                            <a id="font-italic" class="button"><i><%= scope.textCharacterItalic %></i></a>
+                            <a id="font-underline" class="button" style="text-decoration: underline;"><%= scope.textCharacterUnderline %></a>
+                            <a id="font-strikethrough" class="button" style="text-decoration: line-through"><%= scope.textCharacterStrikethrough %></a>
                         </div>
                     </div>
                 </div>

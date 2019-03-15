@@ -249,10 +249,10 @@ define([
             textBullets: 'Bullets',
             textNone: 'None',
             textNumbers: 'Numbers',
-            textСharacterBold: 'B',
-            textСharacterItalic: 'I',
-            textСharacterUnderline: 'U',
-            textСharacterStrikethrough: 'S'
+            textCharacterBold: 'B',
+            textCharacterItalic: 'I',
+            textCharacterUnderline: 'U',
+            textCharacterStrikethrough: 'S'
         }
     })(), DE.Views.EditText || {}))
 });

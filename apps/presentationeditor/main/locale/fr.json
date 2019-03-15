@@ -258,6 +258,7 @@
   "PE.Controllers.Main.errorDefaultMessage": "Code d'erreur: %1",
   "PE.Controllers.Main.errorEditingDownloadas": "Une erreure s'est produite lors du travail avec le document.<br>Utilisez l'option 'Télécharger comme...' pour enregistrer une copie de sauvegarde du fichier sur le disque dur de votre ordinateur.",
   "PE.Controllers.Main.errorEditingSaveas": "Une erreure s'est produite lors du travail avec le document.<br>Utilisez l'option 'Enregistrer comme...' pour enregistrer une copie de sauvegarde  sur le disque dur de votre ordinateur. ",
+  "PE.Controllers.Main.errorEmailClient": "Pas de client messagerie trouvé",
   "PE.Controllers.Main.errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut être ouvert.",
   "PE.Controllers.Main.errorForceSave": "Une erreur est survenue lors de l'enregistrement du fichier. Veuillez utiliser l'option «Télécharger en tant que» pour enregistrer le fichier sur le disque dur de votre ordinateur ou réessayer plus tard.",
   "PE.Controllers.Main.errorKeyEncrypt": "Descripteur de clés inconnu",

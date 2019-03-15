@@ -312,6 +312,7 @@
   "PE.Controllers.Main.textClose": "Close",
   "PE.Controllers.Main.textCloseTip": "Click to close the tip",
   "PE.Controllers.Main.textContactUs": "Contact sales",
+  "PE.Controllers.Main.textCustomLoader": "Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.",
   "PE.Controllers.Main.textLicencePaidFeature": "The feature you are trying to use is available for extended license.<br>If you need it, please contact Sales Department",
   "PE.Controllers.Main.textLoadingDocument": "Loading presentation",
   "PE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE connection limitation",

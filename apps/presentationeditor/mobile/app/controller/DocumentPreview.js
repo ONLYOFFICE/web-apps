@@ -72,6 +72,7 @@ define([
 
                 me.api = api;
                 me.api.asc_registerCallback('asc_onEndDemonstration',  _.bind(me.onEndDemonstration, me));
+                me.api.DemonstrationEndShowMessage(me.txtFinalMessage);
             },
 
             // When our application is ready, lets get started
@@ -141,7 +142,9 @@ define([
                 $('.view.view-main').css('z-index','auto');
 
                 PE.getController('DocumentHolder').startApiPopMenu();
-            }
+            },
+
+            txtFinalMessage: 'The end of slide preview. Click to exit.'
 
             // Internal
         }

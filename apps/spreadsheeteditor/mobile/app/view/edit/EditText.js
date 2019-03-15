@@ -178,9 +178,9 @@ define([
             textTextColor: 'Text Color',
             textFillColor: 'Fill Color',
             textSize: 'Size',
-            textСharacterBold: 'B',
-            textСharacterItalic: 'I',
-            textСharacterUnderline: 'U'
+            textCharacterBold: 'B',
+            textCharacterItalic: 'I',
+            textCharacterUnderline: 'U'
         }
     })(), SSE.Views.EditText || {}))
 });
