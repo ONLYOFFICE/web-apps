@@ -208,6 +208,8 @@ define([
             },
 
             onApiHidePopMenu: function() {
+                var now = (new Date).getTime();
+                if (now - _timer < 1000) return;
                 _view && _view.hideMenu();
             },
 
