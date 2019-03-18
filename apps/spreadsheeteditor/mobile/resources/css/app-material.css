@@ -6410,11 +6410,172 @@ i.icon.icon-format-csv {
 .sailfish .item-content.buttons .item-inner > .row .button.active {
   background-color: #c7e8d1;
 }
-.dataview.shapes .thumb {
+.sailfish .dataview.shapes .thumb {
   -webkit-mask-image: none !important;
 }
-.dataview.shapes [data-type=textRect] .thumb {
+.sailfish .dataview.shapes [data-type=textRect] .thumb {
   background-image: url('../img/shapes/shape-01.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=line] .thumb {
+  background-image: url('../img/shapes/shape-02.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=lineWithArrow] .thumb {
+  background-image: url('../img/shapes/shape-03.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=lineWithTwoArrows] .thumb {
+  background-image: url('../img/shapes/shape-04.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=rect] .thumb {
+  background-image: url('../img/shapes/shape-05.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=hexagon] .thumb {
+  background-image: url('../img/shapes/shape-06.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=roundRect] .thumb {
+  background-image: url('../img/shapes/shape-07.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=ellipse] .thumb {
+  background-image: url('../img/shapes/shape-08.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=triangle] .thumb {
+  background-image: url('../img/shapes/shape-09.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=rtTriangle] .thumb {
+  background-image: url('../img/shapes/shape-10.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=trapezoid] .thumb {
+  background-image: url('../img/shapes/shape-11.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=diamond] .thumb {
+  background-image: url('../img/shapes/shape-12.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=rightArrow] .thumb {
+  background-image: url('../img/shapes/shape-13.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=leftRightArrow] .thumb {
+  background-image: url('../img/shapes/shape-14.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=leftArrow] .thumb {
+  background-image: url('../img/shapes/shape-15.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=bentUpArrow] .thumb {
+  background-image: url('../img/shapes/shape-16.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=flowChartOffpageConnector] .thumb {
+  background-image: url('../img/shapes/shape-17.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=heart] .thumb {
+  background-image: url('../img/shapes/shape-18.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=mathMinus] .thumb {
+  background-image: url('../img/shapes/shape-19.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=mathPlus] .thumb {
+  background-image: url('../img/shapes/shape-20.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=parallelogram] .thumb {
+  background-image: url('../img/shapes/shape-21.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=wedgeRectCallout] .thumb {
+  background-image: url('../img/shapes/shape-22.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=wedgeEllipseCallout] .thumb {
+  background-image: url('../img/shapes/shape-23.svg');
+  background-color: transparent;
+}
+.sailfish .dataview.shapes .thumb {
+  -webkit-mask-image: none !important;
+}
+.sailfish .dataview.shapes [data-type=cloudCallout] .thumb {
+  background-image: url('../img/shapes/shape-24.svg');
   background-color: transparent;
 }
 .navbar-hidden + .navbar-through > .page.editor {
