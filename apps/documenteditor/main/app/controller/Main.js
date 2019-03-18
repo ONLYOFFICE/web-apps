@@ -332,6 +332,7 @@ define([
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
                 this.plugins                    = this.editorConfig.plugins;
+                this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')

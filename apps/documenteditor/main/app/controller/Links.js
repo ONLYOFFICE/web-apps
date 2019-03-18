@@ -78,6 +78,9 @@ define([
             this._state = {
                 prcontrolsdisable:undefined
             };
+            Common.Gateway.on('setactionlink', function (url) {
+                console.log('url with actions: ' + url);
+            }.bind(this));
         },
 
         setApi: function (api) {
