@@ -114,15 +114,17 @@ define([
 
     Common.Utils.addScrollIfNeed = function (targetSelector, containerSelector) {
         if (Common.SharedSettings.get('sailfish')) {
-            var $targetEl = $(targetSelector);
-            var $containerEl = $(containerSelector);
-            
-            if ($targetEl.length == 0 || $containerEl == 0) {
-                return;
-            }
+            _.delay(function(){
+                var $targetEl = $(targetSelector);
+                var $containerEl = $(containerSelector);
+                
+                if ($targetEl.length == 0 || $containerEl == 0) {
+                    return;
+                }
 
-            $containerEl.css('height', 'auto');
-            new IScroll(targetSelector);
+                $containerEl.css('height', 'auto');
+                new IScroll(targetSelector);
+            }, 500);
         }
     }
 });

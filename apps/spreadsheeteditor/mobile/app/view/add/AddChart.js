@@ -93,6 +93,7 @@ define([
 
                 $('.chart-types .thumb').single('click', this.onTypeClick.bind(this));
 
+                Common.Utils.addScrollIfNeed('#add-chart .pages', '#add-chart .page');
                 me.initControls();
             },
 

@@ -80,6 +80,7 @@ define([
                 $('#settings-help').single('click',             _.bind(me.showHelp, me));
                 $('#settings-about').single('click',            _.bind(me.showAbout, me));
 
+                Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
             },
 
@@ -170,10 +171,13 @@ define([
                 $('#settings-document-title').html(document.title ? document.title : this.unknownText);
                 $('#settings-document-autor').html(info.author ? info.author : this.unknownText);
                 $('#settings-document-date').html(info.created ? info.created : this.unknownText);
+
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
             },
 
             showDownload: function () {
                 this.showPage('#settings-download-view');
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
             },
 
             showHistory: function () {
@@ -186,6 +190,7 @@ define([
 
             showAbout: function () {
                 this.showPage('#settings-about-view');
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
             },
 
             loadDocument: function(data) {

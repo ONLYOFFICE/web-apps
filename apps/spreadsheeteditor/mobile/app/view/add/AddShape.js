@@ -63,6 +63,7 @@ define([
             },
 
             initEvents: function () {
+                Common.Utils.addScrollIfNeed('#add-shape .pages', '#add-shape .page');
                 this.initControls();
             },
 
