@@ -483,6 +483,7 @@
   "SSE.Controllers.Main.textCloseTip": "Klicken Sie, um den Tipp zu schließen",
   "SSE.Controllers.Main.textConfirm": "Bestätigung",
   "SSE.Controllers.Main.textContactUs": "Verkaufsteam kontaktieren",
+  "SSE.Controllers.Main.textCustomLoader": "Bitte beachten Sie, dass Sie gemäß den Lizenzbedingungen nicht berechtigt sind, den Loader zu wechseln. <br> Wenden Sie sich an unseren Vertrieb, um ein Angebot zu erhalten.",
   "SSE.Controllers.Main.textLicencePaidFeature": "Die Funktion, die Sie verwenden möchten, ist für zusätzliche Lizenz verfügbar. <br> Wenden Sie sich bei Bedarf an die Verkaufsabteilung",
   "SSE.Controllers.Main.textLoadingDocument": "Tabelle wird geladen",
   "SSE.Controllers.Main.textNo": "Nein",

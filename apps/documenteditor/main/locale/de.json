@@ -400,6 +400,7 @@
   "DE.Controllers.Main.textClose": "Schließen",
   "DE.Controllers.Main.textCloseTip": "Klicken Sie, um den Tipp zu schließen",
   "DE.Controllers.Main.textContactUs": "Verkaufsteam kontaktieren",
+  "DE.Controllers.Main.textCustomLoader": "Bitte beachten Sie, dass Sie gemäß den Lizenzbedingungen nicht berechtigt sind, den Loader zu wechseln. <br> Wenden Sie sich an unseren Vertrieb, um ein Angebot zu erhalten.",
   "DE.Controllers.Main.textLicencePaidFeature": "Die Funktion, die Sie verwenden möchten, ist für zusätzliche Lizenz verfügbar. <br> Wenden Sie sich bei Bedarf an die Verkaufsabteilung",
   "DE.Controllers.Main.textLoadingDocument": "Dokument wird geladen...",
   "DE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE Verbindungsbeschränkung",

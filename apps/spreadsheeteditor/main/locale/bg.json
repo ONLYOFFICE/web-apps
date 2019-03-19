@@ -483,6 +483,7 @@
   "SSE.Controllers.Main.textCloseTip": "Кликнете, за да затворите върха",
   "SSE.Controllers.Main.textConfirm": "потвърждаване",
   "SSE.Controllers.Main.textContactUs": "Свържете се с продажбите",
+  "SSE.Controllers.Main.textCustomLoader": "Моля, имайте предвид, че според условията на лиценза нямате право да сменяте товарача. <br> Моля, свържете се с нашия отдел Продажби, за да получите оферта.",
   "SSE.Controllers.Main.textLicencePaidFeature": "Функцията, която се опитвате да използвате, е достъпна за разширен лиценз. <br> Ако имате нужда, моля свържете се с отдел Продажби",
   "SSE.Controllers.Main.textLoadingDocument": "Електронната таблица се зарежда",
   "SSE.Controllers.Main.textNo": "Не",
