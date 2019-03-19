@@ -197,6 +197,7 @@
         _config.editorConfig.canRequestEditRights = _config.events && !!_config.events.onRequestEditRights;
         _config.editorConfig.canRequestClose = _config.events && !!_config.events.onRequestClose;
         _config.editorConfig.canRename = _config.events && !!_config.events.onRequestRename;
+        _config.editorConfig.canMakeActionLink = _config.events && !!_config.events.onMakeActionLink;
         _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
         _config.frameEditorId = placeholderId;
 
@@ -509,6 +510,15 @@
             });
         };
 
+        var _setActionLink = function (data) {
+            _sendCommand({
+                command: 'setActionLink',
+                data: {
+                    url: data
+                }
+            });
+        };
+
         var _processMailMerge = function(enabled, message) {
             _sendCommand({
                 command: 'processMailMerge',
@@ -559,6 +569,7 @@
             refreshHistory      : _refreshHistory,
             setHistoryData      : _setHistoryData,
             setEmailAddresses   : _setEmailAddresses,
+            setActionLink       : _setActionLink,
             processMailMerge    : _processMailMerge,
             downloadAs          : _downloadAs,
             serviceCommand      : _serviceCommand,

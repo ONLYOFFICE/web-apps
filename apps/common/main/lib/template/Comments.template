@@ -36,8 +36,8 @@
                             <div class="btns-reply-ct">
                             <% if (item.get("editable")) { %>
                                 <div class="btn-edit img-commonctrl" data-value="<%=item.get("id")%>"></div>
+                                <div class="btn-delete img-commonctrl" data-value="<%=item.get("id")%>"></div>
                             <% } %>
-                            <div class="btn-delete img-commonctrl" data-value="<%=item.get("id")%>"></div>
                             </div>
                         <%}%>
                     <% } else { %>
@@ -67,8 +67,8 @@
             <div class="edit-ct">
                 <% if (editable) { %>
                     <div class="btn-edit img-commonctrl"></div>
+                    <div class="btn-delete img-commonctrl"></div>
                 <% } %>
-                <div class="btn-delete img-commonctrl"></div>
                 <% if (resolved) { %>
                 <div class="btn-resolve-check img-commonctrl" data-toggle="tooltip"></div>
                 <% } else { %>
