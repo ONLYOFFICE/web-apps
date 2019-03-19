@@ -76,6 +76,7 @@ define([
 
                 $('.edit-shape-style .categories a').single('click', _.bind(me.showStyleCategory, me));
 
+                Common.Utils.addScrollIfNeed('#edit-shape .pages', '#edit-shape .page');
                 me.initControls();
             },
 
@@ -154,19 +155,23 @@ define([
                     transparent: true
                 });
 
+                // Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-color]', '.page[data-page=edit-text-font-color] .page-content');
                 this.fireEvent('page:show', [this, selector]);
             },
 
             showWrap: function () {
                 this.showPage('#edit-shape-wrap');
+                Common.Utils.addScrollIfNeed('.page.shape-wrap', '.page.shape-wrap .page-content');
             },
 
             showReplace: function () {
                 this.showPage('#edit-shape-replace');
+                Common.Utils.addScrollIfNeed('.page.shape-replace', '.page.shape-replace .page-content');
             },
 
             showReorder: function () {
                 this.showPage('#edit-shape-reorder');
+                Common.Utils.addScrollIfNeed('.page.shape-reorder', '.page.shape-reorder .page-content');
             },
 
             showBorderColor: function () {

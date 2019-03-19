@@ -79,6 +79,7 @@ define([
             initEvents: function () {
                 var me = this;
 
+                Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.updateItemHandlers();
                 me.initControls();
             },
