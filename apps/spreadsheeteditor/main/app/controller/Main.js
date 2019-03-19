@@ -1833,8 +1833,10 @@ define([
                     case 'setMergeData':    this.setMergeData(data.data); break;
                     case 'getMergeData':    this.getMergeData(); break;
                     case 'setAppDisabled':
-                        if (this.isAppDisabled===undefined && !data.data) // first editor opening
+                        if (this.isAppDisabled===undefined && !data.data) { // first editor opening
                             Common.NotificationCenter.trigger('layout:changed', 'main');
+                            this.loadMask && this.loadMask.isVisible() && this.loadMask.updatePosition();
+                        }
                         this.isAppDisabled = data.data;
                         break;
                     case 'queryClose':
