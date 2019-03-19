@@ -1818,6 +1818,7 @@
   "SSE.Views.PrintSettings.textShowHeadings": "Показать заголовки строк и столбцов",
   "SSE.Views.PrintSettings.textTitle": "Параметры печати",
   "SSE.Views.PrintSettings.textTitlePDF": "Параметры PDF",
+  "SSE.Views.PrintSettings.textIgnore": "Игнорировать область печати",
   "SSE.Views.RightMenu.txtCellSettings": "Параметры ячейки",
   "SSE.Views.RightMenu.txtChartSettings": "Параметры диаграммы",
   "SSE.Views.RightMenu.txtImageSettings": "Параметры изображения",
