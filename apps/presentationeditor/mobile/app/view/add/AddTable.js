@@ -66,6 +66,7 @@ define([
             initEvents: function () {
                 var me = this;
 
+                Common.Utils.addScrollIfNeed('#add-table .pages', '#add-table .page');
                 me.initControls();
             },
 

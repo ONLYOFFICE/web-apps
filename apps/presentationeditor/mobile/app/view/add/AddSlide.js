@@ -66,6 +66,8 @@ define([
 
             initEvents: function () {
                 var me = this;
+
+                Common.Utils.addScrollIfNeed('#add-slide .pages', '#add-slide .page');
                 me.initControls();
             },
 

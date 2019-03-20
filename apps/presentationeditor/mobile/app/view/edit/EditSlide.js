@@ -110,6 +110,7 @@ define([
                 $('#edit-slide-effect').single('click',           _.bind(me.showEffect, me));
                 $('#edit-slide-effect-type').single('click',      _.bind(me.showEffectType, me));
 
+                Common.Utils.addScrollIfNeed('#edit-slide .pages', '#edit-slide .page');
                 me.initControls();
             },
 
@@ -165,6 +166,10 @@ define([
 
                     this.initEvents();
                 }
+
+                Common.Utils.addScrollIfNeed('.page[data-page=editslide-effect]', '.page[data-page=editslide-effect] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=editslide-effect-type]', '.page[data-page=editslide-effect-type] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-slide-style]', '.page[data-page=edit-slide-style] .page-content');
             },
 
             showStyle: function () {
@@ -183,6 +188,7 @@ define([
 
                 this.renderLayouts();
 
+                Common.Utils.addScrollIfNeed('.view.edit-root-view .page-on-center', '.view.edit-root-view .page-on-center .page-content');
                 this.fireEvent('page:show', [this, '#edit-slide-layout']);
             },
 
@@ -195,6 +201,8 @@ define([
 
                 // remove android specific style
                 $('.page[data-page=edit-slide-transition] .list-block.inputs-list').removeClass('inputs-list');
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-slide-transition]', '.page[data-page=edit-slide-transition] .page-content');
             },
 
             showEffect: function () {
