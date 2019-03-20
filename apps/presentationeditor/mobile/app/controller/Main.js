@@ -590,10 +590,9 @@ define([
                         });
                     }
                 }  else {
-                    if (!me.appOptions.isDesktopApp && !me.appOptions.canBrandingExt &&
+                    // block warning for r7
+                    if (false && !me.appOptions.isDesktopApp && !me.appOptions.canBrandingExt &&
                         me.editorConfig && me.editorConfig.customization && (me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo)) {
-                        // block warning for r7
-                        return;
                         uiApp.modal({
                             title: me.textPaidFeature,
                             text  : me.textCustomLoader,
