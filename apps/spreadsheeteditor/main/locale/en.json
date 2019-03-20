@@ -1803,6 +1803,7 @@
   "SSE.Views.PrintSettings.textFitPage": "Fit Sheet on One Page",
   "SSE.Views.PrintSettings.textFitRows": "Fit All Rows on One Page",
   "SSE.Views.PrintSettings.textHideDetails": "Hide Details",
+  "SSE.Views.PrintSettings.textIgnore": "Ignore Print Area",
   "SSE.Views.PrintSettings.textLayout": "Layout",
   "SSE.Views.PrintSettings.textPageOrientation": "Page Orientation",
   "SSE.Views.PrintSettings.textPageScaling": "Scaling",

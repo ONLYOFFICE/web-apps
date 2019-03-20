@@ -256,6 +256,7 @@
                 Object.defineProperty(navigator, 'userAgent', {
                     get: function () { return ua; }
                 });
+                document.write('<script type="text/javascript" src="../../../vendor/iscroll/iscroll.js"><\/script>');
             }
 
             window.sdk_dev_scrpipts.forEach(function(item){

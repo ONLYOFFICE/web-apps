@@ -101,6 +101,8 @@ define([
 
                 me.updateItemHandlers();
                 me.initControls();
+                
+                Common.Utils.addScrollIfNeed('#edit-chart .pages', '#edit-chart .page');
             },
 
             // Render layout

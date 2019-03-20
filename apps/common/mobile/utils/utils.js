@@ -111,4 +111,20 @@ define([
         // Apply Styles
         $popover.css({top: modalTop + 'px', left: modalLeft + 'px'});
     };
+
+    Common.Utils.addScrollIfNeed = function (targetSelector, containerSelector) {
+        if (Common.SharedSettings.get('sailfish')) {
+            _.delay(function(){
+                var $targetEl = $(targetSelector);
+                var $containerEl = $(containerSelector);
+                
+                if ($targetEl.length == 0 || $containerEl == 0) {
+                    return;
+                }
+
+                $containerEl.css('height', 'auto');
+                new IScroll(targetSelector);
+            }, 500);
+        }
+    }
 });

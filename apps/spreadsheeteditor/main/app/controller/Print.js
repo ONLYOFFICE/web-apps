@@ -163,6 +163,7 @@ define([
 
         fillPrintOptions: function(props) {
             this.printSettingsDlg.setRange(props.asc_getPrintType());
+            this.printSettingsDlg.setIgnorePrintArea(!!props.asc_getIgnorePrintArea());
             this.onChangeRange();
         },
 
@@ -175,6 +176,7 @@ define([
                 this.comboSheetsChange(this.printSettingsDlg, this.printSettingsDlg.cmbSheet, item.toJSON());
             }
             this.printSettingsDlg.cmbSheet.setDisabled(printtype !== Asc.c_oAscPrintType.EntireWorkbook);
+            this.printSettingsDlg.chIgnorePrintArea.setDisabled(printtype == Asc.c_oAscPrintType.Selection);
         },
 
         getPageOptions: function(panel) {
@@ -261,6 +263,7 @@ define([
                     var printtype = this.printSettingsDlg.getRange();
                     this.adjPrintParams.asc_setPrintType(printtype);
                     this.adjPrintParams.asc_setPageOptionsMap(this._changedProps);
+                    this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
                     if ( this.printSettingsDlg.type=='print' )

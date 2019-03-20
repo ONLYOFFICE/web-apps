@@ -483,6 +483,7 @@
   "SSE.Controllers.Main.textCloseTip": "Cliquez pour fermer la conseil",
   "SSE.Controllers.Main.textConfirm": "Confirmation",
   "SSE.Controllers.Main.textContactUs": "Contacter l'équipe de ventes",
+  "SSE.Controllers.Main.textCustomLoader": "Veuillez noter que conformément aux clauses du contrat de licence vous n'êtes pas autorisé à changer le chargeur.<br>Veuillez contacter notre Service des Ventes pour obtenir le devis.",
   "SSE.Controllers.Main.textLicencePaidFeature": "La fonction que vouz essayez d'utiliser est disponible pour la Licence Etendue.<br>Si vous en avez besoin, veuillez  contacter Service des ventes",
   "SSE.Controllers.Main.textLoadingDocument": "Chargement d'une feuille de calcul",
   "SSE.Controllers.Main.textNo": "Non",

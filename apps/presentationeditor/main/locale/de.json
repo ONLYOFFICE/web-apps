@@ -312,6 +312,7 @@
   "PE.Controllers.Main.textClose": "Schließen",
   "PE.Controllers.Main.textCloseTip": "Klicken Sie, um den Tipp zu schließen",
   "PE.Controllers.Main.textContactUs": "Verkaufsteam kontaktieren",
+  "PE.Controllers.Main.textCustomLoader": "Bitte beachten Sie, dass Sie gemäß den Lizenzbedingungen nicht berechtigt sind, den Loader zu wechseln. <br> Wenden Sie sich an unseren Vertrieb, um ein Angebot zu erhalten.",
   "PE.Controllers.Main.textLicencePaidFeature": "Die Funktion, die Sie verwenden möchten, ist für zusätzliche Lizenz verfügbar. <br> Wenden Sie sich bei Bedarf an die Verkaufsabteilung",
   "PE.Controllers.Main.textLoadingDocument": "Präsentation wird geladen ",
   "PE.Controllers.Main.textNoLicenseTitle": "ONLYOFFICE Verbindungsbeschränkung",

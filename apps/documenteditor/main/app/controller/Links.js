@@ -78,6 +78,16 @@ define([
             this._state = {
                 prcontrolsdisable:undefined
             };
+            Common.Gateway.on('setactionlink', function (url) {
+                var copytext = document.createElement('input');
+                copytext.value = url;
+                document.body.appendChild(copytext);
+                copytext.select();
+                try {
+                    document.execCommand("copy");
+                } catch (err) {}
+                document.body.removeChild(copytext);
+            });
         },
 
         setApi: function (api) {
@@ -325,6 +335,7 @@ define([
             var me = this;
             (new DE.Views.BookmarksDialog({
                 api: me.api,
+                appOptions: me.toolbar.appOptions,
                 props: me.api.asc_GetBookmarksManager(),
                 handler: function (result, settings) {
                     if (settings) {

@@ -90,7 +90,8 @@ define([
                                     '<tr>',
                                         '<td class="padding-large">',
                                             '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 10px;">', me.textGoto,'</button>',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="">', me.textDelete,'</button>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="margin-right: 10px;">', me.textDelete,'</button>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-link" style="">', me.textGetLink,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -111,6 +112,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.appOptions = options.appOptions;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -137,6 +139,7 @@ define([
                     me.btnAdd.setDisabled(!check && !exist);
                     me.btnGoto.setDisabled(!exist);
                     me.btnDelete.setDisabled(!exist);
+                    me.btnGetLink.setDisabled(!exist);
 
                     return (check || _.isEmpty(value)) ? true : me.txtInvalidName;
                 }
@@ -187,6 +190,12 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.deleteBookmark, this));
 
+            this.btnGetLink = new Common.UI.Button({
+                el: $('#bookmarks-btn-link'),
+                disabled: true
+            });
+            this.btnGetLink.on('click', _.bind(this.getBookmarkLink, this));
+
             this.chHidden = new Common.UI.CheckBox({
                 el: $('#bookmarks-checkbox-hidden'),
                 labelText: this.textHidden,
@@ -220,6 +229,7 @@ define([
         _setDefaults: function (props) {
             this.refreshBookmarks();
             this.bookmarksList.scrollToRecord(this.bookmarksList.selectByIndex(0));
+            this.btnGetLink.setVisible(this.appOptions.canMakeActionLink);
         },
 
         getSettings: function () {
@@ -266,6 +276,7 @@ define([
             this.btnAdd.setDisabled(false);
             this.btnGoto.setDisabled(false);
             this.btnDelete.setDisabled(false);
+            this.btnGetLink.setDisabled(false);
         },
 
         gotoBookmark: function(btn, eOpts){
@@ -290,6 +301,14 @@ define([
                 this.btnAdd.setDisabled(true);
                 this.btnGoto.setDisabled(true);
                 this.btnDelete.setDisabled(true);
+                this.btnGetLink.setDisabled(true);
+            }
+        },
+
+        getBookmarkLink: function() {
+            var rec = this.bookmarksList.getSelectedRec();
+            if (rec.length>0) {
+                Common.Gateway.requestMakeActionLink({action: "bookmark", data: rec[0].get('value')});
             }
         },
 
@@ -314,7 +333,8 @@ define([
         textDelete: 'Delete',
         textClose: 'Close',
         textHidden: 'Hidden bookmarks',
-        txtInvalidName: 'Bookmark name can only contain letters, digits and underscores, and should begin with the letter'
+        txtInvalidName: 'Bookmark name can only contain letters, digits and underscores, and should begin with the letter',
+        textGetLink: 'Get link'
 
     }, DE.Views.BookmarksDialog || {}))
 });

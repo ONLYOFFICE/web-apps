@@ -400,6 +400,7 @@
   "DE.Controllers.Main.textClose": "Fermer",
   "DE.Controllers.Main.textCloseTip": "Cliquez pour fermer le conseil",
   "DE.Controllers.Main.textContactUs": "Contacter l'équipe de ventes",
+  "DE.Controllers.Main.textCustomLoader": "Veuillez noter que conformément aux clauses du contrat de licence vous n'êtes pas autorisé à changer le chargeur.<br>Veuillez contacter notre Service des Ventes pour obtenir le devis.",
   "DE.Controllers.Main.textLicencePaidFeature": "La fonction que vouz essayez d'utiliser est disponible pour la Licence Etendue.<br>Si vous en avez besoin, veuillez  contacter Sales Department ",
   "DE.Controllers.Main.textLoadingDocument": "Chargement du document",
   "DE.Controllers.Main.textNoLicenseTitle": "Limitation de connexion ONLYOFFICE",

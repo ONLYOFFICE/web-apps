@@ -72,6 +72,7 @@ define([
                 $('#edit-image-url').single('click',                _.bind(me.showEditUrl, me));
                 $('#image-align').single('click',                   _.bind(me.showAlign, me));
 
+                Common.Utils.addScrollIfNeed('#edit-image .pages', '#edit-image .page');
                 me.initControls();
             },
 
@@ -125,6 +126,7 @@ define([
 
                     this.initEvents();
                 }
+                Common.Utils.addScrollIfNeed('.page.edit-image-url-link', '.page.edit-image-url-link .page-content');
             },
 
             showReplace: function () {
@@ -133,6 +135,7 @@ define([
 
             showReorder: function () {
                 this.showPage('#edit-image-reorder-view');
+                Common.Utils.addScrollIfNeed('.page.image-reorder', '.page.image-reorder .page-content');
             },
 
             showEditUrl: function () {
@@ -149,6 +152,7 @@ define([
 
             showAlign: function () {
                 this.showPage('#edit-image-align');
+                Common.Utils.addScrollIfNeed('.page.image-align', '.page.image-align .page-content');
             },
 
             textReplace: 'Replace',

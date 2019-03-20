@@ -81,6 +81,7 @@ define([
                 $('#settings-about').single('click', _.bind(me.showAbout, me));
                 $('#settings-presentation-setup').single('click', _.bind(me.showSetup, me));
 
+                Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
             },
 

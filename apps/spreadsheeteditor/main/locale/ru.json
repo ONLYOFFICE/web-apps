@@ -1804,6 +1804,7 @@
   "SSE.Views.PrintSettings.textFitPage": "Вписать лист на одну страницу",
   "SSE.Views.PrintSettings.textFitRows": "Вписать все строки на одну страницу",
   "SSE.Views.PrintSettings.textHideDetails": "Скрыть детали",
+  "SSE.Views.PrintSettings.textIgnore": "Игнорировать область печати",
   "SSE.Views.PrintSettings.textLayout": "Макет",
   "SSE.Views.PrintSettings.textPageOrientation": "Ориентация страницы",
   "SSE.Views.PrintSettings.textPageScaling": "Масштаб",

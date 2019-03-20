@@ -69,6 +69,7 @@ define([
                 $('#edit-link-url input[type=url]').single('input', _.bind(function(e) {
                     $('#edit-link-edit').toggleClass('disabled', _.isEmpty($(e.currentTarget).val()));
                 }, this));
+                Common.Utils.addScrollIfNeed('#edit-link .pages', '#edit-link .page');
             },
 
             categoryShow: function(e) {

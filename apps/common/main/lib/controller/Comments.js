@@ -777,7 +777,6 @@ define([
                     }));
                 }
 
-                replies.sort(function (a,b) { return a.get('time') - b.get('time');});
                 comment.set('replys', replies);
 
                 if (!silentUpdate) {
@@ -1246,10 +1245,6 @@ define([
                         editable            : this.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)
                     }));
                 }
-
-                replies.sort(function (a, b) {
-                    return a.get('time') - b.get('time');
-                });
             }
 
             return replies;

@@ -362,7 +362,9 @@ define([
                     this.permissions = _.extend(this.permissions, data.doc.permissions);
 
                     var _permissions = $.extend({}, data.doc.permissions),
-                        _user = new Asc.asc_CUserInfo();
+                        _options = $.extend({}, data.doc.options, {actions: this.editorConfig.actionLink || {}});
+
+                    var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
 
@@ -372,7 +374,7 @@ define([
                     docInfo.put_Title(data.doc.title);
                     docInfo.put_Format(data.doc.fileType);
                     docInfo.put_VKey(data.doc.vkey);
-                    docInfo.put_Options(data.doc.options);
+                    docInfo.put_Options(_options);
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
@@ -1833,8 +1835,10 @@ define([
                     case 'setMergeData':    this.setMergeData(data.data); break;
                     case 'getMergeData':    this.getMergeData(); break;
                     case 'setAppDisabled':
-                        if (this.isAppDisabled===undefined && !data.data) // first editor opening
+                        if (this.isAppDisabled===undefined && !data.data) { // first editor opening
                             Common.NotificationCenter.trigger('layout:changed', 'main');
+                            this.loadMask && this.loadMask.isVisible() && this.loadMask.updatePosition();
+                        }
                         this.isAppDisabled = data.data;
                         break;
                     case 'queryClose':

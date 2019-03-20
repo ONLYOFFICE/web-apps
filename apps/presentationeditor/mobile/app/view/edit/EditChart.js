@@ -105,6 +105,7 @@ define([
                 $('.edit-chart-style .categories a').single('click', _.bind(me.showStyleCategory, me));
                 $('#chart-align').single('click',                   _.bind(me.showAlign, me));
 
+                Common.Utils.addScrollIfNeed('#edit-chart .pages', '#edit-chart .page');
                 me.initControls();
                 me.renderStyles();
             },
@@ -170,11 +171,18 @@ define([
 
                     this.initEvents();
                 }
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-border-color]', '.page[data-page=edit-chart-border-color] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-style] .tabs', '#tab-chart-type');
             },
 
             showStyleCategory: function (e) {
                 // remove android specific style
                 $('.page[data-page=edit-chart-style] .list-block.inputs-list').removeClass('inputs-list');
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-style] .tabs', '#tab-chart-type');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-style] .tabs', '#tab-chart-style');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-style] .tabs', '#tab-chart-fill');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-style] .tabs', '#tab-chart-border');
             },
 
             renderStyles: function() {
@@ -225,6 +233,7 @@ define([
 
             showReorder: function () {
                 this.showPage('#edit-chart-reorder');
+                Common.Utils.addScrollIfNeed('.page.chart-reorder', '.page.chart-reorder .page-content');
             },
 
             showBorderColor: function () {
@@ -240,6 +249,7 @@ define([
 
             showAlign: function () {
                 this.showPage('#edit-chart-align');
+                Common.Utils.addScrollIfNeed('.page.chart-align', '.page.chart-align .page-content');
             },
 
             textStyle: 'Style',

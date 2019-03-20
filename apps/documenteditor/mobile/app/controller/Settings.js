@@ -206,16 +206,21 @@ define([
 
                 if ('#settings-document-view' == pageId) {
                     me.initPageDocumentSettings();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-document-view]', '.page[data-page=settings-document-view] .page-content');
                 } else if ('#settings-document-formats-view' == pageId) {
                     me.getView('Settings').renderPageSizes(_pageSizes, _pageSizesIndex);
                     $('.page[data-page=settings-document-formats-view] input:radio[name=document-format]').single('change', _.bind(me.onFormatChange, me));
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-document-formats-view]', '.page[data-page=settings-document-formats-view] .page-content');
                 } else if ('#settings-download-view' == pageId) {
                     $(modalView).find('.formats a').single('click', _.bind(me.onSaveFormat, me));
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
                 } else if ('#settings-info-view' == pageId) {
                     me.initPageInfo();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
                 } else if ('#settings-about-view' == pageId) {
                     // About
                     me.setLicInfo(_licInfo);
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));

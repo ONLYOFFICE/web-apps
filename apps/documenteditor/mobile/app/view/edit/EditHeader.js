@@ -65,6 +65,7 @@ define([
                 var me = this;
 
                 DE.getController('EditHeader').initSettings();
+                Common.Utils.addScrollIfNeed('#edit-header .pages', '#edit-header .page');
             },
 
             // Render layout

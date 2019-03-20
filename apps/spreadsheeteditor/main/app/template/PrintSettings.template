@@ -1,7 +1,9 @@
 <div class="settings-panel active">
     <div class="padding-large inner-content" >
-        <div id="printadv-dlg-combo-range" class="input-group-nr" />    </div>
-    <div class="padding-large"/>
+        <div id="printadv-dlg-combo-range" class="input-group-nr" />
+        <div id="printadv-dlg-chb-ignore" style="margin-top: 5px;"/>
+    </div>
+    <div class="padding-small"/>
     <div class="padding-large inner-content" >
         <div id="printadv-dlg-combo-sheets" class="input-group-nr" />
     </div>
