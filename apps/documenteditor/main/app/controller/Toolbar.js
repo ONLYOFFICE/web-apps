@@ -783,7 +783,7 @@ define([
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
-            need_disable = (paragraph_locked || header_locked) && this.api.can_AddQuotedComment() || image_locked;
+            need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
 
