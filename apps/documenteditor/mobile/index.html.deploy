@@ -185,7 +185,7 @@
             var ua = navigator.userAgent;
 
             if (/Sailfish/.test(ua) || /Jolla/.test(ua)) {
-                document.write('<script type="text/javascript" src="../../../vendor/iscroll/iscroll.js"><\/script>');
+                document.write('<script type="text/javascript" src="../../../vendor/iscroll/iscroll.min.js"><\/script>');
 
                     if (!/R7OfficeApp/.test(ua)) {
                         var ua = navigator.userAgent + ';Android 5.0;';
