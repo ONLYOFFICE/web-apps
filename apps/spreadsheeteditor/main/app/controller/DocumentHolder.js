@@ -956,6 +956,11 @@ define([
                 /** coauthoring end **/
 
                 if (index_hyperlink) {
+                    if (!hyperlinkTip.parentEl) {
+                        hyperlinkTip.parentEl = $('<div id="tip-container-hyperlinktip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(hyperlinkTip.parentEl);
+                    }
+
                     var data  = dataarray[index_hyperlink-1],
                         props = data.asc_getHyperlink();
 
@@ -983,7 +988,7 @@ define([
                     if (!hyperlinkTip.ref || !hyperlinkTip.ref.isVisible()) {
                         hyperlinkTip.text = linkstr;
                         hyperlinkTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : hyperlinkTip.parentEl,
                             html    : true,
                             title   : linkstr
                         });
@@ -1008,6 +1013,11 @@ define([
                 }
 
                 if (index_column!==undefined || index_row!==undefined) {
+                    if (!row_columnTip.parentEl) {
+                        row_columnTip.parentEl = $('<div id="tip-container-rowcolumntip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(row_columnTip.parentEl);
+                    }
+
                     var data  = dataarray[(index_column!==undefined) ? (index_column-1) : (index_row-1)];
                     var str = Common.Utils.String.format((index_column!==undefined) ? this.textChangeColumnWidth : this.textChangeRowHeight, data.asc_getSizeCCOrPt().toFixed(2), data.asc_getSizePx().toFixed());
                     if (row_columnTip.ref && row_columnTip.ref.isVisible()) {
@@ -1021,7 +1031,7 @@ define([
                     if (!row_columnTip.ref || !row_columnTip.ref.isVisible()) {
                         row_columnTip.text = str;
                         row_columnTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : row_columnTip.parentEl,
                             html    : true,
                             title   : str
                         });
@@ -1129,6 +1139,11 @@ define([
                 }
 
                 if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
+                    if (!filterTip.parentEl) {
+                        filterTip.parentEl = $('<div id="tip-container-filtertip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(filterTip.parentEl);
+                    }
+
                     var data  = dataarray[index_filter-1],
                         str = me.makeFilterTip(data.asc_getFilter());
                     if (filterTip.ref && filterTip.ref.isVisible()) {
@@ -1142,7 +1157,7 @@ define([
                     if (!filterTip.ref || !filterTip.ref.isVisible()) {
                         filterTip.text = str;
                         filterTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : filterTip.parentEl,
                             html    : true,
                             title   : str,
                             cls: 'auto-tooltip'
@@ -2028,6 +2043,11 @@ define([
             var functip = this.tooltips.func_arg;
 
             if (name) {
+                if (!functip.parentEl) {
+                    functip.parentEl = $('<div id="tip-container-functip" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(functip.parentEl);
+                }
+
                 var funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
 
@@ -2043,7 +2063,7 @@ define([
                 if (!functip.ref || !functip.ref.isVisible()) {
                     functip.text = hint;
                     functip.ref = new Common.UI.Tooltip({
-                        owner   : this.documentHolder,
+                        owner   : functip.parentEl,
                         html    : true,
                         title   : hint,
                         cls: 'auto-tooltip'
