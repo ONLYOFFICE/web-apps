@@ -356,7 +356,7 @@ define([
                     this.permissions = $.extend(this.permissions, data.doc.permissions);
 
                     var _permissions = $.extend({}, data.doc.permissions),
-                        _options = $.extend({}, data.doc.options, {actions: this.editorConfig.actionLink || {}});
+                        _options = $.extend({}, data.doc.options, this.editorConfig.actionLink || {});
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);

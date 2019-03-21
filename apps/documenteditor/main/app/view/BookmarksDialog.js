@@ -308,7 +308,11 @@ define([
         getBookmarkLink: function() {
             var rec = this.bookmarksList.getSelectedRec();
             if (rec.length>0) {
-                Common.Gateway.requestMakeActionLink({action: "bookmark", data: rec[0].get('value')});
+                Common.Gateway.requestMakeActionLink({
+                                                        action: {
+                                                            type: "bookmark", data: rec[0].get('value')
+                                                        }
+                                                    });
             }
         },
 
