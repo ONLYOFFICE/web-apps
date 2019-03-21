@@ -1373,7 +1373,7 @@ define([
 
                         var _menu = new Common.UI.Menu({
                             items: [
-                                {caption: me.textInsPageBreak},
+                                {caption: me.textInsPageBreak, value: 'page'},
                                 {caption: me.textInsColumnBreak, value: 'column'},
                                 {caption: me.textInsSectionBreak, value: 'section', menu: _menu_section_break}
                             ]
