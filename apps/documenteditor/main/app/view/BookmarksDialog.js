@@ -50,7 +50,7 @@ define([
 
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 300,
+            contentWidth: 310,
             height: 360
         },
 
@@ -89,9 +89,15 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 10px;">', me.textGoto,'</button>',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="margin-right: 10px;">', me.textDelete,'</button>',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-link" style="">', me.textGetLink,'</button>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 5px;">', me.textGoto,'</button>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="margin-right: 5px;">', me.textDelete,'</button>',
+                                            '<div style="display: inline-block; position: relative; float: right;">',
+                                                '<button type="button" class="btn btn-text-default auto dropdown-toggle" id="bookmarks-btn-link" style="" data-toggle="dropdown">', me.textGetLink,'</button>',
+                                                '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: auto; right: 0; padding: 10px;">',
+                                                    '<div id="id-dlg-clip-copy"></div>',
+                                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + me.textCopy + '</button>',
+                                                '</div>',
+                                            '</div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -126,7 +132,7 @@ define([
                 allowBlank  : true,
                 validateOnChange: true,
                 validateOnBlur: true,
-                style       : 'width: 195px;',
+                style       : 'width: 205px;',
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {
@@ -203,6 +209,37 @@ define([
             });
             this.chHidden.on('change', _.bind(this.onChangeHidden, this));
 
+            if (this.appOptions.canMakeActionLink) {
+                var inputCopy = new Common.UI.InputField({
+                    el          : $('#id-dlg-clip-copy'),
+                    editable    : false,
+                    style       : 'width: 176px;'
+                });
+
+                var copyBox = this.$window.find('#id-clip-copy-box');
+                copyBox.on('click', _.bind(function() {
+                    return false;
+                }, this));
+                copyBox.parent().on({
+                    'shown.bs.dropdown': function () {
+                        _.delay(function(){
+                            inputCopy._input.select().focus();
+                        },100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        me.txtName._input.select().focus();
+                    }
+                });
+                copyBox.find('button').on('click', function() {
+                    inputCopy._input.select();
+                    document.execCommand("copy");
+                });
+
+                Common.Gateway.on('setactionlink', function (url) {
+                    inputCopy.setValue(url);
+                });
+            }
+
             this.afterRender();
         },
 
@@ -215,8 +252,7 @@ define([
 
             var me = this;
             _.delay(function(){
-                var input = $('input', me.txtName.cmpEl).select();
-                input.focus();
+                $('input', me.txtName.cmpEl).select().focus();
             },100);
         },
 
@@ -305,7 +341,9 @@ define([
             }
         },
 
-        getBookmarkLink: function() {
+        getBookmarkLink: function(btn) {
+            if (btn.cmpEl && btn.cmpEl.parent().hasClass('open')) return;
+
             var rec = this.bookmarksList.getSelectedRec();
             if (rec.length>0) {
                 Common.Gateway.requestMakeActionLink({
@@ -338,7 +376,8 @@ define([
         textClose: 'Close',
         textHidden: 'Hidden bookmarks',
         txtInvalidName: 'Bookmark name can only contain letters, digits and underscores, and should begin with the letter',
-        textGetLink: 'Get link'
+        textGetLink: 'Link to bookmark',
+        textCopy: 'Copy'
 
     }, DE.Views.BookmarksDialog || {}))
 });
