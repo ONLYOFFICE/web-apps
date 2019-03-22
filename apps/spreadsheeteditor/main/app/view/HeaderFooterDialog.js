@@ -743,7 +743,9 @@ define([
             var id = this.currentCanvas;
             if (this.scrollers[id]) {
                 var top = this.scrollers[id].getScrollTop();
-                if (pos + height>top+this.canvasBoxHeight || pos<top)
+                if (pos + height>top+this.canvasBoxHeight)
+                    this.scrollers[id].scrollTop(pos + height - this.canvasBoxHeight);
+                else if (pos<top)
                     this.scrollers[id].scrollTop(pos);
             }
         },
