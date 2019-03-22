@@ -114,17 +114,17 @@ define([
                     '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div style="margin-top: 7px;">',
                         '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
@@ -140,17 +140,17 @@ define([
                     '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div style="margin-top: 7px;">',
                         '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
                         '<div style="display: inline-block;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 90px; position:relative; overflow:hidden;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
@@ -585,7 +585,9 @@ define([
             this.initCanvas('#footer-right-img');
 
             this.wrapEvents = {
-                onApiEditorSelectionChanged: _.bind(this.onApiEditorSelectionChanged, this)
+                onApiEditorSelectionChanged: _.bind(this.onApiEditorSelectionChanged, this),
+                onApiResizeEditorHeight: _.bind(this.onApiResizeEditorHeight, this),
+                onUpdateEditorCursorPosition: _.bind(this.onUpdateEditorCursorPosition, this)
             };
 
             this.afterRender();
@@ -594,12 +596,13 @@ define([
         initCanvas: function(name) {
             var el = this.$window.find(name);
             el.on('click', _.bind(this.onCanvasClick, this, name));
-            this.scrollers.push(new Common.UI.Scroller({
+            this.canvasBoxHeight = el.height();
+            this.scrollers[name] = new Common.UI.Scroller({
                 el: el.parent(),
                 minScrollbarLength  : 20
-            }));
-            this.scrollers[this.scrollers.length-1].update();
-            this.scrollers[this.scrollers.length-1].scrollTop(0);
+            });
+            this.scrollers[name].update();
+            this.scrollers[name].scrollTop(0);
         },
 
         show: function() {
@@ -612,6 +615,8 @@ define([
 
         close: function() {
             this.api.asc_unregisterCallback('asc_onEditorSelectionChanged', this.wrapEvents.onApiEditorSelectionChanged);
+            this.api.asc_unregisterCallback('asc_resizeEditorHeight', this.wrapEvents.onApiResizeEditorHeight);
+            this.api.asc_unregisterCallback('asc_updateEditorCursorPosition', this.wrapEvents.onUpdateEditorCursorPosition);
 
             Common.UI.Window.prototype.close.apply(this, arguments);
 
@@ -621,6 +626,8 @@ define([
 
         afterRender: function () {
             this.api.asc_registerCallback('asc_onEditorSelectionChanged', this.wrapEvents.onApiEditorSelectionChanged);
+            this.api.asc_registerCallback('asc_resizeEditorHeight', this.wrapEvents.onApiResizeEditorHeight);
+            this.api.asc_registerCallback('asc_updateEditorCursorPosition', this.wrapEvents.onUpdateEditorCursorPosition);
 
             this.cmbFonts[0].fillFonts(this.fontStore);
             this.cmbFonts[0].selectRecord(this.fontStore.findWhere({name: this._state.fontname}) || this.fontStore.at(0));
@@ -630,6 +637,7 @@ define([
 
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
             this._setDefaults(this.props);
+            this.editorCanvas = this.$window.find('#ce-canvas-menu');
         },
 
         _setDefaults: function (props) {
@@ -688,24 +696,27 @@ define([
         },
 
         scrollerUpdate: function() {
-            this.scrollers.forEach(function(item){
-                item.update();
-            });
+            for (var name in this.scrollers) {
+                this.scrollers[name] && this.scrollers[name].update();
+            }
         },
 
         onCanvasClick: function(id, event){
             if (!this.HFObject) return;
-            id = id || 'header-left-img';
-            this.currentCanvas = id;
-            this.isFooter = (id == '#footer-left-img' || id == '#footer-center-img' || id == '#footer-right-img');
+            id = id || '#header-left-img';
+            var diff = (this.currentCanvas !== id);
+            if (diff) {
+                this.currentCanvas = id;
+                this.isFooter = (id == '#footer-left-img' || id == '#footer-center-img' || id == '#footer-right-img');
 
-            var me = this;
-            this.headerControls.forEach(function(item){
-                item.setDisabled(me.isFooter);
-            });
-            this.footerControls.forEach(function(item){
-                item.setDisabled(!me.isFooter);
-            });
+                var me = this;
+                this.headerControls.forEach(function(item){
+                    item.setDisabled(me.isFooter);
+                });
+                this.footerControls.forEach(function(item){
+                    item.setDisabled(!me.isFooter);
+                });
+            }
 
             if (event) {
                 var parent = $(event.currentTarget).parent(),
@@ -714,7 +725,27 @@ define([
             } else
                 this.HFObject.click(id);
 
-            this.scrollerUpdate();
+            diff && this.scrollerUpdate();
+        },
+
+        onApiResizeEditorHeight: function(event) {
+            if (!this.editorCanvas) return;
+            var height = this.editorCanvas.height();
+            if (height == this.editorCanvasHeight) return;
+            this.editorCanvasHeight = height;
+
+            if (this.scrollers[this.currentCanvas])
+                this.scrollers[this.currentCanvas].update();
+        },
+
+        onUpdateEditorCursorPosition: function(pos, height) {
+            if (!this.editorCanvas) return;
+            var id = this.currentCanvas;
+            if (this.scrollers[id]) {
+                var top = this.scrollers[id].getScrollTop();
+                if (pos + height>top+this.canvasBoxHeight || pos<top)
+                    this.scrollers[id].scrollTop(pos);
+            }
         },
 
         onPresetSelect: function(footer, combo, record) {
