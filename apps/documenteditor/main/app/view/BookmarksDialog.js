@@ -84,7 +84,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<div id="bookmarks-list" style="width:100%; height: 130px;"></div>',
+                                        '<div id="bookmarks-list" style="width:290px; height: 130px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -169,7 +169,7 @@ define([
             this.bookmarksList = new Common.UI.ListView({
                 el: $('#bookmarks-list', this.$window),
                 store: new Common.UI.DataViewStore(),
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= value %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
             });
             this.bookmarksList.store.comparator = function(rec) {
                 return (me.radioName.getValue() ? rec.get("value") : rec.get("location"));
