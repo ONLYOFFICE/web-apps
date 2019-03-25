@@ -418,7 +418,7 @@ define([
                         changetext  : changetext,
                         id          : Common.UI.getId(),
                         lock        : (item.get_LockUserId()!==null),
-                        lockuser    : item.get_LockUserId(),
+                        lockuser    : me.getUserName(item.get_LockUserId()),
                         type        : item.get_Type(),
                         changedata  : item,
                         scope       : me.view,
