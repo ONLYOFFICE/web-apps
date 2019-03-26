@@ -1053,6 +1053,7 @@
   "DE.Views.ControlSettingsDialog.textTitle": "Content Control Settings",
   "DE.Views.ControlSettingsDialog.txtLockDelete": "Content control cannot be deleted",
   "DE.Views.ControlSettingsDialog.txtLockEdit": "Contents cannot be edited",
+  "DE.Views.ControlSettingsDialog.textSystemColor": "System",
   "DE.Views.CustomColumnsDialog.cancelButtonText": "Cancel",
   "DE.Views.CustomColumnsDialog.okButtonText": "Ok",
   "DE.Views.CustomColumnsDialog.textColumns": "Number of columns",

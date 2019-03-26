@@ -187,6 +187,12 @@ define([
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
                     items: [
+                        {
+                            id: 'control-settings-system-color',
+                            caption: this.textSystemColor,
+                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
+                        },
+                        {caption: '--'},
                         { template: _.template('<div id="control-settings-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="control-settings-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
@@ -201,7 +207,8 @@ define([
             });
             this.btnColor.render( $('#control-settings-color-btn'));
             this.btnColor.setColor('000000');
-            this.btnColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colors, this.btnColor));
+            this.btnColor.menu.items[3].on('click',  _.bind(this.addNewColor, this, this.colors, this.btnColor));
+            $('#control-settings-system-color').on('click', _.bind(this.onSystemColor, this));
 
             this.btnApplyAll = new Common.UI.Button({
                 el: $('#control-settings-btn-all')
@@ -223,7 +230,10 @@ define([
 
         onColorsSelect: function(picker, color) {
             this.btnColor.setColor(color);
+            var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
+            clr_item.hasClass('selected') && clr_item.removeClass('selected');
             this._isCanApplyColor = true;
+            this.isSystemColor = false;
         },
 
         updateThemeColors: function() {
@@ -232,6 +242,16 @@ define([
 
         addNewColor: function(picker, btn) {
             picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
+        },
+
+        onSystemColor: function(e) {
+            var color = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
+            this.btnColor.setColor(color);
+            this.colors.clearSelection();
+            var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
+            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+            this._isCanApplyColor = true;
+            this.isSystemColor = true;
         },
 
         afterRender: function() {
@@ -255,10 +275,17 @@ define([
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
 
                 val = props.get_Color();
-                this._isCanApplyColor = !!val;
-                val = (val) ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()) : 'transparent';
+                this.isSystemColor = this._isCanApplyColor = !!val;
+                if (val) {
+                    val = Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b());
+                    this.colors.selectByRGB(val,true);
+                } else {
+                    this.colors.clearSelection();
+                    var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
+                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                    val = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
+                }
                 this.btnColor.setColor(val);
-                this.colors.selectByRGB(val,true);
 
                 val = props.get_Lock();
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
@@ -274,8 +301,12 @@ define([
             props.put_Appearance(this.cmbShow.getValue());
 
             if (this._isCanApplyColor) {
-                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                if (this.isSystemColor) {
+                    props.put_Color(null);
+                } else {
+                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                }
             }
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
@@ -306,8 +337,12 @@ define([
                 var props   = new AscCommon.CContentControlPr();
                 props.put_Appearance(this.cmbShow.getValue());
                 if (this._isCanApplyColor) {
-                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                    if (this.isSystemColor) {
+                        props.put_Color(null);
+                    } else {
+                        var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                        props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                    }
                 }
                 this.api.asc_SetContentControlProperties(props, null, true);
             }
@@ -327,7 +362,8 @@ define([
         textNone: 'None',
         textNewColor: 'Add New Custom Color',
         textApplyAll: 'Apply to All',
-        textAppearance: 'Appearance'
+        textAppearance: 'Appearance',
+        textSystemColor: 'System'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });
