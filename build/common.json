@@ -16,7 +16,9 @@
                         "cwd": "../../sdkjs/common/",
                         "src": [
                             "Images/*",
-                            "Native/*.js"
+                            "Native/*.js",
+							"libfont/js/fonts.*",
+							"libfont/wasm/fonts.*"
                         ],
                         "dest": "../deploy/sdkjs/common/"
                     },
