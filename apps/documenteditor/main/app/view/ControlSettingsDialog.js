@@ -232,7 +232,6 @@ define([
             this.btnColor.setColor(color);
             var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
             clr_item.hasClass('selected') && clr_item.removeClass('selected');
-            this._isCanApplyColor = true;
             this.isSystemColor = false;
         },
 
@@ -250,7 +249,6 @@ define([
             this.colors.clearSelection();
             var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
             !clr_item.hasClass('selected') && clr_item.addClass('selected');
-            this._isCanApplyColor = true;
             this.isSystemColor = true;
         },
 
@@ -275,7 +273,7 @@ define([
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
 
                 val = props.get_Color();
-                this.isSystemColor = this._isCanApplyColor = !!val;
+                this.isSystemColor = (val===null);
                 if (val) {
                     val = Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b());
                     this.colors.selectByRGB(val,true);
@@ -300,13 +298,11 @@ define([
             props.put_Tag(this.txtTag.getValue());
             props.put_Appearance(this.cmbShow.getValue());
 
-            if (this._isCanApplyColor) {
-                if (this.isSystemColor) {
-                    props.put_Color(null);
-                } else {
-                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
-                }
+            if (this.isSystemColor) {
+                props.put_Color(null);
+            } else {
+                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                props.put_Color(color.get_r(), color.get_g(), color.get_b());
             }
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
@@ -336,13 +332,11 @@ define([
             if (this.api) {
                 var props   = new AscCommon.CContentControlPr();
                 props.put_Appearance(this.cmbShow.getValue());
-                if (this._isCanApplyColor) {
-                    if (this.isSystemColor) {
-                        props.put_Color(null);
-                    } else {
-                        var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
-                        props.put_Color(color.get_r(), color.get_g(), color.get_b());
-                    }
+                if (this.isSystemColor) {
+                    props.put_Color(null);
+                } else {
+                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
                 }
                 this.api.asc_SetContentControlProperties(props, null, true);
             }
