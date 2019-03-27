@@ -90,14 +90,14 @@ define([
                                     '<tr>',
                                         '<td class="padding-large">',
                                             '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 5px;">', me.textGoto,'</button>',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="margin-right: 5px;">', me.textDelete,'</button>',
-                                            '<div style="display: inline-block; position: relative; float: right;">',
-                                                '<button type="button" class="btn btn-text-default auto dropdown-toggle" id="bookmarks-btn-link" style="" data-toggle="dropdown">', me.textGetLink,'</button>',
-                                                '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: auto; right: 0; padding: 10px;">',
+                                            '<div style="display: inline-block; position: relative;">',
+                                                '<button type="button" class="btn btn-text-default auto dropdown-toggle" id="bookmarks-btn-link" style="min-width: 75px;" data-toggle="dropdown">', me.textGetLink,'</button>',
+                                                '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -80px; padding: 10px;">',
                                                     '<div id="id-dlg-clip-copy"></div>',
                                                     '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + me.textCopy + '</button>',
                                                 '</div>',
                                             '</div>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="float: right;">', me.textDelete,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -138,9 +138,11 @@ define([
                 validation  : function(value) {
                     var exist = me.props.asc_HaveBookmark(value),
                         check = me.props.asc_CheckNewBookmarkName(value);
-                    if (exist)
-                        me.bookmarksList.selectRecord(me.bookmarksList.store.findWhere({value: value}));
-                    else
+                    if (exist) {
+                        var rec = me.bookmarksList.store.findWhere({value: value});
+                        me.bookmarksList.selectRecord(rec);
+                        me.bookmarksList.scrollToRecord(rec);
+                    } else
                         me.bookmarksList.deselectAll();
                     me.btnAdd.setDisabled(!check && !exist);
                     me.btnGoto.setDisabled(!exist);
@@ -182,7 +184,7 @@ define([
                 el: $('#bookmarks-btn-add'),
                 disabled: true
             });
-            this.$window.find('#bookmarks-btn-add').on('click', _.bind(this.onDlgBtnClick, this));
+            this.btnAdd.on('click', _.bind(this.addBookmark, this));
 
             this.btnGoto = new Common.UI.Button({
                 el: $('#bookmarks-btn-goto'),
@@ -273,11 +275,6 @@ define([
         },
 
         onDlgBtnClick: function(event) {
-            var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
-            if (state == 'add') {
-                this.props.asc_AddBookmark(this.txtName.getValue());
-            }
-
             this.close();
         },
 
@@ -320,6 +317,14 @@ define([
             if (rec.length>0) {
                 this.props.asc_SelectBookmark(rec[0].get('value'));
             }
+        },
+
+        addBookmark: function(btn, eOpts){
+            this.props.asc_AddBookmark(this.txtName.getValue());
+            this.refreshBookmarks();
+            var rec = this.bookmarksList.store.findWhere({value: this.txtName.getValue()});
+            this.bookmarksList.selectRecord(rec);
+            this.bookmarksList.scrollToRecord(rec);
         },
 
         onDblClickBookmark: function(listView, itemView, record) {
@@ -376,7 +381,7 @@ define([
         textClose: 'Close',
         textHidden: 'Hidden bookmarks',
         txtInvalidName: 'Bookmark name can only contain letters, digits and underscores, and should begin with the letter',
-        textGetLink: 'Link to bookmark',
+        textGetLink: 'Get Link',
         textCopy: 'Copy'
 
     }, DE.Views.BookmarksDialog || {}))
