@@ -331,45 +331,51 @@ define([
         setApi: function(api) {
             this.api = api;
 
-            this.toolbar.setApi(api);
+            if (this.mode.isEdit) {
+                this.toolbar.setApi(api);
 
-            this.api.asc_registerCallback('asc_onFontSize',             _.bind(this.onApiFontSize, this));
-            this.api.asc_registerCallback('asc_onBold',                 _.bind(this.onApiBold, this));
-            this.api.asc_registerCallback('asc_onItalic',               _.bind(this.onApiItalic, this));
-            this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
-            this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
-            this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
-            this.api.asc_registerCallback('asc_onCanUndo',              _.bind(this.onApiCanRevert, this, 'undo'));
-            this.api.asc_registerCallback('asc_onCanRedo',              _.bind(this.onApiCanRevert, this, 'redo'));
-            this.api.asc_registerCallback('asc_onListType',             _.bind(this.onApiBullets, this));
-            this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
-            this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
-            this.api.asc_registerCallback('asc_onParaSpacingLine',      _.bind(this.onApiLineSpacing, this));
-            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
-            this.api.asc_registerCallback('asc_onDocSize',              _.bind(this.onApiPageSize, this));
-            this.api.asc_registerCallback('asc_onPaintFormatChanged',   _.bind(this.onApiStyleChange, this));
-            this.api.asc_registerCallback('asc_onParaStyleName',        _.bind(this.onApiParagraphStyleChange, this));
-            this.api.asc_registerCallback('asc_onEndAddShape',          _.bind(this.onApiEndAddShape, this)); //for shapes
-            this.api.asc_registerCallback('asc_onPageOrient',           _.bind(this.onApiPageOrient, this));
-            this.api.asc_registerCallback('asc_onLockDocumentProps',    _.bind(this.onApiLockDocumentProps, this));
-            this.api.asc_registerCallback('asc_onUnLockDocumentProps',  _.bind(this.onApiUnLockDocumentProps, this));
-            this.api.asc_registerCallback('asc_onLockDocumentSchema',   _.bind(this.onApiLockDocumentSchema, this));
-            this.api.asc_registerCallback('asc_onUnLockDocumentSchema', _.bind(this.onApiUnLockDocumentSchema, this));
-            this.api.asc_registerCallback('asc_onLockHeaderFooters',    _.bind(this.onApiLockHeaderFooters, this));
-            this.api.asc_registerCallback('asc_onUnLockHeaderFooters',  _.bind(this.onApiUnLockHeaderFooters, this));
-            this.api.asc_registerCallback('asc_onZoomChange',           _.bind(this.onApiZoomChange, this));
-            this.api.asc_registerCallback('asc_onMarkerFormatChanged',  _.bind(this.onApiStartHighlight, this));
-            this.api.asc_registerCallback('asc_onTextHighLight',        _.bind(this.onApiHighlightColor, this));
-            this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
-            Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
-            this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
-            this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
-            this.api.asc_registerCallback('asc_onColumnsProps',         _.bind(this.onColumnsProps, this));
-            this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
-            this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
-            this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
-            this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings',_.bind(this.onChangeSdtGlobalSettings, this));
+                this.api.asc_registerCallback('asc_onFontSize', _.bind(this.onApiFontSize, this));
+                this.api.asc_registerCallback('asc_onBold', _.bind(this.onApiBold, this));
+                this.api.asc_registerCallback('asc_onItalic', _.bind(this.onApiItalic, this));
+                this.api.asc_registerCallback('asc_onUnderline', _.bind(this.onApiUnderline, this));
+                this.api.asc_registerCallback('asc_onStrikeout', _.bind(this.onApiStrikeout, this));
+                this.api.asc_registerCallback('asc_onVerticalAlign', _.bind(this.onApiVerticalAlign, this));
+                this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+                this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
+                this.api.asc_registerCallback('asc_onListType', _.bind(this.onApiBullets, this));
+                this.api.asc_registerCallback('asc_onPrAlign', _.bind(this.onApiParagraphAlign, this));
+                this.api.asc_registerCallback('asc_onTextColor', _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this.onApiLineSpacing, this));
+                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
+                this.api.asc_registerCallback('asc_onDocSize', _.bind(this.onApiPageSize, this));
+                this.api.asc_registerCallback('asc_onPaintFormatChanged', _.bind(this.onApiStyleChange, this));
+                this.api.asc_registerCallback('asc_onParaStyleName', _.bind(this.onApiParagraphStyleChange, this));
+                this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
+                this.api.asc_registerCallback('asc_onPageOrient', _.bind(this.onApiPageOrient, this));
+                this.api.asc_registerCallback('asc_onLockDocumentProps', _.bind(this.onApiLockDocumentProps, this));
+                this.api.asc_registerCallback('asc_onUnLockDocumentProps', _.bind(this.onApiUnLockDocumentProps, this));
+                this.api.asc_registerCallback('asc_onLockDocumentSchema', _.bind(this.onApiLockDocumentSchema, this));
+                this.api.asc_registerCallback('asc_onUnLockDocumentSchema', _.bind(this.onApiUnLockDocumentSchema, this));
+                this.api.asc_registerCallback('asc_onLockHeaderFooters', _.bind(this.onApiLockHeaderFooters, this));
+                this.api.asc_registerCallback('asc_onUnLockHeaderFooters', _.bind(this.onApiUnLockHeaderFooters, this));
+                this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
+                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+                this.api.asc_registerCallback('asc_onTextHighLight', _.bind(this.onApiHighlightColor, this));
+                this.api.asc_registerCallback('asc_onInitEditorStyles', _.bind(this.onApiInitEditorStyles, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+                this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onMathTypes, this));
+                this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
+                this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
+                this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
+                this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
+                this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
+            } else if (this.mode.isRestrictedEdit) {
+                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+            }
         },
 
         onChangeCompactView: function(view, compact) {
@@ -627,6 +633,31 @@ define([
             this.toolbar.mnuNonPrinting.items[0].setChecked(v, true);
             this.toolbar.btnShowHidenChars.toggle(v, true);
             Common.localStorage.setItem("de-show-hiddenchars", v);
+        },
+
+        onApiFocusObjectRestrictedEdit: function(selectedObjects) {
+            if (!this.editMode) return;
+
+            var i = -1, type,
+                paragraph_locked = false,
+                header_locked = false,
+                image_locked = false;
+
+            while (++i < selectedObjects.length) {
+                type = selectedObjects[i].get_ObjectType();
+
+                if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    paragraph_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                } else if (type === Asc.c_oAscTypeSelectElement.Header) {
+                    header_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                } else if (type === Asc.c_oAscTypeSelectElement.Image) {
+                    image_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                }
+            }
+
+            var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            if ( this.btnsComment && this.btnsComment.length > 0 )
+                this.btnsComment.setDisabled(need_disable);
         },
 
         onApiFocusObject: function(selectedObjects) {
@@ -2672,7 +2703,7 @@ define([
         },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
-            this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
+            this.mode.isEdit && this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
             this.DisableToolbar(true, true);
         },

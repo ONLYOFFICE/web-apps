@@ -1234,12 +1234,15 @@ define([
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
                 reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
-                if (this.appOptions.isEdit) {
-                    var toolbarController   = application.getController('Toolbar'),
-                        rightmenuController = application.getController('RightMenu'),
+                if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode
+                    var toolbarController   = application.getController('Toolbar');
+                    toolbarController   && toolbarController.setApi(me.api);
+
+                    if (this.appOptions.isRestrictedEdit) return;
+
+                    var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
                     fontsControllers    && fontsControllers.setApi(me.api);
-                    toolbarController   && toolbarController.setApi(me.api);
                     rightmenuController && rightmenuController.setApi(me.api);
 
                     if (this.appOptions.canProtect)
