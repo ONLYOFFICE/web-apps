@@ -162,6 +162,7 @@ define([
             this.btnBorderColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="drop-advanced-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="drop-advanced-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -187,6 +188,7 @@ define([
             this.btnBackColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="drop-advanced-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="drop-advanced-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }

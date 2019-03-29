@@ -186,6 +186,7 @@ define([
             this.btnColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         {
                             id: 'control-settings-system-color',
