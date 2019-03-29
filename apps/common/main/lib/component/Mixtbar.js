@@ -195,7 +195,7 @@ define([
                         var tab = active_panel.data('tab');
                         me.$tabs.find('> a[data-tab=' + tab + ']').parent().toggleClass('active', true);
                     } else {
-                        tab = me.$tabs.siblings(':not(.x-lone)').first().find('> a[data-tab]').data('tab');
+                        tab = me.$tabs.siblings(':not(.x-lone):visible').first().find('> a[data-tab]').data('tab');
                         me.setTab(tab);
                     }
                 }

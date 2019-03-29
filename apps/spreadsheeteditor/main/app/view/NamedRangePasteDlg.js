@@ -125,7 +125,7 @@ define([
             if (this.ranges) {
                 var me = this, arr = [], prev_name='';
                 for (var i=0; i<this.ranges.length; i++) {
-                    var name = this.ranges[i].asc_getName();
+                    var name = this.ranges[i].asc_getName(true);
                     if (name !== prev_name) {
                         arr.push({
                             name: name,
@@ -150,7 +150,7 @@ define([
 
         getSettings: function() {
             var rec = this.rangeList.getSelectedRec();
-            return (rec.length>0) ? (new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable'))) : null;
+            return (rec.length>0) ? (new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable'), undefined, undefined, undefined, true)) : null;
         },
 
         onPrimary: function() {

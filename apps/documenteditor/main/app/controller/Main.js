@@ -130,27 +130,38 @@ define([
 
                 var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
-                    translate = {
-                        'Series': this.txtSeries,
-                        'Diagram Title': this.txtDiagramTitle,
-                        'X Axis': this.txtXAxis,
-                        'Y Axis': this.txtYAxis,
-                        'Your text here': this.txtArt,
-                        "Error! Bookmark not defined.": this.txtBookmarkError,
-                        "above": this.txtAbove,
-                        "below": this.txtBelow,
-                        "on page ": this.txtOnPage,
-                        "Header": this.txtHeader,
-                        "Footer": this.txtFooter,
-                        " -Section ": this.txtSection,
-                        "First Page ": this.txtFirstPage,
-                        "Even Page ": this.txtEvenPage,
-                        "Odd Page ": this.txtOddPage,
-                        "Same as Previous": this.txtSameAsPrev,
-                        "Current Document": this.txtCurrentDocument,
-                        "No table of contents entries found.": this.txtNoTableOfContents,
-                        "Table of Contents": this.txtTableOfContents
-                    };
+                translate = {
+                    'Series': this.txtSeries,
+                    'Diagram Title': this.txtDiagramTitle,
+                    'X Axis': this.txtXAxis,
+                    'Y Axis': this.txtYAxis,
+                    'Your text here': this.txtArt,
+                    "Error! Bookmark not defined.": this.txtBookmarkError,
+                    "above": this.txtAbove,
+                    "below": this.txtBelow,
+                    "on page ": this.txtOnPage,
+                    "Header": this.txtHeader,
+                    "Footer": this.txtFooter,
+                    " -Section ": this.txtSection,
+                    "First Page ": this.txtFirstPage,
+                    "Even Page ": this.txtEvenPage,
+                    "Odd Page ": this.txtOddPage,
+                    "Same as Previous": this.txtSameAsPrev,
+                    "Current Document": this.txtCurrentDocument,
+                    "No table of contents entries found.": this.txtNoTableOfContents,
+                    "Table of Contents": this.txtTableOfContents,
+                    "Syntax Error": this.txtSyntaxError,
+                    "Missing Operator": this.txtMissOperator,
+                    "Missing Argument": this.txtMissArg,
+                    "Number Too Large To Format": this.txtTooLarge,
+                    "Zero Divide": this.txtZeroDivide,
+                    "Is Not In Table": this.txtNotInTable,
+                    "Index Too Large": this.txtIndTooLarge,
+                    "The Formula Not In Table": this.txtFormulaNotInTable,
+                    "Table Index Cannot be Zero": this.txtTableInd,
+                    "Undefined Bookmark": this.txtUndefBookmark,
+                    "Unexpected End of Formula": this.txtEndOfFormula
+                };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
@@ -180,7 +191,6 @@ define([
                     this.api.asc_registerCallback('asc_onPrintUrl',                 _.bind(this.onPrintUrl, this));
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
                     this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
-                    this.api.asc_registerCallback('asc_onLicenseError',             _.bind(this.onPaidFeatureError, this));
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
@@ -351,7 +361,7 @@ define([
                     this.permissions = $.extend(this.permissions, data.doc.permissions);
 
                     var _permissions = $.extend({}, data.doc.permissions),
-                        _options = $.extend({}, data.doc.options, {actions: this.editorConfig.actionLink || {}});
+                        _options = $.extend({}, data.doc.options, this.editorConfig.actionLink || {});
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
@@ -1067,27 +1077,19 @@ define([
                             }
                         });
                     }
+                } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
+                            this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
+                    Common.UI.warning({
+                        title: this.textPaidFeature,
+                        msg  : this.textCustomLoader,
+                        buttons: [{value: 'contact', caption: this.textContactUs}, {value: 'close', caption: this.textClose}],
+                        primary: 'contact',
+                        callback: function(btn) {
+                            if (btn == 'contact')
+                                window.open('mailto:sales@onlyoffice.com', "_blank");
+                        }
+                    });
                 }
-            },
-
-            onPaidFeatureError: function() {
-                var buttons = [], primary,
-                    mail = (this.appOptions.canBranding) ? ((this.editorConfig && this.editorConfig.customization && this.editorConfig.customization.customer) ? this.editorConfig.customization.customer.mail : '') : '{{SALES_EMAIL}}';
-                if (mail.length>0) {
-                    buttons.push({value: 'contact', caption: this.textContactUs});
-                    primary = 'contact';
-                }
-                buttons.push({value: 'close', caption: this.textClose});
-                Common.UI.info({
-                    title: this.textPaidFeature,
-                    msg  : this.textLicencePaidFeature,
-                    buttons: buttons,
-                    primary: primary,
-                    callback: function(btn) {
-                        if (btn == 'contact')
-                            window.open('mailto:'+mail, "_blank");
-                    }
-                });
             },
 
             onOpenDocument: function(progress) {
@@ -1237,12 +1239,15 @@ define([
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
                 reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
-                if (this.appOptions.isEdit) {
-                    var toolbarController   = application.getController('Toolbar'),
-                        rightmenuController = application.getController('RightMenu'),
+                if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode
+                    var toolbarController   = application.getController('Toolbar');
+                    toolbarController   && toolbarController.setApi(me.api);
+
+                    if (this.appOptions.isRestrictedEdit) return;
+
+                    var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
                     fontsControllers    && fontsControllers.setApi(me.api);
-                    toolbarController   && toolbarController.setApi(me.api);
                     rightmenuController && rightmenuController.setApi(me.api);
 
                     if (this.appOptions.canProtect)
@@ -2362,7 +2367,6 @@ define([
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             textClose: 'Close',
             textPaidFeature: 'Paid feature',
-            textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department',
             scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
             errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
@@ -2537,7 +2541,19 @@ define([
             txtShape_spline: 'Curve',
             txtShape_polyline1: 'Scribble',
             txtShape_polyline2: 'Freeform',
-            errorEmailClient: 'No email client could be found'
+            txtSyntaxError: 'Syntax Error',
+            txtMissOperator: 'Missing Operator',
+            txtMissArg: 'Missing Argument',
+            txtTooLarge: 'Number Too Large To Format',
+            txtZeroDivide: 'Zero Divide',
+            txtNotInTable: 'Is Not In Table',
+            txtIndTooLarge: 'Index Too Large',
+            txtFormulaNotInTable: 'The Formula Not In Table',
+            txtTableInd: 'Table Index Cannot be Zero',
+            txtUndefBookmark: 'Undefined Bookmark',
+            txtEndOfFormula: 'Unexpected End of Formula',
+            errorEmailClient: 'No email client could be found',
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
         }
     })(), DE.Controllers.Main || {}))
 });

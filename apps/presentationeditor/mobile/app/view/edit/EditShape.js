@@ -76,6 +76,7 @@ define([
 
                 $('.edit-shape-style .categories a').single('click', _.bind(me.showStyleCategory, me));
 
+                Common.Utils.addScrollIfNeed('#edit-shape .pages', '#edit-shape .page');
                 me.initControls();
             },
 
@@ -154,19 +155,23 @@ define([
                     transparent: true
                 });
 
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-shape-style]', '.page[data-page=edit-shape-style] .page-content');
                 this.fireEvent('page:show', [this, selector]);
             },
 
             showReplace: function () {
                 this.showPage('#edit-shape-replace');
+                Common.Utils.addScrollIfNeed('.page.shape-replace', '.page.shape-replace .page-content');
             },
 
             showReorder: function () {
                 this.showPage('#edit-shape-reorder');
+                Common.Utils.addScrollIfNeed('.page.shape-reorder', '.page.shape-reorder .page-content');
             },
 
             showAlign: function () {
                 this.showPage('#edit-shape-align');
+                Common.Utils.addScrollIfNeed('.page.shape-align', '.page.shape-align .page-content');
             },
 
             showBorderColor: function () {

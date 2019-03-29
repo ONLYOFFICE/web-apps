@@ -206,16 +206,21 @@ define([
 
                 if ('#settings-document-view' == pageId) {
                     me.initPageDocumentSettings();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-document-view]', '.page[data-page=settings-document-view] .page-content');
                 } else if ('#settings-document-formats-view' == pageId) {
                     me.getView('Settings').renderPageSizes(_pageSizes, _pageSizesIndex);
                     $('.page[data-page=settings-document-formats-view] input:radio[name=document-format]').single('change', _.bind(me.onFormatChange, me));
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-document-formats-view]', '.page[data-page=settings-document-formats-view] .page-content');
                 } else if ('#settings-download-view' == pageId) {
                     $(modalView).find('.formats a').single('click', _.bind(me.onSaveFormat, me));
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
                 } else if ('#settings-info-view' == pageId) {
                     me.initPageInfo();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
                 } else if ('#settings-about-view' == pageId) {
                     // About
                     me.setLicInfo(_licInfo);
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
@@ -223,6 +228,7 @@ define([
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
+                    $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
                     $('#settings-review input:checkbox').single('change',       _.bind(me.onTrackChanges, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
@@ -370,6 +376,12 @@ define([
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("de-mobile-spellcheck", state ? 1 : 0);
                 this.api && this.api.asc_setSpellCheck(state);
+            },
+
+            onOrthographyCheck: function (e) {
+                this.hideModal();
+
+                this.api && this.api.asc_pluginRun("asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}", 0);
             },
 
             onTrackChanges: function(e) {

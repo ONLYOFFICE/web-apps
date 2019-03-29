@@ -178,7 +178,6 @@ define([
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
                     this.api.asc_registerCallback('asc_onAdvancedOptions',          _.bind(this.onAdvancedOptions, this));
                     this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
-                    this.api.asc_registerCallback('asc_onLicenseError',             _.bind(this.onPaidFeatureError, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
 
@@ -832,27 +831,19 @@ define([
                             }
                         });
                     }
+                } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
+                    this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
+                    Common.UI.warning({
+                        title: this.textPaidFeature,
+                        msg  : this.textCustomLoader,
+                        buttons: [{value: 'contact', caption: this.textContactUs}, {value: 'close', caption: this.textClose}],
+                        primary: 'contact',
+                        callback: function(btn) {
+                            if (btn == 'contact')
+                                window.open('mailto:sales@onlyoffice.com', "_blank");
+                        }
+                    });
                 }
-            },
-
-            onPaidFeatureError: function() {
-                var buttons = [], primary,
-                    mail = (this.appOptions.canBranding) ? ((this.editorConfig && this.editorConfig.customization && this.editorConfig.customization.customer) ? this.editorConfig.customization.customer.mail : '') : '{{SALES_EMAIL}}';
-                if (mail.length>0) {
-                    buttons.push({value: 'contact', caption: this.textContactUs});
-                    primary = 'contact';
-                }
-                buttons.push({value: 'close', caption: this.textClose});
-                Common.UI.info({
-                    title: this.textPaidFeature,
-                    msg  : this.textLicencePaidFeature,
-                    buttons: buttons,
-                    primary: primary,
-                    callback: function(btn) {
-                        if (btn == 'contact')
-                            window.open('mailto:'+mail, "_blank");
-                    }
-                });
             },
 
             disableEditing: function(disable) {
@@ -2138,7 +2129,6 @@ define([
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             textClose: 'Close',
             textPaidFeature: 'Paid feature',
-            textLicencePaidFeature: 'The feature you are trying to use is available for additional payment.<br>If you need it, please contact Sales Department',
             scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
             errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
@@ -2313,7 +2303,8 @@ define([
             txtShape_spline: 'Curve',
             txtShape_polyline1: 'Scribble',
             txtShape_polyline2: 'Freeform',
-            errorEmailClient: 'No email client could be found'
+            errorEmailClient: 'No email client could be found',
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
         }
     })(), PE.Controllers.Main || {}))
 });

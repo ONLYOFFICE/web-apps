@@ -75,7 +75,8 @@ define([
                 row_column: {
                     ttHeight: 20
                 },
-                filter: {ttHeight: 40}
+                filter: {ttHeight: 40},
+                func_arg: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -280,6 +281,7 @@ define([
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
+                this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
             }
             return this;
         },
@@ -844,6 +846,8 @@ define([
         hideHyperlinkTip: function() {
             if (!this.tooltips.hyperlink.isHidden && this.tooltips.hyperlink.ref) {
                 this.tooltips.hyperlink.ref.hide();
+                this.tooltips.hyperlink.ref = undefined;
+                this.tooltips.hyperlink.text = '';
                 this.tooltips.hyperlink.isHidden = true;
             }
         },
@@ -896,10 +900,49 @@ define([
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
                     ];
 
-                hyperlinkTip.isHidden = false;
-                row_columnTip.isHidden = false;
-                filterTip.isHidden = false;
+                //close all tooltips
+                if (!index_hyperlink) {
+                    me.hideHyperlinkTip();
+                }
+                if (index_column===undefined && index_row===undefined) {
+                    if (!row_columnTip.isHidden && row_columnTip.ref) {
+                        row_columnTip.ref.hide();
+                        row_columnTip.ref = undefined;
+                        row_columnTip.text = '';
+                        row_columnTip.isHidden = true;
+                    }
+                }
+                if (me.permissions.isEdit || me.permissions.canViewComments) {
+                    if (!index_comments || this.popupmenu) {
+                        commentTip.moveCommentId = undefined;
+                        if (commentTip.viewCommentId != undefined) {
+                            commentTip = {};
 
+                            var commentsController = this.getApplication().getController('Common.Controllers.Comments');
+                            if (commentsController) {
+                                if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
+                                    setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
+                                else
+                                    commentsController.onApiHideComment(true);
+                            }
+                        }
+                    }
+                }
+                if (me.permissions.isEdit) {
+                    if (!index_locked) {
+                        me.hideCoAuthTips();
+                    }
+                }
+                if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
+                    if (!filterTip.isHidden && filterTip.ref) {
+                        filterTip.ref.hide();
+                        filterTip.ref = undefined;
+                        filterTip.text = '';
+                        filterTip.isHidden = true;
+                    }
+                }
+
+                // show tooltips
                 /** coauthoring begin **/
                 var getUserName = function(id){
                     var usersStore = SSE.getCollection('Common.Collections.Users');
@@ -913,6 +956,11 @@ define([
                 /** coauthoring end **/
 
                 if (index_hyperlink) {
+                    if (!hyperlinkTip.parentEl) {
+                        hyperlinkTip.parentEl = $('<div id="tip-container-hyperlinktip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(hyperlinkTip.parentEl);
+                    }
+
                     var data  = dataarray[index_hyperlink-1],
                         props = data.asc_getHyperlink();
 
@@ -931,6 +979,8 @@ define([
                     if (hyperlinkTip.ref && hyperlinkTip.ref.isVisible()) {
                         if (hyperlinkTip.text != linkstr) {
                             hyperlinkTip.ref.hide();
+                            hyperlinkTip.ref = undefined;
+                            hyperlinkTip.text = '';
                             hyperlinkTip.isHidden = true;
                         }
                     }
@@ -938,35 +988,36 @@ define([
                     if (!hyperlinkTip.ref || !hyperlinkTip.ref.isVisible()) {
                         hyperlinkTip.text = linkstr;
                         hyperlinkTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : hyperlinkTip.parentEl,
                             html    : true,
                             title   : linkstr
-                        }).on('tooltip:hide', function(tip) {
-                            hyperlinkTip.ref = undefined;
-                            hyperlinkTip.text = '';
                         });
 
                         hyperlinkTip.ref.show([-10000, -10000]);
                         hyperlinkTip.isHidden = false;
+
+                        showPoint = [data.asc_getX(), data.asc_getY()];
+                        showPoint[0] += (pos[0] + 6);
+                        showPoint[1] += (pos[1] - 20);
+                        showPoint[1] -= hyperlinkTip.ref.getBSTip().$tip.height();
+                        var tipwidth = hyperlinkTip.ref.getBSTip().$tip.width();
+                        if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                            showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
+
+                        hyperlinkTip.ref.getBSTip().$tip.css({
+                            top : showPoint[1] + 'px',
+                            left: showPoint[0] + 'px'
+                        });
                     }
 
-                    showPoint = [data.asc_getX(), data.asc_getY()];
-                    showPoint[0] += (pos[0] + 6);
-                    showPoint[1] += (pos[1] - 20);
-                    showPoint[1] -= hyperlinkTip.ref.getBSTip().$tip.height();
-                    var tipwidth = hyperlinkTip.ref.getBSTip().$tip.width();
-                    if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
-                        showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
-
-                    hyperlinkTip.ref.getBSTip().$tip.css({
-                        top : showPoint[1] + 'px',
-                        left: showPoint[0] + 'px'
-                    });
-                } else {
-                    me.hideHyperlinkTip();
                 }
 
                 if (index_column!==undefined || index_row!==undefined) {
+                    if (!row_columnTip.parentEl) {
+                        row_columnTip.parentEl = $('<div id="tip-container-rowcolumntip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(row_columnTip.parentEl);
+                    }
+
                     var data  = dataarray[(index_column!==undefined) ? (index_column-1) : (index_row-1)];
                     var str = Common.Utils.String.format((index_column!==undefined) ? this.textChangeColumnWidth : this.textChangeRowHeight, data.asc_getSizeCCOrPt().toFixed(2), data.asc_getSizePx().toFixed());
                     if (row_columnTip.ref && row_columnTip.ref.isVisible()) {
@@ -980,12 +1031,9 @@ define([
                     if (!row_columnTip.ref || !row_columnTip.ref.isVisible()) {
                         row_columnTip.text = str;
                         row_columnTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : row_columnTip.parentEl,
                             html    : true,
                             title   : str
-                        }).on('tooltip:hide', function(tip) {
-                            row_columnTip.ref = undefined;
-                            row_columnTip.text = '';
                         });
 
                         row_columnTip.ref.show([-10000, -10000]);
@@ -1003,11 +1051,6 @@ define([
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
-                    }
-                } else {
-                    if (!row_columnTip.isHidden && row_columnTip.ref) {
-                        row_columnTip.ref.hide();
-                        row_columnTip.isHidden = true;
                     }
                 }
 
@@ -1038,19 +1081,6 @@ define([
                                     }
                                 }
                             }, 400);
-                        }
-                    } else {
-                        commentTip.moveCommentId = undefined;
-                        if (commentTip.viewCommentId != undefined) {
-                            commentTip = {};
-
-                            var commentsController = this.getApplication().getController('Common.Controllers.Comments');
-                            if (commentsController) {
-                                if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
-                                    setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
-                                else
-                                    commentsController.onApiHideComment(true);
-                            }
                         }
                     }
                 }
@@ -1105,12 +1135,15 @@ define([
                                     });
                             }
                         }
-                    } else {
-                        me.hideCoAuthTips();
                     }
                 }
 
                 if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
+                    if (!filterTip.parentEl) {
+                        filterTip.parentEl = $('<div id="tip-container-filtertip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(filterTip.parentEl);
+                    }
+
                     var data  = dataarray[index_filter-1],
                         str = me.makeFilterTip(data.asc_getFilter());
                     if (filterTip.ref && filterTip.ref.isVisible()) {
@@ -1124,13 +1157,10 @@ define([
                     if (!filterTip.ref || !filterTip.ref.isVisible()) {
                         filterTip.text = str;
                         filterTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : filterTip.parentEl,
                             html    : true,
                             title   : str,
                             cls: 'auto-tooltip'
-                        }).on('tooltip:hide', function(tip) {
-                            filterTip.ref = undefined;
-                            filterTip.text = '';
                         });
 
                         filterTip.ref.show([-10000, -10000]);
@@ -1152,11 +1182,6 @@ define([
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
-                    }
-                } else {
-                    if (!filterTip.isHidden && filterTip.ref) {
-                        filterTip.ref.hide();
-                        filterTip.isHidden = true;
                     }
                 }
             }
@@ -1192,6 +1217,8 @@ define([
             var me = this;
             if (!me.tooltips.filter.isHidden && me.tooltips.filter.ref) {
                 me.tooltips.filter.ref.hide();
+                me.tooltips.filter.ref = undefined;
+                me.tooltips.filter.text = '';
                 me.tooltips.filter.isHidden = true;
             }
             if (me.permissions.isEdit && !me.dlgFilter) {
@@ -1894,24 +1921,31 @@ define([
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.funcMenu,
-                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection');
+                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
+                    funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
 
                 for (var i = 0; i < menu.items.length; i++) {
+                    var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                    if (tip)
+                        tip.hide();
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
                 funcarr.sort(function (a,b) {
-                    var aname = a.asc_getName().toLocaleUpperCase(),
-                        bname = b.asc_getName().toLocaleUpperCase();
+                    var aname = a.asc_getName(true).toLocaleUpperCase(),
+                        bname = b.asc_getName(true).toLocaleUpperCase();
                     if (aname < bname) return -1;
                     if (aname > bname) return 1;
                     return 0;
                 });
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
+                        name = menuItem.asc_getName(true),
+                        origname = me.api.asc_getFormulaNameByLocale(name),
                         mnu = new Common.UI.MenuItem({
-                        iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
-                        caption: menuItem.asc_getName()
+                            iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
+                            caption: name,
+                            hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
                         setTimeout(function(){ me.api.asc_insertFormula(item.caption, type, false ); }, 10);
                     });
@@ -1958,6 +1992,13 @@ define([
                             Common.UI.Menu.Manager.hideAll();
                         }
                     };
+                    menu.on('hide:after', function(){
+                        for (var i = 0; i < menu.items.length; i++) {
+                            var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                            if (tip)
+                                tip.hide();
+                        }
+                    });
 
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
@@ -1982,7 +2023,11 @@ define([
                         me.cellEditor.focus();
                     menu.cmpEl.toggleClass('from-cell-edit', infocus);
                     _.delay(function() {
-                        menu.cmpEl.find('li:first a').addClass('focus');
+                        var a = menu.cmpEl.find('li:first a');
+                        a.addClass('focus');
+                        var tip = a.parent().data('bs.tooltip');
+                        if (tip)
+                            tip.show();
                     }, 10);
                     if (!infocus)
                         _.delay(function() {
@@ -1991,6 +2036,66 @@ define([
                 }, 1);
             } else {
                 this.documentHolder.funcMenu.hide();
+            }
+        },
+
+        onFormulaInfo: function(name) {
+            var functip = this.tooltips.func_arg;
+
+            if (name) {
+                if (!functip.parentEl) {
+                    functip.parentEl = $('<div id="tip-container-functip" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(functip.parentEl);
+                }
+
+                var funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                    hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+
+                if (functip.ref && functip.ref.isVisible()) {
+                    if (functip.text != hint) {
+                        functip.ref.hide();
+                        functip.ref = undefined;
+                        functip.text = '';
+                        functip.isHidden = true;
+                    }
+                }
+
+                if (!hint) return;
+
+                if (!functip.ref || !functip.ref.isVisible()) {
+                    functip.text = hint;
+                    functip.ref = new Common.UI.Tooltip({
+                        owner   : functip.parentEl,
+                        html    : true,
+                        title   : hint,
+                        cls: 'auto-tooltip'
+                    });
+
+                    functip.ref.show([-10000, -10000]);
+                    functip.isHidden = false;
+                }
+
+                var pos = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    ],
+                    coord  = this.api.asc_getActiveCellCoord(),
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                var tipwidth = functip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+
+                functip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            } else {
+                if (!functip.isHidden && functip.ref) {
+                    functip.ref.hide();
+                    functip.ref = undefined;
+                    functip.text = '';
+                    functip.isHidden = true;
+                }
             }
         },
 

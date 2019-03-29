@@ -108,6 +108,7 @@ define([
                 $('#font-bullets').single('click',      _.bind(me.showBullets, me));
                 $('#font-numbers').single('click',      _.bind(me.showNumbers, me));
 
+                Common.Utils.addScrollIfNeed('#edit-text .pages', '#edit-text .page');
                 me.initControls();
             },
 
@@ -189,6 +190,8 @@ define([
                         }, 100));
                     }
                 });
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-page]', '.page[data-page=edit-text-font-page] .page-content');
             },
 
             showFontColor: function () {
@@ -198,6 +201,7 @@ define([
                     el: $('.page[data-page=edit-text-font-color] .page-content')
                 });
 
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-color]', '.page[data-page=edit-text-font-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-text-color']);
             },
 
@@ -209,15 +213,18 @@ define([
                     transparent: true
                 });
 
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-background]', '.page[data-page=edit-text-font-background] .page-content');
                 this.fireEvent('page:show', [this, '#edit-text-background']);
             },
 
             showAdditional: function () {
                 this.showPage('#edit-text-additional');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-additional]', '.page[data-page=edit-text-additional] .page-content');
             },
 
             showLineSpacing: function () {
                 this.showPage('#edit-text-linespacing');
+                Common.Utils.addScrollIfNeed('#page-text-linespacing', '#page-text-linespacing .page-content');
             },
 
             showBullets: function () {
@@ -248,7 +255,11 @@ define([
             textLineSpacing: 'Line Spacing',
             textBullets: 'Bullets',
             textNone: 'None',
-            textNumbers: 'Numbers'
+            textNumbers: 'Numbers',
+            textCharacterBold: 'B',
+            textCharacterItalic: 'I',
+            textCharacterUnderline: 'U',
+            textCharacterStrikethrough: 'S'
         }
     })(), DE.Views.EditText || {}))
 });

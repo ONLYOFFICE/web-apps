@@ -2850,6 +2850,17 @@ define([
                 })
             });
 
+            var menuTableRefreshField = new Common.UI.MenuItem({
+                caption: me.textRefreshField
+            }).on('click', function(item, e){
+                me.api.asc_UpdateComplexField(item.options.fieldProps);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuTableFieldSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.tableMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     // table properties
@@ -2858,7 +2869,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 7; i < 22; i++) {
+                    for (var i = 7; i < 24; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -2873,8 +2884,8 @@ define([
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
 
                     var disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
-                    me.tableMenu.items[8].setDisabled(disabled);
-                    me.tableMenu.items[9].setDisabled(disabled);
+                    me.tableMenu.items[10].setDisabled(disabled);
+                    me.tableMenu.items[11].setDisabled(disabled);
 
                     if (me.api) {
                         mnuTableMerge.setDisabled(disabled || !me.api.CheckBeforeMergeCells());
@@ -2974,6 +2985,14 @@ define([
                         menuTableControlSettings.setVisible(me.mode.canEditContentControl);
                     }
                     menuTableTOC.setVisible(in_toc);
+
+                    var in_field = me.api.asc_GetCurrentComplexField();
+                    menuTableRefreshField.setVisible(!!in_field);
+                    menuTableRefreshField.setDisabled(disabled);
+                    menuTableFieldSeparator.setVisible(!!in_field);
+                    if (in_field) {
+                        menuTableRefreshField.options.fieldProps = in_field;
+                    }
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -2983,6 +3002,8 @@ define([
                     menuTablePaste,
                     { caption: '--' },
                     menuEquationSeparatorInTable,
+                    menuTableRefreshField,
+                    menuTableFieldSeparator,
                     {
                         caption     : me.selectText,
                         menu        : new Common.UI.Menu({

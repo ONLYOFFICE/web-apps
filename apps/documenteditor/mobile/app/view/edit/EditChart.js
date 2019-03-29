@@ -105,6 +105,7 @@ define([
 
                 $('.edit-chart-style .categories a').single('click', _.bind(me.showStyleCategory, me));
 
+                Common.Utils.addScrollIfNeed('#edit-chart .pages', '#edit-chart .page');
                 me.initControls();
                 me.renderStyles();
             },
@@ -220,15 +221,18 @@ define([
                     transparent: true
                 });
 
+                
                 this.fireEvent('page:show', [this, selector]);
             },
 
             showWrap: function () {
                 this.showPage('#edit-chart-wrap');
+                Common.Utils.addScrollIfNeed('.page.chart-wrap', '.page.chart-wrap .page-content');
             },
 
             showReorder: function () {
                 this.showPage('#edit-chart-reorder');
+                Common.Utils.addScrollIfNeed('.page.chart-reorder', '.page.chart-reorder .page-content');
             },
 
             showBorderColor: function () {

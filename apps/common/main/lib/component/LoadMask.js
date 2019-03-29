@@ -130,6 +130,8 @@ define([
                     left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'
 
                 });
+                if (ownerEl.height()<1 || ownerEl.width()<1)
+                    loaderEl.css({visibility: 'hidden'});
 
                 Common.util.Shortcuts.suspendEvents();
 
@@ -156,6 +158,16 @@ define([
 
             isVisible: function() {
                 return !_.isEmpty(loaderEl);
+            },
+
+            updatePosition: function() {
+                if (ownerEl && ownerEl.hasClass('masked') && loaderEl){
+                    loaderEl.css({
+                        top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
+                        left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'
+                    });
+                    loaderEl.css({visibility: 'visible'});
+                }
             }
         }
     })())

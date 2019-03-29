@@ -89,6 +89,7 @@ define([
                                 .on('click', '.function > a', this.onFunctionClick.bind(this));
                 $('.groups a.group').single('click', this.onGroupClick.bind(this));
 
+                Common.Utils.addScrollIfNeed('#add-formula .pages', '#add-formula .page');
                 me.initControls();
             },
 
@@ -181,10 +182,12 @@ define([
                     groupname   : this.groups[group],
                     functions   : items
                 });
+                Common.Utils.addScrollIfNeed('.view.add-root-view .page-on-center', '.view.add-root-view .page-on-center .page-content');
             },
 
             openFunctionInfo: function (type) {
                 _openView.call(this, 'info', this.functions[type]);
+                Common.Utils.addScrollIfNeed('.view.add-root-view .page-on-center', '.view.add-root-view .page-on-center .page-content');
             },
 
             textGroups:                'CATEGORIES',

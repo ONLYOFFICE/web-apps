@@ -148,6 +148,7 @@ module.exports = function(grunt) {
     doRegisterTask('underscore');
     doRegisterTask('zeroclipboard');
     doRegisterTask('bootstrap');
+    doRegisterTask('iscroll');
     doRegisterTask('jszip');
     doRegisterTask('jsziputils');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
@@ -474,6 +475,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-megapixel',              ['megapixel-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
     grunt.registerTask('deploy-underscore',             ['underscore-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-iscroll',                ['iscroll-init', 'clean', 'copy']);
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jszip',                  ['jszip-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);

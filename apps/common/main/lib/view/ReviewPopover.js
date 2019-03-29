@@ -480,9 +480,7 @@ define([
                         handleSelect: false,
                         scrollable: true,
                         template: _.template('<div class="dataview-ct inner" style="overflow-y: visible;">'+
-                            '</div>' +
-                            '<div class="lock-area" style="cursor: default;"></div>' +
-                            '<div class="lock-author" style="cursor: default;"></div>'
+                            '</div>'
                         )
                     }
                 }
@@ -544,8 +542,8 @@ define([
 
         showReview: function (animate, lock, lockuser) {
             this.show(animate);
-            this.reviewChangesView.cmpEl.find('.lock-area').toggleClass('hidden', !lock);
-            this.reviewChangesView.cmpEl.find('.lock-author').toggleClass('hidden', !lock || _.isEmpty(lockuser)).text(lockuser);
+            // this.reviewChangesView.cmpEl.find('.lock-area').toggleClass('hidden', !lock);
+            // this.reviewChangesView.cmpEl.find('.lock-author').toggleClass('hidden', !lock || _.isEmpty(lockuser)).text(lockuser);
             this._state.reviewVisible = true;
         },
 

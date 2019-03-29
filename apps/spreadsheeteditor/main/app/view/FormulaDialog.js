@@ -56,9 +56,8 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                width           : 310,
+                width           : 375,
                 height          : 490,
-                contentWidth    : 390,
                 header          : true,
                 cls             : 'formula-dlg',
                 contentTemplate : '',
@@ -76,7 +75,7 @@ define([
                         '<label class="header" style="margin-top:10px">' + t.textListDescription + '</label>',
                         '<div id="formula-dlg-combo-functions" class="combo-functions"/>',
                         '<label id="formula-dlg-args" style="margin-top: 7px">' + '</label>',
-                        '<label id="formula-dlg-desc" style="margin-top: 4px">' + '</label>',
+                        '<label id="formula-dlg-desc" style="margin-top: 4px; display: block;">' + '</label>',
 
                     '</div>',
                 '</div>',

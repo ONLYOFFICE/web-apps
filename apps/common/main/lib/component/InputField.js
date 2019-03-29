@@ -73,7 +73,8 @@ define([
                 maskExp     : '',
                 validateOnChange: false,
                 validateOnBlur: true,
-                disabled: false
+                disabled: false,
+                editable: true
             },
 
             template: _.template([
@@ -106,7 +107,7 @@ define([
                 this.allowBlank     = me.options.allowBlank;
                 this.placeHolder    = me.options.placeHolder;
                 this.template       = me.options.template || me.template;
-                this.editable       = me.options.editable || true;
+                this.editable       = me.options.editable;
                 this.disabled       = me.options.disabled;
                 this.spellcheck     = me.options.spellcheck;
                 this.blankError     = me.options.blankError || 'This field is required';

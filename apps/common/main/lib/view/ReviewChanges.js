@@ -128,7 +128,7 @@ define([
                     me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
                 });
 
-                this.btnReviewView.menu.on('item:click', function (menu, item, e) {
+                this.btnReviewView && this.btnReviewView.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('reviewchanges:view', [menu, item]);
                 });
             }
@@ -209,12 +209,13 @@ define([
                         caption: this.txtNext
                     });
 
-                    this.btnReviewView = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-reviewview',
-                        caption: this.txtView,
-                        menu: true
-                    });
+                    if (!this.appConfig.isRestrictedEdit) // hide Display mode option for fillForms and commenting mode
+                        this.btnReviewView = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'btn-ic-reviewview',
+                            caption: this.txtView,
+                            menu: true
+                        });
                 }
 
                 if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && this._readonlyRights!==true) {
@@ -318,7 +319,7 @@ define([
                         me.btnPrev.updateHint(me.hintPrev);
                         me.btnNext.updateHint(me.hintNext);
 
-                        me.btnReviewView.setMenu(
+                        me.btnReviewView && me.btnReviewView.setMenu(
                             new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
                                 items: [
@@ -351,7 +352,7 @@ define([
                                     }
                                 ]
                             }));
-                        me.btnReviewView.updateHint(me.tipReviewView);
+                        me.btnReviewView && me.btnReviewView.updateHint(me.tipReviewView);
                         !me.appConfig.canReview && me.turnDisplayMode(Common.localStorage.getItem(me.appPrefix + "review-mode") || 'original');
                     }
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);

@@ -127,15 +127,12 @@
             if (this.hasContent() && this.enabled && !this.dontShow) {
                 if (!this.$element.is(":visible") && this.$element.closest('[role=menu]').length>0) return;
                 var $tip = this.tip();
-                var placement = typeof this.options.placement === 'function' ?
-                                    this.options.placement.call(this, $tip[0], this.$element[0]) : this.options.placement;
 
                 if (this.options.arrow === false) $tip.addClass('arrow-free');
                 if (this.options.cls) $tip.addClass(this.options.cls);
-                
-                var placementEx = /^([a-zA-Z]+)-?([a-zA-Z]*)$/.exec(placement);
 
-                if (!at && !placementEx[2].length) {
+                var placementEx = (typeof this.options.placement !== 'function') ? /^([a-zA-Z]+)-?([a-zA-Z]*)$/.exec(this.options.placement) : null;
+                if (!at && placementEx && !placementEx[2].length) {
                     _superclass.prototype.show.apply(this, arguments);
                 } else {
                     var e = $.Event('show.bs.tooltip');
@@ -152,7 +149,9 @@
                     this.options.container ?
                         $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element);
 
-                    if (typeof at == 'object') { 
+                    if (typeof this.options.placement === 'function') {
+                        this.options.placement.call(this, $tip[0], this.$element[0]);
+                    } else if (typeof at == 'object') {
                         var tp = {top: at[1] + 15, left: at[0] + 18},
                             innerWidth = Common.Utils.innerWidth(),
                             innerHeight = Common.Utils.innerHeight();

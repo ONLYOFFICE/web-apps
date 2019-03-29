@@ -76,6 +76,7 @@ define([
                 $('#edit-table-bordercolor').single('click',            _.bind(me.showBorderColor, me));
                 $('.edit-table-style .categories a').single('click',    _.bind(me.showStyleCategory, me));
 
+                Common.Utils.addScrollIfNeed('#edit-table .pages', '#edit-table .page');
                 me.initControls();
                 me.renderStyles();
             },
@@ -158,6 +159,7 @@ define([
                 if ($(e.currentTarget).data('type') == 'fill') {
                     this.fireEvent('page:show', [this, '#edit-table-style']);
                 }
+                // this.fireEvent('page:show', [this, '#edit-table-style']);
             },
 
             showPage: function (templateId, suspendEvent) {

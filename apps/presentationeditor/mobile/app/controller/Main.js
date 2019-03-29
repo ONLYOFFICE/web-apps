@@ -593,8 +593,24 @@ define([
                             buttons: buttons
                         });
                     }
-                } else
+                }  else {
+                    if (!me.appOptions.isDesktopApp && !me.appOptions.canBrandingExt &&
+                        me.editorConfig && me.editorConfig.customization && (me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo)) {
+                        uiApp.modal({
+                            title: me.textPaidFeature,
+                            text  : me.textCustomLoader,
+                            buttons: [{
+                                text: me.textContactUs,
+                                bold: true,
+                                onClick: function() {
+                                    window.open('mailto:sales@onlyoffice.com', "_blank");
+                                }
+                            },
+                                { text: me.textClose }]
+                        });
+                    }
                     PE.getController('Toolbar').activateControls();
+                }
             },
 
             onOpenDocument: function(progress) {
@@ -1357,7 +1373,9 @@ define([
             closeButtonText: 'Close File',
             scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
-            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.'
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
+            textPaidFeature: 'Paid feature',
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
         }
     })(), PE.Controllers.Main || {}))
 });

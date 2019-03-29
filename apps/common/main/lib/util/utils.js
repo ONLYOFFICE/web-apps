@@ -634,20 +634,22 @@ Common.Utils.applyCustomizationPlugins = function(plugins) {
 
     var _createXMLHTTPObject = function() {
         var xmlhttp;
-        try {
-            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-        }
-        catch (e) {
-            try {
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (E) {
-                xmlhttp = false;
-            }
-        }
-        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+        if (typeof XMLHttpRequest != 'undefined') {
             xmlhttp = new XMLHttpRequest();
+        } else {
+            try {
+                xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+            }
+            catch (e) {
+                try {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                catch (E) {
+                    xmlhttp = false;
+                }
+            }
         }
+
         return xmlhttp;
     };
 
@@ -690,17 +692,19 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
 
 Common.Utils.createXhr = function () {
     var xmlhttp;
-    try {
-        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-    } catch (e) {
-        try {
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        } catch (E) {
-            xmlhttp = false;
-        }
-    }
-    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+
+    if (typeof XMLHttpRequest != 'undefined') {
         xmlhttp = new XMLHttpRequest();
+    } else {
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (E) {
+                xmlhttp = false;
+            }
+        }
     }
 
     return xmlhttp;

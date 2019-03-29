@@ -60,7 +60,8 @@ define([
             _isEdit = false,
             _canAcceptChanges = false,
             _inRevisionChange = false,
-            _menuPos = [];
+            _menuPos = [],
+            _timer = 0;
 
         return {
             models: [],
@@ -153,10 +154,11 @@ define([
                 } else if ('review' == eventName) {
                     if (Common.SharedSettings.get('phone')) {
                         _actionSheets = me._initReviewMenu();
-                            me.onContextMenuClick(view, 'showActionSheet');
+                        me.onContextMenuClick(view, 'showActionSheet');
                     } else {
                         _.delay(function () {
                             _view.showMenu(me._initReviewMenu(), _menuPos[0] || 0, _menuPos[1] || 0);
+                            _timer = (new Date).getTime();
                         }, 100);
                     }
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
@@ -190,6 +192,10 @@ define([
                 if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal.modal-in, .actions-modal').length > 0) {
                     return;
                 }
+                var now = (new Date).getTime();
+                if (now - _timer < 1000) return;
+                _timer = 0;
+
                 _menuPos = [posX, posY];
 
                 var me = this,
@@ -202,6 +208,8 @@ define([
             },
 
             onApiHidePopMenu: function() {
+                var now = (new Date).getTime();
+                if (now - _timer < 1000) return;
                 _view && _view.hideMenu();
             },
 
