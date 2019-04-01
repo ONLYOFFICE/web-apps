@@ -83,7 +83,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/common/Scrolls/iscroll.js",
 	"../../../../sdkjs/common/Scrolls/mobileTouchManagerBase.js",
 	"../../../../sdkjs/common/wordcopypaste.js",
-	"../../../../sdkjs/common/easysax.js",
+	"../../../../sdkjs/vendor/easysax.js",
 	"../../../../sdkjs/common/openxml.js",
 	"../../../../sdkjs/common/intervalTree.js",
 	"../../../../sdkjs/cell/document/empty-workbook.js",
