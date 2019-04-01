@@ -290,6 +290,7 @@
     <inline src="resources/img/doc-formats/odp.svg" />
     <inline src="resources/img/doc-formats/otp.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
+    <inline src="resources/img/toolbar/shapetypes.svg" />
 
     <div id="viewport"></div>
 

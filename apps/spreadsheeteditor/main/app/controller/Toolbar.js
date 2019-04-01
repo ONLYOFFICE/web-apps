@@ -2544,7 +2544,7 @@ define([
                     store: shapeGroup.get('groupStore'),
                     parentMenu: menuItem.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
                 });
 
                 shapePicker.on('item:click', function(picker, item, record, e) {

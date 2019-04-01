@@ -293,6 +293,7 @@
     <inline src="resources/img/doc-formats/rtf.svg" />
     <inline src="resources/img/doc-formats/html.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
+    <inline src="resources/img/toolbar/shapetypes.svg" />
 
     <div id="viewport"></div>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>

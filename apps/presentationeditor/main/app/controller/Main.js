@@ -1587,7 +1587,6 @@ define([
 
                     _.each(shapes[index], function(shape, idx){
                         store.add({
-                            imageUrl : shape.Image,
                             data     : {shapeType: shape.Type},
                             tip      : me['txtShape_' + shape.Type] || (me.textShape + ' ' + (idx+1)),
                             allowSelected : true,

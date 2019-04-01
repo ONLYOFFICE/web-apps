@@ -849,7 +849,7 @@ define([
                     parentMenu: me.textureMenu,
                     showLast: false,
                     store: new Common.UI.DataViewStore(texturearray),
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                 });
                 mnuTexturePicker.on('item:click', _.bind(this.onSelectTexture, this));
             }

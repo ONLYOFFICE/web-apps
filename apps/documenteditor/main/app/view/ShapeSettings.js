@@ -1541,7 +1541,7 @@ define([
                     parentMenu: me.textureMenu,
                     showLast: false,
                     store: new Common.UI.DataViewStore(texturearray),
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                 });
                 mnuTexturePicker.on('item:click', _.bind(this.onSelectTexture, this));
             }
@@ -1612,7 +1612,7 @@ define([
                     store: store,
                     parentMenu: menuItem.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
                 });
 
                 shapePicker.on('item:click', function(picker, item, record, e) {
@@ -1844,8 +1844,8 @@ define([
         textRotation: 'Rotation',
         textRotate90: 'Rotate 90°',
         textFlip: 'Flip',
-        textHint270: 'Rotate Left 90°',
-        textHint90: 'Rotate Right 90°',
+        textHint270: 'Rotate 90° Counterclockwise',
+        textHint90: 'Rotate 90° Clockwise',
         textHintFlipV: 'Flip Vertically',
         textHintFlipH: 'Flip Horizontally'
     }, DE.Views.ShapeSettings || {}));

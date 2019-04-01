@@ -607,7 +607,7 @@ define([
                 if (this.options.additionalAlign)
                     this.options.additionalAlign.call(this, menuRoot, left, top);
                 else
-                    menuRoot.css({left: left, top: top});
+                    menuRoot.css({left: Math.ceil(left), top: Math.ceil(top)});
             },
 
             clearAll: function() {
