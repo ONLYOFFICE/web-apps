@@ -107,6 +107,9 @@ define([
         },
 
         setDisabled: function(disabled) {
+            if (!this.rendered)
+                return;
+
             if (disabled !== this.disabled) {
                 this.$radio.toggleClass('disabled', disabled);
                 (disabled) ? this.$radio.attr({disabled: disabled}) : this.$radio.removeAttr('disabled');

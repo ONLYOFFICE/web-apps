@@ -673,50 +673,82 @@ define([
             this.template = _.template([
                 '<table class="main">',
                     '<tr>',
-                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
-                        '<td class="right"><label id="id-info-title">-</label></td>',
-                    '</tr>',
-                    '<tr class="author">',
-                        '<td class="left"><label>' + this.txtAuthor + '</label></td>',
-                        '<td class="right"><span class="userLink img-commonctrl" id="id-info-author">-</span></td>',
-                    '</tr>',
-                    '<tr class="placement">',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
                     '</tr>',
-                    '<tr class="appname">',
-                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
-                        '<td class="right"><label id="id-info-appname">-</label></td>',
-                    '</tr>',
-                    '<tr class="date">',
-                        '<td class="left"><label>' + this.txtDate + '</label></td>',
-                        '<td class="right"><label id="id-info-date">-</label></td>',
-                    '</tr>',
-                    '<tr class="divider date"></tr>',
                     '<tr>',
-                        '<td class="left" style="vertical-align: top;"><label>' + this.txtStatistics + '</label></td>',
-                        '<td class="right" style="vertical-align: top;"><div id="id-info-statistic">',
+                        '<td class="left"><label>' + this.txtOwner + '</label></td>',
+                        '<td class="right"><label id="id-info-owner">-</label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtUploaded + '</label></td>',
+                        '<td class="right"><label id="id-info-uploaded">-</label></td>',
+                    '</tr>',
+                    '<tr class="divider general"></tr>',
+                    '<tr class="divider general"></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtPages + '</label></td>',
+                        '<td class="right"><label id="id-info-pages"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtParagraphs + '</label></td>',
+                        '<td class="right"><label id="id-info-paragraphs"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtWords + '</label></td>',
+                        '<td class="right"><label id="id-info-words"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtSymbols + '</label></td>',
+                        '<td class="right"><label id="id-info-symbols"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtSpaces + '</label></td>',
+                        '<td class="right"><label id="id-info-spaces"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtEditTime + '</label></td>',
+                        '<td class="right"><label id="id-info-edittime"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
+                        '<td class="right"><div id="id-info-subject"></div></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
+                        '<td class="right"><div id="id-info-title"></div></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtComment + '</label></td>',
+                        '<td class="right"><div id="id-info-comment"></div></td>',
+                    '</tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                            '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                            '<td class="right"><label id="id-info-modify-by"></label></td>',
+                    '</tr>',
+                    '<tr class="divider modify">',
+                    '<tr class="divider modify">',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtDate + '</label></td>',
+                        '<td class="right"><label id="id-info-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                         '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                         '<td class="right"><label id="id-info-appname"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
+                        '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
                             '<table>',
-                                '<tr>',
-                                    '<td><label>' + this.txtPages + '</label></td>',
-                                    '<td><label id="id-info-pages"></label></td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td><label>' + this.txtParagraphs + '</label></td>',
-                                    '<td><label id="id-info-paragraphs"></label></td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td><label>' + this.txtWords + '</label></td>',
-                                    '<td><label id="id-info-words"></label></td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td><label>' + this.txtSymbols + '</label></td>',
-                                    '<td><label id="id-info-symbols"></label></td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td><label>' + this.txtSpaces + '</label></td>',
-                                    '<td><label id="id-info-spaces"></label></td>',
-                                '</tr>',
+                            '<tr>',
+                                '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
+                            '</tr>',
                             '</table>',
                         '</div></td>',
                     '</tr>',
@@ -731,16 +763,84 @@ define([
         render: function() {
             $(this.el).html(this.template());
 
-            this.lblTitle = $('#id-info-title');
+            var me = this;
+
+            // server info
             this.lblPlacement = $('#id-info-placement');
-            this.lblDate = $('#id-info-date');
-            this.lblAuthor = $('#id-info-author');
-            this.lblApplication = $('#id-info-appname');
+            this.lblOwner = $('#id-info-owner');
+            this.lblUploaded = $('#id-info-uploaded');
+
+            // statistic info
             this.lblStatPages = $('#id-info-pages');
             this.lblStatWords = $('#id-info-words');
             this.lblStatParagraphs = $('#id-info-paragraphs');
             this.lblStatSymbols = $('#id-info-symbols');
             this.lblStatSpaces = $('#id-info-spaces');
+            this.lblEditTime = $('#id-info-edittime');
+
+            // edited info
+            this.inputTitle = new Common.UI.InputField({
+                el          : $('#id-info-title'),
+                style       : 'width: 200px;',
+                validateOnBlur: false
+            }).on('changed:after', function() {
+                // me.api && me.api.asc_setDocumentTitle(me.inputTitle.getValue());
+            });
+            this.inputSubject = new Common.UI.InputField({
+                el          : $('#id-info-subject'),
+                style       : 'width: 200px;',
+                validateOnBlur: false
+            }).on('changed:after', function() {
+                // me.api && me.api.asc_setDocumentSubject(me.inputSubject.getValue());
+            });
+            this.inputComment = new Common.UI.InputField({
+                el          : $('#id-info-comment'),
+                style       : 'width: 200px;',
+                validateOnBlur: false
+            }).on('changed:after', function() {
+                // me.api && me.api.asc_setDocumentComment(me.inputComment.getValue());
+            });
+
+            // modify info
+            this.lblModifyDate = $('#id-info-modify-date');
+            this.lblModifyBy = $('#id-info-modify-by');
+
+            // creation info
+            this.lblDate = $('#id-info-date');
+            this.lblApplication = $('#id-info-appname');
+            this.tblAuthor = $('#id-info-author table');
+            this.trAuthor = $('#id-info-add-author').closest('tr');
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="close img-commonctrl"></div></td></tr>';
+
+            this.tblAuthor.on('click', function(e) {
+                var btn = $(e.target);
+                if (btn.hasClass('close')) {
+                    var el = btn.closest('tr'),
+                        idx = me.tblAuthor.find('tr').index(el);
+                    el.remove();
+                    // remove idx author from info
+                }
+            });
+
+            this.inputAuthor = new Common.UI.InputField({
+                el          : $('#id-info-add-author'),
+                style       : 'width: 200px;',
+                validateOnBlur: false,
+                placeHolder: this.txtAddAuthor
+            }).on('changed:after', function(input, newValue, oldValue) {
+                var val = newValue.trim();
+                if (!!val && val !== oldValue.trim()) {
+                    val.split(/\s*[,;]\s*/).forEach(function(item){
+                        var str = item.trim();
+                        if (str) {
+                            var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
+                            me.trAuthor.before(div);
+                            // add str author to info
+                        }
+                    });
+                    me.inputAuthor.setValue('');
+                }
+            });
 
             this.rendered = true;
 
@@ -760,6 +860,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateStatisticInfo();
+            this.updateFileInfo();
         },
 
         hide: function() {
@@ -773,37 +874,86 @@ define([
             if (!this.rendered)
                 return;
 
+            var visible = false;
             doc = doc || {};
-            this.lblTitle.text((doc.title) ? doc.title : '-');
-
             if (doc.info) {
-                if (doc.info.author)
-                    this.lblAuthor.text(doc.info.author);
-                this._ShowHideInfoItem('author', doc.info.author!==undefined && doc.info.author!==null);
-                if (doc.info.created )
-                    this.lblDate.text( doc.info.created );
-                this._ShowHideInfoItem('date', doc.info.created!==undefined && doc.info.created!==null);
+                // server info
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
-                this._ShowHideInfoItem('placement', doc.info.folder!==undefined && doc.info.folder!==null);
+                visible = visible || this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null);
+                if (doc.info.author)
+                    this.lblOwner.text(doc.info.author);
+                visible = visible || this._ShowHideInfoItem(this.lblOwner, doc.info.author!==undefined && doc.info.author!==null);
+                if (doc.info.uploaded)
+                    this.lblUploaded.text(doc.info.uploaded.toLocaleString());
+                visible = visible || this._ShowHideInfoItem(this.lblUploaded, doc.info.uploaded!==undefined && doc.info.uploaded!==null);
             } else
                 this._ShowHideDocInfo(false);
+            $('tr.divider.general', this.el)[visible?'show':'hide']();
+
             var appname = (this.api) ? this.api.asc_getAppProps() : null;
             if (appname) {
                 appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
                 this.lblApplication.text(appname);
+                this._ShowHideInfoItem(this.lblApplication, !!appname);
             }
-            this._ShowHideInfoItem('appname', !!appname);
+            var props = (this.api) ? this.api.asc_getCoreProps() : null;
+            if (props) {
+                var value = props.asc_getCreated();
+                if (value)
+                    this.lblDate.text(value.toLocaleString());
+                this._ShowHideInfoItem(this.lblDate, !!value);
+            }
         },
 
-        _ShowHideInfoItem: function(cls, visible) {
-            $('tr.'+cls, this.el)[visible?'show':'hide']();
+        updateFileInfo: function() {
+            if (!this.rendered)
+                return;
+
+            var me = this,
+                props = (this.api) ? this.api.asc_getCoreProps() : null;
+            if (props) {
+                var visible = false;
+
+                var value = props.asc_getModified();
+                if (value)
+                    this.lblModifyDate.text(value.toLocaleString());
+                visible = visible || this._ShowHideInfoItem(this.lblModifyDate, !!value);
+                value = props.asc_getLastModifiedBy();
+                if (value)
+                    this.lblModifyBy.text(value);
+                visible = visible || this._ShowHideInfoItem(this.lblModifyBy, !!value);
+                $('tr.divider.modify', this.el)[visible?'show':'hide']();
+
+                value = '';//props.asc_getEditingTime();
+                if (value)
+                    this.lblEditTime.text(value);
+                this._ShowHideInfoItem(this.lblEditTime, !!value);
+                value = props.asc_getTitle();
+                this.inputTitle.setValue(value || '');
+                value = props.asc_getSubject();
+                this.inputSubject.setValue(value || '');
+                value = props.asc_getDescription();
+                this.inputComment.setValue(value || '');
+
+                this.tblAuthor.find('tr:not(:last-of-type)').remove();
+                value = ['123"""<>', '456'];//props.asc_getAuthor();
+                value && value.forEach(function(item) {
+                    var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(item)));
+                    me.trAuthor.before(div);
+                });
+            }
+        },
+
+        _ShowHideInfoItem: function(el, visible) {
+            el.closest('tr')[visible?'show':'hide']();
+            return visible;
         },
 
         _ShowHideDocInfo: function(visible) {
-            this._ShowHideInfoItem('date', visible);
-            this._ShowHideInfoItem('placement', visible);
-            this._ShowHideInfoItem('author', visible);
+            this._ShowHideInfoItem(this.lblPlacement, visible);
+            this._ShowHideInfoItem(this.lblOwner, visible);
+            this._ShowHideInfoItem(this.lblUploaded, visible);
         },
 
         updateStatisticInfo: function() {
@@ -824,7 +974,7 @@ define([
             this.api.asc_registerCallback('asc_onGetDocInfoStop', _.bind(this._onGetDocInfoEnd, this));
             this.api.asc_registerCallback('asc_onDocInfo', _.bind(this._onDocInfo, this));
             this.api.asc_registerCallback('asc_onGetDocInfoEnd', _.bind(this._onGetDocInfoEnd, this));
-            this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
+            // this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));
             this.updateInfo(this.doc);
             return this;
         },
@@ -876,18 +1026,25 @@ define([
             this.lblTitle.text((name) ? name : '-');
         },
 
-        txtTitle: 'Document Title',
-        txtAuthor: 'Author',
-        txtPlacement: 'Placement',
-        txtDate: 'Creation Date',
-        txtStatistics: 'Statistics',
+        txtPlacement: 'File Location',
+        txtOwner: 'Owner on cloud',
+        txtUploaded: 'Uploaded',
         txtPages: 'Pages',
         txtWords: 'Words',
         txtParagraphs: 'Paragraphs',
         txtSymbols: 'Symbols',
         txtSpaces: 'Symbols with spaces',
         txtLoading: 'Loading...',
-        txtAppName: 'Application'
+        txtAppName: 'Application',
+        txtEditTime: 'Total Editing time',
+        txtTitle: 'Title',
+        txtSubject: 'Subject',
+        txtComment: 'Comment',
+        txtModifyDate: 'Last Modified',
+        txtModifyBy: 'Last Modified By',
+        txtDate: 'Created',
+        txtAuthor: 'Author',
+        txtAddAuthor: 'Add Author'
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 
     DE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
