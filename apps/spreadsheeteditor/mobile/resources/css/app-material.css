@@ -6932,6 +6932,28 @@ html.pixel-ratio-3 .box-tabs ul > li:after {
 .box-tabs .locked a {
   box-shadow: inset 0 2px #f00;
 }
+#cell-editing-box {
+  display: block;
+}
+#cell-editing-box .group-content {
+  position: absolute;
+  top: 0;
+  left: 42px;
+  right: 30px;
+}
+#cell-editing-box .group-expand {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+#cell-editing-box #ce-btn-expand .caret {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20width%3D%2216px%22%20height%3D%2216px%22%20fill%3D%22%23000%22%3E%3Cg%3E%3Cpath%20d%3D%22M20.5%2C6.5l1.1%2C1.1L11%2C18l0%2C0l0%2C0L0.5%2C7.5l1.1-1.1l9.5%2C9.5L20.5%2C6.5z%22%20transform%3D%22matrix(0.743684%200%200%200.743684%20-0.299854%20-0.590536)%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+.statusbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 #editor-navbar.navbar .right {
   padding-right: 4px;
 }
