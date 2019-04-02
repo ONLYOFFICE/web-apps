@@ -239,7 +239,7 @@
   "SSE.Controllers.DocumentHolder.rightText": "Right",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Column Width {0} symbols ({1} pixels)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Row Height {0} points ({1} pixels)",
-  "SSE.Controllers.DocumentHolder.textCtrlClick": "Press CTRL and click link",
+  "SSE.Controllers.DocumentHolder.textCtrlClick": "Click the link to open it or click and hold the mouse button to select the cell.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Insert Left",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Insert Top",
   "SSE.Controllers.DocumentHolder.textSym": "sym",

@@ -3035,7 +3035,7 @@ define([
         },
 
         guestText               : 'Guest',
-        textCtrlClick           : 'Press CTRL and click link',
+        textCtrlClick           : 'Click the link to open it or click and hold the mouse button to select the cell.',
         txtHeight               : 'Height',
         txtWidth                : 'Width',
         tipIsLocked             : 'This element is being edited by another user.',
