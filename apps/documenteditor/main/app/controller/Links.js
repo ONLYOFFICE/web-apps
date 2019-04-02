@@ -78,16 +78,6 @@ define([
             this._state = {
                 prcontrolsdisable:undefined
             };
-            Common.Gateway.on('setactionlink', function (url) {
-                var copytext = document.createElement('input');
-                copytext.value = url;
-                document.body.appendChild(copytext);
-                copytext.select();
-                try {
-                    document.execCommand("copy");
-                } catch (err) {}
-                document.body.removeChild(copytext);
-            });
         },
 
         setApi: function (api) {

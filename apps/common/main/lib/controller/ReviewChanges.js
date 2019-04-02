@@ -418,7 +418,7 @@ define([
                         changetext  : changetext,
                         id          : Common.UI.getId(),
                         lock        : (item.get_LockUserId()!==null),
-                        lockuser    : item.get_LockUserId(),
+                        lockuser    : me.getUserName(item.get_LockUserId()),
                         type        : item.get_Type(),
                         changedata  : item,
                         scope       : me.view,
@@ -649,7 +649,7 @@ define([
                 });
             } else if (config.canViewReview) {
                 config.canViewReview = me.api.asc_HaveRevisionsChanges(true); // check revisions from all users
-                config.canViewReview && me.turnDisplayMode(Common.localStorage.getItem(me.view.appPrefix + "review-mode") || 'original'); // load display mode only in viewer
+                config.canViewReview && me.turnDisplayMode(config.isRestrictedEdit ? 'markup' : Common.localStorage.getItem(me.view.appPrefix + "review-mode") || 'original'); // load display mode only in viewer
             }
 
             if (me.view && me.view.btnChat) {

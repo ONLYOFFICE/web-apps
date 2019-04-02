@@ -13,5 +13,9 @@
         <div class="btn-reject img-commonctrl"></div>
         <% } %>
     </div>
+    <% if (lock) { %>
+    <div class="lock-area" style="cursor: default;"></div>
+    <div class="lock-author" style="cursor: default;"><%=lockuser%></div>
+    <% } %>
     <% } %>
 </div>

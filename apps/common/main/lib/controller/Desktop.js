@@ -57,17 +57,23 @@ define([
                         $('.toolbar').addClass('editor-native-color');
                     });
 
-                    !!app && (app.on_native_message = function (cmd, param) {
-                        if (/^style:change/.test(cmd)) {
-                            var obj = JSON.parse(param);
+                    if ( !!app ) {
+                        if ( !config.isOffline ) {
+                            app.execCommand('webapps:config', 'goback:' + config.customization.goback.url);
+                        }
 
-                            if ( obj.element == 'toolbar' ) {
-                                if ( obj.action == 'off' && obj.style == 'native-color' ) {
-                                    $('.toolbar').removeClass('editor-native-color');
+                        app.on_native_message = function (cmd, param) {
+                            if (/^style:change/.test(cmd)) {
+                                var obj = JSON.parse(param);
+
+                                if ( obj.element == 'toolbar' ) {
+                                    if ( obj.action == 'off' && obj.style == 'native-color' ) {
+                                        $('.toolbar').removeClass('editor-native-color');
+                                    }
                                 }
                             }
-                        }
-                    });
+                        };
+                    }
                 }
             },
             process: function (opts) {

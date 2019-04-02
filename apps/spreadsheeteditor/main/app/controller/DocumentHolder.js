@@ -2060,6 +2060,8 @@ define([
                     }
                 }
 
+                if (!hint) return;
+
                 if (!functip.ref || !functip.ref.isVisible()) {
                     functip.text = hint;
                     functip.ref = new Common.UI.Tooltip({

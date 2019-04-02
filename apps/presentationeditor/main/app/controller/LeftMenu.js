@@ -506,7 +506,7 @@ define([
             if (panel == 'thumbs') {
                 this.isThumbsShown = show;
             } else {
-                if (!show && this.isThumbsShown) {
+                if (!show && this.isThumbsShown && !this.leftMenu._state.pluginIsRunning) {
                     this.leftMenu.btnThumbs.toggle(true, false);
                 }
             }
@@ -551,6 +551,14 @@ define([
             if (this.api)
                 this.api.asc_enableKeyEvents(value);
              if (value) $(this.leftMenu.btnAbout.el).blur();
+            if (value && this.leftMenu._state.pluginIsRunning) {
+                this.leftMenu.panelPlugins.show();
+                this.leftMenu.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
+                if (this.mode.canCoAuthoring) {
+                    this.mode.canViewComments && this.leftMenu.panelComments['hide']();
+                    this.mode.canChat && this.leftMenu.panelChat['hide']();
+                }
+            }
         },
 
         menuFilesShowHide: function(state) {
@@ -659,7 +667,9 @@ define([
                     this.leftMenu.btnThumbs.toggle(false, false);
                     this.leftMenu.panelPlugins.show();
                     this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
+                    this.leftMenu._state.pluginIsRunning = true;
                 } else {
+                    this.leftMenu._state.pluginIsRunning = false;
                     this.leftMenu.close();
                 }
             }
@@ -670,6 +680,8 @@ define([
                 if (this.leftMenu.btnComments.isActive() && this.api) {
                     this.leftMenu.btnComments.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
+                    if (this.leftMenu._state.pluginIsRunning) // hide comments panel when plugin is running
+                        this.leftMenu.onCoauthOptions();
 
                     // focus to sdk
                     this.api.asc_enableKeyEvents(true);
