@@ -121,6 +121,7 @@ define([
             $(document).on('mousedown',     _.bind(me.onDocumentRightDown, me));
             $(document).on('mouseup',       _.bind(me.onDocumentRightUp, me));
             $(document).on('keydown',       _.bind(me.onDocumentKeyDown, me));
+            $(document).on('mousemove',     _.bind(me.onDocumentMouseMove, me));
             $(window).on('resize',          _.bind(me.onDocumentResize, me));
             var viewport = SSE.getController('Viewport').getView('Viewport');
             viewport.hlayout.on('layout:resizedrag', _.bind(me.onDocumentResize, me));
@@ -1454,6 +1455,12 @@ define([
 
         onProcessMouse: function(data) {
             (data.type == 'mouseup') && (this.mouse.isLeftButtonDown = false);
+        },
+
+        onDocumentMouseMove: function(e) {
+            if (e.target.localName !== 'canvas') {
+                this.hideHyperlinkTip();
+            }
         },
 
         showObjectMenu: function(event){
