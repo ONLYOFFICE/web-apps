@@ -405,7 +405,15 @@ define([
                         changetext += '</b>';
                         changetext += proptext;
                     break;
-
+                    case Asc.c_oAscRevisionsChangeType.TablePr:
+                        changetext = me.textTableChanged;
+                    break;
+                    case Asc.c_oAscRevisionsChangeType.RowsAdd:
+                        changetext = me.textTableRowsAdd;
+                    break;
+                    case Asc.c_oAscRevisionsChangeType.RowsRem:
+                        changetext = me.textTableRowsDel;
+                    break;
                 }
                 var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
                     user = me.userCollection.findOriginalUser(item.get_UserId()),
@@ -763,7 +771,10 @@ define([
         textEquation: 'Equation',
         textImage: 'Image',
         textChart: 'Chart',
-        textShape: 'Shape'
+        textShape: 'Shape',
+        textTableChanged: '<b>Table Settings Changed</b>',
+        textTableRowsAdd: '<b>Table Rows Added<b/>',
+        textTableRowsDel: '<b>Table Rows Deleted<b/>'
         
     }, Common.Controllers.ReviewChanges || {}));
 });
