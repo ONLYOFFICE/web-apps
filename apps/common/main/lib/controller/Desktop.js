@@ -59,7 +59,9 @@ define([
 
                     if ( !!app ) {
                         if ( !config.isOffline ) {
-                            app.execCommand('webapps:config', 'goback:' + config.customization.goback.url);
+                            if ( config.customization.goback && config.customization.goback.url ) {
+                                app.execCommand('webapps:config', JSON.stringify({'goback': config.customization.goback.url}));
+                            }
                         }
 
                         app.on_native_message = function (cmd, param) {
