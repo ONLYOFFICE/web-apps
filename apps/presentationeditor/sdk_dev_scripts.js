@@ -52,7 +52,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/slide/Editor/Format/TextBodyPrototype.js",
     "../../../../sdkjs/common/Drawings/Format/GraphicFrame.js",
     "../../../../sdkjs/common/Charts/charts.js",
-    "../../../../sdkjs/common/Charts/DrawingArea.js",
     "../../../../sdkjs/common/Charts/DrawingObjects.js",
     "../../../../sdkjs/common/Charts/3DTransformation.js",
     "../../../../sdkjs/common/Charts/ChartsDrawer.js",
