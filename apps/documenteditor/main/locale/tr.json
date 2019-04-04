@@ -49,7 +49,7 @@
   "Common.Controllers.ReviewChanges.textNum": "Change numbering",
   "Common.Controllers.ReviewChanges.textParaDeleted": "<b>Paragraph Deleted</b> ",
   "Common.Controllers.ReviewChanges.textParaFormatted": "Paragraph Formatted",
-  "Common.Controllers.ReviewChanges.textParaInserted": "<b>Paragraph Inserted</b> ",
+  "Common.Controllers.ReviewChanges.textParaInserted": "<b>Paragraph Inserted</b>",
   "Common.Controllers.ReviewChanges.textPosition": "Pozisyon",
   "Common.Controllers.ReviewChanges.textRight": "Align right",
   "Common.Controllers.ReviewChanges.textShape": "Shape",
