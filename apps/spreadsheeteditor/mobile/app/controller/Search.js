@@ -120,7 +120,8 @@ define([
                 var _endPoint = pointerEventToXY(e);
 
                 if (_isShow) {
-                    var distance = Math.sqrt((_endPoint.x -= _startPoint.x) * _endPoint.x + (_endPoint.y -= _startPoint.y) * _endPoint.y);
+                    var distance = (_startPoint.x===undefined || _startPoint.y===undefined) ? 0 :
+                        Math.sqrt((_endPoint.x -= _startPoint.x) * _endPoint.x + (_endPoint.y -= _startPoint.y) * _endPoint.y);
 
                     if (distance < 1) {
                         this.hideSearch();
