@@ -1,0 +1,73 @@
+<table cols="1">
+    <tr><td class="padding-small">
+        <div id="watermark-radio-none"></div>
+    </td></tr>
+    <tr><td class="padding-small">
+        <div id="watermark-radio-image"></div>
+    </td></tr>
+    <tr><td class="padding-large">
+        <table id="watermark-tbl-image" cols="3" style="margin-left: 22px;">
+            <tr>
+                <td style="vertical-align: top;">
+                    <button type="button" class="btn btn-text-default" id="watermark-from-file" style="width:90px;"><%= scope.textFromFile %></button>
+                </td>
+                <td style="vertical-align: top;">
+                    <button type="button" class="btn btn-text-default" id="watermark-from-url" style="width:90px;margin-left: 15px;"><%= scope.textFromUrl %></button>
+                </td>
+                <td rowspan="2">
+                    <div style="width: 80px; height: 70px; padding: 14px 20px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;margin-left: 15px;">
+                        <div id="watermark-texture-img" style="width: 50px;height: 50px;"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: bottom;">
+                    <label class="input-label" style=""><%= scope.textScale %></label>
+                    <div id="watermark-combo-scale" style="width: 90px;"></div>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+    </td></tr>
+    <tr><td class="padding-small">
+        <div id="watermark-radio-text"></div>
+    </td></tr>
+    <tr><td class="padding-small">
+        <table id="watermark-tbl-text" cols="1" style="margin-left: 22px;">
+            <tr>
+                <td class="padding-small">
+                    <label  style="display:block;" class="input-label" style=""><%= scope.textText %></label>
+                    <div id="watermark-combo-text" style="width: 100%;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <label  style="display:block;" class="input-label" style=""><%= scope.textFont %></label>
+                    <div id="watermark-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>
+                    <div id="watermark-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>
+                    <div id="watermark-textcolor" style="display: inline-block;margin-left: 6px;"></div>
+                    <div id="watermark-bold" style="display: inline-block;margin-left: 2px;"></div><div id="watermark-italic" style="display: inline-block;margin-left: 6px;"></div>
+                    <div id="watermark-underline" style="display: inline-block;margin-left: 6px;"></div><div id="watermark-strikeout" style="display: inline-block;margin-left: 6px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label style="display:block;"><%= scope.textOpacity %></label>
+                    <div style="display: inline-block; margin-top: 3px;">
+                        <label id="watermark-lbl-opacity-start">0</label>
+                        <div id="watermark-slider-opacity" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
+                        <label id="watermark-lbl-opacity-end">100</label>
+                    </div>
+                    <div id="watermark-spin-opacity" style="display: inline-block;margin-left: 15px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label style="display:block;margin-bottom: 3px;"><%= scope.textLayout %></label>
+                    <div id="watermark-radio-diag" style="display: inline-block;"></div>
+                    <div id="watermark-radio-hor" style="display: inline-block;margin-left: 15px;"></div>
+                </td>
+            </tr>
+        </table>
+    </td></tr>
+</table>

@@ -55,7 +55,8 @@ define([
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/controller/PageLayout',
     'documenteditor/main/app/view/CustomColumnsDialog',
-    'documenteditor/main/app/view/ControlSettingsDialog'
+    'documenteditor/main/app/view/ControlSettingsDialog',
+    'documenteditor/main/app/view/WatermarkSettingsDialog'
 ], function () {
     'use strict';
 
@@ -304,6 +305,7 @@ define([
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
+            toolbar.btnWatermark.menu.on('item:click',                  _.bind(this.onWatermarkSelect, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
@@ -817,6 +819,8 @@ define([
             need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
+
+            toolbar.btnWatermark.setDisabled(header_locked);
 
             this._state.in_equation = in_equation;
         },
@@ -1898,6 +1902,42 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Blank Page');
+        },
+
+        onWatermarkSelect: function(menu, item) {
+            if (this.api) {
+                if (item.value == 'add') {
+                    var me = this;
+
+                    if (_.isUndefined(me.fontstore)) {
+                        me.fontstore = new Common.Collections.Fonts();
+                        var fonts = me.toolbar.cmbFontName.store.toJSON();
+                        var arr = [];
+                        _.each(fonts, function(font, index){
+                            if (!font.cloneid) {
+                                arr.push(_.clone(font));
+                            }
+                        });
+                        me.fontstore.add(arr);
+                    }
+
+                    (new DE.Views.WatermarkSettingsDialog({
+                        // props: props,
+                        api: me.api,
+                        fontStore: me.fontstore,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me.api.asc_WatermarkAdd(value);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
+                } else if (item.value == 'remove')
+                    this.api.asc_WatermarkRemove();
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Edit ' + item.value);
+            }
         },
 
         onListStyleSelect: function(combo, record) {

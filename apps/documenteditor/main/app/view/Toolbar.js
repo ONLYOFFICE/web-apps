@@ -1015,8 +1015,32 @@ define([
                         caption: me.capImgWrapping,
                         menu: true
                     });
+
+                    me.btnWatermark = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-pageorient',
+                        caption: me.capBtnWatermark,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textAddWatermark,
+                                    value: 'add'
+                                },
+                                // {
+                                //     caption: this.textEditWatermark,
+                                //     value: 'add'
+                                // },
+                                {
+                                    caption: this.textRemWatermark,
+                                    value: 'remove'
+                                }
+                            ]
+                        })
+                    });
+
                     me.toolbarControls.push(me.btnImgAlign,
-                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping);
+                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark);
 
                     //
                     // Menus
@@ -1322,6 +1346,7 @@ define([
                 _injectComponent('#slot-img-movefrwd', this.btnImgForward);
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
+                _injectComponent('#slot-btn-watermark', this.btnWatermark);
 
                 +function injectBreakButtons() {
                     var me = this;
@@ -1545,6 +1570,8 @@ define([
                             }
                         ]
                     }));
+
+                    me.btnWatermark.updateHint(me.tipWatermark);
                 });
             },
 
@@ -2432,7 +2459,12 @@ define([
             txtDistribVert: 'Distribute Vertically',
             txtPageAlign: 'Align to Page',
             txtMarginAlign: 'Align to Margin',
-            txtObjectsAlign: 'Align Selected Objects'
+            txtObjectsAlign: 'Align Selected Objects',
+            capBtnWatermark: 'Watermark',
+            textAddWatermark: 'Add Watermark',
+            textEditWatermark: 'Edit Watermark',
+            textRemWatermark: 'Remove Watermark',
+            tipWatermark: 'Insert watermark'
         }
     })(), DE.Views.Toolbar || {}));
 });
