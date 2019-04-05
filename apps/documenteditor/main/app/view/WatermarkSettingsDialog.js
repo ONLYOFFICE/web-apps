@@ -94,7 +94,11 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 labelText: this.textNone,
                 checked: true
             });
-            // this.radioNone.on('change', _.bind(this.onRadioTypeChange, this));
+            this.radioNone.on('change', _.bind(function(field, newValue, eOpts) {
+                if (newValue) {
+                    // disable text and image
+                }
+            }, this));
 
             this.radioImage = new Common.UI.RadioBox({
                 el: $('#watermark-radio-image'),
@@ -102,7 +106,11 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 labelText: this.textImageW,
                 checked: true
             });
-            // this.radioImage.on('change', _.bind(this.onRadioTypeChange, this));
+            this.radioImage.on('change', _.bind(function(field, newValue, eOpts) {
+                if (newValue) {
+                    // disable text
+                }
+            }, this));
 
             this.radioText = new Common.UI.RadioBox({
                 el: $('#watermark-radio-text'),
@@ -110,7 +118,11 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 labelText: this.textTextW,
                 checked: true
             });
-            // this.radioText.on('change', _.bind(this.onRadioTypeChange, this));
+            this.radioText.on('change', _.bind(function(field, newValue, eOpts) {
+                if (newValue) {
+                    // disable image
+                }
+            }, this));
 
             // Image watermark
             this.btnFromFile = new Common.UI.Button({
@@ -280,7 +292,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 maxValue: 100,
                 minValue: 0
             });
-            // this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
 
             this.sldrTransparency = new Common.UI.SingleSlider({
                 el: $('#watermark-slider-opacity'),
@@ -289,8 +301,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 maxValue: 100,
                 value: 100
             });
-            // this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
-            // this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
+            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
 
             this.lblTransparencyStart = $(this.el).find('#watermark-lbl-opacity-start');
             this.lblTransparencyEnd = $(this.el).find('#watermark-lbl-opacity-end');
@@ -339,6 +350,14 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.btnTextColor.currentColor = color;
             $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
             this.mnuTextColorPicker.currentColor = color;
+        },
+
+        onNumTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrTransparency.setValue(field.getNumberValue(), true);
+        },
+
+        onTransparencyChange: function(field, newValue, oldValue){
+            this.numTransparency.setValue(newValue, true);
         },
 
         afterRender: function() {
