@@ -95,8 +95,10 @@ define([
 
         setApi: function(api) {
             this.api = api;
-            if (this.api)
+            if (this.api) {
                 this.api.asc_registerCallback('asc_onImgWrapStyleChanged', _.bind(this._ImgWrapStyleChanged, this));
+                this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this._changeCropState, this));
+            }
             return this;
         },
 
@@ -226,11 +228,64 @@ define([
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
 
+            this.btnCrop = new Common.UI.Button({
+                cls: 'btn-text-split-default',
+                caption: 'Crop',
+                split: true,
+                enableToggle: true,
+                allowDepress: true,
+                width: 100,
+                menu        : new Common.UI.Menu({
+                    style       : 'min-width: 100px;',
+                    items: [
+                        {
+                            caption: 'Crop',
+                            checkable: true,
+                            allowDepress: true,
+                            value: 0
+                        },
+                        {
+                            caption: 'Fill',
+                            value: 1
+                        },
+                        {
+                            caption: 'Fit',
+                            value: 2
+                        }]
+                })
+            });
+            this.btnCrop.render( $('#image-button-crop')) ;
+            this.btnCrop.on('click', _.bind(this.onCrop, this));
+            this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
+            this.lockedControls.push(this.btnCrop);
+
             this.linkAdvanced = $('#image-advanced-link');
             this.lblReplace = $('#image-lbl-replace');
             $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
-        
+
+        onCrop: function(btn, e) {
+            btn.pressed ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            this.fireEvent('editcomplete', this);
+        },
+
+        onCropMenu: function(menu, item) {
+            if (item.value == 1) {
+                this.api.asc_cropFill();
+            } else if (item.value == 2) {
+                this.api.asc_cropFit();
+            } else {
+                item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+
+            this.fireEvent('editcomplete', this);
+        },
+
+        _changeCropState: function(state) {
+            this.btnCrop.toggle(state, true);
+            this.btnCrop.menu.items[0].setChecked(state, true);
+        },
+
         createDelayedElements: function() {
             this.createDelayedControls();
             this.updateMetricUnit();

@@ -491,6 +491,7 @@ define([
                     if (isSplit) {
                         $('[data-toggle^=dropdown]', el).on('mousedown', _.bind(menuHandler, this));
                         $('button', el).on('mousedown', _.bind(onMouseDown, this));
+                        (me.options.width>0) && $('button:first', el).css('width', me.options.width - $('[data-toggle^=dropdown]', el).outerWidth());
                     }
 
                     el.on('hide.bs.dropdown', _.bind(doSplitSelect, me, false, 'arrow'));
