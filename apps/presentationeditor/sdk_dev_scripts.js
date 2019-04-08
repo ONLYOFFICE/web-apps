@@ -198,7 +198,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/word/apiBuilder.js",
     "../../../../sdkjs/slide/apiBuilder.js",
     "../../../../sdkjs/common/text_input.js",
-	"../../../../sdkjs/common/Scrolls/iscroll.js",
+	"../../../../sdkjs/vendor/iscroll.js",
 	"../../../../sdkjs/common/Scrolls/mobileTouchManagerBase.js",
 	"../../../../sdkjs/slide/Drawing/mobileTouchManager.js"
 ];
