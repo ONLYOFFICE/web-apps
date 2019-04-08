@@ -54,6 +54,7 @@ define([
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers;
         var $saveStatus;
+        var _readonlyRights = false;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -165,7 +166,7 @@ define([
                     .removeClass('dropdown-toggle')
                     .menu = false;
 
-                $panelUsers[(appConfig && !appConfig.isReviewOnly && appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length) ? 'show' : 'hide']();
+                $panelUsers[(!_readonlyRights && appConfig && !appConfig.isReviewOnly && appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length) ? 'show' : 'hide']();
             }
 
             $btnUsers.find('.caption')
@@ -178,6 +179,12 @@ define([
                 usertip.options.title = (has_edit_users) ? usertip.options.titleExt : usertip.options.titleNorm;
                 usertip.setContent();
             }
+        }
+
+        function onLostEditRights() {
+            _readonlyRights = true;
+            $panelUsers.find('#tlb-change-rights').hide();
+            $btnUsers && !$btnUsers.menu && $panelUsers.hide();
         }
 
         function onUsersClick(e) {
@@ -390,6 +397,7 @@ define([
                 Common.NotificationCenter.on('app:face', function(mode) {
                     Common.Utils.asyncCall(onAppShowed, me, mode);
                 });
+                Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
             },
 
             render: function (el, role) {
