@@ -264,23 +264,6 @@ define([
             $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
-        onCrop: function(btn, e) {
-            btn.pressed ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
-            this.fireEvent('editcomplete', this);
-        },
-
-        onCropMenu: function(menu, item) {
-            if (item.value == 1) {
-                this.api.asc_cropFill();
-            } else if (item.value == 2) {
-                this.api.asc_cropFit();
-            } else {
-                item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
-            }
-
-            this.fireEvent('editcomplete', this);
-        },
-
         _changeCropState: function(state) {
             this.btnCrop.toggle(state, true);
             this.btnCrop.menu.items[0].setChecked(state, true);
@@ -500,6 +483,26 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onCrop: function(btn, e) {
+            if (this.api) {
+                btn.pressed ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onCropMenu: function(menu, item) {
+            if (this.api) {
+                if (item.value == 1) {
+                    this.api.asc_cropFill();
+                } else if (item.value == 2) {
+                    this.api.asc_cropFit();
+                } else {
+                    item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+                }
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         openAdvancedSettings: function(e) {
             if (this.linkAdvanced.hasClass('disabled')) return;
 
@@ -554,6 +557,8 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+
+            this.btnCrop.setDisabled(disable || !this.api.asc_canEditCrop());
         },
 
         textSize:       'Size',
