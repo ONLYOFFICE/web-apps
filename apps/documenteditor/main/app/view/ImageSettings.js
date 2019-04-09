@@ -230,7 +230,7 @@ define([
 
             this.btnCrop = new Common.UI.Button({
                 cls: 'btn-text-split-default',
-                caption: 'Crop',
+                caption: this.textCrop,
                 split: true,
                 enableToggle: true,
                 allowDepress: true,
@@ -239,17 +239,17 @@ define([
                     style       : 'min-width: 100px;',
                     items: [
                         {
-                            caption: 'Crop',
+                            caption: this.textCrop,
                             checkable: true,
                             allowDepress: true,
                             value: 0
                         },
                         {
-                            caption: 'Fill',
+                            caption: this.textCropFill,
                             value: 1
                         },
                         {
-                            caption: 'Fit',
+                            caption: this.textCropFit,
                             value: 2
                         }]
                 })
@@ -586,7 +586,9 @@ define([
         textHint270: 'Rotate 90° Counterclockwise',
         textHint90: 'Rotate 90° Clockwise',
         textHintFlipV: 'Flip Vertically',
-        textHintFlipH: 'Flip Horizontally'
-
+        textHintFlipH: 'Flip Horizontally',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit'
     }, DE.Views.ImageSettings || {}));
 });
