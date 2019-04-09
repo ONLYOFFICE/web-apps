@@ -93,6 +93,9 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            if (this.api) {
+                this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this._changeCropState, this));
+            }
             return this;
         },
 
@@ -138,6 +141,37 @@ define([
                 if (this.api) this.api.asc_startEditCurrentOleObject();
                 this.fireEvent('editcomplete', this);
             }, this));
+
+            this.btnCrop = new Common.UI.Button({
+                cls: 'btn-text-split-default',
+                caption: this.textCrop,
+                split: true,
+                enableToggle: true,
+                allowDepress: true,
+                width: 100,
+                menu        : new Common.UI.Menu({
+                    style       : 'min-width: 100px;',
+                    items: [
+                        {
+                            caption: this.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value: 0
+                        },
+                        {
+                            caption: this.textCropFill,
+                            value: 1
+                        },
+                        {
+                            caption: this.textCropFit,
+                            value: 2
+                        }]
+                })
+            });
+            this.btnCrop.render( $('#image-button-crop')) ;
+            this.btnCrop.on('click', _.bind(this.onCrop, this));
+            this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
+            this.lockedControls.push(this.btnCrop);
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
@@ -312,6 +346,31 @@ define([
             }
         },
 
+        _changeCropState: function(state) {
+            this.btnCrop.toggle(state, true);
+            this.btnCrop.menu.items[0].setChecked(state, true);
+        },
+
+        onCrop: function(btn, e) {
+            if (this.api) {
+                btn.pressed ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onCropMenu: function(menu, item) {
+            if (this.api) {
+                if (item.value == 1) {
+                    this.api.asc_cropFill();
+                } else if (item.value == 2) {
+                    this.api.asc_cropFit();
+                } else {
+                    item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+                }
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         onBtnRotateClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
             properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
@@ -343,6 +402,7 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+            this.btnCrop.setDisabled(disable || !this.api.asc_canEditCrop());
         },
 
         textSize:       'Size',
@@ -361,7 +421,10 @@ define([
         textHint270: 'Rotate 90° Counterclockwise',
         textHint90: 'Rotate 90° Clockwise',
         textHintFlipV: 'Flip Vertically',
-        textHintFlipH: 'Flip Horizontally'
+        textHintFlipH: 'Flip Horizontally',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit'
 
     }, PE.Views.ImageSettings || {}));
 });
