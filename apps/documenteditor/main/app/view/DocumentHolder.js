@@ -1531,6 +1531,7 @@ define([
                         this.api.asc_registerCallback('asc_doubleClickOnChart',         onDoubleClickOnChart);
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
                         this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
+                        this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
                     }
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',                      _.bind(onCoAuthoringDisconnect, this));
@@ -1549,13 +1550,6 @@ define([
 
             this.mode = {};
             this.setMode = function(m) {
-                if (this.api && m.isEdit) {
-                    this.api.asc_registerCallback('asc_onImgWrapStyleChanged',          _.bind(this.onImgWrapStyleChanged, this));
-                    this.api.asc_registerCallback('asc_onDialogAddHyperlink',           onDialogAddHyperlink);
-                    this.api.asc_registerCallback('asc_doubleClickOnChart',             onDoubleClickOnChart);
-                    this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',      _.bind(onSpellCheckVariantsFound, this));
-                }
-
                 this.mode = m;
                 /** coauthoring begin **/
                 !(this.mode.canCoAuthoring && this.mode.canComments)
@@ -1601,6 +1595,10 @@ define([
                     this.menuImageWrap.menu.items[5].setChecked(true);
                     break;
             }
+        },
+
+        onChangeCropState: function(state) {
+            this.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
         onApiParagraphStyleChange: function(name) {
@@ -2383,6 +2381,29 @@ define([
                 })
             });
 
+            me.menuImgCrop = new Common.UI.MenuItem({
+                caption     : me.textCrop,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: this.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value  : 0
+                        }).on('click', _.bind(me.onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: this.textCropFill,
+                            value  : 1
+                        }).on('click', _.bind(me.onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: this.textCropFit,
+                            value  : 2
+                        }).on('click', _.bind(me.onImgCrop, me))
+                    ]
+                })
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
@@ -2453,10 +2474,14 @@ define([
                     if (menuImgRotate.isVisible())
                         menuImgRotate.setDisabled(islocked);
 
+                    me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
+                    if (me.menuImgCrop.isVisible())
+                        me.menuImgCrop.setDisabled(islocked);
+
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[15].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[16].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2506,6 +2531,7 @@ define([
                     me.menuImageWrap,
                     menuImgRotate,
                     { caption: '--' },
+                    me.menuImgCrop,
                     me.menuOriginalSize,
                     menuImgReplace,
                     menuChartEdit,
@@ -3769,6 +3795,17 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onImgCrop: function(item) {
+            if (item.value == 1) {
+                this.api.asc_cropFill();
+            } else if (item.value == 2) {
+                this.api.asc_cropFit();
+            } else {
+                item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         focus: function() {
             var me = this;
             _.defer(function(){  me.cmpEl.focus(); }, 50);
@@ -3983,7 +4020,10 @@ define([
         textRotate90: 'Rotate 90° Clockwise',
         textFlipV: 'Flip Vertically',
         textFlipH: 'Flip Horizontally',
-        textRotate: 'Rotate'
+        textRotate: 'Rotate',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit'
 
     }, DE.Views.DocumentHolder || {}));
 });

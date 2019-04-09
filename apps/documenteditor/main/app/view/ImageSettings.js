@@ -73,7 +73,8 @@ define([
                 Height: 0,
                 FromGroup: false,
                 DisabledControls: false,
-                isOleObject: false
+                isOleObject: false,
+                cropMode: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -234,6 +235,7 @@ define([
                 split: true,
                 enableToggle: true,
                 allowDepress: true,
+                pressed: this._state.cropMode,
                 width: 100,
                 menu        : new Common.UI.Menu({
                     style       : 'min-width: 100px;',
@@ -242,6 +244,7 @@ define([
                             caption: this.textCrop,
                             checkable: true,
                             allowDepress: true,
+                            checked: this._state.cropMode,
                             value: 0
                         },
                         {
@@ -265,6 +268,9 @@ define([
         },
 
         _changeCropState: function(state) {
+            this._state.cropMode = state;
+
+            if (!this.btnCrop) return;
             this.btnCrop.toggle(state, true);
             this.btnCrop.menu.items[0].setChecked(state, true);
         },
