@@ -73,7 +73,8 @@ define([
                 Height: 0,
                 DisabledControls: false,
                 keepRatio: false,
-                isOleObject: false
+                isOleObject: false,
+                cropMode: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -204,6 +205,7 @@ define([
                 split: true,
                 enableToggle: true,
                 allowDepress: true,
+                pressed: this._state.cropMode,
                 width: 100,
                 menu        : new Common.UI.Menu({
                     style       : 'min-width: 100px;',
@@ -212,6 +214,7 @@ define([
                             caption: this.textCrop,
                             checkable: true,
                             allowDepress: true,
+                            checked: this._state.cropMode,
                             value: 0
                         },
                         {
@@ -445,6 +448,9 @@ define([
         },
 
         _changeCropState: function(state) {
+            this._state.cropMode = state;
+
+            if (!this.btnCrop) return;
             this.btnCrop.toggle(state, true);
             this.btnCrop.menu.items[0].setChecked(state, true);
         },
@@ -453,7 +459,7 @@ define([
             if (this.api) {
                 btn.pressed ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
             }
-            Common.NotificationCenter.trigger('edit:complete', me);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onCropMenu: function(menu, item) {
@@ -466,7 +472,7 @@ define([
                     item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
                 }
             }
-            Common.NotificationCenter.trigger('edit:complete', me);
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onBtnRotateClick: function(btn) {

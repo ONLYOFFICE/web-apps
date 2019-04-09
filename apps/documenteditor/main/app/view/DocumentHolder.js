@@ -2387,17 +2387,17 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
-                            caption: this.textCrop,
+                            caption: me.textCrop,
                             checkable: true,
                             allowDepress: true,
                             value  : 0
                         }).on('click', _.bind(me.onImgCrop, me)),
                         new Common.UI.MenuItem({
-                            caption: this.textCropFill,
+                            caption: me.textCropFill,
                             value  : 1
                         }).on('click', _.bind(me.onImgCrop, me)),
                         new Common.UI.MenuItem({
-                            caption: this.textCropFit,
+                            caption: me.textCropFit,
                             value  : 2
                         }).on('click', _.bind(me.onImgCrop, me))
                     ]

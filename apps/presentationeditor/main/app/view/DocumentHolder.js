@@ -1568,6 +1568,10 @@ define([
                     pasteContainer.hide();
             };
 
+            var onChangeCropState = function(state) {
+                this.menuImgCrop.menu.items[0].setChecked(state, true);
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -1591,6 +1595,7 @@ define([
                         me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, me));
                         me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(onShowSpecialPasteOptions, me));
                         me.api.asc_registerCallback('asc_onHideSpecialPasteOptions',  _.bind(onHideSpecialPasteOptions, me));
+                        me.api.asc_registerCallback('asc_ChangeCropState',            _.bind(onChangeCropState, me));
 
                     }
                     me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(onCoAuthoringDisconnect, me));
@@ -1612,12 +1617,6 @@ define([
             this.mode = {};
 
             this.setMode = function(mode) {
-                if (me.api && mode.isEdit) {
-                    me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
-                    me.api.asc_registerCallback('asc_doubleClickOnChart', onDoubleClickOnChart);
-                    me.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(onSpellCheckVariantsFound, me));
-                }
-
                 me.mode = mode;
                 /** coauthoring begin **/
                 !(me.mode.canCoAuthoring && me.mode.canComments)
@@ -2820,6 +2819,40 @@ define([
                 })
             });
 
+            var onImgCrop = function(item) {
+                if (item.value == 1) {
+                    me.api.asc_cropFill();
+                } else if (item.value == 2) {
+                    me.api.asc_cropFit();
+                } else {
+                    item.checked ? me.api.asc_startEditCrop() : me.api.asc_endEditCrop();
+                }
+                me.fireEvent('editcomplete', me);
+            };
+
+            me.menuImgCrop = new Common.UI.MenuItem({
+                caption     : me.textCrop,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value  : 0
+                        }).on('click', _.bind(onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFill,
+                            value  : 1
+                        }).on('click', _.bind(onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFit,
+                            value  : 2
+                        }).on('click', _.bind(onImgCrop, me))
+                    ]
+                })
+            });
+
             /** coauthoring begin **/
             var menuAddCommentPara = new Common.UI.MenuItem({
                 caption     : me.addCommentText
@@ -3234,6 +3267,10 @@ define([
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(disabled || pluginGuid===null);
 
+                    me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
+                    if (me.menuImgCrop.isVisible())
+                        me.menuImgCrop.setDisabled(disabled);
+
                     menuImageAdvanced.setVisible(isimage);
                     menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
@@ -3267,6 +3304,7 @@ define([
                     menuImgShapeAlign,
                     menuImgShapeRotate,
                     menuImgShapeSeparator,
+                    me.menuImgCrop,
                     menuImgOriginalSize,
                     menuImgReplace,
                     menuImageAdvanced,
@@ -3534,7 +3572,10 @@ define([
         textRotate90: 'Rotate 90° Clockwise',
         textFlipV: 'Flip Vertically',
         textFlipH: 'Flip Horizontally',
-        textRotate: 'Rotate'
+        textRotate: 'Rotate',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit'
 
     }, PE.Views.DocumentHolder || {}));
 });

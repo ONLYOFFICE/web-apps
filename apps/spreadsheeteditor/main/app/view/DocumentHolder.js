@@ -605,6 +605,29 @@ define([
                 })
             });
 
+            me.menuImgCrop = new Common.UI.MenuItem({
+                caption     : me.textCrop,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value  : 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFill,
+                            value  : 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFit,
+                            value  : 2
+                        })
+                    ]
+                })
+            });
+
             me.mnuBringToFront = new Common.UI.MenuItem({
                 caption : this.textArrangeFront,
                 iconCls : 'mnu-arrange-front',
@@ -732,6 +755,7 @@ define([
                     me.menuImageAlign,
                     me.menuImgRotate,
                     me.mnuShapeSeparator,
+                    me.menuImgCrop,
                     me.mnuChartEdit,
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
@@ -1053,7 +1077,10 @@ define([
         textFlipH: 'Flip Horizontally',
         textRotate: 'Rotate',
         textArrange: 'Arrange',
-        textAlign: 'Align'
+        textAlign: 'Align',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit'
 
     }, SSE.Views.DocumentHolder || {}));
 });

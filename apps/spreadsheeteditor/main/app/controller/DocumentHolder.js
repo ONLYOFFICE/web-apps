@@ -186,6 +186,7 @@ define([
                 view.pmiAddNamedRange.on('click',                   _.bind(me.onAddNamedRange, me));
                 view.menuImageArrange.menu.on('item:click',         _.bind(me.onImgMenu, me));
                 view.menuImgRotate.menu.on('item:click',            _.bind(me.onImgMenu, me));
+                view.menuImgCrop.menu.on('item:click',              _.bind(me.onImgCrop, me));
                 view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
@@ -283,6 +284,7 @@ define([
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
                 this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
+                this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
             }
             return this;
         },
@@ -661,6 +663,19 @@ define([
                     Common.component.Analytics.trackEvent('DocumentHolder', 'Flip');
                 }
             }
+        },
+
+        onImgCrop: function(menu, item) {
+            if (this.api) {
+                if (item.value == 1) {
+                    this.api.asc_cropFill();
+                } else if (item.value == 2) {
+                    this.api.asc_cropFit();
+                } else {
+                    item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
         onImgMenuAlign: function(menu, item) {
@@ -1563,6 +1578,10 @@ define([
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgRotate.setDisabled(isObjLocked);
 
+                documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
+                if (documentHolder.menuImgCrop.isVisible())
+                    documentHolder.menuImgCrop.setDisabled(isObjLocked);
+
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
@@ -2286,6 +2305,10 @@ define([
 
         onLockDefNameManager: function(state) {
             this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
+        },
+
+        onChangeCropState: function(state) {
+            this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
         initEquationMenu: function() {
