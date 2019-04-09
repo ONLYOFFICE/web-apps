@@ -453,7 +453,7 @@ define([
             if (this.api) {
                 btn.pressed ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', me);
         },
 
         onCropMenu: function(menu, item) {
@@ -466,7 +466,7 @@ define([
                     item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
                 }
             }
-            this.fireEvent('editcomplete', this);
+            Common.NotificationCenter.trigger('edit:complete', me);
         },
 
         onBtnRotateClick: function(btn) {
