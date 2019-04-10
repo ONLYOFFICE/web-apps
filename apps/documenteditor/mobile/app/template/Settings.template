@@ -100,6 +100,18 @@
                             </a>
                         </li>
                         <li>
+                            <a id="settings-advanced" class="item-link" data-page="#settings-advanced-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-doc-setup"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Advanced Settings<!--<%= scope.textAdvancedSettings %>--></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
                             <a id="settings-download-as" class="item-link" data-page="#settings-download-view">
                                 <div class="item-content">
                                     <div class="item-media">
