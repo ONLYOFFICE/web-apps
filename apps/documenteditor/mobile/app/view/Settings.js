@@ -276,7 +276,8 @@ define([
             textTop: 'Top',
             textLeft: 'Left',
             textBottom: 'Bottom',
-            textRight: 'Right'
+            textRight: 'Right',
+            textAdvancedSettings: 'Advanced Settings'
 
     }
     })(), DE.Views.Settings || {}))
