@@ -124,6 +124,7 @@ define([
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-document').hide();
+                        $layour.find('#settings-advanced').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-orthography').hide();
                     }
@@ -154,7 +155,8 @@ define([
             updateItemHandlers: function () {
                 var selectorsDynamicPage = [
                     '.page[data-page=settings-root-view]',
-                    '.page[data-page=settings-document-view]'
+                    '.page[data-page=settings-document-view]',
+                    '.page[data-page=settings-advanced-view]'
                 ].map(function (selector) {
                     return selector + ' a.item-link[data-page]';
                 }).join(', ');
@@ -277,7 +279,11 @@ define([
             textLeft: 'Left',
             textBottom: 'Bottom',
             textRight: 'Right',
-            textAdvancedSettings: 'Advanced Settings'
+            textAdvancedSettings: 'Advanced Settings',
+            textUnitOfMeasurement: 'Unit of Measurement',
+            textCentimeter: 'Centimeter',
+            textPoint: 'Point',
+            textInch: 'Inch'
 
     }
     })(), DE.Views.Settings || {}))

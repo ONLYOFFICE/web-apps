@@ -221,6 +221,9 @@ define([
                     // About
                     me.setLicInfo(_licInfo);
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
+                } else if ('#settings-advanced-view' == pageId) {
+                    me.initPageAdvancedSettings();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-advanced-view]', '.page[data-page=settings-advanced-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
@@ -234,6 +237,15 @@ define([
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
                 }
+            },
+
+            initPageAdvancedSettings: function () {
+                var me = this,
+                    $unitMeasurement = $('.page[data-page=settings-advanced-view] input:radio[name=unit-of-measurement]');
+                $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
+                var value = Common.localStorage.getItem('de-mobile-settings-unit');
+                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                $unitMeasurement.val([value]);
             },
 
             initPageDocumentSettings: function () {
@@ -460,6 +472,15 @@ define([
                 _.delay(function () {
                     me.api.change_PageOrient(value === 'true');
                 }, 300);
+            },
+
+            unitMeasurementChange: function (e) {
+                var value = $(e.currentTarget).val();
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.localStorage.setItem("de-mobile-settings-unit", value);
+                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+
             },
 
             onPageMarginsChange: function (align, e) {
