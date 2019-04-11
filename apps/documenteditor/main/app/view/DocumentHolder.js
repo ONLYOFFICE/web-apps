@@ -2293,7 +2293,7 @@ define([
                     var properties = new Asc.asc_CImgProperty();
                     properties.put_Width(originalImageSize.get_ImageWidth());
                     properties.put_Height(originalImageSize.get_ImageHeight());
-
+                    properties.put_ResetCrop(true);
                     me.api.ImgApply(properties);
 
                     me.fireEvent('editcomplete', this);

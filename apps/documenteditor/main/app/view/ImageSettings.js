@@ -397,6 +397,7 @@ define([
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(w);
                 properties.put_Height(h);
+                properties.put_ResetCrop(true);
                 this.api.ImgApply(properties);
                 this.fireEvent('editcomplete', this);
             }

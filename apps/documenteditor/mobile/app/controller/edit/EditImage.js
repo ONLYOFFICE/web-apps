@@ -197,7 +197,7 @@ define([
 
                     properties.put_Width(imgsize.get_ImageWidth());
                     properties.put_Height(imgsize.get_ImageHeight());
-
+                    properties.put_ResetCrop(true);
                     me.api.ImgApply(properties);
                 }
             },
