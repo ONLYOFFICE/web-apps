@@ -147,6 +147,7 @@ define([
                         me._initWrapView();
                     }
                 }
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
             },
 
             _initWrapView: function() {

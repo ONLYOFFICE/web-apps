@@ -171,7 +171,7 @@ define([
 
             initSettings: function (pageId) {
                 var me = this;
-
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
                 if (_chartObject) {
                     if (pageId == '#edit-chart-wrap') {
                         me._initWrapView();
@@ -221,6 +221,7 @@ define([
                     shapeProperties = _shapeObject.get_ShapeProperties(),
                     paletteFillColor = me.getView('EditChart').paletteFillColor,
                     paletteBorderColor = me.getView('EditChart').paletteBorderColor;
+
 
                 // Style
 
@@ -425,6 +426,7 @@ define([
                     value = $target.val(),
                     properties = new Asc.asc_CImgProperty(),
                     paddings = new Asc.asc_CPaddings();
+
 
                 $('.chart-wrap .distance .item-after').text(value + ' ' + _metricText);
 

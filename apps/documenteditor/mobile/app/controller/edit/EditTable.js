@@ -185,6 +185,7 @@ define([
 
             initSettings: function (pageId) {
                 var me = this;
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
 
                 if (_tableObject) {
                     if (pageId == '#edit-table-wrap') {

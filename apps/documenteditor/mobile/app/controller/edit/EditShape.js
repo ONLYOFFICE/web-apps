@@ -181,6 +181,7 @@ define([
                         me.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().get_CanFill();
                     }
                 }
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
             },
 
             _initWrapView: function() {

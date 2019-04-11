@@ -129,6 +129,7 @@ define([
             initSettings: function () {
                 var me = this;
 
+                metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
                 var selectedElements = me.api.getSelectedElements();
                 if (selectedElements && _.isArray(selectedElements)) {
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
