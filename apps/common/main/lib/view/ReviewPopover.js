@@ -386,6 +386,7 @@ define([
 
                                 if (record.get('dummy')) {
                                     var commentVal = this.getActiveTextBoxVal();
+                                    me.clearDummyText();
                                     if (commentVal.length > 0)
                                         me.fireEvent('comment:addDummyComment', [commentVal]);
                                     else {
@@ -414,6 +415,7 @@ define([
 
                             } else if (btn.hasClass('btn-inner-close', false)) {
                                 if (record.get('dummy')) {
+                                    me.clearDummyText();
                                     me.hide();
                                     return;
                                 }
@@ -460,7 +462,7 @@ define([
                             me.commentsView.autoHeightTextBox();
                             me.$window.find('textarea').keydown(function (event) {
                                 if (event.keyCode == Common.UI.Keys.ESC) {
-                                    me.hide();
+                                    me.hide(true); // clear text in dummy comment
                                 }
                             });
                         },
@@ -583,7 +585,7 @@ define([
 
         hide: function () {
             if (this.handlerHide) {
-                this.handlerHide();
+                this.handlerHide.apply(this, arguments);
             }
 
             this.hideTips();
@@ -845,6 +847,22 @@ define([
             }
 
             return undefined;
+        },
+        saveDummyText: function () {
+            if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
+                this.textDummyVal = this.commentsView.getActiveTextBoxVal();
+            }
+        },
+        clearDummyText: function () {
+            if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
+                this.textDummyVal = undefined;
+                var textBox = this.commentsView.getTextBox();
+                textBox && textBox.val('');
+                this.commentsView.clearTextBoxBind();
+            }
+        },
+        getDummyText: function() {
+            return this.textDummyVal || '';
         },
 
         hookTextBox: function () {
