@@ -279,7 +279,7 @@ define([
             textLeft: 'Left',
             textBottom: 'Bottom',
             textRight: 'Right',
-            textAdvancedSettings: 'Advanced Settings',
+            textAdvancedSettings: 'Application Settings',
             textUnitOfMeasurement: 'Unit of Measurement',
             textCentimeter: 'Centimeter',
             textPoint: 'Point',

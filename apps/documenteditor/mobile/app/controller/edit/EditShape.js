@@ -171,7 +171,7 @@ define([
                 var me = this;
 
                 // me.api && me.api.UpdateInterfaceState();
-
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
                 if (_shapeObject) {
                     if (pageId == '#edit-shape-wrap') {
                         me._initWrapView();
@@ -181,7 +181,6 @@ define([
                         me.getView('EditShape').isShapeCanFill = _shapeObject.get_ShapeProperties().get_CanFill();
                     }
                 }
-                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
             },
 
             _initWrapView: function() {

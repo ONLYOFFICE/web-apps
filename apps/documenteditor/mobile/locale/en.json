@@ -414,5 +414,10 @@
   "DE.Views.Settings.textVersion": "Version",
   "DE.Views.Settings.textWords": "Words",
   "DE.Views.Settings.unknownText": "Unknown",
+  "DE.Views.Settings.textAdvancedSettings": "Application Settings",
+  "DE.Views.Settings.textUnitOfMeasurement": "Unit of Measurement",
+  "DE.Views.Settings.textCentimeter": "Centimeter",
+  "DE.Views.Settings.textPoint": "Point",
+  "DE.Views.Settings.textInch": "Inch",
   "DE.Views.Toolbar.textBack": "Back"
 }
