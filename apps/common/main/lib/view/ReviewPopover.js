@@ -505,6 +505,8 @@ define([
                                 me.fireEvent('reviewchange:reject', [record.get('changedata')]);
                             } else if (btn.hasClass('btn-delete')) {
                                 me.fireEvent('reviewchange:delete', [record.get('changedata')]);
+                            } else if (btn.hasClass('btn-goto')) {
+                                me.fireEvent('reviewchange:goto', [record.get('changedata')]);
                             }
                         }
                     });
