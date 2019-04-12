@@ -1378,6 +1378,8 @@ define([
                 if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                     this.api.asc_SetDocumentPlaceChangedEnabled(false);
                 }
+
+                Common.NotificationCenter.trigger('comments:cleardummy');
             }
         },
 

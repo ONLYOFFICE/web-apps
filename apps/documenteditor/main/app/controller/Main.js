@@ -218,9 +218,10 @@ define([
                         // Syncronize focus with api
                     $(document.body).on('focus', 'input, textarea', function(e) {
                         if (!/area_id/.test(e.target.id)) {
-                            if (/msg-reply/.test(e.target.className))
+                            if (/msg-reply/.test(e.target.className) && me.contComments && me.contComments.isDummyComment) {
                                 me.dontCloseDummyComment = true;
-                            else if (/chat-msg-text/.test(e.target.id))
+                                me.beforeCloseDummyComment = false;
+                            } else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = true;
                             else if (!me.isModalShowed && /form-control/.test(e.target.className))
                                 me.inFormControl = true;
@@ -238,8 +239,12 @@ define([
                                 if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
                                     return;
                                 me.api.asc_enableKeyEvents(true);
-                                if (/msg-reply/.test(e.target.className))
-                                    me.dontCloseDummyComment = false;
+                                if (me.dontCloseDummyComment && /msg-reply/.test(e.target.className)) {
+                                    if ($(e.target).parent().find(e.relatedTarget).length<1) /* Check if focus goes to Add or Cancel buttons in comment window */
+                                        me.dontCloseDummyComment = me.beforeCloseDummyComment = false;
+                                    else
+                                        me.beforeCloseDummyComment = true;
+                                }
                                 else if (/chat-msg-text/.test(e.target.id))
                                     me.dontCloseChat = false;
                             }
@@ -260,6 +265,10 @@ define([
                                 event.preventDefault();
                             }
                         }
+                    }).on('mouseup', function(e){
+                        me.beforeCloseDummyComment && setTimeout(function(){ // textbox in dummy comment lost focus
+                            me.dontCloseDummyComment = me.beforeCloseDummyComment = false;
+                        }, 10);
                     });
 
                     Common.NotificationCenter.on({
@@ -1186,6 +1195,9 @@ define([
                 if (this.appOptions.canBrandingExt)
                     this.updatePlugins(this.plugins, true);
 
+                if (this.appOptions.canComments)
+                    Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
+
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
 
@@ -1619,6 +1631,7 @@ define([
                 }
                 /** coauthoring end **/
             },
+
             onDocumentCanSaveChanged: function (isCanSave) {
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
 
@@ -2214,6 +2227,10 @@ define([
 
             resetPluginsList: function() {
                 this.getApplication().getCollection('Common.Collections.Plugins').reset();
+            },
+
+            onClearDummyComment: function() {
+                this.dontCloseDummyComment = false;
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
