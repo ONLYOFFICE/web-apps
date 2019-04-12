@@ -79,6 +79,7 @@ define([
                 $('#settings-history').single('click',          _.bind(me.showHistory, me));
                 $('#settings-help').single('click',             _.bind(me.showHelp, me));
                 $('#settings-about').single('click',            _.bind(me.showAbout, me));
+                $('#settings-application').single('click', _.bind(me.showSetApp, me));
 
                 Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
@@ -162,6 +163,10 @@ define([
                 }
             },
 
+            showSetApp: function() {
+                this.showPage('#settings-application-view');
+            },
+
             showDocumentInfo: function() {
                 this.showPage('#settings-info-view');
 
@@ -225,7 +230,12 @@ define([
             textEmail: 'email',
             textTel: 'tel',
             textPoweredBy: 'Powered by',
-            textPrint: 'Print'
+            textPrint: 'Print',
+            textApplicationSettings: 'Application Settings',
+            textUnitOfMeasurement: 'Unit of Measurement',
+            textCentimeter: 'Centimeter',
+            textPoint: 'Point',
+            textInch: 'Inch'
     }
     })(), SSE.Views.Settings || {}))
 });

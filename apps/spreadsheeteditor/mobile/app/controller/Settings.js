@@ -158,6 +158,8 @@ define([
                 if (pageId == '#settings-about-view') {
                     // About
                     me.setLicInfo(_licInfo);
+                } else if ('#settings-application-view' == pageId) {
+                    me.initPageApplicationSettings();
                 }
             },
 
@@ -196,6 +198,22 @@ define([
                         $('#settings-about-logo').show().html('<img src="'+value+'" style="max-width:216px; max-height: 35px;" />');
                     }
                 }
+            },
+
+            initPageApplicationSettings: function() {
+                var me = this,
+                    $unitMeasurement = $('.page[data-page=settings-application-view] input:radio[name=unit-of-measurement]');
+                $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
+                var value = Common.localStorage.getItem('se-mobile-settings-unit');
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                $unitMeasurement.val([value]);
+            },
+
+            unitMeasurementChange: function (e) {
+                var value = $(e.currentTarget).val();
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.localStorage.setItem("se-mobile-settings-unit", value);
             },
 
             // API handlers

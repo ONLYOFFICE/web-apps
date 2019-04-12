@@ -512,6 +512,11 @@
   "SSE.Views.Settings.textSettings": "Settings",
   "SSE.Views.Settings.textTel": "tel",
   "SSE.Views.Settings.textVersion": "Version",
+  "DE.Views.Settings.textApplicationSettings": "Application Settings",
+  "DE.Views.Settings.textUnitOfMeasurement": "Unit of Measurement",
+  "DE.Views.Settings.textCentimeter": "Centimeter",
+  "DE.Views.Settings.textPoint": "Point",
+  "DE.Views.Settings.textInch": "Inch",
   "SSE.Views.Settings.unknownText": "Unknown",
   "SSE.Views.Toolbar.textBack": "Back"
 }
