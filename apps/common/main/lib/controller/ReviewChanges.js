@@ -788,6 +788,5 @@ define([
         textParaMoveTo: '<b>Moved:</b>',
         textParaMoveFromUp: '<b>Moved Up:</b>',
         textParaMoveFromDown: '<b>Moved Down:</b>'
-
     }, Common.Controllers.ReviewChanges || {}));
 });
