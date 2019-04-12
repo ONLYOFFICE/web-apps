@@ -465,6 +465,11 @@
   "PE.Views.Settings.textSpellcheck": "Spell Checking",
   "PE.Views.Settings.textTel": "tel",
   "PE.Views.Settings.textVersion": "Version",
+  "DE.Views.Settings.textApplicationSettings": "Application Settings",
+  "DE.Views.Settings.textUnitOfMeasurement": "Unit of Measurement",
+  "DE.Views.Settings.textCentimeter": "Centimeter",
+  "DE.Views.Settings.textPoint": "Point",
+  "DE.Views.Settings.textInch": "Inch",
   "PE.Views.Settings.unknownText": "Unknown",
   "PE.Views.Toolbar.textBack": "Back"
 }

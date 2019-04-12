@@ -80,6 +80,7 @@ define([
                 $('#settings-help').single('click', _.bind(me.showHelp, me));
                 $('#settings-about').single('click', _.bind(me.showAbout, me));
                 $('#settings-presentation-setup').single('click', _.bind(me.showSetup, me));
+                $('#settings-application').single('click', _.bind(me.showSetApp, me));
 
                 Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
@@ -192,6 +193,10 @@ define([
                 this.showPage('#settings-setup-view');
             },
 
+            showSetApp: function () {
+                this.showPage('#settings-application-view');
+            },
+
             loadDocument: function (data) {
                 var permissions = {};
 
@@ -229,7 +234,12 @@ define([
             textPoweredBy: 'Powered by',
             textFindAndReplace: 'Find and Replace',
             textSpellcheck: 'Spell Checking',
-            textPrint: 'Print'
+            textPrint: 'Print',
+            textApplicationSettings: 'Application Settings',
+            textUnitOfMeasurement: 'Unit of Measurement',
+            textCentimeter: 'Centimeter',
+            textPoint: 'Point',
+            textInch: 'Inch'
         }
     })(), PE.Views.Settings || {}))
 });
