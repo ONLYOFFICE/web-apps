@@ -106,6 +106,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/word/Editor/Paragraph/ComplexFieldInstruction.js",
 	"../../../../sdkjs/word/Editor/Paragraph/ComplexField.js",
 	"../../../../sdkjs/word/Editor/Paragraph/FormulaParser.js",
+    "../../../../sdkjs/word/Editor/Paragraph/ParaRevisionMove.js",
     "../../../../sdkjs/word/Editor/Paragraph.js",
 	"../../../../sdkjs/word/Editor/ParagraphChanges.js",
     "../../../../sdkjs/word/Editor/DocumentContentBase.js",
