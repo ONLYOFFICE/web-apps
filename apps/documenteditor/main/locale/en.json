@@ -1271,6 +1271,7 @@
   "DE.Views.DocumentHolder.textCrop": "Crop",
   "DE.Views.DocumentHolder.textCropFill": "Fill",
   "DE.Views.DocumentHolder.textCropFit": "Fit",
+  "DE.Views.DocumentHolder.textFollow": "Follow move",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "Cancel",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "Ok",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
