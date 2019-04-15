@@ -218,7 +218,7 @@ define([
                         // Syncronize focus with api
                     $(document.body).on('focus', 'input, textarea', function(e) {
                         if (!/area_id/.test(e.target.id)) {
-                            if (/msg-reply/.test(e.target.className) && me.contComments && me.contComments.isDummyComment) {
+                            if (/msg-reply/.test(e.target.className)) {
                                 me.dontCloseDummyComment = true;
                                 me.beforeCloseDummyComment = false;
                             } else if (/chat-msg-text/.test(e.target.id))
@@ -240,7 +240,7 @@ define([
                                     return;
                                 me.api.asc_enableKeyEvents(true);
                                 if (me.dontCloseDummyComment && /msg-reply/.test(e.target.className)) {
-                                    if ($(e.target).parent().find(e.relatedTarget).length<1) /* Check if focus goes to Add or Cancel buttons in comment window */
+                                    if ($(e.target).closest('.user-comment-item').find(e.relatedTarget).length<1) /* Check if focus goes to buttons in the comment window */
                                         me.dontCloseDummyComment = me.beforeCloseDummyComment = false;
                                     else
                                         me.beforeCloseDummyComment = true;
