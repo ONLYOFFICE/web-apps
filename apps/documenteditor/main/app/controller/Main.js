@@ -220,7 +220,7 @@ define([
                         if (!/area_id/.test(e.target.id)) {
                             if (/msg-reply/.test(e.target.className)) {
                                 me.dontCloseDummyComment = true;
-                                me.beforeCloseDummyComment = false;
+                                me.beforeShowDummyComment = me.beforeCloseDummyComment = false;
                             } else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = true;
                             else if (!me.isModalShowed && /form-control/.test(e.target.className))
@@ -1197,6 +1197,7 @@ define([
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
+                    Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1626,7 +1627,7 @@ define([
                 }
 
                 /** coauthoring begin **/
-                if (this.contComments.isDummyComment && !this.dontCloseDummyComment) {
+                if (this.contComments.isDummyComment && !this.dontCloseDummyComment && !this.beforeShowDummyComment) {
                     this.contComments.clearDummyComment();
                 }
                 /** coauthoring end **/
@@ -2231,6 +2232,10 @@ define([
 
             onClearDummyComment: function() {
                 this.dontCloseDummyComment = false;
+            },
+
+            onShowDummyComment: function() {
+                this.beforeShowDummyComment = true;
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

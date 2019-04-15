@@ -1309,6 +1309,7 @@ define([
                             anchor.asc_getY(),
                             this.hintmode ? anchor.asc_getX() : undefined);
 
+                        Common.NotificationCenter.trigger('comments:showdummy');
                         dialog.showComments(true, false, true, dialog.getDummyText());
                     }
                 }
