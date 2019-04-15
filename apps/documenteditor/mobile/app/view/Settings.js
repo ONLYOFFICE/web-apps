@@ -125,6 +125,7 @@ define([
                     } else {
                         $layour.find('#settings-document').hide();
                         $layour.find('#settings-advanced').hide();
+                        $layour.find('#color-schemes').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-orthography').hide();
                     }
@@ -283,7 +284,8 @@ define([
             textUnitOfMeasurement: 'Unit of Measurement',
             textCentimeter: 'Centimeter',
             textPoint: 'Point',
-            textInch: 'Inch'
+            textInch: 'Inch',
+            textColorSchemes: 'Color Schemes'
 
     }
     })(), DE.Views.Settings || {}))
