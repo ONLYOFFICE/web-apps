@@ -2135,23 +2135,25 @@ define([
             // Prepare menu container
             if (pasteContainer.length < 1) {
                 me._arrSpecialPaste = [];
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.txtPaste;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = me.txtPasteFormulas;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = me.txtPasteFormulaNumFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = me.txtPasteKeepSourceFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = me.txtPasteBorders;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = me.txtPasteColWidths;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = me.txtPasteMerge;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = me.txtPasteValues;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = me.txtPasteValNumFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = me.txtPasteValFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = me.txtPasteFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = me.txtPasteTranspose;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = me.txtPasteLink;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = me.txtPasteLinkPicture;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = me.txtPasteDestFormat;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = [me.txtPaste, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = [me.txtPasteFormulas, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = [me.txtPasteFormulaNumFormat, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = [me.txtPasteKeepSourceFormat, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = [me.txtPasteBorders, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = [me.txtPasteColWidths, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = [me.txtPasteMerge, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = [me.txtPasteTranspose, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = [me.txtPasteValues, 1];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = [me.txtPasteValNumFormat, 1];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = [me.txtPasteValFormat, 1];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = [me.txtPasteFormat, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = [me.txtPasteLink, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = [me.txtPastePicture, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = [me.txtPasteLinkPicture, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = [me.txtPasteSourceFormat, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = [me.txtPasteDestFormat, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = [me.txtKeepTextOnly, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.useTextImport] = [me.txtUseTextImport, 3];
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolderView.cmpEl.append(pasteContainer);
@@ -2170,28 +2172,55 @@ define([
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
+                var groups = [];
+                for (var i = 0; i < 3; i++) {
+                    groups[i] = [];
+                }
 
-                var group_prev = -1;
+                var importText;
                 _.each(pasteItems, function(menuItem, index) {
-                    var group = (menuItem<7) ? 0 : (menuItem>9 ? 2 : 1);
-                    if (group_prev !== group && group_prev>=0)
-                        menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
-                    group_prev = group;
-
-                    var mnu = new Common.UI.MenuItem({
-                        caption: me._arrSpecialPaste[menuItem],
-                        value: menuItem,
-                        checkable: true,
-                        toggleGroup : 'specialPasteGroup'
-                    }).on('click', function(item, e) {
-                        var props = new Asc.SpecialPasteProps();
-                        props.asc_setProps(item.value);
-                        me.api.asc_SpecialPaste(props);
-                        setTimeout(function(){menu.hide();}, 100);
-                    });
-                    menu.addItem(mnu);
+                    if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
+                        importText = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem][0],
+                            value: menuItem
+                        }).on('click', function(item, e) {
+                            var props = new Asc.SpecialPasteProps();
+                            props.asc_setProps(item.value);
+                            me.api.asc_SpecialPaste(props);
+                            setTimeout(function(){menu.hide();}, 100);
+                        });
+                    } else {
+                        var mnu = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem][0],
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup : 'specialPasteGroup'
+                        }).on('click', function(item, e) {
+                            var props = new Asc.SpecialPasteProps();
+                            props.asc_setProps(item.value);
+                            me.api.asc_SpecialPaste(props);
+                            setTimeout(function(){menu.hide();}, 100);
+                        });
+                        groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                    }
                 });
+                var newgroup = false;
+                for (var i = 0; i < 3; i++) {
+                    if (newgroup && groups[i].length>0) {
+                        menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                        newgroup = false;
+                    }
+                    _.each(groups[i], function(menuItem, index) {
+                        menu.addItem(menuItem);
+                        newgroup = true;
+                    });
+                }
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
+
+                if (importText) {
+                    menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                    menu.addItem(importText);
+                }
             }
 
             if ( coord[0].asc_getX()<0 || coord[0].asc_getY()<0) {
@@ -3180,6 +3209,8 @@ define([
         txtPasteLinkPicture: 'Linked Picture',
         txtPasteSourceFormat: 'Source formatting',
         txtPasteDestFormat: 'Destination formatting',
+        txtKeepTextOnly: 'Keep text only',
+        txtUseTextImport: 'Use text import wizard',
         txtUndoExpansion: 'Undo table autoexpansion',
         txtRedoExpansion: 'Redo table autoexpansion',
         txtAnd: 'and',
