@@ -41,22 +41,6 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <div id="settings-spellcheck" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-spellcheck"></i>
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title"><%= scope.textSpellcheck %></div>
-                                    <div class="item-after">
-                                        <label class="label-switch">
-                                            <input type="checkbox">
-                                            <div class="checkbox"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
                         <% if (orthography) { %>
                         <li>
                             <a id="settings-orthography" class="item-link no-indicator">
@@ -107,18 +91,6 @@
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textAdvancedSettings %></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="color-schemes" class="item-link" data-page="#color-schemes-view">
-                                <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
-                                    </div>
-                                    <div class="item-inner">
-                                        <div class="item-title"><%= scope.textColorSchemes %></div>
                                     </div>
                                 </div>
                             </a>
@@ -327,6 +299,19 @@
                             </div>
                         </li>
                     </ul>
+                </div>
+                <div class="list-block media-list">
+                    <ul>
+                        <li>
+                            <a id="color-schemes" class="item-link item-content" data-page="#color-schemes-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textColorSchemes %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                   </ul>
                 </div>
             </div>
         </div>
@@ -637,6 +622,7 @@
     <div class="pages">
         <div class="page" data-page="settings-advanced-view">
             <div class="page-content">
+
                 <div class="content-block-title"><%= scope.textUnitOfMeasurement %></div>
                 <div class="list-block">
                     <ul>
@@ -667,6 +653,22 @@
                                 </div>
                             </label>
                         </li>
+                    </ul>
+                </div>
+
+                <div class="list-block">
+                    <ul>
+                        <div id="settings-spellcheck" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSpellcheck %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </ul>
                 </div>
 
