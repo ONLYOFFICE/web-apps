@@ -498,6 +498,26 @@ define([
                         itemTemplate: _.template(reviewTemplate)
                     });
 
+                    var addtooltip = function (dataview, view, record) {
+                        if (view.tipsArray) {
+                            view.tipsArray.forEach(function (item) {
+                                item.remove();
+                            });
+                        }
+
+                        var arr = [],
+                            btns = $(view.el).find('.btn-goto');
+                        btns.tooltip({title: me.textFollowMove, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        view.tipsArray = arr;
+                    };
+
+                    this.reviewChangesView.on('item:add', addtooltip);
+                    this.reviewChangesView.on('item:remove', addtooltip);
+                    this.reviewChangesView.on('item:change', addtooltip);
+
                     this.reviewChangesView.on('item:click', function (picker, item, record, e) {
                         var btn = $(e.target);
                         if (btn) {
@@ -508,6 +528,9 @@ define([
                             } else if (btn.hasClass('btn-delete')) {
                                 me.fireEvent('reviewchange:delete', [record.get('changedata')]);
                             } else if (btn.hasClass('btn-goto')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
                                 me.fireEvent('reviewchange:goto', [record.get('changedata')]);
                             }
                         }
@@ -826,6 +849,9 @@ define([
             }
 
             this.$window.css({overflow: ''});
+            if (this.scroller) {
+                this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+            }
         },
         saveText: function (clear) {
             if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
@@ -903,6 +929,14 @@ define([
                         });
                     }
                 }, this);
+            if (this.reviewChangesView)
+                _.each(this.reviewChangesView.dataViewItems, function (item) {
+                    if (item.tipsArray) {
+                        item.tipsArray.forEach(function (item) {
+                            item.hide();
+                        });
+                    }
+                }, this);
         },
 
         isCommentsViewMouseOver: function () {
@@ -952,7 +986,7 @@ define([
         textReply               : 'Reply',
         textClose               : 'Close',
         textResolve             : 'Resolve',
-        textOpenAgain           : "Open Again"
-
+        textOpenAgain           : "Open Again",
+        textFollowMove          : 'Follow Move'
     }, Common.Views.ReviewPopover || {}))
 });

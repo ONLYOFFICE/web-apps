@@ -188,6 +188,7 @@ define([
                     this._state.posx = this._state.posy = -1000;
                     this._state.changes_length = 0;
                     this._state.popoverVisible = false;
+                    this.getPopover().hideTips();
                     this.popoverChanges.reset();
                     this.getPopover().hideReview();
                 }
