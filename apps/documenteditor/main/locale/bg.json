@@ -61,6 +61,8 @@
   "Common.Controllers.ReviewChanges.textStrikeout": "Зачеркнато",
   "Common.Controllers.ReviewChanges.textSubScript": "Долен",
   "Common.Controllers.ReviewChanges.textSuperScript": "Горен индекс",
+  "Common.Controllers.ReviewChanges.textTableChanged": "<b>Промените в табличните настройки</b>",
+  "Common.Controllers.ReviewChanges.textTableRowsDel": "<b>Таблици са изтрити<b />",
   "Common.Controllers.ReviewChanges.textTabs": "Промяна на разделите",
   "Common.Controllers.ReviewChanges.textUnderline": "подчертавам",
   "Common.Controllers.ReviewChanges.textWidow": "Управление на вдовицата",
