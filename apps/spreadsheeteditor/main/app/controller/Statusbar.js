@@ -630,7 +630,10 @@ define([
         },
 
         onApiActiveSheetChanged: function (index) {
-            this.statusbar.tabMenu.hide();
+            var me = this;
+            setTimeout(function() {
+                me.statusbar.tabMenu.hide();
+            }, 10);
         },
 
         zoomText        : 'Zoom {0}%',
