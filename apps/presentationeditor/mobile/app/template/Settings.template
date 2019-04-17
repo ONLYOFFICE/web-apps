@@ -38,6 +38,18 @@
                             </a>
                         </li>
                         <li>
+                            <a id="settings-application" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-print"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textApplicationSettings %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
                             <a id="settings-download" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
@@ -57,18 +69,6 @@
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textPrint %></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="settings-application" class="item-link">
-                                <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-print"></i>
-                                    </div>
-                                    <div class="item-inner">
-                                        <div class="item-title"><%= scope.textApplicationSettings %></div>
                                     </div>
                                 </div>
                             </a>
