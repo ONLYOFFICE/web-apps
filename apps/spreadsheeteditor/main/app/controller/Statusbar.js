@@ -325,6 +325,10 @@ define([
             } else {
                 this.api['asc_showWorksheet'](index);
                 this.loadTabColor(index);
+                var me = this;
+                setTimeout(function(){
+                    me.statusbar.tabMenu.hide();
+                }, 1);
             }
         },
 
@@ -630,10 +634,7 @@ define([
         },
 
         onApiActiveSheetChanged: function (index) {
-            var me = this;
-            setTimeout(function() {
-                me.statusbar.tabMenu.hide();
-            }, 10);
+            this.statusbar.tabMenu.hide();
         },
 
         zoomText        : 'Zoom {0}%',
