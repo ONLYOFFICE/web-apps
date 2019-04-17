@@ -161,6 +161,10 @@ define([
                 }
             },
 
+            showColorSchemes: function () {
+                this.showPage('#color-schemes-view');
+            },
+
             showInfo: function () {
                 this.showPage('#settings-info-view');
 
@@ -191,6 +195,7 @@ define([
 
             showSetup: function () {
                 this.showPage('#settings-setup-view');
+                $('#color-schemes').single('click', _.bind(this.showColorSchemes, this));
             },
 
             showSetApp: function () {
@@ -214,6 +219,7 @@ define([
             textDone: 'Done',
             textEditPresent: 'Edit Presentation',
             textPresentSetup: 'Presentation Setup',
+            textPresentSettings: 'Presentation Settings',
             textDownload: 'Download',
             textPresentInfo: 'Presentation Info',
             textHelp: 'Help',
@@ -239,7 +245,8 @@ define([
             textUnitOfMeasurement: 'Unit of Measurement',
             textCentimeter: 'Centimeter',
             textPoint: 'Point',
-            textInch: 'Inch'
+            textInch: 'Inch',
+            textColorSchemes: 'Color Schemes'
         }
     })(), PE.Views.Settings || {}))
 });

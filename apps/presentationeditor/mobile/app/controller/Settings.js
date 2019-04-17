@@ -56,7 +56,8 @@ define([
             inProgress,
             infoObj,
             modalView,
-            _licInfo;
+            _licInfo,
+            templateInsert;
 
         var _slideSizeArr = [
             [254, 190.5], [254, 143]
@@ -84,6 +85,7 @@ define([
                 this.api = api;
 
                 this.api.asc_registerCallback('asc_onPresentationSize', _.bind(this.onApiPageSize, this));
+                this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
             },
 
             onLaunch: function () {
@@ -158,7 +160,7 @@ define([
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
                 $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
-                $('#page-settings-setup-view li').single('click',           _.bind(me._onSlideSize, me));
+                $('#page-settings-setup-view #slide-size-block li').single('click',           _.bind(me._onSlideSize, me));
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
 
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
@@ -177,6 +179,33 @@ define([
                     me.setLicInfo(_licInfo);
                 } else if ('#settings-application-view' == pageId) {
                     me.initPageApplicationSettings();
+                } else if ('#color-schemes-view' == pageId) {
+                    me.initPageColorSchemes();
+                }
+            },
+
+            initPageColorSchemes: function () {
+                $('#color-schemes-content').html(templateInsert);
+                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+            },
+
+            onSendThemeColorSchemes: function (schemas) {
+                templateInsert = "";
+                _.each(schemas, function (schema, index) {
+                    var colors = schema.get_colors();//schema.colors;
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    for (var j = 2; j < 7; j++) {
+                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
+                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
+                    }
+                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                }, this);
+            },
+
+            onColorSchemaClick: function () {
+                if (this.api) {
+                    var ind = $(event.currentTarget).children('input').val();
+                    this.api.ChangeColorScheme(ind);
                 }
             },
 
