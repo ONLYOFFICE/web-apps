@@ -2184,9 +2184,23 @@ define([
                             caption: me._arrSpecialPaste[menuItem][0],
                             value: menuItem
                         }).on('click', function(item, e) {
-                            var props = new Asc.SpecialPasteProps();
-                            props.asc_setProps(item.value);
-                            me.api.asc_SpecialPaste(props);
+                            (new Common.Views.OpenDialog({
+                                title: me.txtImportWizard,
+                                closable: true,
+                                type: Common.Utils.importTextType.Paste,
+                                preview: true,
+                                api: me.api,
+                                handler: function (result, encoding, delimiter, delimiterChar) {
+                                    if (result == 'ok') {
+                                        if (me && me.api) {
+                                            var props = new Asc.SpecialPasteProps();
+                                            props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
+                                            props.asc_setAdvancedOptions(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                                            me.api.asc_SpecialPaste(props);
+                                        }
+                                    }
+                                }
+                            })).show();
                             setTimeout(function(){menu.hide();}, 100);
                         });
                     } else {
@@ -3237,7 +3251,8 @@ define([
         txtEqualsToFontColor: 'Equals to font color',
         txtAll: '(All)',
         txtBlanks: '(Blanks)',
-        txtColumn: 'Column'
+        txtColumn: 'Column',
+        txtImportWizard: 'Text Import Wizard'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

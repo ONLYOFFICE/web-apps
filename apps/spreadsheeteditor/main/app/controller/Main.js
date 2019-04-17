@@ -1605,8 +1605,9 @@ define([
                     me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        mode: mode,
-                        type: type,
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'CSV'),
+                        closable: (mode==2), // if save settings
+                        type: Common.Utils.importTextType.CSV,
                         preview: advOptions.asc_getOptions().asc_getData(),
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
@@ -1624,8 +1625,9 @@ define([
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
+                        title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,
-                        type: type,
+                        type: Common.Utils.importTextType.DRM,
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
