@@ -2182,7 +2182,9 @@ define([
                     if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
                         importText = new Common.UI.MenuItem({
                             caption: me._arrSpecialPaste[menuItem][0],
-                            value: menuItem
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup : 'specialPasteGroup'
                         }).on('click', function(item, e) {
                             (new Common.Views.OpenDialog({
                                 title: me.txtImportWizard,
@@ -2198,6 +2200,10 @@ define([
                                             props.asc_setAdvancedOptions(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
                                             me.api.asc_SpecialPaste(props);
                                         }
+                                        me._state.lastSpecPasteChecked = item;
+                                    } else {
+                                        item.setChecked(false, true);
+                                        me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
                                     }
                                 }
                             })).show();
@@ -2210,6 +2216,8 @@ define([
                             checkable: true,
                             toggleGroup : 'specialPasteGroup'
                         }).on('click', function(item, e) {
+                            me._state.lastSpecPasteChecked = item;
+
                             var props = new Asc.SpecialPasteProps();
                             props.asc_setProps(item.value);
                             me.api.asc_SpecialPaste(props);
@@ -2230,6 +2238,7 @@ define([
                     });
                 }
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                me._state.lastSpecPasteChecked = (menu.items.length>0) ? menu.items[0] : null;
 
                 if (importText) {
                     menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
