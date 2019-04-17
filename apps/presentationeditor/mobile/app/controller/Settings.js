@@ -140,7 +140,8 @@ define([
                 }
 
                 rootView = uiApp.addView('.settings-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('settingscontainer:show');
@@ -160,12 +161,14 @@ define([
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
                 $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
-                $('#page-settings-setup-view #slide-size-block li').single('click',           _.bind(me._onSlideSize, me));
+                $('#page-settings-view #slide-size-block li').single('click',           _.bind(me._onSlideSize, me));
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
 
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-setup-view]', '.page[data-page=settings-setup-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
 
                 me.initSettings(pageId);
             },
@@ -202,7 +205,7 @@ define([
                 }, this);
             },
 
-            onColorSchemaClick: function () {
+            onColorSchemaClick: function (event) {
                 if (this.api) {
                     var ind = $(event.currentTarget).children('input').val();
                     this.api.ChangeColorScheme(ind);

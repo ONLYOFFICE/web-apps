@@ -134,7 +134,8 @@ define([
                 }
 
                 rootView = uiApp.addView('.settings-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('settingscontainer:show');
@@ -162,8 +163,10 @@ define([
                     me.setLicInfo(_licInfo);
                 } else if ('#settings-application-view' == pageId) {
                     me.initPageApplicationSettings();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-application-view]', '.page[data-page=settings-application-view] .page-content');
                 } else if ('#color-schemes-view' == pageId) {
                     me.initPageColorSchemes();
+                    Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
                 }
             },
 
