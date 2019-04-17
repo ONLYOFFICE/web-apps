@@ -123,7 +123,7 @@
                     showReviewChanges: false,
                     help: true,
                     compactHeader: false,
-                    toolbarNoTabs: true,
+                    toolbarNoTabs: false,
                     toolbarHideFileName: false
                 },
                 plugins: {

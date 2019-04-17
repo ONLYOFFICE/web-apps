@@ -370,9 +370,13 @@
         }
 
         // TODO: move to appropriate module
-        .btn-header {
+        .btn-header, .btn-users {
             svg.icon {
-                fill: #000;
+                fill: @gray-deep;
+            }
+
+            .caption {
+                color: @gray-deep;
             }
 
             &:hover:not(.disabled) {
@@ -385,6 +389,10 @@
 
                     svg.icon {
                         fill: #fff;
+                    }
+
+                    .caption {
+                        color: #fff;
                     }
                 }
             }
