@@ -46,7 +46,8 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ComboBorderSize'
+    'common/main/lib/component/ComboBorderSize',
+    'common/main/lib/view/OpenDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -136,6 +137,24 @@ define([
 
         onAngleChange: function(field, newValue, oldValue, eOpts) {
             this.api && this.api.asc_setCellAngle(field.getNumberValue());
+        },
+
+        onTextToColumn: function() {
+            var me = this;
+            (new Common.Views.OpenDialog({
+                title: me.txtImportWizard,
+                closable: true,
+                type: Common.Utils.importTextType.Columns,
+                preview: true,
+                api: me.api,
+                handler: function (result, encoding, delimiter, delimiterChar) {
+                    if (result == 'ok') {
+                        if (me && me.api) {
+                            me.api.asc_TextToColumns(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                        }
+                    }
+                }
+            })).show();
         },
 
         render: function () {
@@ -236,6 +255,12 @@ define([
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
+
+            this.btnTextToColumn = new Common.UI.Button({
+                el: $('#cell-btn-text-to-column')
+            });
+            this.btnTextToColumn.on('click', _.bind(this.onTextToColumn, this));
+            this.lockedControls.push(this.btnTextToColumn);
         },
 
         createDelayedElements: function() {
@@ -367,7 +392,9 @@ define([
         tipDiagU:           'Set Diagonal Up Border',
         tipDiagD:           'Set Diagonal Down Border',
         textOrientation:    'Text Orientation',
-        textAngle:          'Angle'
+        textAngle:          'Angle',
+        textTextToColumn:   'Text to Columns',
+        textWizard: 'Text to Columns Wizard'
 
     }, SSE.Views.CellSettings || {}));
 });

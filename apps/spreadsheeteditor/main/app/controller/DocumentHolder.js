@@ -45,6 +45,7 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/OpenDialog',
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
