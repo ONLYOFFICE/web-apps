@@ -512,11 +512,13 @@
   "SSE.Views.Settings.textSettings": "Settings",
   "SSE.Views.Settings.textTel": "tel",
   "SSE.Views.Settings.textVersion": "Version",
-  "DE.Views.Settings.textApplicationSettings": "Application Settings",
-  "DE.Views.Settings.textUnitOfMeasurement": "Unit of Measurement",
-  "DE.Views.Settings.textCentimeter": "Centimeter",
-  "DE.Views.Settings.textPoint": "Point",
-  "DE.Views.Settings.textInch": "Inch",
+  "SSE.Views.Settings.textApplicationSettings": "Application Settings",
+  "SSE.Views.Settings.textUnitOfMeasurement": "Unit of Measurement",
+  "SSE.Views.Settings.textCentimeter": "Centimeter",
+  "SSE.Views.Settings.textPoint": "Point",
+  "SSE.Views.Settings.textInch": "Inch",
+  "SSE.Views.Settings.textColorSchemes": "Color Schemes",
+  "SSE.Views.Settings.textSpreadsheetSettings": "Spreadsheet Settings",
   "SSE.Views.Settings.unknownText": "Unknown",
   "SSE.Views.Toolbar.textBack": "Back"
 }

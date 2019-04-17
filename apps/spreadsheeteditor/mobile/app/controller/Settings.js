@@ -52,7 +52,8 @@ define([
             inProgress,
             infoObj,
             modalView,
-            _licInfo;
+            _licInfo,
+            templateInsert;
 
         return {
             models: [],
@@ -78,6 +79,7 @@ define([
             setApi: function (api) {
                 var me = this;
                 me.api = api;
+                me.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(me.onSendThemeColorSchemes, me));
             },
 
             onLaunch: function () {
@@ -160,6 +162,33 @@ define([
                     me.setLicInfo(_licInfo);
                 } else if ('#settings-application-view' == pageId) {
                     me.initPageApplicationSettings();
+                } else if ('#color-schemes-view' == pageId) {
+                    me.initPageColorSchemes();
+                }
+            },
+
+            initPageColorSchemes: function() {
+                $('#color-schemes-content').html(templateInsert);
+                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+            },
+
+            onSendThemeColorSchemes: function (schemas) {
+                templateInsert = "";
+                _.each(schemas, function (schema, index) {
+                    var colors = schema.get_colors();//schema.colors;
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    for (var j = 2; j < 7; j++) {
+                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
+                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
+                    }
+                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                }, this);
+            },
+
+            onColorSchemaClick: function(event) {
+                if (this.api) {
+                    var ind = $(event.currentTarget).children('input').val();
+                    this.api.asc_ChangeColorScheme(ind);
                 }
             },
 

@@ -80,6 +80,7 @@ define([
                 $('#settings-help').single('click',             _.bind(me.showHelp, me));
                 $('#settings-about').single('click',            _.bind(me.showAbout, me));
                 $('#settings-application').single('click', _.bind(me.showSetApp, me));
+                $('#settings-spreadsheet').single('click', _.bind(me.showSetSpreadsheet, me));
 
                 Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
@@ -167,6 +168,15 @@ define([
                 this.showPage('#settings-application-view');
             },
 
+            showColorSchemes: function () {
+                this.showPage('#color-schemes-view');
+            },
+
+            showSetSpreadsheet: function () {
+                this.showPage('#settings-spreadsheet-view');
+                $('#color-schemes').single('click', _.bind(this.showColorSchemes, this));
+            },
+
             showDocumentInfo: function() {
                 this.showPage('#settings-info-view');
 
@@ -235,7 +245,9 @@ define([
             textUnitOfMeasurement: 'Unit of Measurement',
             textCentimeter: 'Centimeter',
             textPoint: 'Point',
-            textInch: 'Inch'
+            textInch: 'Inch',
+            textSpreadsheetSettings: 'Spreadsheet Settings',
+            textColorSchemes: 'Color Schemes'
     }
     })(), SSE.Views.Settings || {}))
 });

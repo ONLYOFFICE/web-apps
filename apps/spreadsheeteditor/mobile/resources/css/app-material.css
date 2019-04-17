@@ -5848,6 +5848,31 @@ html.phone .document-menu .list-block .item-link {
 .about .logo {
   background: url('../../../../common/mobile/resources/img/about/logo.svg') no-repeat center;
 }
+.color-schemes-menu {
+  cursor: pointer;
+  display: block;
+  background-color: #fff;
+}
+.color-schemes-menu .item-content {
+  padding-left: 0;
+}
+.color-schemes-menu .item-inner {
+  justify-content: flex-start;
+  padding-left: 16px;
+}
+.color-schemes-menu .color-schema-block {
+  display: flex;
+}
+.color-schemes-menu .color {
+  min-width: 26px;
+  min-height: 26px;
+  margin: 0 2px 0 0;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+}
+.color-schemes-menu .text {
+  margin-left: 20px;
+  color: #212121;
+}
 .tablet .searchbar.document.replace .center > .replace {
   display: flex;
 }
