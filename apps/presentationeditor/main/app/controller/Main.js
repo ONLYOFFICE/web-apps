@@ -907,7 +907,7 @@ define([
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization);
                 else if (typeof this.editorConfig.customization == 'object') {
-                    this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarBreakTabs =
+                    this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarNoTabs =
                     this.editorConfig.customization.toolbarHideFileName = false;
                 }
 
