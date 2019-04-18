@@ -115,7 +115,7 @@ define([
                     }
                 });
 
-                uiApp.onPageAfterBack('settings-document-view', function (page) {
+                uiApp.onPageAfterBack('margin-view', function (page) {
                     me.applyPageMarginsIfNeed()
                 });
             },
@@ -232,6 +232,9 @@ define([
                 } else if ('#color-schemes-view' == pageId) {
                     me.initPageColorSchemes();
                     Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
+                } else if ('#margins-view' == pageId) {
+                    me.initPageMargin();
+                    Common.Utils.addScrollIfNeed('.page[data-page=margin-view]', '.page[data-page=margin-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-review input:checkbox').attr('checked', _isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
@@ -242,6 +245,27 @@ define([
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
                 }
+            },
+
+            initPageMargin: function() {
+                var me = this;
+
+                // Init page margins
+                me.localSectionProps = me.api.asc_GetSectionProps();
+
+                if (me.localSectionProps) {
+                    me.maxMarginsH = me.localSectionProps.get_H() - 26;
+                    me.maxMarginsW = me.localSectionProps.get_W() - 127;
+
+                    $('#document-margin-top .item-after label').text(mm2Cm(me.localSectionProps.get_TopMargin()) + ' ' + txtCm);
+                    $('#document-margin-bottom .item-after label').text(mm2Cm(me.localSectionProps.get_BottomMargin()) + ' ' + txtCm);
+                    $('#document-margin-left .item-after label').text(mm2Cm(me.localSectionProps.get_LeftMargin()) + ' ' + txtCm);
+                    $('#document-margin-right .item-after label').text(mm2Cm(me.localSectionProps.get_RightMargin()) + ' ' + txtCm);
+                }
+
+                _.each(["top", "left", "bottom", "right"], function(align) {
+                    $(Common.Utils.String.format('#document-margin-{0} .button', align)).single('click', _.bind(me.onPageMarginsChange, me, align));
+                })
             },
 
             initPageColorSchemes: function() {
@@ -292,22 +316,6 @@ define([
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
                 $pageSize.find('.item-subtitle').text(_pageSizes[_pageSizesIndex]['subtitle']);
 
-                // Init page margins
-                me.localSectionProps = me.api.asc_GetSectionProps();
-
-                if (me.localSectionProps) {
-                    me.maxMarginsH = me.localSectionProps.get_H() - 26;
-                    me.maxMarginsW = me.localSectionProps.get_W() - 127;
-
-                    $('#document-margin-top .item-after label').text(mm2Cm(me.localSectionProps.get_TopMargin()) + ' ' + txtCm);
-                    $('#document-margin-bottom .item-after label').text(mm2Cm(me.localSectionProps.get_BottomMargin()) + ' ' + txtCm);
-                    $('#document-margin-left .item-after label').text(mm2Cm(me.localSectionProps.get_LeftMargin()) + ' ' + txtCm);
-                    $('#document-margin-right .item-after label').text(mm2Cm(me.localSectionProps.get_RightMargin()) + ' ' + txtCm);
-                }
-
-                _.each(["top", "left", "bottom", "right"], function(align) {
-                    $(Common.Utils.String.format('#document-margin-{0} .button', align)).single('click', _.bind(me.onPageMarginsChange, me, align));
-                })
             },
 
             initPageInfo: function () {
