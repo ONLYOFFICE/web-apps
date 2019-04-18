@@ -144,6 +144,7 @@ define([
             this.handler        =   _options.handler;
             this.type           =   _options.type;
             this.preview        =   _options.preview;
+            this.previewData    =   _options.previewData;
             this.warning        =   _options.warning || false;
             this.closable       =   _options.closable;
             this.codepages      =   _options.codepages;
@@ -188,8 +189,9 @@ define([
                     });
                 } else {
                     this.initCodePages();
-                    if (this.preview)
-                        this.updatePreview();
+                    if (this.preview) {
+                        (this.previewData) ? this.previewCallback(this.previewData) : this.updatePreview();
+                    }
                 }
                 this.onPrimary = function() {
                     me._handleInput('ok');

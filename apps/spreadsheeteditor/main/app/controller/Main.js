@@ -1365,6 +1365,10 @@ define([
                         config.msg = this.errorEmailClient;
                         break;
 
+                    case Asc.c_oAscError.ID.NoDataToParse:
+                        config.msg = this.errorNoDataToParse;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2495,7 +2499,8 @@ define([
             errorEmailClient: 'No email client could be found',
             txtPrintArea: 'Print_Area',
             txtTable: 'Table',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            errorNoDataToParse: 'No data was selected to parse.'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -71,11 +71,13 @@ define([
             this._state = {
                 BackColor: undefined,
                 DisabledControls: true,
-                CellAngle: undefined
+                CellAngle: undefined,
+                CSVOptions: new Asc.asc_CCSVAdvancedOptions(0, 4, '')
             };
             this.lockedControls = [];
             this._locked = true;
             this.isEditCell = false;
+            this.isMultiSelect = false;
             this.BorderType = 1;
 
             this.render();
@@ -140,12 +142,20 @@ define([
         },
 
         onTextToColumn: function() {
+            this.api.asc_TextImport(this._state.CSVOptions, _.bind(this.onTextToColumnCallback, this), false);
+        },
+
+        onTextToColumnCallback: function(data) {
+            if (!data || !data.length) return;
+
             var me = this;
             (new Common.Views.OpenDialog({
                 title: me.txtImportWizard,
                 closable: true,
                 type: Common.Utils.importTextType.Columns,
                 preview: true,
+                previewData: data,
+                settings: this._state.CSVOptions,
                 api: me.api,
                 handler: function (result, encoding, delimiter, delimiterChar) {
                     if (result == 'ok') {
@@ -168,6 +178,7 @@ define([
             this.api = o;
             if (o) {
                 this.api.asc_registerCallback('asc_onEditCell', this.onApiEditCell.bind(this));
+                this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onApiSelectionChanged, this));
             }
             return this;
         },
@@ -358,6 +369,10 @@ define([
                 this.disableControls(this._locked);
         },
 
+        onApiSelectionChanged: function(info) {
+            this.isMultiSelect = info.asc_getFlags().asc_getMultiselect() || info.asc_getSelectedColsCount()>1;
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -372,6 +387,7 @@ define([
                     item.setDisabled(disable);
                 });
             }
+            this.btnTextToColumn.setDisabled(disable || this.isMultiSelect);
         },
 
         textBorders:        'Border\'s Style',
