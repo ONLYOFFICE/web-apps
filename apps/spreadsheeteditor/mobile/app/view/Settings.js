@@ -247,7 +247,9 @@ define([
             textPoint: 'Point',
             textInch: 'Inch',
             textSpreadsheetSettings: 'Spreadsheet Settings',
-            textColorSchemes: 'Color Schemes'
+            textColorSchemes: 'Color Schemes',
+            textHideHeadings: 'Hide Headings',
+            textHideGridlines: 'Hide Gridlines'
     }
     })(), SSE.Views.Settings || {}))
 });

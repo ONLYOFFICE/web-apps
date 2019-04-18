@@ -77,9 +77,10 @@ define([
             },
 
             setApi: function (api) {
-                var me = this;
-                me.api = api;
-                me.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(me.onSendThemeColorSchemes, me));
+                this.api = api;
+                this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
+                this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.sheetChanged, this));
+                this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',   _.bind(this.sheetChanged, this));
             },
 
             onLaunch: function () {
@@ -167,7 +168,40 @@ define([
                 } else if ('#color-schemes-view' == pageId) {
                     me.initPageColorSchemes();
                     Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
+                } else if ('#settings-spreadsheet-view' == pageId) {
+                    me.initSpreadsheetSettings();
                 }
+            },
+
+            initSpreadsheetSettings: function() {
+                var me = this,
+                    $pageSpreadsheetSettings = $('.page[data-page=settings-spreadsheet-view]'),
+                    $switchHideHeadings = $pageSpreadsheetSettings.find('#hide-headings input'),
+                    $switchHideGridlines = $pageSpreadsheetSettings.find('#hide-gridlines input');
+
+                $switchHideHeadings.single('change',    _.bind(me.clickCheckboxHideHeadings, me));
+                $switchHideGridlines.single('change',    _.bind(me.clickCheckboxHideGridlines, me));
+
+                var params = me.sheetChanged();
+                $switchHideHeadings.prop('checked',!params.asc_getShowRowColHeaders());
+                $switchHideGridlines.prop('checked',!params.asc_getShowGridLines());
+            },
+
+            clickCheckboxHideHeadings: function(e) {
+                var $target = $(e.currentTarget),
+                    checked = $target.prop('checked');
+                this.api.asc_setDisplayHeadings(!checked);
+            },
+
+            clickCheckboxHideGridlines: function(e) {
+                var $target = $(e.currentTarget),
+                    checked = $target.prop('checked');
+                this.api.asc_setDisplayGridlines(!checked);
+            },
+
+            sheetChanged: function() {
+                var params = this.api.asc_getSheetViewSettings();
+                return(params);
             },
 
             initPageColorSchemes: function() {

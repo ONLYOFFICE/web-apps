@@ -417,7 +417,36 @@
     </div>
     <div class="page" id="page-settings-spreadsheet-view" data-page="settings-spreadsheet-view">
         <div class="page-content">
-
+            <div class="list-block">
+                <ul>
+                    <li id="hide-headings">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textHideHeadings %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="hide-gridlines">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textHideGridlines %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
             <div class="list-block media-list">
                 <ul>
                     <li>
