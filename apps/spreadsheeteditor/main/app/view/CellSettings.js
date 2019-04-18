@@ -150,7 +150,7 @@ define([
 
             var me = this;
             (new Common.Views.OpenDialog({
-                title: me.txtImportWizard,
+                title: me.textWizard,
                 closable: true,
                 type: Common.Utils.importTextType.Columns,
                 preview: true,
