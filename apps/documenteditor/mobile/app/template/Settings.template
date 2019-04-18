@@ -233,10 +233,6 @@
                                 </div>
                             </a>
                         </li>
-                    </ul>
-                </div>
-                <div class="list-block media-list">
-                    <ul>
                         <li>
                             <a id="margin-settings" class="item-link item-content" data-page="#margins-view">
                                 <div class="item-inner">
