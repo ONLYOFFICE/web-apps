@@ -903,7 +903,7 @@ define([
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
 
-                this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
+                this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization);
                 else if (typeof this.editorConfig.customization == 'object') {

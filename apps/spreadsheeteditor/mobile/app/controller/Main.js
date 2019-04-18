@@ -670,7 +670,7 @@ define([
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.canRename      = !!me.permissions.rename;
 
-                    me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
+                    me.appOptions.canBranding  = params.asc_getCustomization();
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
                 }
 

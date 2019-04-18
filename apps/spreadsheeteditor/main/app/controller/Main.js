@@ -919,7 +919,7 @@ define([
                     this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
-                    this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
+                    this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
                     else if (typeof this.editorConfig.customization == 'object') {
