@@ -262,13 +262,15 @@ define([
                 value: '0 °',
                 allowDecimal: false,
                 maxValue: 90,
-                minValue: -90
+                minValue: -90,
+                disabled: this._locked
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
 
             this.btnTextToColumn = new Common.UI.Button({
-                el: $('#cell-btn-text-to-column')
+                el: $('#cell-btn-text-to-column'),
+                disabled: this._locked
             });
             this.btnTextToColumn.on('click', _.bind(this.onTextToColumn, this));
             this.lockedControls.push(this.btnTextToColumn);
