@@ -177,7 +177,8 @@ define([
                 var me = this,
                     $pageSpreadsheetSettings = $('.page[data-page=settings-spreadsheet-view]'),
                     $switchHideHeadings = $pageSpreadsheetSettings.find('#hide-headings input'),
-                    $switchHideGridlines = $pageSpreadsheetSettings.find('#hide-gridlines input');
+                    $switchHideGridlines = $pageSpreadsheetSettings.find('#hide-gridlines input'),
+                    $pageOrientation = $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation]');
 
                 $switchHideHeadings.single('change',    _.bind(me.clickCheckboxHideHeadings, me));
                 $switchHideGridlines.single('change',    _.bind(me.clickCheckboxHideGridlines, me));
@@ -185,6 +186,22 @@ define([
                 var params = me.sheetChanged();
                 $switchHideHeadings.prop('checked',!params.asc_getShowRowColHeaders());
                 $switchHideGridlines.prop('checked',!params.asc_getShowGridLines());
+
+                // Init orientation
+                var currentSheet = this.api.asc_getActiveWorksheetIndex(),
+                    props = this.api.asc_getPageOptions(currentSheet),
+                    opt = props.asc_getPageSetup();
+                if(Number(opt.asc_getOrientation()) === 0) {
+                    $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation][value="0"]').prop( "checked", true );
+                } else {
+                    $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation][value="1"]').prop( "checked", true );
+                }
+                $pageOrientation.single('change', _.bind(me.onOrientationChange, me));
+            },
+
+            onOrientationChange: function(e) {
+                var value = $(e.currentTarget).attr('value');
+                this.api.asc_changePageOrient(Number(value) === Asc.c_oAscPageOrientation.PagePortrait, this.api.asc_getActiveWorksheetIndex());
             },
 
             clickCheckboxHideHeadings: function(e) {

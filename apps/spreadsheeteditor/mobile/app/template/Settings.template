@@ -417,6 +417,29 @@
     </div>
     <div class="page" id="page-settings-spreadsheet-view" data-page="settings-spreadsheet-view">
         <div class="page-content">
+            <div class="content-block-title"><%= scope.textOrientation %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="table-orientation" value="0">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textPortrait %></div>
+                             </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="table-orientation" value="1">
+                               <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                               <div class="item-inner">
+                                   <div class="item-title"><%= scope.textLandscape %></div>
+                               </div>
+                         </label>
+                    </li>
+                </ul>
+            </div>
             <div class="list-block">
                 <ul>
                     <li id="hide-headings">

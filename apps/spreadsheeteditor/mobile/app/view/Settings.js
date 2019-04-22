@@ -249,7 +249,10 @@ define([
             textSpreadsheetSettings: 'Spreadsheet Settings',
             textColorSchemes: 'Color Schemes',
             textHideHeadings: 'Hide Headings',
-            textHideGridlines: 'Hide Gridlines'
+            textHideGridlines: 'Hide Gridlines',
+            textOrientation: 'Orientation',
+            textPortrait: 'Portrait',
+            textLandscape: 'Landscape'
     }
     })(), SSE.Views.Settings || {}))
 });

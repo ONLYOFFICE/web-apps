@@ -519,6 +519,11 @@
   "SSE.Views.Settings.textInch": "Inch",
   "SSE.Views.Settings.textColorSchemes": "Color Schemes",
   "SSE.Views.Settings.textSpreadsheetSettings": "Spreadsheet Settings",
+  "SSE.Views.Settings.textHideHeadings": "Hide Headings",
+  "SSE.Views.Settings.textHideGridlines": "Hide Gridlines",
+  "SSE.Views.Settings.textOrientation": "Orientation",
+  "SSE.Views.Settings.textPortrait": "Portrait",
+  "SSE.Views.Settings.textLandscape": "Landscape",
   "SSE.Views.Settings.unknownText": "Unknown",
   "SSE.Views.Toolbar.textBack": "Back"
 }
