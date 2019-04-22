@@ -299,6 +299,7 @@ define([
                             var model = this.popoverComments.findWhere({uid: id});
                             if (model && !this.getPopover().isVisible()) {
                                 this.getPopover().showComments(true);
+                                this.api.asc_selectComment(id);
                                 return;
                             }
                         }
