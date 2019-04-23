@@ -98,6 +98,14 @@ if (Common === undefined) {
 
             'resetFocus': function(data) {
                 $me.trigger('resetfocus', data);
+            },
+
+            'setUsers': function(data) {
+                $me.trigger('setusers', data);
+            },
+
+            'showSharingSettings': function(data) {
+                $me.trigger('showsharingsettings', data);
             }
         };
 
@@ -260,6 +268,14 @@ if (Common === undefined) {
 
             requestMakeActionLink: function (config) {
                 _postMessage({event:'onMakeActionLink', data: config})
+            },
+
+            requestUsers:  function () {
+                _postMessage({event:'onRequestUsers'})
+            },
+
+            requestSendNotify:  function (emails) {
+                _postMessage({event:'onRequestSendNotify', data: emails})
             },
 
             on: function(event, handler){

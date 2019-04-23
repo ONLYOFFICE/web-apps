@@ -100,7 +100,8 @@ define([
 
             this.commentsStore = options.commentsStore;
             this.reviewStore = options.reviewStore;
-            this.userEmail = options.userEmail;
+            this.canRequestUsers = options.canRequestUsers;
+            this.externalUsers = [];
             this._state = {commentsVisible: false, reviewVisible: false};
 
             _options.tpl = _.template(this.template)(_options);
@@ -109,6 +110,9 @@ define([
             this.sdkBounds = {width: 0, height: 0, padding: 10, paddingTop: 20};
 
             Common.UI.Window.prototype.initialize.call(this, _options);
+
+            this.canRequestUsers && Common.Gateway.on('setusers', _.bind(this.setUsers, this));
+
             return this;
         },
         render: function (comments, review) {
@@ -890,7 +894,7 @@ define([
                 me.e = event;
             });
 
-            if (this.userEmail && this.userEmail.length>0) {
+            if (this.canRequestUsers) {
                 textBox && textBox.keydown(function (event) {
                     if ( event.keyCode == Common.UI.Keys.SPACE ||
                         event.keyCode == Common.UI.Keys.HOME || event.keyCode == Common.UI.Keys.END || event.keyCode == Common.UI.Keys.RIGHT ||
@@ -960,8 +964,12 @@ define([
                 this.commentsView.setStore(this.commentsStore);
         },
 
-        setUserEmail: function(email) {
-            this.userEmail = email;
+        setUsers: function(data) {
+            this.externalUsers = data.data || [];
+            if (this.loadMask)
+                this.loadMask.hide();
+            this.loadMask = null;
+            this._state.emailSearch && this.onEmailListMenu(this._state.emailSearch.str, this._state.emailSearch.left, this._state.emailSearch.right);
         },
 
         getPopover: function(options) {
@@ -989,64 +997,84 @@ define([
         },
 
         onEmailListMenu: function(str, left, right) {
-            var emails = this.userEmail;
             var me   = this,
+                users = me.externalUsers,
                 menu = me.emailMenu;
+
+            if (users.length<1) {
+                this._state.emailSearch = {
+                    str: str,
+                    left: left,
+                    right: right
+                };
+
+                if (this.loadMask) return;
+            }
             if (typeof str == 'string') {
                 var menuContainer = me.$window.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
-                    arr = [];
-                str = str.toLowerCase();
+                    textbox = this.commentsView.getTextBox(),
+                    textboxDom = textbox ? textbox[0] : null,
+                    showPoint = textboxDom ? [textboxDom.offsetLeft, textboxDom.offsetTop + textboxDom.clientHeight + 3] : [0, 0];
+
+                if (!menu.rendered) {
+                    // Prepare menu container
+                    if (menuContainer.length < 1) {
+                        menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                        me.$window.append(menuContainer);
+                    }
+
+                    menu.render(menuContainer);
+                    menu.cmpEl.css('min-width', textboxDom ? textboxDom.clientWidth : 220);
+                    menu.cmpEl.attr({tabindex: "-1"});
+                    menu.on('hide:after', function(){
+                        setTimeout(function(){
+                            var tb = me.commentsView.getTextBox();
+                            tb && tb.focus();
+                        }, 10);
+                    });
+                }
 
                 for (var i = 0; i < menu.items.length; i++) {
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
-                if (str.length>0) {
-                    for (var i = 0; i < emails.length; i++) {
-                        if (0 === emails[i].toLowerCase().indexOf(str)) {
-                            arr.push(emails[i]);
-                        }
-                    }
-                } else
-                    arr = emails;
 
-                _.each(arr, function(menuItem, index) {
-                    var mnu = new Common.UI.MenuItem({
-                        caption     : menuItem
-                    }).on('click', function(item, e) {
-                        me.insertEmailToTextbox(item.caption, left, right);
-                    });
-                    menu.addItem(mnu);
-                });
-
-                var textbox = this.commentsView.getTextBox();
-                if (arr.length>0 && textbox) {
-                    var textboxDom = textbox[0],
-                        showPoint = [textboxDom.offsetLeft, textboxDom.offsetTop + textboxDom.clientHeight + 3];
-
-                    if (!menu.rendered) {
-                        // Prepare menu container
-                        if (menuContainer.length < 1) {
-                            menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
-                            me.$window.append(menuContainer);
-                        }
-
-                        menu.render(menuContainer);
-                        menu.cmpEl.css('min-width', textboxDom.clientWidth);
-                        menu.cmpEl.attr({tabindex: "-1"});
-                        menu.on('hide:after', function(){
-                            setTimeout(function(){
-                                var tb = me.commentsView.getTextBox();
-                                tb && tb.focus();
-                            }, 10);
+                if (users.length<1) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        template: _.template([
+                            '<div style="height: 100px;"></div>'
+                        ].join(''))
+                    }));
+                    this.loadMask = new Common.UI.LoadMask({owner: menu.cmpEl.find('li > div')});
+                    this.loadMask.setTitle(this.textLoading);
+                } else {
+                    str = str.toLowerCase();
+                    if (str.length>0) {
+                        users = _.filter(users, function(item) {
+                            return (0 === item.email.toLowerCase().indexOf(str))
                         });
                     }
+                    _.each(users, function(menuItem, index) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption     : menuItem.email
+                        }).on('click', function(item, e) {
+                            me.insertEmailToTextbox(item.caption, left, right);
+                        });
+                        menu.addItem(mnu);
+                    });
+                }
 
+                if (users.length>0 || this.loadMask) {
                     menuContainer.css({left: showPoint[0], top : showPoint[1]});
                     menu.menuAlignEl = textbox;
                     menu.show();
                     menu.cmpEl.css('display', '');
                     menu.alignPosition('bl-tl', -5);
+
+                    if (this.loadMask) {
+                        this.loadMask.show();
+                        Common.Gateway.requestUsers();
+                    }
                 } else {
                     menu.rendered && menu.cmpEl.css('display', 'none');
                 }
@@ -1071,7 +1099,8 @@ define([
         textReply               : 'Reply',
         textClose               : 'Close',
         textResolve             : 'Resolve',
-        textOpenAgain           : "Open Again"
+        textOpenAgain           : "Open Again",
+        textLoading             : 'Loading'
 
     }, Common.Views.ReviewPopover || {}))
 });

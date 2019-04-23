@@ -721,10 +721,23 @@ define([
             return str_res;
         },
 
-        pickEMail: function (message) {
+        pickEMail: function (commentId, message) {
             var arr = Common.Utils.String.htmlEncode(message).match(/\B[@+][A-Z0-9._%+-]+@[A-Z0-9._]+\.[A-Z]+\b/gi);
             console.log(arr); // send e-mails
-            return arr;
+            arr = _.map(arr, function(str){
+                return str.slice(1, str.length);
+            });
+            Common.Gateway.requestSendNotify({
+                emails: arr,
+                actionId: commentId, // comment id
+                actionLink: {
+                    action: {
+                        type: "comment",
+                        data: commentId
+                    }
+                },
+                message: message //comment text
+            });
         },
 
         textComments            : 'Comments',

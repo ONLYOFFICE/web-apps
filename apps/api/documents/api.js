@@ -198,6 +198,7 @@
         _config.editorConfig.canRequestClose = _config.events && !!_config.events.onRequestClose;
         _config.editorConfig.canRename = _config.events && !!_config.events.onRequestRename;
         _config.editorConfig.canMakeActionLink = _config.events && !!_config.events.onMakeActionLink;
+        _config.editorConfig.canRequestUsers = _config.events && !!_config.events.onRequestUsers;
         _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
         _config.frameEditorId = placeholderId;
 
@@ -536,6 +537,22 @@
             });
         };
 
+        var _setUsers = function(data) {
+            _sendCommand({
+                command: 'setUsers',
+                data: {
+                    data: data
+                }
+            });
+        };
+
+        var _showSharingSettings = function(data) {
+            _sendCommand({
+                command: 'showSharingSettings',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -575,7 +592,9 @@
             serviceCommand      : _serviceCommand,
             attachMouseEvents   : _attachMouseEvents,
             detachMouseEvents   : _detachMouseEvents,
-            destroyEditor       : _destroyEditor
+            destroyEditor       : _destroyEditor,
+            setUsers            : _setUsers,
+            showSharingSettings : _showSharingSettings
         }
     };
 
