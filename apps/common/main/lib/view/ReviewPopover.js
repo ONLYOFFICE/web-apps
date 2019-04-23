@@ -462,7 +462,7 @@ define([
                     });
 
                     this.emailMenu = new Common.UI.Menu({
-                        maxHeight: 200,
+                        maxHeight: 190,
                         cyclic: false,
                         items: []
                     }).on('render:after', function(mnu) {
@@ -930,7 +930,6 @@ define([
                         res = str.match(/^(?:[@]|[+](?!1))(\S*)/);
                     if (res && res.length>1) {
                         str = res[1]; // send to show email menu
-                        console.log(str);
                         me.onEmailListMenu(str, left, right);
                     }
                 });
@@ -1042,7 +1041,7 @@ define([
                 if (users.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         template: _.template([
-                            '<div style="height: 100px;"></div>'
+                            '<div style="height: 95px;"></div>'
                         ].join(''))
                     }));
                     this.loadMask = new Common.UI.LoadMask({owner: menu.cmpEl.find('li > div')});
@@ -1054,11 +1053,15 @@ define([
                             return (0 === item.email.toLowerCase().indexOf(str))
                         });
                     }
+                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;"><div><%= caption %></div><div style="color: #909090;"><%= options.value %></div></a>');
                     _.each(users, function(menuItem, index) {
                         var mnu = new Common.UI.MenuItem({
-                            caption     : menuItem.email
-                        }).on('click', function(item, e) {
-                            me.insertEmailToTextbox(item.caption, left, right);
+                            caption     : menuItem.name,
+                            value       : menuItem.email,
+                            template    : tpl
+
+                    }).on('click', function(item, e) {
+                            me.insertEmailToTextbox(item.options.value, left, right);
                         });
                         menu.addItem(mnu);
                     });
@@ -1070,6 +1073,7 @@ define([
                     menu.show();
                     menu.cmpEl.css('display', '');
                     menu.alignPosition('bl-tl', -5);
+                    menu.scroller.update({alwaysVisibleY: true});
 
                     if (this.loadMask) {
                         this.loadMask.show();
