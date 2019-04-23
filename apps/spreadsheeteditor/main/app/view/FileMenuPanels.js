@@ -1255,11 +1255,12 @@ define([
 
         setMode: function(mode) {
             this.sharingSettingsUrl = mode.sharingSettingsUrl;
+            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
             return this;
         },
 
         changeAccessRights: function(btn,event,opts) {
-            if (this._docAccessDlg) return;
+            if (this._docAccessDlg || this._readonlyRights) return;
 
             var me = this;
             me._docAccessDlg = new Common.Views.DocumentAccessDialog({
