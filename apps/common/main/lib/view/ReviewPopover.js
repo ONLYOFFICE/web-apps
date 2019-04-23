@@ -965,9 +965,7 @@ define([
 
         setUsers: function(data) {
             this.externalUsers = data.data || [];
-            if (this.loadMask)
-                this.loadMask.hide();
-            this.loadMask = null;
+            this.isUsersLoading = false;
             this._state.emailSearch && this.onEmailListMenu(this._state.emailSearch.str, this._state.emailSearch.left, this._state.emailSearch.right);
         },
 
@@ -1007,7 +1005,11 @@ define([
                     right: right
                 };
 
-                if (this.loadMask) return;
+                if (this.isUsersLoading) return;
+
+                this.isUsersLoading = true;
+                Common.Gateway.requestUsers();
+                return;
             }
             if (typeof str == 'string') {
                 var menuContainer = me.$window.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
@@ -1038,15 +1040,7 @@ define([
                     i--;
                 }
 
-                if (users.length<1) {
-                    menu.addItem(new Common.UI.MenuItem({
-                        template: _.template([
-                            '<div style="height: 95px;"></div>'
-                        ].join(''))
-                    }));
-                    this.loadMask = new Common.UI.LoadMask({owner: menu.cmpEl.find('li > div')});
-                    this.loadMask.setTitle(this.textLoading);
-                } else {
+                if (users.length>0) {
                     str = str.toLowerCase();
                     if (str.length>0) {
                         users = _.filter(users, function(item) {
@@ -1067,18 +1061,13 @@ define([
                     });
                 }
 
-                if (users.length>0 || this.loadMask) {
+                if (users.length>0) {
                     menuContainer.css({left: showPoint[0], top : showPoint[1]});
                     menu.menuAlignEl = textbox;
                     menu.show();
                     menu.cmpEl.css('display', '');
                     menu.alignPosition('bl-tl', -5);
                     menu.scroller.update({alwaysVisibleY: true});
-
-                    if (this.loadMask) {
-                        this.loadMask.show();
-                        Common.Gateway.requestUsers();
-                    }
                 } else {
                     menu.rendered && menu.cmpEl.css('display', 'none');
                 }
