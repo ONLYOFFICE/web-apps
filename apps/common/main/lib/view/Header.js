@@ -129,13 +129,12 @@ define([
                         fnEncode: Common.Utils.String.htmlEncode
                     }));
 
-                    if (!$userList.scroller)
-                        $userList.scroller = new Common.UI.Scroller({
-                            el: $userList.find('ul'),
-                            useKeyboard: true,
-                            minScrollbarLength: 40,
-                            alwaysVisibleY: true
-                        });
+                    $userList.scroller = new Common.UI.Scroller({
+                        el: $userList.find('ul'),
+                        useKeyboard: true,
+                        minScrollbarLength: 40,
+                        alwaysVisibleY: true
+                    });
                     $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
                 } else {
                     $userList.empty();
