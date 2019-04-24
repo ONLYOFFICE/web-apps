@@ -524,6 +524,15 @@
   "SSE.Views.Settings.textOrientation": "Orientation",
   "SSE.Views.Settings.textPortrait": "Portrait",
   "SSE.Views.Settings.textLandscape": "Landscape",
+  "SSE.Views.Settings.textFormat": "Format",
+  "SSE.Views.Settings.textSpreadsheetFormats": "Spreadsheet Formats",
+  "SSE.Views.Settings.textCustom": "Custom",
+  "SSE.Views.Settings.textCustomSize": "Custom Size",
+  "SSE.Views.Settings.textMargins": "Margins",
+  "SSE.Views.Settings.textTop": "Top",
+  "SSE.Views.Settings.textLeft": "Left",
+  "SSE.Views.Settings.textBottom": "Bottom",
+  "SSE.Views.Settings.textRight": "Right",
   "SSE.Views.Settings.unknownText": "Unknown",
   "SSE.Views.Toolbar.textBack": "Back"
 }

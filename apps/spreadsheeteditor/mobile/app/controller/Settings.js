@@ -53,7 +53,34 @@ define([
             infoObj,
             modalView,
             _licInfo,
-            templateInsert;
+            templateInsert,
+            _pageSizesIndex = 0,
+            _pageSizesCurrent = [0, 0],
+            txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
+            _pageSizes = [
+                { caption: 'US Letter',             subtitle: Common.Utils.String.format('21,59{0} x 27,94{0}', txtCm),  value: [215.9, 279.4] },
+                { caption: 'US Legal',              subtitle: Common.Utils.String.format('21,59{0} x 35,56{0}', txtCm),  value: [215.9, 355.6] },
+                { caption: 'A4',                    subtitle: Common.Utils.String.format('21{0} x 29,7{0}', txtCm),      value: [210, 297] },
+                { caption: 'A5',                    subtitle: Common.Utils.String.format('14,8{0} x 21{0}', txtCm),  value: [148, 210] },
+                { caption: 'B5',                    subtitle: Common.Utils.String.format('17,6{0} x 25{0}', txtCm),   value: [176, 250] },
+                { caption: 'Envelope #10',          subtitle: Common.Utils.String.format('10,48{0} x 24,13{0}', txtCm),  value: [104.8, 241.3] },
+                { caption: 'Envelope DL',           subtitle: Common.Utils.String.format('11{0} x 22{0}', txtCm),  value: [110, 220] },
+                { caption: 'Tabloid',               subtitle: Common.Utils.String.format('27,94{0} x 43,18{0}', txtCm),  value: [279.4, 431.8] },
+                { caption: 'A3',                    subtitle: Common.Utils.String.format('29,7{0} x 42{0}', txtCm),   value: [297, 420] },
+                { caption: 'Tabloid Oversize',      subtitle: Common.Utils.String.format('30,48{0} x 45,71{0}', txtCm),  value: [304.8, 457.1] },
+                { caption: 'ROC 16K',               subtitle: Common.Utils.String.format('19,68{0} x 27,3{0}', txtCm),   value: [196.8, 273] },
+                { caption: 'Envelope Choukei 3',    subtitle: Common.Utils.String.format('11,99{0} x 23,49{0}', txtCm),  value: [119.9, 234.9] },
+                { caption: 'Super B/A3',            subtitle: Common.Utils.String.format('33,02{0} x 48,25{0}', txtCm),  value: [330.2, 482.5] },
+                { caption: 'A0',                    subtitle: Common.Utils.String.format('84,1{0} x 118,9{0}', txtCm),   value: [841, 1189] },
+                { caption: 'A1',                    subtitle: Common.Utils.String.format('59,4{0} x 84,1{0}', txtCm),    value: [594, 841] },
+                { caption: 'A2',                    subtitle: Common.Utils.String.format('42{0} x 59,4{0}', txtCm),      value: [420, 594] },
+                { caption: 'A6',                    subtitle: Common.Utils.String.format('10,5{0} x 14,8{0}', txtCm),    value: [105, 148] }
+            ];
+
+        var mm2Cm = function(mm) {
+            return parseFloat((mm/10.).toFixed(2));
+        };
+
 
         return {
             models: [],
@@ -74,6 +101,10 @@ define([
                         }
                     }
                 });
+
+                this.localMarginProps = null;
+
+
             },
 
             setApi: function (api) {
@@ -170,6 +201,10 @@ define([
                     Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
                 } else if ('#settings-spreadsheet-view' == pageId) {
                     me.initSpreadsheetSettings();
+                } else if ('#settings-page-size-view' == pageId) {
+                    me.initSpreadsheetPageSize();
+                } else if ('#margins-view' == pageId) {
+                    me.initSpreadsheetMargins();
                 }
             },
 
@@ -197,7 +232,101 @@ define([
                     $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation][value="1"]').prop( "checked", true );
                 }
                 $pageOrientation.single('change', _.bind(me.onOrientationChange, me));
+
+                //Init format
+                var $pageSize = $('#settings-spreadsheet-format');
+                this.changeCurrentPageSize(opt.asc_getWidth(), opt.asc_getHeight());
+                $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
+                $pageSize.find('.item-subtitle').text(_pageSizes[_pageSizesIndex]['subtitle']);
             },
+
+            changeCurrentPageSize: function(w, h) {
+                if (Math.abs(_pageSizesCurrent[0] - w) > 0.1 ||
+                    Math.abs(_pageSizesCurrent[1] - h) > 0.1) {
+                    _pageSizesCurrent = [w, h];
+
+                    _.find(_pageSizes, function(size, index) {
+                        if (Math.abs(size.value[0] - w) < 0.1 && Math.abs(size.value[1] - h) < 0.1) {
+                            _pageSizesIndex = index;
+                        }
+                    }, this);
+                }
+            },
+
+            initSpreadsheetPageSize: function() {
+                this.getView('Settings').renderPageSizes(_pageSizes, _pageSizesIndex);
+                $('.page[data-page=settings-page-size-view] input:radio[name=spreadsheet-format]').single('change', _.bind(this.onFormatChange, this));
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-page-size-view]', '.page[data-page=settings-page-size-view] .page-content');
+            },
+
+            onFormatChange: function(e) {
+                var rawValue = $(e.currentTarget).val(),
+                    value = rawValue.split(',');
+                this.api.asc_changeDocSize(parseFloat(value[0]), parseFloat(value[1]), this.api.asc_getActiveWorksheetIndex());
+                this.initSpreadsheetSettings();
+            },
+
+            initSpreadsheetMargins: function() {
+                var me = this;
+                // Init page margins
+                var currentSheet = me.api.asc_getActiveWorksheetIndex(),
+                    props = me.api.asc_getPageOptions(currentSheet);
+                me.localMarginProps = props.asc_getPageMargins();
+
+                var left =  me.localMarginProps.asc_getLeft(),
+                    top =  me.localMarginProps.asc_getTop(),
+                    right =  me.localMarginProps.asc_getRight(),
+                    bottom =  me.localMarginProps.asc_getBottom();
+
+                if (me.localMarginProps) {
+
+                    $('#spreadsheet-margin-top .item-after label').text(mm2Cm(top) + ' ' + txtCm);
+                    $('#spreadsheet-margin-bottom .item-after label').text(mm2Cm(bottom) + ' ' + txtCm);
+                    $('#spreadsheet-margin-left .item-after label').text(mm2Cm(left) + ' ' + txtCm);
+                    $('#spreadsheet-margin-right .item-after label').text(mm2Cm(right) + ' ' + txtCm);
+                }
+
+                _.each(["top", "left", "bottom", "right"], function(align) {
+                    $(Common.Utils.String.format('#spreadsheet-margin-{0} .button', align)).single('click', _.bind(me.onPageMarginsChange, me, align));
+                })
+            },
+
+            onPageMarginsChange: function (align, e) {
+                var me = this,
+                    $button = $(e.currentTarget),
+                    step = 1, // mm
+                    txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
+                    marginValue = null;
+
+                var maxMarginsH = 48.25,
+                    maxMarginsW = 48.25;
+
+                switch (align) {
+                    case 'left': marginValue = me.localMarginProps.asc_getLeft(); break;
+                    case 'top': marginValue = me.localMarginProps.asc_getTop(); break;
+                    case 'right': marginValue = me.localMarginProps.asc_getRight(); break;
+                    case 'bottom': marginValue = me.localMarginProps.asc_getBottom(); break;
+                }
+
+                if ($button.hasClass('decrement')) {
+                    marginValue = Math.max(0, marginValue - step);
+                } else {
+                    marginValue = Math.min((align == 'left' || align == 'right') ? maxMarginsW : maxMarginsH, marginValue + step);
+                }
+
+                switch (align) {
+                    case 'left': me.localMarginProps.asc_setLeft(marginValue); break;
+                    case 'top': me.localMarginProps.asc_setTop(marginValue); break;
+                    case 'right': me.localMarginProps.asc_setRight(marginValue); break;
+                    case 'bottom': me.localMarginProps.asc_setBottom(marginValue); break;
+                }
+
+                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(mm2Cm(marginValue) + ' ' + txtCm);
+
+                me.api.asc_changePageMargins( me.localMarginProps.asc_getLeft(), me.localMarginProps.asc_getRight(), me.localMarginProps.asc_getTop(), me.localMarginProps.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
+                me.initSpreadsheetMargins();
+            },
+
 
             onOrientationChange: function(e) {
                 var value = $(e.currentTarget).attr('value');

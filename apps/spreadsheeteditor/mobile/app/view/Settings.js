@@ -175,6 +175,16 @@ define([
             showSetSpreadsheet: function () {
                 this.showPage('#settings-spreadsheet-view');
                 $('#color-schemes').single('click', _.bind(this.showColorSchemes, this));
+                $('#settings-spreadsheet-format').single('click', _.bind(this.showPageSize, this));
+                $('#margin-settings').single('click', _.bind(this.showMargins, this));
+            },
+
+            showPageSize: function() {
+                this.showPage('#settings-page-size-view');
+            },
+
+            showMargins: function() {
+                this.showPage('#margins-view');
             },
 
             showDocumentInfo: function() {
@@ -219,6 +229,37 @@ define([
                 }
             },
 
+            renderPageSizes: function(sizes, selectIndex) {
+                var $pageFormats = $('.page[data-page=settings-page-size-view]'),
+                    $list = $pageFormats.find('ul'),
+                    items = [];
+
+                _.each(sizes, function (size, index) {
+                    items.push(_.template([
+                        '<li>',
+                        '<label class="label-radio item-content">',
+                        '<input type="radio" name="spreadsheet-format" value="<%= item.value %>" <% if (index == selectIndex) { %>checked="checked"<% } %> >',
+                        '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
+                        '<div class="item-inner">',
+                        '<div class="item-title-row">',
+                        '<div class="item-title"><%= item.caption %></div>',
+                        '</div>',
+                        // '<div class="item-subtitle"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[0]).toFixed(2)) %><%= Common.Utils.Metric.getCurrentMetricName() %> x <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div>',
+                        '<div class="item-subtitle"><%= item.subtitle %></div>',
+                        '</div>',
+                        '</label>',
+                        '</li>'
+                    ].join(''))({
+                        android: Framework7.prototype.device.android,
+                        item: size,
+                        index: index,
+                        selectIndex: selectIndex
+                    }));
+                });
+
+                $list.html(items.join(''));
+            },
+
             unknownText: 'Unknown',
             textFindAndReplace: 'Find and Replace',
             textSettings: 'Settings',
@@ -252,7 +293,16 @@ define([
             textHideGridlines: 'Hide Gridlines',
             textOrientation: 'Orientation',
             textPortrait: 'Portrait',
-            textLandscape: 'Landscape'
+            textLandscape: 'Landscape',
+            textFormat: 'Format',
+            textSpreadsheetFormats: 'Spreadsheet Formats',
+            textCustom: 'Custom',
+            textCustomSize: 'Custom Size',
+            textMargins: 'Margins',
+            textTop: 'Top',
+            textLeft: 'Left',
+            textBottom: 'Bottom',
+            textRight: 'Right'
     }
     })(), SSE.Views.Settings || {}))
 });
