@@ -498,12 +498,8 @@ define([
                 this.isLiveCommenting?this.api.asc_showComments(true):this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    value = Common.localStorage.getItem("sse-settings-coauthmode");
-                    if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
-                        this.appOptions.customization && this.appOptions.customization.autosave===false) {
-                        value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
-                    }
-                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
+                    // Force ON fast co-authoring mode
+                    me._state.fastCoauth = true;
                 } else
                     this._state.fastCoauth = false;
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
