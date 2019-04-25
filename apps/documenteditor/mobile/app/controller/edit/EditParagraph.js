@@ -144,15 +144,17 @@ define([
                     if (_paragraphProperty.get_Ind()===null || _paragraphProperty.get_Ind()===undefined) {
                         _paragraphProperty.get_Ind().put_FirstLine(0);
                     }
-
-                    $('#paragraph-spin-first-line .item-after label').text(Common.Utils.Metric.fnRecalcFromMM(_paragraphProperty.get_Ind().get_FirstLine()) + ' ' + metricText);
+                    var firstLineFix = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_paragraphProperty.get_Ind().get_FirstLine())).toFixed(2);
+                    $('#paragraph-spin-first-line .item-after label').text(firstLineFix + ' ' + metricText);
                 }
 
                 if (_paragraphObject) {
                     _paragraphInfo.spaceBefore = _paragraphObject.get_Spacing().get_Before() < 0 ? _paragraphObject.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_Before());
                     _paragraphInfo.spaceAfter  = _paragraphObject.get_Spacing().get_After() < 0 ? _paragraphObject.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_After());
-                    $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : _paragraphInfo.spaceBefore + ' ' + metricText);
-                    $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : _paragraphInfo.spaceAfter + ' ' + metricText);
+                    var distanceBeforeFix = parseFloat(_paragraphInfo.spaceBefore).toFixed(2);
+                    var distanceAfterFix = parseFloat(_paragraphInfo.spaceAfter).toFixed(2);
+                    $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : distanceBeforeFix + ' ' + metricText);
+                    $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : distanceAfterFix + ' ' + metricText);
 
                     $('#paragraph-space input:checkbox').prop('checked', _paragraphObject.get_ContextualSpacing());
                     $('#paragraph-page-break input:checkbox').prop('checked', _paragraphObject.get_PageBreakBefore());
@@ -318,9 +320,13 @@ define([
 
                 distance = Common.Utils.Metric.fnRecalcToMM(distance);
 
+                var newParagraphProp = new Asc.asc_CParagraphProperty();
+
                 _paragraphProperty.get_Ind().put_FirstLine(distance);
 
-                this.api.paraApply(_paragraphProperty);
+                newParagraphProp.get_Ind().put_FirstLine(distance);
+
+                this.api.paraApply(newParagraphProp);
             },
 
             onSpaceBetween: function (e) {
