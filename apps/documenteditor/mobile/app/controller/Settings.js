@@ -312,8 +312,7 @@ define([
             initPageDocumentSettings: function () {
                 var me = this,
                     $pageOrientation = $('.page[data-page=settings-document-view] input:radio[name=doc-orientation]'),
-                    $pageSize = $('#settings-document-format'),
-                    txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm);
+                    $pageSize = $('#settings-document-format');
 
                 // Init orientation
                 $pageOrientation.val([_isPortrait]);
@@ -321,8 +320,12 @@ define([
 
                 // Init format
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
-                $pageSize.find('.item-subtitle').text(_pageSizes[_pageSizesIndex]['subtitle']);
+                var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
+                    sizeW = Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2),
+                    sizeH = Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2);
 
+                var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
+                $pageSize.find('.item-subtitle').text(pageSizeTxt);
             },
 
             initPageInfo: function () {
