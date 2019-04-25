@@ -169,6 +169,7 @@ define([
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
+                Common.NotificationCenter.on('document:ready',               _.bind(this.onDocumentReady, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -508,7 +509,7 @@ define([
 
                 if (type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open) {
                     Common.Gateway.internalMessage('documentReady', {});
-                    this.onDocumentReady();
+                    this.onDocumentContentReady();
                 }
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
@@ -625,7 +626,7 @@ define([
                 }
             },
 
-            onDocumentReady: function() {
+            onDocumentContentReady: function() {
                 if (this._isDocReady)
                     return;
 
@@ -813,6 +814,12 @@ define([
                 } else checkWarns();
 
                 Common.Gateway.documentReady();
+            },
+
+            onDocumentReady: function() {
+                if (this.editorConfig.actionLink && this.editorConfig.actionLink.action && this.editorConfig.actionLink.action.type == 'comment') {
+                    this.getApplication().getController('Common.Controllers.Comments').getView().fireEvent('comment:show', [this.editorConfig.actionLink.action.data, false]);
+                }
             },
 
             onLicenseChanged: function(params) {

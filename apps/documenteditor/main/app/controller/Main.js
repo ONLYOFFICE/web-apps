@@ -194,6 +194,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('document:ready',                  _.bind(this.onDocumentReady, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -1010,10 +1011,6 @@ define([
                             me.api.UpdateInterfaceState();
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
 
-                            if (me.editorConfig.actionLink && me.editorConfig.actionLink.action && me.editorConfig.actionLink.action.type == 'comment') {
-                                me.contComments.getView().fireEvent('comment:show', [me.editorConfig.actionLink.action.data, false]);
-                            }
-
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
                         }
@@ -1037,6 +1034,12 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+            },
+
+            onDocumentReady: function() {
+                if (this.editorConfig.actionLink && this.editorConfig.actionLink.action && this.editorConfig.actionLink.action.type == 'comment') {
+                    this.contComments.getView().fireEvent('comment:show', [this.editorConfig.actionLink.action.data, false]);
+                }
             },
 
             onLicenseChanged: function(params) {

@@ -180,6 +180,7 @@ define([
                     this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('document:ready',                  _.bind(this.onDocumentReady, this));
 
                     this.isShowOpenDialog = false;
 
@@ -787,6 +788,12 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+            },
+
+            onDocumentReady: function() {
+                if (this.editorConfig.actionLink && this.editorConfig.actionLink.action && this.editorConfig.actionLink.action.type == 'comment') {
+                    this.getApplication().getController('Common.Controllers.Comments').getView().fireEvent('comment:show', [this.editorConfig.actionLink.action.data, false]);
+                }
             },
 
             onLicenseChanged: function(params) {
