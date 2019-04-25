@@ -237,7 +237,12 @@ define([
                 var $pageSize = $('#settings-spreadsheet-format');
                 this.changeCurrentPageSize(opt.asc_getWidth(), opt.asc_getHeight());
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
-                $pageSize.find('.item-subtitle').text(_pageSizes[_pageSizesIndex]['subtitle']);
+                var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
+                    sizeW = Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2),
+                    sizeH = Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2);
+
+                var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
+                $pageSize.find('.item-subtitle').text(pageSizeTxt);
             },
 
             changeCurrentPageSize: function(w, h) {
