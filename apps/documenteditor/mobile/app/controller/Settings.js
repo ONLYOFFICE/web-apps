@@ -83,7 +83,8 @@ define([
             _canReview = false,
             _isReviewOnly = false,
             _fileKey,
-            templateInsert;
+            templateInsert,
+            _metricText = Common.Utils.Metric.getCurrentMetricName();
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -249,6 +250,7 @@ define([
 
             initPageMargin: function() {
                 var me = this;
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
 
                 // Init page margins
                 me.localSectionProps = me.api.asc_GetSectionProps();
@@ -257,10 +259,15 @@ define([
                     me.maxMarginsH = me.localSectionProps.get_H() - 26;
                     me.maxMarginsW = me.localSectionProps.get_W() - 127;
 
-                    $('#document-margin-top .item-after label').text(mm2Cm(me.localSectionProps.get_TopMargin()) + ' ' + txtCm);
-                    $('#document-margin-bottom .item-after label').text(mm2Cm(me.localSectionProps.get_BottomMargin()) + ' ' + txtCm);
-                    $('#document-margin-left .item-after label').text(mm2Cm(me.localSectionProps.get_LeftMargin()) + ' ' + txtCm);
-                    $('#document-margin-right .item-after label').text(mm2Cm(me.localSectionProps.get_RightMargin()) + ' ' + txtCm);
+                    var top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin())).toFixed(2),
+                        bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin())).toFixed(2),
+                        left = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_LeftMargin())).toFixed(2),
+                        right = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_RightMargin())).toFixed(2);
+
+                    $('#document-margin-top .item-after label').text(top + ' ' + _metricText);
+                    $('#document-margin-bottom .item-after label').text(bottom + ' ' + _metricText);
+                    $('#document-margin-left .item-after label').text(left + ' ' + _metricText);
+                    $('#document-margin-right .item-after label').text(right + ' ' + _metricText);
                 }
 
                 _.each(["top", "left", "bottom", "right"], function(align) {
@@ -524,9 +531,15 @@ define([
             onPageMarginsChange: function (align, e) {
                 var me = this,
                     $button = $(e.currentTarget),
-                    step = 1, // mm
+                    step,
                     txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
                     marginValue = null;
+                if(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.1;
+                }
+                step = Common.Utils.Metric.fnRecalcToMM(step);
 
                 switch (align) {
                     case 'left': marginValue = me.localSectionProps.get_LeftMargin(); break;
@@ -548,7 +561,8 @@ define([
                     case 'bottom': me.localSectionProps.put_BottomMargin(marginValue); break;
                 }
 
-                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(mm2Cm(marginValue) + ' ' + txtCm);
+                var valueCurrentMetric = parseFloat(Common.Utils.Metric.fnRecalcFromMM(marginValue)).toFixed(2);
+                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(valueCurrentMetric + ' ' + _metricText);
 
                 me.applyPageMarginsIfNeed()
             },
