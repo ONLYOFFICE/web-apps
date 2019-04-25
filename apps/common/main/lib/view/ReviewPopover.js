@@ -1044,24 +1044,25 @@ define([
                     str = str.toLowerCase();
                     if (str.length>0) {
                         users = _.filter(users, function(item) {
-                            return (0 === item.email.toLowerCase().indexOf(str))
+                            return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
                         });
                     }
                     var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;"><div><%= caption %></div><div style="color: #909090;"><%= options.value %></div></a>');
                     _.each(users, function(menuItem, index) {
-                        var mnu = new Common.UI.MenuItem({
-                            caption     : menuItem.name,
-                            value       : menuItem.email,
-                            template    : tpl
-
-                    }).on('click', function(item, e) {
-                            me.insertEmailToTextbox(item.options.value, left, right);
-                        });
-                        menu.addItem(mnu);
+                        if (menuItem.email && menuItem.name) {
+                            var mnu = new Common.UI.MenuItem({
+                                caption     : menuItem.name,
+                                value       : menuItem.email,
+                                template    : tpl
+                            }).on('click', function(item, e) {
+                                me.insertEmailToTextbox(item.options.value, left, right);
+                            });
+                            menu.addItem(mnu);
+                        }
                     });
                 }
 
-                if (users.length>0) {
+                if (menu.items.length>0) {
                     menuContainer.css({left: showPoint[0], top : showPoint[1]});
                     menu.menuAlignEl = textbox;
                     menu.show();
