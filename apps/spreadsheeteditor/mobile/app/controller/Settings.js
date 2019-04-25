@@ -308,6 +308,12 @@ define([
                     case 'bottom': marginValue = me.localMarginProps.asc_getBottom(); break;
                 }
 
+                var changeProps = new Asc.asc_CPageMargins();
+                changeProps.asc_setTop(me.localMarginProps.asc_getTop());
+                changeProps.asc_setBottom(me.localMarginProps.asc_getBottom());
+                changeProps.asc_setLeft(me.localMarginProps.asc_getLeft());
+                changeProps.asc_setRight(me.localMarginProps.asc_getRight());
+
                 if ($button.hasClass('decrement')) {
                     marginValue = Math.max(0, marginValue - step);
                 } else {
@@ -315,15 +321,15 @@ define([
                 }
 
                 switch (align) {
-                    case 'left': me.localMarginProps.asc_setLeft(marginValue); break;
-                    case 'top': me.localMarginProps.asc_setTop(marginValue); break;
-                    case 'right': me.localMarginProps.asc_setRight(marginValue); break;
-                    case 'bottom': me.localMarginProps.asc_setBottom(marginValue); break;
+                    case 'left': changeProps.asc_setLeft(marginValue); break;
+                    case 'top': changeProps.asc_setTop(marginValue); break;
+                    case 'right': changeProps.asc_setRight(marginValue); break;
+                    case 'bottom': changeProps.asc_setBottom(marginValue); break;
                 }
 
                 $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(mm2Cm(marginValue) + ' ' + txtCm);
 
-                me.api.asc_changePageMargins( me.localMarginProps.asc_getLeft(), me.localMarginProps.asc_getRight(), me.localMarginProps.asc_getTop(), me.localMarginProps.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
+                me.api.asc_changePageMargins(changeProps.asc_getLeft(), changeProps.asc_getRight(), changeProps.asc_getTop(), changeProps.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
                 me.initSpreadsheetMargins();
             },
 
