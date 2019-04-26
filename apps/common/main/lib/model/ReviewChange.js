@@ -63,7 +63,7 @@ define([
             type                : 0,
             changedata          : null,
             hint                : false,
-
+            editable            : false,
             id                  : Common.UI.getId(),        //  internal
             scope               : null
         }

@@ -109,6 +109,7 @@ define([
             this.setApi(api);
 
             if (data) {
+                this.currentUserId      =   data.config.user.id;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
         },
@@ -434,7 +435,8 @@ define([
                         changedata  : item,
                         scope       : me.view,
                         hint        : !me.appConfig.canReview,
-                        goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom)
+                        goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom),
+                        editable    : (item.get_UserId() == me.currentUserId)
                     });
 
                 arr.push(change);
