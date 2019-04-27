@@ -338,6 +338,7 @@
   "DE.Views.EditTable.textTotalRow": "Total Row",
   "DE.Views.EditTable.textWithText": "Move with Text",
   "DE.Views.EditTable.textWrap": "Wrap",
+  "DE.Views.EditTable.textMergeCells": "Merge Cells",
   "DE.Views.EditText.textAdditional": "Additional",
   "DE.Views.EditText.textAdditionalFormat": "Additional Formatting",
   "DE.Views.EditText.textAllCaps": "All Caps",

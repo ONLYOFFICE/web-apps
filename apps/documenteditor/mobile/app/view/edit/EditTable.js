@@ -242,7 +242,8 @@ define([
             textBandedRow: 'Banded Row',
             textFirstColumn: 'First Column',
             textLastColumn: 'Last Column',
-            textBandedColumn: 'Banded Column'
+            textBandedColumn: 'Banded Column',
+            textMergeCells: 'Merge Cells'
         }
     })(), DE.Views.EditTable || {}))
 });
