@@ -75,7 +75,8 @@ define([
                 { caption: 'A1',                    subtitle: Common.Utils.String.format('59,4{0} x 84,1{0}', txtCm),    value: [594, 841] },
                 { caption: 'A2',                    subtitle: Common.Utils.String.format('42{0} x 59,4{0}', txtCm),      value: [420, 594] },
                 { caption: 'A6',                    subtitle: Common.Utils.String.format('10,5{0} x 14,8{0}', txtCm),    value: [105, 148] }
-            ];
+            ],
+            _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric())
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -237,9 +238,14 @@ define([
                 var $pageSize = $('#settings-spreadsheet-format');
                 this.changeCurrentPageSize(opt.asc_getWidth(), opt.asc_getHeight());
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
+
+                var valueUnit = Common.localStorage.getItem('se-mobile-settings-unit');
+                valueUnit = (valueUnit!==null) ? parseInt(valueUnit) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(valueUnit);
+
                 var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
-                    sizeW = Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2),
-                    sizeH = Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2);
+                    sizeW = +(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
+                    sizeH = +(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
 
                 var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
                 $pageSize.find('.item-subtitle').text(pageSizeTxt);
@@ -278,17 +284,19 @@ define([
                     props = me.api.asc_getPageOptions(currentSheet);
                 me.localMarginProps = props.asc_getPageMargins();
 
-                var left =  me.localMarginProps.asc_getLeft(),
-                    top =  me.localMarginProps.asc_getTop(),
-                    right =  me.localMarginProps.asc_getRight(),
-                    bottom =  me.localMarginProps.asc_getBottom();
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
+
+                var left =  +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getLeft())).toFixed(2)),
+                    top =  +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getTop())).toFixed(2)),
+                    right =  +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getRight())).toFixed(2)),
+                    bottom =  +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getBottom())).toFixed(2));
 
                 if (me.localMarginProps) {
 
-                    $('#spreadsheet-margin-top .item-after label').text(mm2Cm(top) + ' ' + txtCm);
-                    $('#spreadsheet-margin-bottom .item-after label').text(mm2Cm(bottom) + ' ' + txtCm);
-                    $('#spreadsheet-margin-left .item-after label').text(mm2Cm(left) + ' ' + txtCm);
-                    $('#spreadsheet-margin-right .item-after label').text(mm2Cm(right) + ' ' + txtCm);
+                    $('#spreadsheet-margin-top .item-after label').text(top + ' ' + _metricText);
+                    $('#spreadsheet-margin-bottom .item-after label').text(bottom + ' ' + _metricText);
+                    $('#spreadsheet-margin-left .item-after label').text(left + ' ' + _metricText);
+                    $('#spreadsheet-margin-right .item-after label').text(right + ' ' + _metricText);
                 }
 
                 _.each(["top", "left", "bottom", "right"], function(align) {
@@ -303,8 +311,15 @@ define([
                     txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
                     marginValue = null;
 
-                var maxMarginsH = 48.25,
-                    maxMarginsW = 48.25;
+                var maxMarginsH = 482.5,
+                    maxMarginsW = 482.5;
+
+                if(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.1;
+                }
+                step = Common.Utils.Metric.fnRecalcToMM(step);
 
                 switch (align) {
                     case 'left': marginValue = me.localMarginProps.asc_getLeft(); break;
@@ -332,7 +347,7 @@ define([
                     case 'bottom': changeProps.asc_setBottom(marginValue); break;
                 }
 
-                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(mm2Cm(marginValue) + ' ' + txtCm);
+                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(parseFloat(Common.Utils.Metric.fnRecalcFromMM(marginValue)).toFixed(2) + ' ' + _metricText);
 
                 me.api.asc_changePageMargins(changeProps.asc_getLeft(), changeProps.asc_getRight(), changeProps.asc_getTop(), changeProps.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
                 me.initSpreadsheetMargins();
