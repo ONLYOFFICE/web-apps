@@ -144,15 +144,15 @@ define([
                     if (_paragraphProperty.get_Ind()===null || _paragraphProperty.get_Ind()===undefined) {
                         _paragraphProperty.get_Ind().put_FirstLine(0);
                     }
-                    var firstLineFix = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_paragraphProperty.get_Ind().get_FirstLine())).toFixed(2);
+                    var firstLineFix = +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(_paragraphProperty.get_Ind().get_FirstLine())).toFixed(2));
                     $('#paragraph-spin-first-line .item-after label').text(firstLineFix + ' ' + metricText);
                 }
 
                 if (_paragraphObject) {
                     _paragraphInfo.spaceBefore = _paragraphObject.get_Spacing().get_Before() < 0 ? _paragraphObject.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_Before());
                     _paragraphInfo.spaceAfter  = _paragraphObject.get_Spacing().get_After() < 0 ? _paragraphObject.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_After());
-                    var distanceBeforeFix = parseFloat(_paragraphInfo.spaceBefore).toFixed(2);
-                    var distanceAfterFix = parseFloat(_paragraphInfo.spaceAfter).toFixed(2);
+                    var distanceBeforeFix = +(parseFloat(_paragraphInfo.spaceBefore).toFixed(2));
+                    var distanceAfterFix = +(parseFloat(_paragraphInfo.spaceAfter).toFixed(2));
                     $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : distanceBeforeFix + ' ' + metricText);
                     $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : distanceAfterFix + ' ' + metricText);
 
@@ -253,7 +253,7 @@ define([
                     distance = Math.min(maxValue, distance + step);
                 }
 
-                var distanceFix = distance.toFixed(2);
+                var distanceFix = +(distance.toFixed(2));
 
                 _paragraphInfo.spaceBefore = distance;
 
@@ -282,7 +282,7 @@ define([
                     distance = Math.min(maxValue, distance + step);
                 }
 
-                var distanceFix = distance.toFixed(2);
+                var distanceFix = +(distance.toFixed(2));
 
                 _paragraphInfo.spaceAfter = distance;
 
@@ -314,7 +314,7 @@ define([
                     distance = Math.min(maxValue, distance + step);
                 }
 
-                var distanceFix = distance.toFixed(2);
+                var distanceFix = +(distance.toFixed(2));
 
                 $('#paragraph-spin-first-line .item-after label').text(distanceFix + ' ' + metricText);
 
