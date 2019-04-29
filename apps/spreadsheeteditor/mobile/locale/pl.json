@@ -248,7 +248,7 @@
   "SSE.Controllers.Main.txtXAxis": "Oś X",
   "SSE.Controllers.Main.txtYAxis": "Oś Y",
   "SSE.Controllers.Main.unknownErrorText": "Nieznany błąd.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Twoja przeglądarka nie jest wspierana.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Twoja przeglądarka nie jest wspierana.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Nieznany format obrazu.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Brak zdjęć.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Maksymalny rozmiar obrazu został przekroczony.",

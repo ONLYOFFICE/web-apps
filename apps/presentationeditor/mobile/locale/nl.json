@@ -196,7 +196,7 @@
   "PE.Controllers.Main.txtXAxis": "X-as",
   "PE.Controllers.Main.txtYAxis": "Y-as",
   "PE.Controllers.Main.unknownErrorText": "Onbekende fout.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Uw browser wordt niet ondersteund.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Uw browser wordt niet ondersteund.",
   "PE.Controllers.Main.uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Maximaal toegestane afbeeldingsgrootte overschreden.",

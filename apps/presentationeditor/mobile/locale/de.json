@@ -205,7 +205,7 @@
   "PE.Controllers.Main.txtXAxis": "x-Achse",
   "PE.Controllers.Main.txtYAxis": "y-Achse",
   "PE.Controllers.Main.unknownErrorText": "Unbekannter Fehler.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Ihr Webbrowser wird nicht unterstützt.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Ihr Webbrowser wird nicht unterstützt.",
   "PE.Controllers.Main.uploadImageExtMessage": "Unbekanntes Bildformat.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Keine Bilder sind hochgeladen.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Die maximal zulässige Bildgröße ist überschritten.",

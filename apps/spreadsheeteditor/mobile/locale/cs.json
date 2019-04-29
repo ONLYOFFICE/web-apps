@@ -249,7 +249,7 @@
   "SSE.Controllers.Main.txtXAxis": "Osa X",
   "SSE.Controllers.Main.txtYAxis": "Osa Y",
   "SSE.Controllers.Main.unknownErrorText": "Neznámá chyba.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Váš prohlížeč není podporován.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Váš prohlížeč není podporován.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Neznámý formát obrázku.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Překročení maximální velikost obrázku.",

@@ -249,7 +249,7 @@
   "DE.Controllers.Main.txtXAxis": "X os",
   "DE.Controllers.Main.txtYAxis": "Y os",
   "DE.Controllers.Main.unknownErrorText": "Neznana napaka.",
-  "DE.Controllers.Main.unsupportedBrowserErrorText ": "Vaš brskalnik ni podprt.",
+  "DE.Controllers.Main.unsupportedBrowserErrorText": "Vaš brskalnik ni podprt.",
   "DE.Controllers.Main.uploadImageExtMessage": "Neznan format slike.",
   "DE.Controllers.Main.uploadImageFileCountMessage": "Ni naloženih slik.",
   "DE.Controllers.Main.uploadImageSizeMessage": "Limit maksimalne velikosti slike presežen.",

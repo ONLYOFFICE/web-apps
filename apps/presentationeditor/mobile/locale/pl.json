@@ -196,7 +196,7 @@
   "PE.Controllers.Main.txtXAxis": "Oś X",
   "PE.Controllers.Main.txtYAxis": "Oś Y",
   "PE.Controllers.Main.unknownErrorText": "Nieznany błąd.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Twoja przeglądarka nie jest wspierana.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Twoja przeglądarka nie jest wspierana.",
   "PE.Controllers.Main.uploadImageExtMessage": "Nieznany format obrazu.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Brak zdjęć.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Maksymalny rozmiar obrazu został przekroczony.",

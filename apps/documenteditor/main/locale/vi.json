@@ -350,7 +350,7 @@
   "DE.Controllers.Main.txtXAxis": "Trục X",
   "DE.Controllers.Main.txtYAxis": "Trục Y",
   "DE.Controllers.Main.unknownErrorText": "Lỗi không xác định.",
-  "DE.Controllers.Main.unsupportedBrowserErrorText ": "Trình duyệt của bạn không được hỗ trợ.",
+  "DE.Controllers.Main.unsupportedBrowserErrorText": "Trình duyệt của bạn không được hỗ trợ.",
   "DE.Controllers.Main.uploadImageExtMessage": "Định dạng hình ảnh không xác định.",
   "DE.Controllers.Main.uploadImageFileCountMessage": "Không có hình ảnh được tải lên.",
   "DE.Controllers.Main.uploadImageSizeMessage": "Đã vượt quá giới hạn kích thước tối đa của hình ảnh.",

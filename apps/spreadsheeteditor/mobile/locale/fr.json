@@ -259,7 +259,7 @@
   "SSE.Controllers.Main.txtXAxis": "Axe X",
   "SSE.Controllers.Main.txtYAxis": "Axe Y",
   "SSE.Controllers.Main.unknownErrorText": "Erreur inconnue.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Votre navigateur n'est pas pris en charge.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Votre navigateur n'est pas pris en charge.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Format d'image inconnu.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Aucune image chargée.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "La taille de l'image dépasse la limite maximale.",

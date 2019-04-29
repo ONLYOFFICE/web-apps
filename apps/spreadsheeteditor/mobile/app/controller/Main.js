@@ -1417,7 +1417,7 @@ define([
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            unsupportedBrowserErrorText: 'Your browser is not supported.',
             requestEditFailedTitleText: 'Access denied',
             requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
             textLoadingDocument: 'Loading spreadsheet',

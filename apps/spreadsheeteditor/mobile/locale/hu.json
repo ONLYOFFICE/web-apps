@@ -259,7 +259,7 @@
   "SSE.Controllers.Main.txtXAxis": "X tengely",
   "SSE.Controllers.Main.txtYAxis": "Y tengely",
   "SSE.Controllers.Main.unknownErrorText": "Ismeretlen hiba.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "A böngészője nem támogatott.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "A böngészője nem támogatott.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Ismeretlen képformátum.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Nincs kép feltöltve.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "A maximális képmérethatár túllépve.",

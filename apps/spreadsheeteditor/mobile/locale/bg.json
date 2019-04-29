@@ -259,7 +259,7 @@
   "SSE.Controllers.Main.txtXAxis": "X ос",
   "SSE.Controllers.Main.txtYAxis": "Y ос",
   "SSE.Controllers.Main.unknownErrorText": "Неизвестна грешка.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Вашият браузър не се поддържа.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Вашият браузър не се поддържа.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Неизвестен формат на изображението.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Няма качени изображения.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Превишено е максималното ограничение на размера на изображението.",

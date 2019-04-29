@@ -205,7 +205,7 @@
   "PE.Controllers.Main.txtXAxis": "X tengely",
   "PE.Controllers.Main.txtYAxis": "Y tengely",
   "PE.Controllers.Main.unknownErrorText": "Ismeretlen hiba.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "A böngészője nem támogatott.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "A böngészője nem támogatott.",
   "PE.Controllers.Main.uploadImageExtMessage": "Ismeretlen képformátum.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Nincs kép feltöltve.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Elérte a maximum kép méret limitet.",

@@ -205,7 +205,7 @@
   "PE.Controllers.Main.txtXAxis": "Eje X",
   "PE.Controllers.Main.txtYAxis": "Eje Y",
   "PE.Controllers.Main.unknownErrorText": "Error desconocido.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Su navegador no está soportado.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Su navegador no está soportado.",
   "PE.Controllers.Main.uploadImageExtMessage": "Formato de imagen desconocido.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "No hay imágenes subidas.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Tamaño de imagen máximo está superado.",

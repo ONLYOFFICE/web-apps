@@ -252,7 +252,7 @@
   "DE.Controllers.Main.txtXAxis": "X 軸",
   "DE.Controllers.Main.txtYAxis": "Y 軸",
   "DE.Controllers.Main.unknownErrorText": "不明なエラー",
-  "DE.Controllers.Main.unsupportedBrowserErrorText ": "お使いのブラウザがサポートされていません。",
+  "DE.Controllers.Main.unsupportedBrowserErrorText": "お使いのブラウザがサポートされていません。",
   "DE.Controllers.Main.uploadImageExtMessage": "不明なイメージ形式です",
   "DE.Controllers.Main.uploadImageFileCountMessage": "アップロードした画像なし",
   "DE.Controllers.Main.uploadImageSizeMessage": "最大イメージサイズの極限を超えました。",

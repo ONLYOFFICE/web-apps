@@ -248,7 +248,7 @@
   "SSE.Controllers.Main.txtXAxis": "Eixo X",
   "SSE.Controllers.Main.txtYAxis": "Eixo Y",
   "SSE.Controllers.Main.unknownErrorText": "Erro desconhecido.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Seu navegador não é suportado.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Seu navegador não é suportado.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Formato de imagem desconhecido.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Sem imagens carregadas.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Limite máximo do tamanho da imagem excedido.",
