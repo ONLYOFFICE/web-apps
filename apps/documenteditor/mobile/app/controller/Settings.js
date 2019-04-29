@@ -259,10 +259,10 @@ define([
                     me.maxMarginsH = me.localSectionProps.get_H() - 26;
                     me.maxMarginsW = me.localSectionProps.get_W() - 127;
 
-                    var top = +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin())).toFixed(2)),
-                        bottom = +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin())).toFixed(2)),
-                        left = +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_LeftMargin())).toFixed(2)),
-                        right = +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_RightMargin())).toFixed(2));
+                    var top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin()).toFixed(2)),
+                        bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin()).toFixed(2)),
+                        left = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_LeftMargin()).toFixed(2)),
+                        right = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_RightMargin()).toFixed(2));
 
                     $('#document-margin-top .item-after label').text(top + ' ' + _metricText);
                     $('#document-margin-bottom .item-after label').text(bottom + ' ' + _metricText);
@@ -321,8 +321,8 @@ define([
                 // Init format
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
                 var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
-                    sizeW = +(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
-                    sizeH = +(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
+                    sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
 
                 var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
                 $pageSize.find('.item-subtitle').text(pageSizeTxt);
@@ -564,7 +564,7 @@ define([
                     case 'bottom': me.localSectionProps.put_BottomMargin(marginValue); break;
                 }
 
-                var valueCurrentMetric = +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(marginValue)).toFixed(2));
+                var valueCurrentMetric = parseFloat(Common.Utils.Metric.fnRecalcFromMM(marginValue).toFixed(2));
                 $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(valueCurrentMetric + ' ' + _metricText);
 
                 me.applyPageMarginsIfNeed()

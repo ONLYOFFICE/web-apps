@@ -111,8 +111,6 @@ define([
             setApi: function (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
-                this.api.asc_registerCallback('asc_onSheetsChanged',            _.bind(this.sheetChanged, this));
-                this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',   _.bind(this.sheetChanged, this));
             },
 
             onLaunch: function () {
@@ -219,7 +217,7 @@ define([
                 $switchHideHeadings.single('change',    _.bind(me.clickCheckboxHideHeadings, me));
                 $switchHideGridlines.single('change',    _.bind(me.clickCheckboxHideGridlines, me));
 
-                var params = me.sheetChanged();
+                var params = me.api.asc_getSheetViewSettings();
                 $switchHideHeadings.prop('checked',!params.asc_getShowRowColHeaders());
                 $switchHideGridlines.prop('checked',!params.asc_getShowGridLines());
 
@@ -227,7 +225,7 @@ define([
                 var currentSheet = this.api.asc_getActiveWorksheetIndex(),
                     props = this.api.asc_getPageOptions(currentSheet),
                     opt = props.asc_getPageSetup();
-                if(Number(opt.asc_getOrientation()) === 0) {
+                if(opt.asc_getOrientation() === Asc.c_oAscPageOrientation.PagePortrait) {
                     $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation][value="0"]').prop( "checked", true );
                 } else {
                     $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation][value="1"]').prop( "checked", true );
@@ -244,8 +242,8 @@ define([
                 Common.Utils.Metric.setCurrentMetric(valueUnit);
 
                 var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
-                    sizeW = +(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
-                    sizeH = +(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
+                    sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
 
                 var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
                 $pageSize.find('.item-subtitle').text(pageSizeTxt);
@@ -286,10 +284,10 @@ define([
 
                 _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
 
-                var left =  +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getLeft())).toFixed(2)),
-                    top =  +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getTop())).toFixed(2)),
-                    right =  +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getRight())).toFixed(2)),
-                    bottom =  +(parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getBottom())).toFixed(2));
+                var left =  parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getLeft()).toFixed(2)),
+                    top =  parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getTop()).toFixed(2)),
+                    right =  parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getRight()).toFixed(2)),
+                    bottom =  parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getBottom()).toFixed(2));
 
                 if (me.localMarginProps) {
 
@@ -369,11 +367,6 @@ define([
                 var $target = $(e.currentTarget),
                     checked = $target.prop('checked');
                 this.api.asc_setDisplayGridlines(!checked);
-            },
-
-            sheetChanged: function() {
-                var params = this.api.asc_getSheetViewSettings();
-                return(params);
             },
 
             initPageColorSchemes: function() {
