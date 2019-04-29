@@ -123,6 +123,8 @@ define([
                     me.api.Copy();
                 } else if ('paste' == eventName) {
                     me.api.Paste();
+                } else if ('merge' == eventName) {
+                    me.api.MergeCells();
                 } else if ('delete' == eventName) {
                     me.api.asc_Remove();
                 } else if ('edit' == eventName) {
@@ -399,6 +401,13 @@ define([
                             event: 'paste'
                         });
 
+                        if(isTable && me.api.CheckBeforeMergeCells()) {
+                            menuItems.push({
+                                caption: me.menuMerge,
+                                event: 'merge'
+                            });
+                        }
+
                         menuItems.push({
                             caption: me.menuDelete,
                             event: 'delete'
@@ -490,7 +499,8 @@ define([
             menuAccept: 'Accept',
             menuAcceptAll: 'Accept All',
             menuReject: 'Reject',
-            menuRejectAll: 'Reject All'
+            menuRejectAll: 'Reject All',
+            menuMerge: 'Merge Cells'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

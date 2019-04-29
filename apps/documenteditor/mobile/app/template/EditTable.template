@@ -220,17 +220,6 @@
                     </li>
                 </ul>
             </div>
-            <div class="list-block" style="margin-bottom: 40px;">
-                <ul>
-                    <a id="table-merge-cells" class="item-link no-indicator">
-                        <div class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title"><%= scope.textMergeCells %></div>
-                            </div>
-                        </div>
-                    </a>
-                </ul>
-            </div>
         </div>
     </div>
 </div>

@@ -236,7 +236,6 @@ define([
                     $('#table-options-margins input').val(distance);
                     $('#table-options-margins .item-after').text(distance + ' ' + _metricText);
                 }
-                $('#table-merge-cells').single('click', _.bind(this.onMergeCellClick, this));
             },
 
             _initWrappView: function() {
@@ -615,11 +614,6 @@ define([
                 me.api.tblApply(properties);
             },
 
-            onMergeCellClick: function () {
-                if (this.api) {
-                    this.api.MergeCells();
-                }
-            },
 
             onBorderSize: function (e) {
                 var $target = $(e.currentTarget),
