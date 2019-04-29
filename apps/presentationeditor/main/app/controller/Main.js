@@ -1985,7 +1985,7 @@ define([
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            unsupportedBrowserErrorText: 'Your browser is not supported.',
             splitMaxRowsErrorText: 'The number of rows must be less than %1',
             splitMaxColsErrorText: 'The number of columns must be less than %1',
             splitDividerErrorText: 'The number of rows must be a divisor of %1',

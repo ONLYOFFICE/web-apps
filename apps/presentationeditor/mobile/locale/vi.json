@@ -196,7 +196,7 @@
   "PE.Controllers.Main.txtXAxis": "Trục X",
   "PE.Controllers.Main.txtYAxis": "Trục Y",
   "PE.Controllers.Main.unknownErrorText": "Lỗi không xác định.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Trình duyệt của bạn không được hỗ trợ.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Trình duyệt của bạn không được hỗ trợ.",
   "PE.Controllers.Main.uploadImageExtMessage": "Định dạng hình ảnh không xác định.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Không có hình ảnh được tải lên.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Đã vượt quá giới hạn kích thước tối đa của hình ảnh.",

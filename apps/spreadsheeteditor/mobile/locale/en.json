@@ -259,7 +259,7 @@
   "SSE.Controllers.Main.txtXAxis": "X Axis",
   "SSE.Controllers.Main.txtYAxis": "Y Axis",
   "SSE.Controllers.Main.unknownErrorText": "Unknown error.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Your browser is not supported.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Your browser is not supported.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Unknown image format.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "No images uploaded.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Maximum image size limit exceeded.",

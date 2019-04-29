@@ -205,7 +205,7 @@
   "PE.Controllers.Main.txtXAxis": "X Axis",
   "PE.Controllers.Main.txtYAxis": "Y Axis",
   "PE.Controllers.Main.unknownErrorText": "Unknown error.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Your browser is not supported.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Your browser is not supported.",
   "PE.Controllers.Main.uploadImageExtMessage": "Unknown image format.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "No images uploaded.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Maximium image size limit exceeded.",

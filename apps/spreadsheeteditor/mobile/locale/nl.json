@@ -250,7 +250,7 @@
   "SSE.Controllers.Main.txtXAxis": "X-as",
   "SSE.Controllers.Main.txtYAxis": "Y-as",
   "SSE.Controllers.Main.unknownErrorText": "Onbekende fout.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Uw browser wordt niet ondersteund.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Uw browser wordt niet ondersteund.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Onbekende afbeeldingsindeling.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Geen afbeeldingen geüpload.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Maximale afbeeldingsgrootte overschreden.",

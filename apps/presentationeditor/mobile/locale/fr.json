@@ -205,7 +205,7 @@
   "PE.Controllers.Main.txtXAxis": "Axe X",
   "PE.Controllers.Main.txtYAxis": "Axe Y",
   "PE.Controllers.Main.unknownErrorText": "Erreur inconnue.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Votre navigateur n'est pas pris en charge.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Votre navigateur n'est pas pris en charge.",
   "PE.Controllers.Main.uploadImageExtMessage": "Format d'image inconnu.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Aucune image chargée.",
   "PE.Controllers.Main.uploadImageSizeMessage": "La taille de l'image a dépassé la limite maximale.",

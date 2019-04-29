@@ -196,7 +196,7 @@
   "PE.Controllers.Main.txtXAxis": "X Ekseni",
   "PE.Controllers.Main.txtYAxis": "Y Ekseni",
   "PE.Controllers.Main.unknownErrorText": "Bilinmeyen hata.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Tarayıcınız desteklenmiyor.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Tarayıcınız desteklenmiyor.",
   "PE.Controllers.Main.uploadImageExtMessage": "Bilinmeyen resim formatı.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Resim yüklenmedi.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Maksimum resim boyutu aşıldı.",

@@ -350,7 +350,7 @@
   "DE.Controllers.Main.txtXAxis": "X Ekseni",
   "DE.Controllers.Main.txtYAxis": "Y Ekseni",
   "DE.Controllers.Main.unknownErrorText": "Bilinmeyen hata.",
-  "DE.Controllers.Main.unsupportedBrowserErrorText ": "Tarayıcınız desteklenmiyor.",
+  "DE.Controllers.Main.unsupportedBrowserErrorText": "Tarayıcınız desteklenmiyor.",
   "DE.Controllers.Main.uploadImageExtMessage": "Bilinmeyen resim formatı",
   "DE.Controllers.Main.uploadImageFileCountMessage": "Resim yüklenmedi.",
   "DE.Controllers.Main.uploadImageSizeMessage": "Maksimum resim boyutu aşıldı.",

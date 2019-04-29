@@ -352,7 +352,7 @@
   "DE.Controllers.Main.txtXAxis": "Osa X",
   "DE.Controllers.Main.txtYAxis": "Osa Y",
   "DE.Controllers.Main.unknownErrorText": "Neznámá chyba.",
-  "DE.Controllers.Main.unsupportedBrowserErrorText ": "Váš prohlížeč není podporován.",
+  "DE.Controllers.Main.unsupportedBrowserErrorText": "Váš prohlížeč není podporován.",
   "DE.Controllers.Main.uploadImageExtMessage": "Neznámý formát obrázku.",
   "DE.Controllers.Main.uploadImageFileCountMessage": "Žádné obrázky nenahrány.",
   "DE.Controllers.Main.uploadImageSizeMessage": "Překročení maximální velikost obrázku.",

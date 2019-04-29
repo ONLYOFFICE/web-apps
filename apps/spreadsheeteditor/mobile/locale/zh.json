@@ -259,7 +259,7 @@
   "SSE.Controllers.Main.txtXAxis": "X轴",
   "SSE.Controllers.Main.txtYAxis": "Y轴",
   "SSE.Controllers.Main.unknownErrorText": "示知错误",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "你的浏览器不支持",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "你的浏览器不支持",
   "SSE.Controllers.Main.uploadImageExtMessage": "未知图像格式",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "没有图片上传",
   "SSE.Controllers.Main.uploadImageSizeMessage": "超过最大图像尺寸限制。",
