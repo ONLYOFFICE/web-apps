@@ -1961,7 +1961,7 @@ define([
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "Ok" to to back to document list.',
+            criticalErrorExtText: 'Press "OK" to to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
             loadFontsTitleText: 'Loading Data',

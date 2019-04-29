@@ -1676,7 +1676,7 @@
   "SSE.Views.NamedRangeEditDlg.txtTitleEdit": "Name bearbeiten",
   "SSE.Views.NamedRangeEditDlg.txtTitleNew": "Neuer Name",
   "SSE.Views.NamedRangePasteDlg.cancelButtonText": "Abbrechen",
-  "SSE.Views.NamedRangePasteDlg.okButtonText": "Ok",
+  "SSE.Views.NamedRangePasteDlg.okButtonText": "OK",
   "SSE.Views.NamedRangePasteDlg.textNames": "Benannte Bereiche",
   "SSE.Views.NamedRangePasteDlg.txtTitle": "Namen einfügen",
   "SSE.Views.NameManagerDlg.closeButtonText": "Schließen",
