@@ -436,6 +436,7 @@
   "DE.Controllers.Main.txtFooter": "Нижний колонтитул",
   "DE.Controllers.Main.txtFormulaNotInTable": "Формула не в таблице",
   "DE.Controllers.Main.txtHeader": "Верхний колонтитул",
+  "DE.Controllers.Main.txtHyperlink": "Гиперссылка",
   "DE.Controllers.Main.txtIndTooLarge": "Индекс слишком большой",
   "DE.Controllers.Main.txtLines": "Линии",
   "DE.Controllers.Main.txtMath": "Математические знаки",

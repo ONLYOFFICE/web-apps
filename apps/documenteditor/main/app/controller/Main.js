@@ -160,7 +160,8 @@ define([
                     "The Formula Not In Table": this.txtFormulaNotInTable,
                     "Table Index Cannot be Zero": this.txtTableInd,
                     "Undefined Bookmark": this.txtUndefBookmark,
-                    "Unexpected End of Formula": this.txtEndOfFormula
+                    "Unexpected End of Formula": this.txtEndOfFormula,
+                    "Hyperlink": this.txtHyperlink
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2574,7 +2575,8 @@ define([
             txtUndefBookmark: 'Undefined Bookmark',
             txtEndOfFormula: 'Unexpected End of Formula',
             errorEmailClient: 'No email client could be found',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            txtHyperlink: 'Hyperlink'
         }
     })(), DE.Controllers.Main || {}))
 });
