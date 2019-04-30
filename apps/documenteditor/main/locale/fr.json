@@ -225,7 +225,7 @@
   "Common.Views.Protection.txtSignature": "Signature",
   "Common.Views.Protection.txtSignatureLine": "Ajouter la zone de signature",
   "Common.Views.RenameDialog.cancelButtonText": "Annuler",
-  "Common.Views.RenameDialog.okButtonText": "Ok",
+  "Common.Views.RenameDialog.okButtonText": "OK",
   "Common.Views.RenameDialog.textName": "Nom de fichier",
   "Common.Views.RenameDialog.txtInvalidName": "Un nom de fichier ne peut pas contenir les caractères suivants :",
   "Common.Views.ReviewChanges.hintNext": "À la modification suivante",

@@ -182,7 +182,7 @@
   "Common.Views.InsertTableDialog.txtTitle": "표 크기",
   "Common.Views.InsertTableDialog.txtTitleSplit": "셀 분할",
   "Common.Views.LanguageDialog.btnCancel": "취소",
-  "Common.Views.LanguageDialog.btnOk": "Ok",
+  "Common.Views.LanguageDialog.btnOk": "OK",
   "Common.Views.LanguageDialog.labelSelect": "문서 언어 선택",
   "Common.Views.OpenDialog.cancelButtonText": "취소",
   "Common.Views.OpenDialog.closeButtonText": "파일 닫기",
