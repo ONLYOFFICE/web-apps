@@ -230,6 +230,8 @@ define([
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
                     $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
                     $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
+                    $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
+                    $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-advanced-view]', '.page[data-page=settings-advanced-view] .page-content');
                 } else if ('#color-schemes-view' == pageId) {
@@ -256,6 +258,14 @@ define([
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("de-mobile-no-characters", state);
                 me.api.put_ShowParaMarks(state);
+            },
+
+            onShowTableEmptyLine: function(e) {
+                var me = this,
+                    $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("de-mobile-hidden-borders", state);
+                me.api.put_ShowTableEmptyLine(state);
             },
 
             initPageMargin: function() {

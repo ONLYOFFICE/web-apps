@@ -539,6 +539,9 @@ define([
                 value = Common.localStorage.getItem("de-mobile-no-characters");
                 me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
 
+                value = Common.localStorage.getItem("de-mobile-hidden-borders");
+                me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true)
+
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode

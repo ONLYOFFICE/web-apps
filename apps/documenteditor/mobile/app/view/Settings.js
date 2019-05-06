@@ -285,7 +285,8 @@ define([
             textPoint: 'Point',
             textInch: 'Inch',
             textColorSchemes: 'Color Schemes',
-            textNoCharacters: 'Nonprinting Characters'
+            textNoCharacters: 'Nonprinting Characters',
+            textHiddenTableBorders: 'Hidden Table Borders'
 
     }
     })(), DE.Views.Settings || {}))

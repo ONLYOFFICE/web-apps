@@ -629,6 +629,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="settings-hidden-borders" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textHiddenTableBorders %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </ul>
                 </div>
 
