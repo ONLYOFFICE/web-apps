@@ -125,6 +125,9 @@ define([
                     me.api.Paste();
                 } else if ('merge' == eventName) {
                     me.api.MergeCells();
+                } else if ('split' == eventName) {
+                    _view.hideMenu();
+                    me.showSplitModal();
                 } else if ('delete' == eventName) {
                     me.api.asc_Remove();
                 } else if ('edit' == eventName) {
@@ -182,6 +185,55 @@ define([
                 }
 
                 _view.hideMenu();
+            },
+
+            showSplitModal: function() {
+                var me = this,
+                    picker;
+                uiApp.modal({
+                    title   : me.menuSplit,
+                    text: '',
+                    afterText:
+                        '<div class="content-block">' +
+                        '<div class="row no-gutter" style="text-align: center;">' +
+                        '<div class="col-50 size-columns">' + me.textColumns + '</div>' +
+                        '<div class="col-50 size-rows">' + me.textRows + '</div>' +
+                        '</div>' +
+                        '<div id="picker-split-size"></div>' +
+                        '</div>',
+                    buttons: [
+                        {
+                            text: me.textCancel
+                        },
+                        {
+                            text: 'OK',
+                            bold: true,
+                            onClick: function () {
+                                var size = picker.value;
+                                if (me.api) {
+                                    me.api.SplitCell(parseInt(size[0]), parseInt(size[1]));
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                picker = uiApp.picker({
+                    container: '#picker-split-size',
+                    toolbar: false,
+                    rotateEffect: true,
+                    value: [3, 3],
+                    cols: [{
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    }, {
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    }]
+                });
+
             },
 
             // API Handlers
@@ -408,6 +460,13 @@ define([
                             });
                         }
 
+                        if(isTable && me.api.CheckBeforeSplitCells()) {
+                            menuItems.push({
+                                caption: me.menuSplit,
+                                event: 'split'
+                            });
+                        }
+
                         menuItems.push({
                             caption: me.menuDelete,
                             event: 'delete'
@@ -486,6 +545,9 @@ define([
             },
 
             textGuest: 'Guest',
+            textCancel: 'Cancel',
+            textColumns: 'Columns',
+            textRows: 'Rows',
             menuCut: 'Cut',
             menuCopy: 'Copy',
             menuPaste: 'Paste',
@@ -500,7 +562,8 @@ define([
             menuAcceptAll: 'Accept All',
             menuReject: 'Reject',
             menuRejectAll: 'Reject All',
-            menuMerge: 'Merge Cells'
+            menuMerge: 'Merge Cells',
+            menuSplit: 'Split Cell'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });
