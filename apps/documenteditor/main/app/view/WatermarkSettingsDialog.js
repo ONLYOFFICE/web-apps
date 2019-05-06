@@ -80,6 +80,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.props      = options.props;
             this.fontStore = options.fontStore;
             this.api        = options.api;
+            this.textControls = [];
+            this.imageControls = [];
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -92,11 +94,12 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 el: $('#watermark-radio-none'),
                 name: 'asc-radio-watermark-type',
                 labelText: this.textNone,
-                checked: true
+                checked: false
             });
             this.radioNone.on('change', _.bind(function(field, newValue, eOpts) {
                 if (newValue) {
                     // disable text and image
+                    this.disableControls(0);
                 }
             }, this));
 
@@ -104,11 +107,12 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 el: $('#watermark-radio-image'),
                 name: 'asc-radio-watermark-type',
                 labelText: this.textImageW,
-                checked: true
+                checked: false
             });
             this.radioImage.on('change', _.bind(function(field, newValue, eOpts) {
                 if (newValue) {
                     // disable text
+                    this.disableControls(2);
                 }
             }, this));
 
@@ -121,6 +125,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.radioText.on('change', _.bind(function(field, newValue, eOpts) {
                 if (newValue) {
                     // disable image
+                    this.disableControls(1);
                 }
             }, this));
 
@@ -131,11 +136,13 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.btnFromFile.on('click', _.bind(function(btn){
                 // if (this.api) this.api.ChangeShapeImageFromFile(this.BlipFillType);
             }, this));
+            this.imageControls.push(this.btnFromFile);
 
             this.btnFromUrl = new Common.UI.Button({
                 el: $('#watermark-from-url')
             });
             // this.btnFromUrl.on('click', _.bind(this.insertFromUrl, this));
+            this.imageControls.push(this.btnFromUrl);
 
             this._arrScale = [
                 {displayValue: this.textAuto,   value: -1},
@@ -154,6 +161,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             }).on('selected', _.bind(function(combo, record) {
             }, this));
             this.cmbScale.setValue(this._arrScale[0].value);
+            this.imageControls.push(this.cmbScale);
 
             // Text watermark
             this.cmbText = new Common.UI.ComboBox({
@@ -163,6 +171,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 data        : []
             }).on('selected', _.bind(function(combo, record) {
             }, this));
+            this.textControls.push(this.cmbText);
 
             this.cmbFonts = new Common.UI.ComboBoxFonts({
                 el          : $('#watermark-fonts'),
@@ -175,6 +184,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 hint        : this.tipFontName
             });
             // this.cmbFonts.on('selected', _.bind(this.onFontSelect, this));
+            this.textControls.push(this.cmbFonts);
 
             var data = [
                 { value: -1, displayValue: this.textAuto },
@@ -206,6 +216,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             // this.cmbFontSize.on('selected', _.bind(this.onFontSizeSelect, this));
             this.cmbFontSize.setValue(-1);
+            this.textControls.push(this.cmbFontSize);
 
             this.btnBold = new Common.UI.Button({
                 cls: 'btn-toolbar',
@@ -215,6 +226,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.btnBold.render($('#watermark-bold')) ;
             // this.btnBold.on('click', _.bind(this.onBoldClick, this));
+            this.textControls.push(this.btnBold);
 
             this.btnItalic = new Common.UI.Button({
                 cls: 'btn-toolbar',
@@ -224,6 +236,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.btnItalic.render($('#watermark-italic')) ;
             // this.btnItalic.on('click', _.bind(this.onItalicClick, this));
+            this.textControls.push(this.btnItalic);
 
             this.btnUnderline = new Common.UI.Button({
                 cls         : 'btn-toolbar',
@@ -233,6 +246,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.btnUnderline.render($('#watermark-underline')) ;
             // this.btnUnderline.on('click', _.bind(this.onUnderlineClick, this));
+            this.textControls.push(this.btnUnderline);
 
             this.btnStrikeout = new Common.UI.Button({
                 cls: 'btn-toolbar',
@@ -242,6 +256,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.btnStrikeout.render($('#watermark-strikeout')) ;
             // this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
+            this.textControls.push(this.btnStrikeout);
 
             var initNewColor = function(btn, picker_el) {
                 if (btn && btn.cmpEl) {
@@ -281,7 +296,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             // this.btnTextColor.on('click', _.bind(this.onTextColor, this));
             this.mnuTextColorPicker = initNewColor(this.btnTextColor, "#watermark-menu-textcolor");
             $('#watermark-auto-color').on('click', _.bind(this.onAutoColor, this));
-
+            this.textControls.push(this.btnTextColor);
 
             this.numTransparency = new Common.UI.MetricSpinner({
                 el: $('#watermark-spin-opacity'),
@@ -293,6 +308,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 minValue: 0
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.textControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({
                 el: $('#watermark-slider-opacity'),
@@ -302,6 +318,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 value: 100
             });
             this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
+            this.textControls.push(this.sldrTransparency);
 
             this.lblTransparencyStart = $(this.el).find('#watermark-lbl-opacity-start');
             this.lblTransparencyEnd = $(this.el).find('#watermark-lbl-opacity-end');
@@ -312,11 +329,14 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 labelText: this.textDiagonal,
                 checked: true
             });
+            this.textControls.push(this.radioDiag);
+
             this.radioHor = new Common.UI.RadioBox({
                 el: $('#watermark-radio-hor'),
                 name: 'asc-radio-watermark-layout',
                 labelText: this.textHor
             });
+            this.textControls.push(this.radioHor);
 
             this.afterRender();
         },
@@ -401,6 +421,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 this.chLockDelete.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
                 this.chLockEdit.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
             }
+            this.disableControls(this.radioNone.getValue() ? 0 : (this.radioImage.getValue() ? 2 : 1));
         },
 
         getSettings: function () {
@@ -427,6 +448,18 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             props.put_Lock(lock);
 
             return props;
+        },
+
+        disableControls: function(type) {// 0 - none, 1 - text, 2 - image
+            var disable = (type!=2);
+            _.each(this.imageControls, function(item) {
+                item.setDisabled(disable);
+            });
+
+            disable = (type!=1);
+            _.each(this.textControls, function(item) {
+                item.setDisabled(disable);
+            });
         },
 
         onDlgBtnClick: function(event) {
