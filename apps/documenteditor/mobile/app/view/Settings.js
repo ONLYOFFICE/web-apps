@@ -284,7 +284,8 @@ define([
             textCentimeter: 'Centimeter',
             textPoint: 'Point',
             textInch: 'Inch',
-            textColorSchemes: 'Color Schemes'
+            textColorSchemes: 'Color Schemes',
+            textNoCharacters: 'Nonprinting Characters'
 
     }
     })(), DE.Views.Settings || {}))

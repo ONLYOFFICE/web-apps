@@ -228,6 +228,8 @@ define([
                     me.initPageAdvancedSettings();
                     $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
+                    $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
+                    $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-advanced-view]', '.page[data-page=settings-advanced-view] .page-content');
                 } else if ('#color-schemes-view' == pageId) {
@@ -246,6 +248,14 @@ define([
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
                 }
+            },
+
+            onNoCharacters: function(e) {
+                var me = this;
+                var $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("de-mobile-no-characters", state);
+                me.api.put_ShowParaMarks(state);
             },
 
             initPageMargin: function() {

@@ -616,6 +616,22 @@
                     </ul>
                 </div>
 
+                <div class="list-block">
+                    <ul>
+                        <div id="settings-no-characters" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textNoCharacters %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

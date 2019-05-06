@@ -425,5 +425,6 @@
   "DE.Views.Settings.textPoint": "Point",
   "DE.Views.Settings.textInch": "Inch",
   "DE.Views.Settings.textColorSchemes": "Color Schemes",
+  "DE.Views.Settings.textNoCharacters": "Nonprinting Characters",
   "DE.Views.Toolbar.textBack": "Back"
 }
