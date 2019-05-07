@@ -152,6 +152,9 @@ define([
                         me.api.asc_getUrlType(url) > 0 && openLink(url);
                     }
                     break;
+                case 'freezePanes':
+                    me.api.asc_freezePane();
+                    break;
                 }
 
                 if ('showActionSheet' == event && _actionSheets.length > 0) {
@@ -320,8 +323,21 @@ define([
                                 });
                             }
                         }
+                        if (!this.api.asc_getSheetViewSettings().asc_getIsFreezePane()) {
+                            menuItems.push({
+                                caption: me.menuFreezePanes,
+                                event: 'freezePanes'
+                            });
+                        } else {
+                            menuItems.push({
+                                caption: me.menuUnfreezePanes,
+                                event: 'freezePanes'
+                            });
+                        }
                     }
                 }
+
+
 
                 if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
                     _actionSheets = menuItems.slice(3);
@@ -356,7 +372,9 @@ define([
             menuEdit:       'Edit',
             menuCell:       'Cell',
             menuMore:       'More',
-            sheetCancel:    'Cancel'
+            sheetCancel:    'Cancel',
+            menuFreezePanes: 'Freeze Panes',
+            menuUnfreezePanes: 'Unfreeze Panes'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

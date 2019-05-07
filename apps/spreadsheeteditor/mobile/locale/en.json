@@ -33,6 +33,8 @@
   "SSE.Controllers.DocumentHolder.menuWrap": "Wrap",
   "SSE.Controllers.DocumentHolder.sheetCancel": "Cancel",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Operation can destroy data in the selected cells.<br>Continue?",
+  "SSE.Controllers.DocumentHolder.menuFreezePanes": "Freeze Panes",
+  "SSE.Controllers.DocumentHolder.menuUnfreezePanes": "Unfreeze Panes",
   "SSE.Controllers.EditCell.textAuto": "Auto",
   "SSE.Controllers.EditCell.textFonts": "Fonts",
   "SSE.Controllers.EditCell.textPt": "pt",
