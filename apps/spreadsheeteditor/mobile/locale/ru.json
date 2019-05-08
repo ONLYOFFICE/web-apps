@@ -265,6 +265,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Превышен максимальный размер изображения.",
   "SSE.Controllers.Main.uploadImageTextText": "Загрузка изображения...",
   "SSE.Controllers.Main.uploadImageTitleText": "Загрузка изображения",
+  "SSE.Controllers.Main.waitText": "Пожалуйста, подождите...",
   "SSE.Controllers.Main.warnLicenseExceeded": "Превышено допустимое число одновременных подключений к серверу документов, и документ откроется только на просмотр.<br>Обратитесь к администратору за дополнительной информацией.",
   "SSE.Controllers.Main.warnLicenseExp": "Истек срок действия лицензии.<br>Обновите лицензию, а затем обновите страницу.",
   "SSE.Controllers.Main.warnLicenseUsersExceeded": "Превышено допустимое число одновременно работающих пользователей, и документ откроется только на просмотр.<br>Обратитесь к администратору за дополнительной информацией.",

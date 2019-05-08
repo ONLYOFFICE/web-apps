@@ -718,6 +718,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "La taille de l'image a dépassé la limite maximale.",
   "SSE.Controllers.Main.uploadImageTextText": "Chargement d'une image en cours...",
   "SSE.Controllers.Main.uploadImageTitleText": "Chargement d'une image",
+  "SSE.Controllers.Main.waitText": "Veuillez patienter...",
   "SSE.Controllers.Main.warnBrowserIE9": "L'application est peu compatible avec IE9. Utilisez IE10 ou version plus récente",
   "SSE.Controllers.Main.warnBrowserZoom": "Le paramètre actuel de zoom de votre navigateur n'est pas accepté. Veuillez rétablir le niveau de zoom par défaut en appuyant sur Ctrl+0.",
   "SSE.Controllers.Main.warnLicenseExceeded": "Le nombre de connexions simultanées a été dépassée et le document sera ouvert en mode lecture seule.<br>Veuillez contacter votre administrateur  pour plus d'informations.",

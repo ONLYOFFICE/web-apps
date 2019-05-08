@@ -718,6 +718,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Die maximal zulässige Bildgröße ist überschritten.",
   "SSE.Controllers.Main.uploadImageTextText": "Das Bild wird hochgeladen...",
   "SSE.Controllers.Main.uploadImageTitleText": "Bild wird hochgeladen",
+  "SSE.Controllers.Main.waitText": "Bitte warten...",
   "SSE.Controllers.Main.warnBrowserIE9": "Die Anwendung hat geringe Fähigkeiten in IE9. Nutzen Sie IE10 oder höher.",
   "SSE.Controllers.Main.warnBrowserZoom": "Die aktuelle Zoom-Einstellung Ihres Webbrowsers wird nicht völlig unterstützt. Bitte stellen Sie die Standardeinstellung mithilfe der Tastenkombination STRG+0 wieder her.",
   "SSE.Controllers.Main.warnLicenseExceeded": "Die Anzahl gleichzeitiger Verbindungen zum Document Server wurde überschritten und das Dokument wird nur zum Anzeigen geöffnet. <br> Wenden Sie sich an den Administrator, um weitere Informationen zu erhalten.",

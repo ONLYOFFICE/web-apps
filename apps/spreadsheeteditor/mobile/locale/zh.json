@@ -265,6 +265,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "超过最大图像尺寸限制。",
   "SSE.Controllers.Main.uploadImageTextText": "上传图片...",
   "SSE.Controllers.Main.uploadImageTitleText": "图片上传中",
+  "SSE.Controllers.Main.waitText": "请稍候...",
   "SSE.Controllers.Main.warnLicenseExceeded": "与文档服务器的并发连接次数已超出限制，文档打开后将仅供查看。<br>请联系您的账户管理员了解详情。",
   "SSE.Controllers.Main.warnLicenseExp": "您的许可证已过期。<br>请更新您的许可证并刷新页面。",
   "SSE.Controllers.Main.warnLicenseUsersExceeded": "并发用户数量已超出限制，文档打开后将仅供查看。<br>请联系您的账户管理员了解详情。",

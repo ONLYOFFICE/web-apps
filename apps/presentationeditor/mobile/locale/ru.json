@@ -211,6 +211,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "Превышен максимальный размер изображения.",
   "PE.Controllers.Main.uploadImageTextText": "Загрузка изображения...",
   "PE.Controllers.Main.uploadImageTitleText": "Загрузка изображения",
+  "PE.Controllers.Main.waitText": "Пожалуйста, подождите...",
   "PE.Controllers.Main.warnLicenseExceeded": "Превышено допустимое число одновременных подключений к серверу документов, и документ откроется только на просмотр.<br>Обратитесь к администратору за дополнительной информацией.",
   "PE.Controllers.Main.warnLicenseExp": "Истек срок действия лицензии.<br>Обновите лицензию, а затем обновите страницу.",
   "PE.Controllers.Main.warnLicenseUsersExceeded": "Превышено допустимое число одновременно работающих пользователей, и документ откроется только на просмотр.<br>Обратитесь к администратору за дополнительной информацией.",

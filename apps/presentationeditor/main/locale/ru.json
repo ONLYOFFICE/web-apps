@@ -577,6 +577,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "Превышен максимальный размер изображения.",
   "PE.Controllers.Main.uploadImageTextText": "Загрузка изображения...",
   "PE.Controllers.Main.uploadImageTitleText": "Загрузка изображения",
+  "PE.Controllers.Main.waitText": "Пожалуйста, подождите...",
   "PE.Controllers.Main.warnBrowserIE9": "В IE9 приложение имеет низкую производительность. Используйте IE10 или более позднюю версию.",
   "PE.Controllers.Main.warnBrowserZoom": "Текущее значение масштаба страницы в браузере поддерживается не полностью. Вернитесь к масштабу по умолчанию, нажав Ctrl+0",
   "PE.Controllers.Main.warnLicenseExceeded": "Превышено допустимое число одновременных подключений к серверу документов, и документ откроется только на просмотр.<br>Обратитесь к администратору за дополнительной информацией.",
