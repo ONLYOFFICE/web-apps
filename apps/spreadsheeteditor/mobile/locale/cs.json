@@ -255,6 +255,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Překročení maximální velikost obrázku.",
   "SSE.Controllers.Main.uploadImageTextText": "Nahrávání obrázku...",
   "SSE.Controllers.Main.uploadImageTitleText": "Nahrávání obrázku",
+  "SSE.Controllers.Main.waitText": "Čekejte prosím ...",
   "SSE.Controllers.Main.warnLicenseExp": "Platnost vaší licence vypršela.<br>Prosím, aktualizujte vaší licenci a obnovte stránku.",
   "SSE.Controllers.Main.warnNoLicense": "Používáte verzi open source ONLYOFFICE. Verze má omezení pro souběžné připojení k dokumentovému serveru (20 připojení najednou).<br>Pokud budete potřebovat více, tak prosím zvažte koupi komerční licence.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Bylo Vám odebráno právo upravovat tento soubor.",

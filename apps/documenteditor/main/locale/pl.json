@@ -376,6 +376,7 @@
   "DE.Controllers.Main.uploadImageSizeMessage": "Maksymalny rozmiar obrazu",
   "DE.Controllers.Main.uploadImageTextText": "Wysyłanie obrazu...",
   "DE.Controllers.Main.uploadImageTitleText": "Wysyłanie obrazu",
+  "DE.Controllers.Main.waitText": "Proszę czekać...",
   "DE.Controllers.Main.warnBrowserIE9": "Aplikacja ma małe możliwości w IE9. Użyj przeglądarki IE10 lub nowszej.",
   "DE.Controllers.Main.warnBrowserZoom": "Aktualne ustawienie powiększenia przeglądarki nie jest w pełni obsługiwane. Zresetuj domyślny zoom, naciskając Ctrl + 0.",
   "DE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",

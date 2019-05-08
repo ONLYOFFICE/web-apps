@@ -265,6 +265,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Die maximal zulässige Bildgröße ist überschritten.",
   "SSE.Controllers.Main.uploadImageTextText": "Bild wird hochgeladen...",
   "SSE.Controllers.Main.uploadImageTitleText": "Bild wird hochgeladen",
+  "SSE.Controllers.Main.waitText": "Bitte warten...",
   "SSE.Controllers.Main.warnLicenseExceeded": "Die Anzahl gleichzeitiger Verbindungen zum Document Server wurde überschritten und das Dokument wird nur zum Anzeigen geöffnet. <br> Wenden Sie sich an den Administrator, um weitere Informationen zu erhalten.",
   "SSE.Controllers.Main.warnLicenseExp": "Ihre Lizenz ist abgelaufen.<br>Bitte aktualisieren Sie Ihre Lizenz und laden Sie die Seite neu.",
   "SSE.Controllers.Main.warnLicenseUsersExceeded": "Die Anzahl der gleichzeitigen Benutzer wurde überschritten und das Dokument wird nur zum Anzeigen geöffnet. <br> Wenden Sie sich an den Administrator, um weitere Informationen zu erhalten.",

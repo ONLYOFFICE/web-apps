@@ -273,6 +273,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "Maksymalny rozmiar obrazu został przekroczony.",
   "PE.Controllers.Main.uploadImageTextText": "Wysyłanie obrazu...",
   "PE.Controllers.Main.uploadImageTitleText": "Wysyłanie obrazu",
+  "PE.Controllers.Main.waitText": "Proszę czekać...",
   "PE.Controllers.Main.warnBrowserIE9": "Aplikacja ma małe możliwości w IE9. Użyj przeglądarki IE10 lub nowszej.",
   "PE.Controllers.Main.warnBrowserZoom": "Aktualne ustawienie powiększenia przeglądarki nie jest w pełni obsługiwane. Zresetuj domyślny zoom, naciskając Ctrl + 0.",
   "PE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",

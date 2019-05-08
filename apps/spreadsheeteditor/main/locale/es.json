@@ -718,6 +718,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Tamaño de imagen máximo está superado.",
   "SSE.Controllers.Main.uploadImageTextText": "Subiendo imagen...",
   "SSE.Controllers.Main.uploadImageTitleText": "Subiendo imagen",
+  "SSE.Controllers.Main.waitText": "Por favor, espere...",
   "SSE.Controllers.Main.warnBrowserIE9": "Este aplicación tiene baja capacidad en IE9. Utilice IE10 o superior",
   "SSE.Controllers.Main.warnBrowserZoom": "La configuración actual de zoom de su navegador no está soportada por completo. Por favor restablezca zoom predeterminado pulsando Ctrl+0.",
   "SSE.Controllers.Main.warnLicenseExceeded": "Se ha excedido el número permitido de las conexiones simultáneas al servidor de documentos, y el documento se abrirá para sólo lectura.<br>Por favor, contacte con su administrador para recibir más información.",

@@ -265,6 +265,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Превишено е максималното ограничение на размера на изображението.",
   "SSE.Controllers.Main.uploadImageTextText": "Качва се изображението ...",
   "SSE.Controllers.Main.uploadImageTitleText": "Качване на изображение",
+  "SSE.Controllers.Main.waitText": "Моля, изчакайте...",
   "SSE.Controllers.Main.warnLicenseExceeded": "Броят на едновременните връзки към сървъра за документи е превишен и документът ще бъде отворен само за преглед. <br> За повече информация се обърнете към администратора.",
   "SSE.Controllers.Main.warnLicenseExp": "Вашият лиценз е изтекъл. <br> Моля, актуализирайте лиценза си и опреснете страницата.",
   "SSE.Controllers.Main.warnLicenseUsersExceeded": "Броят на едновременните потребители е надхвърлен и документът ще бъде отворен само за преглед. <br> За повече информация се свържете с администратора си.",
