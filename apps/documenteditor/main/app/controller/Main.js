@@ -799,6 +799,11 @@ define([
                         text    = this.sendMergeText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = this.waitText;
+                        text    = this.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = this.txtEditingMode;
                         text    = this.txtEditingMode;
@@ -2576,7 +2581,8 @@ define([
             txtEndOfFormula: 'Unexpected End of Formula',
             errorEmailClient: 'No email client could be found',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
-            txtHyperlink: 'Hyperlink'
+            txtHyperlink: 'Hyperlink',
+            waitText: 'Please, wait...'
         }
     })(), DE.Controllers.Main || {}))
 });
