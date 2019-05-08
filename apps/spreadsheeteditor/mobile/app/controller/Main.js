@@ -438,6 +438,11 @@ define([
                         text    = me.sendMergeText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = me.waitText;
+                        text    = me.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = me.txtEditingMode;
                         text    = me.txtEditingMode;
@@ -1564,7 +1569,8 @@ define([
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
             errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.',
             textPaidFeature: 'Paid feature',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            waitText: 'Please, wait...'
         }
     })(), SSE.Controllers.Main || {}))
 });
