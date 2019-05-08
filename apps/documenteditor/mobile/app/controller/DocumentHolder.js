@@ -407,15 +407,25 @@ define([
                     isImage = false,
                     isChart = false,
                     isShape = false,
-                    isLink = false;
+                    isLink = false,
+                    lockedText = false,
+                    lockedTable = false,
+                    lockedImage = false,
+                    lockedHeader = false;
 
                 _.each(stack, function (item) {
                     var objectType = item.get_ObjectType(),
                         objectValue = item.get_ObjectValue();
 
+                    if (objectType == Asc.c_oAscTypeSelectElement.Header) {
+                        lockedHeader = objectValue.get_Locked();
+                    }
+
                     if (objectType == Asc.c_oAscTypeSelectElement.Text) {
                         isText = true;
+                        lockedText = objectValue.get_Locked();
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
+                        lockedImage = objectValue.get_Locked();
                         if (objectValue && objectValue.get_ChartProperties()) {
                             isChart = true;
                         } else if (objectType && objectValue.get_ShapeProperties()) {
@@ -425,22 +435,20 @@ define([
                         }
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
                         isTable = true;
+                        lockedTable = objectValue.get_Locked();
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
                         isLink = true;
                     }
                 });
 
                 if (stack.length > 0) {
-                    var topObject = _.find(stack.reverse(), function(obj){ return obj.get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck; }),
-                        topObjectValue = topObject.get_ObjectValue(),
-                        objectLocked = _.isFunction(topObjectValue.get_Locked) ? topObjectValue.get_Locked() : false;
 
                     var swapItems = function(items, indexBefore, indexAfter) {
                         items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
                     };
 
-                    if (!objectLocked && _isEdit && !me.isDisconnected) {
-                        if (canCopy) {
+                    if (_isEdit && !me.isDisconnected) {
+                        if (!lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy) {
                             menuItems.push({
                                 caption: me.menuCut,
                                 event: 'cut'
@@ -450,43 +458,49 @@ define([
                             swapItems(menuItems, 0, 1);
                         }
 
-                        menuItems.push({
-                            caption: me.menuPaste,
-                            event: 'paste'
-                        });
+                        if (!lockedText && !lockedTable && !lockedImage && !lockedHeader) {
+                            menuItems.push({
+                                caption: me.menuPaste,
+                                event: 'paste'
+                            });
+                        }
 
-                        if(isTable && me.api.CheckBeforeMergeCells()) {
+                        if(isTable && me.api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
                             menuItems.push({
                                 caption: me.menuMerge,
                                 event: 'merge'
                             });
                         }
 
-                        if(isTable && me.api.CheckBeforeSplitCells()) {
+                        if(isTable && me.api.CheckBeforeSplitCells() && !lockedTable && !lockedHeader) {
                             menuItems.push({
                                 caption: me.menuSplit,
                                 event: 'split'
                             });
                         }
 
-                        menuItems.push({
-                            caption: me.menuDelete,
-                            event: 'delete'
-                        });
+                        if(!lockedText && !lockedTable && !lockedImage && !lockedHeader) {
+                            menuItems.push({
+                                caption: me.menuDelete,
+                                event: 'delete'
+                            });
+                        }
 
-                        if(isTable) {
+                        if(isTable && !lockedTable && !lockedText && !lockedHeader) {
                             menuItems.push({
                                 caption: me.menuDeleteTable,
                                 event: 'deletetable'
                             });
                         }
 
-                        menuItems.push({
-                            caption: me.menuEdit,
-                            event: 'edit'
-                        });
+                        if(!lockedText && !lockedTable && !lockedImage && !lockedHeader){
+                            menuItems.push({
+                                caption: me.menuEdit,
+                                event: 'edit'
+                            });
+                        }
 
-                        if (!_.isEmpty(me.api.can_AddHyperlink())) {
+                        if (!_.isEmpty(me.api.can_AddHyperlink()) && !lockedHeader) {
                             menuItems.push({
                                 caption: me.menuAddLink,
                                 event: 'addlink'
