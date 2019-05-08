@@ -130,6 +130,8 @@ define([
                     me.showSplitModal();
                 } else if ('delete' == eventName) {
                     me.api.asc_Remove();
+                } else if('deletetable' == eventName) {
+                    me.api.remTable();
                 } else if ('edit' == eventName) {
                     _view.hideMenu();
 
@@ -472,6 +474,13 @@ define([
                             event: 'delete'
                         });
 
+                        if(isTable) {
+                            menuItems.push({
+                                caption: me.menuDeleteTable,
+                                event: 'deletetable'
+                            });
+                        }
+
                         menuItems.push({
                             caption: me.menuEdit,
                             event: 'edit'
@@ -563,7 +572,8 @@ define([
             menuReject: 'Reject',
             menuRejectAll: 'Reject All',
             menuMerge: 'Merge Cells',
-            menuSplit: 'Split Cell'
+            menuSplit: 'Split Cell',
+            menuDeleteTable: 'Delete Table'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

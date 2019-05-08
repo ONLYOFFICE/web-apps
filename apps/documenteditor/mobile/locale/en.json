@@ -34,6 +34,7 @@
   "DE.Controllers.DocumentHolder.textCancel": "Cancel",
   "DE.Controllers.DocumentHolder.textColumns": "Columns",
   "DE.Controllers.DocumentHolder.textRows": "Rows",
+  "DE.Controllers.DocumentHolder.menuDeleteTable": "Delete Table",
   "DE.Controllers.EditContainer.textChart": "Chart",
   "DE.Controllers.EditContainer.textFooter": "Footer",
   "DE.Controllers.EditContainer.textHeader": "Header",
