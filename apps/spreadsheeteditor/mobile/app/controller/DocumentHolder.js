@@ -323,17 +323,12 @@ define([
                                 });
                             }
                         }
-                        if (!this.api.asc_getSheetViewSettings().asc_getIsFreezePane()) {
-                            menuItems.push({
-                                caption: me.menuFreezePanes,
-                                event: 'freezePanes'
-                            });
-                        } else {
-                            menuItems.push({
-                                caption: me.menuUnfreezePanes,
-                                event: 'freezePanes'
-                            });
-                        }
+
+                        menuItems.push({
+                            caption: this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? me.menuUnfreezePanes : me.menuFreezePanes,
+                            event: 'freezePanes'
+                        });
+
                     }
                 }
 
