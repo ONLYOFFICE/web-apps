@@ -46,6 +46,37 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function (template) { 'use strict';
 
+    DE.Views.WatermarkText = new(function() {
+        var langs;
+        var _get = function() {
+            if (langs)
+                return langs;
+
+            langs = [];
+            try {
+                var langJson = Common.Utils.getConfigJson('resources/watermark/wm-text.json');
+                for (var lang in langJson) {
+                    var val = Common.util.LanguageInfo.getLocalLanguageCode(lang);
+                    if (val) {
+                        langs.push({code: val, name: Common.util.LanguageInfo.getLocalLanguageName(val)[1], shortname: Common.util.LanguageInfo.getLocalLanguageName(val)[0], text: langJson[lang]});
+                    }
+                }
+                langs.sort(function(a, b) {
+                    if (a.shortname < b.shortname) return -1;
+                    if (a.shortname > b.shortname) return 1;
+                    return 0;
+                });
+            }
+            catch (e) {
+            }
+
+            return langs;
+        };
+        return {
+            get: _get
+        };
+    })();
+
     DE.Views.WatermarkSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 400,
@@ -164,13 +195,28 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.imageControls.push(this.cmbScale);
 
             // Text watermark
+            this.cmbLang = new Common.UI.ComboBox({
+                el          : $('#watermark-combo-lang'),
+                cls         : 'input-group-nr',
+                editable    : false,
+                menuStyle   : 'min-width: 100%;max-height: 210px;',
+                scrollAlwaysVisible: true,
+                data        : []
+            }).on('selected', _.bind(function(combo, record) {
+                this.loadWMText(record);
+            }, this));
+            this.textControls.push(this.cmbLang);
+
             this.cmbText = new Common.UI.ComboBox({
                 el          : $('#watermark-combo-text'),
                 cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100%;',
-                data        : []
+                menuStyle   : 'min-width: 100%;max-height: 210px;',
+                scrollAlwaysVisible: true,
+                displayField: 'value',
+                data        : [{value: "ASAP"}, {value: "CONFIDENTIAL"}, {value: "COPY"}, {value: "DO NOT COPY"}, {value: "DRAFT"}, {value: "ORIGINAL"}, {value: "PERSONAL"}, {value: "SAMPLE"}, {value: "TOP SECRET"}, {value: "URGENT"} ]
             }).on('selected', _.bind(function(combo, record) {
             }, this));
+            this.cmbText.setValue(this.cmbText.options.data[0].value);
             this.textControls.push(this.cmbText);
 
             this.cmbFonts = new Common.UI.ComboBoxFonts({
@@ -392,7 +438,33 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
         },
 
+        loadLanguages: function() {
+            this.languages = DE.Views.WatermarkText.get();
+            var data = [];
+            this.languages && this.languages.forEach(function(item) {
+                data.push({displayValue: item.name, value: item.shortname, wmtext: item.text});
+            });
+            this.cmbLang.setData(data);
+            if (data.length) {
+                this.cmbLang.setValue('en', data[0].value);
+                this.loadWMText(this.cmbLang.getSelectedRecord());
+            } else
+                this.cmbLang.setDisabled(true);
+        },
+
+        loadWMText: function(record) {
+            if (!record) return;
+
+            var data = [];
+            record.wmtext.forEach(function(item) {
+                data.push({value: item});
+            });
+            this.cmbText.setData(data);
+            this.cmbText.setValue(data[0].value);
+        },
+
         _setDefaults: function (props) {
+            this.loadLanguages();
             if (props) {
                 var val = props.get_Alias();
                 this.txtName.setValue(val ? val : '');
@@ -460,6 +532,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             _.each(this.textControls, function(item) {
                 item.setDisabled(disable);
             });
+            this.cmbLang.setDisabled(disable || this.languages.length<1);
         },
 
         onDlgBtnClick: function(event) {
@@ -495,7 +568,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         cancelButtonText: 'Cancel',
         okButtonText: 'Ok',
         textColor: 'Text color',
-        textNewColor: 'Add New Custom Color'
+        textNewColor: 'Add New Custom Color',
+        textLanguage: 'Language'
 
     }, DE.Views.WatermarkSettingsDialog || {}))
 });

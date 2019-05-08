@@ -6,17 +6,21 @@
         <div id="watermark-radio-text"></div>
     </td></tr>
     <tr><td class="padding-large">
-        <table id="watermark-tbl-text" cols="1" style="margin-left: 22px;">
+        <table id="watermark-tbl-text" cols="2" style="margin-left: 22px;">
             <tr>
-                <td class="padding-small">
-                    <label  style="display:block;" class="input-label" style=""><%= scope.textText %></label>
+                <td class="padding-small" style="width: 142px;">
+                    <label  style="display:block;" class="input-label"><%= scope.textLanguage %></label>
+                    <div id="watermark-combo-lang" style="width: 100%;"></div>
+                </td>
+                <td class="padding-small" style="width: 215px; padding-left: 5px;">
+                    <label  style="display:block;" class="input-label"><%= scope.textText %></label>
                     <div id="watermark-combo-text" style="width: 100%;"></div>
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
-                    <label  style="display:block;" class="input-label" style=""><%= scope.textFont %></label>
-                    <div id="watermark-fonts" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>
+                <td class="padding-large" colspan="2">
+                    <label  style="display:block;" class="input-label"><%= scope.textFont %></label>
+                    <div id="watermark-fonts" class="input-row" style="display: inline-block; vertical-align: middle;"></div>
                     <div id="watermark-font-size" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>
                     <div id="watermark-textcolor" style="display: inline-block;margin-left: 6px;"></div>
                     <div id="watermark-bold" style="display: inline-block;margin-left: 2px;"></div><div id="watermark-italic" style="display: inline-block;margin-left: 6px;"></div>
@@ -24,7 +28,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-small">
+                <td class="padding-small" colspan="2">
                     <label style="display:block;"><%= scope.textOpacity %></label>
                     <div style="display: inline-block; margin-top: 3px;">
                         <label id="watermark-lbl-opacity-start">0</label>
@@ -35,7 +39,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="2">
                     <label style="display:block;margin-bottom: 3px;"><%= scope.textLayout %></label>
                     <div id="watermark-radio-diag" style="display: inline-block;"></div>
                     <div id="watermark-radio-hor" style="display: inline-block;margin-left: 15px;"></div>
