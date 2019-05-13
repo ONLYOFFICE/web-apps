@@ -139,13 +139,13 @@ define([
                     "Error! Bookmark not defined.": this.txtBookmarkError,
                     "above": this.txtAbove,
                     "below": this.txtBelow,
-                    "on page ": this.txtOnPage,
+                    "on page ": this.txtOnPage + " ",
                     "Header": this.txtHeader,
                     "Footer": this.txtFooter,
-                    " -Section ": this.txtSection,
-                    "First Page ": this.txtFirstPage,
-                    "Even Page ": this.txtEvenPage,
-                    "Odd Page ": this.txtOddPage,
+                    " -Section ": " " + this.txtSection + " ",
+                    "First Page ": this.txtFirstPage + " ",
+                    "Even Page ": this.txtEvenPage + " ",
+                    "Odd Page ": this.txtOddPage + " ",
                     "Same as Previous": this.txtSameAsPrev,
                     "Current Document": this.txtCurrentDocument,
                     "No table of contents entries found.": this.txtNoTableOfContents,
@@ -160,7 +160,8 @@ define([
                     "The Formula Not In Table": this.txtFormulaNotInTable,
                     "Table Index Cannot be Zero": this.txtTableInd,
                     "Undefined Bookmark": this.txtUndefBookmark,
-                    "Unexpected End of Formula": this.txtEndOfFormula
+                    "Unexpected End of Formula": this.txtEndOfFormula,
+                    "Hyperlink": this.txtHyperlink
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -796,6 +797,11 @@ define([
                     case Asc.c_oAscAsyncAction['SendMailMerge']:
                         title   = this.sendMergeTitle;
                         text    = this.sendMergeText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = this.waitText;
+                        text    = this.waitText;
                         break;
 
                     case ApplyEditRights:
@@ -2369,13 +2375,13 @@ define([
             txtBookmarkError: "Error! Bookmark not defined.",
             txtAbove: "above",
             txtBelow: "below",
-            txtOnPage: "on page ",
+            txtOnPage: "on page",
             txtHeader: "Header",
             txtFooter: "Footer",
-            txtSection: " -Section ",
-            txtFirstPage: "First Page ",
-            txtEvenPage: "Even Page ",
-            txtOddPage: "Odd Page ",
+            txtSection: "-Section",
+            txtFirstPage: "First Page",
+            txtEvenPage: "Even Page",
+            txtOddPage: "Odd Page",
             txtSameAsPrev: "Same as Previous",
             txtCurrentDocument: "Current Document",
             txtNoTableOfContents: "No table of contents entries found.",
@@ -2574,7 +2580,9 @@ define([
             txtUndefBookmark: 'Undefined Bookmark',
             txtEndOfFormula: 'Unexpected End of Formula',
             errorEmailClient: 'No email client could be found',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            txtHyperlink: 'Hyperlink',
+            waitText: 'Please, wait...'
         }
     })(), DE.Controllers.Main || {}))
 });

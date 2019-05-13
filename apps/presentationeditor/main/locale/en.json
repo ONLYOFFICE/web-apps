@@ -577,6 +577,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "Maximum image size limit exceeded.",
   "PE.Controllers.Main.uploadImageTextText": "Uploading image...",
   "PE.Controllers.Main.uploadImageTitleText": "Uploading Image",
+  "PE.Controllers.Main.waitText": "Please, wait...",
   "PE.Controllers.Main.warnBrowserIE9": "The application has low capabilities on IE9. Use IE10 or higher",
   "PE.Controllers.Main.warnBrowserZoom": "Your browser current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.",
   "PE.Controllers.Main.warnLicenseExceeded": "The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.",

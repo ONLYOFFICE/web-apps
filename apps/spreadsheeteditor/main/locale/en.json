@@ -718,6 +718,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Maximium image size limit exceeded.",
   "SSE.Controllers.Main.uploadImageTextText": "Uploading image...",
   "SSE.Controllers.Main.uploadImageTitleText": "Uploading Image",
+  "SSE.Controllers.Main.waitText": "Please, wait...",
   "SSE.Controllers.Main.warnBrowserIE9": "The application has low capabilities on IE9. Use IE10 or higher",
   "SSE.Controllers.Main.warnBrowserZoom": "Your browser current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.",
   "SSE.Controllers.Main.warnLicenseExceeded": "The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.",

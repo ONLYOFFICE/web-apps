@@ -718,6 +718,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Превишено е ограничението за максимален размер на изображението.",
   "SSE.Controllers.Main.uploadImageTextText": "Качва се изображението ...",
   "SSE.Controllers.Main.uploadImageTitleText": "Качване на изображение",
+  "SSE.Controllers.Main.waitText": "Моля, изчакайте...",
   "SSE.Controllers.Main.warnBrowserIE9": "Приложението има ниски възможности за IE9. Използвайте IE10 или по-висока",
   "SSE.Controllers.Main.warnBrowserZoom": "Текущата настройка за мащабиране на браузъра ви не се поддържа напълно. Моля, нулирайте стойността по подразбиране, като натиснете Ctrl + 0.",
   "SSE.Controllers.Main.warnLicenseExceeded": "Броят на едновременните връзки към сървъра за документи е превишен и документът ще бъде отворен само за преглед. <br> За повече информация се обърнете към администратора.",

@@ -163,6 +163,7 @@
   "DE.Controllers.Main.uploadImageSizeMessage": "超过了Maximium图像大小限制。",
   "DE.Controllers.Main.uploadImageTextText": "上传图片...",
   "DE.Controllers.Main.uploadImageTitleText": "图片上传中",
+  "DE.Controllers.Main.waitText": "请稍候...",
   "DE.Controllers.Main.warnLicenseExceeded": "与文档服务器的并发连接次数已超出限制，文档打开后将仅供查看。<br>请联系您的账户管理员了解详情。",
   "DE.Controllers.Main.warnLicenseExp": "您的许可证已过期。<br>请更新您的许可证并刷新页面。",
   "DE.Controllers.Main.warnLicenseUsersExceeded": "并发用户数量已超出限制，文档打开后将仅供查看。<br>请联系您的账户管理员了解详情。",

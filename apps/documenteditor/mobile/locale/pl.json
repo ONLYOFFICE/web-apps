@@ -146,6 +146,7 @@
   "DE.Controllers.Main.uploadImageSizeMessage": "Maksymalny rozmiar obrazu został przekroczony.",
   "DE.Controllers.Main.uploadImageTextText": "Wysyłanie obrazu...",
   "DE.Controllers.Main.uploadImageTitleText": "Wysyłanie obrazu",
+  "DE.Controllers.Main.waitText": "Proszę czekać...",
   "DE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",
   "DE.Controllers.Main.warnNoLicense": "Używasz wersji ONLYOFFICE w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
   "DE.Controllers.Main.warnProcessRightsChange": "Nie masz uprawnień do edycji tego pliku.",

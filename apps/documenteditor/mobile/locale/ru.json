@@ -163,6 +163,7 @@
   "DE.Controllers.Main.uploadImageSizeMessage": "Превышен максимальный размер изображения.",
   "DE.Controllers.Main.uploadImageTextText": "Загрузка изображения...",
   "DE.Controllers.Main.uploadImageTitleText": "Загрузка изображения",
+  "DE.Controllers.Main.waitText": "Пожалуйста, подождите...",
   "DE.Controllers.Main.warnLicenseExceeded": "Превышено допустимое число одновременных подключений к серверу документов, и документ откроется только на просмотр.<br>Обратитесь к администратору за дополнительной информацией.",
   "DE.Controllers.Main.warnLicenseExp": "Истек срок действия лицензии.<br>Обновите лицензию, а затем обновите страницу.",
   "DE.Controllers.Main.warnLicenseUsersExceeded": "Превышено допустимое число одновременно работающих пользователей, и документ откроется только на просмотр.<br>Обратитесь к администратору за дополнительной информацией.",

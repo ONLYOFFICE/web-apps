@@ -583,6 +583,10 @@ define([
                         title   = this.savePreparingText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = this.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = this.txtEditingMode;
                         break;
@@ -2500,7 +2504,8 @@ define([
             txtPrintArea: 'Print_Area',
             txtTable: 'Table',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
-            errorNoDataToParse: 'No data was selected to parse.'
+            errorNoDataToParse: 'No data was selected to parse.',
+            waitText: 'Please, wait...'
         }
     })(), SSE.Controllers.Main || {}))
 });

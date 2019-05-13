@@ -211,6 +211,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "La taille de l'image a dépassé la limite maximale.",
   "PE.Controllers.Main.uploadImageTextText": "Chargement d'une image en cours...",
   "PE.Controllers.Main.uploadImageTitleText": "Chargement d'une image",
+  "PE.Controllers.Main.waitText": "Veuillez patienter...",
   "PE.Controllers.Main.warnLicenseExceeded": "Le nombre de connexions simultanées a été dépassée et le document sera ouvert en mode lecture seule.<br>Veuillez contacter votre administrateur  pour plus d'informations.",
   "PE.Controllers.Main.warnLicenseExp": "Votre licence a expiré.<br>Veuillez mettre à jour votre licence et actualisez la page.",
   "PE.Controllers.Main.warnLicenseUsersExceeded": "Le nombre d'utilisateurs simultanés a été dépassé et le document sera ouvert en mode lecture seule.<br>Veuillez contacter votre administrateur  pour plus d'informations.",

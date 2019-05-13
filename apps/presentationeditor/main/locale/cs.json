@@ -275,6 +275,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "Překročení maximální velikost obrázku.",
   "PE.Controllers.Main.uploadImageTextText": "Nahrávání obrázku...",
   "PE.Controllers.Main.uploadImageTitleText": "Nahrávání obrázku",
+  "PE.Controllers.Main.waitText": "Čekejte prosím ...",
   "PE.Controllers.Main.warnBrowserIE9": "Aplikace má slabou podporu v IE9. Použíjte IE10 nebo vyšší",
   "PE.Controllers.Main.warnBrowserZoom": "Aktuální přiblížení prohlížeče není plně podporováno. Obnovte prosím původní přiblížení stiknem CTRL+0.",
   "PE.Controllers.Main.warnLicenseExp": "Platnost vaší licence vypršela.<br>Prosím, aktualizujte vaší licenci a obnovte stránku.",

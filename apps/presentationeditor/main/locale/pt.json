@@ -272,6 +272,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "Limite máximo do tamanho da imagem excedido.",
   "PE.Controllers.Main.uploadImageTextText": "Carregando imagem...",
   "PE.Controllers.Main.uploadImageTitleText": "Carregando imagem",
+  "PE.Controllers.Main.waitText": "Aguarde...",
   "PE.Controllers.Main.warnBrowserIE9": "O aplicativo tem baixa capacidade no IE9. Usar IE10 ou superior",
   "PE.Controllers.Main.warnBrowserZoom": "A configuração de zoom atual de seu navegador não é completamente suportada. Redefina para o zoom padrão pressionando Ctrl+0.",
   "PE.Controllers.Main.warnLicenseExp": "Sua licença expirou.<br>Atualize sua licença e atualize a página.",

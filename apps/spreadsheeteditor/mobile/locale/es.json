@@ -265,6 +265,7 @@
   "SSE.Controllers.Main.uploadImageSizeMessage": "Tamaño máximo de imagen está superado.",
   "SSE.Controllers.Main.uploadImageTextText": "Subiendo imagen...",
   "SSE.Controllers.Main.uploadImageTitleText": "Subiendo imagen",
+  "SSE.Controllers.Main.waitText": "Por favor, espere...",
   "SSE.Controllers.Main.warnLicenseExceeded": "Se ha excedido el número permitido de las conexiones simultáneas al servidor de documentos, y el documento se abrirá para sólo lectura.<br>Por favor, contacte con su administrador para recibir más información.",
   "SSE.Controllers.Main.warnLicenseExp": "Su licencia ha expirado.<br>Por favor, actualice su licencia y después recargue la página.",
   "SSE.Controllers.Main.warnLicenseUsersExceeded": "Se ha excedido el número permitido de los usuarios simultáneos, y el documento se abrirá para sólo lectura.<br>Por favor, contacte con su administrador para recibir más información.",

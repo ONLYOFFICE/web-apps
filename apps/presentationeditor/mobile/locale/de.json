@@ -211,6 +211,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "Die maximal zulässige Bildgröße ist überschritten.",
   "PE.Controllers.Main.uploadImageTextText": "Bild wird hochgeladen...",
   "PE.Controllers.Main.uploadImageTitleText": "Bild wird hochgeladen",
+  "PE.Controllers.Main.waitText": "Bitte warten...",
   "PE.Controllers.Main.warnLicenseExceeded": "Die Anzahl gleichzeitiger Verbindungen zum Document Server wurde überschritten und das Dokument wird nur zum Anzeigen geöffnet. <br> Wenden Sie sich an den Administrator, um weitere Informationen zu erhalten.",
   "PE.Controllers.Main.warnLicenseExp": "Ihre Lizenz ist abgelaufen.<br>Bitte aktualisieren Sie Ihre Lizenz und laden Sie die Seite neu.",
   "PE.Controllers.Main.warnLicenseUsersExceeded": "Die Anzahl der gleichzeitigen Benutzer wurde überschritten und das Dokument wird nur zum Anzeigen geöffnet. <br> Wenden Sie sich an den Administrator, um weitere Informationen zu erhalten.",

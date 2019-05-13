@@ -577,6 +577,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "超过最大图像尺寸限制。",
   "PE.Controllers.Main.uploadImageTextText": "上传图片...",
   "PE.Controllers.Main.uploadImageTitleText": "图片上传中",
+  "PE.Controllers.Main.waitText": "请稍候...",
   "PE.Controllers.Main.warnBrowserIE9": "该应用程序在IE9上的功能很差。使用IE10或更高版本",
   "PE.Controllers.Main.warnBrowserZoom": "您的浏览器当前缩放设置不完全支持。请按Ctrl + 0重设为默认缩放。",
   "PE.Controllers.Main.warnLicenseExceeded": "与文档服务器的并发连接次数已超出限制，文档打开后将仅供查看。<br>请联系您的账户管理员了解详情。",

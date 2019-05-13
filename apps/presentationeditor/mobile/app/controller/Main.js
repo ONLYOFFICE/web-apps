@@ -433,6 +433,11 @@ define([
                         text    = me.savePreparingTitle;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = me.waitText;
+                        text    = me.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = me.txtEditingMode;
                         text    = me.txtEditingMode;
@@ -1372,7 +1377,8 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
             textPaidFeature: 'Paid feature',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            waitText: 'Please, wait...'
         }
     })(), PE.Controllers.Main || {}))
 });
