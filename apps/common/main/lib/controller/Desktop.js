@@ -45,6 +45,53 @@ define([
         var config = {};
         var app = window.AscDesktopEditor;
 
+        if ( !!app ) {
+            window.on_native_message = function (cmd, param) {
+                if (/^style:change/.test(cmd)) {
+                    var obj = JSON.parse(param);
+
+                    if ( obj.element == 'toolbar' ) {
+                        if ( obj.action == 'off' && obj.style == 'native-color' ) {
+                            $('.toolbar').removeClass('editor-native-color');
+                        }
+                    } else
+                    if ( obj.element == 'body' ) {
+                        if ( obj.action == 'merge' ) {
+                            var style = document.createElement('style');
+                            style.innerHTML = obj.style;
+                            document.body.appendChild(style);
+                        }
+                    }
+                } else
+                if (/window:features/.test(cmd)) {
+                    var obj = JSON.parse(param);
+
+                    if ( obj.canUndock == 'true' ) {
+                        if ( !config.canUndock ) {
+                            config.canUndock = true;
+
+                            if ( !_.isEmpty(config) )
+                                Common.NotificationCenter.trigger('app:config', {canUndock:true});
+                        }
+                    }
+                } else
+                if (/window:status/.test(cmd)) {
+                    var obj = JSON.parse(param);
+
+                    if ( obj.action == 'undocking' ) {
+                        Common.NotificationCenter.trigger('undock:status', {status:obj.status=='undocked'?'undocked':'docked'});
+                    }
+                } else
+                if (/editor:config/.test(cmd)) {
+                    if ( param == 'request' )
+                        app.execCommand('editor:config', JSON.stringify({user: config.user, 'extraleft': $('#box-document-title #slot-btn-dt-save').parent().width()}));
+                }
+            };
+
+            app.execCommand('webapps:events', 'loading');
+            app.execCommand('window:features', 'request');
+        }
+
         return {
             init: function (opts) {
                 _.extend(config, opts);
@@ -57,25 +104,15 @@ define([
                         $('.toolbar').addClass('editor-native-color');
                     });
 
-                    if ( !!app ) {
-                        if ( !config.isOffline ) {
-                            if ( config.customization.goback && config.customization.goback.url ) {
-                                app.execCommand('webapps:config', JSON.stringify({'goback': config.customization.goback.url}));
-                            }
+                    Common.NotificationCenter.on('action:undocking', function (opts) {
+                        app.execCommand('editor:event', JSON.stringify({action:'undocking', state: opts == 'dock' ? 'dock' : 'undock'}));
+                    });
+
+                    Common.NotificationCenter.on('app:face', function (mode) {
+                        if ( config.canUndock ) {
+                            Common.NotificationCenter.trigger('app:config', {canUndock: true});
                         }
-
-                        app.on_native_message = function (cmd, param) {
-                            if (/^style:change/.test(cmd)) {
-                                var obj = JSON.parse(param);
-
-                                if ( obj.element == 'toolbar' ) {
-                                    if ( obj.action == 'off' && obj.style == 'native-color' ) {
-                                        $('.toolbar').removeClass('editor-native-color');
-                                    }
-                                }
-                            }
-                        };
-                    }
+                    });
                 }
             },
             process: function (opts) {
@@ -95,7 +132,7 @@ define([
             },
             requestClose: function () {
                 if ( config.isDesktopApp && !!app ) {
-                    app.execCommand('editor:request', JSON.stringify({action:'close', url: config.customization.goback.url}));
+                    app.execCommand('editor:event', JSON.stringify({action:'close', url: config.customization.goback.url}));
                 }
             }
         };

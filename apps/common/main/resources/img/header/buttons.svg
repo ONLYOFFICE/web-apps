@@ -67,4 +67,10 @@
         <rect x="3" y="10" width="14" height="1"/>
         <rect x="3" y="14" width="14" height="1"/>
     </symbol>
+    <symbol id="svg-btn-undock" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 7H6V8V9H3V16H12V14H13V16C13 16.5523 12.5523 17 12 17H3C2.44772 17 2 16.5523 2 16V8C2 7.44769 2.44772 7 3 7Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M17 5H8L8 12H17V5ZM7 4C7 3.44772 7.44772 3 8 3H17C17.5523 3 18 3.44772 18 4V12C18 12.5523 17.5523 13 17 13H8C7.44771 13 7 12.5523 7 12V4Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.64645 10.6464L14.1464 6.14642L14.8536 6.85353L10.3536 11.3535L9.64645 10.6464Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 6H11V7H14L14 10H15V7V6H14Z"/>
+    </symbol>
 </svg>
