@@ -14,6 +14,8 @@
   "DE.Controllers.AddTable.textColumns": "Kolumny",
   "DE.Controllers.AddTable.textRows": "Wiersze",
   "DE.Controllers.AddTable.textTableSize": "Rozmiar tabeli",
+  "DE.Controllers.DocumentHolder.menuAccept": "Akceptuj",
+  "DE.Controllers.DocumentHolder.menuAcceptAll": "Akceptuj wszystko",
   "DE.Controllers.DocumentHolder.menuAddLink": "Dodaj link",
   "DE.Controllers.DocumentHolder.menuCopy": "Kopiuj",
   "DE.Controllers.DocumentHolder.menuCut": "Wytnij",
