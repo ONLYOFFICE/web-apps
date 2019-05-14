@@ -377,6 +377,7 @@
         },
         "js": {
             "src": [
+                "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
                 "../apps/common/embed/lib/util/utils.js",
@@ -395,6 +396,14 @@
             }
         },
         "copy": {
+            "localization": [
+                {
+                  "expand": true,
+                  "cwd": "../apps/presentationeditor/embed/locale/",
+                  "src": "*",
+                  "dest": "../deploy/web-apps/apps/presentationeditor/embed/locale/"
+                }
+            ],
             "index-page": {
                 "../deploy/web-apps/apps/presentationeditor/embed/index.html": "../apps/presentationeditor/embed/index.html.deploy"
             },

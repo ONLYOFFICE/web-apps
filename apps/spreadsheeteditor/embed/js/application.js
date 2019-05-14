@@ -33,8 +33,9 @@
 (function ($) {
 
     $(function(){
-        ApplicationView.create();
-        ApplicationController.create();
+        Common.Locale.apply();
+        SSE.ApplicationView.create();
+        SSE.ApplicationController.create();
     })
 
 })(window.jQuery);

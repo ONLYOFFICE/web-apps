@@ -19,8 +19,10 @@
   "DE.ApplicationController.errorFilePassProtect": "The file is password protected and cannot be opened.",
   "DE.ApplicationController.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "DE.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",
-  "DE.ApplicationController.textOf": "of",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
+  "DE.ApplicationController.textOf": "of",
+  "DE.ApplicationController.downloadTextText": "Downloading document...",
+  "DE.ApplicationController.waitText": "Please, wait...",
   "DE.ApplicationController.textLoadingDocument": "Loading document",
   "DE.ApplicationController.txtClose": "Close"
 }

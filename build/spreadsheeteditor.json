@@ -391,6 +391,7 @@
         },
         "js": {
             "src": [
+                "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
                 "../apps/common/embed/lib/util/utils.js",
@@ -409,6 +410,14 @@
             }
         },
         "copy": {
+            "localization": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/embed/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/embed/locale/"
+                }
+            ],
             "index-page": {
                 "../deploy/web-apps/apps/spreadsheeteditor/embed/index.html": "../apps/spreadsheeteditor/embed/index.html.deploy"
             },

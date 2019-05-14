@@ -354,7 +354,7 @@ DE.ApplicationController = new(function(){
 
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        $('#loadmask-text').html(me.textLoadingDocument + ': ' +  + Math.min(Math.round(proc * 100), 100) + '%');
+        $('#loadmask-text').html(me.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
     }
 
     function onError(id, level, errData) {
