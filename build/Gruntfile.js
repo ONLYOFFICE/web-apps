@@ -404,6 +404,9 @@ module.exports = function(grunt) {
             },
 
             copy: {
+                localization: {
+                    files: packageFile['embed']['copy']['localization']
+                },
                 'index-page': {
                     files: packageFile['embed']['copy']['index-page']
                 },

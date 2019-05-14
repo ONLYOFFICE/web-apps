@@ -61,10 +61,10 @@ common.view.modals = new(function() {
                         '</div>';
 
     var _tplbody_embed = '<div class="size-manual">' +
-                            '<span class="caption">Width:</span>' +
+                            '<span class="caption">{width}:</span>' +
                             '<input id="txt-embed-width" class="form-control input-xs" type="text" value="400px">' +
                             '<input id="txt-embed-height" class="form-control input-xs right" type="text" value="600px">' +
-                            '<span class="right caption">Height:</span>' +
+                            '<span class="right caption">{height}:</span>' +
                         '</div>' +
                         '<textarea id="txt-embed-url" rows="4" class="form-control" readonly></textarea>';
 
@@ -75,22 +75,29 @@ common.view.modals = new(function() {
             var _$dlg;
             if (name == 'share') {
                 _$dlg = $(tplDialog
-                            .replace(/\{title}/, 'Share Link')
+                            .replace(/\{title}/, this.txtShare)
                             .replace(/\{body}/, _tplbody_share)
-                            .replace(/\{footer}/, '<button id="btn-copyshort" type="button" class="btn">Copy to clipboard</button>'))
+                            .replace(/\{footer}/, '<button id="btn-copyshort" type="button" class="btn">' + this.txtCopy + '</button>'))
                                 .appendTo(parent)
                                 .attr('id', 'dlg-share');
             } else
             if (name == 'embed') {
                 _$dlg = $(tplDialog
-                            .replace(/\{title}/, 'Embed')
+                            .replace(/\{title}/, this.txtEmbed)
                             .replace(/\{body}/, _tplbody_embed)
-                            .replace(/\{footer}/, '<button id="btn-copyembed" type="button" class="btn">Copy to clipboard</button>'))
+                            .replace(/\{width}/, this.txtWidth)
+                            .replace(/\{height}/, this.txtHeight)
+                            .replace(/\{footer}/, '<button id="btn-copyembed" type="button" class="btn">' + this.txtCopy + '</button>'))
                                 .appendTo(parent)
                                 .attr('id', 'dlg-embed');
             }
 
             return _$dlg;
-        }
+        },
+        txtWidth: 'Width',
+        txtHeight: 'Height',
+        txtShare: 'Share Link',
+        txtCopy: 'Copy to clipboard',
+        txtEmbed: 'Embed'
     };
 })();
