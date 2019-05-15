@@ -160,7 +160,8 @@ require([
             'AddTable',
             'AddShape',
             'AddImage',
-            'AddOther'
+            'AddOther',
+            'Collaboration'
         ]
     });
 
@@ -229,7 +230,8 @@ require([
         'documenteditor/mobile/app/controller/add/AddTable',
         'documenteditor/mobile/app/controller/add/AddShape',
         'documenteditor/mobile/app/controller/add/AddImage',
-        'documenteditor/mobile/app/controller/add/AddOther'
+        'documenteditor/mobile/app/controller/add/AddOther',
+        'documenteditor/mobile/app/controller/Collaboration'
     ], function() {
         app.start();
     });

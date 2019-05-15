@@ -72,6 +72,16 @@
                             </div>
                         </li>
                         <li>
+                            <div id="settings-collaboration" class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-review"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCollaboration %></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
                             <a id="settings-document" class="item-link" data-page="#settings-document-view">
                                 <div class="item-content">
                                     <div class="item-media">

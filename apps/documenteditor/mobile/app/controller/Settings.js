@@ -46,7 +46,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'documenteditor/mobile/app/view/Settings'
+    'documenteditor/mobile/app/view/Settings',
+    'documenteditor/mobile/app/controller/Collaboration'
 ], function (core, $, _, Backbone) {
     'use strict';
 
@@ -249,7 +250,12 @@ define([
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
+                    $('#settings-collaboration').single('click',                _.bind(me.clickCollaboration, me));
                 }
+            },
+
+            clickCollaboration: function() {
+                DE.getController('Collaboration').showModal();
             },
 
             onNoCharacters: function(e) {

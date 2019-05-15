@@ -1,0 +1,81 @@
+<!-- Root view -->
+<div id="collaboration-root-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="center sliding categories"><%= scope.textCollaboration %></div>
+            <div class="right sliding"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="collaboration-root-view">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="reviewing-settings" class="item-link" data-page="#reviewing-settings-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-doc-setup"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textReviewing %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="comments-settings" class="item-link" data-page="#comments-settings-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-doc-setup"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textСomments %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reviewing Settings view -->
+<div id="reviewing-settings-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textReviewing %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="reviewing-settings-view">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <div id="settings-review" class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-review"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textReview %></div>
+                                    <div class="item-after">
+                                        <label class="label-switch">
+                                            <input type="checkbox">
+                                            <div class="checkbox"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

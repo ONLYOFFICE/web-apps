@@ -286,7 +286,8 @@ define([
             textInch: 'Inch',
             textColorSchemes: 'Color Schemes',
             textNoCharacters: 'Nonprinting Characters',
-            textHiddenTableBorders: 'Hidden Table Borders'
+            textHiddenTableBorders: 'Hidden Table Borders',
+            textCollaboration: 'Collaboration'
 
     }
     })(), DE.Views.Settings || {}))
