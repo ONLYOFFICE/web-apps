@@ -811,7 +811,7 @@
   "DE.Views.ControlSettingsDialog.textAppearance": "Wygląd",
   "DE.Views.ControlSettingsDialog.textApplyAll": "Zastosuj wszędzie",
   "DE.Views.ControlSettingsDialog.textColor": "Kolor",
-  "DE.Views.ControlSettingsDialog.textNewColor": "Nowy kolor niestandardowy",
+  "DE.Views.ControlSettingsDialog.textNewColor": "Nowy niestandardowy kolor",
   "DE.Views.ControlSettingsDialog.textNone": "Brak",
   "DE.Views.ControlSettingsDialog.textShowAs": "Pokaż jako",
   "DE.Views.CustomColumnsDialog.cancelButtonText": "Anuluj",

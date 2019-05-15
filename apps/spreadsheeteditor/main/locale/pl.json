@@ -789,6 +789,7 @@
   "SSE.Views.CellRangeDialog.txtEmpty": "To pole jest wymagane",
   "SSE.Views.CellRangeDialog.txtInvalidRange": "BŁĄD! Niepoprawny zakres komórek",
   "SSE.Views.CellRangeDialog.txtTitle": "Wybierz zakres danych",
+  "SSE.Views.CellSettings.textNewColor": "Nowy niestandardowy kolor",
   "SSE.Views.ChartSettings.strLineWeight": "Waga linii",
   "SSE.Views.ChartSettings.strSparkColor": "Kolor",
   "SSE.Views.ChartSettings.strTemplate": "Szablon",
