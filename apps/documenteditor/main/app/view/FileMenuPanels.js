@@ -708,10 +708,10 @@ define([
                     '</tr>',
                     '<tr class="divider"></tr>',
                     '<tr class="divider"></tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtEditTime + '</label></td>',
-                        '<td class="right"><label id="id-info-edittime"></label></td>',
-                    '</tr>',
+                    // '<tr>',
+                    //     '<td class="left"><label>' + this.txtEditTime + '</label></td>',
+                    //     '<td class="right"><label id="id-info-edittime"></label></td>',
+                    // '</tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtSubject + '</label></td>',
                         '<td class="right"><div id="id-info-subject"></div></td>',
@@ -778,7 +778,7 @@ define([
             this.lblStatParagraphs = $('#id-info-paragraphs');
             this.lblStatSymbols = $('#id-info-symbols');
             this.lblStatSpaces = $('#id-info-spaces');
-            this.lblEditTime = $('#id-info-edittime');
+            // this.lblEditTime = $('#id-info-edittime');
 
             // edited info
             this.inputTitle = new Common.UI.InputField({
@@ -917,15 +917,15 @@ define([
 
             var me = this,
                 props = (this.api) ? this.api.asc_getCoreProps() : null,
-                app = (this.api) ? this.api.asc_getAppProps() : null,
                 value;
 
-            if (app) {
-                value = app.asc_getTotalTime();
-                if (value)
-                    this.lblEditTime.text(value + ' ' + this.txtMinutes);
-            }
-            this._ShowHideInfoItem(this.lblEditTime, !!value);
+            // var app = (this.api) ? this.api.asc_getAppProps() : null;
+            // if (app) {
+            //     value = app.asc_getTotalTime();
+            //     if (value)
+            //         this.lblEditTime.text(value + ' ' + this.txtMinutes);
+            // }
+            // this._ShowHideInfoItem(this.lblEditTime, !!value);
 
             if (props) {
                 var visible = false;
