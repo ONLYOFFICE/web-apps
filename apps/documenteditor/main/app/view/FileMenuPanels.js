@@ -706,6 +706,8 @@ define([
                         '<td class="left"><label>' + this.txtSpaces + '</label></td>',
                         '<td class="right"><label id="id-info-spaces"></label></td>',
                     '</tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr class="divider"></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtEditTime + '</label></td>',
                         '<td class="right"><label id="id-info-edittime"></label></td>',
@@ -782,6 +784,7 @@ define([
             this.inputTitle = new Common.UI.InputField({
                 el          : $('#id-info-title'),
                 style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
                 validateOnBlur: false
             }).on('changed:after', function() {
                 // me.api && me.api.asc_setDocumentTitle(me.inputTitle.getValue());
@@ -789,6 +792,7 @@ define([
             this.inputSubject = new Common.UI.InputField({
                 el          : $('#id-info-subject'),
                 style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
                 validateOnBlur: false
             }).on('changed:after', function() {
                 // me.api && me.api.asc_setDocumentSubject(me.inputSubject.getValue());
@@ -796,6 +800,7 @@ define([
             this.inputComment = new Common.UI.InputField({
                 el          : $('#id-info-comment'),
                 style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
                 validateOnBlur: false
             }).on('changed:after', function() {
                 // me.api && me.api.asc_setDocumentComment(me.inputComment.getValue());
@@ -1026,8 +1031,8 @@ define([
             this.lblTitle.text((name) ? name : '-');
         },
 
-        txtPlacement: 'File Location',
-        txtOwner: 'Owner on cloud',
+        txtPlacement: 'Location',
+        txtOwner: 'Owner',
         txtUploaded: 'Uploaded',
         txtPages: 'Pages',
         txtWords: 'Words',
@@ -1044,7 +1049,8 @@ define([
         txtModifyBy: 'Last Modified By',
         txtDate: 'Created',
         txtAuthor: 'Author',
-        txtAddAuthor: 'Add Author'
+        txtAddAuthor: 'Add Author',
+        txtAddText: 'Add Text'
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 
     DE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
