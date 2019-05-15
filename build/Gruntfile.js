@@ -185,6 +185,20 @@ module.exports = function(grunt) {
                         from: /\{\{PRODUCT_VERSION\}\}/,
                         to: packageFile.version
                     }]
+                },
+                prepareHelp: {
+                    src: ['<%= pkg.main.copy.help[0].dest %>/ru/**/*.htm*'],
+                    overwrite: true,
+                    replacements: [{
+                            from: /\{\{COEDITING_DESKTOP\}\}/g,
+                            to: 'Подключиться к облаку'
+                        },{
+                            from: /\{\{PLUGIN_LINK\}\}/g,
+                            to: 'https://api.onlyoffice.com/plugin/basic'
+                        },{
+                            from: /\{\{PLUGIN_LINK_MACROS\}\}/g,
+                            to: 'https://api.onlyoffice.com/plugin/macros'
+                        }]
                 }
             },
 
@@ -443,7 +457,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean:prebuild', 'imagemin', 'less', 'requirejs', 'concat',
                                                             'copy', 'svgmin', 'inline', 'json-minify',
-                                                            'replace:writeVersion', 'clean:postbuild']);
+                                                            'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
                                                             'htmlmin', 'requirejs', 'concat', 'copy:template-restore',
