@@ -196,7 +196,7 @@
   "PE.Controllers.Main.txtXAxis": "X 축",
   "PE.Controllers.Main.txtYAxis": "Y 축",
   "PE.Controllers.Main.unknownErrorText": "알 수없는 오류.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "사용중인 브라우저가 지원되지 않습니다.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "사용중인 브라우저가 지원되지 않습니다.",
   "PE.Controllers.Main.uploadImageExtMessage": "알 수없는 이미지 형식입니다.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "이미지가 업로드되지 않았습니다.",
   "PE.Controllers.Main.uploadImageSizeMessage": "최대 이미지 크기 제한을 초과했습니다.",

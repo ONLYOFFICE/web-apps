@@ -250,7 +250,7 @@
   "SSE.Controllers.Main.txtXAxis": "X ass",
   "SSE.Controllers.Main.txtYAxis": "Y ass",
   "SSE.Controllers.Main.unknownErrorText": "Nezināma kļūda",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Jūsu pārlūkprogramma nav atbalstīta.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Jūsu pārlūkprogramma nav atbalstīta.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Nezināms attēla formāts.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Nav augšupielādēto attēlu.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Maksimālais attēla izmērs ir pārsniegts.",

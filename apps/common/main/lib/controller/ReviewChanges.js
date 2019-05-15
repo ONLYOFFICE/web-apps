@@ -86,7 +86,8 @@ define([
                 'Common.Views.ReviewPopover': {
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
-                    'reviewchange:delete':      _.bind(this.onDeleteClick, this)
+                    'reviewchange:delete':      _.bind(this.onDeleteClick, this),
+                    'reviewchange:goto':        _.bind(this.onGotoClick, this)
                 }
             });
         },
@@ -108,6 +109,7 @@ define([
             this.setApi(api);
 
             if (data) {
+                this.currentUserId      =   data.config.user.id;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
         },
@@ -187,6 +189,7 @@ define([
                     this._state.posx = this._state.posy = -1000;
                     this._state.changes_length = 0;
                     this._state.popoverVisible = false;
+                    this.getPopover().hideTips();
                     this.popoverChanges.reset();
                     this.getPopover().hideReview();
                 }
@@ -237,10 +240,11 @@ define([
             _.each(data, function(item) {
                 var changetext = '', proptext = '',
                     value = item.get_Value(),
+                    movetype = item.get_MoveType(),
                     settings = false;
                 switch (item.get_Type()) {
                     case Asc.c_oAscRevisionsChangeType.TextAdd:
-                        changetext = me.textInserted;
+                        changetext = (movetype==Asc.c_oAscRevisionsMove.NoMove) ? me.textInserted : me.textParaMoveTo;
                         if (typeof value == 'object') {
                             _.each(value, function(obj) {
                                 if (typeof obj === 'string')
@@ -267,7 +271,7 @@ define([
                         }
                     break;
                     case Asc.c_oAscRevisionsChangeType.TextRem:
-                        changetext = me.textDeleted;
+                        changetext = (movetype==Asc.c_oAscRevisionsMove.NoMove) ? me.textDeleted : (item.is_MovedDown() ? me.textParaMoveFromDown : me.textParaMoveFromUp);
                         if (typeof value == 'object') {
                             _.each(value, function(obj) {
                                 if (typeof obj === 'string')
@@ -405,7 +409,15 @@ define([
                         changetext += '</b>';
                         changetext += proptext;
                     break;
-
+                    case Asc.c_oAscRevisionsChangeType.TablePr:
+                        changetext = me.textTableChanged;
+                    break;
+                    case Asc.c_oAscRevisionsChangeType.RowsAdd:
+                        changetext = me.textTableRowsAdd;
+                    break;
+                    case Asc.c_oAscRevisionsChangeType.RowsRem:
+                        changetext = me.textTableRowsDel;
+                    break;
                 }
                 var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
                     user = me.userCollection.findOriginalUser(item.get_UserId()),
@@ -422,7 +434,9 @@ define([
                         type        : item.get_Type(),
                         changedata  : item,
                         scope       : me.view,
-                        hint        : !me.appConfig.canReview
+                        hint        : !me.appConfig.canReview,
+                        goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom),
+                        editable    : (item.get_UserId() == me.currentUserId)
                     });
 
                 arr.push(change);
@@ -499,6 +513,13 @@ define([
         onDeleteClick: function(change) {
             if (this.api) {
                 this.api.asc_RejectChanges(change);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onGotoClick: function(change) {
+            if (this.api) {
+                this.api.asc_FollowRevisionMove(change);
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -763,7 +784,12 @@ define([
         textEquation: 'Equation',
         textImage: 'Image',
         textChart: 'Chart',
-        textShape: 'Shape'
-        
+        textShape: 'Shape',
+        textTableChanged: '<b>Table Settings Changed</b>',
+        textTableRowsAdd: '<b>Table Rows Added<b/>',
+        textTableRowsDel: '<b>Table Rows Deleted<b/>',
+        textParaMoveTo: '<b>Moved:</b>',
+        textParaMoveFromUp: '<b>Moved Up:</b>',
+        textParaMoveFromDown: '<b>Moved Down:</b>'
     }, Common.Controllers.ReviewChanges || {}));
 });

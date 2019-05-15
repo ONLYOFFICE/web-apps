@@ -438,6 +438,11 @@ define([
                         text    = me.sendMergeText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = me.waitText;
+                        text    = me.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = me.txtEditingMode;
                         text    = me.txtEditingMode;
@@ -498,12 +503,8 @@ define([
                 this.isLiveCommenting?this.api.asc_showComments(true):this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    value = Common.localStorage.getItem("sse-settings-coauthmode");
-                    if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
-                        this.appOptions.customization && this.appOptions.customization.autosave===false) {
-                        value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
-                    }
-                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
+                    // Force ON fast co-authoring mode
+                    me._state.fastCoauth = true;
                 } else
                     this._state.fastCoauth = false;
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
@@ -670,7 +671,7 @@ define([
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.canRename      = !!me.permissions.rename;
 
-                    me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
+                    me.appOptions.canBranding  = params.asc_getCustomization();
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
                 }
 
@@ -1393,7 +1394,7 @@ define([
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "Ok" to back to document list.',
+            criticalErrorExtText: 'Press "OK" to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
             saveTitleText: 'Saving Document',
@@ -1421,7 +1422,7 @@ define([
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            unsupportedBrowserErrorText: 'Your browser is not supported.',
             requestEditFailedTitleText: 'Access denied',
             requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
             textLoadingDocument: 'Loading spreadsheet',
@@ -1568,7 +1569,8 @@ define([
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
             errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.',
             textPaidFeature: 'Paid feature',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            waitText: 'Please, wait...'
         }
     })(), SSE.Controllers.Main || {}))
 });

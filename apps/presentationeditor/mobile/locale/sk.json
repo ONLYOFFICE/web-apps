@@ -197,7 +197,7 @@
   "PE.Controllers.Main.txtXAxis": "Os X",
   "PE.Controllers.Main.txtYAxis": "Os Y",
   "PE.Controllers.Main.unknownErrorText": "Neznáma chyba.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Váš prehliadač nie je podporovaný.",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Váš prehliadač nie je podporovaný.",
   "PE.Controllers.Main.uploadImageExtMessage": "Neznámy formát obrázka.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Neboli načítané žiadne obrázky.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Maximálny limit veľkosti obrázka bol prekročený.",

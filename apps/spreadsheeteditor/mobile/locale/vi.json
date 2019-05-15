@@ -248,7 +248,7 @@
   "SSE.Controllers.Main.txtXAxis": "Trục X",
   "SSE.Controllers.Main.txtYAxis": "Trục Y",
   "SSE.Controllers.Main.unknownErrorText": "Lỗi không xác định.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Trình duyệt của bạn không được hỗ trợ.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Trình duyệt của bạn không được hỗ trợ.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Định dạng hình ảnh không xác định.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Không có hình ảnh được tải lên.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Đã vượt quá giới hạn kích thước tối đa của hình ảnh.",

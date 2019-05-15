@@ -72,6 +72,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this.spinners = [];
 
             this._nRatio = 1;
+            this._isDefaultSize = false;
             this._originalProps = this.options.imageProps;
         },
 
@@ -100,6 +101,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                     }
                     this.spnHeight.setValue(h, true);
                 }
+                this._isDefaultSize = false;
             }, this));
             this.spinners.push(this.spnWidth);
 
@@ -123,6 +125,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                     }
                     this.spnWidth.setValue(w, true);
                 }
+                this._isDefaultSize = false;
             }, this));
             this.spinners.push(this.spnHeight);
 
@@ -133,6 +136,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 this.spnWidth.setValue(this.sizeOriginal.width, true);
                 this.spnHeight.setValue(this.sizeOriginal.height, true);
                 this._nRatio = this.sizeOriginal.width/this.sizeOriginal.height;
+                this._isDefaultSize = true;
             }, this));
 
             this.btnRatio = new Common.UI.Button({
@@ -268,6 +272,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             if (this.spnWidth.getValue()!=='')
                 properties.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
             properties.asc_putLockAspect(this.btnRatio.pressed);
+            properties.put_ResetCrop(this._isDefaultSize);
 
             var Position = new Asc.CPosition();
             if (this.spnX.getValue() !== '')

@@ -404,7 +404,7 @@ define([
                         old_rights = this._state.lostEditingRights;
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
-                    this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').panels['rights'].onLostEditRights();
+                    Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
                     if (!old_rights)
                         Common.UI.warning({
@@ -581,6 +581,10 @@ define([
 
                     case Asc.c_oAscAsyncAction['PrepareToSave']:
                         title   = this.savePreparingText;
+                        break;
+
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = this.waitText;
                         break;
 
                     case ApplyEditRights:
@@ -919,11 +923,11 @@ define([
                     this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
-                    this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
+                    this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
                     else if (typeof this.editorConfig.customization == 'object') {
-                        this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarBreakTabs =
+                        this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarNoTabs =
                         this.editorConfig.customization.toolbarHideFileName = false;
                     }
 
@@ -1276,6 +1280,7 @@ define([
                         }
                         this._state.lostEditingRights = true;
                         config.msg = this.errorUserDrop;
+                        Common.NotificationCenter.trigger('collaboration:sharingdeny');
                         break;
 
                     case Asc.c_oAscError.ID.InvalidReferenceOrName:
@@ -1362,6 +1367,10 @@ define([
 
                     case Asc.c_oAscError.ID.MailToClientMissing:
                         config.msg = this.errorEmailClient;
+                        break;
+
+                    case Asc.c_oAscError.ID.NoDataToParse:
+                        config.msg = this.errorNoDataToParse;
                         break;
 
                     default:
@@ -1604,8 +1613,9 @@ define([
                     me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        mode: mode,
-                        type: type,
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'CSV'),
+                        closable: (mode==2), // if save settings
+                        type: Common.Utils.importTextType.CSV,
                         preview: advOptions.asc_getOptions().asc_getData(),
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
@@ -1623,8 +1633,9 @@ define([
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
+                        title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,
-                        type: type,
+                        type: Common.Utils.importTextType.DRM,
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
@@ -2159,7 +2170,7 @@ define([
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "Ok" to to back to document list.',
+            criticalErrorExtText: 'Press "OK" to to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
             saveTitleText: 'Saving Document',
@@ -2188,7 +2199,7 @@ define([
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            unsupportedBrowserErrorText: 'Your browser is not supported.',
             requestEditFailedTitleText: 'Access denied',
             requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
             warnBrowserZoom: 'Your browser\'s current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.',
@@ -2492,7 +2503,9 @@ define([
             errorEmailClient: 'No email client could be found',
             txtPrintArea: 'Print_Area',
             txtTable: 'Table',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            errorNoDataToParse: 'No data was selected to parse.',
+            waitText: 'Please, wait...'
         }
     })(), SSE.Controllers.Main || {}))
 });

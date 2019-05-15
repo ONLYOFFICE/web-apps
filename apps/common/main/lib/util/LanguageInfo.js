@@ -395,7 +395,7 @@ Common.util.LanguageInfo = new(function() {
         0x042E : ["hsb-DE", "Hornjoserbšćina (Němska)", "Upper Sorbian (Germany)"],
         0x0020 : ["ur", "اُردو‏"],
         0x0420 : ["ur-PK", "اُردو (پاکستان)‏", "Urdu (Islamic Republic of Pakistan)"],
-        0x0820 : ["ur-IN", "اُردو (بھارت)", "Urdu (India)"],
+        0x0820 : ["ur-IN", "اُردو (بھارت)‏", "Urdu (India)"],
         0x0080 : ["ug", "ئۇيغۇر يېزىقى‏"],
         0x0480 : ["ug-CN", "(ئۇيغۇر يېزىقى (جۇڭخۇا خەلق جۇمھۇرىيىتى‏", "Uighur (People's Republic of China)"],
         0x7843 : ["uz-Cyrl", "Ўзбек"],

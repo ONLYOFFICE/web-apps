@@ -1531,6 +1531,7 @@ define([
                         this.api.asc_registerCallback('asc_doubleClickOnChart',         onDoubleClickOnChart);
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
                         this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
+                        this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
                     }
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',                      _.bind(onCoAuthoringDisconnect, this));
@@ -1549,13 +1550,6 @@ define([
 
             this.mode = {};
             this.setMode = function(m) {
-                if (this.api && m.isEdit) {
-                    this.api.asc_registerCallback('asc_onImgWrapStyleChanged',          _.bind(this.onImgWrapStyleChanged, this));
-                    this.api.asc_registerCallback('asc_onDialogAddHyperlink',           onDialogAddHyperlink);
-                    this.api.asc_registerCallback('asc_doubleClickOnChart',             onDoubleClickOnChart);
-                    this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',      _.bind(onSpellCheckVariantsFound, this));
-                }
-
                 this.mode = m;
                 /** coauthoring begin **/
                 !(this.mode.canCoAuthoring && this.mode.canComments)
@@ -1601,6 +1595,10 @@ define([
                     this.menuImageWrap.menu.items[5].setChecked(true);
                     break;
             }
+        },
+
+        onChangeCropState: function(state) {
+            this.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
         onApiParagraphStyleChange: function(name) {
@@ -2295,7 +2293,7 @@ define([
                     var properties = new Asc.asc_CImgProperty();
                     properties.put_Width(originalImageSize.get_ImageWidth());
                     properties.put_Height(originalImageSize.get_ImageHeight());
-
+                    properties.put_ResetCrop(true);
                     me.api.ImgApply(properties);
 
                     me.fireEvent('editcomplete', this);
@@ -2383,6 +2381,29 @@ define([
                 })
             });
 
+            me.menuImgCrop = new Common.UI.MenuItem({
+                caption     : me.textCrop,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value  : 0
+                        }).on('click', _.bind(me.onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFill,
+                            value  : 1
+                        }).on('click', _.bind(me.onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFit,
+                            value  : 2
+                        }).on('click', _.bind(me.onImgCrop, me))
+                    ]
+                })
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
@@ -2453,10 +2474,14 @@ define([
                     if (menuImgRotate.isVisible())
                         menuImgRotate.setDisabled(islocked);
 
+                    me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
+                    if (me.menuImgCrop.isVisible())
+                        me.menuImgCrop.setDisabled(islocked);
+
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[15].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[16].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2506,6 +2531,7 @@ define([
                     me.menuImageWrap,
                     menuImgRotate,
                     { caption: '--' },
+                    me.menuImgCrop,
                     me.menuOriginalSize,
                     menuImgReplace,
                     menuChartEdit,
@@ -2671,6 +2697,10 @@ define([
             var menuAddHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.hyperlinkText
             }).on('click', _.bind(me.addHyperlink, me));
+
+            var menuTableFollow = new Common.UI.MenuItem({
+                caption: me.textFollow
+            }).on('click', _.bind(me.onFollowMove, me));
 
             me.menuSpellTable = new Common.UI.MenuItem({
                 caption     : me.loadSpellText,
@@ -2927,7 +2957,6 @@ define([
                     }
                     menuAddHyperlinkTable.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
-                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible());
 
                     menuEditHyperlinkTable.hyperProps = value.hyperProps;
                     menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
@@ -2942,7 +2971,23 @@ define([
                     menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
                     /** coauthoring end **/
-                        // paragraph properties
+
+                    // review move
+                    var data = me.api.asc_GetRevisionsChangesStack(),
+                        move = false;
+                    menuTableFollow.value = null;
+                    _.each(data, function(item) {
+                        if ((item.get_Type()==Asc.c_oAscRevisionsChangeType.TextAdd || item.get_Type() == Asc.c_oAscRevisionsChangeType.TextRem) &&
+                            item.get_MoveType()!=Asc.c_oAscRevisionsMove.NoMove) {
+                            menuTableFollow.value = item;
+                            move = true;
+                        }
+                    });
+                    menuTableFollow.setVisible(move);
+
+                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible() || menuTableFollow.isVisible());
+
+                    // paragraph properties
                     menuParagraphAdvancedInTable.setVisible(value.paraProps!==undefined);
 
                     me._currentParaObjDisabled = disabled = value.paraProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
@@ -3115,6 +3160,7 @@ define([
                     menuNumberingTable,
                     menuAddHyperlinkTable,
                     menuHyperlinkTable,
+                    menuTableFollow,
                     menuHyperlinkSeparator,
                     menuTableControl,
                     menuTableTOC,
@@ -3440,6 +3486,14 @@ define([
                 caption     : '--'
             });
 
+            var menuParaFollow = new Common.UI.MenuItem({
+                caption: me.textFollow
+            }).on('click', _.bind(me.onFollowMove, me));
+
+            var menuParaFollowSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
@@ -3491,6 +3545,20 @@ define([
                     me._currentParaObjDisabled = disabled;
                     menuAddHyperlinkPara.setDisabled(disabled);
                     menuHyperlinkPara.setDisabled(disabled || value.hyperProps!==undefined && value.hyperProps.isSeveralLinks===true);
+
+                    // review move
+                    var data = me.api.asc_GetRevisionsChangesStack(),
+                        move = false;
+                    menuParaFollow.value = null;
+                    _.each(data, function(item) {
+                        if ((item.get_Type()==Asc.c_oAscRevisionsChangeType.TextAdd || item.get_Type() == Asc.c_oAscRevisionsChangeType.TextRem) &&
+                            item.get_MoveType()!=Asc.c_oAscRevisionsMove.NoMove) {
+                            menuParaFollow.value = item;
+                            move = true;
+                        }
+                    });
+                    menuParaFollow.setVisible(move);
+                    menuParaFollowSeparator.setVisible(move);
 
                     menuParagraphBreakBefore.setDisabled(disabled || !_.isUndefined(value.headerProps) || !_.isUndefined(value.imgProps));
                     menuParagraphKeepLines.setDisabled(disabled);
@@ -3615,6 +3683,8 @@ define([
                     menuHyperlinkParaSeparator,
                     menuAddHyperlinkPara,
                     menuHyperlinkPara,
+                    menuParaFollowSeparator,
+                    menuParaFollow,
                     menuParaNumberingSeparator,
                     menuParaStartNewList,
                     menuParaStartNumberingFrom,
@@ -3766,6 +3836,24 @@ define([
             else
                 properties.asc_putFlipVInvert(true);
             this.api.ImgApply(properties);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onImgCrop: function(item) {
+            if (item.value == 1) {
+                this.api.asc_cropFill();
+            } else if (item.value == 2) {
+                this.api.asc_cropFit();
+            } else {
+                item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onFollowMove: function(item) {
+            if (this.api) {
+                this.api.asc_FollowRevisionMove(item.value);
+            }
             this.fireEvent('editcomplete', this);
         },
 
@@ -3983,7 +4071,11 @@ define([
         textRotate90: 'Rotate 90° Clockwise',
         textFlipV: 'Flip Vertically',
         textFlipH: 'Flip Horizontally',
-        textRotate: 'Rotate'
+        textRotate: 'Rotate',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit',
+        textFollow: 'Follow move'
 
     }, DE.Views.DocumentHolder || {}));
 });

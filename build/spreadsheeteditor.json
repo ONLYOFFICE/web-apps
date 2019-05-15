@@ -165,7 +165,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/main/resources/help/",
-                    "src": ["**","!*_/**"],
+                    "src": [
+                        "**",
+                        "!*_/**"
+                    ],
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/"
                 }
             ],

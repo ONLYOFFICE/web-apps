@@ -123,7 +123,7 @@
                     showReviewChanges: false,
                     help: true,
                     compactHeader: false,
-                    toolbarBreakTabs: false,
+                    toolbarNoTabs: false,
                     toolbarHideFileName: false
                 },
                 plugins: {
@@ -735,7 +735,8 @@
 		if (config.type == "mobile")
 		{
 			iframe.style.position = "fixed";
-			iframe.style.overflow = "hidden";
+            iframe.style.overflow = "hidden";
+            document.body.style.overscrollBehaviorY = "contain";
 		}
         return iframe;
     }

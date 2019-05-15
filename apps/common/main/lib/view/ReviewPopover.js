@@ -386,6 +386,7 @@ define([
 
                                 if (record.get('dummy')) {
                                     var commentVal = this.getActiveTextBoxVal();
+                                    me.clearDummyText();
                                     if (commentVal.length > 0)
                                         me.fireEvent('comment:addDummyComment', [commentVal]);
                                     else {
@@ -414,6 +415,7 @@ define([
 
                             } else if (btn.hasClass('btn-inner-close', false)) {
                                 if (record.get('dummy')) {
+                                    me.clearDummyText();
                                     me.hide();
                                     return;
                                 }
@@ -460,7 +462,7 @@ define([
                             me.commentsView.autoHeightTextBox();
                             me.$window.find('textarea').keydown(function (event) {
                                 if (event.keyCode == Common.UI.Keys.ESC) {
-                                    me.hide();
+                                    me.hide(true); // clear text in dummy comment
                                 }
                             });
                         },
@@ -496,6 +498,26 @@ define([
                         itemTemplate: _.template(reviewTemplate)
                     });
 
+                    var addtooltip = function (dataview, view, record) {
+                        if (view.tipsArray) {
+                            view.tipsArray.forEach(function (item) {
+                                item.remove();
+                            });
+                        }
+
+                        var arr = [],
+                            btns = $(view.el).find('.btn-goto');
+                        btns.tooltip({title: me.textFollowMove, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        view.tipsArray = arr;
+                    };
+
+                    this.reviewChangesView.on('item:add', addtooltip);
+                    this.reviewChangesView.on('item:remove', addtooltip);
+                    this.reviewChangesView.on('item:change', addtooltip);
+
                     this.reviewChangesView.on('item:click', function (picker, item, record, e) {
                         var btn = $(e.target);
                         if (btn) {
@@ -505,6 +527,11 @@ define([
                                 me.fireEvent('reviewchange:reject', [record.get('changedata')]);
                             } else if (btn.hasClass('btn-delete')) {
                                 me.fireEvent('reviewchange:delete', [record.get('changedata')]);
+                            } else if (btn.hasClass('btn-goto')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
+                                me.fireEvent('reviewchange:goto', [record.get('changedata')]);
                             }
                         }
                     });
@@ -583,7 +610,7 @@ define([
 
         hide: function () {
             if (this.handlerHide) {
-                this.handlerHide();
+                this.handlerHide.apply(this, arguments);
             }
 
             this.hideTips();
@@ -822,6 +849,9 @@ define([
             }
 
             this.$window.css({overflow: ''});
+            if (this.scroller) {
+                this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+            }
         },
         saveText: function (clear) {
             if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
@@ -845,6 +875,22 @@ define([
             }
 
             return undefined;
+        },
+        saveDummyText: function () {
+            if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
+                this.textDummyVal = this.commentsView.getActiveTextBoxVal();
+            }
+        },
+        clearDummyText: function () {
+            if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
+                this.textDummyVal = undefined;
+                var textBox = this.commentsView.getTextBox();
+                textBox && textBox.val('');
+                this.commentsView.clearTextBoxBind();
+            }
+        },
+        getDummyText: function() {
+            return this.textDummyVal || '';
         },
 
         hookTextBox: function () {
@@ -877,6 +923,14 @@ define([
         hideTips: function () {
             if (this.commentsView)
                 _.each(this.commentsView.dataViewItems, function (item) {
+                    if (item.tipsArray) {
+                        item.tipsArray.forEach(function (item) {
+                            item.hide();
+                        });
+                    }
+                }, this);
+            if (this.reviewChangesView)
+                _.each(this.reviewChangesView.dataViewItems, function (item) {
                     if (item.tipsArray) {
                         item.tipsArray.forEach(function (item) {
                             item.hide();
@@ -932,7 +986,7 @@ define([
         textReply               : 'Reply',
         textClose               : 'Close',
         textResolve             : 'Resolve',
-        textOpenAgain           : "Open Again"
-
+        textOpenAgain           : "Open Again",
+        textFollowMove          : 'Follow Move'
     }, Common.Views.ReviewPopover || {}))
 });
