@@ -163,6 +163,7 @@
   "DE.Controllers.Main.uploadImageSizeMessage": "La taille de l'image a dépassé la limite maximale.",
   "DE.Controllers.Main.uploadImageTextText": "Chargement d'une image en cours...",
   "DE.Controllers.Main.uploadImageTitleText": "Chargement d'une image",
+  "DE.Controllers.Main.waitText": "Veuillez patienter...",
   "DE.Controllers.Main.warnLicenseExceeded": "Le nombre de connexions simultanées  sur le serveur de documents  a été dépassée et le document sera ouvert en mode lecture seule.<br>Veuillez contacter votre administrateur  pour plus d'informations.",
   "DE.Controllers.Main.warnLicenseExp": "Votre licence a expiré.<br>Veuillez mettre à jour votre licence et actualisez la page.",
   "DE.Controllers.Main.warnLicenseUsersExceeded": "Le nombre d'utilisateurs simultanés a été dépassé et le document sera ouvert en mode lecture seule.<br>Veuillez contacter votre administrateur  pour plus d'informations.",
