@@ -916,11 +916,20 @@ define([
                 return;
 
             var me = this,
-                props = (this.api) ? this.api.asc_getCoreProps() : null;
+                props = (this.api) ? this.api.asc_getCoreProps() : null,
+                app = (this.api) ? this.api.asc_getAppProps() : null,
+                value;
+
+            if (app) {
+                value = app.asc_getTotalTime();
+                if (value)
+                    this.lblEditTime.text(value + ' ' + this.txtMinutes);
+            }
+            this._ShowHideInfoItem(this.lblEditTime, !!value);
+
             if (props) {
                 var visible = false;
-
-                var value = props.asc_getModified();
+                value = props.asc_getModified();
                 if (value)
                     this.lblModifyDate.text(value.toLocaleString());
                 visible = visible || this._ShowHideInfoItem(this.lblModifyDate, !!value);
@@ -930,10 +939,6 @@ define([
                 visible = visible || this._ShowHideInfoItem(this.lblModifyBy, !!value);
                 $('tr.divider.modify', this.el)[visible?'show':'hide']();
 
-                value = '';//props.asc_getEditingTime();
-                if (value)
-                    this.lblEditTime.text(value);
-                this._ShowHideInfoItem(this.lblEditTime, !!value);
                 value = props.asc_getTitle();
                 this.inputTitle.setValue(value || '');
                 value = props.asc_getSubject();
@@ -942,8 +947,8 @@ define([
                 this.inputComment.setValue(value || '');
 
                 this.tblAuthor.find('tr:not(:last-of-type)').remove();
-                value = ['123"""<>', '456'];//props.asc_getAuthor();
-                value && value.forEach(function(item) {
+                value = props.asc_getCreator();//"123\"\"\"\<\>,456";
+                value && value.split(/\s*[,;]\s*/).forEach(function(item) {
                     var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(item)));
                     me.trAuthor.before(div);
                 });
@@ -1050,7 +1055,8 @@ define([
         txtDate: 'Created',
         txtAuthor: 'Author',
         txtAddAuthor: 'Add Author',
-        txtAddText: 'Add Text'
+        txtAddText: 'Add Text',
+        txtMinutes: 'min'
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));
 
     DE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
