@@ -1,0 +1,23 @@
+{
+  "common.view.modals.txtCopy": "Skopiuj do schowka",
+  "common.view.modals.txtHeight": "Wysokość",
+  "common.view.modals.txtWidth": "Szerokość",
+  "DE.ApplicationController.convertationTimeoutText": "Przekroczono limit czasu konwersji.",
+  "DE.ApplicationController.criticalErrorTitle": "Błąd",
+  "DE.ApplicationController.downloadErrorText": "Pobieranie nieudane.",
+  "DE.ApplicationController.downloadTextText": "Pobieranie dokumentu...",
+  "DE.ApplicationController.errorAccessDeny": "Próbujesz wykonać działanie, na które nie masz uprawnień.<br>Proszę skontaktować się z administratorem serwera dokumentów.",
+  "DE.ApplicationController.errorDefaultMessage": "Kod błędu: %1",
+  "DE.ApplicationController.errorFilePassProtect": "Dokument jest chroniony hasłem i nie może być otwarty.",
+  "DE.ApplicationController.errorUserDrop": "Nie można uzyskać dostępu do tego pliku.",
+  "DE.ApplicationController.notcriticalErrorTitle": "Ostrzeżenie",
+  "DE.ApplicationController.textLoadingDocument": "Ładowanie dokumentu",
+  "DE.ApplicationController.textOf": "z",
+  "DE.ApplicationController.txtClose": "Zamknij",
+  "DE.ApplicationController.unknownErrorText": "Nieznany błąd.",
+  "DE.ApplicationController.unsupportedBrowserErrorText": "Twoja przeglądarka nie jest wspierana.",
+  "DE.ApplicationController.waitText": "Proszę czekać...",
+  "DE.ApplicationView.txtDownload": "Pobierz",
+  "DE.ApplicationView.txtFullScreen": "Pełny ekran",
+  "DE.ApplicationView.txtShare": "Udostępnij"
+}

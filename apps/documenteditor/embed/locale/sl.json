@@ -1,0 +1,21 @@
+{
+  "common.view.modals.txtCopy": "Kopiraj v odložišče",
+  "common.view.modals.txtHeight": "Višina",
+  "common.view.modals.txtWidth": "Širina",
+  "DE.ApplicationController.convertationErrorText": "Pretvorba ni uspela.",
+  "DE.ApplicationController.convertationTimeoutText": "Pretvorbena prekinitev presežena.",
+  "DE.ApplicationController.criticalErrorTitle": "Napaka",
+  "DE.ApplicationController.downloadErrorText": "Prenos ni uspel.",
+  "DE.ApplicationController.downloadTextText": "Prenašanje dokumenta...",
+  "DE.ApplicationController.errorDefaultMessage": "Koda napake: %1",
+  "DE.ApplicationController.errorFilePassProtect": "Dokument je zaščiten z geslom in ga ni mogoče odpreti.",
+  "DE.ApplicationController.errorUserDrop": "Do datoteke v tem trenutku ni možno dostopati.",
+  "DE.ApplicationController.notcriticalErrorTitle": "Opozorilo",
+  "DE.ApplicationController.textLoadingDocument": "Nalaganje dokumenta",
+  "DE.ApplicationController.textOf": "od",
+  "DE.ApplicationController.txtClose": "Zapri",
+  "DE.ApplicationController.unknownErrorText": "Neznana napaka.",
+  "DE.ApplicationController.unsupportedBrowserErrorText": "Vaš brskalnik ni podprt.",
+  "DE.ApplicationView.txtDownload": "Prenesi",
+  "DE.ApplicationView.txtShare": "Deli"
+}

@@ -1,0 +1,23 @@
+{
+  "common.view.modals.txtCopy": "Skopiuj do schowka",
+  "common.view.modals.txtHeight": "Wysokość",
+  "common.view.modals.txtWidth": "Szerokość",
+  "SSE.ApplicationController.convertationTimeoutText": "Przekroczono limit czasu konwersji.",
+  "SSE.ApplicationController.criticalErrorTitle": "Błąd",
+  "SSE.ApplicationController.downloadErrorText": "Pobieranie nieudane.",
+  "SSE.ApplicationController.downloadTextText": "Pobieranie arkusza kalkulacyjnego...",
+  "SSE.ApplicationController.errorAccessDeny": "Próbujesz wykonać działanie, na które nie masz uprawnień.<br>Proszę skontaktować się z administratorem serwera dokumentów.",
+  "SSE.ApplicationController.errorDefaultMessage": "Kod błędu: %1",
+  "SSE.ApplicationController.errorFilePassProtect": "Dokument jest chroniony hasłem i nie może być otwarty.",
+  "SSE.ApplicationController.errorUserDrop": "Nie można uzyskać dostępu do tego pliku.",
+  "SSE.ApplicationController.notcriticalErrorTitle": "Ostrzeżenie",
+  "SSE.ApplicationController.textLoadingDocument": "Ładowanie arkusza kalkulacyjnego",
+  "SSE.ApplicationController.textOf": "z",
+  "SSE.ApplicationController.txtClose": "Zamknij",
+  "SSE.ApplicationController.unknownErrorText": "Nieznany błąd.",
+  "SSE.ApplicationController.unsupportedBrowserErrorText": "Twoja przeglądarka nie jest wspierana.",
+  "SSE.ApplicationController.waitText": "Proszę czekać...",
+  "SSE.ApplicationView.txtDownload": "Pobierz",
+  "SSE.ApplicationView.txtFullScreen": "Pełny ekran",
+  "SSE.ApplicationView.txtShare": "Udostępnij"
+}

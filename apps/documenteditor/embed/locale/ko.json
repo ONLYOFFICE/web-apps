@@ -1,0 +1,21 @@
+{
+  "common.view.modals.txtHeight": "높이",
+  "common.view.modals.txtWidth": "너비",
+  "DE.ApplicationController.convertationTimeoutText": "전환 시간 초과를 초과했습니다.",
+  "DE.ApplicationController.criticalErrorTitle": "오류",
+  "DE.ApplicationController.downloadErrorText": "다운로드하지 못했습니다.",
+  "DE.ApplicationController.downloadTextText": "문서 다운로드 중 ...",
+  "DE.ApplicationController.errorAccessDeny": "권한이없는 작업을 수행하려고합니다. <br> Document Server 관리자에게 문의하십시오.",
+  "DE.ApplicationController.errorDefaultMessage": "오류 코드 : %1",
+  "DE.ApplicationController.errorFilePassProtect": "이 문서는 암호로 보호되어있어 열 수 없습니다.",
+  "DE.ApplicationController.errorUserDrop": "파일에 지금 액세스 할 수 없습니다.",
+  "DE.ApplicationController.notcriticalErrorTitle": "경고",
+  "DE.ApplicationController.textLoadingDocument": "문서로드 중",
+  "DE.ApplicationController.textOf": "중",
+  "DE.ApplicationController.txtClose": "완료",
+  "DE.ApplicationController.unknownErrorText": "알 수없는 오류.",
+  "DE.ApplicationController.unsupportedBrowserErrorText": "사용중인 브라우저가 지원되지 않습니다.",
+  "DE.ApplicationView.txtDownload": "다운로드",
+  "DE.ApplicationView.txtFullScreen": "전체 화면",
+  "DE.ApplicationView.txtShare": "공유"
+}

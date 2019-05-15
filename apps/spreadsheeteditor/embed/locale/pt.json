@@ -1,0 +1,22 @@
+{
+  "common.view.modals.txtCopy": "Copiar para a área de transferência",
+  "common.view.modals.txtHeight": "Altura",
+  "common.view.modals.txtWidth": "Largura",
+  "SSE.ApplicationController.convertationTimeoutText": "Tempo limite de conversão excedido.",
+  "SSE.ApplicationController.criticalErrorTitle": "Erro",
+  "SSE.ApplicationController.downloadErrorText": "Falha ao baixar",
+  "SSE.ApplicationController.downloadTextText": "Baixando planilha...",
+  "SSE.ApplicationController.errorAccessDeny": "Você está tentando executar uma ação para a qual não tem direitos.<br>Entre em contato com o administrador do Document Server.",
+  "SSE.ApplicationController.errorDefaultMessage": "Código do erro: %1",
+  "SSE.ApplicationController.errorFilePassProtect": "O documento é protegido por senha e não pode ser aberto.",
+  "SSE.ApplicationController.errorUserDrop": "O arquivo não pode ser acessado agora.",
+  "SSE.ApplicationController.notcriticalErrorTitle": "Aviso",
+  "SSE.ApplicationController.textLoadingDocument": "Carregando planilha",
+  "SSE.ApplicationController.textOf": "de",
+  "SSE.ApplicationController.txtClose": "Fechar",
+  "SSE.ApplicationController.unknownErrorText": "Erro desconhecido.",
+  "SSE.ApplicationController.unsupportedBrowserErrorText": "Seu navegador não é suportado.",
+  "SSE.ApplicationController.waitText": "Aguarde...",
+  "SSE.ApplicationView.txtDownload": "Baixar",
+  "SSE.ApplicationView.txtShare": "Compartilhar"
+}

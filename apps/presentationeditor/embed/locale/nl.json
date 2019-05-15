@@ -1,0 +1,23 @@
+{
+  "common.view.modals.txtCopy": "Kopieer naar klembord",
+  "common.view.modals.txtHeight": "Hoogte",
+  "common.view.modals.txtWidth": "Breedte",
+  "PE.ApplicationController.convertationTimeoutText": "Time-out voor conversie overschreden.",
+  "PE.ApplicationController.criticalErrorTitle": "Fout",
+  "PE.ApplicationController.downloadErrorText": "Download mislukt.",
+  "PE.ApplicationController.downloadTextText": "Presentatie wordt gedownload...",
+  "PE.ApplicationController.errorAccessDeny": "U probeert een actie uit te voeren waarvoor u geen rechten hebt.<br>Neem contact op met de beheerder van de documentserver.",
+  "PE.ApplicationController.errorDefaultMessage": "Foutcode: %1",
+  "PE.ApplicationController.errorFilePassProtect": "Het bestand is beschermd met een wachtwoord en kan niet worden geopend.",
+  "PE.ApplicationController.errorUserDrop": "Toegang tot het bestand is op dit moment niet mogelijk.",
+  "PE.ApplicationController.notcriticalErrorTitle": "Waarschuwing",
+  "PE.ApplicationController.scriptLoadError": "De verbinding is te langzaam, sommige componenten konden niet geladen worden. Laad de pagina opnieuw.",
+  "PE.ApplicationController.textLoadingDocument": "Presentatie wordt geladen",
+  "PE.ApplicationController.textOf": "van",
+  "PE.ApplicationController.txtClose": "Sluiten",
+  "PE.ApplicationController.unknownErrorText": "Onbekende fout.",
+  "PE.ApplicationController.unsupportedBrowserErrorText": "Uw browser wordt niet ondersteund.",
+  "PE.ApplicationView.txtDownload": "Downloaden",
+  "PE.ApplicationView.txtFullScreen": "Volledig scherm",
+  "PE.ApplicationView.txtShare": "Delen"
+}
