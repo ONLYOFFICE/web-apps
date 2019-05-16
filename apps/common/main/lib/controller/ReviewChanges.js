@@ -163,6 +163,7 @@ define([
                         lock = (sdkchange[0].get_LockUserId()!==null),
                         lockUser = this.getUserName(sdkchange[0].get_LockUserId());
 
+                    this.getPopover().hideTips();
                     this.popoverChanges.reset(changes);
 
                     if (animate) {
