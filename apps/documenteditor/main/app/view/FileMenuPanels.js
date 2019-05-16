@@ -900,8 +900,9 @@ define([
             if (appname) {
                 appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
                 this.lblApplication.text(appname);
-                this._ShowHideInfoItem(this.lblApplication, !!appname);
             }
+            this._ShowHideInfoItem(this.lblApplication, !!appname);
+
             var props = (this.api) ? this.api.asc_getCoreProps() : null;
             if (props) {
                 var value = props.asc_getCreated();

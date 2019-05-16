@@ -1050,26 +1050,61 @@ define([
             this.template = _.template([
                 '<table class="main">',
                     '<tr>',
-                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
-                        '<td class="right"><label id="id-info-title">-</label></td>',
-                    '</tr>',
-                    '<tr class="author">',
-                        '<td class="left"><label>' + this.txtAuthor + '</label></td>',
-                        '<td class="right"><span class="userLink" id="id-info-author">-</span></td>',
-                    '</tr>',
-                    '<tr class="placement">',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
                     '</tr>',
-                    '<tr class="appname">',
-                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
-                        '<td class="right"><label id="id-info-appname">-</label></td>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtOwner + '</label></td>',
+                        '<td class="right"><label id="id-info-owner">-</label></td>',
                     '</tr>',
-                    '<tr class="date">',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtUploaded + '</label></td>',
+                        '<td class="right"><label id="id-info-uploaded">-</label></td>',
+                    '</tr>',
+                    '<tr class="divider general"></tr>',
+                    '<tr class="divider general"></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
+                        '<td class="right"><div id="id-info-subject"></div></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
+                        '<td class="right"><div id="id-info-title"></div></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtComment + '</label></td>',
+                        '<td class="right"><div id="id-info-comment"></div></td>',
+                    '</tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-by"></label></td>',
+                    '</tr>',
+                    '<tr class="divider modify">',
+                    '<tr class="divider modify">',
+                    '<tr>',
                         '<td class="left"><label>' + this.txtDate + '</label></td>',
-                        '<td class="right"><label id="id-info-date">-</label></td>',
+                        '<td class="right"><label id="id-info-date"></label></td>',
                     '</tr>',
-                    '<tr class="divider date"></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                        '<td class="right"><label id="id-info-appname"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
+                        '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
+                            '<table>',
+                                '<tr>',
+                                    '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
+                                '</tr>',
+                            '</table>',
+                        '</div></td>',
+                    '</tr>',
                 '</table>'
             ].join(''));
 
@@ -1079,11 +1114,79 @@ define([
         render: function() {
             $(this.el).html(this.template());
 
-            this.lblTitle = $('#id-info-title');
+            var me = this;
+
+            // server info
             this.lblPlacement = $('#id-info-placement');
+            this.lblOwner = $('#id-info-owner');
+            this.lblUploaded = $('#id-info-uploaded');
+
+            // edited info
+            this.inputTitle = new Common.UI.InputField({
+                el          : $('#id-info-title'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false
+            }).on('changed:after', function() {
+                // me.api && me.api.asc_setDocumentTitle(me.inputTitle.getValue());
+            });
+            this.inputSubject = new Common.UI.InputField({
+                el          : $('#id-info-subject'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false
+            }).on('changed:after', function() {
+                // me.api && me.api.asc_setDocumentSubject(me.inputSubject.getValue());
+            });
+            this.inputComment = new Common.UI.InputField({
+                el          : $('#id-info-comment'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false
+            }).on('changed:after', function() {
+                // me.api && me.api.asc_setDocumentComment(me.inputComment.getValue());
+            });
+
+            // modify info
+            this.lblModifyDate = $('#id-info-modify-date');
+            this.lblModifyBy = $('#id-info-modify-by');
+
+            // creation info
             this.lblDate = $('#id-info-date');
-            this.lblAuthor = $('#id-info-author');
             this.lblApplication = $('#id-info-appname');
+            this.tblAuthor = $('#id-info-author table');
+            this.trAuthor = $('#id-info-add-author').closest('tr');
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="close img-commonctrl"></div></td></tr>';
+
+            this.tblAuthor.on('click', function(e) {
+                var btn = $(e.target);
+                if (btn.hasClass('close')) {
+                    var el = btn.closest('tr'),
+                        idx = me.tblAuthor.find('tr').index(el);
+                    el.remove();
+                    // remove idx author from info
+                }
+            });
+
+            this.inputAuthor = new Common.UI.InputField({
+                el          : $('#id-info-add-author'),
+                style       : 'width: 200px;',
+                validateOnBlur: false,
+                placeHolder: this.txtAddAuthor
+            }).on('changed:after', function(input, newValue, oldValue) {
+                var val = newValue.trim();
+                if (!!val && val !== oldValue.trim()) {
+                    val.split(/\s*[,;]\s*/).forEach(function(item){
+                        var str = item.trim();
+                        if (str) {
+                            var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
+                            me.trAuthor.before(div);
+                            // add str author to info
+                        }
+                    });
+                    me.inputAuthor.setValue('');
+                }
+            });
 
             this.rendered = true;
 
@@ -1101,6 +1204,8 @@ define([
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+
+            this.updateFileInfo();
         },
 
         hide: function() {
@@ -1112,37 +1217,92 @@ define([
             if (!this.rendered)
                 return;
 
+            var visible = false;
             doc = doc || {};
-            this.lblTitle.text((doc.title) ? doc.title : '-');
-
             if (doc.info) {
-                if (doc.info.author)
-                    this.lblAuthor.text(doc.info.author);
-                this._ShowHideInfoItem('author', doc.info.author!==undefined && doc.info.author!==null);
-                if (doc.info.created )
-                    this.lblDate.text( doc.info.created );
-                this._ShowHideInfoItem('date', doc.info.created!==undefined && doc.info.created!==null);
+                // server info
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
-                this._ShowHideInfoItem('placement', doc.info.folder!==undefined && doc.info.folder!==null);
+                visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
+                if (doc.info.author)
+                    this.lblOwner.text(doc.info.author);
+                visible = this._ShowHideInfoItem(this.lblOwner, doc.info.author!==undefined && doc.info.author!==null) || visible;
+                if (doc.info.uploaded)
+                    this.lblUploaded.text(doc.info.uploaded.toLocaleString());
+                visible = this._ShowHideInfoItem(this.lblUploaded, doc.info.uploaded!==undefined && doc.info.uploaded!==null) || visible;
             } else
                 this._ShowHideDocInfo(false);
+            $('tr.divider.general', this.el)[visible?'show':'hide']();
+
             var appname = (this.api) ? this.api.asc_getAppProps() : null;
             if (appname) {
                 appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
                 this.lblApplication.text(appname);
             }
-            this._ShowHideInfoItem('appname', !!appname);
+            this._ShowHideInfoItem(this.lblApplication, !!appname);
+
+            var props = (this.api) ? this.api.asc_getCoreProps() : null;
+            if (props) {
+                var value = props.asc_getCreated();
+                if (value)
+                    this.lblDate.text(value.toLocaleString());
+                this._ShowHideInfoItem(this.lblDate, !!value);
+            }
         },
 
-        _ShowHideInfoItem: function(cls, visible) {
-            $('tr.'+cls, this.el)[visible?'show':'hide']();
+        updateFileInfo: function() {
+            if (!this.rendered)
+                return;
+
+            var me = this,
+                props = (this.api) ? this.api.asc_getCoreProps() : null,
+                value;
+
+            // var app = (this.api) ? this.api.asc_getAppProps() : null;
+            // if (app) {
+            //     value = app.asc_getTotalTime();
+            //     if (value)
+            //         this.lblEditTime.text(value + ' ' + this.txtMinutes);
+            // }
+            // this._ShowHideInfoItem(this.lblEditTime, !!value);
+
+            if (props) {
+                var visible = false;
+                value = props.asc_getModified();
+                if (value)
+                    this.lblModifyDate.text(value.toLocaleString());
+                visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
+                value = props.asc_getLastModifiedBy();
+                if (value)
+                    this.lblModifyBy.text(value);
+                visible = this._ShowHideInfoItem(this.lblModifyBy, !!value) || visible;
+                $('tr.divider.modify', this.el)[visible?'show':'hide']();
+
+                value = props.asc_getTitle();
+                this.inputTitle.setValue(value || '');
+                value = props.asc_getSubject();
+                this.inputSubject.setValue(value || '');
+                value = props.asc_getDescription();
+                this.inputComment.setValue(value || '');
+
+                this.tblAuthor.find('tr:not(:last-of-type)').remove();
+                value = props.asc_getCreator();//"123\"\"\"\<\>,456";
+                value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                    var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(item)));
+                    me.trAuthor.before(div);
+                });
+            }
+        },
+
+        _ShowHideInfoItem: function(el, visible) {
+            el.closest('tr')[visible?'show':'hide']();
+            return visible;
         },
 
         _ShowHideDocInfo: function(visible) {
-            this._ShowHideInfoItem('date', visible);
-            this._ShowHideInfoItem('placement', visible);
-            this._ShowHideInfoItem('author', visible);
+            this._ShowHideInfoItem(this.lblPlacement, visible);
+            this._ShowHideInfoItem(this.lblOwner, visible);
+            this._ShowHideInfoItem(this.lblUploaded, visible);
         },
 
         setMode: function(mode) {
@@ -1155,11 +1315,21 @@ define([
             return this;
         },
 
-        txtTitle: 'Document Title',
+        txtPlacement: 'Location',
+        txtOwner: 'Owner',
+        txtUploaded: 'Uploaded',
+        txtLoading: 'Loading...',
+        txtAppName: 'Application',
+        txtTitle: 'Title',
+        txtSubject: 'Subject',
+        txtComment: 'Comment',
+        txtModifyDate: 'Last Modified',
+        txtModifyBy: 'Last Modified By',
+        txtDate: 'Created',
         txtAuthor: 'Author',
-        txtPlacement: 'Placement',
-        txtDate: 'Creation Date',
-        txtAppName: 'Application'
+        txtAddAuthor: 'Add Author',
+        txtAddText: 'Add Text',
+        txtMinutes: 'min'
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
