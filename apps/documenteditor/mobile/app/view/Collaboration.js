@@ -147,6 +147,13 @@ define([
             textСomments: 'Сomments',
             textBack: 'Back',
             textReview: 'Track Changes',
+            textAcceptAllChanges: 'Accept All Changes',
+            textRejectAllChanges: 'Reject All Changes',
+            textDisplayMode: 'Display Mode',
+            textMarkup: 'Markup',
+            textFinal: 'Final',
+            textOriginal: 'Original',
+            textChange: 'Change'
 
         }
     })(), DE.Views.Collaboration || {}))

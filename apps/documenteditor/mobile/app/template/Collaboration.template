@@ -23,18 +23,6 @@
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <a id="comments-settings" class="item-link" data-page="#comments-settings-view">
-                                <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
-                                    </div>
-                                    <div class="item-inner">
-                                        <div class="item-title"><%= scope.textСomments %></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -71,10 +59,129 @@
                                 </div>
                             </div>
                         </li>
+                        <li>
+                            <a id="display-mode-settings" class="item-link" data-page="#display-mode-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-doc-setup"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textDisplayMode %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="change-settings" class="item-link" data-page="#change-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-doc-setup"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textChange %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div id="settings-accept-all" class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-review"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textAcceptAllChanges %></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div id="settings-reject-all" class="item-content">
+                                <div class="item-media">
+                                    <i class="icon icon-review"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textRejectAllChanges %></div>
+                                </div>
+                            </div>
+                        </li>
 
                     </ul>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Display Mode view -->
+<div id="display-mode-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textDisplayMode %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="display-mode-view">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="doc-orientation" value="Markup">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textMarkup %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="doc-orientation" value="Final">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textFinal %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                             <label class="label-radio item-content">
+                                 <input type="radio" name="doc-orientation" value="Original">
+                                 <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                 <div class="item-inner">
+                                     <div class="item-title"><%= scope.textOriginal %></div>
+                                 </div>
+                             </label>
+                         </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change view -->
+<div id="change-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textChange %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="change-view">
+            <div class="page-content">
+                <div class="content-block">
+                <a href="#" id="btn-prev-change" class="link icon-only"><i class="icon icon-undo"></i></a>
+                <a href="#" id="btn-next-change" class="link icon-only"><i class="icon icon-redo"></i></a>
+                <a href="#" id="btn-accept-change" class="link icon-only">Accept</a>
+                <a href="#" id="btn-reject-change" class="link icon-only">Reject</a>
+                </div>
+                <div id="current-change" class="content-block">
+                    <p id="user-name"></p>
+                    <p id="date-change"></p>
+                    <p id="text-change"></p>
+                </div>
             </div>
         </div>
     </div>
