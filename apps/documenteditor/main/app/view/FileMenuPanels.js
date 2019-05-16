@@ -737,7 +737,7 @@ define([
                     '<tr class="divider modify">',
                     '<tr class="divider modify">',
                     '<tr>',
-                        '<td class="left"><label>' + this.txtDate + '</label></td>',
+                        '<td class="left"><label>' + this.txtCreated + '</label></td>',
                         '<td class="right"><label id="id-info-date"></label></td>',
                     '</tr>',
                     '<tr>',
@@ -885,13 +885,13 @@ define([
                 // server info
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
-                visible = visible || this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null);
+                visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
                 if (doc.info.author)
                     this.lblOwner.text(doc.info.author);
-                visible = visible || this._ShowHideInfoItem(this.lblOwner, doc.info.author!==undefined && doc.info.author!==null);
+                visible = this._ShowHideInfoItem(this.lblOwner, doc.info.author!==undefined && doc.info.author!==null) || visible;
                 if (doc.info.uploaded)
                     this.lblUploaded.text(doc.info.uploaded.toLocaleString());
-                visible = visible || this._ShowHideInfoItem(this.lblUploaded, doc.info.uploaded!==undefined && doc.info.uploaded!==null);
+                visible = this._ShowHideInfoItem(this.lblUploaded, doc.info.uploaded!==undefined && doc.info.uploaded!==null) || visible;
             } else
                 this._ShowHideDocInfo(false);
             $('tr.divider.general', this.el)[visible?'show':'hide']();
@@ -932,11 +932,11 @@ define([
                 value = props.asc_getModified();
                 if (value)
                     this.lblModifyDate.text(value.toLocaleString());
-                visible = visible || this._ShowHideInfoItem(this.lblModifyDate, !!value);
+                visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
                     this.lblModifyBy.text(value);
-                visible = visible || this._ShowHideInfoItem(this.lblModifyBy, !!value);
+                visible = this._ShowHideInfoItem(this.lblModifyBy, !!value) || visible;
                 $('tr.divider.modify', this.el)[visible?'show':'hide']();
 
                 value = props.asc_getTitle();
@@ -1052,7 +1052,7 @@ define([
         txtComment: 'Comment',
         txtModifyDate: 'Last Modified',
         txtModifyBy: 'Last Modified By',
-        txtDate: 'Created',
+        txtCreated: 'Created',
         txtAuthor: 'Author',
         txtAddAuthor: 'Add Author',
         txtAddText: 'Add Text',
