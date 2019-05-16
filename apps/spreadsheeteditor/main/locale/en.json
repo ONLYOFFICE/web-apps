@@ -1489,7 +1489,6 @@
   "SSE.Views.FileMenuPanels.DocumentInfo.txtComment": "Comment",
   "del_SSE.Views.FileMenuPanels.DocumentInfo.txtDate": "Creation Date",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtCreated": "Created",
-  "SSE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Loading...",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtModifyDate": "Last Modified",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtModifyBy": "Last Modified By",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtOwner": "Owner",

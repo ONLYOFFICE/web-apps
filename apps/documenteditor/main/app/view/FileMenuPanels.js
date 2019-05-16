@@ -1034,7 +1034,7 @@ define([
         },
 
         onDocumentName: function(name) {
-            this.lblTitle.text((name) ? name : '-');
+            // this.lblTitle.text((name) ? name : '-');
         },
 
         txtPlacement: 'Location',

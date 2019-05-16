@@ -1318,7 +1318,6 @@ define([
         txtPlacement: 'Location',
         txtOwner: 'Owner',
         txtUploaded: 'Uploaded',
-        txtLoading: 'Loading...',
         txtAppName: 'Application',
         txtTitle: 'Title',
         txtSubject: 'Subject',
