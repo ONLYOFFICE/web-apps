@@ -45,6 +45,8 @@ define([
 
     Common.Controllers.Plugins = Backbone.Controller.extend(_.extend({
         models: [],
+        appOptions: {},
+        plugins: { autostart:[] },
         collections: [
             'Common.Collections.Plugins'
         ],
@@ -96,6 +98,34 @@ define([
 
             this._moveOffset = {x:0, y:0};
             this.autostart = null;
+
+            Common.Gateway.on('init', this.loadConfig.bind(this));
+            Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+        },
+
+        loadConfig: function(data) {
+            var me = this;
+            me.appOptions.lang = data.config.lang;
+            me.appOptions.plugins = data.config.plugins;
+            me.appOptions.editor = !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
+
+            if ( me.appOptions.plugins  ) {
+                me.plugins.autostart = me.appOptions.plugins.autostart;
+                me.getAppConfigPlugins(me.appOptions.plugins);
+            }
+
+            var server_plugins_url = '../../../../plugins.json';
+            Common.Utils.loadConfig(server_plugins_url, function (obj) {
+                if ( obj != 'error' ) {
+                    me.plugins.autostart = _.union(me.plugins.autostart, obj.autostart);
+                    me.getServerPlugins(obj);
+                }
+            });
+        },
+
+        onAppShowed: function (config) {
+            this.appOptions.isEdit = config.isEdit;
+            // this.appOptions.canPlugins = config.canPlugins;
         },
 
         setApi: function(api) {
@@ -106,14 +136,29 @@ define([
             this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
             this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
             this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
+            this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
+            // this.api.asc_registerCallback('asc_onPluginsInit', _.bind(me.updatePluginsList, me));
+
+            /**
+             * sometime plugins info from server can be received after
+             * AppShowed event, so try to parse info there
+             **/
+            if ( this.plugins.serverpluginsdata == undefined ) {
+                console.log('set api: plugins data from server is late')
+            } else
+            if ( this.plugins.serverpluginsdata === false ) {
+                console.log('set api: error for plugins data from server');
+            } else {
+                this.parsePlugins(this.plugins.serverpluginsdata);
+            }
+
+            if ( this.appOptions.canPlugins )
+                this.refreshPluginsList();
 
             return this;
         },
 
         setMode: function(mode) {
-            if (mode.canPlugins) {
-                this.updatePluginsList();
-            }
             return this;
         },
 
@@ -138,7 +183,7 @@ define([
             });
         },
 
-        updatePluginsList: function() {
+        refreshPluginsList: function() {
             var me = this;
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
                 arr = [];
@@ -147,6 +192,7 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
+
                 var variations = item.get('variations'),
                     variationsArr = [];
                 variations.forEach(function(itemVar){
@@ -168,8 +214,10 @@ define([
                     variation.set_Size(itemVar.get('size'));
                     variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
                     variation.set_Events(itemVar.get('events'));
+
                     variationsArr.push(variation);
                 });
+
                 plugin.set_Variations(variationsArr);
                 item.set('pluginObj', plugin);
                 arr.push(plugin);
@@ -193,6 +241,7 @@ define([
 
         onResetPlugins: function (collection) {
             var me = this;
+            me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
                 me.$toolbarPanelPlugins.empty();
 
@@ -217,6 +266,8 @@ define([
                     rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
+            } else {
+                console.error('toolbar panel isnot created');
             }
         },
 
@@ -397,12 +448,175 @@ define([
         },
 
         runAutoStartPlugins: function(autostart) {
-            if (autostart && autostart.length>0) {
-                var guid = autostart.shift();
-                this.autostart = autostart;
-                this.api.asc_pluginRun(guid, 0, '');
+            autostart = this.plugins.autostart;
+            if (autostart && autostart.length > 0) {
+                // var guid = autostart.shift();
+                // this.autostart = autostart;
+                this.api.asc_pluginRun(autostart.shift(), 0, '');
             }
-        }
+        },
+
+        resetPluginsList: function() {
+            this.getApplication().getCollection('Common.Collections.Plugins').reset();
+        },
+
+        applyUICustomization: function () {
+            var me = this;
+            if ( me.plugins.uicustom ) {
+                me.plugins.uicustom.forEach(function (c) {
+                    if ( c.code ) eval(c.code);
+                });
+            }
+        },
+
+        parsePlugins: function(pluginsdata, silent/*, uiCustomize*/) {
+            var me = this;
+            var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
+                isEdit = me.appOptions.isEdit,
+                editor = me.appOptions.editor;
+            if ( pluginsdata instanceof Array ) {
+                var arr = [], arrUI = [],
+                    lang = me.appOptions.lang.split(/[\-_]/)[0];
+                pluginsdata.forEach(function(item){
+                    if ( arr.some(function(i) {
+                                return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
+                            }
+                        ) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
+                    {
+                        return;
+                    }
+
+                    var variationsArr = [],
+                        pluginVisible = false;
+                    item.variations.forEach(function(itemVar){
+                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !itemVar.isSystem;
+                        if ( visible ) pluginVisible = true;
+
+                        if (item.isUICustomizer ) {
+                            visible && arrUI.push({
+                                url: item.baseUrl + itemVar.url
+                            });
+                        } else {
+                            var model = new Common.Models.PluginVariation(itemVar);
+                            var description = itemVar.description;
+                            if (typeof itemVar.descriptionLocale == 'object')
+                                description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
+
+                            _.each(itemVar.buttons, function(b, index){
+                                if (typeof b.textLocale == 'object')
+                                    b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                                b.visible = (isEdit || b.isViewer !== false);
+                            });
+
+                            model.set({
+                                description: description,
+                                index: variationsArr.length,
+                                url: itemVar.url,
+                                icons: itemVar.icons,
+                                buttons: itemVar.buttons,
+                                visible: visible
+                            });
+
+                            variationsArr.push(model);
+                        }
+                    });
+
+                    if (variationsArr.length > 0 && !item.isUICustomizer) {
+                        var name = item.name;
+                        if (typeof item.nameLocale == 'object')
+                            name = item.nameLocale[lang] || item.nameLocale['en'] || name || '';
+
+                        arr.push(new Common.Models.Plugin({
+                            name : name,
+                            guid: item.guid,
+                            baseUrl : item.baseUrl,
+                            variations: variationsArr,
+                            currentVariation: 0,
+                            visible: pluginVisible,
+                            groupName: (item.group) ? item.group.name : '',
+                            groupRank: (item.group) ? item.group.rank : 0
+                        }));
+                    }
+                });
+
+                // if ( uiCustomize!==false )  // from ui customizer in editor config or desktop event
+                //     this.UICustomizePlugins = arrUI;
+                if ( arrUI.length )
+                    me.plugins.uicustom = _.union(me.plugins.uicustom, arrUI);
+
+                // if ( !uiCustomize && pluginStore)
+                {
+                    arr = pluginStore.models.concat(arr);
+                    arr.sort(function(a, b){
+                        var rank_a = a.get('groupRank'),
+                            rank_b = b.get('groupRank');
+                        if (rank_a < rank_b)
+                            return (rank_a==0) ? 1 : -1;
+                        if (rank_a > rank_b)
+                            return (rank_b==0) ? -1 : 1;
+                        return 0;
+                    });
+                    pluginStore.reset(arr, {silent: !!silent});
+                    // this.appOptions.canPlugins = !pluginStore.isEmpty();
+                }
+            }
+            // else if (!uiCustomize){
+            //     this.appOptions.canPlugins = false;
+            // }
+
+            // if (!uiCustomize)
+            //     this.getApplication().getController('LeftMenu').enablePlugins();
+
+            // if (this.appOptions.canPlugins) {
+            //     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions).runAutoStartPlugins(plugins.autostart);
+            // }
+        },
+
+        getServerPlugins: function (config) {
+            var me = this;
+            Promise.all(config.pluginsData.map(function(url) {
+                return fetch(url)
+                    .then(function(response) {
+                        if ( response.ok ) return response.json();
+                        else return 'error';
+                    }).then(function(json) {
+                        json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
+                        return json;
+                    });
+            })).then(function(values) {
+                me.plugins.serverpluginsdata = values;
+                // console.log('server plugins data received');
+            }).catch(function(e) {
+                me.plugins.serverpluginsdata = false;
+                console.log('getServerPlugins error: ' + e.message);
+            });
+        },
+
+        getAppConfigPlugins: function (config) {
+            if ( config.UIpluginsData ) {
+                var me = this;
+                Promise.all(config.UIpluginsData.map(function(url) {
+                    return fetch(url)
+                        .then(function(response) {return response.json();})
+                        .then(function(json) {
+                            json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
+                            return json;
+                        });
+                })).then(function(values) {
+                    me.parsePlugins(values, true);
+
+                    if ( me.plugins.uicustom ) {
+                        me.plugins.uicustom.forEach(function (c) {
+                            fetch(c.url)
+                                .then(function (response) {return response.text();})
+                                .then(function (text) {c.code = text;});
+                        });
+                    }
+                }).catch(function(e) {
+                    console.log('error: ' + e.message);
+                });
+            }
+        },
 
     }, Common.Controllers.Plugins || {}));
 });

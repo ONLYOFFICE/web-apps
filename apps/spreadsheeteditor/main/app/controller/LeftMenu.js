@@ -376,11 +376,6 @@ define([
                 this.api.asc_setAutoSaveGap(value);
             }
 
-            value = Common.localStorage.getItem("sse-settings-func-locale");
-            Common.Utils.InternalSettings.set("sse-settings-func-locale", value);
-            if (value) value = SSE.Views.FormulaLang.get(value);
-            if (value!==null) this.api.asc_setLocalization(value);
-
             value = Common.localStorage.getItem("sse-settings-reg-settings");
             if (value!==null) this.api.asc_setLocale(parseInt(value));
 

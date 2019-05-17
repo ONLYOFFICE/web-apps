@@ -1922,7 +1922,7 @@ define([
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.funcMenu,
                     menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
-                    funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
+                    funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
 
                 for (var i = 0; i < menu.items.length; i++) {
                     var tip = menu.items[i].cmpEl.data('bs.tooltip');
@@ -2048,7 +2048,7 @@ define([
                     this.documentHolder.cmpEl.append(functip.parentEl);
                 }
 
-                var funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
 
                 if (functip.ref && functip.ref.isVisible()) {

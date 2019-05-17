@@ -726,21 +726,18 @@ Common.Utils.getConfigJson = function (url) {
     return null;
 };
 
-Common.Utils.getConfigJson = function (url) {
-    if ( url ) {
-        try {
-            var xhrObj = Common.Utils.createXhr();
-            if ( xhrObj ) {
-                xhrObj.open('GET', url, false);
-                xhrObj.send('');
+Common.Utils.loadConfig = function(url, callback) {
+    "use strict";
 
-                return JSON.parse(xhrObj.responseText);
-            }
-        } catch (e) {}
-    }
-
-    return null;
-}
+    fetch(url)
+        .then(function(response){
+            if ( response.ok )
+                return response.json();
+            else return 'error';
+        }).then(function(json){
+            callback(json);
+        });
+};
 
 Common.Utils.asyncCall = function (callback, scope, args) {
     (new Promise(function (resolve, reject) {
