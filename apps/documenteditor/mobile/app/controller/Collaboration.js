@@ -239,6 +239,9 @@ define([
                 if(arrChangeReview.length == 0) {
                     this.api.asc_GetNextRevisionsChange();
                 }
+                if(arrChangeReview.length == 0) {
+                    $('#current-change').css('display','none');
+                }
                 $('#current-change #date-change').html(arrChangeReview[0]);
                 $('#current-change #user-name').html(arrChangeReview[1]);
                 $('#current-change #text-change').html(arrChangeReview[2]);
@@ -282,7 +285,9 @@ define([
                     $('#current-change #date-change').empty();
                     $('#current-change #user-name').empty();
                     $('#current-change #text-change').empty();
+                    $('#current-change').css('display','none');
                 } else {
+                    $('#current-change').css('display','block');
                     this.initChange();
                 }
             },

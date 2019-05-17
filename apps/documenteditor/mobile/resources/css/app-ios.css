@@ -6264,6 +6264,57 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   margin-left: 20px;
   color: #212121;
 }
+.page-change .block-description {
+  background-color: #fff;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin: 0;
+}
+.page-change #user-name {
+  font-size: 17px;
+  line-height: 22px;
+  color: #000000;
+  margin: 0;
+}
+.page-change #date-change {
+  font-size: 14px;
+  line-height: 18px;
+  color: #8C8C8C;
+  margin: 0;
+  margin-top: 3px;
+}
+.page-change #text-change {
+  color: #000000;
+  font-size: 15px;
+  line-height: 18px;
+  margin: 0;
+  margin-top: 10px;
+}
+.page-change .block-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 26px 0;
+}
+.page-change .block-btn #btn-next-change,
+.page-change .block-btn #btn-reject-change {
+  margin-left: 20px;
+}
+.page-change .block-btn .link {
+  height: 48px;
+  width: 48px;
+  display: inline-block;
+}
+.page-change .block-btn .link .icon {
+  background-position: center;
+  height: 48px;
+  width: 48px;
+}
+.navbar .center-collaboration {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 45px;
+}
 .tablet .searchbar.document.replace .center .searchbar:first-child {
   margin-right: 10px;
 }
