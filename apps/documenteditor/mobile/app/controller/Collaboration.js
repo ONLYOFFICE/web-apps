@@ -53,9 +53,6 @@ define([
         var _settings = [],
             _headerType = 1,
              rootView,
-            _isReviewOnly = false,
-            _fileKey,
-            _canReview = false,
             displayMode = "Markup",
             arrChangeReview = [];
 
@@ -84,10 +81,9 @@ define([
                 this.createView('Collaboration').render();
             },
 
-            setMode: function (mode) {
-                _isReviewOnly = mode.isReviewOnly;
-                _fileKey = mode.fileKey;
-                _canReview = mode.canReview;
+            setMode: function(mode) {
+                this.appConfig = mode;
+                return this;
             },
 
 
@@ -173,21 +169,25 @@ define([
 
             initReviewingSettingsView: function () {
                 var me = this;
-                $('#settings-review input:checkbox').attr('checked', _isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
+                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes"));
                 $('#settings-review input:checkbox').single('change', _.bind(me.onTrackChanges, me));
-                if (_isReviewOnly) $layour.find('#settings-review').addClass('disabled');
                 $('#settings-accept-all').single('click', _.bind(me.onAcceptAllClick, me));
                 $('#settings-reject-all').single('click', _.bind(me.onRejectAllClick, me));
+                if(this.appConfig.isReviewOnly) {
+                    $('#settings-accept-all').addClass('disabled');
+                    $('#settings-reject-all').addClass('disabled');
+                    $('#settings-review').addClass('disabled');
+                }
             },
 
             onTrackChanges: function(e) {
                 var $checkbox = $(e.currentTarget),
                     state = $checkbox.is(':checked');
-                if ( _isReviewOnly ) {
+                if ( this.appConfig.isReviewOnly ) {
                     $checkbox.attr('checked', true);
-                } else if ( _canReview ) {
+                } else {
                     this.api.asc_SetTrackRevisions(state);
-                    Common.localStorage.setItem("de-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
+                    Common.localStorage.setItem("de-mobile-track-changes", state ? 1 : 0);
                 }
             },
 
@@ -234,6 +234,7 @@ define([
                 }
             },
 
+
             initChange: function() {
                 if(arrChangeReview.length == 0) {
                     this.api.asc_GetNextRevisionsChange();
@@ -245,6 +246,10 @@ define([
                 $('#btn-next-change').single('click', _.bind(this.onNextChange, this));
                 $('#btn-accept-change').single('click', _.bind(this.onAcceptCurrentChange, this));
                 $('#btn-reject-change').single('click', _.bind(this.onRejectCurrentChange, this));
+                if(!this.appConfig.isReviewOnly) {
+                    $('#btn-accept-change').removeClass('disabled');
+                    $('#btn-reject-change').removeClass('disabled');
+                }
 
             },
 

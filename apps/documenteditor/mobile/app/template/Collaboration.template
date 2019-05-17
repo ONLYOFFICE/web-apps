@@ -174,8 +174,8 @@
                 <div class="content-block">
                 <a href="#" id="btn-prev-change" class="link icon-only"><i class="icon icon-undo"></i></a>
                 <a href="#" id="btn-next-change" class="link icon-only"><i class="icon icon-redo"></i></a>
-                <a href="#" id="btn-accept-change" class="link icon-only">Accept</a>
-                <a href="#" id="btn-reject-change" class="link icon-only">Reject</a>
+                <a href="#" id="btn-accept-change" class="link icon-only disabled">Accept</a>
+                <a href="#" id="btn-reject-change" class="link icon-only disabled">Reject</a>
                 </div>
                 <div id="current-change" class="content-block">
                     <p id="user-name"></p>
