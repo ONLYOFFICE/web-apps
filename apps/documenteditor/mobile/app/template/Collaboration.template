@@ -36,6 +36,7 @@
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding"><%= scope.textReviewing %></div>
+            <div class="right sliding"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
     <div class="pages">
@@ -118,6 +119,7 @@
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding"><%= scope.textDisplayMode %></div>
+            <div class="right sliding"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
     <div class="pages">
@@ -166,6 +168,7 @@
         <div class="navbar-inner">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
             <div class="center sliding"><%= scope.textChange %></div>
+            <div class="right sliding"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
     <div class="pages">

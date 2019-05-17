@@ -243,10 +243,8 @@ define([
                     Common.Utils.addScrollIfNeed('.page[data-page=margin-view]', '.page[data-page=margin-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
-                    $('#settings-review input:checkbox').attr('checked', _isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
-                    $('#settings-review input:checkbox').single('change',       _.bind(me.onTrackChanges, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
@@ -468,17 +466,6 @@ define([
                 this.hideModal();
 
                 this.api && this.api.asc_pluginRun("asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}", 0);
-            },
-
-            onTrackChanges: function(e) {
-                var $checkbox = $(e.currentTarget),
-                    state = $checkbox.is(':checked');
-                if ( _isReviewOnly ) {
-                    $checkbox.attr('checked', true);
-                } else if ( _canReview ) {
-                    this.api.asc_SetTrackRevisions(state);
-                    Common.localStorage.setItem("de-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
-                }
             },
 
             onShowHelp: function () {

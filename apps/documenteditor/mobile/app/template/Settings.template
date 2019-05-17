@@ -56,22 +56,6 @@
                         </li>
                         <% } %>
                         <li>
-                            <div id="settings-review" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-review"></i>
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title"><%= scope.textReview %></div>
-                                    <div class="item-after">
-                                        <label class="label-switch">
-                                            <input type="checkbox">
-                                            <div class="checkbox"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
                             <div id="settings-collaboration" class="item-content">
                                 <div class="item-media">
                                     <i class="icon icon-review"></i>

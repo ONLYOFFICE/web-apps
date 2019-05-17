@@ -54,7 +54,8 @@ define([
             _headerType = 1,
              rootView,
             displayMode = "Markup",
-            arrChangeReview = [];
+            arrChangeReview = [],
+            _fileKey;
 
         return {
             models: [],
@@ -83,6 +84,7 @@ define([
 
             setMode: function(mode) {
                 this.appConfig = mode;
+                _fileKey = mode.fileKey;
                 return this;
             },
 
@@ -169,7 +171,7 @@ define([
 
             initReviewingSettingsView: function () {
                 var me = this;
-                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes"));
+                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
                 $('#settings-review input:checkbox').single('change', _.bind(me.onTrackChanges, me));
                 $('#settings-accept-all').single('click', _.bind(me.onAcceptAllClick, me));
                 $('#settings-reject-all').single('click', _.bind(me.onRejectAllClick, me));
@@ -187,7 +189,7 @@ define([
                     $checkbox.attr('checked', true);
                 } else {
                     this.api.asc_SetTrackRevisions(state);
-                    Common.localStorage.setItem("de-mobile-track-changes", state ? 1 : 0);
+                    Common.localStorage.setItem("de-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
                 }
             },
 
