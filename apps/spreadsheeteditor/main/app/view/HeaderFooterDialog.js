@@ -701,6 +701,12 @@ define([
             }
         },
 
+        scrollerScrollTop: function() {
+            for (var name in this.scrollers) {
+                this.scrollers[name] && this.scrollers[name].scrollTop(0);
+            }
+        },
+
         onCanvasClick: function(id, event){
             if (!this.HFObject) return;
             id = id || '#header-left-img';
@@ -817,7 +823,6 @@ define([
             }
         },
 
-
         onTextColor: function() {
             var mnuTextColorPicker = this.mnuTextColorPicker[this.isFooter ? 1 : 0];
             mnuTextColorPicker.trigger('select', mnuTextColorPicker, mnuTextColorPicker.currentColor, true);
@@ -836,7 +841,8 @@ define([
         onPageTypeToggle: function(type, btn, state) {
             if (state && this.HFObject) {
                 this.HFObject.switchHeaderFooterType(type);
-                this.onCanvasClick(this.currentCanvas);
+                this.scrollerScrollTop();
+                this.onCanvasClick(this.currentCanvas, undefined, true);
             }
         },
 
