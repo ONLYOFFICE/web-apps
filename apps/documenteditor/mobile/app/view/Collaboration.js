@@ -143,7 +143,7 @@ define([
 
 
             textCollaboration: 'Collaboration',
-            textReviewing: 'Reviewing',
+            textReviewing: 'Review',
             textСomments: 'Сomments',
             textBack: 'Back',
             textReview: 'Track Changes',
