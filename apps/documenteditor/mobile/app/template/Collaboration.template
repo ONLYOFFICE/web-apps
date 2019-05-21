@@ -180,8 +180,8 @@
                 <a href="#" id="btn-next-change" class="link icon-only"><i class="icon icon-review"></i></a>
                 </span>
                 <span class="accept-reject">
-                <a href="#" id="btn-accept-change" class="link icon-only disabled"><i class="icon icon-review"></i></a>
-                <a href="#" id="btn-reject-change" class="link icon-only disabled"><i class="icon icon-review"></i></a>
+                <a href="#" id="btn-accept-change" class="link icon-only"><i class="icon icon-review"></i></a>
+                <a href="#" id="btn-reject-change" class="link icon-only"><i class="icon icon-review"></i></a>
                 </span>
                 </div>
                 <div id="current-change" class="content-block block-description">

@@ -129,8 +129,7 @@ define([
                         '</div>' +
                         '</div>' +
                         '</div>' +
-                        '</div>',
-                        $$('#toolbar-edit')
+                        '</div>'
                     );
                 }
 
@@ -175,10 +174,14 @@ define([
                 $('#settings-review input:checkbox').single('change', _.bind(me.onTrackChanges, me));
                 $('#settings-accept-all').single('click', _.bind(me.onAcceptAllClick, me));
                 $('#settings-reject-all').single('click', _.bind(me.onRejectAllClick, me));
-                if(this.appConfig.isReviewOnly) {
+                if(this.appConfig.isReviewOnly || displayMode == "Final" || displayMode == "Original" ) {
                     $('#settings-accept-all').addClass('disabled');
                     $('#settings-reject-all').addClass('disabled');
                     $('#settings-review').addClass('disabled');
+                } else {
+                    $('#settings-accept-all').removeClass('disabled');
+                    $('#settings-reject-all').removeClass('disabled');
+                    $('#settings-review').removeClass('disabled');
                 }
             },
 
@@ -218,6 +221,10 @@ define([
                 }
             },
 
+            getDisplayMode: function() {
+                return displayMode;
+            },
+
             onReviewViewClick: function(event) {
                 var value = $(event.currentTarget).val();
                 this.turnDisplayMode(value);
@@ -234,6 +241,8 @@ define([
                     else
                         this.api.asc_EndViewModeInReview();
                 }
+                this.initReviewingSettingsView();
+                DE.getController('Toolbar').setDisplayMode(value);
             },
 
 
@@ -251,9 +260,15 @@ define([
                 $('#btn-next-change').single('click', _.bind(this.onNextChange, this));
                 $('#btn-accept-change').single('click', _.bind(this.onAcceptCurrentChange, this));
                 $('#btn-reject-change').single('click', _.bind(this.onRejectCurrentChange, this));
-                if(!this.appConfig.isReviewOnly) {
-                    $('#btn-accept-change').removeClass('disabled');
-                    $('#btn-reject-change').removeClass('disabled');
+                if(this.appConfig.isReviewOnly) {
+                    $('#btn-accept-change').addClass('disabled');
+                    $('#btn-reject-change').addClass('disabled');
+                }
+                if(displayMode == "Final" || displayMode == "Original") {
+                    $('#btn-accept-change').addClass('disabled');
+                    $('#btn-reject-change').addClass('disabled');
+                    $('#btn-prev-change').addClass('disabled');
+                    $('#btn-next-change').addClass('disabled');
                 }
 
             },
@@ -505,12 +520,12 @@ define([
 
 
 
-            textInserted: '<b>Inserted:</b><br>',
-            textDeleted: '<b>Deleted:</b><br>',
-            textParaInserted: '<b>Paragraph Inserted</b><br> ',
-            textParaDeleted: '<b>Paragraph Deleted</b><br> ',
+            textInserted: '<b>Inserted:</b>',
+            textDeleted: '<b>Deleted:</b>',
+            textParaInserted: '<b>Paragraph Inserted</b> ',
+            textParaDeleted: '<b>Paragraph Deleted</b> ',
             textFormatted: 'Formatted',
-            textParaFormatted: 'Paragraph Formatted',
+            textParaFormatted: '<b>Paragraph Formatted</b>',
             textNot: 'Not ',
             textBold: 'Bold',
             textItalic: 'Italic',
