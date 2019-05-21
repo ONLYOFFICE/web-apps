@@ -55,6 +55,7 @@ define([
              rootView,
             displayMode = "Markup",
             arrChangeReview = [],
+            dateChange = [],
             _fileKey;
 
         return {
@@ -97,8 +98,6 @@ define([
 
                 uiApp.closeModal();
 
-                /*me._showByStack(Common.SharedSettings.get('phone'));*/
-
                 if (Common.SharedSettings.get('phone')) {
                     modalView = $$(uiApp.pickerModal(
                         '<div class="picker-modal settings container-edit">' +
@@ -129,7 +128,8 @@ define([
                         '</div>' +
                         '</div>' +
                         '</div>' +
-                        '</div>'
+                        '</div>',
+                        $$('#toolbar-settings')
                     );
                 }
 
@@ -252,17 +252,20 @@ define([
                 }
                 if(arrChangeReview.length == 0) {
                     $('#current-change').css('display','none');
+                } else {
+                    $('#current-change #date-change').html(arrChangeReview[0].date);
+                    $('#current-change #user-name').html(arrChangeReview[0].user);
+                    $('#current-change #text-change').html(arrChangeReview[0].changetext);
                 }
-                $('#current-change #date-change').html(arrChangeReview[0]);
-                $('#current-change #user-name').html(arrChangeReview[1]);
-                $('#current-change #text-change').html(arrChangeReview[2]);
                 $('#btn-prev-change').single('click', _.bind(this.onPrevChange, this));
                 $('#btn-next-change').single('click', _.bind(this.onNextChange, this));
                 $('#btn-accept-change').single('click', _.bind(this.onAcceptCurrentChange, this));
                 $('#btn-reject-change').single('click', _.bind(this.onRejectCurrentChange, this));
                 if(this.appConfig.isReviewOnly) {
-                    $('#btn-accept-change').addClass('disabled');
-                    $('#btn-reject-change').addClass('disabled');
+                    $('#btn-accept-change').remove();
+                    $('#btn-reject-change').remove();
+                    $('.accept-reject').html('<div id="btn-delete-change"><i class="icon icon-review"></i></div>');
+                    $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
                 }
                 if(displayMode == "Final" || displayMode == "Original") {
                     $('#btn-accept-change').addClass('disabled');
@@ -275,37 +278,37 @@ define([
 
             onPrevChange: function() {
                 this.api.asc_GetPrevRevisionsChange();
-                this.updateInfoChange();
             },
 
             onNextChange: function() {
                 this.api.asc_GetNextRevisionsChange();
-                this.updateInfoChange();
             },
 
             onAcceptCurrentChange: function() {
                 if (this.api) {
-                    this.api.asc_AcceptChanges();
+                    this.api.asc_AcceptChanges(dateChange[0]);
                 }
-                this.updateInfoChange();
+                this.api.asc_GetNextRevisionsChange();
             },
 
             onRejectCurrentChange: function() {
                 if (this.api) {
-                    this.api.asc_RejectChanges();
+                    this.api.asc_RejectChanges(dateChange[0]);
                 }
-                this.updateInfoChange();
+                this.api.asc_GetNextRevisionsChange();
             },
 
             updateInfoChange: function() {
-                if(arrChangeReview.length == 0) {
-                    $('#current-change #date-change').empty();
-                    $('#current-change #user-name').empty();
-                    $('#current-change #text-change').empty();
-                    $('#current-change').css('display','none');
-                } else {
-                    $('#current-change').css('display','block');
-                    this.initChange();
+                if($("[data-page=change-view]").length > 0) {
+                    if (arrChangeReview.length == 0) {
+                        $('#current-change #date-change').empty();
+                        $('#current-change #user-name').empty();
+                        $('#current-change #text-change').empty();
+                        $('#current-change').css('display', 'none');
+                    } else {
+                        $('#current-change').css('display', 'block');
+                        this.initChange();
+                    }
                 }
             },
 
@@ -490,12 +493,15 @@ define([
                         date = me.dateToLocaleTimeString(date);
 
 
-                        arr.push(date, user, changetext);
+                        arr.push({date: date, user: user, changetext: changetext});
                     });
                     arrChangeReview = arr;
+                    dateChange = data;
                 } else {
                     arrChangeReview = [];
+                    dateChange = [];
                 }
+                this.updateInfoChange();
             },
 
             dateToLocaleTimeString: function (date) {
@@ -515,6 +521,12 @@ define([
 
                 // MM/dd/yyyy hh:mm AM
                 return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
+            },
+
+            onDeleteChange: function() {
+                if (this.api) {
+                    this.api.asc_RejectChanges(dateChange[0]);
+                }
             },
 
 
