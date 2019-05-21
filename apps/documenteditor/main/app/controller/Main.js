@@ -953,9 +953,9 @@ define([
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(me.api);
-                if ( (me.appOptions.canPlugins = pluginsController.appOptions.canPlugins) )
-                    pluginsController.runAutoStartPlugins();
-                leftmenuController.enablePlugins();
+                // if ( (me.appOptions.canPlugins = pluginsController.appOptions.canPlugins) )
+                //     pluginsController.runAutoStartPlugins();
+                // leftmenuController.enablePlugins();
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();
@@ -1186,6 +1186,7 @@ define([
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
+                this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1661,6 +1662,7 @@ define([
             },
 
             hidePreloader: function() {
+                var UICustomizationComplete = true;
                 if (!this._state.customizationDone) {
                     this._state.customizationDone = true;
                     if (this.appOptions.customization) {
@@ -1672,14 +1674,21 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
-                        this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
+                        UICustomizationComplete = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
                 }
 
                 Common.NotificationCenter.trigger('layout:changed', 'main');
-                $('#loading-mask').hide().remove();
 
-                Common.Controllers.Desktop.process('preloader:hide');
+                var me = this;
+                var timer_sl = setInterval(function() {
+                    (!UICustomizationComplete) && (UICustomizationComplete = me.getApplication().getController('Common.Controllers.Plugins').applyUICustomization());
+                    if (UICustomizationComplete) {
+                        clearInterval(timer_sl);
+                        $('#loading-mask').hide().remove();
+                        Common.Controllers.Desktop.process('preloader:hide');
+                    }
+                }, 10);
             },
 
             onDownloadUrl: function(url) {
