@@ -148,26 +148,10 @@ define([
                             return true;
                         }
                     });
-                } else if ('accept' == eventName) {
-                    me.api.asc_GetNextRevisionsChange();
-                    me.api.asc_AcceptChanges();
-                } else if ('acceptall' == eventName) {
-                    me.api.asc_AcceptAllChanges();
-                } else if ('reject' == eventName) {
-                    me.api.asc_GetNextRevisionsChange();
-                    me.api.asc_RejectChanges();
-                } else if ('rejectall' == eventName) {
-                    me.api.asc_RejectAllChanges();
                 } else if ('review' == eventName) {
-                    if (Common.SharedSettings.get('phone')) {
-                        _actionSheets = me._initReviewMenu();
-                        me.onContextMenuClick(view, 'showActionSheet');
-                    } else {
-                        _.delay(function () {
-                            _view.showMenu(me._initReviewMenu(), _menuPos[0] || 0, _menuPos[1] || 0);
-                            _timer = (new Date).getTime();
-                        }, 100);
-                    }
+                    var getCollaboration = DE.getController('Collaboration');
+                    getCollaboration.showModal();
+                    getCollaboration.getView('Collaboration').showPage('#reviewing-settings-view');
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
@@ -536,33 +520,6 @@ define([
                 return menuItems;
             },
 
-            _initReviewMenu: function (stack) {
-                var me = this,
-                    menuItems = [];
-
-                menuItems.push({
-                    caption: me.menuAccept,
-                    event: 'accept'
-                });
-
-                menuItems.push({
-                    caption: me.menuReject,
-                    event: 'reject'
-                });
-
-                menuItems.push({
-                    caption: me.menuAcceptAll,
-                    event: 'acceptall'
-                });
-
-                menuItems.push({
-                    caption: me.menuRejectAll,
-                    event: 'rejectall'
-                });
-
-                return menuItems;
-            },
-
             onCoAuthoringDisconnect: function() {
                 this.isDisconnected = true;
             },
@@ -581,10 +538,6 @@ define([
             menuMore: 'More',
             sheetCancel: 'Cancel',
             menuReview: 'Review',
-            menuAccept: 'Accept',
-            menuAcceptAll: 'Accept All',
-            menuReject: 'Reject',
-            menuRejectAll: 'Reject All',
             menuMerge: 'Merge Cells',
             menuSplit: 'Split Cell',
             menuDeleteTable: 'Delete Table'
