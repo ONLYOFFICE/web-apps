@@ -136,21 +136,21 @@ define([
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {
-                    var exist = me.props.asc_HaveBookmark(value),
-                        check = me.props.asc_CheckNewBookmarkName(value);
-                    if (exist) {
-                        var rec = me.bookmarksList.store.findWhere({value: value});
-                        me.bookmarksList.selectRecord(rec);
-                        me.bookmarksList.scrollToRecord(rec);
-                    } else
-                        me.bookmarksList.deselectAll();
-                    me.btnAdd.setDisabled(!check && !exist);
-                    me.btnGoto.setDisabled(!exist);
-                    me.btnDelete.setDisabled(!exist);
-                    me.btnGetLink.setDisabled(!exist);
-
+                    var check = me.props.asc_CheckNewBookmarkName(value);
+                    me.btnAdd.setDisabled(!check);
                     return (check || _.isEmpty(value)) ? true : me.txtInvalidName;
                 }
+            }).on ('changing', function (input, value) {
+                var exist = me.props.asc_HaveBookmark(value);
+                if (exist) {
+                    var rec = me.bookmarksList.store.findWhere({value: value});
+                    me.bookmarksList.selectRecord(rec);
+                    me.bookmarksList.scrollToRecord(rec);
+                } else
+                    me.bookmarksList.deselectAll();
+                me.btnGoto.setDisabled(!exist);
+                me.btnDelete.setDisabled(!exist);
+                me.btnGetLink.setDisabled(!exist);
             });
 
             this.radioName = new Common.UI.RadioBox({

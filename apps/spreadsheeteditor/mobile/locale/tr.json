@@ -248,7 +248,7 @@
   "SSE.Controllers.Main.txtXAxis": "X Ekseni",
   "SSE.Controllers.Main.txtYAxis": "Y Ekseni",
   "SSE.Controllers.Main.unknownErrorText": "Bilinmeyen hata.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Tarayıcınız desteklenmiyor.",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Tarayıcınız desteklenmiyor.",
   "SSE.Controllers.Main.uploadImageExtMessage": "Bilinmeyen resim formatı.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Resim yüklenmedi.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Maksimum resim boyutu aşıldı.",

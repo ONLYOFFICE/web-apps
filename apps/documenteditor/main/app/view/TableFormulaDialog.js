@@ -142,7 +142,7 @@ define([
             this.cmbBookmark = new Common.UI.ComboBox({
                 el          : $('#id-dlg-formula-bookmark'),
                 cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100%; max-heigh: 150px;',
+                menuStyle   : 'min-width: 100%; max-height: 150px;',
                 editable    : false
             });
             this.cmbBookmark.on('selected', _.bind(function(combo, record) {

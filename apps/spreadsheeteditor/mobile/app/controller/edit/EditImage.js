@@ -160,7 +160,7 @@ define([
 
                     properties.put_Width(imgSize.get_ImageWidth());
                     properties.put_Height(imgSize.get_ImageHeight());
-
+                    properties.put_ResetCrop(true);
                     me.api.asc_setGraphicObjectProps(properties);
                 }
             },

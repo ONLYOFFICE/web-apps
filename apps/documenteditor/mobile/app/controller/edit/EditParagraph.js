@@ -255,6 +255,11 @@ define([
                 } else {
                     distance = Math.min(100, ++distance);
                 }
+
+                _paragraphInfo.spaceAfter = distance;
+
+                $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : (_paragraphInfo.spaceAfter) + ' ' + metricText);
+                this.api.put_LineSpacingBeforeAfter(1, (_paragraphInfo.spaceAfter < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceAfter));
             },
 
             onSpinFirstLine: function(e) {

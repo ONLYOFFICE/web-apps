@@ -151,7 +151,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/resources/help/",
-                    "src": ["**","!*_/**"],
+                    "src": [
+                        "**",
+                        "!*_/**"
+                    ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/"
                 }
             ],

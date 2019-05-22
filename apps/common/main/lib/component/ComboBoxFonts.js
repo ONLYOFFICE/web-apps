@@ -310,6 +310,11 @@ define([
                     me.store.set(store.toJSON());
 
                     me.rendered = false;
+                    if (!_.isUndefined(me.scroller)) {
+                        me.scroller.destroy();
+                        delete me.scroller;
+                    }
+                    me._scrollerIsInited = false;
                     me.render($(me.el));
 
                     me._fontsArray = me.store.toJSON();

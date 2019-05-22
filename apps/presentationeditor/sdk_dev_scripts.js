@@ -52,7 +52,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/slide/Editor/Format/TextBodyPrototype.js",
     "../../../../sdkjs/common/Drawings/Format/GraphicFrame.js",
     "../../../../sdkjs/common/Charts/charts.js",
-    "../../../../sdkjs/common/Charts/DrawingArea.js",
     "../../../../sdkjs/common/Charts/DrawingObjects.js",
     "../../../../sdkjs/common/Charts/3DTransformation.js",
     "../../../../sdkjs/common/Charts/ChartsDrawer.js",
@@ -199,7 +198,7 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/word/apiBuilder.js",
     "../../../../sdkjs/slide/apiBuilder.js",
     "../../../../sdkjs/common/text_input.js",
-	"../../../../sdkjs/common/Scrolls/iscroll.js",
+	"../../../../sdkjs/vendor/iscroll.js",
 	"../../../../sdkjs/common/Scrolls/mobileTouchManagerBase.js",
 	"../../../../sdkjs/slide/Drawing/mobileTouchManager.js"
 ];

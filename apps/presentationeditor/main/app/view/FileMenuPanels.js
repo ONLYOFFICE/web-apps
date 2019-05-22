@@ -762,6 +762,7 @@ define([
             }
 
             Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
+            Common.NotificationCenter.on('collaboration:sharingdeny', _.bind(this.onLostEditRights, this));
 
             return this;
         },

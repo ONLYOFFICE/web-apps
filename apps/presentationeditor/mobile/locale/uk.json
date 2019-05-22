@@ -196,7 +196,7 @@
   "PE.Controllers.Main.txtXAxis": "X Ось",
   "PE.Controllers.Main.txtYAxis": "Y ось",
   "PE.Controllers.Main.unknownErrorText": "Невідома помилка.",
-  "PE.Controllers.Main.unsupportedBrowserErrorText ": "Ваш браузер не підтримується",
+  "PE.Controllers.Main.unsupportedBrowserErrorText": "Ваш браузер не підтримується",
   "PE.Controllers.Main.uploadImageExtMessage": "Невідомий формат зображення.",
   "PE.Controllers.Main.uploadImageFileCountMessage": "Не завантажено жодного зображення.",
   "PE.Controllers.Main.uploadImageSizeMessage": "Максимальний розмір зображення перевищено.",

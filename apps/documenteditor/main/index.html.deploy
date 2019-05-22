@@ -193,6 +193,14 @@
                                 '</div></div>');
                 stopLoading = true;
             }
+        } else
+        if (check(/windows\snt/i)) {
+            var re = /chrome\/(\d+)/i.exec(userAgent);
+            if (!!re && !!re[1] && !(re[1] > 49)) {
+                setTimeout(function () {
+                    document.getElementsByTagName('body')[0].className += "winxp";
+                },0);
+            }
         }
 
         function getUrlParams() {
