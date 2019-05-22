@@ -20,6 +20,11 @@
         <div class="center" id="toolbar-title"></div>
         <% } %>
         <div class="right">
+            <% if (!phone) { %>
+                <a href="#" id="toolbar-collaboration" class="link icon-only" style="display: none;">
+                    <i class="icon icon-review"></i>
+                </a>
+            <% } %>
             <% if (android) { %>
             <a href="#" id="toolbar-undo" class="link icon-only disabled" style="display: none;">
                 <i class="icon icon-undo"></i>

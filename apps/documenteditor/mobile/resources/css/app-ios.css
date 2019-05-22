@@ -6313,7 +6313,10 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .navbar .center-collaboration {
   display: flex;
   justify-content: space-around;
-  margin-left: 45px;
+}
+.container-collaboration .navbar .right.close-collaboration {
+  position: absolute;
+  right: 10px;
 }
 .tablet .searchbar.document.replace .center .searchbar:first-child {
   margin-right: 10px;

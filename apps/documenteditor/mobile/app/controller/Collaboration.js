@@ -100,7 +100,7 @@ define([
 
                 if (Common.SharedSettings.get('phone')) {
                     modalView = $$(uiApp.pickerModal(
-                        '<div class="picker-modal settings container-edit">' +
+                        '<div class="picker-modal settings container-collaboration">' +
                         '<div class="view collaboration-root-view navbar-through">' +
                         this.getView('Collaboration').rootLayout() +
                         '</div>' +
@@ -119,7 +119,7 @@ define([
                     mainView.hideNavbar();
                 } else {
                     modalView = uiApp.popover(
-                        '<div class="popover settings container-edit">' +
+                        '<div class="popover settings container-collaboration">' +
                         '<div class="popover-angle"></div>' +
                         '<div class="popover-inner">' +
                         '<div class="content-block">' +
@@ -129,7 +129,7 @@ define([
                         '</div>' +
                         '</div>' +
                         '</div>',
-                        $$('#toolbar-settings')
+                        $$('#toolbar-collaboration')
                     );
                 }
 

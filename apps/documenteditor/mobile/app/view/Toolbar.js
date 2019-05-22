@@ -63,7 +63,8 @@ define([
                 "click #toolbar-edit"       : "showEdition",
                 "click #toolbar-add"        : "showInserts",
                 "click #toolbar-settings"   : "showSettings",
-                "click #toolbar-edit-document": "editDocument"
+                "click #toolbar-edit-document": "editDocument",
+                "click #toolbar-collaboration" : "showCollaboration"
             },
 
             // Set innerHTML and get the references to the DOM elements
@@ -100,7 +101,7 @@ define([
 
             setMode: function (mode) {
                 if (mode.isEdit) {
-                    $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
+                    $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo, #toolbar-collaboration').show();
                 } else if (mode.canEdit && mode.canRequestEditRights){
                     $('#toolbar-edit-document').show();
                 }
@@ -148,6 +149,11 @@ define([
             // Settings
             showSettings: function () {
                 DE.getController('Settings').showModal();
+            },
+
+            //Collaboration
+            showCollaboration: function () {
+                DE.getController('Collaboration').showModal();
             },
 
             editDocument: function () {

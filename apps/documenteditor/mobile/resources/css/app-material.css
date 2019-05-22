@@ -5911,7 +5911,10 @@ html.phone .document-menu .list-block .item-link {
 }
 .navbar .center-collaboration {
   text-align: center;
-  margin-left: 54px;
+}
+.container-collaboration .navbar .right.close-collaboration {
+  position: absolute;
+  right: 5px;
 }
 .tablet .searchbar.document.replace .center > .replace {
   display: flex;

@@ -55,6 +55,7 @@
                             </a>
                         </li>
                         <% } %>
+                        <% if(phone) {%>
                         <li>
                             <div id="settings-collaboration" class="item-content">
                                 <div class="item-media">
@@ -65,6 +66,7 @@
                                 </div>
                             </div>
                         </li>
+                        <% } %>
                         <li>
                             <a id="settings-document" class="item-link" data-page="#settings-document-view">
                                 <div class="item-content">
