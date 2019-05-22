@@ -194,6 +194,17 @@
             }
         }
     },
+    "fetch": {
+        "clean": [
+            "../deploy/web-apps/vendor/fetch"
+        ],
+        "copy": {
+            "script": {
+                "src": "../vendor/fetch/fetch.umd.js",
+                "dest": "../deploy/web-apps/vendor/fetch/fetch.umd.js"
+            }
+        }
+    },
     "requirejs": {
         "clean": [
             "../deploy/web-apps/vendor/requirejs"
@@ -216,6 +227,7 @@
             "deploy-underscore",
             "deploy-bootstrap",
             "deploy-iscroll",
+            "deploy-fetch",
             "deploy-jszip",
             "deploy-jsziputils"
         ]
