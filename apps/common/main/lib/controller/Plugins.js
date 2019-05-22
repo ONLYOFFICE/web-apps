@@ -665,9 +665,11 @@ define([
                         }).then(function ()
                         {
                             me.customPluginsComplete = true;
+                        }).catch(function(err)
+                        {
+                            me.customPluginsComplete = true;
                         });
-                    })
-                    .catch(function(err)
+                    }).catch(function(err)
                     {
                         me.customPluginsComplete = true;
                     });
