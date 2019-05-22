@@ -165,6 +165,10 @@ define([
                 } else if('#change-view' == pageId) {
                     me.initChange();
                     Common.Utils.addScrollIfNeed('.page[data-page=change-view]', '.page[data-page=change-view] .page-content');
+                } else {
+                    if(!this.appConfig.canReview) {
+                        $('#reviewing-settings').hide();
+                    }
                 }
             },
 

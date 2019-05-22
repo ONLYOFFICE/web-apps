@@ -253,6 +253,9 @@ define([
                     if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                         $('#settings-document').addClass('disabled');
                     }
+                    if(!_canReview) {
+                        $('#settings-collaboration').hide();
+                    }
                 }
             },
 
