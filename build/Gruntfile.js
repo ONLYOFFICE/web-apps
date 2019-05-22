@@ -12,37 +12,49 @@ module.exports = function(grunt) {
                     ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
                     ' */\n';
 
-    var replacements = [
+    var jsreplacements = [
                 {
                     from: /\{\{SUPPORT_EMAIL\}\}/g,
-                    to: 'support@onlyoffice.com'
+                    to: process.env['SUPPORT_EMAIL'] || 'support@onlyoffice.com'
                 },{
                     from: /\{\{SUPPORT_URL\}\}/g,
-                    to: 'https://support.onlyoffice.com'
+                    to: process.env['SUPPORT_URL'] || 'https://support.onlyoffice.com'
                 },{
                     from: /\{\{SALES_EMAIL\}\}/g,
-                    to: 'sales@onlyoffice.com'
+                    to: process.env['SALES_EMAIL'] || 'sales@onlyoffice.com'
                 },{
                     from: /\{\{PUBLISHER_URL\}\}/g,
-                    to: 'https://www.onlyoffice.com'
+                    to: process.env['PUBLISHER_URL'] || 'https://www.onlyoffice.com'
                 },{
                     from: /\{\{PUBLISHER_PHONE\}\}/,
-                    to: '+371 660-16425'
+                    to: process.env['PUBLISHER_PHONE'] || '+371 660-16425'
                 },{
                     from: /\{\{PUBLISHER_NAME\}\}/g,
-                    to: 'Ascensio System SIA'
+                    to: process.env['PUBLISHER_NAME'] || 'Ascensio System SIA'
                 },{
                     from: /\{\{PUBLISHER_ADDRESS\}\}/,
-                    to: '20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'
+                    to: process.env['PUBLISHER_ADDRESS'] || '20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'
                 },{
                     from: /\{\{API_URL_EDITING_CALLBACK\}\}/,
-                    to: 'https://api.onlyoffice.com/editors/callback'
+                    to: process.env['API_URL_EDITING_CALLBACK'] || 'https://api.onlyoffice.com/editors/callback'
                 },{
                     from: /\{\{COMPANY_NAME\}\}/g,
-                    to: 'ONLYOFFICE'
+                    to: process.env['COMPANY_NAME'] || 'ONLYOFFICE'
                 }, {
                     from: /\{\{APP_TITLE_TEXT\}\}/g,
-                    to: 'ONLYOFFICE'
+                    to: process.env['APP_TITLE_TEXT'] || 'ONLYOFFICE'
+                }];
+
+    var helpreplacements = [
+                {
+                    from: /\{\{COEDITING_DESKTOP\}\}/g,
+                    to: process.env['COEDITING_DESKTOP'] || 'Подключиться к облаку'
+                },{
+                    from: /\{\{PLUGIN_LINK\}\}/g,
+                    to: process.env['PLUGIN_LINK'] || 'https://api.onlyoffice.com/plugin/basic'
+                },{
+                    from: /\{\{PLUGIN_LINK_MACROS\}\}/g,
+                    to: process.env['PLUGIN_LINK_MACROS'] || 'https://api.onlyoffice.com/plugin/macros'
                 }];
 
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -221,16 +233,7 @@ module.exports = function(grunt) {
                 prepareHelp: {
                     src: ['<%= pkg.main.copy.help[0].dest %>/ru/**/*.htm*'],
                     overwrite: true,
-                    replacements: [{
-                            from: /\{\{COEDITING_DESKTOP\}\}/g,
-                            to: 'Подключиться к облаку'
-                        },{
-                            from: /\{\{PLUGIN_LINK\}\}/g,
-                            to: 'https://api.onlyoffice.com/plugin/basic'
-                        },{
-                            from: /\{\{PLUGIN_LINK_MACROS\}\}/g,
-                            to: 'https://api.onlyoffice.com/plugin/macros'
-                        }]
+                    replacements: []
                 }
             },
 
@@ -294,7 +297,8 @@ module.exports = function(grunt) {
         });
 
         var replace = grunt.config.get('replace');
-        replace.writeVersion.replacements.push(...replacements);
+        replace.writeVersion.replacements.push(...jsreplacements);
+        replace.prepareHelp.replacements.push(...helpreplacements);
         grunt.config.set('replace', replace);
     });
 
@@ -419,7 +423,7 @@ module.exports = function(grunt) {
         });
 
         var replace = grunt.config.get('replace');
-        replace.writeVersion.replacements.push(...replacements);
+        replace.writeVersion.replacements.push(...jsreplacements);
         grunt.config.set('replace', replace);
     });
 
