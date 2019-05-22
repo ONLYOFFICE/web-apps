@@ -118,7 +118,7 @@ define([
                 return '';
             },
 
-            showPage: function(templateId, suspendEvent) {
+            showPage: function(templateId, animate) {
                 var rootView = DE.getController('Collaboration').rootView();
 
                 if (rootView && this.layout) {
@@ -130,15 +130,13 @@ define([
                     }
 
                     rootView.router.load({
-                        content: $content.html()
+                        content: $content.html(),
+                        animatePages: animate !== false
                     });
 
-                    if (suspendEvent !== true) {
-                        this.fireEvent('page:show', [this, templateId]);
-                    }
+                    this.fireEvent('page:show', [this, templateId]);
                 }
             },
-
 
 
 

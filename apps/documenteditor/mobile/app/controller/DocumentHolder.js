@@ -151,7 +151,7 @@ define([
                 } else if ('review' == eventName) {
                     var getCollaboration = DE.getController('Collaboration');
                     getCollaboration.showModal();
-                    getCollaboration.getView('Collaboration').showPage('#reviewing-settings-view');
+                    getCollaboration.getView('Collaboration').showPage('#reviewing-settings-view', false);
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
