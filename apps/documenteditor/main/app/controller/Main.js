@@ -200,7 +200,6 @@ define([
                     // Initialize api gateway
                     this.editorConfig = {};
                     this.appOptions = {};
-                    this.plugins = undefined;
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
@@ -334,7 +333,6 @@ define([
                                                   && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
-                this.plugins                    = this.editorConfig.plugins;
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
@@ -953,9 +951,6 @@ define([
                 application.getController('Common.Controllers.ExternalMergeEditor').setApi(this.api).loadConfig({config:this.editorConfig, customization: this.editorConfig.customization});
 
                 pluginsController.setApi(me.api);
-                // if ( (me.appOptions.canPlugins = pluginsController.appOptions.canPlugins) )
-                //     pluginsController.runAutoStartPlugins();
-                // leftmenuController.enablePlugins();
 
                 documentHolderController.setApi(me.api);
                 documentHolderController.createDelayedElements();

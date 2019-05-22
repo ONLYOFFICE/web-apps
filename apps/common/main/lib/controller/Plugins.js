@@ -46,7 +46,8 @@ define([
     Common.Controllers.Plugins = Backbone.Controller.extend(_.extend({
         models: [],
         appOptions: {},
-        plugins: { autostart:[] },
+        configPlugins: {autostart:[]},// {config: 'from editor config', plugins: 'loaded plugins', UIplugins: 'loaded customization plugins', autostart: 'autostart guids'}
+        serverPlugins: {autostart:[]},// {config: 'from editor config', plugins: 'loaded plugins', autostart: 'autostart guids'}
         collections: [
             'Common.Collections.Plugins'
         ],
@@ -97,7 +98,7 @@ define([
 
 
             this._moveOffset = {x:0, y:0};
-            this.autostart = null;
+            this.autostart = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -105,22 +106,42 @@ define([
 
         loadConfig: function(data) {
             var me = this;
-            me.configPlugins = data.config.plugins;
+            me.configPlugins.config = data.config.plugins;
             me.editor = !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
         },
 
         loadPlugins: function() {
-            if (this.configPlugins && this.configPlugins.pluginsData && this.configPlugins.pluginsData.length>0)
-                this.getAppConfigPlugins(this.configPlugins, false);
-            else
-                this.plugins.configpluginsdata = false;
+            if (this.configPlugins.config) {
+                this.getPlugins(this.configPlugins.config.pluginsData)
+                    .then(function(loaded)
+                    {
+                        me.configPlugins.plugins = loaded;
+                        me.mergePlugins();
+                    })
+                    .catch(function(err)
+                    {
+                        me.configPlugins.plugins = false;
+                    });
+            } else
+                this.configPlugins.plugins = false;
 
             var server_plugins_url = '../../../../plugins.json',
                 me = this;
             Common.Utils.loadConfig(server_plugins_url, function (obj) {
                 if ( obj != 'error' ) {
-                    me.getServerPlugins(obj);
-                }
+                    me.serverPlugins.config = obj;
+                    me.getPlugins(me.serverPlugins.config.pluginsData)
+                        .then(function(loaded)
+                        {
+                            me.serverPlugins.plugins = loaded;
+                            me.mergePlugins();
+                        })
+                        .catch(function(err)
+                        {
+                            me.serverPlugins.plugins = false;
+                        });
+                } else
+                    me.serverPlugins.plugins = false;
             });
         },
 
@@ -137,19 +158,6 @@ define([
             this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
             this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
             this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.parsePlugins, this));
-
-            /**
-             * sometime plugins info from server can be received after
-             * AppShowed event, so try to parse info there
-             **/
-            // if ( this.plugins.serverpluginsdata == undefined ) {
-            //     console.log('set api: plugins data from server is late')
-            // } else
-            // if ( this.plugins.serverpluginsdata === false ) {
-            //     console.log('set api: error for plugins data from server');
-            // } else {
-            //     this.parsePlugins(this.plugins.serverpluginsdata);
-            // }
 
             this.loadPlugins();
             return this;
@@ -409,7 +417,7 @@ define([
             else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
             this.panelPlugins.closedPluginMode(plugin.get_Guid());
-            this.runAutoStartPlugins(this.autostart);
+            this.runAutoStartPlugins();
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
@@ -448,12 +456,9 @@ define([
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
 
-        runAutoStartPlugins: function(autostart) {
-            autostart = this.plugins.autostart;
-            if (autostart && autostart.length > 0) {
-                // var guid = autostart.shift();
-                // this.autostart = autostart;
-                this.api.asc_pluginRun(autostart.shift(), 0, '');
+        runAutoStartPlugins: function() {
+            if (this.autostart && this.autostart.length > 0) {
+                this.api.asc_pluginRun(this.autostart.shift(), 0, '');
             }
         },
 
@@ -462,9 +467,8 @@ define([
         },
 
         applyUICustomization: function () {
-            var me = this;
-            if ( me.customPluginsComplete && me.plugins.uicustom ) {
-                me.plugins.uicustom.forEach(function (c) {
+            if ( this.customPluginsComplete && this.configPlugins.UIplugins ) {
+                this.configPlugins.UIplugins.forEach(function (c) {
                     if ( c.code ) eval(c.code);
                 });
                 return true;
@@ -543,7 +547,7 @@ define([
                 });
 
                 if ( uiCustomize!==false )  // from ui customizer in editor config or desktop event
-                    me.plugins.uicustom = arrUI;
+                    me.configPlugins.UIplugins = arrUI;
 
                 if ( !uiCustomize && pluginStore)
                 {
@@ -574,129 +578,102 @@ define([
             }
         },
 
-        getServerPlugins: function (config) {
-            var me = this;
-            Promise.all(config.pluginsData.map(function(url) {
-                return fetch(url)
-                    .then(function(response) {
-                        if ( response.ok ) return response.json();
-                        else return 'error';
-                    }).then(function(json) {
-                        json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
-                        return json;
-                    });
-            })).then(function(values) {
-                me.plugins.serverpluginsdata = values;
-                // console.log('server plugins data received');
-                var autostart = [];
-                if (values.length>0) {
-                    var val = config.autostart || config.autoStartGuid;
-                    if (typeof (val) == 'string')
-                        val = [val];
-                    config.autoStartGuid && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-                    autostart = val || [];
-                }
-                if (me.plugins.configpluginsdata === undefined) {
-                    // loading config plugins
-                    me.plugins.autostart = autostart;
-                } else if (me.plugins.configpluginsdata===false) {
-                    //load only server plugins
-                    me.plugins.autostart = autostart;
-                    me.parsePlugins(me.plugins.serverpluginsdata, false);
-                } else {
-                    me.plugins.autostart = me.plugins.autostart.concat(autostart);
-                    me.parsePlugins((me.plugins.configpluginsdata ? me.plugins.configpluginsdata : []).concat(me.plugins.serverpluginsdata ? me.plugins.serverpluginsdata : []), false);
-                }
+        getPlugins: function(pluginsData, fetchFunction) {
+            if (!pluginsData || pluginsData.length<1)
+                return Promise.reject();
 
-            }).catch(function(e) {
-                me.plugins.serverpluginsdata = false;
-                console.log('getServerPlugins error: ' + e.message);
-            });
-        },
-
-        getAppConfigPlugins: function (config) {
-            var me = this;
-            Promise.all(config.pluginsData.map(function(url) {
-                return fetch(url)
-                    .then(function(response) {
-                        if ( response.ok ) return response.json();
-                        else return 'error';
-                    }).then(function(json) {
-                        json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
-                        return json;
-                    });
-            })).then(function(values) {
-                me.plugins.configpluginsdata = values;
-                var autostart = [];
-                if (values.length>0) {
-                    var val = config.autostart || config.autoStartGuid;
-                    if (typeof (val) == 'string')
-                        val = [val];
-                    config.autoStartGuid && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-                    autostart = val || [];
-                }
-
-                // console.log('config plugins data received');
-                if (me.plugins.serverpluginsdata === undefined) {
-                    // loading server plugins
-                    me.plugins.autostart = autostart;
-                } else if (me.plugins.serverpluginsdata===false) {
-                    //load only config plugins
-                    me.plugins.autostart = autostart;
-                    me.parsePlugins(me.plugins.configpluginsdata, false);
-                } else {
-                    me.plugins.autostart = autostart.concat(me.plugins.autostart);
-                    me.parsePlugins((me.plugins.configpluginsdata ? me.plugins.configpluginsdata : []).concat(me.plugins.serverpluginsdata ? me.plugins.serverpluginsdata : []), false);
-                }
-
-            }).catch(function(e) {
-                me.plugins.configpluginsdata = false;
-                console.log('getServerPlugins error: ' + e.message);
-            });
-        },
-
-        getAppCustomPlugins: function (config) {
-            if ( config && config.UIpluginsData ) {
-                var me = this;
-                Promise.all(config.UIpluginsData.map(function(url) {
+            fetchFunction = fetchFunction || function (url) {
                     return fetch(url)
                         .then(function(response) {
-                            // console.log('1: ' + response);
-                            return response.json();
-                        })
-                        .then(function(json) {
+                            if ( response.ok ) return response.json();
+                            else return Promise.reject(url);
+                        }).then(function(json) {
                             json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
                             return json;
                         });
-                })).then(function(values) {
-                    me.parsePlugins(values, true);
+                };
 
-                    if ( me.plugins.uicustom ) {
-                        Promise.all(me.plugins.uicustom.map(function(c) {
-                            return fetch(c.url)
+            var loaded = [];
+            return pluginsData.map(fetchFunction).reduce(function (previousPromise, currentPromise) {
+                return previousPromise
+                    .then(function()
+                    {
+                        return currentPromise;
+                    })
+                    .then(function(item)
+                    {
+                        loaded.push(item);
+                        return Promise.resolve(item);
+                    })
+                    .catch(function(item)
+                    {
+                        return Promise.resolve(item);
+                    });
+
+            }, Promise.resolve())
+                .then(function ()
+                {
+                    return Promise.resolve(loaded);
+                });
+        },
+
+        mergePlugins: function() {
+            if (this.serverPlugins.plugins !== undefined && this.configPlugins.plugins !== undefined) { // undefined - plugins are loading
+                var autostart = [],
+                    arr = [],
+                    plugins = this.configPlugins,
+                    warn = false;
+                if (plugins.plugins && plugins.plugins.length>0) {
+                    arr = plugins.plugins;
+                    var val = plugins.config.autostart || plugins.config.autoStartGuid;
+                    if (typeof (val) == 'string')
+                        val = [val];
+                    warn = !!plugins.config.autoStartGuid;
+                    autostart = val || [];
+                }
+                plugins = this.serverPlugins;
+                if (plugins.plugins && plugins.plugins.length>0) {
+                    arr = arr.concat(plugins.plugins);
+                    var val = plugins.config.autostart || plugins.config.autoStartGuid;
+                    if (typeof (val) == 'string')
+                        val = [val];
+                    (warn || plugins.config.autoStartGuid) && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+                    autostart = autostart.concat(val || []);
+                }
+                this.autostart = autostart;
+                this.parsePlugins(arr, false);
+            }
+        },
+
+        getAppCustomPlugins: function (plugins) {
+            if ( plugins.config ) {
+                var me = this;
+                this.getPlugins(plugins.config.UIpluginsData)
+                    .then(function(loaded)
+                    {
+                        me.parsePlugins(loaded, true);
+                        me.getPlugins(plugins.UIplugins, function(item) {
+                            return fetch(item.url)
                                 .then(function(response) {
-                                    // console.log('2: ' + response);
-                                    return response.text();
+                                    if ( response.ok ) return response.text();
+                                    else return Promise.reject();
                                 })
                                 .then(function(text) {
-                                    // console.log('3: ' + text);
-                                    c.code = text;
+                                    item.code = text;
                                     return text;
                                 });
-                        })).then(function(values) {
-                            me.customPluginsComplete = true;
-                        }).catch(function(e) {
-                            console.log('error: ' + e.message);
+                        }).then(function ()
+                        {
                             me.customPluginsComplete = true;
                         });
-                    }
-                }).catch(function(e) {
-                    console.log('error: ' + e.message);
-                    me.customPluginsComplete = true;
-                });
+                    })
+                    .catch(function(err)
+                    {
+                        me.customPluginsComplete = true;
+                    });
+
             } else
                 this.customPluginsComplete = true;
         }
-
     }, Common.Controllers.Plugins || {}));
 });

@@ -180,7 +180,6 @@ define([
 
                 // Initialize api gateway
                 this.editorConfig = {};
-                this.plugins = undefined;
                 Common.Gateway.on('init', _.bind(this.loadConfig, this));
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
@@ -319,7 +318,6 @@ define([
                                                   && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
                 this.appOptions.canBack         = this.editorConfig.nativeApp !== true && this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
-                this.plugins                    = this.editorConfig.plugins;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -682,9 +680,6 @@ define([
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     pluginsController.setApi(me.api);
-                     // if ( (me.appOptions.canPlugins = pluginsController.appOptions.canPlugins) )
-                     //     pluginsController.runAutoStartPlugins();
-                     // leftmenuController.enablePlugins();
                  }
 
                 leftMenuView.disableMenu('all',false);
