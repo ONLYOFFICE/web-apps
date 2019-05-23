@@ -1524,7 +1524,7 @@ define([
             },
 
             hidePreloader: function() {
-                var UICustomizationComplete = true;
+                var promise;
                 if (!this._state.customizationDone) {
                     this._state.customizationDone = true;
                     if (this.appOptions.customization) {
@@ -1536,21 +1536,19 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
-                        UICustomizationComplete = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
+                        promise = this.getApplication().getController('Common.Controllers.Plugins').applyUICustomization();
                     }
                 }
                 
                 this.stackLongActions.pop({id: InitApplication, type: Asc.c_oAscAsyncActionType.BlockInteraction});
                 Common.NotificationCenter.trigger('layout:changed', 'main');
-                var me = this;
-                var timer_sl = setInterval(function() {
-                    (!UICustomizationComplete) && (UICustomizationComplete = me.getApplication().getController('Common.Controllers.Plugins').applyUICustomization());
-                    if (UICustomizationComplete) {
-                        clearInterval(timer_sl);
-                        $('#loading-mask').hide().remove();
-                        Common.Controllers.Desktop.process('preloader:hide');
-                    }
-                }, 10);
+
+                (promise || (new Promise(function(resolve, reject) {
+                    resolve();
+                }))).then(function() {
+                    $('#loading-mask').hide().remove();
+                    Common.Controllers.Desktop.process('preloader:hide');
+                });
             },
 
             onDownloadUrl: function(url) {

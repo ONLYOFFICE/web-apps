@@ -467,13 +467,20 @@ define([
         },
 
         applyUICustomization: function () {
-            if ( this.customPluginsComplete && this.configPlugins.UIplugins ) {
-                this.configPlugins.UIplugins.forEach(function (c) {
-                    if ( c.code ) eval(c.code);
-                });
-                return true;
-            }
-            return false;
+            var me = this;
+            return new Promise(function(resolve, reject) {
+                var timer_sl = setInterval(function() {
+                    if ( me.customPluginsComplete ) {
+                        clearInterval(timer_sl);
+                        try {
+                            me.configPlugins.UIplugins && me.configPlugins.UIplugins.forEach(function (c) {
+                                if ( c.code ) eval(c.code);
+                            });
+                        } catch (e) {}
+                        resolve();
+                    }
+                }, 10);
+            });
         },
 
         parsePlugins: function(pluginsdata, uiCustomize) {
@@ -646,8 +653,9 @@ define([
         },
 
         getAppCustomPlugins: function (plugins) {
+            var me = this,
+                funcComplete = function() {me.customPluginsComplete = true;};
             if ( plugins.config ) {
-                var me = this;
                 this.getPlugins(plugins.config.UIpluginsData)
                     .then(function(loaded)
                     {
@@ -662,20 +670,10 @@ define([
                                     item.code = text;
                                     return text;
                                 });
-                        }).then(function ()
-                        {
-                            me.customPluginsComplete = true;
-                        }).catch(function(err)
-                        {
-                            me.customPluginsComplete = true;
-                        });
-                    }).catch(function(err)
-                    {
-                        me.customPluginsComplete = true;
-                    });
-
+                        }).then(funcComplete, funcComplete);
+                    }, funcComplete);
             } else
-                this.customPluginsComplete = true;
+                funcComplete();
         }
     }, Common.Controllers.Plugins || {}));
 });
