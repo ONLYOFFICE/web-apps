@@ -251,6 +251,7 @@ define([
 
 
             initChange: function() {
+                var goto = false;
                 if(arrChangeReview.length == 0) {
                     this.api.asc_GetNextRevisionsChange();
                 }
@@ -260,11 +261,19 @@ define([
                     $('#current-change #date-change').html(arrChangeReview[0].date);
                     $('#current-change #user-name').html(arrChangeReview[0].user);
                     $('#current-change #text-change').html(arrChangeReview[0].changetext);
+                    goto = arrChangeReview[0].goto;
+                }
+                if (goto) {
+                    $('#btn-goto-change').show();
+                } else {
+                    $('#btn-goto-change').hide();
                 }
                 $('#btn-prev-change').single('click', _.bind(this.onPrevChange, this));
                 $('#btn-next-change').single('click', _.bind(this.onNextChange, this));
                 $('#btn-accept-change').single('click', _.bind(this.onAcceptCurrentChange, this));
                 $('#btn-reject-change').single('click', _.bind(this.onRejectCurrentChange, this));
+                $('#btn-goto-change').single('click', _.bind(this.onGotoNextChange, this));
+
                 if(this.appConfig.isReviewOnly) {
                     $('#btn-accept-change').remove();
                     $('#btn-reject-change').remove();
@@ -277,7 +286,6 @@ define([
                     $('#btn-prev-change').addClass('disabled');
                     $('#btn-next-change').addClass('disabled');
                 }
-
             },
 
             onPrevChange: function() {
@@ -308,9 +316,11 @@ define([
                         $('#current-change #date-change').empty();
                         $('#current-change #user-name').empty();
                         $('#current-change #text-change').empty();
-                        $('#current-change').css('display', 'none');
+                        $('#current-change').hide();
+                        $('#btn-goto-change').hide();
+                        $('#btn-delete-change').hide();
                     } else {
-                        $('#current-change').css('display', 'block');
+                        $('#current-change').show();
                         this.initChange();
                     }
                 }
@@ -322,10 +332,11 @@ define([
                     _.each(data, function (item) {
                         var changetext = '', proptext = '',
                             value = item.get_Value(),
+                            movetype = item.get_MoveType(),
                             settings = false;
                         switch (item.get_Type()) {
                             case Asc.c_oAscRevisionsChangeType.TextAdd:
-                                changetext = me.textInserted;
+                                changetext = (movetype==Asc.c_oAscRevisionsMove.NoMove) ? me.textInserted : me.textParaMoveTo;
                                 if (typeof value == 'object') {
                                     _.each(value, function (obj) {
                                         if (typeof obj === 'string')
@@ -352,7 +363,7 @@ define([
                                 }
                                 break;
                             case Asc.c_oAscRevisionsChangeType.TextRem:
-                                changetext = me.textDeleted;
+                                changetext = (movetype==Asc.c_oAscRevisionsMove.NoMove) ? me.textDeleted : (item.is_MovedDown() ? me.textParaMoveFromDown : me.textParaMoveFromUp);
                                 if (typeof value == 'object') {
                                     _.each(value, function (obj) {
                                         if (typeof obj === 'string')
@@ -490,14 +501,24 @@ define([
                                 changetext += '</b>';
                                 changetext += proptext;
                                 break;
+                                case Asc.c_oAscRevisionsChangeType.TablePr:
+                                    changetext = me.textTableChanged;
+                                    break;
+                                case Asc.c_oAscRevisionsChangeType.RowsAdd:
+                                    changetext = me.textTableRowsAdd;
+                                    break;
+                                case Asc.c_oAscRevisionsChangeType.RowsRem:
+                                    changetext = me.textTableRowsDel;
+                                    break;
 
                         }
                         var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
-                            user = item.get_UserName();
+                            user = item.get_UserName(),
+                            goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
                         date = me.dateToLocaleTimeString(date);
 
 
-                        arr.push({date: date, user: user, changetext: changetext});
+                        arr.push({date: date, user: user, changetext: changetext, goto: goto});
                     });
                     arrChangeReview = arr;
                     dateChange = data;
@@ -530,6 +551,12 @@ define([
             onDeleteChange: function() {
                 if (this.api) {
                     this.api.asc_RejectChanges(dateChange[0]);
+                }
+            },
+
+            onGotoNextChange: function() {
+                if (this.api) {
+                    this.api.asc_FollowRevisionMove(dateChange[0]);
                 }
             },
 
@@ -587,7 +614,13 @@ define([
             textEquation: 'Equation',
             textImage: 'Image',
             textChart: 'Chart',
-            textShape: 'Shape'
+            textShape: 'Shape',
+            textTableChanged: '<b>Table Settings Changed</b>',
+            textTableRowsAdd: '<b>Table Rows Added<b/>',
+            textTableRowsDel: '<b>Table Rows Deleted<b/>',
+            textParaMoveTo: '<b>Moved:</b>',
+            textParaMoveFromUp: '<b>Moved Up:</b>',
+            textParaMoveFromDown: '<b>Moved Down:</b>'
 
         }
     })(), DE.Controllers.Collaboration || {}))
