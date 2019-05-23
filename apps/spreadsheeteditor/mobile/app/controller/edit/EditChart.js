@@ -225,7 +225,7 @@ define([
                 var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4,
                     borderType = shapeProperties.get_stroke().get_type();
                 $('#edit-chart-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
-                $('#edit-chart-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
+                $('#edit-chart-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
 
                 $('#edit-chart-bordersize input').single('change touchend', _.buffered(me.onBorderSize, 100, me));
                 $('#edit-chart-bordersize input').single('input',           _.bind(me.onBorderSizeChanging, me));
@@ -660,7 +660,7 @@ define([
 
             onBorderSizeChanging: function (e) {
                 var $target = $(e.currentTarget);
-                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
             },
 
             onBorderColor: function (palette, color) {

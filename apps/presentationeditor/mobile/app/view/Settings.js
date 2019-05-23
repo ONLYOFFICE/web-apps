@@ -80,6 +80,7 @@ define([
                 $('#settings-help').single('click', _.bind(me.showHelp, me));
                 $('#settings-about').single('click', _.bind(me.showAbout, me));
                 $('#settings-presentation-setup').single('click', _.bind(me.showSetup, me));
+                $('#settings-application').single('click', _.bind(me.showSetApp, me));
 
                 Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
@@ -160,6 +161,10 @@ define([
                 }
             },
 
+            showColorSchemes: function () {
+                this.showPage('#color-schemes-view');
+            },
+
             showInfo: function () {
                 this.showPage('#settings-info-view');
 
@@ -190,6 +195,11 @@ define([
 
             showSetup: function () {
                 this.showPage('#settings-setup-view');
+                $('#color-schemes').single('click', _.bind(this.showColorSchemes, this));
+            },
+
+            showSetApp: function () {
+                this.showPage('#settings-application-view');
             },
 
             loadDocument: function (data) {
@@ -209,6 +219,7 @@ define([
             textDone: 'Done',
             textEditPresent: 'Edit Presentation',
             textPresentSetup: 'Presentation Setup',
+            textPresentSettings: 'Presentation Settings',
             textDownload: 'Download',
             textPresentInfo: 'Presentation Info',
             textHelp: 'Help',
@@ -229,7 +240,13 @@ define([
             textPoweredBy: 'Powered by',
             textFindAndReplace: 'Find and Replace',
             textSpellcheck: 'Spell Checking',
-            textPrint: 'Print'
+            textPrint: 'Print',
+            textApplicationSettings: 'Application Settings',
+            textUnitOfMeasurement: 'Unit of Measurement',
+            textCentimeter: 'Centimeter',
+            textPoint: 'Point',
+            textInch: 'Inch',
+            textColorSchemes: 'Color Schemes'
         }
     })(), PE.Views.Settings || {}))
 });

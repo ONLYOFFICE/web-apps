@@ -26,29 +26,25 @@
                         </li>
                         <% } %>
                         <li>
-                            <div id="settings-spellcheck" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-spellcheck"></i>
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title"><%= scope.textSpellcheck %></div>
-                                    <div class="item-after">
-                                        <label class="label-switch">
-                                            <input type="checkbox">
-                                            <div class="checkbox"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
                             <a id="settings-presentation-setup" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
                                         <i class="icon icon-setup"></i>
                                     </div>
                                     <div class="item-inner">
-                                        <div class="item-title"><%= scope.textPresentSetup %></div>
+                                        <div class="item-title"><%= scope.textPresentSettings %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="settings-application" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-print"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textApplicationSettings %></div>
                                     </div>
                                 </div>
                             </a>
@@ -312,13 +308,15 @@
 <div id="settings-setup-view">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding"><%= scope.textSlideSize %></div>
+            <div class="left sliding">
+                <a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textPresentSettings %></div>
         </div>
     </div>
-    <div class="page" id="page-settings-setup-view" data-page="settings-setup-view">
+    <div class="page" id="page-settings-view" data-page="settings-setup-view">
         <div class="page-content">
-            <div class="list-block">
+            <div class="content-block-title"><%= scope.textSlideSize %></div>
+            <div class="list-block" id="slide-size-block">
                 <ul>
                     <li>
                         <label class="label-radio item-content">
@@ -339,6 +337,109 @@
                         </label>
                     </li>
                 </ul>
+            </div>
+
+            <div class="list-block media-list">
+                <ul>
+                    <li>
+                        <a id="color-schemes" class="item-link item-content">
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title"><%= scope.textColorSchemes %></div>
+                                 </div>
+                             </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Presentation application settings -->
+<div id="settings-application-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding">
+                <a href="#" class="back link">
+                    <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %>
+                </a>
+            </div>
+            <div class="center sliding"><%= scope.textApplicationSettings %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-application-view">
+            <div class="page-content">
+                <div class="content-block-title"><%= scope.textUnitOfMeasurement %></div>
+                <div class="list-block">
+
+                    <ul>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="unit-of-measurement" value="0">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCentimeter %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="unit-of-measurement" value="1">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textPoint %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="unit-of-measurement" value="2">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textInch %></div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                 </div>
+                <div class="list-block">
+                    <ul>
+                        <div id="settings-spellcheck" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSpellcheck %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Color schemes view -->
+<div id="color-schemes-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textColorSchemes %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="color-schemes-view">
+            <div class="page-content">
+                <div id="color-schemes-content" class="list-block">
+
+                </div>
+
             </div>
         </div>
     </div>

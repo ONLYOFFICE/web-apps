@@ -124,6 +124,8 @@ define([
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-document').hide();
+                        $layour.find('#settings-advanced').hide();
+                        $layour.find('#color-schemes').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-orthography').hide();
                     }
@@ -154,7 +156,8 @@ define([
             updateItemHandlers: function () {
                 var selectorsDynamicPage = [
                     '.page[data-page=settings-root-view]',
-                    '.page[data-page=settings-document-view]'
+                    '.page[data-page=settings-document-view]',
+                    '.page[data-page=settings-advanced-view]'
                 ].map(function (selector) {
                     return selector + ' a.item-link[data-page]';
                 }).join(', ');
@@ -207,8 +210,7 @@ define([
                                     '<div class="item-title-row">',
                                         '<div class="item-title"><%= item.caption %></div>',
                                     '</div>',
-                                    // '<div class="item-subtitle"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[0]).toFixed(2)) %><%= Common.Utils.Metric.getCurrentMetricName() %> x <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div>',
-                                    '<div class="item-subtitle"><%= item.subtitle %></div>',
+                                    '<div class="item-subtitle"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div>',
                                 '</div>',
                             '</label>',
                         '</li>'
@@ -276,7 +278,16 @@ define([
             textTop: 'Top',
             textLeft: 'Left',
             textBottom: 'Bottom',
-            textRight: 'Right'
+            textRight: 'Right',
+            textAdvancedSettings: 'Application Settings',
+            textUnitOfMeasurement: 'Unit of Measurement',
+            textCentimeter: 'Centimeter',
+            textPoint: 'Point',
+            textInch: 'Inch',
+            textColorSchemes: 'Color Schemes',
+            textNoCharacters: 'Nonprinting Characters',
+            textHiddenTableBorders: 'Hidden Table Borders',
+            textCollaboration: 'Collaboration'
 
     }
     })(), DE.Views.Settings || {}))

@@ -142,6 +142,8 @@ define([
             initSettings: function (pageId) {
                 var me = this;
 
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
+
                 if (_imageObject) {
                     if (pageId == '#edit-image-wrap-view') {
                         me._initWrapView();

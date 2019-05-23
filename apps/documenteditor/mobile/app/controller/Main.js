@@ -541,6 +541,12 @@ define([
 
                 me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
 
+                value = Common.localStorage.getItem("de-mobile-no-characters");
+                me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
+
+                value = Common.localStorage.getItem("de-mobile-hidden-borders");
+                me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
+
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode
@@ -761,11 +767,11 @@ define([
             applyModeEditorElements: function() {
                 if (this.appOptions.isEdit) {
                     var me = this;
-//
-//                    var value = Common.localStorage.getItem('de-settings-unit');
-//                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
-//                    Common.Utils.Metric.setCurrentMetric(value);
-//                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+
+                   var value = Common.localStorage.getItem('de-mobile-settings-unit');
+                   value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));

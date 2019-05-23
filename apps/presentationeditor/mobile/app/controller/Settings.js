@@ -56,7 +56,8 @@ define([
             inProgress,
             infoObj,
             modalView,
-            _licInfo;
+            _licInfo,
+            templateInsert;
 
         var _slideSizeArr = [
             [254, 190.5], [254, 143]
@@ -84,6 +85,7 @@ define([
                 this.api = api;
 
                 this.api.asc_registerCallback('asc_onPresentationSize', _.bind(this.onApiPageSize, this));
+                this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
             },
 
             onLaunch: function () {
@@ -138,7 +140,8 @@ define([
                 }
 
                 rootView = uiApp.addView('.settings-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('settingscontainer:show');
@@ -158,12 +161,14 @@ define([
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
                 $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
-                $('#page-settings-setup-view li').single('click',           _.bind(me._onSlideSize, me));
+                $('#page-settings-view #slide-size-block li').single('click',           _.bind(me._onSlideSize, me));
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
 
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-setup-view]', '.page[data-page=settings-setup-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
 
                 me.initSettings(pageId);
             },
@@ -175,7 +180,53 @@ define([
                 } else if (pageId == '#settings-about-view') {
                     // About
                     me.setLicInfo(_licInfo);
+                } else if ('#settings-application-view' == pageId) {
+                    me.initPageApplicationSettings();
+                } else if ('#color-schemes-view' == pageId) {
+                    me.initPageColorSchemes();
                 }
+            },
+
+            initPageColorSchemes: function () {
+                $('#color-schemes-content').html(templateInsert);
+                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+            },
+
+            onSendThemeColorSchemes: function (schemas) {
+                templateInsert = "";
+                _.each(schemas, function (schema, index) {
+                    var colors = schema.get_colors();//schema.colors;
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    for (var j = 2; j < 7; j++) {
+                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
+                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
+                    }
+                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                }, this);
+            },
+
+            onColorSchemaClick: function (event) {
+                if (this.api) {
+                    var ind = $(event.currentTarget).children('input').val();
+                    this.api.ChangeColorScheme(ind);
+                }
+            },
+
+            initPageApplicationSettings: function () {
+                var me = this,
+                    $unitMeasurement = $('.page[data-page=settings-application-view] input:radio[name=unit-of-measurement]');
+                $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
+                var value = Common.localStorage.getItem('pe-mobile-settings-unit');
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                $unitMeasurement.val([value]);
+            },
+
+            unitMeasurementChange: function (e) {
+                var value = $(e.currentTarget).val();
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.localStorage.setItem("pe-mobile-settings-unit", value);
+                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
             },
 
             setLicInfo: function(data){

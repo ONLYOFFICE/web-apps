@@ -52,7 +52,36 @@ define([
             inProgress,
             infoObj,
             modalView,
-            _licInfo;
+            _licInfo,
+            templateInsert,
+            _pageSizesIndex = 0,
+            _pageSizesCurrent = [0, 0],
+            txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
+            _pageSizes = [
+                { caption: 'US Letter',             subtitle: Common.Utils.String.format('21,59{0} x 27,94{0}', txtCm),  value: [215.9, 279.4] },
+                { caption: 'US Legal',              subtitle: Common.Utils.String.format('21,59{0} x 35,56{0}', txtCm),  value: [215.9, 355.6] },
+                { caption: 'A4',                    subtitle: Common.Utils.String.format('21{0} x 29,7{0}', txtCm),      value: [210, 297] },
+                { caption: 'A5',                    subtitle: Common.Utils.String.format('14,8{0} x 21{0}', txtCm),  value: [148, 210] },
+                { caption: 'B5',                    subtitle: Common.Utils.String.format('17,6{0} x 25{0}', txtCm),   value: [176, 250] },
+                { caption: 'Envelope #10',          subtitle: Common.Utils.String.format('10,48{0} x 24,13{0}', txtCm),  value: [104.8, 241.3] },
+                { caption: 'Envelope DL',           subtitle: Common.Utils.String.format('11{0} x 22{0}', txtCm),  value: [110, 220] },
+                { caption: 'Tabloid',               subtitle: Common.Utils.String.format('27,94{0} x 43,18{0}', txtCm),  value: [279.4, 431.8] },
+                { caption: 'A3',                    subtitle: Common.Utils.String.format('29,7{0} x 42{0}', txtCm),   value: [297, 420] },
+                { caption: 'Tabloid Oversize',      subtitle: Common.Utils.String.format('30,48{0} x 45,71{0}', txtCm),  value: [304.8, 457.1] },
+                { caption: 'ROC 16K',               subtitle: Common.Utils.String.format('19,68{0} x 27,3{0}', txtCm),   value: [196.8, 273] },
+                { caption: 'Envelope Choukei 3',    subtitle: Common.Utils.String.format('11,99{0} x 23,49{0}', txtCm),  value: [119.9, 234.9] },
+                { caption: 'Super B/A3',            subtitle: Common.Utils.String.format('33,02{0} x 48,25{0}', txtCm),  value: [330.2, 482.5] },
+                { caption: 'A0',                    subtitle: Common.Utils.String.format('84,1{0} x 118,9{0}', txtCm),   value: [841, 1189] },
+                { caption: 'A1',                    subtitle: Common.Utils.String.format('59,4{0} x 84,1{0}', txtCm),    value: [594, 841] },
+                { caption: 'A2',                    subtitle: Common.Utils.String.format('42{0} x 59,4{0}', txtCm),      value: [420, 594] },
+                { caption: 'A6',                    subtitle: Common.Utils.String.format('10,5{0} x 14,8{0}', txtCm),    value: [105, 148] }
+            ],
+            _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric())
+
+        var mm2Cm = function(mm) {
+            return parseFloat((mm/10.).toFixed(2));
+        };
+
 
         return {
             models: [],
@@ -73,11 +102,15 @@ define([
                         }
                     }
                 });
+
+                this.localMarginProps = null;
+
+
             },
 
             setApi: function (api) {
-                var me = this;
-                me.api = api;
+                this.api = api;
+                this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
             },
 
             onLaunch: function () {
@@ -132,7 +165,8 @@ define([
                 }
 
                 rootView = uiApp.addView('.settings-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('settingscontainer:show');
@@ -158,6 +192,205 @@ define([
                 if (pageId == '#settings-about-view') {
                     // About
                     me.setLicInfo(_licInfo);
+                } else if ('#settings-application-view' == pageId) {
+                    me.initPageApplicationSettings();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-application-view]', '.page[data-page=settings-application-view] .page-content');
+                } else if ('#color-schemes-view' == pageId) {
+                    me.initPageColorSchemes();
+                    Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
+                } else if ('#settings-spreadsheet-view' == pageId) {
+                    me.initSpreadsheetSettings();
+                } else if ('#settings-page-size-view' == pageId) {
+                    me.initSpreadsheetPageSize();
+                } else if ('#margins-view' == pageId) {
+                    me.initSpreadsheetMargins();
+                }
+            },
+
+            initSpreadsheetSettings: function() {
+                var me = this,
+                    $pageSpreadsheetSettings = $('.page[data-page=settings-spreadsheet-view]'),
+                    $switchHideHeadings = $pageSpreadsheetSettings.find('#hide-headings input'),
+                    $switchHideGridlines = $pageSpreadsheetSettings.find('#hide-gridlines input'),
+                    $pageOrientation = $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation]');
+
+                $switchHideHeadings.single('change',    _.bind(me.clickCheckboxHideHeadings, me));
+                $switchHideGridlines.single('change',    _.bind(me.clickCheckboxHideGridlines, me));
+
+                var params = me.api.asc_getSheetViewSettings();
+                $switchHideHeadings.prop('checked',!params.asc_getShowRowColHeaders());
+                $switchHideGridlines.prop('checked',!params.asc_getShowGridLines());
+
+                // Init orientation
+                var currentSheet = this.api.asc_getActiveWorksheetIndex(),
+                    props = this.api.asc_getPageOptions(currentSheet),
+                    opt = props.asc_getPageSetup();
+                if(opt.asc_getOrientation() === Asc.c_oAscPageOrientation.PagePortrait) {
+                    $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation][value="0"]').prop( "checked", true );
+                } else {
+                    $('.page[data-page=settings-spreadsheet-view] input:radio[name=table-orientation][value="1"]').prop( "checked", true );
+                }
+                $pageOrientation.single('change', _.bind(me.onOrientationChange, me));
+
+                //Init format
+                var $pageSize = $('#settings-spreadsheet-format');
+                this.changeCurrentPageSize(opt.asc_getWidth(), opt.asc_getHeight());
+                $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
+
+                var valueUnit = Common.localStorage.getItem('se-mobile-settings-unit');
+                valueUnit = (valueUnit!==null) ? parseInt(valueUnit) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(valueUnit);
+
+                var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
+                    sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
+
+                var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
+                $pageSize.find('.item-subtitle').text(pageSizeTxt);
+            },
+
+            changeCurrentPageSize: function(w, h) {
+                if (Math.abs(_pageSizesCurrent[0] - w) > 0.1 ||
+                    Math.abs(_pageSizesCurrent[1] - h) > 0.1) {
+                    _pageSizesCurrent = [w, h];
+
+                    _.find(_pageSizes, function(size, index) {
+                        if (Math.abs(size.value[0] - w) < 0.1 && Math.abs(size.value[1] - h) < 0.1) {
+                            _pageSizesIndex = index;
+                        }
+                    }, this);
+                }
+            },
+
+            initSpreadsheetPageSize: function() {
+                this.getView('Settings').renderPageSizes(_pageSizes, _pageSizesIndex);
+                $('.page[data-page=settings-page-size-view] input:radio[name=spreadsheet-format]').single('change', _.bind(this.onFormatChange, this));
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-page-size-view]', '.page[data-page=settings-page-size-view] .page-content');
+            },
+
+            onFormatChange: function(e) {
+                var rawValue = $(e.currentTarget).val(),
+                    value = rawValue.split(',');
+                this.api.asc_changeDocSize(parseFloat(value[0]), parseFloat(value[1]), this.api.asc_getActiveWorksheetIndex());
+                this.initSpreadsheetSettings();
+            },
+
+            initSpreadsheetMargins: function() {
+                var me = this;
+                // Init page margins
+                var currentSheet = me.api.asc_getActiveWorksheetIndex(),
+                    props = me.api.asc_getPageOptions(currentSheet);
+                me.localMarginProps = props.asc_getPageMargins();
+
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
+
+                var left =  parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getLeft()).toFixed(2)),
+                    top =  parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getTop()).toFixed(2)),
+                    right =  parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getRight()).toFixed(2)),
+                    bottom =  parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localMarginProps.asc_getBottom()).toFixed(2));
+
+                if (me.localMarginProps) {
+
+                    $('#spreadsheet-margin-top .item-after label').text(top + ' ' + _metricText);
+                    $('#spreadsheet-margin-bottom .item-after label').text(bottom + ' ' + _metricText);
+                    $('#spreadsheet-margin-left .item-after label').text(left + ' ' + _metricText);
+                    $('#spreadsheet-margin-right .item-after label').text(right + ' ' + _metricText);
+                }
+
+                _.each(["top", "left", "bottom", "right"], function(align) {
+                    $(Common.Utils.String.format('#spreadsheet-margin-{0} .button', align)).single('click', _.bind(me.onPageMarginsChange, me, align));
+                })
+            },
+
+            onPageMarginsChange: function (align, e) {
+                var me = this,
+                    $button = $(e.currentTarget),
+                    step = 1, // mm
+                    txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
+                    marginValue = null;
+
+                var maxMarginsH = 482.5,
+                    maxMarginsW = 482.5;
+
+                if(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.1;
+                }
+                step = Common.Utils.Metric.fnRecalcToMM(step);
+
+                switch (align) {
+                    case 'left': marginValue = me.localMarginProps.asc_getLeft(); break;
+                    case 'top': marginValue = me.localMarginProps.asc_getTop(); break;
+                    case 'right': marginValue = me.localMarginProps.asc_getRight(); break;
+                    case 'bottom': marginValue = me.localMarginProps.asc_getBottom(); break;
+                }
+
+                var changeProps = new Asc.asc_CPageMargins();
+                changeProps.asc_setTop(me.localMarginProps.asc_getTop());
+                changeProps.asc_setBottom(me.localMarginProps.asc_getBottom());
+                changeProps.asc_setLeft(me.localMarginProps.asc_getLeft());
+                changeProps.asc_setRight(me.localMarginProps.asc_getRight());
+
+                if ($button.hasClass('decrement')) {
+                    marginValue = Math.max(0, marginValue - step);
+                } else {
+                    marginValue = Math.min((align == 'left' || align == 'right') ? maxMarginsW : maxMarginsH, marginValue + step);
+                }
+
+                switch (align) {
+                    case 'left': changeProps.asc_setLeft(marginValue); break;
+                    case 'top': changeProps.asc_setTop(marginValue); break;
+                    case 'right': changeProps.asc_setRight(marginValue); break;
+                    case 'bottom': changeProps.asc_setBottom(marginValue); break;
+                }
+
+                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(parseFloat(Common.Utils.Metric.fnRecalcFromMM(marginValue)).toFixed(2) + ' ' + _metricText);
+
+                me.api.asc_changePageMargins(changeProps.asc_getLeft(), changeProps.asc_getRight(), changeProps.asc_getTop(), changeProps.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
+                me.initSpreadsheetMargins();
+            },
+
+
+            onOrientationChange: function(e) {
+                var value = $(e.currentTarget).attr('value');
+                this.api.asc_changePageOrient(Number(value) === Asc.c_oAscPageOrientation.PagePortrait, this.api.asc_getActiveWorksheetIndex());
+            },
+
+            clickCheckboxHideHeadings: function(e) {
+                var $target = $(e.currentTarget),
+                    checked = $target.prop('checked');
+                this.api.asc_setDisplayHeadings(!checked);
+            },
+
+            clickCheckboxHideGridlines: function(e) {
+                var $target = $(e.currentTarget),
+                    checked = $target.prop('checked');
+                this.api.asc_setDisplayGridlines(!checked);
+            },
+
+            initPageColorSchemes: function() {
+                $('#color-schemes-content').html(templateInsert);
+                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+            },
+
+            onSendThemeColorSchemes: function (schemas) {
+                templateInsert = "";
+                _.each(schemas, function (schema, index) {
+                    var colors = schema.get_colors();//schema.colors;
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    for (var j = 2; j < 7; j++) {
+                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
+                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
+                    }
+                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                }, this);
+            },
+
+            onColorSchemaClick: function(event) {
+                if (this.api) {
+                    var ind = $(event.currentTarget).children('input').val();
+                    this.api.asc_ChangeColorScheme(ind);
                 }
             },
 
@@ -196,6 +429,22 @@ define([
                         $('#settings-about-logo').show().html('<img src="'+value+'" style="max-width:216px; max-height: 35px;" />');
                     }
                 }
+            },
+
+            initPageApplicationSettings: function() {
+                var me = this,
+                    $unitMeasurement = $('.page[data-page=settings-application-view] input:radio[name=unit-of-measurement]');
+                $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
+                var value = Common.localStorage.getItem('se-mobile-settings-unit');
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                $unitMeasurement.val([value]);
+            },
+
+            unitMeasurementChange: function (e) {
+                var value = $(e.currentTarget).val();
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.localStorage.setItem("se-mobile-settings-unit", value);
             },
 
             // API handlers
