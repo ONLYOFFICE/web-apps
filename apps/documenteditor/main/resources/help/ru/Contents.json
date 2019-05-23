@@ -43,7 +43,6 @@
     {"src": "UsageInstructions/CreateTableOfContents.htm", "name": "Создание оглавления" },
     {"src":"UsageInstructions/UseMailMerge.htm", "name": "Использование слияния", "headername": "Слияние"},
     {"src": "UsageInstructions/InsertEquation.htm", "name": "Вставка формул", "headername": "Математические формулы" },
-    {"src": "UsageInstructions/AddFormulasInTables.htm", "name": "Использование формул в таблицах"},
     {"src":"HelpfulHints/CollaborativeEditing.htm", "name": "Совместное редактирование документа", "headername": "Совместное редактирование документов"},
     {"src":"HelpfulHints/Review.htm", "name": "Рецензирование документа"},    
     {"src":"UsageInstructions/ViewDocInfo.htm", "name": "Просмотр сведений о документе", "headername": "Инструменты и настройки"},
