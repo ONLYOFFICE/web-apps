@@ -50,7 +50,7 @@ define([
         options: {
             width: 647,
             style: 'min-width: 350px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg enable-key-events'
         },
 
         initialize : function(options) {
