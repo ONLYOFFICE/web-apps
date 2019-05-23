@@ -56,7 +56,8 @@ define([
             displayMode = "Markup",
             arrChangeReview = [],
             dateChange = [],
-            _fileKey;
+            _fileKey,
+            _userId;
 
         return {
             models: [],
@@ -86,6 +87,7 @@ define([
             setMode: function(mode) {
                 this.appConfig = mode;
                 _fileKey = mode.fileKey;
+                _userId = mode.user.id;
                 return this;
             },
 
@@ -277,8 +279,10 @@ define([
                 if(this.appConfig.isReviewOnly) {
                     $('#btn-accept-change').remove();
                     $('#btn-reject-change').remove();
-                    $('.accept-reject').html('<div id="btn-delete-change"><i class="icon icon-review"></i></div>');
-                    $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
+                    if(arrChangeReview.length != 0 && arrChangeReview[0].editable) {
+                        $('.accept-reject').html('<div id="btn-delete-change"><i class="icon icon-review"></i></div>');
+                        $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
+                    }
                 }
                 if(displayMode == "Final" || displayMode == "Original") {
                     $('#btn-accept-change').addClass('disabled');
@@ -516,9 +520,10 @@ define([
                             user = item.get_UserName(),
                             goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
                         date = me.dateToLocaleTimeString(date);
+                        var editable = (item.get_UserId() == _userId);
 
 
-                        arr.push({date: date, user: user, changetext: changetext, goto: goto});
+                        arr.push({date: date, user: user, changetext: changetext, goto: goto, editable: editable});
                     });
                     arrChangeReview = arr;
                     dateChange = data;
