@@ -43,7 +43,6 @@
     {"src": "UsageInstructions/ChangeWrappingStyle.htm", "name": "Change wrapping style" },
     {"src": "UsageInstructions/UseMailMerge.htm", "name": "Use mail merge", "headername": "Mail Merge"},
     {"src": "UsageInstructions/InsertEquation.htm", "name": "Insert equations", "headername": "Math equations" },
-    {"src": "UsageInstructions/AddFormulasInTables.htm", "name": "Use formulas in tables"},
     {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Collaborative document editing", "headername": "Document co-editing"},
     {"src": "HelpfulHints/Review.htm", "name": "Document Review"},
     {"src": "UsageInstructions/ViewDocInfo.htm", "name": "View document information", "headername": "Tools and settings"},
