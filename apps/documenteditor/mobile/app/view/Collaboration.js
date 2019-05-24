@@ -151,7 +151,7 @@ define([
             textMarkup: 'Markup',
             textFinal: 'Final',
             textOriginal: 'Original',
-            textChange: 'Change'
+            textChange: 'Review Change'
 
         }
     })(), DE.Views.Collaboration || {}))

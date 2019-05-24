@@ -31,6 +31,7 @@
   "DE.Controllers.DocumentHolder.textColumns": "Columns",
   "DE.Controllers.DocumentHolder.textRows": "Rows",
   "DE.Controllers.DocumentHolder.menuDeleteTable": "Delete Table",
+  "DE.Controllers.DocumentHolder.menuReviewChange": "Review Change",
   "DE.Controllers.EditContainer.textChart": "Chart",
   "DE.Controllers.EditContainer.textFooter": "Footer",
   "DE.Controllers.EditContainer.textHeader": "Header",
@@ -495,5 +496,5 @@
   "DE.Views.Collaboration.textMarkup": "Markup",
   "DE.Views.Collaboration.textFinal": "Final",
   "DE.Views.Collaboration.textOriginal": "Original",
-  "DE.Views.Collaboration.textChange": "Change"
+  "DE.Views.Collaboration.textChange": "Review Change"
 }

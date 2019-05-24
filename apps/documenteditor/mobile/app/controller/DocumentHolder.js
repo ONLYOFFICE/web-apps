@@ -58,7 +58,7 @@ define([
             _fastCoAuthTips = [],
             _actionSheets = [],
             _isEdit = false,
-            _canAcceptChanges = false,
+            _canReview = false,
             _inRevisionChange = false,
             _menuPos = [],
             _timer = 0;
@@ -100,7 +100,7 @@ define([
 
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
-                _canAcceptChanges = mode.canReview && !mode.isReviewOnly;
+                _canReview = mode.canReview;
             },
 
             // When our application is ready, lets get started
@@ -152,6 +152,11 @@ define([
                     var getCollaboration = DE.getController('Collaboration');
                     getCollaboration.showModal();
                     getCollaboration.getView('Collaboration').showPage('#reviewing-settings-view', false);
+                } else if('reviewchange' == eventName) {
+                    var getCollaboration = DE.getController('Collaboration');
+                    getCollaboration.showModal();
+                    getCollaboration.getView('Collaboration').showPage('#reviewing-settings-view', false);
+                    getCollaboration.getView('Collaboration').showPage('#change-view', false);
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
@@ -491,11 +496,18 @@ define([
                             });
                         }
 
-                        if (_canAcceptChanges && _inRevisionChange) {
-                            menuItems.push({
-                                caption: me.menuReview,
-                                event: 'review'
-                            });
+                        if (_canReview) {
+                            if (_inRevisionChange) {
+                                menuItems.push({
+                                    caption: me.menuReviewChange,
+                                    event: 'reviewchange'
+                                });
+                            } else {
+                                menuItems.push({
+                                    caption: me.menuReview,
+                                    event: 'review'
+                                });
+                            }
                         }
                     }
                 }
@@ -540,7 +552,8 @@ define([
             menuReview: 'Review',
             menuMerge: 'Merge Cells',
             menuSplit: 'Split Cell',
-            menuDeleteTable: 'Delete Table'
+            menuDeleteTable: 'Delete Table',
+            menuReviewChange: 'Review Change'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });
