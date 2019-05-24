@@ -513,8 +513,8 @@ define([
                 });
 
                 el.on('mouseout', function(e) {
+                    me.cmpEl.removeClass('over');
                     if (!me.disabled) {
-                        me.cmpEl.removeClass('over');
                         me.trigger('mouseout', me, e);
                     }
                 });

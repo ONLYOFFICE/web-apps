@@ -404,7 +404,7 @@
 
     &.split {
 
-        &.over,
+        &.over:not(.disabled),
         &.open {
             box-shadow: inset 0 0 0 1px @color-gray;
 
@@ -413,7 +413,7 @@
             }
         }
 
-        &.over {
+        &.over:not(.disabled) {
             button {
                 &:not(.active) {
                     &:hover {
