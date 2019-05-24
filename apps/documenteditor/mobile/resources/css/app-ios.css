@@ -6269,6 +6269,8 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   padding-top: 15px;
   padding-bottom: 15px;
   margin: 0;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 .page-change #user-name {
   font-size: 17px;
@@ -6286,7 +6288,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .page-change #text-change {
   color: #000000;
   font-size: 15px;
-  line-height: 18px;
+  line-height: 20px;
   margin: 0;
   margin-top: 10px;
 }
@@ -6317,6 +6319,9 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .container-collaboration .navbar .right.close-collaboration {
   position: absolute;
   right: 10px;
+}
+.container-collaboration .page-content .list-block:first-child {
+  margin-top: -1px;
 }
 .tablet .searchbar.document.replace .center .searchbar:first-child {
   margin-right: 10px;

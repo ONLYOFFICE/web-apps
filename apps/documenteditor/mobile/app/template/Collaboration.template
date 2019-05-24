@@ -2,7 +2,7 @@
 <div id="collaboration-root-view">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="center sliding categories center-collaboration"><%= scope.textCollaboration %></div>
+            <div class="center sliding"><%= scope.textCollaboration %></div>
             <div class="right sliding close-collaboration"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -14,9 +14,6 @@
                         <li>
                             <a id="reviewing-settings" class="item-link" data-page="#reviewing-settings-view">
                                 <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
-                                    </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textReviewing %></div>
                                     </div>
@@ -46,9 +43,6 @@
                     <ul>
                         <li>
                             <div id="settings-review" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-review"></i>
-                                </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textReview %></div>
                                     <div class="item-after">
@@ -63,9 +57,6 @@
                         <li>
                             <a id="display-mode-settings" class="item-link" data-page="#display-mode-view">
                                 <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
-                                    </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textDisplayMode %></div>
                                     </div>
@@ -75,9 +66,6 @@
                         <li>
                             <a id="change-settings" class="item-link" data-page="#change-view">
                                 <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
-                                    </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textChange %></div>
                                     </div>
@@ -86,9 +74,6 @@
                         </li>
                         <li>
                             <div id="settings-accept-all" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-review"></i>
-                                </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textAcceptAllChanges %></div>
                                 </div>
@@ -96,9 +81,6 @@
                         </li>
                         <li>
                             <div id="settings-reject-all" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-review"></i>
-                                </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textRejectAllChanges %></div>
                                 </div>

@@ -5868,6 +5868,8 @@ html.phone .document-menu .list-block .item-link {
   padding-top: 15px;
   padding-bottom: 15px;
   margin: 0;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 .page-change #user-name {
   font-size: 17px;
@@ -5885,7 +5887,7 @@ html.phone .document-menu .list-block .item-link {
 .page-change #text-change {
   color: #000000;
   font-size: 15px;
-  line-height: 18px;
+  line-height: 20px;
   margin: 0;
   margin-top: 10px;
 }
@@ -5909,12 +5911,12 @@ html.phone .document-menu .list-block .item-link {
   height: 48px;
   width: 48px;
 }
-.navbar .center-collaboration {
-  text-align: center;
-}
 .container-collaboration .navbar .right.close-collaboration {
   position: absolute;
   right: 5px;
+}
+.container-collaboration .page-content .list-block:first-child {
+  margin-top: -1px;
 }
 .tablet .searchbar.document.replace .center > .replace {
   display: flex;
