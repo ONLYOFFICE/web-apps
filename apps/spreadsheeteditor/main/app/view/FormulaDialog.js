@@ -117,7 +117,8 @@ define([
                     ru: this[translate+'_ru'],
                     pl: this[translate+'_pl'],
                     es: this[translate+'_es'],
-                    fr: this[translate+'_fr']
+                    fr: this[translate+'_fr'],
+                    it: this[translate+'_it']
                 };
             }
 
@@ -475,7 +476,19 @@ define([
         sCategoryLookupAndReference_pl:    'Wyszukiwanie i odniesienie',
         sCategoryMathematic_pl:            'Matematyczne i trygonometryczne',
         sCategoryStatistical_pl:           'Statystyczny',
-        sCategoryTextAndData_pl:           'Tekst i data'
+        sCategoryTextAndData_pl:           'Tekst i data',
+        sCategoryAll_it:                   'Tutto',
+        sCategoryLogical_it:               'Logico',
+        sCategoryCube_it:                  'Cubo',
+        sCategoryDatabase_it:              'Banca dati',
+        sCategoryDateAndTime_it:           'Data e ora',
+        sCategoryEngineering_it:           'Ingegneria',
+        sCategoryFinancial_it:             'Finanziario',
+        sCategoryInformation_it:           'Informazioni',
+        sCategoryLookupAndReference_it:    'Ricerca e Riferimento',
+        sCategoryMathematic_it:            'Matematiche e trigonometriche',
+        sCategoryStatistical_it:           'Statistico',
+        sCategoryTextAndData_it:           'Testo e dati'
 
     }, SSE.Views.FormulaDialog || {}));
 });
