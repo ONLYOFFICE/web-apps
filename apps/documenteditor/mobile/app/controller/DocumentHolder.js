@@ -57,7 +57,11 @@ define([
             _view,
             _fastCoAuthTips = [],
             _actionSheets = [],
-            _isEdit = false;
+            _isEdit = false,
+            _canAcceptChanges = false,
+            _inRevisionChange = false,
+            _menuPos = [],
+            _timer = 0;
 
         return {
             models: [],
@@ -90,11 +94,13 @@ define([
                 me.api.asc_registerCallback('asc_onDocumentContentReady',   _.bind(me.onApiDocumentContentReady, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect,me));
+                me.api.asc_registerCallback('asc_onShowRevisionsChange',    _.bind(me.onApiShowChange, me));
                 me.api.asc_coAuthoringGetUsers();
             },
 
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
+                _canAcceptChanges = mode.canReview && !mode.isReviewOnly;
             },
 
             // When our application is ready, lets get started
@@ -135,10 +141,30 @@ define([
                             return true;
                         }
                     });
+                } else if ('accept' == eventName) {
+                    me.api.asc_GetNextRevisionsChange();
+                    me.api.asc_AcceptChanges();
+                } else if ('acceptall' == eventName) {
+                    me.api.asc_AcceptAllChanges();
+                } else if ('reject' == eventName) {
+                    me.api.asc_GetNextRevisionsChange();
+                    me.api.asc_RejectChanges();
+                } else if ('rejectall' == eventName) {
+                    me.api.asc_RejectAllChanges();
+                } else if ('review' == eventName) {
+                    if (Common.SharedSettings.get('phone')) {
+                        _actionSheets = me._initReviewMenu();
+                        me.onContextMenuClick(view, 'showActionSheet');
+                    } else {
+                        _.delay(function () {
+                            _view.showMenu(me._initReviewMenu(), _menuPos[0] || 0, _menuPos[1] || 0);
+                            _timer = (new Date).getTime();
+                        }, 100);
+                    }
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
-                            action.text = action.caption
+                            action.text = action.caption;
                             action.onClick = function () {
                                 me.onContextMenuClick(null, action.event)
                             }
@@ -166,6 +192,11 @@ define([
                 if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal.modal-in, .actions-modal').length > 0) {
                     return;
                 }
+                var now = (new Date).getTime();
+                if (now - _timer < 1000) return;
+                _timer = 0;
+
+                _menuPos = [posX, posY];
 
                 var me = this,
                     items;
@@ -177,6 +208,8 @@ define([
             },
 
             onApiHidePopMenu: function() {
+                var now = (new Date).getTime();
+                if (now - _timer < 1000) return;
                 _view && _view.hideMenu();
             },
 
@@ -283,6 +316,10 @@ define([
                 _view = this.createView('DocumentHolder').render();
             },
 
+            onApiShowChange: function(sdkchange) {
+                _inRevisionChange = sdkchange && sdkchange.length>0;
+            },
+
             // Internal
 
             _openLink: function(url) {
@@ -378,6 +415,13 @@ define([
                                 event: 'addlink'
                             });
                         }
+
+                        if (_canAcceptChanges && _inRevisionChange) {
+                            menuItems.push({
+                                caption: me.menuReview,
+                                event: 'review'
+                            });
+                        }
                     }
                 }
 
@@ -401,6 +445,33 @@ define([
                 return menuItems;
             },
 
+            _initReviewMenu: function (stack) {
+                var me = this,
+                    menuItems = [];
+
+                menuItems.push({
+                    caption: me.menuAccept,
+                    event: 'accept'
+                });
+
+                menuItems.push({
+                    caption: me.menuReject,
+                    event: 'reject'
+                });
+
+                menuItems.push({
+                    caption: me.menuAcceptAll,
+                    event: 'acceptall'
+                });
+
+                menuItems.push({
+                    caption: me.menuRejectAll,
+                    event: 'rejectall'
+                });
+
+                return menuItems;
+            },
+
             onCoAuthoringDisconnect: function() {
                 this.isDisconnected = true;
             },
@@ -414,7 +485,12 @@ define([
             menuAddLink: 'Add Link',
             menuOpenLink: 'Open Link',
             menuMore: 'More',
-            sheetCancel: 'Cancel'
+            sheetCancel: 'Cancel',
+            menuReview: 'Review',
+            menuAccept: 'Accept',
+            menuAcceptAll: 'Accept All',
+            menuReject: 'Reject',
+            menuRejectAll: 'Reject All'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

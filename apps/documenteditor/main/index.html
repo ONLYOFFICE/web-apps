@@ -194,6 +194,14 @@
                     '</div>');
                 stopLoading = true;
             }
+        } else
+        if (check(/windows\snt/i)) {
+            var re = /chrome\/(\d+)/i.exec(userAgent);
+            if (!!re && !!re[1] && !(re[1] > 49)) {
+                setTimeout(function () {
+                    document.getElementsByTagName('body')[0].className += "winxp";
+                },0);
+            }
         }
 
         function getUrlParams() {
@@ -263,10 +271,12 @@
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
     <img class="inline-svg" src="../../common/main/resources/img/header/buttons.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/docx.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/dotx.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pdf.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pdfa.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/txt.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/odt.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/ott.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/rtf.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/html.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/blank.svg">

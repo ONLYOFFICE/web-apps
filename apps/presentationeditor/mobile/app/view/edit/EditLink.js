@@ -69,6 +69,8 @@ define([
 
                 $('#edit-link-number').single('click',  _.bind(me.showPageNumber, me));
                 $('#edit-link-type').single('click',  _.bind(me.showLinkType, me));
+
+                Common.Utils.addScrollIfNeed('#edit-link .pages', '#edit-link .page');
             },
 
             // Render layout
@@ -109,6 +111,8 @@ define([
 
                     this.fireEvent('page:show', [this, templateId]);
                 }
+
+                Common.Utils.addScrollIfNeed('.page[data-page=editlink-slidenumber]', '.page[data-page=editlink-slidenumber] .page-content');
             },
 
             showLinkType: function () {

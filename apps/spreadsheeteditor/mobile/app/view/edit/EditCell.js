@@ -78,6 +78,7 @@ define([
                 $('#text-color').single('click',        _.bind(me.showTextColor, me));
                 $('#fill-color').single('click',        _.bind(me.showFillColor, me));
 
+                Common.Utils.addScrollIfNeed('#edit-cell .pages', '#edit-cell .page');
                 me.initControls();
             },
 
@@ -161,6 +162,10 @@ define([
                     return selector + ' a.item-link[data-page]';
                 }).join(', ');
 
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-border-style]', '.page[data-page=edit-border-style] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-cell-format]', '.page[data-page=edit-cell-format] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-format]', '.page[data-page=edit-text-format] .page-content');
+
                 $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
             },
 
@@ -224,6 +229,8 @@ define([
                         }, 100));
                     }
                 });
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-page]', '.page[data-page=edit-text-font-page] .page-content');
             },
 
             showTextColor: function () {
@@ -232,7 +239,8 @@ define([
                 this.paletteTextColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-text-color] .page-content')
                 });
-
+                
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-color]', '.page[data-page=edit-text-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-text-color']);
             },
 
@@ -244,6 +252,7 @@ define([
                     transparent: true
                 });
 
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-fill-color]', '.page[data-page=edit-fill-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-fill-color']);
             },
 
@@ -293,7 +302,10 @@ define([
             textEuro: 'Euro',
             textPound: 'Pound',
             textRouble: 'Rouble',
-            textYen: 'Yen'
+            textYen: 'Yen',
+            textCharacterBold: 'B',
+            textCharacterItalic: 'I',
+            textCharacterUnderline: 'U'
     }
     })(), SSE.Views.EditCell || {}))
 });

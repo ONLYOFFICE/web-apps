@@ -325,6 +325,7 @@ define([
             var me = this;
             (new DE.Views.BookmarksDialog({
                 api: me.api,
+                appOptions: me.toolbar.appOptions,
                 props: me.api.asc_GetBookmarksManager(),
                 handler: function (result, settings) {
                     if (settings) {

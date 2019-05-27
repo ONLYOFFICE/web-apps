@@ -178,7 +178,6 @@ define([
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-            $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
@@ -190,7 +189,7 @@ define([
             var me = this;
             _.delay(function(){
                 if (me.focusedInput) me.focusedInput.focus();
-            },500);
+            },50);
         },
 
         setSettings: function(settings) {
@@ -261,11 +260,9 @@ define([
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-                return false;
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

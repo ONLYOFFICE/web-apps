@@ -83,6 +83,7 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
+            this._state = {};
         },
 
         render: function () {
@@ -172,7 +173,8 @@ define([
         onBtnMenuToggle: function(btn, state) {
             if (state) {
                 btn.panel['show']();
-                this.$el.width(SCALE_MIN);
+                if (!this._state.pluginIsRunning)
+                    this.$el.width(SCALE_MIN);
 
                 if (this.btnSearch.isActive())
                     this.btnSearch.toggle(false);
@@ -192,16 +194,22 @@ define([
                 return;
             } else
             if (btn.options.action == 'thumbs') {
-                if (this.$el.width() > SCALE_MIN) {
-                    Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
-                    this.$el.width(SCALE_MIN);
+                if (!btn.pressed && this._state.pluginIsRunning) {
+                    this.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
+                } else {
+                    if (this.$el.width() > SCALE_MIN) {
+                        Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
+                        this.$el.width(SCALE_MIN);
+                    }
+                    if (this._state.pluginIsRunning) // hide comments or chat panel when plugin is running
+                        this.onCoauthOptions();
                 }
             } else {
                 if (btn.pressed) {
                     if (!(this.$el.width() > SCALE_MIN)) {
                         this.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
                     }
-                } else {
+                } else if (!this._state.pluginIsRunning){
                     Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
                     this.$el.width(SCALE_MIN);
                 }
@@ -218,7 +226,7 @@ define([
         onCoauthOptions: function(e) {
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
+                if (this.mode.canViewComments) {
                     if (this.btnComments.pressed && this.btnComments.$el.hasClass('notify'))
                         this.btnComments.$el.removeClass('notify');
                     this.panelComments[this.btnComments.pressed?'show':'hide']();
@@ -235,12 +243,12 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins) {
-                if (this.btnPlugins.pressed) {
-                    this.panelPlugins.show();
-                } else
-                    this.panelPlugins['hide']();
-            }
+            // if (this.mode.canPlugins && this.panelPlugins) {
+            //     if (this.btnPlugins.pressed) {
+            //         this.panelPlugins.show();
+            //     } else
+            //         this.panelPlugins['hide']();
+            // }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -271,10 +279,11 @@ define([
         close: function(menu) {
             this.btnAbout.toggle(false);
             this.btnThumbs.toggle(false);
-            this.$el.width(SCALE_MIN);
+            if (!this._state.pluginIsRunning)
+                this.$el.width(SCALE_MIN);
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
+                if (this.mode.canViewComments) {
                     this.panelComments['hide']();
                     if (this.btnComments.pressed)
                         this.fireEvent('comments:hide', this);
@@ -286,7 +295,7 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins) {
+            if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
                 this.panelPlugins['hide']();
                 this.btnPlugins.toggle(false, true);
             }

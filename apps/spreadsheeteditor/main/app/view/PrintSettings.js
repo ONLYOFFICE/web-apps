@@ -51,7 +51,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 471
+            height: 475
         },
 
         initialize : function(options) {
@@ -61,7 +61,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 template: [
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                         '<div class="menu-panel" style="overflow: hidden;">',
-                            '<div style="height: 42px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
+                            '<div style="height: 54px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
                             '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
@@ -99,6 +99,11 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 ]
             });
             this.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
+
+            this.chIgnorePrintArea = new Common.UI.CheckBox({
+                el: $('#printadv-dlg-chb-ignore'),
+                labelText: this.textIgnore
+            });
 
             this.cmbSheet = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-sheets'),
@@ -234,6 +239,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             return this.cmbRange.getValue();
         },
 
+        setIgnorePrintArea: function(value) {
+            this.chIgnorePrintArea.setValue(value);
+        },
+
+        getIgnorePrintArea: function() {
+            return (this.chIgnorePrintArea.getValue()=='checked');
+        },
+
         comboRangeChange: function(combo, record) {
             this.fireEvent('changerange', this);
         },
@@ -263,13 +276,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             if (!this.extended) {
                 this.extended = true;
                 this.panelDetails.css({'display': 'none'});
-                this.setHeight(303);
+                this.setHeight(314);
                 btn.setCaption(this.textShowDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(471);
+                this.setHeight(475);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
@@ -308,7 +321,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textShowHeadings:       'Show Rows and Columns Headings',
         strShow:                'Show',
         btnDownload:            'Save & Download',
-        textRange:              'Range'
+        textRange:              'Range',
+        textIgnore:             'Ignore Print Area'
 
     }, SSE.Views.PrintSettings || {}));
 });

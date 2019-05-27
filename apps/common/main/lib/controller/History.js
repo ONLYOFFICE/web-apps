@@ -152,7 +152,13 @@ define([
                 this.api.asc_showRevision(hist);
 
                 var commentsController = this.getApplication().getController('Common.Controllers.Comments');
-                if (commentsController) commentsController.onApiHideComment();
+                if (commentsController) {
+                    commentsController.onApiHideComment();
+                    commentsController.clearCollections();
+                }
+                var reviewController = this.getApplication().getController('Common.Controllers.ReviewChanges');
+                if (reviewController)
+                    reviewController.onApiShowChange();
             }
         },
 
@@ -202,7 +208,13 @@ define([
                     this.api.asc_showRevision(hist);
 
                     var commentsController = this.getApplication().getController('Common.Controllers.Comments');
-                    if (commentsController) commentsController.onApiHideComment();
+                    if (commentsController) {
+                        commentsController.onApiHideComment();
+                        commentsController.clearCollections();
+                    }
+                    var reviewController = this.getApplication().getController('Common.Controllers.ReviewChanges');
+                    if (reviewController)
+                        reviewController.onApiShowChange();
                 }
             }
         },

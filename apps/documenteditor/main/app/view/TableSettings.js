@@ -50,7 +50,8 @@ define([
     'common/main/lib/component/ComboBorderSize',
     'common/main/lib/component/ComboDataView',
     'common/main/lib/view/InsertTableDialog',
-    'documenteditor/main/app/view/TableSettingsAdvanced'
+    'documenteditor/main/app/view/TableSettingsAdvanced',
+    'documenteditor/main/app/view/TableFormulaDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -419,6 +420,12 @@ define([
                 this.api.asc_DistributeTableCells(true);
             }, this));
 
+            this.btnAddFormula = new Common.UI.Button({
+                el: $('#table-btn-add-formula')
+            });
+            this.lockedControls.push(this.btnAddFormula);
+            this.btnAddFormula.on('click', _.bind(this.onAddFormula, this));
+
             this.linkAdvanced = $('#table-advanced-link');
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -758,6 +765,26 @@ define([
             }
         },
 
+        onAddFormula: function(e) {
+            var me = this;
+            var win;
+            if (me.api && !this._locked){
+                (new DE.Views.TableFormulaDialog(
+                {
+                    api: me.api,
+                    bookmarks: me.api.asc_GetBookmarksManager(),
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_AddTableFormula(value);
+                            }
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -822,7 +849,8 @@ define([
         textHeight: 'Height',
         textWidth: 'Width',
         textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns'
+        textDistributeCols: 'Distribute columns',
+        textAddFormula: 'Add formula'
 
     }, DE.Views.TableSettings || {}));
 });

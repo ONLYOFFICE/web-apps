@@ -42,8 +42,8 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/Switcher',
-    'documenteditor/main/app/view/MailMergeRecepients',
-    'documenteditor/main/app/view/MailMergeSaveDlg',
+    'common/main/lib/view/SaveAsDlg',
+    'common/main/lib/view/SelectFileDlg',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -544,16 +544,16 @@ define([
             if (this._mailMergeDlg) return;
             var me = this;
             if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
-                me._mailMergeDlg = new DE.Views.MailMergeSaveDlg({
-                                    mergeFolderUrl: me.mode.mergeFolderUrl,
-                                    mergedFileUrl: url,
+                me._mailMergeDlg = new Common.Views.SaveAsDlg({
+                                    saveFolderUrl: me.mode.mergeFolderUrl,
+                                    saveFileUrl: url,
                                     defFileName: me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx')
                                 });
-                me._mailMergeDlg.on('mailmergefolder', function(obj, folder){ // save last folder
-                }).on('mailmergeerror', function(obj, err){ // save last folder
+                me._mailMergeDlg.on('saveasfolder', function(obj, folder){ // save last folder
+                }).on('saveaserror', function(obj, err){ // save last folder
                     var config = {
                         closable: false,
-                        title: this.notcriticalErrorTitle,
+                        title: me.notcriticalErrorTitle,
                         msg: err,
                         iconCls: 'warn',
                         buttons: ['ok'],
@@ -801,11 +801,17 @@ define([
         disableEditing: function(disable) {
             DE.getController('Toolbar').DisableToolbar(disable, disable);
             DE.getController('RightMenu').SetDisabled(disable, true);
-            DE.getController('LeftMenu').SetDisabled(disable);
             DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-            if (this.mode.canComments) {
-                DE.getController('Common.Controllers.Comments').setMode(disable ? {canComments: false} : this.mode).onApiHideComment();
-            }
+            DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+            DE.getController('DocumentHolder').getView().SetDisabled(disable);
+            DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
+
+            var comments = DE.getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
+
+            DE.getController('LeftMenu').setPreviewMode(disable);
+
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
         },
 

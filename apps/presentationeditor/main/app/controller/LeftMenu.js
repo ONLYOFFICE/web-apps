@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SaveAsDlg',
     'presentationeditor/main/app/view/LeftMenu',
     'presentationeditor/main/app/view/FileMenu'
 ], function () {
@@ -83,6 +84,7 @@ define([
                     'filemenu:hide': _.bind(this.menuFilesHide, this),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -96,7 +98,9 @@ define([
                 'SearchDialog': {
                     'hide': _.bind(this.onSearchDlgHide, this),
                     'search:back': _.bind(this.onQuerySearch, this, 'back'),
-                    'search:next': _.bind(this.onQuerySearch, this, 'next')
+                    'search:next': _.bind(this.onQuerySearch, this, 'next'),
+                    'search:replace': _.bind(this.onQueryReplace, this),
+                    'search:replaceall': _.bind(this.onQueryReplaceAll, this)
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:chat': _.bind(this.onShowHideChat, this)
@@ -115,6 +119,7 @@ define([
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
                     'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
+                    'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
                     'alt+f': _.bind(this.onShortcut, this, 'file'),
                     'esc': _.bind(this.onShortcut, this, 'escape'),
                     /** coauthoring begin **/
@@ -131,8 +136,10 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onThumbnailsShow',        _.bind(this.onThumbnailsShow, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
+            this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -175,8 +182,8 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[(this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
-                if (this.mode.canComments)
+                this.leftMenu.btnComments[(this.mode.canViewComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
+                if (this.mode.canViewComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView('Common.Views.Comments'));
 
                 this.leftMenu.btnChat[(this.mode.canChat && !this.mode.isLightVersion) ? 'show' : 'hide']();
@@ -244,6 +251,49 @@ define([
             menu.hide();
         },
 
+        clickSaveCopyAsFormat: function(menu, format, ext) {
+            this.isFromFileDownloadAs = ext;
+            this.api.asc_DownloadAs(format, true);
+            menu.hide();
+        },
+
+        onDownloadUrl: function(url) {
+            if (this.isFromFileDownloadAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                if (typeof this.isFromFileDownloadAs == 'string') {
+                    var idx = defFileName.lastIndexOf('.');
+                    if (idx>0)
+                        defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
+                }
+
+                me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                    saveFolderUrl: me.mode.saveAsUrl,
+                    saveFileUrl: url,
+                    defFileName: defFileName
+                });
+                me._saveCopyDlg.on('saveaserror', function(obj, err){
+                    var config = {
+                        closable: false,
+                        title: me.notcriticalErrorTitle,
+                        msg: err,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: function(btn){
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    };
+                    Common.UI.alert(config);
+                }).on('close', function(obj){
+                    me._saveCopyDlg = undefined;
+                });
+                me._saveCopyDlg.show();
+            }
+            this.isFromFileDownloadAs = false;
+        },
+
         applySettings: function(menu) {
             var value = Common.localStorage.getBool("pe-settings-inputmode");
             Common.Utils.InternalSettings.set("pe-settings-inputmode", value);
@@ -256,6 +306,10 @@ define([
                 this.api.asc_SetFastCollaborative(value);
             }
             /** coauthoring end **/
+
+            value = Common.localStorage.getItem("pe-settings-fontrender");
+            Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
+            this.api.SetFontRenderingMode(parseInt(value));
 
             if (this.mode.isEdit) {
                 value = parseInt(Common.localStorage.getItem("pe-settings-autosave"));
@@ -329,7 +383,7 @@ define([
 
         onQuerySearch: function(d, w, opts) {
             if (opts.textsearch && opts.textsearch.length) {
-                if (!this.api.findText(opts.textsearch, d != 'back')) {
+                if (!this.api.findText(opts.textsearch, d != 'back', opts.matchcase)) {
                     var me = this;
                     Common.UI.info({
                         msg: this.textNoTextFound,
@@ -341,14 +395,41 @@ define([
             }
         },
 
-        showSearchDlg: function(show) {
+        onQueryReplace: function(w, opts) {
+            if (!_.isEmpty(opts.textsearch)) {
+                if (!this.api.asc_replaceText(opts.textsearch, opts.textreplace, false, opts.matchcase)) {
+                    var me = this;
+                    Common.UI.info({
+                        msg: this.textNoTextFound,
+                        callback: function() {
+                            me.dlgSearch.focus();
+                        }
+                    });
+                }
+            }
+        },
+
+        onQueryReplaceAll: function(w, opts) {
+            if (!_.isEmpty(opts.textsearch)) {
+                this.api.asc_replaceText(opts.textsearch, opts.textreplace, true, opts.matchcase);
+            }
+        },
+
+        showSearchDlg: function(show,action) {
             if ( !this.dlgSearch ) {
-                this.dlgSearch = (new Common.UI.SearchDialog({}));
+                this.dlgSearch = (new Common.UI.SearchDialog({
+                    matchcase: true
+                }));
             }
 
             if (show) {
-                this.dlgSearch.isVisible() ? this.dlgSearch.focus() :
-                    this.dlgSearch.show('no-replace');
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
+                if (this.dlgSearch.isVisible()) {
+                    this.dlgSearch.setMode(mode);
+                    this.dlgSearch.focus();
+                } else {
+                    this.dlgSearch.show(mode);
+                }
             } else this.dlgSearch['hide']();
         },
 
@@ -376,7 +457,25 @@ define([
 //            this.api.asc_selectSearchingResults(false);
         },
 
-        onApiServerDisconnect: function(disableDownload) {
+        onApiTextReplaced: function(found,replaced) {
+            var me = this;
+            if (found) {
+                !(found - replaced > 0) ?
+                    Common.UI.info( {msg: Common.Utils.String.format(this.textReplaceSuccess, replaced)} ) :
+                    Common.UI.warning( {msg: Common.Utils.String.format(this.textReplaceSkipped, found-replaced)} );
+            } else {
+                Common.UI.info({msg: this.textNoTextFound});
+            }
+        },
+
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+
+            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
+        },
+
+        onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
 
@@ -386,7 +485,7 @@ define([
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
 
-            this.leftMenu.getMenu('file').setMode({isDisconnected: true, disableDownload: !!disableDownload});
+            this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
             if ( this.dlgSearch ) {
                 this.leftMenu.btnSearch.toggle(false, true);
                 this.dlgSearch['hide']();
@@ -407,7 +506,7 @@ define([
             if (panel == 'thumbs') {
                 this.isThumbsShown = show;
             } else {
-                if (!show && this.isThumbsShown) {
+                if (!show && this.isThumbsShown && !this.leftMenu._state.pluginIsRunning) {
                     this.leftMenu.btnThumbs.toggle(true, false);
                 }
             }
@@ -452,6 +551,14 @@ define([
             if (this.api)
                 this.api.asc_enableKeyEvents(value);
              if (value) $(this.leftMenu.btnAbout.el).blur();
+            if (value && this.leftMenu._state.pluginIsRunning) {
+                this.leftMenu.panelPlugins.show();
+                this.leftMenu.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
+                if (this.mode.canCoAuthoring) {
+                    this.mode.canViewComments && this.leftMenu.panelComments['hide']();
+                    this.mode.canChat && this.leftMenu.panelChat['hide']();
+                }
+            }
         },
 
         menuFilesShowHide: function(state) {
@@ -469,11 +576,12 @@ define([
             var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
 
             switch (s) {
+                case 'replace':
                 case 'search':
                     if ((!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides)  {
                         Common.UI.Menu.Manager.hideAll();
                         var full_menu_pressed = this.leftMenu.btnAbout.pressed;
-                        this.showSearchDlg(true);
+                        this.showSearchDlg(true,s);
                         this.leftMenu.btnSearch.toggle(true,true);
                         this.leftMenu.btnAbout.toggle(false);
                         full_menu_pressed && this.menuExpand(this.leftMenu.btnAbout, 'files', false);
@@ -542,7 +650,7 @@ define([
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.canComments && !this.mode.isLightVersion && (!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides) {
+                    if (this.mode.canCoAuthoring && this.mode.canViewComments && !this.mode.isLightVersion && (!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
@@ -559,7 +667,9 @@ define([
                     this.leftMenu.btnThumbs.toggle(false, false);
                     this.leftMenu.panelPlugins.show();
                     this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
+                    this.leftMenu._state.pluginIsRunning = true;
                 } else {
+                    this.leftMenu._state.pluginIsRunning = false;
                     this.leftMenu.close();
                 }
             }
@@ -570,6 +680,8 @@ define([
                 if (this.leftMenu.btnComments.isActive() && this.api) {
                     this.leftMenu.btnComments.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnComments);
+                    if (this.leftMenu._state.pluginIsRunning) // hide comments panel when plugin is running
+                        this.leftMenu.onCoauthOptions();
 
                     // focus to sdk
                     this.api.asc_enableKeyEvents(true);
@@ -591,6 +703,10 @@ define([
 
         textNoTextFound         : 'Text not found',
         newDocumentTitle        : 'Unnamed document',
-        requestEditRightsText   : 'Requesting editing rights...'
+        requestEditRightsText   : 'Requesting editing rights...',
+        notcriticalErrorTitle: 'Warning',
+        txtUntitled: 'Untitled',
+        textReplaceSuccess      : 'Search has been done. {0} occurrences have been replaced',
+        textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.'
     }, PE.Controllers.LeftMenu || {}));
 });

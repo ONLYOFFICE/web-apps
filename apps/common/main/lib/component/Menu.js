@@ -424,8 +424,21 @@ define([
 
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
-                if (this.options.restoreHeight && this.scroller)
-                    this.scroller.update({minScrollbarLength  : 40});
+                if (this.scroller) {
+                    if (this.options.restoreHeight)
+                        this.scroller.update();
+
+                    var menuRoot = (this.cmpEl.attr('role') === 'menu') ? this.cmpEl : this.cmpEl.find('[role=menu]'),
+                        $selected = menuRoot.find('> li .checked');
+                    if ($selected.length) {
+                        var itemTop = $selected.position().top,
+                            itemHeight = $selected.height(),
+                            listHeight = menuRoot.height();
+                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                            menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        }
+                    }
+                }
 
                 if (this.$el.find('> ul > .menu-scroll').length) {
                     var el = this.$el.find('li .checked')[0];

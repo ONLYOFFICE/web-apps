@@ -103,7 +103,7 @@ define([
                 width: 86,
                 defaultUnit : "cm",
                 value: '10 cm',
-                maxValue: 55.88,
+                maxValue: 118.9,
                 minValue: 0
             });
             this.spinners.push(this.spnWidth);
@@ -118,7 +118,7 @@ define([
                 width: 86,
                 defaultUnit : "cm",
                 value: '20 cm',
-                maxValue: 55.88,
+                maxValue: 118.9,
                 minValue: 0
             });
             this.spinners.push(this.spnHeight);
@@ -167,7 +167,6 @@ define([
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-            $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             this.updateMetricUnit();
         },
@@ -184,10 +183,9 @@ define([
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         setSettings: function (props) {

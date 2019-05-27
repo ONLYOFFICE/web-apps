@@ -594,10 +594,7 @@ define([
                 me = this;
             input.on('keypress', function(e) {
                 var charCode = String.fromCharCode(e.which);
-                if(!/[1-9]/.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.DELETE && e.keyCode !== Common.UI.Keys.BACKSPACE &&
-                    e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT && e.keyCode !== Common.UI.Keys.HOME &&
-                    e.keyCode !== Common.UI.Keys.END && e.keyCode !== Common.UI.Keys.ESC && e.keyCode !== Common.UI.Keys.INSERT &&
-                    e.keyCode !== Common.UI.Keys.TAB){
+                if(!/[1-9]/.test(charCode) && !e.ctrlKey){
                     e.preventDefault();
                     e.stopPropagation();
                 }
@@ -653,7 +650,7 @@ define([
         textStyle: 'Style',
         textLevel: 'Level',
         cancelButtonText: 'Cancel',
-        okButtonText    : 'Ok',
+        okButtonText: 'Ok',
         txtCurrent: 'Current',
         txtSimple: 'Simple',
         txtStandard: 'Standard',

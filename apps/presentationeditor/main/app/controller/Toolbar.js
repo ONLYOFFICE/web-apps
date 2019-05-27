@@ -47,6 +47,7 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
@@ -150,7 +151,9 @@ define([
                         var _supported = [
                             Asc.c_oAscFileType.PPTX,
                             Asc.c_oAscFileType.ODP,
-                            Asc.c_oAscFileType.PDFA
+                            Asc.c_oAscFileType.PDFA,
+                            Asc.c_oAscFileType.POTX,
+                            Asc.c_oAscFileType.OTP
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -255,6 +258,7 @@ define([
             toolbar.btnPreview.on('click',                              _.bind(this.onPreviewBtnClick, this));
             toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
@@ -293,6 +297,7 @@ define([
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
             toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
+            toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
             toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlinkClick, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
@@ -304,6 +309,8 @@ define([
             toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+
+            this.onSetupCopyStyleButton();
         },
 
         setApi: function(api) {
@@ -336,7 +343,7 @@ define([
             this.api.asc_registerCallback('asc_onCanUnGroup',           _.bind(this.onApiCanUnGroup, this));
             this.api.asc_registerCallback('asc_onPresentationSize',     _.bind(this.onApiPageSize, this));
 
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onZoomChange',           _.bind(this.onApiZoomChange, this));
             this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
@@ -349,8 +356,6 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
-
-            this.onSetupCopyStyleButton();
         },
 
         onChangeCompactView: function(view, compact) {
@@ -606,7 +611,7 @@ define([
                 this._state.no_slides = (count<=0);
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, {array: [
-                    this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnCopy, this.toolbar.btnPaste,
+                    this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart,
                     this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme
@@ -767,8 +772,8 @@ define([
             this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
-        onApiCoAuthoringDisconnect: function(disableDownload) {
-            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
+        onApiCoAuthoringDisconnect: function(enableDownload) {
+            this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
         },
 
@@ -1207,16 +1212,27 @@ define([
             }
         },
 
+        onBeforeShapeAlign: function() {
+            var value = this.api.asc_getSelectedDrawingObjectsCount(),
+                slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
+            this.toolbar.mniAlignObjects.setDisabled(value<2);
+            this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
+            this.toolbar.mniAlignToSlide.setChecked(value<2 || slide_checked, true);
+            this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+            this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+        },
+
         onShapeAlign: function(menu, item) {
             if (this.api) {
-                if (item.value < 6) {
-                    this.api.put_ShapesAlign(item.value);
+                var value = this.toolbar.mniAlignToSlide.isChecked() ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                if (item.value>-1 && item.value < 6) {
+                    this.api.put_ShapesAlign(item.value, value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
                 } else if (item.value == 6) {
-                    this.api.DistributeHorizontally();
+                    this.api.DistributeHorizontally(value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
-                } else {
-                    this.api.DistributeVertically();
+                } else if (item.value == 7){
+                    this.api.DistributeVertically(value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -1339,7 +1355,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (opts === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1361,6 +1377,14 @@ define([
                         }
                     }
                 })).show();
+            } else if (opts === 'storage') {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    me.toolbar.fireEvent('insertimage', me.toolbar);
+                    me.api.AddImageUrl(file.url, undefined, true);// for loading from storage;
+                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                }).show();
             }
         },
 
@@ -1529,16 +1553,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Style');
-        },
-
-        onHideTitleBar: function(item, checked) {
-            var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-            headerView  && headerView.setVisible(!checked);
-
-            Common.localStorage.setItem('pe-hidden-title', checked ? 1 : 0);
-
-            Common.NotificationCenter.trigger('layout:changed', 'header');
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         _clearBullets: function() {
@@ -1926,18 +1940,12 @@ define([
         onSetupCopyStyleButton: function () {
             this.modeAlwaysSetStyle = false;
 
-            var acsCopyFmtStyleState = {
-                kOff        : 0,
-                kOn         : 1,
-                kMultiple   : 2
-            };
-
             var me = this;
 
             Common.NotificationCenter.on({
                 'edit:complete': function () {
                     if (me.api && me.modeAlwaysSetStyle) {
-                        me.api.SetPaintFormat(acsCopyFmtStyleState.kOff);
+                        me.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kOff);
                         me.toolbar.btnCopyStyle.toggle(false, true);
                         me.modeAlwaysSetStyle = false;
                     }
@@ -1948,7 +1956,7 @@ define([
                 if (me.api) {
                     me.modeAlwaysSetStyle = true;
                     me.toolbar.btnCopyStyle.toggle(true, true);
-                    me.api.SetPaintFormat(acsCopyFmtStyleState.kMultiple);
+                    me.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kMultiple);
                 }
             });
         },
@@ -2008,17 +2016,20 @@ define([
                     me.toolbar.addTab(tab, $panel, 3);
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-                if ( config.isDesktopApp ) {
+
+                if (!(config.customization && config.customization.compactHeader)) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
                     // hide 'undo' and 'redo' buttons and get container
-                    var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
                     // move 'paste' button to the container instead of 'undo' and 'redo'
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
+                }
 
+                if ( config.isDesktopApp ) {
                     if ( config.canProtect ) { // don't add protect panel to toolbar
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();

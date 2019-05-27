@@ -276,6 +276,8 @@ define([
                 this.labelSum = $('#status-math-sum', this.boxMath);
                 this.labelCount = $('#status-math-count', this.boxMath);
                 this.labelAverage = $('#status-math-average', this.boxMath);
+                this.labelMin = $('#status-math-min', this.boxMath);
+                this.labelMax = $('#status-math-max', this.boxMath);
                 this.boxMath.hide();
 
                 this.boxFiltered = $('#status-filtered-box', this.el);
@@ -358,7 +360,7 @@ define([
 
                     me.fireEvent('sheet:changed', [me, sindex]);
                     me.fireEvent('sheet:updateColors', [true]);
-                    Common.NotificationCenter.trigger('comments:updatefilter', {property: 'uid', value: new RegExp('^(doc_|sheet' + me.api.asc_getActiveWorksheetId() + '_)')}, false);
+                    Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()], false);
                 }
             },
 
@@ -366,6 +368,8 @@ define([
                 if (info.count>1) {
                     if (!this.boxMath.is(':visible')) this.boxMath.show();
                     this.labelCount.text(this.textCount + ': ' + info.count);
+                    this.labelMin.text((info.min && info.min.length) ? (this.textMin + ': ' + info.min) : '');
+                    this.labelMax.text((info.max && info.max.length) ? (this.textMax + ': ' + info.max) : '');
                     this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum) : '');
                     this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
                 } else {
@@ -409,13 +413,7 @@ define([
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
                 this.fireEvent('sheet:updateColors', [true]);
 
-                Common.NotificationCenter.trigger('comments:updatefilter',
-                    {
-                        property: 'uid',
-                        value: new RegExp('^(doc_|sheet' + this.api.asc_getActiveWorksheetId() + '_)')
-                    },
-                    false //  hide popover
-                );
+                // Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false); //  hide popover
             },
 
             onTabMenu: function (o, index, tab) {
@@ -550,6 +548,8 @@ define([
             textSum             : 'SUM',
             textCount           : 'COUNT',
             textAverage         : 'AVERAGE',
+            textMin             : 'MIN',
+            textMax             : 'MAX',
             filteredRecordsText : '{0} of {1} records filtered',
             filteredText        : 'Filter mode'
         }, SSE.Views.Statusbar || {}));
@@ -591,15 +591,11 @@ define([
                 this.txtName = new Common.UI.InputField({
                     el: $window.find('#txt-sheet-name'),
                     style: 'width:100%;',
-                    value: this.options.current,
+                    value: Common.Utils.String.htmlEncode(this.options.current),
                     allowBlank: false,
                     maxLength: 31,
                     validation: _.bind(this.nameValidator, this)
                 });
-
-                if (this.txtName) {
-                    this.txtName.$el.on('keypress', 'input[type=text]', _.bind(this.onNameKeyPress, this));
-                }
             },
 
             show: function(x,y) {
@@ -632,10 +628,9 @@ define([
                 this.close();
             },
 
-            onNameKeyPress: function(e) {
-                if (e.keyCode == Common.UI.Keys.RETURN) {
-                    this.doClose('ok');
-                }
+            onPrimary: function(e) {
+                this.doClose('ok');
+                return false;
             },
 
             nameValidator: function(value) {

@@ -40,7 +40,7 @@ define([
     'common/main/lib/component/LoadMask'
 ], function () { 'use strict';
 
-    DE.Views.MailMergeRecepients = Common.UI.Window.extend(_.extend({
+    Common.Views.SelectFileDlg = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
@@ -51,7 +51,7 @@ define([
             }, options);
 
             this.template = [
-                '<div id="id-mail-recepients-placeholder"></div>'
+                '<div id="id-select-file-placeholder"></div>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
@@ -71,9 +71,9 @@ define([
             iframe.frameBorder  = 0;
             iframe.scrolling    = "no";
             iframe.onload       = _.bind(this._onLoad,this);
-            $('#id-mail-recepients-placeholder').append(iframe);
+            $('#id-select-file-placeholder').append(iframe);
 
-            this.loadMask = new Common.UI.LoadMask({owner: $('#id-mail-recepients-placeholder')});
+            this.loadMask = new Common.UI.LoadMask({owner: $('#id-select-file-placeholder')});
             this.loadMask.setTitle(this.textLoading);
             this.loadMask.show();
 
@@ -121,7 +121,7 @@ define([
                 var me = this;
                 setTimeout(function() {
                     if ( !_.isEmpty(msg.file) ) {
-                        me.trigger('mailmergerecepients', me, msg.file);
+                        me.trigger('selectfile', me, msg.file);
                     }
                 }, 50);
             }
@@ -134,5 +134,5 @@ define([
 
         textTitle   : 'Select Data Source',
         textLoading : 'Loading'
-    }, DE.Views.MailMergeRecepients || {}));
+    }, Common.Views.SelectFileDlg || {}));
 });

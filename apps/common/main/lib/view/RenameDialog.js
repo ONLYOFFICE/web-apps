@@ -88,23 +88,24 @@ define([
             $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
 
             me.inputNameEl = $window.find('input');
-            me.inputNameEl.on('keypress', _.bind(this.onKeyPress, this));
         },
 
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
 
             var me = this;
+            var idx = me.options.filename.lastIndexOf('.');
+            if (idx>0)
+                me.options.filename = me.options.filename.substring(0, idx);
             _.delay(function(){
                 me.inputName.setValue(me.options.filename);
                 me.inputNameEl.focus().select();
             },100);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         onBtnClick: function(event) {

@@ -43,6 +43,7 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu'
 ], function () {
@@ -85,6 +86,7 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -141,8 +143,9 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onReplaceAll', _.bind(this.onApiTextReplaced, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiServerDisconnect, this));
+            this.api.asc_registerCallback('asc_onDownloadUrl',           _.bind(this.onDownloadUrl, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -150,9 +153,10 @@ define([
                 if (this.mode.canComments) {
                     this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
-                    var collection = this.getApplication().getCollection('Common.Collections.Comments');
+                    var collection = this.getApplication().getCollection('Common.Collections.Comments'),
+                        resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
                     for (var i = 0; i < collection.length; ++i) {
-                        if (collection.at(i).get('userid') !== this.mode.user.id) {
+                        if (collection.at(i).get('userid') !== this.mode.user.id && (resolved || !collection.at(i).get('resolved'))) {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
@@ -185,8 +189,8 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[(this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
-                if (this.mode.canComments)
+                this.leftMenu.btnComments[(this.mode.canViewComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
+                if (this.mode.canViewComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView());
 
                 this.leftMenu.btnChat[(this.mode.canChat && !this.mode.isLightVersion) ? 'show' : 'hide']();
@@ -228,6 +232,10 @@ define([
             case 'saveas':
                 if ( isopts ) close_menu = false;
                 else this.clickSaveAsFormat(undefined);
+                break;
+            case 'save-copy':
+                if ( isopts ) close_menu = false;
+                else this.clickSaveCopyAsFormat(undefined);
                 break;
             case 'print': this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
@@ -307,6 +315,70 @@ define([
                 this.api.asc_DownloadOrigin();
         },
 
+        clickSaveCopyAsFormat: function(menu, format, ext) {
+            if (menu) {
+                if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
+                    Common.UI.warning({
+                        closable: false,
+                        title: this.notcriticalErrorTitle,
+                        msg: (format == Asc.c_oAscFileType.TXT) ? this.warnDownloadAs : this.warnDownloadAsRTF,
+                        buttons: ['ok', 'cancel'],
+                        callback: _.bind(function(btn){
+                            if (btn == 'ok') {
+                                this.isFromFileDownloadAs = ext;
+                                this.api.asc_DownloadAs(format, true);
+                                menu.hide();
+                            }
+                        }, this)
+                    });
+                } else {
+                    this.isFromFileDownloadAs = ext;
+                    this.api.asc_DownloadAs(format, true);
+                    menu.hide();
+                }
+            } else {
+                this.isFromFileDownloadAs = true;
+                this.api.asc_DownloadOrigin(true);
+            }
+        },
+
+        onDownloadUrl: function(url) {
+            if (this.isFromFileDownloadAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                if (typeof this.isFromFileDownloadAs == 'string') {
+                    var idx = defFileName.lastIndexOf('.');
+                    if (idx>0)
+                        defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
+                }
+
+                me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                    saveFolderUrl: me.mode.saveAsUrl,
+                    saveFileUrl: url,
+                    defFileName: defFileName
+                });
+                me._saveCopyDlg.on('saveaserror', function(obj, err){
+                    var config = {
+                        closable: false,
+                        title: me.notcriticalErrorTitle,
+                        msg: err,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: function(btn){
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    };
+                    Common.UI.alert(config);
+                }).on('close', function(obj){
+                    me._saveCopyDlg = undefined;
+                });
+                me._saveCopyDlg.show();
+            }
+            this.isFromFileDownloadAs = false;
+        },
+
         applySettings: function(menu) {
             var value;
 
@@ -335,7 +407,7 @@ define([
             Common.Utils.InternalSettings.set("de-settings-livecomment", value);
             var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("de-settings-resolvedcomment", resolved);
-            if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
+            if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
             /** coauthoring end **/
@@ -461,12 +533,13 @@ define([
             }
 
             if (show) {
-                var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
                 if (this.dlgSearch.isVisible()) {
                     this.dlgSearch.setMode(mode);
+                    this.dlgSearch.setSearchText(this.api.asc_GetSelectedText());
                     this.dlgSearch.focus();
                 } else {
-                    this.dlgSearch.show(mode);
+                    this.dlgSearch.show(mode, this.api.asc_GetSelectedText());
                 }
             } else this.dlgSearch['hide']();
         },
@@ -493,7 +566,7 @@ define([
             }
         },
 
-        onApiServerDisconnect: function(disableDownload) {
+        onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
 
@@ -504,11 +577,18 @@ define([
             this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnNavigation.setDisabled(true);
 
-            this.leftMenu.getMenu('file').setMode({isDisconnected: true, disableDownload: !!disableDownload});
+            this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
             if ( this.dlgSearch ) {
                 this.leftMenu.btnSearch.toggle(false, true);
                 this.dlgSearch['hide']();
             }
+        },
+
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+
+            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
         },
 
         SetDisabled: function(disable, disableFileMenu) {
@@ -517,6 +597,10 @@ define([
 
             /** coauthoring begin **/
             this.leftMenu.btnComments.setDisabled(disable);
+            var comments = this.getApplication().getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
+            this.setPreviewMode(disable);
             this.leftMenu.btnChat.setDisabled(disable);
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(disable);
@@ -530,13 +614,15 @@ define([
         },
 
         onApiAddComment: function(id, data) {
-            if (data && data.asc_getUserId() !== this.mode.user.id)
+            var resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
+            if (data && data.asc_getUserId() !== this.mode.user.id && (resolved || !data.asc_getSolved()))
                 this.leftMenu.markCoauthOptions('comments');
         },
 
         onApiAddComments: function(data) {
+            var resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }
@@ -581,7 +667,7 @@ define([
             if (value && this.leftMenu._state.pluginIsRunning) {
                 this.leftMenu.panelPlugins.show();
                 if (this.mode.canCoAuthoring) {
-                    this.mode.canComments && this.leftMenu.panelComments['hide']();
+                    this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                     this.mode.canChat && this.leftMenu.panelChat['hide']();
                 }
             }
@@ -679,7 +765,7 @@ define([
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.canComments && !this.mode.isLightVersion) {
+                    if (this.mode.canCoAuthoring && this.mode.canViewComments && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
@@ -733,6 +819,7 @@ define([
         notcriticalErrorTitle: 'Warning',
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
         warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
-        warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
+        warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
+        txtUntitled: 'Untitled'
     }, DE.Controllers.LeftMenu || {}));
 });

@@ -201,7 +201,6 @@ define([
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-            $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             this.updateMetricUnit();
         },
@@ -216,12 +215,6 @@ define([
 
         onBtnClick: function(event) {
             this._handleInput(event.currentTarget.attributes['result'].value);
-        },
-
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
         },
 
         onPrimary: function() {

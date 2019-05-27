@@ -100,7 +100,6 @@ define([
             });
 
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
-            me.inputRange.cmpEl.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             this.on('close', _.bind(this.onClose, this));
         },
@@ -165,12 +164,19 @@ define([
             if (isvalid == Asc.c_oAscError.ID.No)
                 return true;
             else {
-                if (isvalid == Asc.c_oAscError.ID.AutoFilterDataRangeError) {
-                    Common.UI.warning({msg: this.errorAutoFilterDataRange});
-                } else if (isvalid == Asc.c_oAscError.ID.FTChangeTableRangeError) {
-                    Common.UI.warning({msg: this.errorFTChangeTableRangeError});
-                } else if (isvalid == Asc.c_oAscError.ID.FTRangeIncludedOtherTables) {
-                    Common.UI.warning({msg: this.errorFTRangeIncludedOtherTables});
+                switch (isvalid) {
+                    case Asc.c_oAscError.ID.AutoFilterDataRangeError:
+                        Common.UI.warning({msg: this.errorAutoFilterDataRange});
+                        break;
+                    case Asc.c_oAscError.ID.FTChangeTableRangeError:
+                        Common.UI.warning({msg: this.errorFTChangeTableRangeError});
+                        break;
+                    case Asc.c_oAscError.ID.FTRangeIncludedOtherTables:
+                        Common.UI.warning({msg: this.errorFTRangeIncludedOtherTables});
+                        break;
+                    case Asc.c_oAscError.ID.MultiCellsInTablesFormulaArray:
+                        Common.UI.warning({msg: this.errorMultiCellFormula});
+                        break;
                 }
             }
             return false;
@@ -187,12 +193,6 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
 
             SSE.getController('RightMenu').SetDisabled(false);
-        },
-
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
         },
 
         _handleInput: function(state) {
@@ -219,6 +219,7 @@ define([
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.',
         errorFTChangeTableRangeError: 'Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.',
-        errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.'
+        errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.',
+        errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.'
     }, SSE.Views.TableOptionsDialog || {}))
 });

@@ -55,8 +55,11 @@ define([
         formats: [[
             {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            // {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
             {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP}
+        ],[
+            {name: 'POTX',  imgCls: 'potx',   type: Asc.c_oAscFileType.POTX},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
+            {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP}
         ]],
 
 
@@ -102,6 +105,63 @@ define([
         }
     });
 
+    PE.Views.FileMenuPanels.ViewSaveCopy = Common.UI.BaseView.extend({
+        el: '#panel-savecopy',
+        menu: undefined,
+
+        formats: [[
+            {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX, ext: '.pptx'},
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF,  ext: '.pdf'},
+            {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP,  ext: '.odp'}
+        ],[
+            {name: 'POTX',  imgCls: 'potx',  type: Asc.c_oAscFileType.POTX, ext: '.potx'},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
+            {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP,  ext: '.otp'}
+        ]],
+
+        template: _.template([
+            '<table><tbody>',
+                '<% _.each(rows, function(row) { %>',
+                    '<tr>',
+                        '<% _.each(row, function(item) { %>',
+                            '<td><div><svg class="btn-doc-format" format="<%= item.type %>", format-ext="<%= item.ext %>">',
+                                '<use xlink:href="#svg-format-<%= item.imgCls %>"></use>',
+                            '</svg></div></td>',
+                        '<% }) %>',
+                    '</tr>',
+                '<% }) %>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function() {
+            $(this.el).html(this.template({rows:this.formats}));
+            $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el),
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        onFormatClick: function(e) {
+            var type = e.currentTarget.attributes['format'],
+                ext = e.currentTarget.attributes['format-ext'];
+            if (!_.isUndefined(type) && !_.isUndefined(ext) && this.menu) {
+                this.menu.fireEvent('savecopy:format', [this.menu, parseInt(type.value), ext.value]);
+            }
+        }
+    });
+
     PE.Views.FileMenuPanels.Settings = Common.UI.BaseView.extend(_.extend({
         el: '#panel-settings',
         menu: undefined,
@@ -132,13 +192,17 @@ define([
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;"/>',
+                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
                     '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr" /></td>',
+                '</tr>','<tr class="divider"></tr>',
+                '<tr>',
+                    '<td class="left"><label><%= scope.strFontRender %></label></td>',
+                    '<td class="right"><span id="fms-cmb-font-render" /></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strUnit %></label></td>',
@@ -233,6 +297,18 @@ define([
                 labelText: this.strAlignGuides
             });
 
+            this.cmbFontRender = new Common.UI.ComboBox({
+                el          : $('#fms-cmb-font-render'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
+                    { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
+                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
+                ]
+            });
+
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $('#fms-cmb-unit'),
                 style       : 'width: 160px;',
@@ -298,6 +374,10 @@ define([
             this.lblCoAuthMode.text(item ? item.get('descValue') : this.strCoAuthModeDescFast);
             /** coauthoring end **/
 
+            value = Common.Utils.InternalSettings.get("pe-settings-fontrender");
+            item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
+            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
+
             value = Common.Utils.InternalSettings.get("pe-settings-unit");
             item = this.cmbUnit.store.findWhere({value: value});
             this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
@@ -323,6 +403,7 @@ define([
                 Common.localStorage.setItem("pe-settings-coauthmode", this.cmbCoAuthMode.getValue());
             }
             /** coauthoring end **/
+            Common.localStorage.setItem("pe-settings-fontrender", this.cmbFontRender.getValue());
             Common.localStorage.setItem("pe-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
@@ -344,6 +425,10 @@ define([
         okButtonText: 'Apply',
         txtFitSlide: 'Fit to Slide',
         txtInput: 'Alternate Input',
+        txtWin: 'as Windows',
+        txtMac: 'as OS X',
+        txtNative: 'Native',
+        strFontRender: 'Font Hinting',
         strUnit: 'Unit of Measurement',
         txtCm: 'Centimeter',
         txtPt: 'Point',
@@ -521,6 +606,10 @@ define([
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
                     '</tr>',
+                    '<tr class="appname">',
+                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                        '<td class="right"><label id="id-info-appname">-</label></td>',
+                    '</tr>',
                     '<tr class="date">',
                         '<td class="left"><label>' + this.txtDate + '</label></td>',
                         '<td class="right"><label id="id-info-date">-</label></td>',
@@ -539,6 +628,7 @@ define([
             this.lblPlacement = $('#id-info-placement');
             this.lblDate = $('#id-info-date');
             this.lblAuthor = $('#id-info-author');
+            this.lblApplication = $('#id-info-appname');
 
             this.rendered = true;
 
@@ -582,6 +672,12 @@ define([
                 this._ShowHideInfoItem('placement', doc.info.folder!==undefined && doc.info.folder!==null);
             } else
                 this._ShowHideDocInfo(false);
+            var appname = (this.api) ? this.api.asc_getAppProps() : null;
+            if (appname) {
+                appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
+                this.lblApplication.text(appname);
+            }
+            this._ShowHideInfoItem('appname', !!appname);
         },
 
         _ShowHideInfoItem: function(cls, visible) {
@@ -598,10 +694,17 @@ define([
             return this;
         },
 
+        setApi: function(o) {
+            this.api = o;
+            this.updateInfo(this.doc);
+            return this;
+        },
+
         txtTitle: 'Document Title',
         txtAuthor: 'Author',
         txtPlacement: 'Placement',
-        txtDate: 'Creation Date'
+        txtDate: 'Creation Date',
+        txtAppName: 'Application'
     }, PE.Views.FileMenuPanels.DocumentInfo || {}));
 
     PE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
@@ -659,6 +762,7 @@ define([
             }
 
             Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
+            Common.NotificationCenter.on('collaboration:sharingdeny', _.bind(this.onLostEditRights, this));
 
             return this;
         },

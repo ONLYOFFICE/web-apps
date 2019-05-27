@@ -46,10 +46,10 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
-    'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
@@ -143,7 +143,9 @@ define([
                             Asc.c_oAscFileType.ODT,
                             Asc.c_oAscFileType.DOCX,
                             Asc.c_oAscFileType.HTML,
-                            Asc.c_oAscFileType.PDFA
+                            Asc.c_oAscFileType.PDFA,
+                            Asc.c_oAscFileType.DOTX,
+                            Asc.c_oAscFileType.OTT
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -238,6 +240,7 @@ define([
              */
 
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
@@ -311,6 +314,7 @@ define([
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
+            toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
@@ -327,45 +331,51 @@ define([
         setApi: function(api) {
             this.api = api;
 
-            this.toolbar.setApi(api);
+            if (this.mode.isEdit) {
+                this.toolbar.setApi(api);
 
-            this.api.asc_registerCallback('asc_onFontSize',             _.bind(this.onApiFontSize, this));
-            this.api.asc_registerCallback('asc_onBold',                 _.bind(this.onApiBold, this));
-            this.api.asc_registerCallback('asc_onItalic',               _.bind(this.onApiItalic, this));
-            this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
-            this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
-            this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
-            this.api.asc_registerCallback('asc_onCanUndo',              _.bind(this.onApiCanRevert, this, 'undo'));
-            this.api.asc_registerCallback('asc_onCanRedo',              _.bind(this.onApiCanRevert, this, 'redo'));
-            this.api.asc_registerCallback('asc_onListType',             _.bind(this.onApiBullets, this));
-            this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
-            this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
-            this.api.asc_registerCallback('asc_onParaSpacingLine',      _.bind(this.onApiLineSpacing, this));
-            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
-            this.api.asc_registerCallback('asc_onDocSize',              _.bind(this.onApiPageSize, this));
-            this.api.asc_registerCallback('asc_onPaintFormatChanged',   _.bind(this.onApiStyleChange, this));
-            this.api.asc_registerCallback('asc_onParaStyleName',        _.bind(this.onApiParagraphStyleChange, this));
-            this.api.asc_registerCallback('asc_onEndAddShape',          _.bind(this.onApiEndAddShape, this)); //for shapes
-            this.api.asc_registerCallback('asc_onPageOrient',           _.bind(this.onApiPageOrient, this));
-            this.api.asc_registerCallback('asc_onLockDocumentProps',    _.bind(this.onApiLockDocumentProps, this));
-            this.api.asc_registerCallback('asc_onUnLockDocumentProps',  _.bind(this.onApiUnLockDocumentProps, this));
-            this.api.asc_registerCallback('asc_onLockDocumentSchema',   _.bind(this.onApiLockDocumentSchema, this));
-            this.api.asc_registerCallback('asc_onUnLockDocumentSchema', _.bind(this.onApiUnLockDocumentSchema, this));
-            this.api.asc_registerCallback('asc_onLockHeaderFooters',    _.bind(this.onApiLockHeaderFooters, this));
-            this.api.asc_registerCallback('asc_onUnLockHeaderFooters',  _.bind(this.onApiUnLockHeaderFooters, this));
-            this.api.asc_registerCallback('asc_onZoomChange',           _.bind(this.onApiZoomChange, this));
-            this.api.asc_registerCallback('asc_onMarkerFormatChanged',  _.bind(this.onApiStartHighlight, this));
-            this.api.asc_registerCallback('asc_onTextHighLight',        _.bind(this.onApiHighlightColor, this));
-            this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
-            Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
-            this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
-            this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
-            this.api.asc_registerCallback('asc_onColumnsProps',         _.bind(this.onColumnsProps, this));
-            this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
-            this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
-            this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
-            this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings',_.bind(this.onChangeSdtGlobalSettings, this));
+                this.api.asc_registerCallback('asc_onFontSize', _.bind(this.onApiFontSize, this));
+                this.api.asc_registerCallback('asc_onBold', _.bind(this.onApiBold, this));
+                this.api.asc_registerCallback('asc_onItalic', _.bind(this.onApiItalic, this));
+                this.api.asc_registerCallback('asc_onUnderline', _.bind(this.onApiUnderline, this));
+                this.api.asc_registerCallback('asc_onStrikeout', _.bind(this.onApiStrikeout, this));
+                this.api.asc_registerCallback('asc_onVerticalAlign', _.bind(this.onApiVerticalAlign, this));
+                this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+                this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
+                this.api.asc_registerCallback('asc_onListType', _.bind(this.onApiBullets, this));
+                this.api.asc_registerCallback('asc_onPrAlign', _.bind(this.onApiParagraphAlign, this));
+                this.api.asc_registerCallback('asc_onTextColor', _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this.onApiLineSpacing, this));
+                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
+                this.api.asc_registerCallback('asc_onDocSize', _.bind(this.onApiPageSize, this));
+                this.api.asc_registerCallback('asc_onPaintFormatChanged', _.bind(this.onApiStyleChange, this));
+                this.api.asc_registerCallback('asc_onParaStyleName', _.bind(this.onApiParagraphStyleChange, this));
+                this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
+                this.api.asc_registerCallback('asc_onPageOrient', _.bind(this.onApiPageOrient, this));
+                this.api.asc_registerCallback('asc_onLockDocumentProps', _.bind(this.onApiLockDocumentProps, this));
+                this.api.asc_registerCallback('asc_onUnLockDocumentProps', _.bind(this.onApiUnLockDocumentProps, this));
+                this.api.asc_registerCallback('asc_onLockDocumentSchema', _.bind(this.onApiLockDocumentSchema, this));
+                this.api.asc_registerCallback('asc_onUnLockDocumentSchema', _.bind(this.onApiUnLockDocumentSchema, this));
+                this.api.asc_registerCallback('asc_onLockHeaderFooters', _.bind(this.onApiLockHeaderFooters, this));
+                this.api.asc_registerCallback('asc_onUnLockHeaderFooters', _.bind(this.onApiUnLockHeaderFooters, this));
+                this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
+                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+                this.api.asc_registerCallback('asc_onTextHighLight', _.bind(this.onApiHighlightColor, this));
+                this.api.asc_registerCallback('asc_onInitEditorStyles', _.bind(this.onApiInitEditorStyles, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+                this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onMathTypes, this));
+                this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
+                this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
+                this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
+                this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
+                this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
+            } else if (this.mode.isRestrictedEdit) {
+                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+            }
         },
 
         onChangeCompactView: function(view, compact) {
@@ -625,6 +635,31 @@ define([
             Common.localStorage.setItem("de-show-hiddenchars", v);
         },
 
+        onApiFocusObjectRestrictedEdit: function(selectedObjects) {
+            if (!this.editMode) return;
+
+            var i = -1, type,
+                paragraph_locked = false,
+                header_locked = false,
+                image_locked = false;
+
+            while (++i < selectedObjects.length) {
+                type = selectedObjects[i].get_ObjectType();
+
+                if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    paragraph_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                } else if (type === Asc.c_oAscTypeSelectElement.Header) {
+                    header_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                } else if (type === Asc.c_oAscTypeSelectElement.Image) {
+                    image_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                }
+            }
+
+            var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            if ( this.btnsComment && this.btnsComment.length > 0 )
+                this.btnsComment.setDisabled(need_disable);
+        },
+
         onApiFocusObject: function(selectedObjects) {
             if (!this.editMode) return;
 
@@ -745,6 +780,7 @@ define([
             var in_footnote = this.api.asc_IsCursorInFootnote();
             need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
             toolbar.btnsPageBreak.setDisabled(need_disable);
+            toolbar.btnBlankPage.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_equation || control_plain;
             toolbar.btnInsertShape.setDisabled(need_disable);
@@ -778,7 +814,7 @@ define([
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
-            need_disable = (paragraph_locked || header_locked) && this.api.can_AddQuotedComment() || image_locked;
+            need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
 
@@ -1359,7 +1395,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (item.value === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1381,6 +1417,14 @@ define([
                         }
                     }
                 })).show();
+            } else if (item.value === 'storage') {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    me.toolbar.fireEvent('insertimage', me.toolbar);
+                    me.api.AddImageUrl(file.url, undefined, true);// for loading from storage
+                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                }).show();
             }
         },
 
@@ -1671,16 +1715,16 @@ define([
         },
 
         onNoControlsColor: function(item) {
-            this.api.asc_SetGlobalContentControlShowHighlight(!item.isChecked());
             if (!item.isChecked())
-                this.api.asc_SetGlobalContentControlHighlightColor(220, 220, 220);
+                this.api.asc_SetGlobalContentControlShowHighlight(true, 220, 220, 220);
+            else
+                this.api.asc_SetGlobalContentControlShowHighlight(false);
         },
 
         onSelectControlsColor: function(picker, color) {
             var clr = Common.Utils.ThemeColor.getRgbColor(color);
             if (this.api) {
-                this.api.asc_SetGlobalContentControlShowHighlight(true);
-                this.api.asc_SetGlobalContentControlHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
+                this.api.asc_SetGlobalContentControlShowHighlight(true, clr.get_r(), clr.get_g(), clr.get_b());
             }
 
             Common.component.Analytics.trackEvent('ToolBar', 'Content Controls Color');
@@ -1848,6 +1892,14 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Page Number');
         },
 
+        onBtnBlankPageClick: function(btn) {
+            if (this.api)
+                this.api.asc_AddBlankPage();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Blank Page');
+        },
+
         onListStyleSelect: function(combo, record) {
             this._state.prstyle = undefined;
             if (this.api)
@@ -2012,16 +2064,6 @@ define([
                 this.api.asc_AddNewStyle(newStyle);
             }
         },
-
-        // onHideTitleBar: function(item, checked) {
-        //     var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-        //     headerView  && headerView.setVisible(!checked);
-        //
-        //     Common.localStorage.setItem('de-hidden-title', checked ? 1 : 0);
-        //
-        //     Common.NotificationCenter.trigger('layout:changed', 'header');
-        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        // },
 
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
@@ -2639,18 +2681,12 @@ define([
         onSetupCopyStyleButton: function () {
             this.modeAlwaysSetStyle = false;
 
-            var acsCopyFmtStyleState = {
-                kOff        : 0,
-                kOn         : 1,
-                kMultiple   : 2
-            };
-
             var me = this;
 
             Common.NotificationCenter.on({
                 'edit:complete': function () {
                     if (me.api && me.modeAlwaysSetStyle) {
-                        me.api.SetPaintFormat(acsCopyFmtStyleState.kOff);
+                        me.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kOff);
                         me.toolbar.btnCopyStyle.toggle(false, true);
                         me.modeAlwaysSetStyle = false;
                     }
@@ -2661,13 +2697,13 @@ define([
                 if (me.api) {
                     me.modeAlwaysSetStyle = true;
                     me.toolbar.btnCopyStyle.toggle(true, true);
-                    me.api.SetPaintFormat(acsCopyFmtStyleState.kMultiple);
+                    me.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kMultiple);
                 }
             });
         },
 
-        onApiCoAuthoringDisconnect: function(disableDownload) {
-            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
+        onApiCoAuthoringDisconnect: function(enableDownload) {
+            this.mode.isEdit && this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
             this.DisableToolbar(true, true);
         },
@@ -2699,7 +2735,7 @@ define([
 
             toolbar._state.previewmode = reviewmode && disable;
             if (reviewmode) {
-                toolbar._state.previewmode && toolbar.btnSave.setDisabled(true);
+                toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
@@ -2713,10 +2749,10 @@ define([
             if (this._mailMergeDlg) return;
 
             var me = this;
-            me._mailMergeDlg = new DE.Views.MailMergeRecepients({
-                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl
+            me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
                         });
-            me._mailMergeDlg.on('mailmergerecepients', function(obj, recepients){
+            me._mailMergeDlg.on('selectfile', function(obj, recepients){
                 me.api.asc_StartMailMerge(recepients);
                 if (!me.mergeEditor)
                     me.mergeEditor = me.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
@@ -2749,27 +2785,29 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+            if ( $panel )
+                me.toolbar.addTab(tab, $panel, 4);
+
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
 
-                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-
-                if ( $panel )
-                    me.toolbar.addTab(tab, $panel, 4);
-
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-                if ( config.isDesktopApp ) {
+
+                if (!(config.customization && config.customization.compactHeader)) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
                     // hide 'undo' and 'redo' buttons and retrieve parent container
-                    var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
                     // move 'paste' button to the container instead of 'undo' and 'redo'
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnCopy.$el.removeClass('split');
+                }
 
+                if ( config.isDesktopApp ) {
                     if ( config.canProtect ) {
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();

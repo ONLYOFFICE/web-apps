@@ -306,6 +306,11 @@ define([
             },
 
             onDownloadAs: function() {
+                if ( !this.appOptions.canDownload) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+                this._state.isFromGatewayDownloadAs = true;
                 this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
             },
 
@@ -433,6 +438,11 @@ define([
                         text    = me.sendMergeText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = me.waitText;
+                        text    = me.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = me.txtEditingMode;
                         text    = me.txtEditingMode;
@@ -466,8 +476,6 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.Gateway.documentReady();
-
                 if (this._state.openDlg)
                     uiApp.closeModal(this._state.openDlg);
 
@@ -495,12 +503,8 @@ define([
                 this.isLiveCommenting?this.api.asc_showComments(true):this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
-                    value = Common.localStorage.getItem("sse-settings-coauthmode");
-                    if (value===null && Common.localStorage.getItem("sse-settings-autosave")===null &&
-                        this.appOptions.customization && this.appOptions.customization.autosave===false) {
-                        value = 0; // use customization.autosave only when sse-settings-coauthmode and sse-settings-autosave are null
-                    }
-                    this._state.fastCoauth = (value===null || parseInt(value) == 1);
+                    // Force ON fast co-authoring mode
+                    me._state.fastCoauth = true;
                 } else
                     this._state.fastCoauth = false;
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
@@ -550,6 +554,7 @@ define([
                 });
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+                Common.Gateway.documentReady();
             },
 
             onLicenseChanged: function(params) {
@@ -603,8 +608,24 @@ define([
                             buttons: buttons
                         });
                     }
-                } else
+                } else {
+                    if (!me.appOptions.isDesktopApp && !me.appOptions.canBrandingExt &&
+                        me.editorConfig && me.editorConfig.customization && (me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo)) {
+                        uiApp.modal({
+                            title: me.textPaidFeature,
+                            text  : me.textCustomLoader,
+                            buttons: [{
+                                text: me.textContactUs,
+                                bold: true,
+                                onClick: function() {
+                                    window.open('mailto:sales@onlyoffice.com', "_blank");
+                                }
+                            },
+                                { text: me.textClose }]
+                        });
+                    }
                     SSE.getController('Toolbar').activateControls();
+                }
             },
 
             onOpenDocument: function(progress) {
@@ -650,7 +671,7 @@ define([
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.canRename      = !!me.permissions.rename;
 
-                    me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
+                    me.appOptions.canBranding  = params.asc_getCustomization();
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
                 }
 
@@ -971,6 +992,18 @@ define([
 
                     case Asc.c_oAscError.ID.DataEncrypted:
                         config.msg = this.errorDataEncrypted;
+                        break;
+
+                    case Asc.c_oAscError.ID.CannotChangeFormulaArray:
+                        config.msg = this.errorChangeArray;
+                        break;
+
+                    case Asc.c_oAscError.ID.EditingError:
+                        config.msg = this.errorEditingDownloadas;
+                        break;
+
+                    case Asc.c_oAscError.ID.MultiCellsInTablesFormulaArray:
+                        config.msg = this.errorMultiCellFormula;
                         break;
 
                     default:
@@ -1315,7 +1348,7 @@ define([
                 if (!this.appOptions.canPrint) return;
 
                 if (this.api)
-                    this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print();
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -1361,7 +1394,7 @@ define([
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "Ok" to back to document list.',
+            criticalErrorExtText: 'Press "OK" to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
             saveTitleText: 'Saving Document',
@@ -1389,7 +1422,7 @@ define([
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            unsupportedBrowserErrorText: 'Your browser is not supported.',
             requestEditFailedTitleText: 'Access denied',
             requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
             textLoadingDocument: 'Loading spreadsheet',
@@ -1531,7 +1564,13 @@ define([
             errorCopyMultiselectArea: 'This command cannot be used with multiple selections.<br>Select a single range and try again.',
             errorPrintMaxPagesCount: 'Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.',
             closeButtonText: 'Close File',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.'
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+            errorChangeArray: 'You cannot change part of an array.',
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
+            errorMultiCellFormula: 'Multi-cell array formulas are not allowed in tables.',
+            textPaidFeature: 'Paid feature',
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            waitText: 'Please, wait...'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -54,7 +54,8 @@ define([
             canEdit = false,
             canDownload = false,
             canAbout = true,
-            canHelp = true;
+            canHelp = true,
+            canPrint = false;
 
         return {
             // el: '.view-main',
@@ -80,6 +81,7 @@ define([
                 $('#settings-about').single('click', _.bind(me.showAbout, me));
                 $('#settings-presentation-setup').single('click', _.bind(me.showSetup, me));
 
+                Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
             },
 
@@ -98,6 +100,7 @@ define([
                 isEdit = mode.isEdit;
                 canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
                 canDownload = mode.canDownload || mode.canDownloadOrigin;
+                canPrint = mode.canPrint;
 
                 if (mode.customization && mode.canBrandingExt) {
                     canAbout = (mode.customization.about!==false);
@@ -117,6 +120,7 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
                             .attr('checked', Common.SharedSettings.get('readerMode'))
@@ -125,6 +129,7 @@ define([
                     if (!canDownload) $layour.find('#settings-download').hide();
                     if (!canAbout) $layour.find('#settings-about').hide();
                     if (!canHelp) $layour.find('#settings-help').hide();
+                    if (!canPrint) $layour.find('#settings-print').hide();
 
                     return $layour.html();
                 }
@@ -221,7 +226,10 @@ define([
             textSlideSize: 'Slide Size',
             mniSlideStandard: 'Standard (4:3)',
             mniSlideWide: 'Widescreen (16:9)',
-            textPoweredBy: 'Powered by'
+            textPoweredBy: 'Powered by',
+            textFindAndReplace: 'Find and Replace',
+            textSpellcheck: 'Spell Checking',
+            textPrint: 'Print'
         }
     })(), PE.Views.Settings || {}))
 });

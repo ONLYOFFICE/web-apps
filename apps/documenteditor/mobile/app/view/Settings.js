@@ -56,7 +56,10 @@ define([
             _canDownloadOrigin = false,
             _canReader = false,
             _canAbout = true,
-            _canHelp = true;
+            _canHelp = true,
+            _canPrint = false,
+            _canReview = false,
+            _isReviewOnly = false;
 
         return {
             // el: '.view-main',
@@ -76,6 +79,7 @@ define([
             initEvents: function () {
                 var me = this;
 
+                Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.updateItemHandlers();
                 me.initControls();
             },
@@ -85,6 +89,7 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
+                    orthography: Common.SharedSettings.get('sailfish'),
                     scope   : this
                 }));
 
@@ -97,6 +102,9 @@ define([
                 _canDownload = mode.canDownload;
                 _canDownloadOrigin = mode.canDownloadOrigin;
                 _canReader = !mode.isEdit && mode.canReader;
+                _canPrint = mode.canPrint;
+                _canReview = mode.canReview;
+                _isReviewOnly = mode.isReviewOnly;
 
                 if (mode.customization && mode.canBrandingExt) {
                     _canAbout = (mode.customization.about!==false);
@@ -116,6 +124,8 @@ define([
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-document').hide();
+                        $layour.find('#settings-spellcheck').hide();
+                        $layour.find('#settings-orthography').hide();
                     }
                     if (!_canReader)
                         $layour.find('#settings-readermode').hide();
@@ -127,6 +137,9 @@ define([
                     if (!_canDownloadOrigin) $layour.find('#settings-download').hide();
                     if (!_canAbout) $layour.find('#settings-about').hide();
                     if (!_canHelp) $layour.find('#settings-help').hide();
+                    if (!_canPrint) $layour.find('#settings-print').hide();
+                    if (!_canReview) $layour.find('#settings-review').hide();
+                    if (_isReviewOnly) $layour.find('#settings-review').addClass('disabled');
 
                     return $layour.html();
                 }
@@ -255,7 +268,15 @@ define([
             textCustomSize: 'Custom Size',
             textDocumentFormats: 'Document Formats',
             textOrientation: 'Orientation',
-            textPoweredBy: 'Powered by'
+            textPoweredBy: 'Powered by',
+            textSpellcheck: 'Spell Checking',
+            textPrint: 'Print',
+            textReview: 'Review',
+            textMargins: 'Margins',
+            textTop: 'Top',
+            textLeft: 'Left',
+            textBottom: 'Bottom',
+            textRight: 'Right'
 
     }
     })(), DE.Views.Settings || {}))

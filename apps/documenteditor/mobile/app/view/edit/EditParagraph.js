@@ -75,6 +75,7 @@ define([
                 me.renderStyles();
 
                 DE.getController('EditParagraph').initSettings();
+                Common.Utils.addScrollIfNeed('#edit-paragraph .pages', '#edit-paragraph .page');
             },
 
             // Render layout
@@ -150,11 +151,13 @@ define([
                     transparent: true
                 });
 
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-paragraph-color]', '.page[data-page=edit-paragraph-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-paragraph-color']);
             },
 
             showAdvanced: function () {
                 this.showPage('#edit-paragraph-advanced');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-paragraph-advanced]', '.page[data-page=edit-paragraph-advanced] .page-content');
             },
 
             textBackground: 'Background',
@@ -165,6 +168,7 @@ define([
             textFromText: 'Distance from Text',
             textBefore: 'Before',
             textAuto: 'Auto',
+            textFirstLine: 'First Line',
             textAfter: 'After',
             textSpaceBetween: 'Space Between Paragraphs',
             textPageBreak: 'Page Break Before',

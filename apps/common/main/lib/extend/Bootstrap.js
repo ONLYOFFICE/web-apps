@@ -165,13 +165,25 @@ function patchDropDownKeyDownAdditional(e) { // only for formula menu when typin
 
     if (!$items.length) return;
 
-    var index = $items.index($items.filter('.focus'));
+    var index = $items.index($items.filter('.focus')),
+        previndex = index;
     if (e.keyCode == 38) { index > 0 ? index-- : ($this.hasClass('no-cyclic') ? (index = 0) : (index = $items.length - 1));} else         // up
     if (e.keyCode == 40) { index < $items.length - 1 ? index++ : ($this.hasClass('no-cyclic') ? (index = $items.length - 1) : (index = 0));}              // down
     if (!~index) index=0;
 
     $items.removeClass('focus');
     $items.eq(index).addClass('focus');
+
+    if (previndex !== index) {
+        var tip = $items.eq(previndex).parent().data('bs.tooltip');
+        if (tip) {
+            tip.hide();
+        }
+        tip = $items.eq(index).parent().data('bs.tooltip');
+        if (tip) {
+            tip.show();
+        }
+    }
 }
 
 function getParent($this) {

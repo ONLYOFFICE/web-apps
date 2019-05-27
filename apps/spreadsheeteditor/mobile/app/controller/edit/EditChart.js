@@ -147,14 +147,19 @@ define([
                     me.initStylePage();
                 } else if ('#edit-chart-border-color-view' == pageId) {
                     me.initBorderColorPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-border-color]', '.page[data-page=edit-chart-border-color] .page-content');
                 } else if ('#edit-chart-layout' == pageId) {
                     me.initLayoutPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-layout]', '.page[data-page=edit-chart-layout] .page-content');
                 } else if ('#edit-chart-vertical-axis' == pageId) {
                     me.initVertAxisPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-vertical-axis]', '.page[data-page=edit-chart-vertical-axis] .page-content');
                 } else if ('#edit-chart-horizontal-axis' == pageId) {
                     me.initHorAxisPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-horizontal-axis]', '.page[data-page=edit-chart-horizontal-axis] .page-content');
                 } else if ('#edit-chart-reorder' == pageId) {
                     me.initReorderPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-reorder]', '.page[data-page=edit-chart-reorder] .page-content');
                 } else {
                     me.initRootPage();
                 }

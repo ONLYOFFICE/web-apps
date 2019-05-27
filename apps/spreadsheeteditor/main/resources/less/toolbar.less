@@ -39,17 +39,6 @@
     }
 }
 
-.toolbar-mask {
-    position: absolute;
-    top: 32px;
-    left: 48px;
-    right: 0;
-    bottom: 0;
-    opacity: 0;
-    background-color: @gray-light;
-    /*z-index: @zindex-tooltip + 1;*/
-}
-
 .color-schemas-menu {
     span {
         &.colors {
@@ -168,6 +157,11 @@
 .toolbar-btn-icon(btn-subscript,        85, @toolbar-icon-size);
 .toolbar-btn-icon(btn-superscript,      86, @toolbar-icon-size);
 
+.toolbar-btn-icon(rotate-90,      89, @toolbar-icon-size);
+.toolbar-btn-icon(rotate-270,     90, @toolbar-icon-size);
+.toolbar-btn-icon(flip-hor,       91, @toolbar-icon-size);
+.toolbar-btn-icon(flip-vert,      92, @toolbar-icon-size);
+
 @menu-icon-size: 22px;
 .menu-btn-icon(mnu-align-center,         0, @menu-icon-size);
 .menu-btn-icon(mnu-align-just,           1, @menu-icon-size);
@@ -219,6 +213,8 @@
 .menu-btn-icon(mnu-img-align-bottom,          45, @menu-icon-size);
 .menu-btn-icon(mnu-img-align-middle,          44, @menu-icon-size);
 .menu-btn-icon(mnu-img-align-top,             43, @menu-icon-size);
+.menu-btn-icon(mnu-distrib-hor,               46, @menu-icon-size);
+.menu-btn-icon(mnu-distrib-vert,              47, @menu-icon-size);
 
 .username-tip {
     background-color: #ee3525;

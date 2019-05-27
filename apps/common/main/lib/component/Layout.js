@@ -133,7 +133,21 @@ define([
             };
 
             var panel, resizer, stretch = false;
-            options.items.forEach(function(item) {
+            this.freeze = options.freeze;
+            this.changeLayout(options.items);
+        },
+
+        doLayout: function() {
+        },
+
+        changeLayout: function(items) {
+            var panel, resizer, stretch = false;
+            this.splitters && this.splitters.forEach(function(item) {
+                item.resizer && item.resizer.el.remove();
+            }, this);
+            this.splitters = [];
+            this.panels = [];
+            items.forEach(function(item) {
                 item.el instanceof HTMLElement && (item.el = $(item.el));
                 panel = _.extend(new LayoutPanel(), item);
                 if ( panel.stretch ) {
@@ -158,11 +172,11 @@ define([
 
                     if (!stretch) {
                         panel.resize.el =
-                        resizer.el = panel.el.after('<div class="layout-resizer after"></div>').next();
+                            resizer.el = panel.el.after('<div class="layout-resizer after"></div>').next();
                         this.panels.push(resizer);
                     } else {
                         panel.resize.el =
-                        resizer.el = panel.el.before('<div class="layout-resizer before"></div>').prev();
+                            resizer.el = panel.el.before('<div class="layout-resizer before"></div>').prev();
                         this.panels.splice(this.panels.length - 1, 0, resizer);
                     }
 
@@ -172,11 +186,7 @@ define([
                     Common.Gateway.on('processmouse', this.resize.eventStop);
                 }
             }, this);
-
-            this.freeze = options.freeze; this.freeze && this.freezePanels(this.freeze);
-        },
-
-        doLayout: function() {
+            this.freezePanels(this.freeze);
         },
 
         getElementHeight: function(el) {
@@ -378,8 +388,10 @@ define([
         },
 
         setResizeValue: function (index, value) {
-            if (index >= this.splitters.length)
+            if (index >= this.splitters.length) {
+                this.doLayout();
                 return false;
+            }
 
             var panel = null, next = null, oldValue = 0,
                 resize = this.splitters[index].resizer,
@@ -428,16 +440,6 @@ define([
     Common.UI.VBoxLayout.prototype = _.extend(new BaseLayout(), {
         initialize: function(options){
             BaseLayout.prototype.initialize.call(this,options);
-
-            this.panels.forEach(function(panel){
-                !panel.stretch && !panel.height && (panel.height = this.getElementHeight(panel.el));
-
-                if (panel.isresizer) {
-                    panel.el.on('mousedown', {type: 'vertical', panel: panel}, _.bind(this.resizeStart, this));
-                }
-            }, this);
-
-            this.doLayout.call(this);
         },
 
         doLayout: function() {
@@ -474,6 +476,18 @@ define([
                     height += style.height || this.getElementHeight(panel.el);
                 }
             }, this);
+        },
+
+        changeLayout: function(items) {
+            BaseLayout.prototype.changeLayout.call(this, items);
+            this.panels.forEach(function(panel){
+                !panel.stretch && !panel.height && (panel.height = this.getElementHeight(panel.el));
+
+                if (panel.isresizer) {
+                    panel.el.on('mousedown', {type: 'vertical', panel: panel}, _.bind(this.resizeStart, this));
+                }
+            }, this);
+            this.doLayout.call(this);
         }
     });
 
@@ -485,16 +499,6 @@ define([
     Common.UI.HBoxLayout.prototype = _.extend(new BaseLayout(), {
         initialize: function(options){
             BaseLayout.prototype.initialize.call(this,options);
-
-            this.panels.forEach(function(panel){
-                !panel.stretch && !panel.width && (panel.width = this.getElementWidth(panel.el));
-
-                if (panel.isresizer) {
-                    panel.el.on('mousedown', {type: 'horizontal', panel: panel}, _.bind(this.resizeStart, this));
-                }
-            }, this);
-
-            this.doLayout.call(this);
         },
 
         doLayout: function(event) {
@@ -537,6 +541,18 @@ define([
                         width += this.getElementWidth(panel.el);
                 }
             },this);
+        },
+
+        changeLayout: function(items) {
+            BaseLayout.prototype.changeLayout.call(this, items);
+            this.panels.forEach(function(panel){
+                !panel.stretch && !panel.width && (panel.width = this.getElementWidth(panel.el));
+
+                if (panel.isresizer) {
+                    panel.el.on('mousedown', {type: 'horizontal', panel: panel}, _.bind(this.resizeStart, this));
+                }
+            }, this);
+            this.doLayout.call(this);
         }
     });
 

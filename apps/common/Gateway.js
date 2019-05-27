@@ -76,6 +76,10 @@ if (Common === undefined) {
                 $me.trigger('setemailaddresses', data);
             },
 
+            'setActionLink': function (data) {
+                $me.trigger('setactionlink', data.url);
+            },
+
             'processMailMerge': function(data) {
                 $me.trigger('processmailmerge', data);
             },
@@ -252,6 +256,10 @@ if (Common === undefined) {
 
             requestClose: function() {
                 _postMessage({event: 'onRequestClose'});
+            },
+
+            requestMakeActionLink: function (config) {
+                _postMessage({event:'onMakeActionLink', data: config})
             },
 
             on: function(event, handler){

@@ -77,7 +77,8 @@ define([
                     'render:before' : function (toolbar) {
                         var config = PE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        toolbar.setExtra('left', me.header.getPanel('left', config));
+                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                            toolbar.setExtra('left', me.header.getPanel('left', config));
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.header.mnuitemCompactToolbar.setChecked(state, true);
@@ -97,6 +98,10 @@ define([
                                 me.header.btnRedo.keepState.disabled = state;
                             else me.header.btnRedo.setDisabled(state);
                         }
+                    },
+                    'print:disabled' : function (state) {
+                        if ( me.header.btnPrint )
+                            me.header.btnPrint.setDisabled(state);
                     },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
@@ -160,9 +165,10 @@ define([
                 me.viewport.vlayout.getItem('toolbar').height = _intvars.get('toolbar-height-compact');
             }
 
-            if ( config.isDesktopApp && config.isEdit ) {
+            if ( config.isEdit && (!(config.customization && config.customization.compactHeader))) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
+                $title.find('.extra').html(me.header.getPanel('left', config));
 
                 var toolbar = me.viewport.vlayout.getItem('toolbar');
                 toolbar.el.addClass('top-title');
@@ -177,6 +183,14 @@ define([
 
                 toolbar = me.getApplication().getController('Toolbar').getView('Toolbar');
                 toolbar.btnCollabChanges = me.header.btnSave;
+            }
+
+            if ( config.customization ) {
+                if ( config.customization.toolbarNoTabs )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+
+                if ( config.customization.toolbarHideFileName )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
         },
 
@@ -337,6 +351,7 @@ define([
                     finalMessage: me.previewPanel.txtFinalMessage
                 };
                 reporterObject.token = me.api.asc_getSessionToken();
+                reporterObject.customization = me.viewport.mode.customization;
             }
 
             if (this.previewPanel && !this.previewPanel.isVisible() && this.api) {
@@ -419,11 +434,11 @@ define([
             }
         },
 
-        onApiCoAuthoringDisconnect: function() {
+        onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
-                if (this.header.btnDownload)
+                if (this.header.btnDownload && !enableDownload)
                     this.header.btnDownload.hide();
-                if (this.header.btnPrint)
+                if (this.header.btnPrint && !enableDownload)
                     this.header.btnPrint.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();

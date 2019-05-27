@@ -87,7 +87,6 @@ define([
 
             var $window = this.getChild();
             $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
-            $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
         },
 
         show: function() {
@@ -99,10 +98,9 @@ define([
             },500);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         onBtnClick: function(event) {

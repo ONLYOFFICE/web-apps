@@ -69,6 +69,7 @@ define([
             initEvents: function () {
                 var me = this;
 
+                Common.Utils.addScrollIfNeed('#edit-link .pages', '#edit-link .page');
                 me.initControls();
             },
 

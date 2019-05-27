@@ -197,16 +197,23 @@ define([
                 cls: 'input-group-nr',
                 style: 'width: 50px;',
                 menuStyle: 'min-width: 50px; max-height: 200px;',
-                editable: false,
                 data: this.slides
             });
             me.cmbSlides.setValue(0);
             me.cmbSlides.on('selected', _.bind(function(combo, record) {
                 me.radioSlide.setValue(true);
+            }, me))
+            .on('changed:after', _.bind(function(combo, record) {
+                me.radioSlide.setValue(true);
+                if (record.value>me.slides.length)
+                    combo.setValue(me.slides.length-1);
+                else if (record.value<1)
+                    combo.setValue(0);
+                else
+                    combo.setValue(record.value-1);
             }, me));
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-            $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
         },
@@ -229,8 +236,11 @@ define([
                 this.isTextChanged = false;
                 this.inputTip.setValue(props.get_ToolTip());
 
-                if (type==c_oHyperlinkType.WebLink)
-                    me.inputUrl.cmpEl.find('input').focus();
+                if (type==c_oHyperlinkType.WebLink) {
+                    _.delay(function(){
+                        me.inputUrl.cmpEl.find('input').focus();
+                    },50);
+                }
             }
         },
 
@@ -287,11 +297,9 @@ define([
                 this._handleInput(event.currentTarget.attributes['result'].value);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-                return false;
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

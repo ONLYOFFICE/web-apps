@@ -190,7 +190,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                     var scope = this.ranges[i].asc_getScope(),
                         id = this.ranges[i].asc_getIsLock();
                     arr.push({
-                        name: this.ranges[i].asc_getName(),
+                        name: this.ranges[i].asc_getName(true),
                         scope: scope,
                         scopeName: (scope===null) ? this.textWorkbook: this.sheetNames[scope],
                         range: this.ranges[i].asc_getRef(),
@@ -233,7 +233,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                     }, 50);
 
                 } else if (selectedItem){ // object
-                    var rec = store.findWhere({name: selectedItem.asc_getName(), scope: selectedItem.asc_getScope()});
+                    var rec = store.findWhere({name: selectedItem.asc_getName(true), scope: selectedItem.asc_getScope()});
                     if (rec) {
                         this.rangeList.selectRecord(rec);
                         setTimeout(function() {
@@ -285,7 +285,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 xy = me.$window.offset(),
                 rec = this.rangeList.getSelectedRec(),
                 idx = _.indexOf(this.rangeList.store.models, rec[0]),
-                oldname = (isEdit && rec.length>0) ? new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable')) : null;
+                oldname = (isEdit && rec.length>0) ? new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable'), undefined, undefined, undefined, true) : null;
 
             var win = new SSE.Views.NamedRangeEditDlg({
                 api: me.api,
@@ -319,7 +319,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             var rec = this.rangeList.getSelectedRec();
             if (rec.length>0) {
                 this.currentNamedRange = _.indexOf(this.rangeList.store.models, rec[0]);
-                this.api.asc_delDefinedNames(new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable')));
+                this.api.asc_delDefinedNames(new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable'), undefined, undefined, undefined, true));
             }
         },
 

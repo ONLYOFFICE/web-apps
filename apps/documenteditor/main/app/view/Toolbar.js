@@ -124,7 +124,8 @@ define([
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-print no-mask'
+                        iconCls: 'btn-print no-mask',
+                        signals: ['disabled']
                     });
                     this.toolbarControls.push(this.btnPrint);
 
@@ -493,7 +494,8 @@ define([
                         menu: new Common.UI.Menu({
                             items: [
                                 {caption: this.mniImageFromFile, value: 'file'},
-                                {caption: this.mniImageFromUrl, value: 'url'}
+                                {caption: this.mniImageFromUrl, value: 'url'},
+                                {caption: this.mniImageFromStorage, value: 'storage'}
                             ]
                         })
                     });
@@ -557,6 +559,14 @@ define([
                     this.paragraphControls.push(this.mnuPageNumCurrentPos);
                     this.paragraphControls.push(this.mnuInsertPageCount);
                     this.toolbarControls.push(this.btnEditHeader);
+
+                    this.btnBlankPage = new Common.UI.Button({
+                        id: 'id-toolbar-btn-blankpage',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-blankpage',
+                        caption: me.capBtnBlankPage
+                    });
+                    this.paragraphControls.push(this.btnBlankPage);
 
                     this.btnInsertShape = new Common.UI.Button({
                         id: 'tlbtn-insertshape',
@@ -1039,7 +1049,8 @@ define([
                             {value: 28, displayValue: "28"},
                             {value: 36, displayValue: "36"},
                             {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"}
+                            {value: 72, displayValue: "72"},
+                            {value: 96, displayValue: "96"}
                         ]
                     });
                     this.paragraphControls.push(this.cmbFontSize);
@@ -1293,6 +1304,7 @@ define([
                 _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
                 _injectComponent('#slot-btn-pageorient', this.btnPageOrient);
@@ -1331,6 +1343,7 @@ define([
 
                         me.btnsPageBreak.add(button);
                     });
+                    me.btnsPageBreak.setDisabled(true);
 
                     Array.prototype.push.apply(me.paragraphControls, me.btnsPageBreak);
                 }.call(this);
@@ -1360,7 +1373,7 @@ define([
 
                         var _menu = new Common.UI.Menu({
                             items: [
-                                {caption: me.textInsPageBreak},
+                                {caption: me.textInsPageBreak, value: 'page'},
                                 {caption: me.textInsColumnBreak, value: 'column'},
                                 {caption: me.textInsSectionBreak, value: 'section', menu: _menu_section_break}
                             ]
@@ -1398,32 +1411,77 @@ define([
                     }));
 
                     me.btnImgAlign.updateHint(me.tipImgAlign);
+
+                    me.mniAlignToPage = new Common.UI.MenuItem({
+                        caption: me.txtPageAlign,
+                        checkable: true,
+                        toggleGroup: 'imgalign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("de-img-align-to", 1);
+                    });
+                    me.mniAlignToMargin = new Common.UI.MenuItem({
+                        caption: me.txtMarginAlign,
+                        checkable: true,
+                        toggleGroup: 'imgalign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("de-img-align-to", 2);
+                    });
+                    me.mniAlignObjects = new Common.UI.MenuItem({
+                        caption: me.txtObjectsAlign,
+                        checkable: true,
+                        toggleGroup: 'imgalign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("de-img-align-to", 3);
+                    });
+
+                    me.mniDistribHor = new Common.UI.MenuItem({
+                        caption: me.txtDistribHor,
+                        iconCls: 'mnu-distrib-hor',
+                        value: 6
+                    });
+                    me.mniDistribVert = new Common.UI.MenuItem({
+                        caption: me.txtDistribVert,
+                        iconCls: 'mnu-distrib-vert',
+                        value: 7
+                    });
+
                     me.btnImgAlign.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textShapeAlignLeft,
                                 iconCls : 'mnu-img-align-left',
-                                halign  : Asc.c_oAscAlignH.Left
+                                value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }, {
                                 caption : _holder_view.textShapeAlignCenter,
                                 iconCls : 'mnu-img-align-center',
-                                halign  : Asc.c_oAscAlignH.Center
+                                value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }, {
                                 caption : _holder_view.textShapeAlignRight,
                                 iconCls : 'mnu-img-align-right',
-                                halign  : Asc.c_oAscAlignH.Right
+                                value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }, {
                                 caption : _holder_view.textShapeAlignTop,
                                 iconCls : 'mnu-img-align-top',
-                                valign  : Asc.c_oAscAlignV.Top
+                                value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }, {
                                 caption : _holder_view.textShapeAlignMiddle,
                                 iconCls : 'mnu-img-align-middle',
-                                valign  : Asc.c_oAscAlignV.Center
+                                value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }, {
                                 caption : _holder_view.textShapeAlignBottom,
                                 iconCls : 'mnu-img-align-bottom',
-                                valign  : Asc.c_oAscAlignV.Bottom
-                            }]
+                                value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
+                            },
+                            {caption: '--'},
+                            me.mniDistribHor,
+                            me.mniDistribVert,
+                            {caption: '--'},
+                            me.mniAlignToPage,
+                            me.mniAlignToMargin,
+                            me.mniAlignObjects
+                        ]
                     }));
 
                     me.btnImgGroup.updateHint(me.tipImgGroup);
@@ -1535,6 +1593,7 @@ define([
                 this.btnInsertText.updateHint(this.tipInsertText);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnDropCap.updateHint(this.tipDropCap);
@@ -1551,9 +1610,6 @@ define([
                 // set menus
 
                 var me = this;
-
-                // if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header === false)
-                //     this.mnuitemHideTitleBar.hide();
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
@@ -2001,7 +2057,7 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.btnSave.setDisabled(true);
-                    if (mode.disableDownload)
+                    if (!mode.enableDownload)
                         this.btnPrint.setDisabled(true);
                 }
 
@@ -2011,6 +2067,7 @@ define([
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
                 this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
                 this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
+                this.mnuInsertImage.items[2].setVisible(this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -2097,7 +2154,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: this.mode.isDesktopApp ? 'inc-index' : undefined,
+                    extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
@@ -2367,7 +2424,15 @@ define([
             mniEditControls: 'Settings',
             tipControls: 'Insert content control',
             mniHighlightControls: 'Highlight settings',
-            textNoHighlight: 'No highlighting'
+            textNoHighlight: 'No highlighting',
+            mniImageFromStorage: 'Image from Storage',
+            capBtnBlankPage: 'Blank Page',
+            tipBlankPage: 'Insert blank page',
+            txtDistribHor: 'Distribute Horizontally',
+            txtDistribVert: 'Distribute Vertically',
+            txtPageAlign: 'Align to Page',
+            txtMarginAlign: 'Align to Margin',
+            txtObjectsAlign: 'Align Selected Objects'
         }
     })(), DE.Views.Toolbar || {}));
 });

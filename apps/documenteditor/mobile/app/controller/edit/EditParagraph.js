@@ -54,6 +54,7 @@ define([
         var _stack = [],
             _paragraphInfo = {},
             _paragraphObject = undefined,
+            _paragraphProperty = undefined,
             _styles = [],
             _styleThumbSize,
             _styleName,
@@ -113,6 +114,7 @@ define([
 
                 $('#paragraph-distance-before .button').single('click',          _.bind(me.onDistanceBefore, me));
                 $('#paragraph-distance-after .button').single('click',           _.bind(me.onDistanceAfter, me));
+                $('#paragraph-spin-first-line .button').single('click',          _.bind(me.onSpinFirstLine, me));
                 $('#paragraph-space input:checkbox').single('change',            _.bind(me.onSpaceBetween, me));
                 $('#paragraph-page-break input:checkbox').single('change',       _.bind(me.onBreakBefore, me));
                 $('#paragraph-page-orphan input:checkbox').single('change',      _.bind(me.onOrphan, me));
@@ -126,6 +128,23 @@ define([
 
             initSettings: function () {
                 var me = this;
+
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && _.isArray(selectedElements)) {
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                            _paragraphProperty = selectedElements[i].get_ObjectValue(); 
+                            break;
+                        }
+                    }
+                }
+
+                if (_paragraphProperty) {
+                    if (_paragraphProperty.get_Ind()===null || _paragraphProperty.get_Ind()===undefined) {
+                        _paragraphProperty.get_Ind().put_FirstLine(0);
+                    }
+                    $('#paragraph-spin-first-line .item-after label').text(_paragraphProperty.get_Ind().get_FirstLine() + ' ' + metricText);
+                }
 
                 if (_paragraphObject) {
                     _paragraphInfo.spaceBefore = _paragraphObject.get_Spacing().get_Before() < 0 ? _paragraphObject.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_Before());
@@ -240,8 +259,23 @@ define([
                 _paragraphInfo.spaceAfter = distance;
 
                 $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : (_paragraphInfo.spaceAfter) + ' ' + metricText);
-
                 this.api.put_LineSpacingBeforeAfter(1, (_paragraphInfo.spaceAfter < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceAfter));
+            },
+
+            onSpinFirstLine: function(e) {
+                var $button = $(e.currentTarget),
+                    distance = _paragraphProperty.get_Ind().get_FirstLine();
+
+                if ($button.hasClass('decrement')) {
+                    distance = Math.max(-999, --distance);
+                } else {
+                    distance = Math.min(999, ++distance);
+                }
+
+                _paragraphProperty.get_Ind().put_FirstLine(distance)
+
+                $('#paragraph-spin-first-line .item-after label').text(distance + ' ' + metricText);
+                this.api.paraApply(_paragraphProperty);
             },
 
             onSpaceBetween: function (e) {

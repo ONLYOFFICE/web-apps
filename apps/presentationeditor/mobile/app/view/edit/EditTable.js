@@ -76,6 +76,7 @@ define([
                 $('#table-reorder').single('click',                     _.bind(me.showReorder, me));
                 $('#table-align').single('click',                       _.bind(me.showAlign, me));
 
+                Common.Utils.addScrollIfNeed('#edit-table .pages', '#edit-table .page');
                 me.initControls();
                 me.renderStyles();
             },
@@ -158,6 +159,11 @@ define([
                 if ($(e.currentTarget).data('type') == 'fill') {
                     this.fireEvent('page:show', [this, '#edit-table-style']);
                 }
+
+                // Common.Utils.addScrollIfNeed('.page[data-page=edit-table-style] .tabs', '#tab-table-style');
+                Common.Utils.addScrollIfNeed('#tab-table-style', '#tab-table-style .list-block');
+                Common.Utils.addScrollIfNeed('#tab-table-fill', '#tab-table-fill .list-block');
+                Common.Utils.addScrollIfNeed('#tab-table-border', '#tab-table-border .list-block');
             },
 
             showPage: function (templateId, suspendEvent) {
@@ -181,6 +187,9 @@ define([
 
                     this.initEvents();
                 }
+
+                Common.Utils.addScrollIfNeed('#tab-table-style', '#tab-table-style .list-block');
+                Common.Utils.addScrollIfNeed('.page.table-reorder', '.page.table-reorder .page-content');
             },
 
             showTableStyle: function () {
@@ -210,10 +219,12 @@ define([
 
             showReorder: function () {
                 this.showPage('#edit-table-reorder');
+                Common.Utils.addScrollIfNeed('.page.table-reorder', '.page.table-reorder .page-content');
             },
 
             showAlign: function () {
                 this.showPage('#edit-table-align');
+                Common.Utils.addScrollIfNeed('.page.table-align', '.page.table-align .page-content');
             },
 
             textRemoveTable: 'Remove Table',

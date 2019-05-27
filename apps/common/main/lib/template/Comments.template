@@ -10,7 +10,7 @@
         <% if (quote!==null && quote!=='') { %>
         <div class="user-quote"><%=scope.getFixedQuote(quote)%></div>
         <% } %>
-        <% if (!editText) { %>
+        <% if (!editText || scope.viewmode) { %>
             <div class="user-message" data-can-copy="true"><%=scope.pickLink(comment)%></div>
         <% } else { %>
             <div class="inner-edit-ct">
@@ -24,20 +24,22 @@
 
         <% if (replys.length) { %>
             <div class="reply-arrow img-commonctrl"></div>
-            <% _.each(replys, function (item) { %>
-                <div class="reply-item-ct">
+            <% _.each(replys, function (item, index) { %>
+                <div class="reply-item-ct" <% if (scope.viewmode && index==replys.length-1) { %>style="padding-bottom: 0;" <% } %>;>
                     <div class="user-name">
                         <div class="color" style="display: inline-block; background-color: <% if (item.get("usercolor")!==null) { %><%=item.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(item.get("username")) %>
                     </div>
                     <div class="user-date"><%=item.get("date")%></div>
                     <% if (!item.get("editText")) { %>
                         <div class="user-message" data-can-copy="true"><%=scope.pickLink(item.get("reply"))%></div>
+                        <% if (!scope.viewmode) { %>
                             <div class="btns-reply-ct">
                             <% if (item.get("editable")) { %>
                                 <div class="btn-edit img-commonctrl" data-value="<%=item.get("id")%>"></div>
+                                <div class="btn-delete img-commonctrl" data-value="<%=item.get("id")%>"></div>
                             <% } %>
-                            <div class="btn-delete img-commonctrl" data-value="<%=item.get("id")%>"></div>
-                        </div>
+                            </div>
+                        <%}%>
                     <% } else { %>
                         <div class="inner-edit-ct">
                             <textarea class="msg-reply textarea-fix user-select" maxlength="maxCommLength"><%=item.get("reply")%></textarea>
@@ -51,7 +53,7 @@
 
         <!-- add reply button -->
 
-        <% if (!showReply) { %>
+        <% if (!showReply && !scope.viewmode) { %>
             <% if (replys.length) { %>
                 <label class="user-reply" style="margin-left: 20px; margin-top: 5px;" role="presentation" tabindex="-1">textAddReply</label>
             <% } else { %>
@@ -61,12 +63,12 @@
 
         <!-- edit buttons -->
 
-        <% if (!editText && !lock) { %>
+        <% if (!editText && !lock && !scope.viewmode) { %>
             <div class="edit-ct">
                 <% if (editable) { %>
                     <div class="btn-edit img-commonctrl"></div>
+                    <div class="btn-delete img-commonctrl"></div>
                 <% } %>
-                <div class="btn-delete img-commonctrl"></div>
                 <% if (resolved) { %>
                 <div class="btn-resolve-check img-commonctrl" data-toggle="tooltip"></div>
                 <% } else { %>

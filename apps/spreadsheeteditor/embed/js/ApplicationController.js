@@ -168,8 +168,6 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        Common.Gateway.documentReady();
-
         hidePreloader();
 
         if ( !embedConfig.shareUrl )
@@ -292,6 +290,7 @@ var ApplicationController = new(function(){
             }
         });
 
+        Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
 
@@ -403,6 +402,10 @@ var ApplicationController = new(function(){
                 message = me.errorFilePassProtect;
                 break;
 
+            case Asc.c_oAscError.ID.UserDrop:
+                message = me.errorUserDrop;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -459,6 +462,10 @@ var ApplicationController = new(function(){
     }
 
     function onDownloadAs() {
+        if ( permissions.download === false) {
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            return;
+        }
         api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
     }
 
@@ -558,6 +565,8 @@ var ApplicationController = new(function(){
         criticalErrorTitle      : 'Error',
         notcriticalErrorTitle   : 'Warning',
         scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
-        errorFilePassProtect: 'The file is password protected and cannot be opened.'
+        errorFilePassProtect: 'The file is password protected and cannot be opened.',
+        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+        errorUserDrop: 'The file cannot be accessed right now.'
     }
 })();

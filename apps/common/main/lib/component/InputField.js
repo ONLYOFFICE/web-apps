@@ -73,7 +73,8 @@ define([
                 maskExp     : '',
                 validateOnChange: false,
                 validateOnBlur: true,
-                disabled: false
+                disabled: false,
+                editable: true
             },
 
             template: _.template([
@@ -106,7 +107,7 @@ define([
                 this.allowBlank     = me.options.allowBlank;
                 this.placeHolder    = me.options.placeHolder;
                 this.template       = me.options.template || me.template;
-                this.editable       = me.options.editable || true;
+                this.editable       = me.options.editable;
                 this.disabled       = me.options.disabled;
                 this.spellcheck     = me.options.spellcheck;
                 this.blankError     = me.options.blankError || 'This field is required';
@@ -155,6 +156,7 @@ define([
                     if (this.editable) {
                         this._input.on('blur',   _.bind(this.onInputChanged, this));
                         this._input.on('keypress', _.bind(this.onKeyPress, this));
+                        this._input.on('keydown',    _.bind(this.onKeyDown, this));
                         this._input.on('keyup',    _.bind(this.onKeyUp, this));
                         if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
                         if (this.maxLength) this._input.attr('maxlength', this.maxLength);
@@ -225,19 +227,23 @@ define([
                 if (e.isDefaultPrevented())
                     return;
 
-                if (e.keyCode === Common.UI.Keys.RETURN) {
-                    this._doChange(e);
-                } else if (this.options.maskExp && !_.isEmpty(this.options.maskExp.source)){
+                if (this.options.maskExp && !_.isEmpty(this.options.maskExp.source)){
                     var charCode = String.fromCharCode(e.which);
-                    if(!this.options.maskExp.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.DELETE && e.keyCode !== Common.UI.Keys.BACKSPACE &&
-                        e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT && e.keyCode !== Common.UI.Keys.HOME &&
-                        e.keyCode !== Common.UI.Keys.END && e.keyCode !== Common.UI.Keys.ESC && e.keyCode !== Common.UI.Keys.INSERT ){
+                    if(!this.options.maskExp.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.RETURN){
                         e.preventDefault();
                         e.stopPropagation();
                     }
                 }
 
                 this.trigger('keypress:after', this, e);
+            },
+
+            onKeyDown: function(e) {
+                if (e.isDefaultPrevented())
+                    return;
+
+                if (e.keyCode === Common.UI.Keys.RETURN)
+                    this._doChange(e);
             },
 
             onKeyUp: function(e) {

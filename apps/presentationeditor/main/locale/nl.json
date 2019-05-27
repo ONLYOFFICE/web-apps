@@ -20,7 +20,7 @@
   "Common.UI.SearchDialog.textMatchCase": "Hoofdlettergevoelig",
   "Common.UI.SearchDialog.textReplaceDef": "Voer de vervangende tekst in",
   "Common.UI.SearchDialog.textSearchStart": "Voer hier uw tekst in",
-  "Common.UI.SearchDialog.textTitle": "Zoeken",
+  "Common.UI.SearchDialog.textTitle": "Zoeken en vervangen",
   "Common.UI.SearchDialog.textTitle2": "Zoeken",
   "Common.UI.SearchDialog.textWholeWords": "Alleen hele woorden",
   "Common.UI.SearchDialog.txtBtnHideReplace": "Vervanging verbergen",

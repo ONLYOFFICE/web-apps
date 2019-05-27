@@ -72,6 +72,7 @@ define([
                 $('#image-reorder').single('click',                 _.bind(me.showReorder, me));
                 $('#edit-image-url').single('click',                _.bind(me.showEditUrl, me));
 
+                Common.Utils.addScrollIfNeed('#edit-image .pages', '#edit-image .page');
                 me.initControls();
             },
 
@@ -130,6 +131,7 @@ define([
             showWrap: function () {
                 this.showPage('#edit-image-wrap-view');
                 $('.image-wrap .list-block.inputs-list').removeClass('inputs-list');
+                Common.Utils.addScrollIfNeed('.page.image-wrap', '.page.image-wrap .page-content');
             },
 
             showReplace: function () {
@@ -138,6 +140,7 @@ define([
 
             showReorder: function () {
                 this.showPage('#edit-image-reorder-view');
+                Common.Utils.addScrollIfNeed('.page.image-reorder', '.page.image-reorder .page-content');
             },
 
             showEditUrl: function () {
@@ -150,6 +153,7 @@ define([
                 _.delay(function () {
                     $('.edit-image-url-link input[type="url"]').focus();
                 }, 1000);
+                Common.Utils.addScrollIfNeed('.page.edit-image-url-link', '.page.edit-image-url-link .page-content');
             },
 
             textWrap: 'Wrap',

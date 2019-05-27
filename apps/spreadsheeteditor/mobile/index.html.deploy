@@ -181,6 +181,19 @@
     </head>
     <body>
         <script type="text/javascript">
+            var ua = navigator.userAgent;
+
+            if (/Sailfish/.test(ua) || /Jolla/.test(ua)) {
+                document.write('<script type="text/javascript" src="../../../vendor/iscroll/iscroll.min.js"><\/script>');
+
+                    if (!/Android/.test(ua)) {
+                        var ua = navigator.userAgent + ';Android 5.0;';
+                        Object.defineProperty(navigator, 'userAgent', {
+                            get: function () { return ua; }
+                        });
+                    }
+            }
+
             function getUrlParams() {
                 var e,
                     a = /\+/g,  // Regex for replacing addition symbol with a space

@@ -89,6 +89,8 @@ define([
                 cfgLink.internal = { sheet: {index: index, caption: caption}};
                 // me.fireEvent('link:changesheet', [me, $(e.currentTarget).val()]);
             }).val(cfgLink.internal.sheet.index);
+
+            Common.Utils.addScrollIfNeed('.page[data-page=add-link]', '.page[data-page=add-link] .page-content');
         }
 
 
@@ -105,6 +107,7 @@ define([
 
             initEvents: function () {
                 var me = this;
+                
                 me.initControls();
             },
 

@@ -118,7 +118,7 @@ define([
         rendered    : false,
 
         template    :
-                    '<input type="text" class="form-control">' +
+                    '<input type="text" class="form-control" spellcheck="false">' +
                     '<div class="spinner-buttons">' +
                         '<button type="button" class="spinner-up"><i class="img-commonctrl"></i></button>' +
                         '<button type="button" class="spinner-down"><i class="img-commonctrl"></i></button>' +
@@ -374,12 +374,7 @@ define([
             if (charCode=='.' || charCode==',') {
                 e.preventDefault();
                 e.stopPropagation();
-            } else if(this.options.maskExp && !this.options.maskExp.test(charCode) && !e.ctrlKey &&
-                e.keyCode !== Common.UI.Keys.DELETE && e.keyCode !== Common.UI.Keys.BACKSPACE &&
-                e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT &&
-                e.keyCode !== Common.UI.Keys.HOME && e.keyCode !== Common.UI.Keys.END &&
-                e.keyCode !== Common.UI.Keys.ESC && e.keyCode !== Common.UI.Keys.RETURN &&
-                e.keyCode !== Common.UI.Keys.INSERT && e.keyCode !== Common.UI.Keys.TAB){
+            } else if(this.options.maskExp && !this.options.maskExp.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.RETURN ){
                 e.preventDefault();
                 e.stopPropagation();
             }

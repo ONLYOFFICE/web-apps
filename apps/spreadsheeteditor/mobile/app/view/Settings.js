@@ -53,7 +53,8 @@ define([
             canEdit = false,
             canDownload = false,
             canAbout = true,
-            canHelp = true;
+            canHelp = true,
+            canPrint = false;
 
         return {
             // el: '.view-main',
@@ -79,6 +80,7 @@ define([
                 $('#settings-help').single('click',             _.bind(me.showHelp, me));
                 $('#settings-about').single('click',            _.bind(me.showAbout, me));
 
+                Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
             },
 
@@ -91,8 +93,11 @@ define([
                     , saveas: {
                         xlsx: Asc.c_oAscFileType.XLSX,
                         pdf: Asc.c_oAscFileType.PDF,
+                        pdfa: Asc.c_oAscFileType.PDFA,
                         ods: Asc.c_oAscFileType.ODS,
-                        csv: Asc.c_oAscFileType.CSV
+                        csv: Asc.c_oAscFileType.CSV,
+                        xltx: Asc.c_oAscFileType.XLTX,
+                        ots: Asc.c_oAscFileType.OTS
                     }
                 }));
 
@@ -103,6 +108,7 @@ define([
                 isEdit = mode.isEdit;
                 canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
                 canDownload = mode.canDownload || mode.canDownloadOrigin;
+                canPrint = mode.canPrint;
 
                 if (mode.customization && mode.canBrandingExt) {
                     canAbout = (mode.customization.about!==false);
@@ -125,6 +131,7 @@ define([
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();
                     if (!canHelp) $layout.find('#settings-help').hide();
+                    if (!canPrint) $layout.find('#settings-print').hide();
 
                     return $layout.html();
                 }
@@ -164,10 +171,13 @@ define([
                 $('#settings-document-title').html(document.title ? document.title : this.unknownText);
                 $('#settings-document-autor').html(info.author ? info.author : this.unknownText);
                 $('#settings-document-date').html(info.created ? info.created : this.unknownText);
+
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
             },
 
             showDownload: function () {
                 this.showPage('#settings-download-view');
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
             },
 
             showHistory: function () {
@@ -180,6 +190,7 @@ define([
 
             showAbout: function () {
                 this.showPage('#settings-about-view');
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
             },
 
             loadDocument: function(data) {
@@ -213,7 +224,8 @@ define([
             textAddress: 'address',
             textEmail: 'email',
             textTel: 'tel',
-            textPoweredBy: 'Powered by'
+            textPoweredBy: 'Powered by',
+            textPrint: 'Print'
     }
     })(), SSE.Views.Settings || {}))
 });

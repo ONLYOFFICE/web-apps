@@ -57,9 +57,10 @@
                 canBackToFolder: <can return to folder> - deprecated. use "customization.goback" parameter,
                 createUrl: 'create document url', 
                 sharingSettingsUrl: 'document sharing settings url',
-                fileChoiceUrl: 'mail merge sources url',
+                fileChoiceUrl: 'source url', // for mail merge or image from storage
                 callbackUrl: <url for connection between sdk and portal>,
-                mergeFolderUrl: 'folder for saving merged file',
+                mergeFolderUrl: 'folder for saving merged file', // must be deprecated, use saveAsUrl instead
+                saveAsUrl: 'folder for saving files'
                 licenseUrl: <url for license>,
                 customerId: <customer id>,
 
@@ -89,8 +90,6 @@
                         imageEmbedded: url,
                         url: http://...
                     },
-                    backgroundColor: 'header background color',
-                    textColor: 'header text color',
                     customer: {
                         name: 'SuperPuper',
                         address: 'New-York, 125f-25',
@@ -115,14 +114,17 @@
                     compactToolbar: false,
                     leftMenu: true,
                     rightMenu: true,
+                    hideRightMenu: false, // hide or show right panel on first loading
                     toolbar: true,
-                    header: true,
                     statusBar: true,
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false,
                     showReviewChanges: false,
-                    help: true
+                    help: true,
+                    compactHeader: false,
+                    toolbarNoTabs: false,
+                    toolbarHideFileName: false
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -195,6 +197,8 @@
         _config.editorConfig.canRequestEditRights = _config.events && !!_config.events.onRequestEditRights;
         _config.editorConfig.canRequestClose = _config.events && !!_config.events.onRequestClose;
         _config.editorConfig.canRename = _config.events && !!_config.events.onRequestRename;
+        _config.editorConfig.canMakeActionLink = _config.events && !!_config.events.onMakeActionLink;
+        _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
         _config.frameEditorId = placeholderId;
 
         _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
@@ -369,6 +373,7 @@
                     // _config.editorConfig.canBackToFolder = false;
                     if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
                     _config.editorConfig.customization.about = false;
+                    _config.editorConfig.customization.compactHeader = false;
 
                     if ( window.AscDesktopEditor ) window.AscDesktopEditor.execCommand('webapps:events', 'loading');
                 }
@@ -505,6 +510,15 @@
             });
         };
 
+        var _setActionLink = function (data) {
+            _sendCommand({
+                command: 'setActionLink',
+                data: {
+                    url: data
+                }
+            });
+        };
+
         var _processMailMerge = function(enabled, message) {
             _sendCommand({
                 command: 'processMailMerge',
@@ -555,6 +569,7 @@
             refreshHistory      : _refreshHistory,
             setHistoryData      : _setHistoryData,
             setEmailAddresses   : _setEmailAddresses,
+            setActionLink       : _setActionLink,
             processMailMerge    : _processMailMerge,
             downloadAs          : _downloadAs,
             serviceCommand      : _serviceCommand,
@@ -663,7 +678,7 @@
             app = appMap[config.documentType.toLowerCase()];
         } else
         if (!!config.document && typeof config.document.fileType === 'string') {
-            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp))$/
+            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
                             .exec(config.document.fileType);
             if (type) {
                 if (typeof type[1] === 'string') app = appMap['spreadsheet']; else
@@ -720,7 +735,8 @@
 		if (config.type == "mobile")
 		{
 			iframe.style.position = "fixed";
-			iframe.style.overflow = "hidden";
+            iframe.style.overflow = "hidden";
+            document.body.style.overscrollBehaviorY = "contain";
 		}
         return iframe;
     }

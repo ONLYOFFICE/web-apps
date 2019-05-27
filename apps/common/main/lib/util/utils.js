@@ -106,6 +106,13 @@ Common.Utils = _.extend(new(function() {
             Pivot      : 10,
             Cell       : 11
         },
+        importTextType = {
+            DRM: 0,
+            CSV: 1,
+            TXT: 2,
+            Paste: 3,
+            Columns: 4
+        },
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
         checkSize = function() {
@@ -203,6 +210,7 @@ Common.Utils = _.extend(new(function() {
         ipStrongRe: ipStrongRe,
         hostnameStrongRe: hostnameStrongRe,
         documentSettingsType: documentSettingsType,
+        importTextType: importTextType,
         zoom: function() {return me.zoom;},
         innerWidth: function() {return me.innerWidth;},
         innerHeight: function() {return me.innerHeight;}
@@ -634,20 +642,22 @@ Common.Utils.applyCustomizationPlugins = function(plugins) {
 
     var _createXMLHTTPObject = function() {
         var xmlhttp;
-        try {
-            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-        }
-        catch (e) {
-            try {
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (E) {
-                xmlhttp = false;
-            }
-        }
-        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+        if (typeof XMLHttpRequest != 'undefined') {
             xmlhttp = new XMLHttpRequest();
+        } else {
+            try {
+                xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+            }
+            catch (e) {
+                try {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                catch (E) {
+                    xmlhttp = false;
+                }
+            }
         }
+
         return xmlhttp;
     };
 
@@ -690,17 +700,19 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
 
 Common.Utils.createXhr = function () {
     var xmlhttp;
-    try {
-        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-    } catch (e) {
-        try {
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        } catch (E) {
-            xmlhttp = false;
-        }
-    }
-    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+
+    if (typeof XMLHttpRequest != 'undefined') {
         xmlhttp = new XMLHttpRequest();
+    } else {
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (E) {
+                xmlhttp = false;
+            }
+        }
     }
 
     return xmlhttp;

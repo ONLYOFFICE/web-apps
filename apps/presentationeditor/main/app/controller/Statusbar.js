@@ -179,8 +179,8 @@ define([
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
             this.statusbar.setLanguage({
-                tip:    info[0],
-                title:  info[1],
+                value:    info[0],
+                displayValue:  info[1],
                 code:   langId
             });
         },
@@ -209,21 +209,13 @@ define([
         },
 
         onBtnLanguage: function() {
-            var langs = _.map(this.langs, function(item){
-                return {
-                    displayValue:   item.title,
-                    value:          item.tip,
-                    code:           item.code
-                }
-            });
-
             var me = this;
             (new Common.Views.LanguageDialog({
-                languages: langs,
+                languages: me.langs,
                 current: me.api.asc_getDefaultLanguage(),
-                handler: function(result, tip) {
+                handler: function(result, value) {
                     if (result=='ok') {
-                        var record = _.findWhere(langs, {'value':tip});
+                        var record = _.findWhere(me.langs, {'value':value});
                         record && me.api.asc_setDefaultLanguage(record.code);
                     }
                 }

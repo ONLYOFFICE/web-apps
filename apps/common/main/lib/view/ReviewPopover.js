@@ -196,7 +196,7 @@ define([
                             }
 
                             parentView.scroller.scrollTop(scrollPos);
-                            view.autoScrollToEditButtons();
+                            parentView.autoScrollToEditButtons();
                         }
 
                         if (textBox && textBox.length) {
@@ -215,23 +215,6 @@ define([
                         if (this.textBox) {
                             this.textBox.unbind('input propertychange');
                             this.textBox = undefined;
-                        }
-                    },
-                    autoScrollToEditButtons: function () {
-                        var button = $('#id-comments-change-popover'),  // TODO: add to cache
-                            btnBounds = null,
-                            contentBounds = this.el.getBoundingClientRect(),
-                            moveY = 0,
-                            padding = 7;
-
-                        if (button.length) {
-                            btnBounds = button.get(0).getBoundingClientRect();
-                            if (btnBounds && contentBounds) {
-                                moveY = contentBounds.bottom - (btnBounds.bottom + padding);
-                                if (moveY < 0) {
-                                    parentView.scroller.scrollTop(parentView.scroller.getScrollTop() - moveY);
-                                }
-                            }
                         }
                     }
                 }
@@ -328,7 +311,7 @@ define([
 
                                     me.hookTextBox();
 
-                                    this.autoScrollToEditButtons();
+                                    me.autoScrollToEditButtons();
                                     this.setFocusToTextBox();
                                 } else {
                                     if (!showEditBox) {
@@ -347,7 +330,7 @@ define([
 
                                         me.hookTextBox();
 
-                                        this.autoScrollToEditButtons();
+                                        me.autoScrollToEditButtons();
                                         this.setFocusToTextBox();
                                     }
                                 }
@@ -380,7 +363,7 @@ define([
                                 this.autoHeightTextBox();
                                 me.hookTextBox();
 
-                                this.autoScrollToEditButtons();
+                                me.autoScrollToEditButtons();
                                 this.setFocusToTextBox();
                             } else if (btn.hasClass('btn-reply', false)) {
                                 if (showReplyBox) {
@@ -388,6 +371,7 @@ define([
 
                                     me.fireEvent('comment:addReply', [commentId, this.getActiveTextBoxVal()]);
                                     me.fireEvent('comment:closeEditing');
+                                    me.calculateSizeOfContent();
 
                                     readdresolves();
                                 }
@@ -402,6 +386,7 @@ define([
 
                                 if (record.get('dummy')) {
                                     var commentVal = this.getActiveTextBoxVal();
+                                    me.clearDummyText();
                                     if (commentVal.length > 0)
                                         me.fireEvent('comment:addDummyComment', [commentVal]);
                                     else {
@@ -430,6 +415,7 @@ define([
 
                             } else if (btn.hasClass('btn-inner-close', false)) {
                                 if (record.get('dummy')) {
+                                    me.clearDummyText();
                                     me.hide();
                                     return;
                                 }
@@ -476,7 +462,7 @@ define([
                             me.commentsView.autoHeightTextBox();
                             me.$window.find('textarea').keydown(function (event) {
                                 if (event.keyCode == Common.UI.Keys.ESC) {
-                                    me.hide();
+                                    me.hide(true); // clear text in dummy comment
                                 }
                             });
                         },
@@ -496,9 +482,7 @@ define([
                         handleSelect: false,
                         scrollable: true,
                         template: _.template('<div class="dataview-ct inner" style="overflow-y: visible;">'+
-                            '</div>' +
-                            '<div class="lock-area" style="cursor: default;"></div>' +
-                            '<div class="lock-author" style="cursor: default;"></div>'
+                            '</div>'
                         )
                     }
                 }
@@ -514,6 +498,26 @@ define([
                         itemTemplate: _.template(reviewTemplate)
                     });
 
+                    var addtooltip = function (dataview, view, record) {
+                        if (view.tipsArray) {
+                            view.tipsArray.forEach(function (item) {
+                                item.remove();
+                            });
+                        }
+
+                        var arr = [],
+                            btns = $(view.el).find('.btn-goto');
+                        btns.tooltip({title: me.textFollowMove, placement: 'cursor'});
+                        btns.each(function (idx, item) {
+                            arr.push($(item).data('bs.tooltip').tip());
+                        });
+                        view.tipsArray = arr;
+                    };
+
+                    this.reviewChangesView.on('item:add', addtooltip);
+                    this.reviewChangesView.on('item:remove', addtooltip);
+                    this.reviewChangesView.on('item:change', addtooltip);
+
                     this.reviewChangesView.on('item:click', function (picker, item, record, e) {
                         var btn = $(e.target);
                         if (btn) {
@@ -523,6 +527,11 @@ define([
                                 me.fireEvent('reviewchange:reject', [record.get('changedata')]);
                             } else if (btn.hasClass('btn-delete')) {
                                 me.fireEvent('reviewchange:delete', [record.get('changedata')]);
+                            } else if (btn.hasClass('btn-goto')) {
+                                var tip = btn.data('bs.tooltip');
+                                if (tip) tip.dontShow = true;
+
+                                me.fireEvent('reviewchange:goto', [record.get('changedata')]);
                             }
                         }
                     });
@@ -560,8 +569,8 @@ define([
 
         showReview: function (animate, lock, lockuser) {
             this.show(animate);
-            this.reviewChangesView.cmpEl.find('.lock-area').toggleClass('hidden', !lock);
-            this.reviewChangesView.cmpEl.find('.lock-author').toggleClass('hidden', !lock || _.isEmpty(lockuser)).text(lockuser);
+            // this.reviewChangesView.cmpEl.find('.lock-area').toggleClass('hidden', !lock);
+            // this.reviewChangesView.cmpEl.find('.lock-author').toggleClass('hidden', !lock || _.isEmpty(lockuser)).text(lockuser);
             this._state.reviewVisible = true;
         },
 
@@ -601,7 +610,7 @@ define([
 
         hide: function () {
             if (this.handlerHide) {
-                this.handlerHide();
+                this.handlerHide.apply(this, arguments);
             }
 
             this.hideTips();
@@ -774,6 +783,8 @@ define([
                 sdkBoundsTopPos = 0;
 
             if (commentsView && arrowView && commentsView.get(0)) {
+                var scrollPos = this.scroller.getScrollTop();
+
                 commentsView.css({height: '100%'});
 
                 contentBounds = commentsView.get(0).getBoundingClientRect();
@@ -813,6 +824,7 @@ define([
                                 arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.width));
 
                                 arrowView.css({top: arrowPosY + 'px'});
+                                this.scroller.scrollTop(scrollPos);
                             } else {
 
                                 outerHeight = windowHeight;
@@ -837,6 +849,9 @@ define([
             }
 
             this.$window.css({overflow: ''});
+            if (this.scroller) {
+                this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+            }
         },
         saveText: function (clear) {
             if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
@@ -860,6 +875,22 @@ define([
             }
 
             return undefined;
+        },
+        saveDummyText: function () {
+            if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
+                this.textDummyVal = this.commentsView.getActiveTextBoxVal();
+            }
+        },
+        clearDummyText: function () {
+            if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length < 1) {
+                this.textDummyVal = undefined;
+                var textBox = this.commentsView.getTextBox();
+                textBox && textBox.val('');
+                this.commentsView.clearTextBoxBind();
+            }
+        },
+        getDummyText: function() {
+            return this.textDummyVal || '';
         },
 
         hookTextBox: function () {
@@ -898,6 +929,14 @@ define([
                         });
                     }
                 }, this);
+            if (this.reviewChangesView)
+                _.each(this.reviewChangesView.dataViewItems, function (item) {
+                    if (item.tipsArray) {
+                        item.tipsArray.forEach(function (item) {
+                            item.hide();
+                        });
+                    }
+                }, this);
         },
 
         isCommentsViewMouseOver: function () {
@@ -922,6 +961,24 @@ define([
             return this.popover;
         },
 
+        autoScrollToEditButtons: function () {
+            var button = $('#id-comments-change-popover'),  // TODO: add to cache
+                btnBounds = null,
+                contentBounds = this.$window[0].getBoundingClientRect(),
+                moveY = 0,
+                padding = 7;
+
+            if (button.length) {
+                btnBounds = button.get(0).getBoundingClientRect();
+                if (btnBounds && contentBounds) {
+                    moveY = contentBounds.bottom - (btnBounds.bottom + padding);
+                    if (moveY < 0) {
+                        this.scroller.scrollTop(this.scroller.getScrollTop() - moveY);
+                    }
+                }
+            }
+        },
+
         textAddReply            : 'Add Reply',
         textAdd                 : "Add",
         textCancel              : 'Cancel',
@@ -929,7 +986,7 @@ define([
         textReply               : 'Reply',
         textClose               : 'Close',
         textResolve             : 'Resolve',
-        textOpenAgain           : "Open Again"
-
+        textOpenAgain           : "Open Again",
+        textFollowMove          : 'Follow Move'
     }, Common.Views.ReviewPopover || {}))
 });

@@ -583,7 +583,7 @@ define([
             
             var onDialogAddHyperlink = function() {
                 var win, props, text;
-                if (me.api && me.mode.isEdit && !me._isDisabled){
+                if (me.api && me.mode.isEdit && !me._isDisabled && !PE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
@@ -1568,6 +1568,10 @@ define([
                     pasteContainer.hide();
             };
 
+            var onChangeCropState = function(state) {
+                this.menuImgCrop.menu.items[0].setChecked(state, true);
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -1591,6 +1595,7 @@ define([
                         me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, me));
                         me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(onShowSpecialPasteOptions, me));
                         me.api.asc_registerCallback('asc_onHideSpecialPasteOptions',  _.bind(onHideSpecialPasteOptions, me));
+                        me.api.asc_registerCallback('asc_ChangeCropState',            _.bind(onChangeCropState, me));
 
                     }
                     me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(onCoAuthoringDisconnect, me));
@@ -1612,12 +1617,6 @@ define([
             this.mode = {};
 
             this.setMode = function(mode) {
-                if (me.api && mode.isEdit) {
-                    me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
-                    me.api.asc_registerCallback('asc_doubleClickOnChart', onDoubleClickOnChart);
-                    me.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(onSpellCheckVariantsFound, me));
-                }
-
                 me.mode = mode;
                 /** coauthoring begin **/
                 !(me.mode.canCoAuthoring && me.mode.canComments)
@@ -1906,7 +1905,7 @@ define([
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    menuSlideSettings.setVisible(value.fromThumbs!==true);
+                    menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
                     for (var i = 9; i < 13; i++) {
@@ -2153,12 +2152,21 @@ define([
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -2222,12 +2230,21 @@ define([
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
                 menu        : new Common.UI.Menu({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
+                    restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
+                }).on('show:before', function (mnu) {
+                    if (!this.scroller) {
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                            minScrollbarLength: 30,
+                            alwaysVisibleY: true
+                        });
+                    }
                 })
             });
 
@@ -2546,11 +2563,20 @@ define([
                 menu        : (function(){
                     function onItemClick(item) {
                         if (me.api) {
-                            me.api.put_ShapesAlign(item.value);
+                            var value = me.api.asc_getSelectedDrawingObjectsCount()<2 || Common.Utils.InternalSettings.get("pe-align-to-slide");
+                            value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                            if (item.value < 6) {
+                                me.api.put_ShapesAlign(item.value, value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                            } else if (item.value == 6) {
+                                me.api.DistributeHorizontally(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                            } else if (item.value == 7){
+                                me.api.DistributeVertically(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
+                            }
                         }
-
                         me.fireEvent('editcomplete', me);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Align');
                     }
 
                     return new Common.UI.Menu({
@@ -2589,26 +2615,14 @@ define([
                             {caption    : '--'},
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribHor,
-                                iconCls     : 'mnu-distrib-hor'
-                            }).on('click', function(item) {
-                                    if (me.api) {
-                                        me.api.DistributeHorizontally();
-                                    }
-
-                                me.fireEvent('editcomplete', me);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
-                            }),
+                                iconCls     : 'mnu-distrib-hor',
+                                value       : 6
+                            }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribVert,
-                                iconCls     : 'mnu-distrib-vert'
-                            }).on('click', function(item) {
-                                if (me.api) {
-                                    me.api.DistributeVertically();
-                                }
-
-                                me.fireEvent('editcomplete', me);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
-                            })
+                                iconCls     : 'mnu-distrib-vert',
+                                value       : 7
+                            }).on('click', _.bind(onItemClick, me))
                         ]
                     })
                 })()
@@ -2717,7 +2731,7 @@ define([
 
                         properties.put_Width(originalImageSize.get_ImageWidth());
                         properties.put_Height(originalImageSize.get_ImageHeight());
-
+                        properties.put_ResetCrop(true);
                         me.api.ImgApply(properties);
                     }
 
@@ -2758,6 +2772,83 @@ define([
                                 }
                             })).show();
                         })
+                    ]
+                })
+            });
+
+            var onImgRotate = function(item) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+                me.api.ShapeApply(properties);
+                me.fireEvent('editcomplete', me);
+            };
+
+            var onImgFlip = function(item) {
+                var properties = new Asc.asc_CShapeProperty();
+                if (item.value==1)
+                    properties.asc_putFlipHInvert(true);
+                else
+                    properties.asc_putFlipVInvert(true);
+                me.api.ShapeApply(properties);
+                me.fireEvent('editcomplete', me);
+            };
+
+            var menuImgShapeRotate = new Common.UI.MenuItem({
+                caption     : me.textRotate,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate90,
+                            value  : 1
+                        }).on('click', _.bind(onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            value  : 0
+                        }).on('click', _.bind(onImgRotate, me)),
+                        { caption: '--' },
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipH,
+                            value  : 1
+                        }).on('click', _.bind(onImgFlip, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipV,
+                            value  : 0
+                        }).on('click', _.bind(onImgFlip, me))
+                    ]
+                })
+            });
+
+            var onImgCrop = function(item) {
+                if (item.value == 1) {
+                    me.api.asc_cropFill();
+                } else if (item.value == 2) {
+                    me.api.asc_cropFit();
+                } else {
+                    item.checked ? me.api.asc_startEditCrop() : me.api.asc_endEditCrop();
+                }
+                me.fireEvent('editcomplete', me);
+            };
+
+            me.menuImgCrop = new Common.UI.MenuItem({
+                caption     : me.textCrop,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value  : 0
+                        }).on('click', _.bind(onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFill,
+                            value  : 1
+                        }).on('click', _.bind(onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFit,
+                            value  : 2
+                        }).on('click', _.bind(onImgCrop, me))
                     ]
                 })
             });
@@ -3163,6 +3254,10 @@ define([
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked),
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null;
 
+                    menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgShapeRotate.isVisible())
+                        menuImgShapeRotate.setDisabled(disabled);
+
                     // image properties
                     menuImgOriginalSize.setVisible(isimage);
                     if (menuImgOriginalSize.isVisible())
@@ -3171,6 +3266,10 @@ define([
                     menuImgReplace.setVisible(isimage && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(disabled || pluginGuid===null);
+
+                    me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
+                    if (me.menuImgCrop.isVisible())
+                        me.menuImgCrop.setDisabled(disabled);
 
                     menuImageAdvanced.setVisible(isimage);
                     menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
@@ -3182,6 +3281,12 @@ define([
                     menuAddCommentImg.setDisabled(disabled);
                     /** coauthoring end **/
                     menuImgShapeAlign.setDisabled(disabled);
+                    if (!disabled) {
+                        var objcount = me.api.asc_getSelectedDrawingObjectsCount(),
+                            slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
+                        menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
+                        menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
+                    }
                     menuImageAdvanced.setDisabled(disabled);
                     menuShapeAdvanced.setDisabled(disabled);
                     if (menuChartEdit.isVisible())
@@ -3197,7 +3302,9 @@ define([
                     { caption: '--' },
                     menuImgShapeArrange,
                     menuImgShapeAlign,
+                    menuImgShapeRotate,
                     menuImgShapeSeparator,
+                    me.menuImgCrop,
                     menuImgOriginalSize,
                     menuImgReplace,
                     menuImageAdvanced,
@@ -3241,10 +3348,18 @@ define([
                 me.langTableMenu.menu.removeAll();
                 _.each(langs, function(lang, index){
                     me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
                         toggleGroup : 'popupparalang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3258,10 +3373,18 @@ define([
                     }));
 
                     me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                        caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
                         toggleGroup : 'popuptablelang',
-                        langid      : lang.code
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck,
+                        template: _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
+                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= caption %>',
+                            '</a>'
+                        ].join(''))
                     }).on('click', function(item, e){
                         if (me.api){
                             if (!_.isUndefined(item.options.langid))
@@ -3274,9 +3397,6 @@ define([
                         }
                     }));
                 });
-
-                me.langTableMenu.menu.doLayout();
-                me.langParaMenu.menu.doLayout();
             }
         },
 
@@ -3447,7 +3567,15 @@ define([
         textDistributeCols: 'Distribute columns',
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
-        textFromFile:   'From File'
+        textFromFile:   'From File',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
+        textFlipV: 'Flip Vertically',
+        textFlipH: 'Flip Horizontally',
+        textRotate: 'Rotate',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit'
 
     }, PE.Views.DocumentHolder || {}));
 });

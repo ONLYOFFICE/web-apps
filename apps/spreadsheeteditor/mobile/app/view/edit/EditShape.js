@@ -70,6 +70,7 @@ define([
 
                 $('.edit-shape-style .categories a').single('click', _.bind(me.showStyleCategory, me));
 
+                Common.Utils.addScrollIfNeed('#edit-shape .pages', '#edit-shape .page');
                 me.updateItemHandlers();
                 me.initControls();
             },
@@ -118,6 +119,7 @@ define([
                     return selector + ' a.item-link[data-page]';
                 }).join(', ');
 
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-shape-border-color-view]', '.page[data-page=edit-shape-border-color-view] .page-content');
                 $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
             },
 
@@ -162,6 +164,10 @@ define([
                     if (!this.isShapeCanFill)
                         this.showStyleCategory();
                 }
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-shape-style]', '.page[data-page=edit-shape-style] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-shape-replace]', '.page[data-page=edit-shape-replace] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-shape-reorder]', '.page[data-page=edit-shape-reorder] .page-content');
             },
 
             textStyle: 'Style',

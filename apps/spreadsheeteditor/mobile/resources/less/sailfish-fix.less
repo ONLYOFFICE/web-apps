@@ -1,0 +1,35 @@
+
+.sailfish {
+    #cell-editing-box {
+        display: block;
+
+        .group-content {
+            position: absolute;
+            top: 0;
+            left: 42px;
+            right: 30px;
+
+            .tablet& {
+                left: 132px;
+            }
+        }
+
+        .group-expand {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        #ce-btn-expand {
+            .caret {
+                .encoded-svg-background('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" fill="#000"><g><path d="M20.5,6.5l1.1,1.1L11,18l0,0l0,0L0.5,7.5l1.1-1.1l9.5,9.5L20.5,6.5z" transform="matrix(0.743684 0 0 0.743684 -0.299854 -0.590536)"/></g></svg>');
+            }
+        }
+    }
+
+    .statusbar {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}

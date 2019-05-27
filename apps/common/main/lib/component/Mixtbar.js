@@ -42,7 +42,8 @@
  */
 
 define([
-    'backbone'
+    'backbone',
+    'common/main/lib/component/BaseView'
 ], function (Backbone) {
     'use strict';
 
@@ -88,7 +89,7 @@ define([
 
                 var _template_tabs =
                     '<section class="tabs">' +
-                        '<a class="scroll left"><i class="icon">&lt;</i></a>' +
+                        '<a class="scroll left"></a>' +
                         '<ul>' +
                             '<% for(var i in items) { %>' +
                                 '<li class="ribtab' +
@@ -98,7 +99,7 @@ define([
                                 '</li>' +
                             '<% } %>' +
                         '</ul>' +
-                        '<a class="scroll right"><i class="icon">&gt;</i></a>' +
+                        '<a class="scroll right"></a>' +
                     '</section>';
 
                 this.$layout = $(options.template({
@@ -194,7 +195,7 @@ define([
                         var tab = active_panel.data('tab');
                         me.$tabs.find('> a[data-tab=' + tab + ']').parent().toggleClass('active', true);
                     } else {
-                        tab = me.$tabs.siblings(':not(.x-lone)').first().find('> a[data-tab]').data('tab');
+                        tab = me.$tabs.siblings(':not(.x-lone):visible').first().find('> a[data-tab]').data('tab');
                         me.setTab(tab);
                     }
                 }
@@ -296,7 +297,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><a href="#" data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab" style="display: none;"><a data-tab="<%= action %>" data-title="<%= caption %>"><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);

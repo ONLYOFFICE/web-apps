@@ -46,7 +46,8 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ComboBorderSize'
+    'common/main/lib/component/ComboBorderSize',
+    'common/main/lib/view/OpenDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -69,11 +70,14 @@ define([
 
             this._state = {
                 BackColor: undefined,
-                DisabledControls: true
+                DisabledControls: true,
+                CellAngle: undefined,
+                CSVOptions: new Asc.asc_CCSVAdvancedOptions(0, 4, '')
             };
             this.lockedControls = [];
             this._locked = true;
             this.isEditCell = false;
+            this.isMultiSelect = false;
             this.BorderType = 1;
 
             this.render();
@@ -133,6 +137,36 @@ define([
             this.BorderType = record.value;
         },
 
+        onAngleChange: function(field, newValue, oldValue, eOpts) {
+            this.api && this.api.asc_setCellAngle(field.getNumberValue());
+        },
+
+        onTextToColumn: function() {
+            this.api.asc_TextImport(this._state.CSVOptions, _.bind(this.onTextToColumnCallback, this), false);
+        },
+
+        onTextToColumnCallback: function(data) {
+            if (!data || !data.length) return;
+
+            var me = this;
+            (new Common.Views.OpenDialog({
+                title: me.textWizard,
+                closable: true,
+                type: Common.Utils.importTextType.Columns,
+                preview: true,
+                previewData: data,
+                settings: this._state.CSVOptions,
+                api: me.api,
+                handler: function (result, encoding, delimiter, delimiterChar) {
+                    if (result == 'ok') {
+                        if (me && me.api) {
+                            me.api.asc_TextToColumns(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                        }
+                    }
+                }
+            })).show();
+        },
+
         render: function () {
             var el = $(this.el);
             el.html(this.template({
@@ -144,6 +178,7 @@ define([
             this.api = o;
             if (o) {
                 this.api.asc_registerCallback('asc_onEditCell', this.onApiEditCell.bind(this));
+                this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onApiSelectionChanged, this));
             }
             return this;
         },
@@ -218,6 +253,27 @@ define([
             this.btnBackColor.render( $('#cell-back-color-btn'));
             this.btnBackColor.setColor('transparent');
             this.lockedControls.push(this.btnBackColor);
+
+            this.spnAngle = new Common.UI.MetricSpinner({
+                el: $('#cell-spin-angle'),
+                step: 1,
+                width: 60,
+                defaultUnit : "°",
+                value: '0 °',
+                allowDecimal: false,
+                maxValue: 90,
+                minValue: -90,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.spnAngle);
+            this.spnAngle.on('change', _.bind(this.onAngleChange, this));
+
+            this.btnTextToColumn = new Common.UI.Button({
+                el: $('#cell-btn-text-to-column'),
+                disabled: this._locked
+            });
+            this.btnTextToColumn.on('click', _.bind(this.onTextToColumn, this));
+            this.lockedControls.push(this.btnTextToColumn);
         },
 
         createDelayedElements: function() {
@@ -267,6 +323,12 @@ define([
                     }
                     this._state.BackColor = clr;
                 }
+
+                var value = props.asc_getAngle();
+                if ( Math.abs(this._state.CellAngle-value)>0.1 || (this._state.CellAngle===undefined)&&(this._state.CellAngle!==value)) {
+                    this.spnAngle.setValue((value !== null) ? value : '', true);
+                    this._state.CellAngle=value;
+                }
             }
         },
 
@@ -309,6 +371,10 @@ define([
                 this.disableControls(this._locked);
         },
 
+        onApiSelectionChanged: function(info) {
+            this.isMultiSelect = info.asc_getFlags().asc_getMultiselect() || info.asc_getSelectedColsCount()>1;
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -323,6 +389,7 @@ define([
                     item.setDisabled(disable);
                 });
             }
+            this.btnTextToColumn.setDisabled(disable || this.isMultiSelect);
         },
 
         textBorders:        'Border\'s Style',
@@ -341,7 +408,11 @@ define([
         tipInnerHor:        'Set Horizontal Inner Lines Only',
         tipOuter:           'Set Outer Border Only',
         tipDiagU:           'Set Diagonal Up Border',
-        tipDiagD:           'Set Diagonal Down Border'
+        tipDiagD:           'Set Diagonal Down Border',
+        textOrientation:    'Text Orientation',
+        textAngle:          'Angle',
+        textTextToColumn:   'Text to Columns',
+        textWizard: 'Text to Columns Wizard'
 
     }, SSE.Views.CellSettings || {}));
 });

@@ -343,8 +343,9 @@ define([
                 PE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 PE.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
 
-                var leftMenu = PE.getController('LeftMenu').leftMenu;
-                leftMenu.btnComments.setDisabled(disable);
+                // var leftMenu = PE.getController('LeftMenu').leftMenu;
+                // leftMenu.btnComments.setDisabled(disable);
+                PE.getController('LeftMenu').setPreviewMode(disable);
                 var comments = PE.getController('Common.Controllers.Comments');
                 if (comments)
                     comments.setPreviewMode(disable);

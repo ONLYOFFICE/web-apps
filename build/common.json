@@ -1,7 +1,7 @@
 {
     "name": "common",
     "version": "4.3.0",
-    "build": 35,
+    "build": 37,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -16,7 +16,9 @@
                         "cwd": "../../sdkjs/common/",
                         "src": [
                             "Images/*",
-                            "Native/*.js"
+                            "Native/*.js",
+                            "libfont/js/fonts.*",
+                            "libfont/wasm/fonts.*"
                         ],
                         "dest": "../deploy/sdkjs/common/"
                     },
@@ -181,6 +183,17 @@
             }
         }
     },
+    "iscroll": {
+        "clean": [
+            "../deploy/web-apps/vendor/iscroll"
+        ],
+        "copy": {
+            "script": {
+                "src": "../vendor/iscroll/iscroll.min.js",
+                "dest": "../deploy/web-apps/vendor/iscroll/iscroll.min.js"
+            }
+        }
+    },
     "requirejs": {
         "clean": [
             "../deploy/web-apps/vendor/requirejs"
@@ -202,6 +215,7 @@
             "deploy-jquery",
             "deploy-underscore",
             "deploy-bootstrap",
+            "deploy-iscroll",
             "deploy-jszip",
             "deploy-jsziputils"
         ]
