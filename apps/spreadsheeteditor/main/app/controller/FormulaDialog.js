@@ -82,6 +82,8 @@ define([
             this.api = api;
 
             if (this.formulasGroups && this.api) {
+                Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
+
                 this.reloadTranslations(
                     Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang );
 
@@ -93,7 +95,8 @@ define([
                     formulasGroups  : this.formulasGroups,
                     handler         : function (func) {
                         if (func) {
-                            me.api.asc_insertFormula(func, Asc.c_oAscPopUpSelectorType.Func);
+                            me.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func);
+                            me.updateLast10Formulas(func.origin);
                         }
                     }
                 });
@@ -180,7 +183,6 @@ define([
 
                     if (this.formulas.$window) {
                         this.formulas.fillFormulasGroups();
-                        this.formulas.fillFunctions('All');
                     }
                 }
                 this.formulas.show();
@@ -190,6 +192,40 @@ define([
             if (this.formulas && this.formulas.isVisible()) {
                 this.formulas.hide();
             }
+        },
+
+        updateLast10Formulas: function(formula) {
+            var arr = Common.Utils.InternalSettings.get("sse-settings-func-last") || 'SUM;AVERAGE;IF;HYPERLINK;COUNT;MAX;SIN;SUMIF;PMT;STDEV';
+            arr = arr.split(';');
+            var idx = _.indexOf(arr, formula);
+            arr.splice((idx<0) ? arr.length-1 : idx, 1);
+            arr.unshift(formula);
+            var val = arr.join(';');
+            Common.localStorage.setItem("sse-settings-func-last", val);
+            Common.Utils.InternalSettings.set("sse-settings-func-last", val);
+
+            if (this.formulasGroups) {
+                var group = this.formulasGroups.findWhere({name : 'Last10'});
+                group && group.set('functions', this.loadingLast10Formulas(this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"))));
+            }
+        },
+
+        loadingLast10Formulas: function(descrarr) {
+            var arr = (Common.Utils.InternalSettings.get("sse-settings-func-last") || 'SUM;AVERAGE;IF;HYPERLINK;COUNT;MAX;SIN;SUMIF;PMT;STDEV').split(';'),
+                separator = this.api.asc_getFunctionArgumentSeparator(),
+                functions = [];
+            for (var j = 0; j < arr.length; j++) {
+                var funcname = arr[j];
+                functions.push(new SSE.Models.FormulaModel({
+                    index : j,
+                    group : 'Last10',
+                    name  : this.api.asc_getFormulaLocaleName(funcname),
+                    origin: funcname,
+                    args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
+                    desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : ''
+                }));
+            }
+            return functions;
         },
 
         loadingFormulas: function (descrarr) {
@@ -204,20 +240,33 @@ define([
                 info = null,
                 allFunctions = [],
                 allFunctionsGroup = null,
+                last10FunctionsGroup = null,
                 separator = this.api.asc_getFunctionArgumentSeparator();
 
             if (store) {
+                ascGroupName = 'Last10';
+                last10FunctionsGroup = new SSE.Models.FormulaGroup ({
+                    name    : ascGroupName,
+                    index   : index,
+                    store   : store
+                });
+                if (last10FunctionsGroup) {
+                    last10FunctionsGroup.set('functions', this.loadingLast10Formulas(descrarr));
+                    store.push(last10FunctionsGroup);
+                    index += 1;
+                }
+
                 allFunctionsGroup = new SSE.Models.FormulaGroup ({
                     name    : 'All',
                     index   : index,
                     store   : store
                 });
+                if (allFunctionsGroup) {
+                    store.push(allFunctionsGroup);
+                    index += 1;
+                }
 
                 if (allFunctionsGroup) {
-                    index += 1;
-
-                    store.push(allFunctionsGroup);
-
                     info = this.api.asc_getFormulasInfo();
 
                     for (i = 0; i < info.length; i += 1) {
@@ -240,6 +289,7 @@ define([
                                 index : funcInd,
                                 group : ascGroupName,
                                 name  : ascFunctions[j].asc_getLocaleName(),
+                                origin: funcname,
                                 args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
                                 desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : ''
                             });

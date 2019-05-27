@@ -54,6 +54,7 @@ define([
                 index           : 0,
                 group           : null,
                 name            : null,
+                origin          : null,
                 args            : null
             }
         }

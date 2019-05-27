@@ -107,7 +107,7 @@ define([
 
             var name = '', translate = '',
                 descriptions = ['All', 'Cube', 'Database', 'DateAndTime', 'Engineering', 'Financial', 'Information',
-                                'Logical', 'LookupAndReference', 'Mathematic', 'Statistical', 'TextAndData' ];
+                                'Logical', 'LookupAndReference', 'Mathematic', 'Statistical', 'TextAndData', 'Last10' ];
             for (var i=0; i<descriptions.length; i++) {
                 name = descriptions[i];
                 translate = 'sCategory' + name;
@@ -122,7 +122,6 @@ define([
             }
 
             this.fillFormulasGroups();
-            this.fillFunctions('All');
         },
         show: function () {
             if (this.$window) {
@@ -148,6 +147,9 @@ define([
             this.mask = $('.modals-mask');
             this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
             this.$window.on('mousedown',_.bind(this.onUpdateFocus, this));
+
+            if (this.cmbFuncGroup.getValue() == 0)
+                this.fillFunctions('Last10');
 
             if (this.cmbListFunctions) {
                 _.delay(function (me) {
@@ -197,18 +199,9 @@ define([
             var funcId, functions, func;
 
             if (this.formulasGroups) {
-                funcId = record.get('id');
-                if (!_.isUndefined(funcId)) {
-                    functions = this.formulasGroups.at(0).get('functions');
-                    if (functions) {
-                        func = _.find(functions, function (f) { if (f.get('index') === funcId) { return f; } return null; });
-                        if (func) {
-                            this.applyFunction = func.get('name');
-                            this.syntaxLabel.text(this.applyFunction + func.get('args'));
-                            this.descLabel.text(func.get('desc'));
-                        }
-                    }
-                }
+                this.applyFunction = {name: record.get('value'), origin: record.get('origin')};
+                this.syntaxLabel.text(this.applyFunction.name + record.get('args'));
+                this.descLabel.text(record.get('desc'));
             }
         },
         onPrimary: function(list, record, event) {
@@ -258,6 +251,8 @@ define([
                     this.cmbFuncGroup.setData(groupsListItems);
                 }
                 this.cmbFuncGroup.setValue(0);
+                this.fillFunctions('Last10');
+
             }
         },
         fillFunctions: function (name) {
@@ -297,13 +292,16 @@ define([
                                     id              : functions[i].get('index'),
                                     selected        : i < 1,
                                     allowSelected   : true,
-                                    value           : functions[i].get('name')
+                                    value           : functions[i].get('name'),
+                                    args            : functions[i].get('args'),
+                                    desc            : functions[i].get('desc'),
+                                    origin          : functions[i].get('origin')
                                 }));
                             }
 
-                            this.applyFunction = functions[0].get('name');
+                            this.applyFunction = {name: functions[0].get('name'), origin: functions[0].get('origin')};
 
-                            this.syntaxLabel.text(this.applyFunction + functions[0].get('args'));
+                            this.syntaxLabel.text(this.applyFunction.name + functions[0].get('args'));
                             this.descLabel.text(functions[0].get('desc'));
                             this.cmbListFunctions.scroller.update({
                                 minScrollbarLength  : 40,
@@ -401,6 +399,7 @@ define([
         cancelButtonText:               'Cancel',
         okButtonText:                   'Ok',
         sCategoryAll:                   'All',
+        sCategoryLast10:                '10 last used',
         sCategoryLogical:               'Logical',
         sCategoryCube:                  'Cube',
         sCategoryDatabase:              'Database',
@@ -416,6 +415,7 @@ define([
         textListDescription:            'Select Function',
         sDescription:                   'Description',
         sCategoryAll_de:                'Alle',
+        sCategoryLast10_de:             '10 zuletzt verwendete',
         sCategoryCube_de:               'Cube',
         sCategoryDatabase_de:           'Datenbank',
         sCategoryDateAndTime_de:        'Datum und Uhrzeit',
@@ -428,6 +428,7 @@ define([
         sCategoryStatistical_de:        'Statistik',
         sCategoryTextAndData_de:        'Text und Daten',
         sCategoryAll_ru:                'Все',
+        sCategoryLast10_ru:             '10 недавно использовавшихся',
         sCategoryCube_ru:               'Кубические',
         sCategoryDatabase_ru:           'Базы данных',
         sCategoryDateAndTime_ru:        'Дата и время',
@@ -441,6 +442,7 @@ define([
         sCategoryTextAndData_ru:        'Текст и данные',
         txtTitle:                       'Insert Function',
         sCategoryAll_es:                   'Todo',
+        sCategoryLast10_es:                '10 últimas utilizadas',
         sCategoryLogical_es:               'Lógico',
         sCategoryCube_es:                  'Cubo',
         sCategoryDatabase_es:              'Base de Datos',
@@ -453,6 +455,7 @@ define([
         sCategoryStatistical_es:           'Estadístico',
         sCategoryTextAndData_es:           'Texto y datos',
         sCategoryAll_fr:                   'Tout',
+        sCategoryLast10_fr:                '10 dernières utilisées',
         sCategoryLogical_fr:               'Logique',
         sCategoryCube_fr:                  'Cube',
         sCategoryDatabase_fr:              'Base de données',
@@ -465,6 +468,7 @@ define([
         sCategoryStatistical_fr:           'Statistiques',
         sCategoryTextAndData_fr:           'Texte et données',
         sCategoryAll_pl:                   'Wszystko',
+        sCategoryLast10_pl:                '10 ostatnio używanych',
         sCategoryLogical_pl:               'Logiczny',
         sCategoryCube_pl:                  'Sześcian',
         sCategoryDatabase_pl:              'Baza danych',
