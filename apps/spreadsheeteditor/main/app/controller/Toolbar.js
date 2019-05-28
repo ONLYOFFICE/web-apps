@@ -1665,6 +1665,8 @@ define([
         },
 
         onApiEditCell: function(state) {
+            if (this.getApplication().getController('Main').isModalShowed) return;
+
             var toolbar = this.toolbar;
             if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
                 is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
@@ -1800,7 +1802,7 @@ define([
         },
 
         onApiEditorSelectionChanged: function(fontobj) {
-            if (!this.editMode) return;
+            if (!this.editMode || this.getApplication().getController('Main').isModalShowed) return;
 
             var toolbar = this.toolbar,
                 val;
@@ -1906,7 +1908,7 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
-            if (!this.editMode) return;
+            if (!this.editMode || this.getApplication().getController('Main').isModalShowed) return;
             if ( this.toolbar.mode.isEditDiagram )
                 return this.onApiSelectionChanged_DiagramEditor(info); else
             if ( this.toolbar.mode.isEditMailMerge )
@@ -3322,10 +3324,6 @@ define([
                 api: me.api,
                 fontStore: me.fontStore,
                 handler: function(dlg, result) {
-                    if (result == 'ok') {
-                        var props = dlg.getSettings();
-                        //     me.api.asc_editHeader(props);
-                    }
                     Common.NotificationCenter.trigger('edit:complete');
                 }
             });
