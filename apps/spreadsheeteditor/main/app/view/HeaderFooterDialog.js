@@ -50,7 +50,8 @@ define([
         options: {
             width: 647,
             style: 'min-width: 350px;',
-            cls: 'modal-dlg enable-key-events'
+            cls: 'modal-dlg enable-key-events',
+            animate: {mask: false}
         },
 
         initialize : function(options) {
@@ -607,10 +608,6 @@ define([
 
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
-            var me = this;
-            _.delay(function(){
-                me.onCanvasClick('#header-left-img');
-            },500);
         },
 
         close: function() {
@@ -638,6 +635,10 @@ define([
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
             this._setDefaults(this.props);
             this.editorCanvas = this.$window.find('#ce-canvas-menu');
+            var me = this;
+            _.delay(function(){
+                me.onCanvasClick('#header-left-img');
+            },500);
         },
 
         _setDefaults: function (props) {
