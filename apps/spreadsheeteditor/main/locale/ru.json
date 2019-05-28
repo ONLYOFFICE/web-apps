@@ -2300,6 +2300,7 @@
   "SSE.Views.Toolbar.txtTime": "Время",
   "SSE.Views.Toolbar.txtUnmerge": "Отменить объединение ячеек",
   "SSE.Views.Toolbar.txtYen": "¥ Иена",
+  "SSE.Views.Toolbar.capBtnInsHeader": "Колонтитулы",
   "SSE.Views.Top10FilterDialog.cancelButtonText": "Отмена",
   "SSE.Views.Top10FilterDialog.okButtonText": "OK",
   "SSE.Views.Top10FilterDialog.textType": "Показать",

@@ -2396,7 +2396,7 @@ define([
             capBtnInsTextart: 'Text Art',
             capBtnInsDropcap: 'Drop Cap',
             capBtnInsEquation: 'Equation',
-            capBtnInsHeader: 'Headers/Footers',
+            capBtnInsHeader: 'Header/Footer',
             capBtnColumns: 'Columns',
             capBtnPageOrient: 'Orientation',
             capBtnMargins: 'Margins',

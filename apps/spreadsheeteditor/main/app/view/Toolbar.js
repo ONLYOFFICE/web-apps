@@ -2464,7 +2464,7 @@ define([
         textClearPrintArea: 'Clear Print Area',
         textAddPrintArea: 'Add to Print Area',
         tipPrintArea: 'Print Area',
-        capBtnInsHeader: 'Headers/Footers',
-        tipEditHeader: 'Edit Header or Footer'
+        capBtnInsHeader: 'Header/Footer',
+        tipEditHeader: 'Edit header or footer'
     }, SSE.Views.Toolbar || {}));
 });
