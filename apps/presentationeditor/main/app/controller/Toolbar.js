@@ -324,6 +324,7 @@ define([
             this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
             this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
             this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
+            Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
 
             this.api.asc_registerCallback('asc_onCanUndo',              _.bind(this.onApiCanRevert, this, 'undo'));
             this.api.asc_registerCallback('asc_onCanRedo',              _.bind(this.onApiCanRevert, this, 'redo'));
@@ -378,6 +379,10 @@ define([
 
         onContextMenu: function() {
             this.toolbar.collapse();
+        },
+
+        onApiChangeFont: function(font) {
+            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
