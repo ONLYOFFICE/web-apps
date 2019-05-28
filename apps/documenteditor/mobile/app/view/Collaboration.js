@@ -151,7 +151,8 @@ define([
             textMarkup: 'Markup',
             textFinal: 'Final',
             textOriginal: 'Original',
-            textChange: 'Review Change'
+            textChange: 'Review Change',
+            textEditUsers: 'Edit Users'
 
         }
     })(), DE.Views.Collaboration || {}))

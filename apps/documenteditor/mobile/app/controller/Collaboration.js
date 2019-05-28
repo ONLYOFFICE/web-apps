@@ -57,7 +57,8 @@ define([
             arrChangeReview = [],
             dateChange = [],
             _fileKey,
-            _userId;
+            _userId,
+            editUsers = [];
 
         return {
             models: [],
@@ -78,6 +79,8 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onChangeEditUsers, this));
+                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onChangeEditUsers, this));
             },
 
             onLaunch: function () {
@@ -167,6 +170,9 @@ define([
                 } else if('#change-view' == pageId) {
                     me.initChange();
                     Common.Utils.addScrollIfNeed('.page[data-page=change-view]', '.page[data-page=change-view] .page-content');
+                } else if('#edit-users-view' == pageId) {
+                    me.initEditUsers();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-users-view]', '.page[data-page=edit-users-view] .page-content');
                 } else {
                     if(!this.appConfig.canReview) {
                         $('#reviewing-settings').hide();
@@ -565,6 +571,50 @@ define([
                 }
             },
 
+            onChangeEditUsers: function(users) {
+                editUsers = users;
+            },
+
+            initEditUsers: function() {
+                var templateUserItem = _.template([
+                    '<% _.each(users, function(item) { %>',
+                    '<li id="<%= item.id %>" class="<% if (item.view) {%> viewmode <% } %> item-content">' +
+                    '<div class="user-name item-inner">' +
+                    '<div class="color" style="background-color: <%= item.color %>;"></div>'+
+                    '<label><%= item.name %></label>' +
+                    '<% if (item.len>1) { %><label class="length"> (<%= item.len %>)</label><% } %>' +
+                    '</div>'+
+                    '</li>',
+                    '<% }); %>'
+                ].join(''));
+                var users = [],
+                    usersSort = [],
+                    len;
+                _.each(editUsers, function(item){
+                    users.push({color: item.asc_getColor(), id: item.id, idOriginal: item.idOriginal, name: item.userName, view: item.view})
+                });
+                _.each(users, function(item){
+                    if (usersSort.filter(function (itemFil) {return item.idOriginal === itemFil.idOriginal;}).length === 0) {
+                        len = users.filter(function (itemFil) {
+                            return item.idOriginal === itemFil.idOriginal;
+                        }).length;
+                        usersSort.push({color: item.color, id: item.id, idOriginal: item.idOriginal, name: item.name, view: item.view, len: len})
+                    }
+                });
+                var templateUserList = _.template(
+                    '<div class="item-content"><div class="item-inner">' +
+                    this.textEditUser +
+                    '</div></div>' +
+                    '<ul>' +
+                        templateUserItem(({users: usersSort})) +
+                    '</ul>');
+                    $('#user-list').html(templateUserList({
+                        users: usersSort.filter(function (item) {
+                            return !item.view;
+                        }),
+                    }));
+            },
+
 
 
 
@@ -625,7 +675,8 @@ define([
             textTableRowsDel: '<b>Table Rows Deleted<b/>',
             textParaMoveTo: '<b>Moved:</b>',
             textParaMoveFromUp: '<b>Moved Up:</b>',
-            textParaMoveFromDown: '<b>Moved Down:</b>'
+            textParaMoveFromDown: '<b>Moved Down:</b>',
+            textEditUser: 'Document is currently being edited by several users.'
 
         }
     })(), DE.Controllers.Collaboration || {}))

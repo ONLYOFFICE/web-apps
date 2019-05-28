@@ -6914,3 +6914,22 @@ html.pixel-ratio-3 .numbers li {
   max-height: 100%;
   overflow: auto;
 }
+#user-list .item-content {
+  padding-left: 0;
+}
+#user-list .item-inner {
+  justify-content: flex-start;
+  padding-left: 15px;
+}
+#user-list .length {
+  margin-left: 4px;
+}
+#user-list .color {
+  min-width: 26px;
+  min-height: 26px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+  margin-right: 20px;
+}
+#user-list ul:before {
+  content: none;
+}
