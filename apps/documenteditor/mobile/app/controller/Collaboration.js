@@ -593,10 +593,10 @@ define([
                 _.each(editUsers, function(item){
                     users.push({color: item.asc_getColor(), id: item.id, idOriginal: item.idOriginal, name: item.userName, view: item.view})
                 });
-                _.each(users, function(item){
+                _.each(users.filter(function (itm) {return !itm.view;}), function(item){
                     if (usersSort.filter(function (itemFil) {return item.idOriginal === itemFil.idOriginal;}).length === 0) {
                         len = users.filter(function (itemFil) {
-                            return item.idOriginal === itemFil.idOriginal;
+                            return (item.idOriginal === itemFil.idOriginal && !itemFil.view);
                         }).length;
                         usersSort.push({color: item.color, id: item.id, idOriginal: item.idOriginal, name: item.name, view: item.view, len: len})
                     }
