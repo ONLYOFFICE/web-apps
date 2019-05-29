@@ -459,6 +459,8 @@
   "SSE.Views.DocumentHolder.txtCut": "切り取り",
   "SSE.Views.DocumentHolder.txtDelete": "削除",
   "SSE.Views.DocumentHolder.txtDescending": "降順",
+  "SSE.Views.DocumentHolder.txtDistribHor": "左右に整列",
+  "SSE.Views.DocumentHolder.txtDistribVert": "上下に整列",
   "SSE.Views.DocumentHolder.txtEditComment": "コメントの編集",
   "SSE.Views.DocumentHolder.txtFilter": "フィルタ",
   "SSE.Views.DocumentHolder.txtFilterCellColor": "セルの色でフィルター",

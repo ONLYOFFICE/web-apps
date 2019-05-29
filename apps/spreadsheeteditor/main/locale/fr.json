@@ -90,6 +90,7 @@
   "Common.Views.Header.tipRedo": "Rétablir",
   "Common.Views.Header.tipSave": "Enregistrer",
   "Common.Views.Header.tipUndo": "Annuler",
+  "Common.Views.Header.tipUndock": "Détacher en fenêtre séparée",
   "Common.Views.Header.tipViewSettings": "Paramètres d'affichage",
   "Common.Views.Header.tipViewUsers": "Afficher les utilisateurs et gérer les droits d'accès aux documents",
   "Common.Views.Header.txtAccessRights": "Modifier les droits d'accès",
