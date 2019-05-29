@@ -781,6 +781,45 @@ Common.Utils.InternalSettings = new(function() {
     }
 });
 
+Common.Utils.lockControls = function(causes, lock, opts, defControls) {
+    !opts && (opts = {});
+
+    var controls = opts.array || defControls;
+    opts.merge && (controls = _.union(defControls,controls));
+
+    function doLock(cmp, cause) {
+        if ( cmp && _.contains(cmp.options.lock, cause) ) {
+            var index = cmp.keepState.indexOf(cause);
+            if (lock) {
+                if (index < 0) {
+                    cmp.keepState.push(cause);
+                }
+            } else {
+                if (!(index < 0)) {
+                    cmp.keepState.splice(index, 1);
+                }
+            }
+        }
+    }
+
+    _.each(controls, function(item) {
+        if (item && _.isFunction(item.setDisabled)) {
+            !item.keepState && (item.keepState = []);
+            if (opts.clear && opts.clear.length > 0 && item.keepState.length > 0) {
+                item.keepState = _.difference(item.keepState, opts.clear);
+            }
+
+            _.isArray(causes) ? _.each(causes, function(c) {doLock(item, c)}) : doLock(item, causes);
+
+            if (!(item.keepState.length > 0)) {
+                item.isDisabled() && item.setDisabled(false);
+            } else {
+                !item.isDisabled() && item.setDisabled(true);
+            }
+        }
+    });
+};
+
 Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
 Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
 Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
