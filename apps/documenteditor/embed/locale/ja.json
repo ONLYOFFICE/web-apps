@@ -1,0 +1,21 @@
+{
+  "common.view.modals.txtHeight": "高さ",
+  "common.view.modals.txtWidth": "幅",
+  "DE.ApplicationController.convertationErrorText": "変換に失敗しました",
+  "DE.ApplicationController.convertationTimeoutText": "変換のタイムアウトを超過しました。",
+  "DE.ApplicationController.criticalErrorTitle": "エラー",
+  "DE.ApplicationController.downloadErrorText": "ダウンロードに失敗しました",
+  "DE.ApplicationController.downloadTextText": "ドキュメントのダウンロード中...",
+  "DE.ApplicationController.errorDefaultMessage": "エラー コード: %1",
+  "DE.ApplicationController.errorFilePassProtect": "ドキュメントがパスワードで保護されているため開くことができません",
+  "DE.ApplicationController.errorUserDrop": "今、ファイルにアクセスすることはできません。",
+  "DE.ApplicationController.notcriticalErrorTitle": "警告",
+  "DE.ApplicationController.textLoadingDocument": "ドキュメントを読み込んでいます",
+  "DE.ApplicationController.textOf": "から",
+  "DE.ApplicationController.txtClose": "閉じる",
+  "DE.ApplicationController.unknownErrorText": "不明なエラー",
+  "DE.ApplicationController.unsupportedBrowserErrorText": "お使いのブラウザがサポートされていません。",
+  "DE.ApplicationView.txtDownload": "ダウンロード",
+  "DE.ApplicationView.txtFullScreen": "全画面表示",
+  "DE.ApplicationView.txtShare": "シェア"
+}

@@ -1,0 +1,23 @@
+{
+  "common.view.modals.txtCopy": "Kopieer naar klembord",
+  "common.view.modals.txtHeight": "Hoogte",
+  "common.view.modals.txtWidth": "Breedte",
+  "SSE.ApplicationController.convertationTimeoutText": "Time-out voor conversie overschreden.",
+  "SSE.ApplicationController.criticalErrorTitle": "Fout",
+  "SSE.ApplicationController.downloadErrorText": "Download mislukt.",
+  "SSE.ApplicationController.downloadTextText": "Spreadsheet wordt gedownload...",
+  "SSE.ApplicationController.errorAccessDeny": "U probeert een actie uit te voeren waarvoor u geen rechten hebt.<br>Neem contact op met de beheerder van de documentserver.",
+  "SSE.ApplicationController.errorDefaultMessage": "Foutcode: %1",
+  "SSE.ApplicationController.errorFilePassProtect": "Het bestand is beschermd met een wachtwoord en kan niet worden geopend.",
+  "SSE.ApplicationController.errorUserDrop": "Toegang tot het bestand is op dit moment niet mogelijk.",
+  "SSE.ApplicationController.notcriticalErrorTitle": "Waarschuwing",
+  "SSE.ApplicationController.scriptLoadError": "De verbinding is te langzaam, sommige componenten konden niet geladen worden. Laad de pagina opnieuw.",
+  "SSE.ApplicationController.textLoadingDocument": "Spreadsheet wordt geladen",
+  "SSE.ApplicationController.textOf": "van",
+  "SSE.ApplicationController.txtClose": "Sluiten",
+  "SSE.ApplicationController.unknownErrorText": "Onbekende fout.",
+  "SSE.ApplicationController.unsupportedBrowserErrorText": "Uw browser wordt niet ondersteund.",
+  "SSE.ApplicationView.txtDownload": "Downloaden",
+  "SSE.ApplicationView.txtFullScreen": "Volledig scherm",
+  "SSE.ApplicationView.txtShare": "Delen"
+}

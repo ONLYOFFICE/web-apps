@@ -30,7 +30,11 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
-var ApplicationView = new(function(){
+if (DE === undefined) {
+    var DE = {};
+}
+
+DE.ApplicationView = new(function(){
     var $btnTools;
 
     // Initialize view
@@ -41,10 +45,10 @@ var ApplicationView = new(function(){
         $btnTools.addClass('dropdown-toggle').attr('data-toggle', 'dropdown').attr('aria-expanded', 'true');
         $btnTools.parent().append(
             '<ul class="dropdown-menu">' +
-                '<li><a id="idt-download"><span class="mi-icon svg-icon download"></span>Download</a></li>' +
-                '<li><a id="idt-share" data-toggle="modal"><span class="mi-icon svg-icon share"></span>Share</a></li>' +
-                '<li><a id="idt-embed" data-toggle="modal"><span class="mi-icon svg-icon embed"></span>Embed</a></li>' +
-                '<li><a id="idt-fullscreen"><span class="mi-icon svg-icon fullscr"></span>Full Screen</a></li>' +
+                '<li><a id="idt-download"><span class="mi-icon svg-icon download"></span>' + this.txtDownload + '</a></li>' +
+                '<li><a id="idt-share" data-toggle="modal"><span class="mi-icon svg-icon share"></span>' + this.txtShare + '</a></li>' +
+                '<li><a id="idt-embed" data-toggle="modal"><span class="mi-icon svg-icon embed"></span>' + this.txtEmbed + '</a></li>' +
+                '<li><a id="idt-fullscreen"><span class="mi-icon svg-icon fullscr"></span>' + this.txtFullScreen + '</a></li>' +
             '</ul>');
     }
 
@@ -56,6 +60,11 @@ var ApplicationView = new(function(){
         create: createView
         , tools: {
             get: getTools
-        }
+        },
+
+        txtDownload: 'Download',
+        txtShare: 'Share',
+        txtEmbed: 'Embed',
+        txtFullScreen: 'Full Screen'
     }
 })();
