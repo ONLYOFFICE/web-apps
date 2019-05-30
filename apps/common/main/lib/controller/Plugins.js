@@ -587,7 +587,7 @@ define([
 
         getPlugins: function(pluginsData, fetchFunction) {
             if (!pluginsData || pluginsData.length<1)
-                return Promise.reject();
+                return Promise.resolve([]);
 
             fetchFunction = fetchFunction || function (url) {
                     return fetch(url)
