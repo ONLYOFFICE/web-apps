@@ -311,7 +311,8 @@ define([
                         { caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                         { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                         { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'}
+                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
+                        {caption: me.textTabData, action: 'data', extcls: 'canedit'}
                     ]}
                 );
 
@@ -2430,6 +2431,7 @@ define([
         textAddPrintArea: 'Add to Print Area',
         tipPrintArea: 'Print Area',
         capBtnInsHeader: 'Header/Footer',
-        tipEditHeader: 'Edit header or footer'
+        tipEditHeader: 'Edit header or footer',
+        textTabData: 'Data'
     }, SSE.Views.Toolbar || {}));
 });

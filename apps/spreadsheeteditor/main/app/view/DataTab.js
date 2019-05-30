@@ -1,0 +1,160 @@
+/*
+ *
+ * (c) Copyright Ascensio System SIA 2010-2019
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
+/**
+ *  DataTab.js
+ *
+ *  Created by Julia Radzhabova on 30.05.2019
+ *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *
+ */
+
+define([
+    'common/main/lib/util/utils',
+    'common/main/lib/component/BaseView',
+    'common/main/lib/component/Layout'
+], function () {
+    'use strict';
+
+    SSE.Views.DataTab = Common.UI.BaseView.extend(_.extend((function(){
+        function setEvents() {
+            var me = this;
+            me.btnUngroup.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('data:ungroup', [item.value]);
+            });
+            me.btnUngroup.on('click', function (b, e) {
+                me.fireEvent('data:ungroup');
+            });
+
+            me.btnGroup.on('click', function (b, e) {
+                me.fireEvent('data:group');
+            });
+        }
+
+        return {
+            options: {},
+
+            initialize: function (options) {
+                Common.UI.BaseView.prototype.initialize.call(this);
+                this.toolbar = options.toolbar;
+
+                this.lockedControls = [];
+
+                var me = this,
+                    $host = me.toolbar.$el,
+                    _set = SSE.enumLock;
+
+                var _injectComponent = function (id, cmp) {
+                    var $slot = $host.find(id);
+                    if ($slot.length)
+                        cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
+                };
+
+                this.btnGroup = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-img-group',
+                    caption: this.capBtnGroup,
+                    split: false,
+                    disabled: true,
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                });
+                _injectComponent('#slot-btn-group', this.btnGroup);
+                this.lockedControls.push(this.btnGroup);
+
+                this.btnUngroup = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-img-group',
+                    caption: this.capBtnUngroup,
+                    split: true,
+                    menu: true,
+                    disabled: true,
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                });
+                _injectComponent('#slot-btn-ungroup', this.btnUngroup);
+                this.lockedControls.push(this.btnUngroup);
+
+                this._state = {disabled: false};
+                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            },
+
+            render: function (el) {
+                return this;
+            },
+
+            onAppReady: function (config) {
+                var me = this;
+                (new Promise(function (accept, reject) {
+                    accept();
+                })).then(function(){
+                    me.btnUngroup.updateHint( me.tipUngroup );
+                    var _menu = new Common.UI.Menu({
+                        items: [
+                            {caption: me.textRows, value: 'rows'},
+                            {caption: me.textColumns, value: 'columns'},
+                            {caption: me.textClear, value: 'clear'}
+                        ]
+                    });
+                    me.btnUngroup.setMenu(_menu);
+
+                    me.btnGroup.updateHint(me.tipGroup);
+
+                    setEvents.call(me);
+                });
+            },
+
+            show: function () {
+                Common.UI.BaseView.prototype.show.call(this);
+                this.fireEvent('show', this);
+            },
+
+            getButtons: function() {
+                return this.lockedControls;
+            },
+
+            SetDisabled: function (state) {
+                this.lockedControls && this.lockedControls.forEach(function(button) {
+                    if ( button ) {
+                        button.setDisabled(state);
+                    }
+                }, this);
+            },
+
+            capBtnGroup: 'Group',
+            capBtnUngroup: 'Ungroup',
+            textRows: 'Ungroup rows',
+            textColumns: 'Ungroup columns',
+            textClear: 'Clear outline',
+            tipGroup: 'Group range of cells',
+            tipUngroup: 'Ungroup range of cells'
+        }
+    }()), SSE.Views.DataTab || {}));
+});
