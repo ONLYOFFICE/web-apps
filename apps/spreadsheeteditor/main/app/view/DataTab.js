@@ -58,6 +58,10 @@ define([
             me.btnGroup.on('click', function (b, e) {
                 me.fireEvent('data:group');
             });
+
+            me.btnTextToColumns.on('click', function (b, e) {
+                me.fireEvent('data:tocolumns');
+            });
         }
 
         return {
@@ -102,7 +106,17 @@ define([
                 _injectComponent('#slot-btn-ungroup', this.btnUngroup);
                 this.lockedControls.push(this.btnUngroup);
 
-                this._state = {disabled: false};
+                this.btnTextToColumns = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-img-group',
+                    caption: this.capBtnTextToCol,
+                    split: false,
+                    disabled: true,
+                    lock: [_set.multiselect, _set.multiselectCols, _set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                });
+                _injectComponent('#slot-btn-text-column', this.btnTextToColumns);
+                this.lockedControls.push(this.btnTextToColumns);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -126,6 +140,7 @@ define([
                     me.btnUngroup.setMenu(_menu);
 
                     me.btnGroup.updateHint(me.tipGroup);
+                    me.btnTextToColumns.updateHint(me.tipToColumns);
 
                     setEvents.call(me);
                 });
@@ -154,7 +169,9 @@ define([
             textColumns: 'Ungroup columns',
             textClear: 'Clear outline',
             tipGroup: 'Group range of cells',
-            tipUngroup: 'Ungroup range of cells'
+            tipUngroup: 'Ungroup range of cells',
+            capBtnTextToCol: 'Text to Columns',
+            tipToColumns: 'Separate cell text into columns'
         }
     }()), SSE.Views.DataTab || {}));
 });

@@ -87,7 +87,8 @@ define([
         cantGroupUngroup: 'cant-group-ungroup',
         docPropsLock:   'doc-props-lock',
         printAreaLock:  'print-area-lock',
-        namedRangeLock: 'named-range-lock'
+        namedRangeLock: 'named-range-lock',
+        multiselectCols:'is-multiselect-cols'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({

@@ -60,9 +60,14 @@ define([
             this.addListeners({
                 'DataTab': {
                     'data:group': this.onGroup,
-                    'data:ungroup': this.onUngroup
+                    'data:ungroup': this.onUngroup,
+                    'data:tocolumns': this.onTextToColumn
                 }
             });
+
+            this._state = {
+                CSVOptions: new Asc.asc_CCSVAdvancedOptions(0, 4, '')
+            };
         },
         onLaunch: function () {
         },
@@ -98,7 +103,11 @@ define([
         },
 
         onSelectionChanged: function(info) {
+            if (!this.toolbar.editMode || !this.view) return;
+
             // special disable conditions
+            Common.Utils.lockControls(SSE.enumLock.multiselectCols, info.asc_getSelectedColsCount()>1, {array: [this.view.btnTextToColumns]});
+            Common.Utils.lockControls(SSE.enumLock.multiselect, info.asc_getFlags().asc_getMultiselect(), {array: [this.view.btnTextToColumns]});
         },
 
         onUngroup: function(type) {
@@ -139,7 +148,35 @@ define([
                 })).show();
             } else if (val!==undefined) //undefined - error, true - rows, false - columns
                 me.api.asc_group(val);
-        }
+        },
+
+        onTextToColumn: function() {
+            this.api.asc_TextImport(this._state.CSVOptions, _.bind(this.onTextToColumnCallback, this), false);
+        },
+
+        onTextToColumnCallback: function(data) {
+            if (!data || !data.length) return;
+
+            var me = this;
+            (new Common.Views.OpenDialog({
+                title: me.textWizard,
+                closable: true,
+                type: Common.Utils.importTextType.Columns,
+                preview: true,
+                previewData: data,
+                settings: me._state.CSVOptions,
+                api: me.api,
+                handler: function (result, encoding, delimiter, delimiterChar) {
+                    if (result == 'ok') {
+                        if (me && me.api) {
+                            me.api.asc_TextToColumns(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                        }
+                    }
+                }
+            })).show();
+        },
+
+        textWizard: 'Text to Columns Wizard'
 
     }, SSE.Controllers.DataTab || {}));
 });
