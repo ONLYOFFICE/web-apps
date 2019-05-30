@@ -426,6 +426,7 @@ define([
 
         onCmbDelimiterSelect: function(combo, record){
             this.inputDelimiter.setVisible(record.value == -1);
+            (record.value == -1) && this.inputDelimiter.cmpEl.find('input').focus();
             if (this.preview)
                 this.updatePreview();
         },
