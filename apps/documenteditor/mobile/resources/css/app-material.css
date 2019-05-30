@@ -6696,17 +6696,15 @@ html.pixel-ratio-3 .numbers li {
   margin-left: 4px;
 }
 #user-list .color {
-  min-width: 26px;
-  min-height: 26px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+  min-width: 40px;
+  min-height: 40px;
   margin-right: 20px;
-}
-#user-list ul:after {
-  content: none;
+  text-align: center;
+  border-radius: 50px;
+  line-height: 40px;
+  color: #6d6d72;
+  font-weight: 400;
 }
 #user-list ul:before {
-  content: none;
-}
-#user-list .item-inner:after {
   content: none;
 }

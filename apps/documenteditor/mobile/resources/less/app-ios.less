@@ -242,6 +242,8 @@ input, textarea {
 }
 
 //Edit users
+@contentBlockColor: #6d6d72;
+
 #user-list {
   .item-content {
     padding-left: 0;
@@ -254,10 +256,15 @@ input, textarea {
     margin-left: 4px;
   }
   .color {
-    min-width: 26px;
-    min-height: 26px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+    min-width: 40px;
+    min-height: 40px;
     margin-right: 20px;
+    text-align: center;
+    border-radius: 50px;
+    line-height: 40px;
+    color: @contentBlockColor;
+    font-weight: 500;
+
   }
   ul:before {
     content: none;
