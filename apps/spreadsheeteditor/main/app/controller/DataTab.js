@@ -61,7 +61,9 @@ define([
                 'DataTab': {
                     'data:group': this.onGroup,
                     'data:ungroup': this.onUngroup,
-                    'data:tocolumns': this.onTextToColumn
+                    'data:tocolumns': this.onTextToColumn,
+                    'data:show': this.onShowClick,
+                    'data:hide': this.onHideClick
                 }
             });
 
@@ -174,6 +176,14 @@ define([
                     }
                 }
             })).show();
+        },
+
+        onShowClick: function() {
+            // this.api.asc_showDetails();
+        },
+
+        onHideClick: function() {
+            // this.api.asc_hideDetails();
         },
 
         textWizard: 'Text to Columns Wizard'
