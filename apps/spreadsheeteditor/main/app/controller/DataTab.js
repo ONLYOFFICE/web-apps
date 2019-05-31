@@ -150,6 +150,7 @@ define([
                 })).show();
             } else if (val!==undefined) //undefined - error, true - rows, false - columns
                 me.api.asc_group(val);
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
 
         onTextToColumn: function() {
@@ -179,11 +180,11 @@ define([
         },
 
         onShowClick: function() {
-            // this.api.asc_showDetails();
+            this.api.asc_changeGroupDetails(true);
         },
 
         onHideClick: function() {
-            // this.api.asc_hideDetails();
+            this.api.asc_changeGroupDetails(false);
         },
 
         textWizard: 'Text to Columns Wizard'

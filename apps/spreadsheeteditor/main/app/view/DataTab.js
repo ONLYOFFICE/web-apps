@@ -60,12 +60,12 @@ define([
             me.btnTextToColumns.on('click', function (b, e) {
                 me.fireEvent('data:tocolumns');
             });
-            // me.btnShow.on('click', function (b, e) {
-            //     me.fireEvent('data:show');
-            // });
-            // me.btnHide.on('click', function (b, e) {
-            //     me.fireEvent('data:hide');
-            // });
+            me.btnShow.on('click', function (b, e) {
+                me.fireEvent('data:show');
+            });
+            me.btnHide.on('click', function (b, e) {
+                me.fireEvent('data:hide');
+            });
         }
 
         return {
@@ -121,26 +121,25 @@ define([
                 _injectComponent('#slot-btn-text-column', this.btnTextToColumns);
                 this.lockedControls.push(this.btnTextToColumns);
 
-                // Show / Hide details, TODO: add to sdk
-                // this.btnShow = new Common.UI.Button({
-                //     cls         : 'btn-toolbar',
-                //     iconCls     : 'btn-show-details',
-                //     style: 'padding-right: 2px;',
-                //     caption: this.capBtnTextShow,
-                //     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
-                // });
-                // _injectComponent('#slot-btn-show-details', this.btnShow);
-                // this.lockedControls.push(this.btnShow);
-                //
-                // this.btnHide = new Common.UI.Button({
-                //     cls         : 'btn-toolbar',
-                //     iconCls     : 'btn-hide-details',
-                //     style: 'padding-right: 2px;',
-                //     caption: this.capBtnTextHide,
-                //     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
-                // });
-                // _injectComponent('#slot-btn-hide-details', this.btnHide);
-                // this.lockedControls.push(this.btnHide);
+                this.btnShow = new Common.UI.Button({
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'btn-show-details',
+                    style: 'padding-right: 2px;',
+                    caption: this.capBtnTextShow,
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                });
+                _injectComponent('#slot-btn-show-details', this.btnShow);
+                this.lockedControls.push(this.btnShow);
+
+                this.btnHide = new Common.UI.Button({
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'btn-hide-details',
+                    style: 'padding-right: 2px;',
+                    caption: this.capBtnTextHide,
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                });
+                _injectComponent('#slot-btn-hide-details', this.btnHide);
+                this.lockedControls.push(this.btnHide);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
