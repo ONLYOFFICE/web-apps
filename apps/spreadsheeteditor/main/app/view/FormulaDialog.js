@@ -241,7 +241,7 @@ define([
                 if (!this.cmbFuncGroup) {
                     this.cmbFuncGroup = new Common.UI.ComboBox({
                         el          : $('#formula-dlg-combo-group'),
-                        menuStyle   : 'min-width: 278px;',
+                        menuStyle   : 'min-width: 100%;',
                         cls         : 'input-group-nr',
                         data        : groupsListItems,
                         editable    : false
