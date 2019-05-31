@@ -118,6 +118,9 @@ define([
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
                     }
+                },
+                'DataTab': {
+                    'data:sort': this.onSortType
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -312,7 +315,6 @@ define([
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-                toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
                 toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
                 toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
@@ -2192,7 +2194,7 @@ define([
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnTableTemplate,toolbar.btnSetAutofilter] });
+                            { array: [toolbar.btnSortUp, toolbar.btnTableTemplate,toolbar.btnSetAutofilter].concat(toolbar.btnsSortDown) });
 
                 val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
@@ -2222,11 +2224,11 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp]});
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortUp].concat(toolbar.btnsSortDown)});
 
                 need_disable = !this.appConfig.canModifyFilter;
-                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnSetAutofilter,
-                                                                                   toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ]});
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortUp, toolbar.btnSetAutofilter,
+                                                                                   toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ].concat(toolbar.btnsSortDown)});
 
             }
 
@@ -2422,7 +2424,7 @@ define([
 
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 me.toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                    { array: [me.toolbar.btnSortDown, me.toolbar.btnSortUp, me.toolbar.btnSetAutofilter] });
+                    { array: [me.toolbar.btnSortUp, me.toolbar.btnSetAutofilter].concat(me.toolbar.btnsSortDown) });
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 me.toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[me.toolbar.btnClearAutofilter]});
@@ -3094,7 +3096,10 @@ define([
                     if ( !config.isEditDiagram && !config.isEditMailMerge ) {
                         var datatab = me.getApplication().getController('DataTab');
                         datatab.setApi(me.api).setConfig({toolbar: me});
-                        Array.prototype.push.apply(me.toolbar.lockControls, datatab.getView('DataTab').getButtons());
+
+                        datatab = datatab.getView('DataTab');
+                        Array.prototype.push.apply(me.toolbar.lockControls, datatab.getButtons());
+                        me.toolbar.btnsSortDown = datatab.getButtons('sort-down');
 
                         if ( !config.isOffline ) {
                             tab = {action: 'pivot', caption: me.textPivot};

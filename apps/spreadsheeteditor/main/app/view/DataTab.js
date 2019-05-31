@@ -66,6 +66,11 @@ define([
             me.btnHide.on('click', function (b, e) {
                 me.fireEvent('data:hide');
             });
+            me.btnsSortDown.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('data:sort', [Asc.c_oAscSortOptions.Ascending]);
+                });
+            });
         }
 
         return {
@@ -76,6 +81,7 @@ define([
                 this.toolbar = options.toolbar;
 
                 this.lockedControls = [];
+                this.btnsSortDown = [];
 
                 var me = this,
                     $host = me.toolbar.$el,
@@ -85,6 +91,27 @@ define([
                     var $slot = $host.find(id);
                     if ($slot.length)
                         cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
+                };
+
+                var _injectComponents = function ($slots, iconCls, split, menu, caption, lock, btnsArr) {
+                    $slots.each(function(index, el) {
+                        var _cls = 'btn-toolbar';
+                        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
+
+                        var button = new Common.UI.Button({
+                            id: "id-toolbar-" + iconCls + index,
+                            cls: _cls,
+                            iconCls: iconCls,
+                            caption: caption,
+                            split: split,
+                            menu: menu,
+                            lock: lock,
+                            disabled: true
+                        }).render( $slots.eq(index) );
+
+                        btnsArr.push(button);
+                        me.lockedControls.push(button);
+                    });
                 };
 
                 this.btnGroup = new Common.UI.Button({
@@ -141,6 +168,10 @@ define([
                 _injectComponent('#slot-btn-hide-details', this.btnHide);
                 this.lockedControls.push(this.btnHide);
 
+                _injectComponents($host.find('.slot-sortdesc'), 'btn-sort-down', false, false, '',
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
+                    this.btnsSortDown);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -166,6 +197,10 @@ define([
                     me.btnGroup.updateHint(me.tipGroup);
                     me.btnTextToColumns.updateHint(me.tipToColumns);
 
+                    me.btnsSortDown.forEach( function(btn) {
+                        btn.updateHint(me.toolbar.txtSortAZ);
+                    });
+
                     setEvents.call(me);
                 });
             },
@@ -175,8 +210,12 @@ define([
                 this.fireEvent('show', this);
             },
 
-            getButtons: function() {
-                return this.lockedControls;
+            getButtons: function(type) {
+                if (type == 'sort-down')
+                    return this.btnsSortDown;
+                else if (type===undefined)
+                    return this.lockedControls;
+                return [];
             },
 
             SetDisabled: function (state) {

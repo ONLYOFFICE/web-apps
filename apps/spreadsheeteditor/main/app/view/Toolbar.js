@@ -716,13 +716,6 @@ define([
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'})
                 });
 
-                me.btnSortDown = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-sort-down',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-sort-down',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
-                });
-
                 me.btnSortUp = new Common.UI.Button({
                     id          : 'id-toolbar-btn-sort-up',
                     cls         : 'btn-toolbar',
