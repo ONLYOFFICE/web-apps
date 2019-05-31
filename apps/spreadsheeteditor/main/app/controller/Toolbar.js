@@ -315,7 +315,6 @@ define([
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-                toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
                 toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
                 toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
@@ -2194,7 +2193,7 @@ define([
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: [toolbar.btnSortUp, toolbar.btnTableTemplate,toolbar.btnSetAutofilter].concat(toolbar.btnsSortDown) });
+                            { array: [toolbar.btnTableTemplate,toolbar.btnSetAutofilter].concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp) });
 
                 val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
@@ -2224,11 +2223,11 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortUp].concat(toolbar.btnsSortDown)});
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter].concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
 
                 need_disable = !this.appConfig.canModifyFilter;
-                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortUp, toolbar.btnSetAutofilter,
-                                                                                   toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ].concat(toolbar.btnsSortDown)});
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSetAutofilter,
+                                                                                   toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ].concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
 
             }
 
@@ -2424,7 +2423,7 @@ define([
 
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 me.toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                    { array: [me.toolbar.btnSortUp, me.toolbar.btnSetAutofilter].concat(me.toolbar.btnsSortDown) });
+                    { array: [me.toolbar.btnSetAutofilter].concat(me.toolbar.btnsSortDown).concat(me.toolbar.btnsSortUp) });
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 me.toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[me.toolbar.btnClearAutofilter]});
@@ -3100,6 +3099,7 @@ define([
                         datatab = datatab.getView('DataTab');
                         Array.prototype.push.apply(me.toolbar.lockControls, datatab.getButtons());
                         me.toolbar.btnsSortDown = datatab.getButtons('sort-down');
+                        me.toolbar.btnsSortUp = datatab.getButtons('sort-up');
 
                         if ( !config.isOffline ) {
                             tab = {action: 'pivot', caption: me.textPivot};

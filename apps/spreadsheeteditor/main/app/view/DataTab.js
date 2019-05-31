@@ -71,6 +71,11 @@ define([
                     me.fireEvent('data:sort', [Asc.c_oAscSortOptions.Ascending]);
                 });
             });
+            me.btnsSortUp.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('data:sort', [Asc.c_oAscSortOptions.Descending]);
+                });
+            });
         }
 
         return {
@@ -82,6 +87,7 @@ define([
 
                 this.lockedControls = [];
                 this.btnsSortDown = [];
+                this.btnsSortUp = [];
 
                 var me = this,
                     $host = me.toolbar.$el,
@@ -169,8 +175,12 @@ define([
                 this.lockedControls.push(this.btnHide);
 
                 _injectComponents($host.find('.slot-sortdesc'), 'btn-sort-down', false, false, '',
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
                     this.btnsSortDown);
+
+                _injectComponents($host.find('.slot-sortasc'), 'btn-sort-up', false, false, '',
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
+                    this.btnsSortUp);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -200,6 +210,9 @@ define([
                     me.btnsSortDown.forEach( function(btn) {
                         btn.updateHint(me.toolbar.txtSortAZ);
                     });
+                    me.btnsSortUp.forEach( function(btn) {
+                        btn.updateHint(me.toolbar.txtSortZA);
+                    });
 
                     setEvents.call(me);
                 });
@@ -213,6 +226,8 @@ define([
             getButtons: function(type) {
                 if (type == 'sort-down')
                     return this.btnsSortDown;
+                else if (type == 'sort-up')
+                    return this.btnsSortUp;
                 else if (type===undefined)
                     return this.lockedControls;
                 return [];

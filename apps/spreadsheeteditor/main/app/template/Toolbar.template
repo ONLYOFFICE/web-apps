@@ -77,7 +77,7 @@
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot split slot-sortdesc"></span>
-                        <span class="btn-slot" id="slot-btn-sortasc"></span>
+                        <span class="btn-slot slot-sortasc"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-setfilter"></span>
@@ -155,7 +155,8 @@
             <section class="panel" data-tab="data">
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot slot-sortdesc"></span>
+                        <span class="btn-slot split slot-sortdesc"></span>
+                        <span class="btn-slot slot-sortasc"></span>
                     </div>
                     <div class="elset">
                     </div>
