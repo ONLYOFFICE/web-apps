@@ -27,7 +27,7 @@
     margin: 0;
     margin-top: 10px;
   }
-  .block-btn {
+  .block-btn, .content-block.block-btn:first-child {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -36,16 +36,14 @@
     #btn-next-change, #btn-reject-change {
       margin-left: 20px;
     }
-
+    #btn-goto-change {
+      margin-right: 20px;
+    }
+    .right-buttons {
+      display: flex;
+    }
     .link {
-      height: 48px;
-      width: 48px;
       display: inline-block;
-      .icon {
-        background-position: center;
-        height: 48px;
-        width: 48px;
-      }
     }
   }
 }

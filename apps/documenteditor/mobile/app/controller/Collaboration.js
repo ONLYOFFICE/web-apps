@@ -286,7 +286,7 @@ define([
                     $('#btn-accept-change').remove();
                     $('#btn-reject-change').remove();
                     if(arrChangeReview.length != 0 && arrChangeReview[0].editable) {
-                        $('.accept-reject').html('<div id="btn-delete-change"><i class="icon icon-review"></i></div>');
+                        $('.accept-reject').html('<div id="btn-delete-change"><i class="icon icon-delete-change"></i></div>');
                         $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
                     }
                 }

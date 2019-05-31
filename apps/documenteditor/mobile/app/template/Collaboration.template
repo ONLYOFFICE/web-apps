@@ -167,13 +167,15 @@
             <div class="page-content">
                 <div class="content-block block-btn">
                 <span class="next-prev">
-                <a href="#" id="btn-prev-change" class="link icon-only"><i class="icon icon-review"></i></a>
-                <a href="#" id="btn-next-change" class="link icon-only"><i class="icon icon-review"></i></a>
+                <a href="#" id="btn-prev-change" class="link icon-only"><i class="icon icon-prev-change"></i></a>
+                <a href="#" id="btn-next-change" class="link icon-only"><i class="icon icon-next-change"></i></a>
                 </span>
-                <a href="#" id="btn-goto-change" class="link icon-only" style="display: none;"><i class="icon icon-link"></i></a>
+                <span class="right-buttons">
+                <a href="#" id="btn-goto-change" class="link icon-only" style="display: none;"><i class="icon icon-goto"></i></a>
                 <span class="accept-reject">
-                <a href="#" id="btn-accept-change" class="link icon-only"><i class="icon icon-review"></i></a>
-                <a href="#" id="btn-reject-change" class="link icon-only"><i class="icon icon-review"></i></a>
+                <a href="#" id="btn-accept-change" class="link icon-only"><i class="icon icon-accept"></i></a>
+                <a href="#" id="btn-reject-change" class="link icon-only"><i class="icon icon-reject"></i></a>
+                </span>
                 </span>
                 </div>
                 <div id="current-change" class="content-block block-description">
