@@ -56,7 +56,7 @@ define([
             thumbContext    = thumbCanvas.getContext('2d'),
             thumbPath       = '../../../../sdkjs/common/Images/fonts_thumbnail.png',
             thumbPath2x     = '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png',
-            listItemHeight  = 36;
+            listItemHeight  = 26;
 
         if (typeof window['AscDesktopEditor'] === 'object') {
             thumbPath       = window['AscDesktopEditor'].getFontsSprite();
@@ -76,7 +76,7 @@ define([
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>">',
-                            '<a class="font-item" tabindex="-1" type="menuitem" style="vertical-align:middle; margin: 0 0 0 -10px; height:<%=scope.getListItemHeight()%>px;"/>',
+                            '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"/>',
                         '</li>',
                     '<% }); %>',
                     '</ul>',
@@ -93,7 +93,7 @@ define([
                     }
                 }));
 
-                this.recent = _.isNumber(options.recent) ? options.recent : 3;
+                this.recent = _.isNumber(options.recent) ? options.recent : 5;
 
                 // Common.NotificationCenter.on('fonts:change',    _.bind(this.onApiChangeFont, this));
                 Common.NotificationCenter.on('fonts:load',      _.bind(this.fillFonts, this));
@@ -370,7 +370,7 @@ define([
             onInsertItem: function(item) {
                 $(this.el).find('ul').prepend(_.template([
                     '<li id="<%= item.id %>">',
-                        '<a class="font-item" tabindex="-1" type="menuitem" style="vertical-align:middle; margin: 0 0 0 -10px; height:<%=scope.getListItemHeight()%>px;"/>',
+                        '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"/>',
                     '</li>'
                 ].join(''))({
                     item: item.attributes,
