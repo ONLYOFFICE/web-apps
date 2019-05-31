@@ -163,6 +163,7 @@ define([
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
                 $('#page-settings-view #slide-size-block li').single('click',           _.bind(me._onSlideSize, me));
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
+                $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
 
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-setup-view]', '.page[data-page=settings-setup-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
@@ -185,6 +186,10 @@ define([
                 } else if ('#color-schemes-view' == pageId) {
                     me.initPageColorSchemes();
                 }
+            },
+
+            onCollaboration: function() {
+                PE.getController('Collaboration').showModal();
             },
 
             initPageColorSchemes: function () {

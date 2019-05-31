@@ -246,7 +246,8 @@ define([
             textCentimeter: 'Centimeter',
             textPoint: 'Point',
             textInch: 'Inch',
-            textColorSchemes: 'Color Schemes'
+            textColorSchemes: 'Color Schemes',
+            textCollaboration: 'Collaboration'
         }
     })(), PE.Views.Settings || {}))
 });

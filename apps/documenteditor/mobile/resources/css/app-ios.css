@@ -5844,7 +5844,8 @@ html:not(.phone) #editor-navbar.navbar .right a + a,
 html:not(.phone) #editor-navbar.navbar .left a + a {
   margin-left: 10px;
 }
-.phone.ios .container-edit .navbar:before {
+.phone.ios .container-edit .navbar:before,
+.phone.ios .container-collaboration .navbar:before {
   content: '';
   position: absolute;
   left: 0;
@@ -5859,20 +5860,24 @@ html:not(.phone) #editor-navbar.navbar .left a + a {
   -webkit-transform-origin: 50% 0%;
   transform-origin: 50% 0%;
 }
-html.pixel-ratio-2 .phone.ios .container-edit .navbar:before {
+html.pixel-ratio-2 .phone.ios .container-edit .navbar:before,
+html.pixel-ratio-2 .phone.ios .container-collaboration .navbar:before {
   -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
 }
-html.pixel-ratio-3 .phone.ios .container-edit .navbar:before {
+html.pixel-ratio-3 .phone.ios .container-edit .navbar:before,
+html.pixel-ratio-3 .phone.ios .container-collaboration .navbar:before {
   -webkit-transform: scaleY(0.33);
   transform: scaleY(0.33);
 }
-.phone.ios .container-edit .page-content .list-block:first-child {
+.phone.ios .container-edit .page-content .list-block:first-child,
+.phone.ios .container-collaboration .page-content .list-block:first-child {
   margin-top: -1px;
 }
 .container-edit.popover,
 .container-add.popover,
-.container-settings.popover {
+.container-settings.popover,
+.container-collaboration.popover {
   width: 360px;
 }
 .settings.popup .list-block ul,
