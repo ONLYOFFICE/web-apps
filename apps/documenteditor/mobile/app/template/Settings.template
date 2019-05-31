@@ -83,7 +83,7 @@
                             <a id="settings-advanced" class="item-link" data-page="#settings-advanced-view">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
+                                        <i class="icon icon-settings"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textAdvancedSettings %></div>
