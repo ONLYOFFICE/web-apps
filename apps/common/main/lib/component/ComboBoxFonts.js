@@ -383,6 +383,10 @@ define([
             },
 
             onBeforeShowMenu: function(e) {
+                if (this.store.length<1) {
+                    e.preventDefault();
+                    return;
+                }
                 Common.UI.ComboBox.prototype.onBeforeShowMenu.apply(this, arguments);
 
                 if (!this.getSelectedRecord() && !!this.getRawValue()) {
