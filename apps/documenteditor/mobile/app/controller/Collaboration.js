@@ -576,48 +576,43 @@ define([
             },
 
             initEditUsers: function() {
-                var templateUserItem = _.template([
-                    '<% _.each(users, function(item) { %>',
-                    '<li id="<%= item.id %>" class="<% if (item.view) {%> viewmode <% } %> item-content">' +
-                    '<div class="user-name item-inner">' +
-                    '<div class="color" style="background-color: <%= item.color %>;"><%= item.initial %></div>'+
-                    '<label><%= item.name %></label>' +
-                    '<% if (item.len>1) { %><label class="length"> (<%= item.len %>)</label><% } %>' +
-                    '</div>'+
-                    '</li>',
-                    '<% }); %>'
-                ].join(''));
-                var users = [],
-                    usersSort = [],
-                    len;
+                var usersArray = [];
                 _.each(editUsers, function(item){
-                    var fio = item.userName.split(' ');
+                    var fio = item.asc_getUserName().split(' ');
                     var initials = fio[0].substring(0, 1).toUpperCase();
                     if (fio.length > 1) {
                         initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
                     }
-                    users.push({color: item.asc_getColor(), id: item.id, idOriginal: item.idOriginal, name: item.userName, view: item.view, initial: initials})
-                });
-                _.each(users.filter(function (itm) {return !itm.view;}), function(item){
-                    if (usersSort.filter(function (itemFil) {return item.idOriginal === itemFil.idOriginal;}).length === 0) {
-                        len = users.filter(function (itemFil) {
-                            return (item.idOriginal === itemFil.idOriginal && !itemFil.view);
-                        }).length;
-                        usersSort.push({color: item.color, id: item.id, idOriginal: item.idOriginal, name: item.name, view: item.view, len: len, initial: item.initial})
+                    if(!item.asc_getView()) {
+                        usersArray.push({
+                            color: item.asc_getColor(),
+                            id: item.asc_getId(),
+                            idOriginal: item.asc_getIdOriginal(),
+                            name: item.asc_getUserName(),
+                            view: item.asc_getView(),
+                            initial: initials
+                        })
                     }
                 });
+                var userSort = _.chain(usersArray).groupBy('idOriginal').value();
+                var templateUserItem = _.template([
+                    '<%  _.each(users, function (user) { %>',
+                    '<li id="<%= user[0].id %>" class="<% if (user[0].view) {%> viewmode <% } %> item-content">' +
+                    '<div class="user-name item-inner">' +
+                    '<div class="color" style="background-color: <%= user[0].color %>;"><%= user[0].initial %></div>'+
+                    '<label><%= user[0].name %></label>' +
+                    '<% if (user.length>1) { %><label class="length"> (<%= user.length %>)</label><% } %>' +
+                    '</div>'+
+                    '</li>',
+                    '<% }); %>'].join(''));
                 var templateUserList = _.template(
                     '<div class="item-content"><div class="item-inner">' +
                     this.textEditUser +
                     '</div></div>' +
                     '<ul>' +
-                        templateUserItem(({users: usersSort})) +
+                    templateUserItem({users: userSort}) +
                     '</ul>');
-                    $('#user-list').html(templateUserList({
-                        users: usersSort.filter(function (item) {
-                            return !item.view;
-                        }),
-                    }));
+                $('#user-list').html(templateUserList());
             },
 
 
