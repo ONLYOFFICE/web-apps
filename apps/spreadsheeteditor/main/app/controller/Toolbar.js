@@ -314,12 +314,8 @@ define([
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
                 toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
-                toolbar.mnuitemSortAZ.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
-                toolbar.mnuitemSortZA.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
                 toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
-                toolbar.mnuitemAutoFilter.on('click',                       _.bind(this.onAutoFilter, this));
                 toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
-                toolbar.mnuitemClearFilter.on('click',                      _.bind(this.onClearFilter, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -1679,7 +1675,6 @@ define([
                             toolbar.btnClearStyle.menu.items[2],
                             toolbar.btnClearStyle.menu.items[3],
                             toolbar.btnClearStyle.menu.items[4],
-                            toolbar.mnuitemClearFilter,
                             toolbar.btnNamedRange.menu.items[0],
                             toolbar.btnNamedRange.menu.items[1]
                         ],
@@ -2193,13 +2188,11 @@ define([
                 val = (filterInfo) ? filterInfo.asc_getIsAutoFilter() : null;
                 if (this._state.filter !== val) {
                     toolbar.btnSetAutofilter.toggle(val===true, true);
-                    toolbar.mnuitemAutoFilter.setChecked(val===true, true);
                     this._state.filter = val;
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA,
-                                toolbar.btnTableTemplate,toolbar.btnSetAutofilter,toolbar.mnuitemAutoFilter,toolbar.btnAutofilter] });
+                            { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnTableTemplate,toolbar.btnSetAutofilter] });
 
                 val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
@@ -2214,7 +2207,7 @@ define([
                 }
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
-                toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
+                toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter]});
 
                 var old_name = this._state.tablename;
                 this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
@@ -2229,11 +2222,11 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp]});
 
                 need_disable = !this.appConfig.canModifyFilter;
-                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA, toolbar.btnSetAutofilter,
-                                                                                   toolbar.btnAutofilter, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ]});
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnSetAutofilter,
+                                                                                   toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ]});
 
             }
 
@@ -2424,7 +2417,6 @@ define([
                 val = filterInfo ? filterInfo.asc_getIsAutoFilter() : null;
                 if ( this._state.filter !== val ) {
                     me.toolbar.btnSetAutofilter.toggle(val===true, true);
-                    // toolbar.mnuitemAutoFilter.setChecked(val===true, true);
                     this._state.filter = val;
                 }
 
@@ -2882,11 +2874,7 @@ define([
                             toolbar.btnClearStyle.menu.items[1],
                             toolbar.btnClearStyle.menu.items[2],
                             toolbar.btnClearStyle.menu.items[3],
-                            toolbar.btnClearStyle.menu.items[4],
-                            toolbar.mnuitemSortAZ,
-                            toolbar.mnuitemSortZA,
-                            toolbar.mnuitemAutoFilter,
-                            toolbar.mnuitemClearFilter
+                            toolbar.btnClearStyle.menu.items[4]
                         ],
                         merge: true,
                         clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]

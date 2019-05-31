@@ -1131,52 +1131,6 @@ define([
                     })
                 });
 
-                me.btnAutofilter = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-autofilter',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-autofilter',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
-                    menu        : new Common.UI.Menu({
-                        items : [
-                            me.mnuitemSortAZ = new Common.UI.MenuItem({
-                                caption : me.txtSortAZ,
-                                iconCls : 'mnu-sort-asc',
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter],
-                                value   : Asc.c_oAscSortOptions.Ascending
-                            }),
-                            me.mnuitemSortZA = new Common.UI.MenuItem({
-                                caption : me.txtSortZA,
-                                iconCls : 'mnu-sort-desc',
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter],
-                                value   : Asc.c_oAscSortOptions.Descending
-                            }),
-                            me.mnuitemAutoFilter = new Common.UI.MenuItem({
-                                caption : me.txtFilter,
-                                iconCls : 'mnu-filter-add',
-                                checkable: true,
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
-                                value   : 'set-filter'
-                            }),
-                            me.mnuitemClearFilter = new Common.UI.MenuItem({
-                                caption : me.txtClearFilter,
-                                iconCls : 'mnu-filter-clear',
-                                lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleDelFilter],
-                                value   : 'clear-filter'
-                            })
-                            /*,{
-                             caption : me.txtTableTemplate,
-                             iconCls : 'mnu-filter-clear',
-                             menu        : new Common.UI.Menu({
-                             menuAlign: 'tl-tr',
-                             items: [
-                             { template: _.template('<div id="id-toolbar-short-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
-                             ]
-                             })
-                             } */
-                        ]
-                    })
-                });
-
                 var hidetip = Common.localStorage.getItem("sse-hide-synch");
                 me.showSynchTip = !(hidetip && parseInt(hidetip) == 1);
                 // me.needShowSynchTip = false;
@@ -1467,7 +1421,7 @@ define([
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnColorSchemas,
-                    me.btnAutofilter, me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
+                    me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnEditHeader
                 ];
@@ -1638,7 +1592,6 @@ define([
 
             // replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                this.btnHorizontalAlign);
             // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
-            // replacePlacholder('#id-toolbar-short-placeholder-btn-filter',                this.btnAutofilter);
 
             return $host;
         },
@@ -1703,7 +1656,6 @@ define([
             _updateHint(this.btnColorSchemas, this.tipColorSchemas);
             _updateHint(this.btnHorizontalAlign, this.tipHAligh);
             _updateHint(this.btnVerticalAlign, this.tipVAligh);
-            _updateHint(this.btnAutofilter, this.tipAutofilter);
             _updateHint(this.btnPageOrient, this.tipPageOrient);
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
