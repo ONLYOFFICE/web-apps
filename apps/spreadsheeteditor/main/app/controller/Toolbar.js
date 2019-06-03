@@ -120,7 +120,9 @@ define([
                     }
                 },
                 'DataTab': {
-                    'data:sort': this.onSortType
+                    'data:sort': this.onSortType,
+                    'data:setfilter': this.onAutoFilter,
+                    'data:clearfilter': this.onClearFilter
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -315,8 +317,6 @@ define([
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-                toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
-                toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -2188,12 +2188,14 @@ define([
 
                 val = (filterInfo) ? filterInfo.asc_getIsAutoFilter() : null;
                 if (this._state.filter !== val) {
-                    toolbar.btnSetAutofilter.toggle(val===true, true);
+                    toolbar.btnsSetAutofilter.forEach(function(button) {
+                        button.toggle(val===true, true);
+                    });
                     this._state.filter = val;
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: [toolbar.btnTableTemplate,toolbar.btnSetAutofilter].concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp) });
+                            { array: [toolbar.btnTableTemplate].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp) });
 
                 val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
@@ -2208,7 +2210,7 @@ define([
                 }
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
-                toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter]});
+                toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array: toolbar.btnsClearAutofilter});
 
                 var old_name = this._state.tablename;
                 this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
@@ -2223,11 +2225,10 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter].concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsClearAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
 
                 need_disable = !this.appConfig.canModifyFilter;
-                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSetAutofilter,
-                                                                                   toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ].concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
 
             }
 
@@ -2423,10 +2424,10 @@ define([
 
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 me.toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                    { array: [me.toolbar.btnSetAutofilter].concat(me.toolbar.btnsSortDown).concat(me.toolbar.btnsSortUp) });
+                    { array: [me.toolbar.btnSetAutofilter, me.toolbar.btnSortDown, me.toolbar.btnSortUp] });
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
-                me.toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[me.toolbar.btnClearAutofilter]});
+                me.toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array: [me.toolbar.btnClearAutofilter]});
             }
         },
 
@@ -3100,6 +3101,8 @@ define([
                         Array.prototype.push.apply(me.toolbar.lockControls, datatab.getButtons());
                         me.toolbar.btnsSortDown = datatab.getButtons('sort-down');
                         me.toolbar.btnsSortUp = datatab.getButtons('sort-up');
+                        me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
+                        me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
 
                         if ( !config.isOffline ) {
                             tab = {action: 'pivot', caption: me.textPivot};

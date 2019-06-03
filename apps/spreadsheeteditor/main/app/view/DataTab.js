@@ -76,6 +76,16 @@ define([
                     me.fireEvent('data:sort', [Asc.c_oAscSortOptions.Descending]);
                 });
             });
+            me.btnsSetAutofilter.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('data:setfilter', [Asc.c_oAscSortOptions.Descending]);
+                });
+            });
+            me.btnsClearAutofilter.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('data:clearfilter', [Asc.c_oAscSortOptions.Descending]);
+                });
+            });
         }
 
         return {
@@ -88,6 +98,8 @@ define([
                 this.lockedControls = [];
                 this.btnsSortDown = [];
                 this.btnsSortUp = [];
+                this.btnsSetAutofilter = [];
+                this.btnsClearAutofilter = [];
 
                 var me = this,
                     $host = me.toolbar.$el,
@@ -99,7 +111,7 @@ define([
                         cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
                 };
 
-                var _injectComponents = function ($slots, iconCls, split, menu, caption, lock, btnsArr) {
+                var _injectComponents = function ($slots, iconCls, split, menu, caption, toggle, lock, btnsArr) {
                     $slots.each(function(index, el) {
                         var _cls = 'btn-toolbar';
                         /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
@@ -174,13 +186,21 @@ define([
                 _injectComponent('#slot-btn-hide-details', this.btnHide);
                 this.lockedControls.push(this.btnHide);
 
-                _injectComponents($host.find('.slot-sortdesc'), 'btn-sort-down', false, false, '',
+                _injectComponents($host.find('.slot-sortdesc'), 'btn-sort-down', false, false, '', false,
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
                     this.btnsSortDown);
 
-                _injectComponents($host.find('.slot-sortasc'), 'btn-sort-up', false, false, '',
+                _injectComponents($host.find('.slot-sortasc'), 'btn-sort-up', false, false, '', false,
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
                     this.btnsSortUp);
+
+                _injectComponents($host.find('.slot-btn-setfilter'), 'btn-autofilter', false, false, '', true,
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
+                    this.btnsSetAutofilter);
+
+                _injectComponents($host.find('.slot-btn-clear-filter'), 'btn-clear-filter', false, false, '', false,
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot],
+                    this.btnsClearAutofilter);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -213,6 +233,12 @@ define([
                     me.btnsSortUp.forEach( function(btn) {
                         btn.updateHint(me.toolbar.txtSortZA);
                     });
+                    me.btnsSetAutofilter.forEach( function(btn) {
+                        btn.updateHint(me.toolbar.txtFilter + ' (Ctrl+Shift+L)');
+                    });
+                    me.btnsClearAutofilter.forEach( function(btn) {
+                        btn.updateHint(me.toolbar.txtClearFilter);
+                    });
 
                     setEvents.call(me);
                 });
@@ -228,6 +254,10 @@ define([
                     return this.btnsSortDown;
                 else if (type == 'sort-up')
                     return this.btnsSortUp;
+                else if (type == 'set-filter')
+                    return this.btnsSetAutofilter;
+                else if (type == 'clear-filter')
+                    return this.btnsClearAutofilter;
                 else if (type===undefined)
                     return this.lockedControls;
                 return [];

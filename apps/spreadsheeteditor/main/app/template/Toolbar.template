@@ -80,8 +80,8 @@
                         <span class="btn-slot slot-sortasc"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-setfilter"></span>
-                        <span class="btn-slot" id="slot-btn-clear-filter"></span>
+                        <span class="btn-slot split slot-btn-setfilter"></span>
+                        <span class="btn-slot slot-btn-clear-filter"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -159,6 +159,8 @@
                         <span class="btn-slot slot-sortasc"></span>
                     </div>
                     <div class="elset">
+                        <span class="btn-slot split slot-btn-setfilter"></span>
+                        <span class="btn-slot slot-btn-clear-filter"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>

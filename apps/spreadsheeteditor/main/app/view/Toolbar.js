@@ -716,21 +716,6 @@ define([
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'})
                 });
 
-                me.btnSetAutofilter = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-setautofilter',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-autofilter',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
-                    enableToggle: true
-                });
-
-                me.btnClearAutofilter = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-clearfilter',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-clear-filter',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot]
-                });
-
                 me.btnTableTemplate = new Common.UI.Button({
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
