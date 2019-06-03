@@ -88,6 +88,7 @@ define([
 
             setApi: function(api) {
                 this.api = api;
+                this.api.asc_registerCallback('asc_onRenameCellTextEnd',    _.bind(this.onRenameText, this));
             },
 
             setMode: function (mode) {
@@ -336,6 +337,34 @@ define([
                     options.asc_setIsReplaceAll(true);
 
                     this.api.asc_replaceText(options);
+                }
+            },
+
+            onRenameText: function(found, replaced) {
+                if (this.api.isReplaceAll)  return;
+
+                var matchCase = Common.SharedSettings.get('search-match-case') || false,
+                    matchCell = Common.SharedSettings.get('search-match-cell') || false,
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+
+                var options = new Asc.asc_CFindOptions();
+                options.asc_setFindWhat(this.searchBar.query);
+                options.asc_setScanForward(true);
+                options.asc_setIsMatchCase(matchCase);
+                options.asc_setIsWholeCell(matchCell);
+                options.asc_setScanOnOnlySheet(lookInSheet);
+                // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
+                // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+
+                if (!this.api.asc_findText(options)) {
+                    var me = this;
+                    uiApp.alert(
+                        '',
+                        me.textNoTextFound,
+                        function () {
+                            me.searchBar.input.focus();
+                        }
+                    );
                 }
             },
 
