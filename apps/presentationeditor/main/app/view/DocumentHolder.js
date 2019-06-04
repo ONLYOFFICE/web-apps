@@ -1749,8 +1749,10 @@ define([
                 var dataViewItems = picker.dataViewItems,
                     el = $(dataViewItems[0].el),
                     itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
-                    columnCount = Math.floor(picker.cmpEl.width() / itemW),
+                    columnCount = Math.floor(picker.options.restoreWidth / itemW + 0.5) || 1, // try to use restore width
                     col = 0, maxHeight = 0;
+
+                picker.cmpEl.width(itemW * columnCount + 11);
 
                 for (var i=0; i<dataViewItems.length; i++) {
                     var div = $(dataViewItems[i].el).find('.title'),
@@ -1987,6 +1989,7 @@ define([
                     el          : $('#id-docholder-menu-changeslide'),
                     parentMenu  : mnuChangeSlide.menu,
                     style: 'max-height: 300px;',
+                    restoreWidth: 302,
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
                         '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
