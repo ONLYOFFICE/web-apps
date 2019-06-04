@@ -184,6 +184,7 @@ define([
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
+                $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
                 me.initSettings(pageId);
             },
 
@@ -205,6 +206,10 @@ define([
                 } else if ('#margins-view' == pageId) {
                     me.initSpreadsheetMargins();
                 }
+            },
+
+            onCollaboration: function() {
+                SSE.getController('Collaboration').showModal();
             },
 
             initSpreadsheetSettings: function() {

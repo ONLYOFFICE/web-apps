@@ -301,7 +301,8 @@ define([
             textTop: 'Top',
             textLeft: 'Left',
             textBottom: 'Bottom',
-            textRight: 'Right'
+            textRight: 'Right',
+            textCollaboration: 'Collaboration'
     }
     })(), SSE.Views.Settings || {}))
 });
