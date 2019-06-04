@@ -142,8 +142,8 @@ define([
                 width: 98,
                 defaultUnit : "cm",
                 value: '25.4 cm',
-                maxValue: 55.88,
-                minValue: 0
+                maxValue: 142.24,
+                minValue: 2.54
             });
             this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -162,8 +162,8 @@ define([
                 width: 98,
                 defaultUnit : "cm",
                 value: '19.05 cm',
-                maxValue: 55.88,
-                minValue: 0
+                maxValue: 142.24,
+                minValue: 2.54
             });
             this.spinners.push(this.spnHeight);
             this.spnHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
