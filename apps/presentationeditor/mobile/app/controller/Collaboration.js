@@ -173,14 +173,19 @@ define([
                         initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
                     }
                     if(!item.asc_getView()) {
-                        usersArray.push({
+                        var userAttr = {
                             color: item.asc_getColor(),
                             id: item.asc_getId(),
                             idOriginal: item.asc_getIdOriginal(),
                             name: item.asc_getUserName(),
                             view: item.asc_getView(),
                             initial: initials
-                        })
+                        };
+                        if(item.asc_getIdOriginal() == _userId) {
+                            usersArray.unshift(userAttr);
+                        } else {
+                            usersArray.push(userAttr);
+                        }
                     }
                 });
                 var userSort = _.chain(usersArray).groupBy('idOriginal').value();
