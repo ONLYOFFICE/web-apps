@@ -307,17 +307,23 @@ define([
             },
 
             onAcceptCurrentChange: function() {
+                var me = this;
                 if (this.api) {
                     this.api.asc_AcceptChanges(dateChange[0]);
+                    setTimeout(function () {
+                        me.api.asc_GetNextRevisionsChange();
+                    }, 10);
                 }
-                this.api.asc_GetNextRevisionsChange();
             },
 
             onRejectCurrentChange: function() {
+                var me = this;
                 if (this.api) {
                     this.api.asc_RejectChanges(dateChange[0]);
+                    setTimeout(function () {
+                        me.api.asc_GetNextRevisionsChange();
+                    }, 10);
                 }
-                this.api.asc_GetNextRevisionsChange();
             },
 
             updateInfoChange: function() {
