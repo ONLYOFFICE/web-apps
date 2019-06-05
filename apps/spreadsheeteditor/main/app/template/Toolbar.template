@@ -172,14 +172,14 @@
                     <span class="btn-slot text x-huge" id="slot-btn-group"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-ungroup"></span>
                 </div>
-                <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot" id="slot-btn-show-details" style="width:auto;"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot" id="slot-btn-hide-details" style="width:auto;"></span>
-                    </div>
-                </div>
+                <!--<div class="group">-->
+                    <!--<div class="elset">-->
+                        <!--<span class="btn-slot" id="slot-btn-show-details" style="width:auto;"></span>-->
+                    <!--</div>-->
+                    <!--<div class="elset">-->
+                        <!--<span class="btn-slot" id="slot-btn-hide-details" style="width:auto;"></span>-->
+                    <!--</div>-->
+                <!--</div>-->
             </section>
         </section>
     </section>
