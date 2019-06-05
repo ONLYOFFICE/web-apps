@@ -113,24 +113,29 @@ define([
         },
 
         onUngroup: function(type) {
-            var me = this;
+            var me = this,
+                val = me.api.asc_checkAddGroup(true); // check ungroup
             if (type=='rows') {
-                me.api.asc_ungroup(true)
+                (val!==undefined) && me.api.asc_ungroup(true)
             } else if (type=='columns') {
-                me.api.asc_ungroup(false)
+                (val!==undefined) && me.api.asc_ungroup(false)
             } else if (type=='clear') {
                 me.api.asc_clearOutline();
-            } else
-                (new SSE.Views.GroupDialog({
-                    title: me.view.capBtnUngroup,
-                    props: 'rows',
-                    handler: function (dlg, result) {
-                        if (result=='ok') {
-                            me.api.asc_ungroup(dlg.getSettings());
+            } else {
+                if (val===null) {
+                    (new SSE.Views.GroupDialog({
+                        title: me.view.capBtnUngroup,
+                        props: 'rows',
+                        handler: function (dlg, result) {
+                            if (result=='ok') {
+                                me.api.asc_ungroup(dlg.getSettings());
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    }
-                })).show();
+                    })).show();
+                } else if (val!==undefined) //undefined - error, true - rows, false - columns
+                    me.api.asc_ungroup(val);
+            }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
 
