@@ -118,6 +118,11 @@ define([
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
                     }
+                },
+                'DataTab': {
+                    'data:sort': this.onSortType,
+                    'data:setfilter': this.onAutoFilter,
+                    'data:clearfilter': this.onClearFilter
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -312,14 +317,6 @@ define([
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
-                toolbar.btnSortDown.on('click',                             _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
-                toolbar.btnSortUp.on('click',                               _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
-                toolbar.mnuitemSortAZ.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
-                toolbar.mnuitemSortZA.on('click',                           _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
-                toolbar.btnSetAutofilter.on('click',                        _.bind(this.onAutoFilter, this));
-                toolbar.mnuitemAutoFilter.on('click',                       _.bind(this.onAutoFilter, this));
-                toolbar.btnClearAutofilter.on('click',                      _.bind(this.onClearFilter, this));
-                toolbar.mnuitemClearFilter.on('click',                      _.bind(this.onClearFilter, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -1679,7 +1676,6 @@ define([
                             toolbar.btnClearStyle.menu.items[2],
                             toolbar.btnClearStyle.menu.items[3],
                             toolbar.btnClearStyle.menu.items[4],
-                            toolbar.mnuitemClearFilter,
                             toolbar.btnNamedRange.menu.items[0],
                             toolbar.btnNamedRange.menu.items[1]
                         ],
@@ -2192,14 +2188,14 @@ define([
 
                 val = (filterInfo) ? filterInfo.asc_getIsAutoFilter() : null;
                 if (this._state.filter !== val) {
-                    toolbar.btnSetAutofilter.toggle(val===true, true);
-                    toolbar.mnuitemAutoFilter.setChecked(val===true, true);
+                    toolbar.btnsSetAutofilter.forEach(function(button) {
+                        button.toggle(val===true, true);
+                    });
                     this._state.filter = val;
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA,
-                                toolbar.btnTableTemplate,toolbar.btnSetAutofilter,toolbar.mnuitemAutoFilter,toolbar.btnAutofilter] });
+                            { array: [toolbar.btnTableTemplate].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp) });
 
                 val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
@@ -2214,7 +2210,7 @@ define([
                 }
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
-                toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
+                toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array: toolbar.btnsClearAutofilter});
 
                 var old_name = this._state.tablename;
                 this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
@@ -2229,11 +2225,10 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsClearAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
 
                 need_disable = !this.appConfig.canModifyFilter;
-                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA, toolbar.btnSetAutofilter,
-                                                                                   toolbar.btnAutofilter, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ]});
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
 
             }
 
@@ -2424,16 +2419,15 @@ define([
                 val = filterInfo ? filterInfo.asc_getIsAutoFilter() : null;
                 if ( this._state.filter !== val ) {
                     me.toolbar.btnSetAutofilter.toggle(val===true, true);
-                    // toolbar.mnuitemAutoFilter.setChecked(val===true, true);
                     this._state.filter = val;
                 }
 
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 me.toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                    { array: [me.toolbar.btnSortDown, me.toolbar.btnSortUp, me.toolbar.btnSetAutofilter] });
+                    { array: [me.toolbar.btnSetAutofilter, me.toolbar.btnSortDown, me.toolbar.btnSortUp] });
 
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
-                me.toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[me.toolbar.btnClearAutofilter]});
+                me.toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array: [me.toolbar.btnClearAutofilter]});
             }
         },
 
@@ -2882,11 +2876,7 @@ define([
                             toolbar.btnClearStyle.menu.items[1],
                             toolbar.btnClearStyle.menu.items[2],
                             toolbar.btnClearStyle.menu.items[3],
-                            toolbar.btnClearStyle.menu.items[4],
-                            toolbar.mnuitemSortAZ,
-                            toolbar.mnuitemSortZA,
-                            toolbar.mnuitemAutoFilter,
-                            toolbar.mnuitemClearFilter
+                            toolbar.btnClearStyle.menu.items[4]
                         ],
                         merge: true,
                         clear: [_set.selImage, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.coAuth]
@@ -3104,11 +3094,21 @@ define([
                     me.toolbar.setApi(me.api);
 
                     if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                        var datatab = me.getApplication().getController('DataTab');
+                        datatab.setApi(me.api).setConfig({toolbar: me});
+
+                        datatab = datatab.getView('DataTab');
+                        Array.prototype.push.apply(me.toolbar.lockControls, datatab.getButtons());
+                        me.toolbar.btnsSortDown = datatab.getButtons('sort-down');
+                        me.toolbar.btnsSortUp = datatab.getButtons('sort-up');
+                        me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
+                        me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
+
                         if ( !config.isOffline ) {
                             tab = {action: 'pivot', caption: me.textPivot};
                             $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
                             if ($panel) {
-                                me.toolbar.addTab(tab, $panel, 3);
+                                me.toolbar.addTab(tab, $panel, 4);
                                 me.toolbar.setVisible('pivot', true);
                             }
                         }
@@ -3116,7 +3116,7 @@ define([
                         var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                         var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                         if ( $panel )
-                            me.toolbar.addTab(tab, $panel, 4);
+                            me.toolbar.addTab(tab, $panel, 5);
 
                         if (!(config.customization && config.customization.compactHeader)) {
                             // hide 'print' and 'save' buttons group and next separator
@@ -3135,7 +3135,7 @@ define([
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
-                                    me.toolbar.addTab(tab, $panel, 5);
+                                    me.toolbar.addTab(tab, $panel, 6);
                             }
                         }
                     }

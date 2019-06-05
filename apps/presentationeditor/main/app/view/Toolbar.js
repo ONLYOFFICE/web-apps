@@ -826,44 +826,7 @@ define([
             },
 
             lockToolbar: function (causes, lock, opts) {
-                !opts && (opts = {});
-
-                var controls = opts.array || this.lockControls;
-                opts.merge && (controls = _.union(this.lockControls, controls));
-
-                function doLock(cmp, cause) {
-                    if (_.contains(cmp.options.lock, cause)) {
-                        var index = cmp.keepState.indexOf(cause);
-                        if (lock) {
-                            if (index < 0) {
-                                cmp.keepState.push(cause);
-                            }
-                        } else {
-                            if (!(index < 0)) {
-                                cmp.keepState.splice(index, 1);
-                            }
-                        }
-                    }
-                }
-
-                _.each(controls, function (item) {
-                    if (_.isFunction(item.setDisabled)) {
-                        !item.keepState && (item.keepState = []);
-                        if (opts.clear && opts.clear.length > 0 && item.keepState.length > 0) {
-                            item.keepState = _.difference(item.keepState, opts.clear);
-                        }
-
-                        _.isArray(causes) ? _.each(causes, function (c) {
-                                doLock(item, c)
-                            }) : doLock(item, causes);
-
-                        if (!(item.keepState.length > 0)) {
-                            item.isDisabled() && item.setDisabled(false);
-                        } else {
-                            !item.isDisabled() && item.setDisabled(true);
-                        }
-                    }
-                });
+                Common.Utils.lockControls(causes, lock, opts, this.lockControls);
             },
 
             render: function (mode) {
