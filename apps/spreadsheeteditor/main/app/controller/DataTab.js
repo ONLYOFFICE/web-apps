@@ -113,15 +113,15 @@ define([
         },
 
         onUngroup: function(type) {
-            var me = this,
-                val = me.api.asc_checkAddGroup(true); // check ungroup
+            var me = this;
             if (type=='rows') {
-                (val!==undefined) && me.api.asc_ungroup(true)
+                (me.api.asc_checkAddGroup(true)!==undefined) && me.api.asc_ungroup(true)
             } else if (type=='columns') {
-                (val!==undefined) && me.api.asc_ungroup(false)
+                (me.api.asc_checkAddGroup(true)!==undefined) && me.api.asc_ungroup(false)
             } else if (type=='clear') {
                 me.api.asc_clearOutline();
             } else {
+                var val = me.api.asc_checkAddGroup(true);
                 if (val===null) {
                     (new SSE.Views.GroupDialog({
                         title: me.view.capBtnUngroup,
