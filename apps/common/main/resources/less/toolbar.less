@@ -301,7 +301,7 @@
 
 .style-off-tabs {
     .toolbar {
-        @underscore_height: 2px;
+        @underscore_height: 3px;
 
         .tabs, .extra {
             background-color: transparent;
@@ -329,6 +329,7 @@
 
                 &.active {
                     background-color: transparent;
+                    font-weight: bold;
 
                     &:after {
                         opacity: 1;
@@ -343,6 +344,17 @@
 
                 > a {
                     color: @gray-deep;
+
+                    &::after {
+                        display:block;
+                        content:attr(data-title);
+                        font-weight:bold;
+                        height:1px;
+                        color:transparent;
+                        overflow:hidden;
+                        visibility:hidden;
+                        margin-bottom:-1px;
+                    }
                 }
             }
         }
