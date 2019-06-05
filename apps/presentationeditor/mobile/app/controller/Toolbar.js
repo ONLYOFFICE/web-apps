@@ -175,11 +175,11 @@ define([
             },
 
             activateControls: function() {
-                $('#toolbar-preview, #toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document').removeClass('disabled');
+                $('#toolbar-preview, #toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document, #toolbar-collaboration').removeClass('disabled');
             },
 
             activateViewControls: function() {
-                $('#toolbar-preview, #toolbar-search, #document-back').removeClass('disabled');
+                $('#toolbar-preview, #toolbar-search, #document-back, #toolbar-collaboration').removeClass('disabled');
             },
 
             deactivateEditControls: function() {

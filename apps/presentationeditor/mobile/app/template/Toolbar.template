@@ -46,7 +46,7 @@
             </a>
             <% } %>
             <% if (!phone) { %>
-            <a href="#" id="toolbar-collaboration" class="link icon-only">
+            <a href="#" id="toolbar-collaboration" class="link icon-only disabled">
                 <i class="icon icon-collaboration"></i>
             </a>
             <% } %>
