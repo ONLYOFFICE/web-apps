@@ -81,7 +81,8 @@ define([
                         'searchbar:show'        : this.onSearchbarShow,
                         'searchbar:hide'        : this.onSearchbarHide,
                         'searchbar:render'      : this.onSearchbarRender,
-                        'searchbar:showsettings': this.onSearchbarSettings
+                        'searchbar:showsettings': this.onSearchbarSettings,
+                        'search:highlight'      : this.onSearchHighlight
                     }
                 });
             },
@@ -168,22 +169,26 @@ define([
                     searchIn        = Common.SharedSettings.get('search-in') === 'sheet' ? 'sheet' : 'workbook',
                     isMatchCase     = Common.SharedSettings.get('search-match-case') === true,
                     isMatchCell     = Common.SharedSettings.get('search-match-cell') === true,
+                    isHighlightRes  = Common.SharedSettings.get('search-highlight-res') === true,
                     $pageSettings   = $('.page[data-page=search-settings]'),
                     $inputType      = $pageSettings.find('input[name=search-type]'),
                     $inputSearchIn  = $pageSettings.find('input[name=search-in]'),
                     $inputMatchCase = $pageSettings.find('#search-match-case input:checkbox'),
-                    $inputMatchCell = $pageSettings.find('#search-match-cell input:checkbox');
+                    $inputMatchCell = $pageSettings.find('#search-match-cell input:checkbox'),
+                    $inputHighlightResults = $pageSettings.find('#search-highlight-res input:checkbox');
 
                 $inputType.val([isReplace ? 'replace' : 'search']);
                 $inputSearchIn.val([searchIn]);
                 $inputMatchCase.prop('checked', isMatchCase);
                 $inputMatchCell.prop('checked', isMatchCell);
+                $inputHighlightResults.prop('checked', isHighlightRes);
 
                 // init events
                 $inputType.single('change',      _.bind(me.onTypeChange, me));
                 $inputSearchIn.single('change',  _.bind(me.onSearchInChange, me));
                 $inputMatchCase.single('change', _.bind(me.onMatchCaseClick, me));
                 $inputMatchCell.single('change', _.bind(me.onMatchCellClick, me));
+                $inputHighlightResults.single('change', _.bind(me.onHighlightResultsClick, me));
             },
 
             onSearchbarShow: function(bar) {
@@ -241,7 +246,11 @@ define([
             },
 
             onReplace: function (btn) {
-                this.onQueryReplace(this.searchBar.query, this.replaceBar.query);
+                var me = this;
+                me.onQueryReplace(me.searchBar.query, me.replaceBar.query);
+                setTimeout(function () {
+                    me.onQuerySearch(me.searchBar.query, 'next');
+                }, 10);
             },
 
             onReplaceAll: function (e) {
@@ -357,6 +366,16 @@ define([
 
             onMatchCellClick: function (e) {
                 Common.SharedSettings.set('search-match-cell', $(e.currentTarget).is(':checked'));
+            },
+
+            onHighlightResultsClick: function (e) {
+                var value = $(e.currentTarget).is(':checked');
+                Common.SharedSettings.set('search-highlight-res', value);
+                this.api.asc_selectSearchingResults(value);
+            },
+
+            onSearchHighlight: function(w, highlight) {
+                this.api.asc_selectSearchingResults(highlight);
             },
 
             // API handlers

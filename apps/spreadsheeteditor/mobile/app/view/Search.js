@@ -155,6 +155,13 @@ define([
                     me.fireEvent('searchbar:render', me);
                     me.fireEvent('searchbar:show', me);
 
+                    if(Common.SharedSettings.get('search-highlight-res') === undefined) {
+                        Common.SharedSettings.set('search-highlight-res', true);
+                    }
+                    if (Common.SharedSettings.get('search-highlight-res')) {
+                        this.fireEvent('search:highlight', [this, true]);
+                    }
+
                     searchBar = $$('.searchbar.document');
 
                     _.defer(function() {
@@ -188,6 +195,8 @@ define([
                         uiApp.hideNavbar(searchBar);
                     }, 10);
                 }
+
+                this.fireEvent('search:highlight', [this, false]);
             },
 
             textFind: 'Find',
@@ -199,7 +208,8 @@ define([
             textMatchCell: 'Match Cell',
             textSearchIn: 'Search In',
             textWorkbook: 'Workbook',
-            textSheet: 'Sheet'
+            textSheet: 'Sheet',
+            textHighlightRes: 'Highlight results'
         }
     })(), SSE.Views.Search || {}))
 });
