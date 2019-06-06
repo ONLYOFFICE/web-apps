@@ -129,6 +129,8 @@ define([
                     if (isEdit) {
                         $layout.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        $layout.find('#settings-spreadsheet').hide();
+                        $layout.find('#settings-application').hide();
                     }
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();

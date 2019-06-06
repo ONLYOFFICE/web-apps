@@ -121,6 +121,7 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        $layour.find('#settings-application').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
