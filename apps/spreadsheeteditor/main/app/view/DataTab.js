@@ -134,7 +134,7 @@ define([
 
                 this.btnGroup = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-group',
+                    iconCls: 'btn-cell-group',
                     caption: this.capBtnGroup,
                     split: false,
                     disabled: true,
@@ -145,7 +145,7 @@ define([
 
                 this.btnUngroup = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-group',
+                    iconCls: 'btn-cell-ungroup',
                     caption: this.capBtnUngroup,
                     split: true,
                     menu: true,
@@ -157,7 +157,7 @@ define([
 
                 this.btnTextToColumns = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-group',
+                    iconCls: 'btn-to-columns',
                     caption: this.capBtnTextToCol,
                     split: false,
                     disabled: true,
