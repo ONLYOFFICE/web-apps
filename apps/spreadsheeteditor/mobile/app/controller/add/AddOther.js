@@ -105,8 +105,6 @@ define([
             // Handlers
 
             onInsertImage: function (args) {
-                SSE.getController('AddContainer').hideModal();
-
                 if ( !args.islocal ) {
                     var me = this;
                     var url = args.url;
@@ -124,6 +122,7 @@ define([
                         uiApp.alert(me.textEmptyImgUrl);
                     }
                 } else {
+                    SSE.getController('AddContainer').hideModal();
                     this.api.asc_addImage();
                 }
             },
