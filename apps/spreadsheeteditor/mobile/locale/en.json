@@ -165,6 +165,7 @@
   "SSE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.",
   "SSE.Controllers.Main.errorWrongBracketsCount": "An error in the entered formula.<br>Wrong number of brackets is used.",
   "SSE.Controllers.Main.errorWrongOperator": "An error in the entered formula. Wrong operator is used.<br>Please correct the error.",
+  "SSE.Controllers.Main.errorFrmlMaxTextLength": "Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&).",
   "SSE.Controllers.Main.leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
   "SSE.Controllers.Main.loadFontsTextText": "Loading data...",
   "SSE.Controllers.Main.loadFontsTitleText": "Loading Data",

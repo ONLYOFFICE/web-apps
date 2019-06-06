@@ -1362,6 +1362,10 @@ define([
                         config.msg = this.errorCannotUngroup;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlMaxTextLength:
+                        config.msg = this.errorFrmlMaxTextLength;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2361,6 +2365,7 @@ define([
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
             errorNoDataToParse: 'No data was selected to parse.',
             errorCannotUngroup: 'Cannot ungroup. To start an outline, select the detail rows or columns and group them.',
+            errorFrmlMaxTextLength: 'Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)',
             waitText: 'Please, wait...'
         }
     })(), SSE.Controllers.Main || {}))
