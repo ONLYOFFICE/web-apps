@@ -542,6 +542,8 @@ Common.Utils.String = new (function() {
     return {
         format: function(format) {
             var args = _.toArray(arguments).slice(1);
+            if (args.length && typeof args[0] == 'object')
+                args = args[0];
             return format.replace(/\{(\d+)\}/g, function(s, i) {
                 return args[i];
             });

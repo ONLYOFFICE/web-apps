@@ -277,7 +277,8 @@ define([
             width: 100,
             minValue: 0,
             maxValue: 100,
-            values: [0, 100]
+            values: [0, 100],
+            thumbTemplate: '<div class="thumb" style=""></div>'
         },
 
         disabled: false,
@@ -290,7 +291,7 @@ define([
                     '<div class="track-right" style=""></div>',
                 '</div>',
                 '<% _.each(items, function(item) { %>',
-                '<div class="thumb" style=""></div>',
+                '<%= thumbTemplate %>',
                 '<% }); %>',
             '</div>'
         ].join('')),
@@ -317,7 +318,8 @@ define([
 
             if (!me.rendered) {
                 this.cmpEl = $(this.template({
-                    items: this.options.values
+                    items: this.options.values,
+                    thumbTemplate: this.options.thumbTemplate
                 }));
 
                 if (parentEl) {
@@ -353,8 +355,8 @@ define([
                 if (need_sort)
                     me.sortThumbs();
 
-                $(document).off('mouseup', onMouseUp);
-                $(document).off('mousemove', onMouseMove);
+                $(document).off('mouseup', me.binding.onMouseUp);
+                $(document).off('mousemove', me.binding.onMouseMove);
 
                 me._dragstart = undefined;
                 me.trigger('changecomplete', me, value, lastValue);
@@ -399,8 +401,8 @@ define([
                     (index == idx) ? item.thumb.css('z-index', 500) : item.thumb.css('z-index', '');
                 });
 
-                $(document).on('mouseup', null, e.data, onMouseUp);
-                $(document).on('mousemove', null, e.data, onMouseMove);
+                $(document).on('mouseup', null, e.data, me.binding.onMouseUp);
+                $(document).on('mousemove', null, e.data, me.binding.onMouseMove);
             };
 
             var onTrackMouseDown = function (e) {
@@ -443,6 +445,12 @@ define([
                 return index;
             };
 
+            this.binding = {
+                onMouseUp:   _.bind(onMouseUp, this),
+                onMouseMove: _.bind(onMouseMove, this),
+                onMouseDown: _.bind(onMouseDown, this)
+            };
+
             this.$thumbs = el.find('.thumb');
             _.each(this.$thumbs, function(item, index) {
                 var thumb = $(item);
@@ -451,7 +459,7 @@ define([
                     index: index
                 });
                 me.setValue(index, me.options.values[index]);
-                thumb.on('mousedown', null, me.thumbs[index], onMouseDown);
+                thumb.on('mousedown', null, me.thumbs[index], me.binding.onMouseDown);
             });
             me.setActiveThumb(0, true);
 
@@ -480,7 +488,6 @@ define([
             this.thumbs[index].value = Math.max(this.minValue, Math.min(this.maxValue, value));
             this.setThumbPosition(index, Math.round((value-this.minValue)*this.delta));
         },
-
 
         getValue: function(index) {
             return this.thumbs[index].value;
@@ -511,6 +518,35 @@ define([
                 thumb.index = index;
             });
             return recalc_indexes;
+        },
+
+        setThumbs: function(count) {
+            var length = this.thumbs.length;
+            if (length==count) return;
+
+            for (var i=0; i<Math.abs(count-length); i++)
+                (length<count) ? this.addThumb() : this.removeThumb();
+        },
+
+        addThumb: function() {
+            var el = this.cmpEl,
+                thumb = $(this.options.thumbTemplate),
+                index = this.thumbs.length;
+            el.append(thumb);
+            this.thumbs.push({
+                thumb: thumb,
+                index: index
+            });
+            (index>0) && this.setValue(index, this.getValue(index-1));
+            thumb.on('mousedown', null, this.thumbs[index], this.binding.onMouseDown);
+        },
+
+        removeThumb: function(index) {
+            if (index===undefined) index = this.thumbs.length-1;
+            if (index>0) {
+                this.thumbs[index].thumb.remove();
+                this.thumbs.splice(index, 1);
+            }
         }
     });
 });
