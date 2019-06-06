@@ -1662,7 +1662,7 @@ define([
         },
 
         onApiEditCell: function(state) {
-            if (this.getApplication().getController('Main').isModalShowed) return;
+            if ($('.asc-window.enable-key-events:visible').length>0) return;
 
             var toolbar = this.toolbar;
             if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
@@ -1798,7 +1798,7 @@ define([
         },
 
         onApiEditorSelectionChanged: function(fontobj) {
-            if (!this.editMode || this.getApplication().getController('Main').isModalShowed) return;
+            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0) return;
 
             var toolbar = this.toolbar,
                 val;
@@ -1904,7 +1904,7 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
-            if (!this.editMode || this.getApplication().getController('Main').isModalShowed) return;
+            if (!this.editMode || $('.asc-window.enable-key-events:visible').length>0) return;
             if ( this.toolbar.mode.isEditDiagram )
                 return this.onApiSelectionChanged_DiagramEditor(info); else
             if ( this.toolbar.mode.isEditMailMerge )
