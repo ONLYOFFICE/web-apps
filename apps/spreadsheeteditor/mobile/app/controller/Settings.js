@@ -205,6 +205,11 @@ define([
                     me.initSpreadsheetPageSize();
                 } else if ('#margins-view' == pageId) {
                     me.initSpreadsheetMargins();
+                } else {
+                    var _userCount = SSE.getController('Main').returnUserCount();
+                    if (_userCount > 0) {
+                        $('#settings-collaboration').show();
+                    }
                 }
             },
 

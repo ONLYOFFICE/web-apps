@@ -165,6 +165,11 @@ define([
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
                 $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
 
+                var _userCount = PE.getController('Main').returnUserCount();
+                if (_userCount > 0) {
+                    $('#settings-collaboration').show();
+                }
+
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-setup-view]', '.page[data-page=settings-setup-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');

@@ -87,6 +87,8 @@ define([
                 this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onApiWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this))
+                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.displayCollaboration, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
 
                 Common.NotificationCenter.on('sheet:active', this.onApiActiveSheetChanged.bind(this));
@@ -217,6 +219,21 @@ define([
                 SSE.getController('AddContainer').hideModal();
                 SSE.getController('EditContainer').hideModal();
                 SSE.getController('Settings').hideModal();
+            },
+
+            displayCollaboration: function(users) {
+                if(users !== undefined) {
+                    var length = 0;
+                    _.each(users, function (item) {
+                        if (!item.asc_getView())
+                            length++;
+                    });
+                    if (length > 0) {
+                        $('#toolbar-collaboration').show();
+                    } else {
+                        $('#toolbar-collaboration').hide();
+                    }
+                }
             },
 
             dlgLeaveTitleText   : 'You leave the application',

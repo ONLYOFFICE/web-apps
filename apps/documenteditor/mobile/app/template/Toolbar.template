@@ -43,7 +43,7 @@
             </a>
             <% } %>
             <% if (!phone) { %>
-            <a href="#" id="toolbar-collaboration" class="link icon-only disabled">
+            <a href="#" id="toolbar-collaboration" class="link icon-only disabled" style="display: none;">
                 <i class="icon icon-collaboration"></i>
             </a>
             <% } %>

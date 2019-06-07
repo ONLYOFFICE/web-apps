@@ -253,6 +253,10 @@ define([
                     if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                         $('#settings-document').addClass('disabled');
                     }
+                    var _userCount = DE.getController('Main').returnUserCount();
+                    if (_userCount > 0) {
+                        $('#settings-collaboration').show();
+                    }
                 }
             },
 

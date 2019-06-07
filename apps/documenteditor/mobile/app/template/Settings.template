@@ -57,7 +57,7 @@
                         <% } %>
                         <% if(phone) {%>
                         <li>
-                            <div id="settings-collaboration" class="item-content">
+                            <div id="settings-collaboration" class="item-content" style="display: none;">
                                 <div class="item-media">
                                     <i class="icon icon-collaboration"></i>
                                 </div>
