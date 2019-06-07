@@ -867,7 +867,7 @@ define([
                         primary: 'contact',
                         callback: function(btn) {
                             if (btn == 'contact')
-                                window.open('mailto:sales@onlyoffice.com', "_blank");
+                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
                         }
                     });
                 }
