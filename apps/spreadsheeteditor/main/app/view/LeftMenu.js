@@ -67,7 +67,7 @@ define([
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
                         window.open(config.feedback.url) :
-                        window.open('http://support.onlyoffice.com');
+                        window.open('{{SUPPORT_URL}}');
                 }
             }
         },
