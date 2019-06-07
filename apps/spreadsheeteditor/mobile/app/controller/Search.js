@@ -171,13 +171,15 @@ define([
                     isMatchCell     = Common.SharedSettings.get('search-match-cell') === true,
                     isHighlightRes  = Common.SharedSettings.get('search-highlight-res') === true,
                     searchBy        = Common.SharedSettings.get('search-by') === 'rows' ? 'rows' : 'columns',
+                    lookIn          = Common.SharedSettings.get('look-in') === 'formulas' ? 'formulas' : 'values',
                     $pageSettings   = $('.page[data-page=search-settings]'),
                     $inputType      = $pageSettings.find('input[name=search-type]'),
                     $inputSearchIn  = $pageSettings.find('input[name=search-in]'),
                     $inputSearchBy  = $pageSettings.find('input[name=search-by]'),
                     $inputMatchCase = $pageSettings.find('#search-match-case input:checkbox'),
                     $inputMatchCell = $pageSettings.find('#search-match-cell input:checkbox'),
-                    $inputHighlightResults = $pageSettings.find('#search-highlight-res input:checkbox');
+                    $inputHighlightResults = $pageSettings.find('#search-highlight-res input:checkbox'),
+                    $inputLookIn = $pageSettings.find('input[name=look-in]');
 
                 $inputType.val([isReplace ? 'replace' : 'search']);
                 $inputSearchIn.val([searchIn]);
@@ -185,11 +187,13 @@ define([
                 $inputMatchCell.prop('checked', isMatchCell);
                 $inputHighlightResults.prop('checked', isHighlightRes);
                 $inputSearchBy.val([searchBy]);
+                $inputLookIn.val([lookIn]);
 
                 // init events
                 $inputType.single('change',      _.bind(me.onTypeChange, me));
                 $inputSearchIn.single('change',  _.bind(me.onSearchInChange, me));
                 $inputSearchBy.single('change',  _.bind(me.onSearchByChange, me));
+                $inputLookIn.single('change',  _.bind(me.onLookInChange, me));
                 $inputMatchCase.single('change', _.bind(me.onMatchCaseClick, me));
                 $inputMatchCell.single('change', _.bind(me.onMatchCellClick, me));
                 $inputHighlightResults.single('change', _.bind(me.onHighlightResultsClick, me));
@@ -254,7 +258,7 @@ define([
                 me.onQueryReplace(me.searchBar.query, me.replaceBar.query);
                 setTimeout(function () {
                     me.onQuerySearch(me.searchBar.query, 'next');
-                }, 10);
+                }, 20);
             },
 
             onReplaceAll: function (e) {
@@ -283,7 +287,8 @@ define([
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
                     lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
-                    searchBy = Common.SharedSettings.get('search-by') === 'rows';
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows',
+                    lookIn = Common.SharedSettings.get('look-in') === 'formulas';
 
                 if (query && query.length) {
                     var options = new Asc.asc_CFindOptions();
@@ -293,7 +298,7 @@ define([
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
                     options.asc_setScanByRows(searchBy);
-                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+                    options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
 
                     if (!this.api.asc_findText(options)) {
                         var me = this;
@@ -313,7 +318,8 @@ define([
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
                     lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
-                    searchBy = Common.SharedSettings.get('search-by') === 'rows';
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows',
+                    lookIn = Common.SharedSettings.get('look-in') === 'formulas';
 
                 if (search && search.length) {
                     this.api.isReplaceAll = false;
@@ -325,7 +331,7 @@ define([
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
                     options.asc_setScanByRows(searchBy);
-                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+                    options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
                     options.asc_setIsReplaceAll(false);
 
                     this.api.asc_replaceText(options);
@@ -336,7 +342,8 @@ define([
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
                     lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
-                    searchBy = Common.SharedSettings.get('search-by') === 'rows';
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows',
+                    lookIn = Common.SharedSettings.get('look-in') === 'formulas';
 
                 if (search && search.length) {
                     this.api.isReplaceAll = true;
@@ -348,7 +355,7 @@ define([
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
                     options.asc_setScanByRows(searchBy);
-                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+                    options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
                     options.asc_setIsReplaceAll(true);
 
                     this.api.asc_replaceText(options);
@@ -369,6 +376,10 @@ define([
 
             onSearchByChange: function(e) {
                 Common.SharedSettings.set('search-by', $(e.currentTarget).val());
+            },
+
+            onLookInChange: function(e) {
+                Common.SharedSettings.set('look-in', $(e.currentTarget).val());
             },
 
             onMatchCaseClick: function (e) {

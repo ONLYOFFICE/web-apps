@@ -164,6 +164,9 @@ define([
                     if(Common.SharedSettings.get('search-by') === undefined) {
                         Common.SharedSettings.set('search-by', 'rows');
                     }
+                    if(Common.SharedSettings.get('look-in') === undefined) {
+                        Common.SharedSettings.set('look-in', 'formulas');
+                    }
 
                     searchBar = $$('.searchbar.document');
 
@@ -215,7 +218,10 @@ define([
             textHighlightRes: 'Highlight results',
             textByColumns: 'By columns',
             textByRows: 'By rows',
-            textSearchBy: 'Search'
+            textSearchBy: 'Search',
+            textLookIn: 'Look In',
+            textFormulas: 'Formulas',
+            textValues: 'Values'
         }
     })(), SSE.Views.Search || {}))
 });

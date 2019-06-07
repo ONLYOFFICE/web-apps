@@ -118,6 +118,29 @@
                     </li>
                 </ul>
             </div>
+            <div class="content-block-title"><%= scope.textLookIn %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="look-in" value="formulas">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textFormulas %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="look-in" value="values">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textValues %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
             <div class="list-block">
                 <ul>
                     <li>
