@@ -170,9 +170,11 @@ define([
                     isMatchCase     = Common.SharedSettings.get('search-match-case') === true,
                     isMatchCell     = Common.SharedSettings.get('search-match-cell') === true,
                     isHighlightRes  = Common.SharedSettings.get('search-highlight-res') === true,
+                    searchBy        = Common.SharedSettings.get('search-by') === 'rows' ? 'rows' : 'columns',
                     $pageSettings   = $('.page[data-page=search-settings]'),
                     $inputType      = $pageSettings.find('input[name=search-type]'),
                     $inputSearchIn  = $pageSettings.find('input[name=search-in]'),
+                    $inputSearchBy  = $pageSettings.find('input[name=search-by]'),
                     $inputMatchCase = $pageSettings.find('#search-match-case input:checkbox'),
                     $inputMatchCell = $pageSettings.find('#search-match-cell input:checkbox'),
                     $inputHighlightResults = $pageSettings.find('#search-highlight-res input:checkbox');
@@ -182,10 +184,12 @@ define([
                 $inputMatchCase.prop('checked', isMatchCase);
                 $inputMatchCell.prop('checked', isMatchCell);
                 $inputHighlightResults.prop('checked', isHighlightRes);
+                $inputSearchBy.val([searchBy]);
 
                 // init events
                 $inputType.single('change',      _.bind(me.onTypeChange, me));
                 $inputSearchIn.single('change',  _.bind(me.onSearchInChange, me));
+                $inputSearchBy.single('change',  _.bind(me.onSearchByChange, me));
                 $inputMatchCase.single('change', _.bind(me.onMatchCaseClick, me));
                 $inputMatchCell.single('change', _.bind(me.onMatchCellClick, me));
                 $inputHighlightResults.single('change', _.bind(me.onHighlightResultsClick, me));
@@ -278,7 +282,8 @@ define([
             onQuerySearch: function(query, direction) {
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
-                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows';
 
                 if (query && query.length) {
                     var options = new Asc.asc_CFindOptions();
@@ -287,7 +292,7 @@ define([
                     options.asc_setIsMatchCase(matchCase);
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
-                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
+                    options.asc_setScanByRows(searchBy);
                     // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
 
                     if (!this.api.asc_findText(options)) {
@@ -307,7 +312,8 @@ define([
             onQueryReplace: function(search, replace) {
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
-                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows';
 
                 if (search && search.length) {
                     this.api.isReplaceAll = false;
@@ -318,7 +324,7 @@ define([
                     options.asc_setIsMatchCase(matchCase);
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
-                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
+                    options.asc_setScanByRows(searchBy);
                     // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
                     options.asc_setIsReplaceAll(false);
 
@@ -329,7 +335,8 @@ define([
             onQueryReplaceAll: function(search, replace) {
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
-                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows';
 
                 if (search && search.length) {
                     this.api.isReplaceAll = true;
@@ -340,7 +347,7 @@ define([
                     options.asc_setIsMatchCase(matchCase);
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
-                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
+                    options.asc_setScanByRows(searchBy);
                     // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
                     options.asc_setIsReplaceAll(true);
 
@@ -358,6 +365,10 @@ define([
 
             onSearchInChange: function (e) {
                 Common.SharedSettings.set('search-in', $(e.currentTarget).val());
+            },
+
+            onSearchByChange: function(e) {
+                Common.SharedSettings.set('search-by', $(e.currentTarget).val());
             },
 
             onMatchCaseClick: function (e) {

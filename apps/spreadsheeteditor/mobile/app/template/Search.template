@@ -95,6 +95,29 @@
                     </li>
                 </ul>
             </div>
+            <div class="content-block-title"><%= scope.textSearchBy %></div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="search-by" value="rows">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textByRows %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="search-by" value="columns">
+                            <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textByColumns %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
             <div class="list-block">
                 <ul>
                     <li>

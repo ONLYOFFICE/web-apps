@@ -161,6 +161,9 @@ define([
                     if (Common.SharedSettings.get('search-highlight-res')) {
                         this.fireEvent('search:highlight', [this, true]);
                     }
+                    if(Common.SharedSettings.get('search-by') === undefined) {
+                        Common.SharedSettings.set('search-by', 'rows');
+                    }
 
                     searchBar = $$('.searchbar.document');
 
@@ -209,7 +212,10 @@ define([
             textSearchIn: 'Search In',
             textWorkbook: 'Workbook',
             textSheet: 'Sheet',
-            textHighlightRes: 'Highlight results'
+            textHighlightRes: 'Highlight results',
+            textByColumns: 'By columns',
+            textByRows: 'By rows',
+            textSearchBy: 'Search'
         }
     })(), SSE.Views.Search || {}))
 });
