@@ -681,16 +681,16 @@ define([
             if (count>0 && count==Templates.length) {
                 var data = self.cmbTableTemplate.menuPicker.store.models;
                 _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.get_Image());
+                    data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
                 self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
                     arr.push({
-                        imageUrl: template.get_Image(),
+                        imageUrl: template.asc_getImage(),
                         id     : Common.UI.getId(),
-                        templateId: template.get_Id()
+                        templateId: template.asc_getId()
                     });
                 });
                 self.cmbTableTemplate.menuPicker.store.add(arr);

@@ -168,8 +168,8 @@ define([
                 if (_styles.length < 1) {
                     _.each(templates, function(template){
                         _styles.push({
-                            imageUrl    : template.get_Image(),
-                            templateId  : template.get_Id()
+                            imageUrl    : template.asc_getImage(),
+                            templateId  : template.asc_getId()
                         });
                     });
 

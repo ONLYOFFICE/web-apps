@@ -555,8 +555,8 @@ define([
 
                 _.each(templates, function(template){
                     styles.push({
-                        imageUrl    : template.get_Image(),
-                        templateId  : template.get_Id()
+                        imageUrl    : template.asc_getImage(),
+                        templateId  : template.asc_getId()
                     });
                 });
 
