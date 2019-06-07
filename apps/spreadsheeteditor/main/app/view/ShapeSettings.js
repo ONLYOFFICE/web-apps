@@ -179,6 +179,7 @@ define([
                         if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
                             this.GradColor.values = [0, 100];
                             this.GradColor.colors = [this.GradColor.colors[0], this.GradColor.colors[this.GradColor.colors.length - 1]];
+                            this.GradColor.currentIdx = 0;
                             var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]).get_color().get_hex(),
                                 HexColor1 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1]).get_color().get_hex();
 
