@@ -654,7 +654,7 @@ define([
                                         text: me.textContactUs,
                                         bold: true,
                                         onClick: function() {
-                                            window.open('mailto:sales@onlyoffice.com', "_blank");
+                                            window.open('mailto:{{SALES_EMAIL}}', "_blank");
                                         }
                                     },
                                     { text: me.textClose }]
