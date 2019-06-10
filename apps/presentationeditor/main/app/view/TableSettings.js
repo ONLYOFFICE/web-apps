@@ -690,7 +690,8 @@ define([
                     arr.push({
                         imageUrl: template.asc_getImage(),
                         id     : Common.UI.getId(),
-                        templateId: template.asc_getId()
+                        templateId: template.asc_getId(),
+                        tip    : template.asc_getDisplayName()
                     });
                 });
                 self.cmbTableTemplate.menuPicker.store.add(arr);
