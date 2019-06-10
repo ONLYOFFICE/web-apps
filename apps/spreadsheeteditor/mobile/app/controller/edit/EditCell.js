@@ -361,9 +361,7 @@ define([
             onApiInitEditorStyles: function(styles){
                 window.styles_loaded = false;
 
-                _cellStyles = styles.asc_getDefaultStyles().concat(styles.asc_getDocStyles());
-
-                this.getView('EditCell').renderStyles(_cellStyles);
+                this.getView('EditCell').renderStyles(styles);
 
                 window.styles_loaded = true;
             },

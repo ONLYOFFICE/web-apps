@@ -1614,8 +1614,7 @@ define([
             listStyles.menuPicker.store.reset([]); // remove all
 
             var mainController = this.getApplication().getController('Main');
-            var merged_array = styles.asc_getDocStyles().concat(styles.asc_getDefaultStyles());
-            _.each(merged_array, function(style){
+            _.each(styles, function(style){
                 listStyles.menuPicker.store.add({
                     imageUrl: style.asc_getImage(),
                     name    : style.asc_getName(),
