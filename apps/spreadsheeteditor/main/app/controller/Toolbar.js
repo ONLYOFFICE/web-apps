@@ -1450,7 +1450,7 @@ define([
                                 if (_.isUndefined(me.toolbar.mnuTableTemplatePicker))
                                     me.onApiInitTableTemplates(me.api.asc_getTablePictures(formattableinfo));
                                 var store = me.getCollection('TableTemplates');
-                                me._setTableFormat(store.at(23).get('name'));
+                                me._setTableFormat(me.api.asc_getDefaultTableStyle());
                             }
                         }
 
@@ -1531,9 +1531,7 @@ define([
                 picker.on('item:click', function(picker, item, record) {
                     if (me.api) {
                         me._state.tablestylename = null;
-                        if (!record)
-                            record = picker.store.at(23);
-                        me._setTableFormat(record.get('name'));
+                        me._setTableFormat(record ? record.get('name') : me.api.asc_getDefaultTableStyle());
 
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         Common.component.Analytics.trackEvent('ToolBar', 'Table Templates');
@@ -1614,8 +1612,7 @@ define([
             listStyles.menuPicker.store.reset([]); // remove all
 
             var mainController = this.getApplication().getController('Main');
-            var merged_array = styles.asc_getDocStyles().concat(styles.asc_getDefaultStyles());
-            _.each(merged_array, function(style){
+            _.each(styles, function(style){
                 listStyles.menuPicker.store.add({
                     imageUrl: style.asc_getImage(),
                     name    : style.asc_getName(),
