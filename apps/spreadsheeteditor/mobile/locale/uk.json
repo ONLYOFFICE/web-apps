@@ -248,7 +248,7 @@
   "SSE.Controllers.Main.txtXAxis": "X Ось",
   "SSE.Controllers.Main.txtYAxis": "Y ось",
   "SSE.Controllers.Main.unknownErrorText": "Невідома помилка.",
-  "SSE.Controllers.Main.unsupportedBrowserErrorText ": "Ваш браузер не підтримується",
+  "SSE.Controllers.Main.unsupportedBrowserErrorText": "Ваш браузер не підтримується",
   "SSE.Controllers.Main.uploadImageExtMessage": "Невідомий формат зображення.",
   "SSE.Controllers.Main.uploadImageFileCountMessage": "Не завантажено жодного зображення.",
   "SSE.Controllers.Main.uploadImageSizeMessage": "Максимальний розмір зображення перевищено.",

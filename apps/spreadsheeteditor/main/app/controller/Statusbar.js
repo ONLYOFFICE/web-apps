@@ -325,6 +325,10 @@ define([
             } else {
                 this.api['asc_showWorksheet'](index);
                 this.loadTabColor(index);
+                var me = this;
+                setTimeout(function(){
+                    me.statusbar.tabMenu.hide();
+                }, 1);
             }
         },
 

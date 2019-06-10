@@ -74,6 +74,11 @@
         </td>
     </tr>
     <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
         <td>
             <label class="header"><%= scope.strEffect %></label>
         </td>
@@ -89,7 +94,7 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small">
+        <td class="padding-large">
             <div style="display: inline-block;">
                 <label class="input-label"><%= scope.strDuration %></label>
                 <div id="slide-spin-duration" style="display: inline-block; vertical-align: middle;"></div>
@@ -99,25 +104,15 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <div class="separator horizontal"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
             <div id="slide-checkbox-start-click"></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-small">
+        <td class="padding-large">
             <div>
                 <div id="slide-checkbox-delay" style="display: inline-block; width: 100px; margin-top:2px;"></div>
                 <div id="slide-spin-delay" style="display: inline-block; float:right;"></div>
             </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div class="separator horizontal"></div>
         </td>
     </tr>
     <tr>

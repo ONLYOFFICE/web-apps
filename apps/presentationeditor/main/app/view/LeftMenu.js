@@ -76,7 +76,7 @@ define([
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
                         window.open(config.feedback.url) :
-                        window.open('http://helpcenter.r7-office.ru');
+                        window.open('{{SUPPORT_URL}}');
                 }
             }
         },
@@ -165,7 +165,7 @@ define([
 
             this.menuFile = new PE.Views.FileMenu({});
             this.menuFile.render();
-            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Редактор презентаций'})).render();
+            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Presentation Editor'})).render();
 
             return this;
         },

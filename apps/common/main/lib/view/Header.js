@@ -54,6 +54,7 @@ define([
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers;
         var $saveStatus;
+        var _readonlyRights = false;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -96,6 +97,7 @@ define([
                                 '</section>'+
                             '</div>' +
                             '<div class="hedset">' +
+                                '<div class="btn-slot" id="slot-btn-undock"></div>' +
                                 '<div class="btn-slot" id="slot-btn-back"></div>' +
                                 '<div class="btn-slot" id="slot-btn-options"></div>' +
                             '</div>' +
@@ -128,13 +130,12 @@ define([
                         fnEncode: Common.Utils.String.htmlEncode
                     }));
 
-                    if (!$userList.scroller)
-                        $userList.scroller = new Common.UI.Scroller({
-                            el: $userList.find('ul'),
-                            useKeyboard: true,
-                            minScrollbarLength: 40,
-                            alwaysVisibleY: true
-                        });
+                    $userList.scroller = new Common.UI.Scroller({
+                        el: $userList.find('ul'),
+                        useKeyboard: true,
+                        minScrollbarLength: 40,
+                        alwaysVisibleY: true
+                    });
                     $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
                 } else {
                     $userList.empty();
@@ -165,7 +166,7 @@ define([
                     .removeClass('dropdown-toggle')
                     .menu = false;
 
-                $panelUsers[(appConfig && !appConfig.isReviewOnly && appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length) ? 'show' : 'hide']();
+                $panelUsers[(!_readonlyRights && appConfig && !appConfig.isReviewOnly && appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length) ? 'show' : 'hide']();
             }
 
             $btnUsers.find('.caption')
@@ -178,6 +179,12 @@ define([
                 usertip.options.title = (has_edit_users) ? usertip.options.titleExt : usertip.options.titleNorm;
                 usertip.setContent();
             }
+        }
+
+        function onLostEditRights() {
+            _readonlyRights = true;
+            $panelUsers.find('#tlb-change-rights').hide();
+            $btnUsers && !$btnUsers.menu && $panelUsers.hide();
         }
 
         function onUsersClick(e) {
@@ -208,7 +215,7 @@ define([
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
                     var _url = !!me.branding && !!me.branding.logo && (me.branding.logo.url!==undefined) ?
-                        me.branding.logo.url : 'https://www.onlyoffice.com';
+                        me.branding.logo.url : '{{PUBLISHER_URL}}';
                     if (_url) {
                         var newDocumentPage = window.open(_url);
                         newDocumentPage && newDocumentPage.focus();
@@ -303,6 +310,24 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
+        function onAppConfig(config) {
+            var me = this;
+            if ( config.canUndock ) {
+                me.btnUndock = new Common.UI.Button({
+                    cls: 'btn-header no-caret',
+                    iconCls: 'svgicon svg-btn-undock',
+                    hint: me.tipUndock,
+                    split: true
+                });
+
+                me.btnUndock.on('click', function (e) {
+                    Common.NotificationCenter.trigger('action:undocking', 'undock');
+                });
+
+                me.btnUndock.render($('#toolbar .box-tabs #slot-btn-undock'));
+            }
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
 
@@ -334,6 +359,13 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
+            }
+        }
+
+        function onAppUndocked(c) {
+            var me = this;
+            if ( me.btnUndock ) {
+                c.status == 'undocked' ? me.btnUndock.hide() : me.btnUndock.show();
             }
         }
 
@@ -384,12 +416,13 @@ define([
 
                 me.mnuZoom = {options: {value: 100}};
 
-                Common.NotificationCenter.on('app:ready', function(mode) {
-                    Common.Utils.asyncCall(onAppReady, me, mode);
+                Common.NotificationCenter.on({
+                    'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
+                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
+                    'app:config' : function (c) {Common.Utils.asyncCall(onAppConfig, me, c);},
+                    'undock:status': onAppUndocked.bind(this)
                 });
-                Common.NotificationCenter.on('app:face', function(mode) {
-                    Common.Utils.asyncCall(onAppShowed, me, mode);
-                });
+                Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
             },
 
             render: function (el, role) {
@@ -693,6 +726,7 @@ define([
             tipSave: 'Save',
             tipUndo: 'Undo',
             tipRedo: 'Redo',
+            tipUndock: 'Undock',
             textCompactView: 'Hide Toolbar',
             textHideStatusBar: 'Hide Status Bar',
             textHideLines: 'Hide Rulers',

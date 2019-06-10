@@ -68,7 +68,7 @@ define([
                     'Settings': {
                         'page:show' : this.onPageShow
                         , 'settings:showhelp': function(e) {
-                            window.open('http://helpcenter.r7-office.ru/', "_blank");
+                            window.open('{{SUPPORT_URL}}', "_blank");
                             this.hideModal();
                         }
                     }

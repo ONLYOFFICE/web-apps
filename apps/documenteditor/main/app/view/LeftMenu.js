@@ -79,7 +79,7 @@ define([
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
                         window.open(config.feedback.url) :
-                        window.open('http://helpcenter.r7-office.ru');
+                        window.open('{{SUPPORT_URL}}');
                 }
             }
         },

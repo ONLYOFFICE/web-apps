@@ -137,7 +137,7 @@
         },
         "jsonmin": {
             "files": "../deploy/web-apps/apps/documenteditor/main/**/*.json"
-        },       
+        },
         "copy": {
             "localization": [
                 {

@@ -14,8 +14,15 @@
             <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Вкладка Главная</h1>
-            <p>Вкладка <b>Главная</b> открывается по умолчанию при открытии документа. Она позволяет форматировать шрифт и абзацы. Здесь также доступны некоторые другие опции, такие как cлияние и цветовые схемы.</p>
-            <p><img alt="Вкладка Главная" src="../images/interface/hometab.png" /></p>
+            <p>Вкладка <b>Главная</b> открывается по умолчанию при открытии документа. Она позволяет форматировать шрифт и абзацы. Здесь также доступны некоторые другие опции, такие как <span class="onlineDocumentFeatures">cлияние и</span> цветовые схемы.</p>
+            <div class="onlineDocumentFeatures">
+                <p>Окно онлайн-редактора документов:</p>
+                <p><img alt="Вкладка Главная" src="../images/interface/hometab.png" /></p>
+            </div>
+            <div class="desktopDocumentFeatures">
+                <p>Окно десктопного редактора документов:</p>
+                <p><img alt="Вкладка Главная" src="../images/interface/desktop_hometab.png" /></p>
+            </div>
             <p>С помощью этой вкладки вы можете выполнить следующие действия:</p>
             <ul>
                 <li>задавать <a href="../UsageInstructions/FontTypeSizeColor.htm" onclick="onhyperlinkclick(this)">тип, размер и цвет</a> шрифта,</li>
@@ -28,7 +35,7 @@
                 <li>отображать и скрывать <a href="../UsageInstructions/NonprintingCharacters.htm" onclick="onhyperlinkclick(this)">непечатаемые символы</a>,</li>
                 <li><a href="../UsageInstructions/CopyClearFormatting.htm" onclick="onhyperlinkclick(this)">копировать и очищать</a> форматирование текста,</li>
                 <li>изменять <a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">цветовую схему</a>,</li>
-                <li>использовать функцию <a href="../UsageInstructions/UseMailMerge.htm" onclick="onhyperlinkclick(this)">слияния</a> (после подключения к облачной версии),</li>
+                <li class="onlineDocumentFeatures">использовать функцию <a href="../UsageInstructions/UseMailMerge.htm" onclick="onhyperlinkclick(this)">слияния</a> (доступно только в <em>онлайн-версии</em>),</li>
                 <li>управлять <a href="../UsageInstructions/FormattingPresets.htm" onclick="onhyperlinkclick(this)">стилями</a>.</li>
             </ul>
 		</div>

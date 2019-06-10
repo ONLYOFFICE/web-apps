@@ -396,7 +396,7 @@ define([
             },
 
             onShowHelp: function () {
-                window.open('http://helpcenter.r7-office.ru/', "_blank");
+                window.open('{{SUPPORT_URL}}', "_blank");
                 this.hideModal();
             },
 

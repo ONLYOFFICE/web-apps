@@ -591,7 +591,7 @@ define([
                 this.txtName = new Common.UI.InputField({
                     el: $window.find('#txt-sheet-name'),
                     style: 'width:100%;',
-                    value: this.options.current,
+                    value: Common.Utils.String.htmlEncode(this.options.current),
                     allowBlank: false,
                     maxLength: 31,
                     validation: _.bind(this.nameValidator, this)

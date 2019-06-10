@@ -180,7 +180,7 @@ define([
             },
 
             showHelp: function () {
-                window.open('http://helpcenter.r7-office.ru/', "_blank");
+                window.open('{{SUPPORT_URL}}', "_blank");
                 PE.getController('Settings').hideModal();
             },
 

@@ -184,6 +184,10 @@ define([
                 }
 
                 me.initNames();
+                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -433,6 +437,11 @@ define([
                         text    = me.savePreparingTitle;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = me.waitText;
+                        text    = me.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = me.txtEditingMode;
                         text    = me.txtEditingMode;
@@ -563,13 +572,13 @@ define([
                                         text: me.textBuyNow,
                                         bold: true,
                                         onClick: function() {
-                                            window.open('https://www.onlyoffice.com', "_blank");
+                                            window.open('{{PUBLISHER_URL}}', "_blank");
                                         }
                                     },
                                     {
                                         text: me.textContactUs,
                                         onClick: function() {
-                                            window.open('mailto:sales@onlyoffice.com', "_blank");
+                                            window.open('mailto:{{SALES_EMAIL}}', "_blank");
                                         }
                                     }];
                     }
@@ -600,7 +609,7 @@ define([
                                 text: me.textContactUs,
                                 bold: true,
                                 onClick: function() {
-                                    window.open('mailto:sales@onlyoffice.com', "_blank");
+                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
                                 }
                             },
                                 { text: me.textClose }]
@@ -665,7 +674,7 @@ define([
                 me.appOptions.canDownloadOrigin = !me.appOptions.nativeApp && me.permissions.download !== false && (type && typeof type[1] === 'string');
                 me.appOptions.canDownload       = !me.appOptions.nativeApp && me.permissions.download !== false && (!type || typeof type[1] !== 'string');
 
-                me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
+                me.appOptions.canBranding  = params.asc_getCustomization();
                 me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
 
                 me.applyModeCommonElements();
@@ -850,7 +859,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.Warning:
-                        config.msg = this.errorConnectToServer;
+                        config.msg = this.errorConnectToServer.replace('%1', '{{API_URL_EDITING_CALLBACK}}');
                         break;
 
                     case Asc.c_oAscError.ID.UplImageUrl:
@@ -1213,11 +1222,10 @@ define([
 
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
-            defaultTitleText: 'ONLYOFFICE Presentation Editor',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "Ok" to to back to document list.',
+            criticalErrorExtText: 'Press "OK" to to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
             saveTitleText: 'Saving Document',
@@ -1243,7 +1251,7 @@ define([
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            unsupportedBrowserErrorText: 'Your browser is not supported.',
             splitMaxRowsErrorText: 'The number of rows must be less than %1',
             splitMaxColsErrorText: 'The number of columns must be less than %1',
             splitDividerErrorText: 'The number of rows must be a divisor of %1',
@@ -1326,10 +1334,10 @@ define([
             txtSeries: 'Seria',
             txtArt: 'Your text here',
             errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
-            'Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
+            'Find more information about connecting Document Server <a href=\"%1\" target=\"_blank\">here</a>',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             textBuyNow: 'Visit website',
-            textNoLicenseTitle: 'ONLYOFFICE open source version',
+            textNoLicenseTitle: '%1 open source version',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -1363,8 +1371,8 @@ define([
             txtSlideSubtitle: 'Slide subtitle',
             txtSlideTitle: 'Slide title',
             txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset',
-            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicenseUsers: 'This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
@@ -1373,7 +1381,8 @@ define([
             errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
             textPaidFeature: 'Paid feature',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            waitText: 'Please, wait...'
         }
     })(), PE.Controllers.Main || {}))
 });

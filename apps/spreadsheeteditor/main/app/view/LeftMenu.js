@@ -67,7 +67,7 @@ define([
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
                         window.open(config.feedback.url) :
-                        window.open('http://helpcenter.r7-office.ru');
+                        window.open('{{SUPPORT_URL}}');
                 }
             }
         },
@@ -146,7 +146,7 @@ define([
 
             this.menuFile = new SSE.Views.FileMenu({});
             this.menuFile.render();
-            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Редактор таблиц'})).render();
+            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Spreadsheet Editor'})).render();
 
             return this;
         },

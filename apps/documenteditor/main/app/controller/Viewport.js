@@ -163,7 +163,7 @@ define([
             }
 
             if ( config.customization ) {
-                if ( config.customization.toolbarBreakTabs )
+                if ( config.customization.toolbarNoTabs )
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
 
                 if ( config.customization.toolbarHideFileName )

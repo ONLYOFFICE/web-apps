@@ -139,13 +139,13 @@ define([
                     "Error! Bookmark not defined.": this.txtBookmarkError,
                     "above": this.txtAbove,
                     "below": this.txtBelow,
-                    "on page ": this.txtOnPage,
+                    "on page ": this.txtOnPage + " ",
                     "Header": this.txtHeader,
                     "Footer": this.txtFooter,
-                    " -Section ": this.txtSection,
-                    "First Page ": this.txtFirstPage,
-                    "Even Page ": this.txtEvenPage,
-                    "Odd Page ": this.txtOddPage,
+                    " -Section ": " " + this.txtSection + " ",
+                    "First Page ": this.txtFirstPage + " ",
+                    "Even Page ": this.txtEvenPage + " ",
+                    "Odd Page ": this.txtOddPage + " ",
                     "Same as Previous": this.txtSameAsPrev,
                     "Current Document": this.txtCurrentDocument,
                     "No table of contents entries found.": this.txtNoTableOfContents,
@@ -160,7 +160,8 @@ define([
                     "The Formula Not In Table": this.txtFormulaNotInTable,
                     "Table Index Cannot be Zero": this.txtTableInd,
                     "Undefined Bookmark": this.txtUndefBookmark,
-                    "Unexpected End of Formula": this.txtEndOfFormula
+                    "Unexpected End of Formula": this.txtEndOfFormula,
+                    "Hyperlink": this.txtHyperlink
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -218,9 +219,10 @@ define([
                         // Syncronize focus with api
                     $(document.body).on('focus', 'input, textarea', function(e) {
                         if (!/area_id/.test(e.target.id)) {
-                            if (/msg-reply/.test(e.target.className))
+                            if (/msg-reply/.test(e.target.className)) {
                                 me.dontCloseDummyComment = true;
-                            else if (/chat-msg-text/.test(e.target.id))
+                                me.beforeShowDummyComment = me.beforeCloseDummyComment = false;
+                            } else if (/chat-msg-text/.test(e.target.id))
                                 me.dontCloseChat = true;
                             else if (!me.isModalShowed && /form-control/.test(e.target.className))
                                 me.inFormControl = true;
@@ -238,8 +240,12 @@ define([
                                 if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
                                     return;
                                 me.api.asc_enableKeyEvents(true);
-                                if (/msg-reply/.test(e.target.className))
-                                    me.dontCloseDummyComment = false;
+                                if (me.dontCloseDummyComment && /msg-reply/.test(e.target.className)) {
+                                    if ($(e.target).closest('.user-comment-item').find(e.relatedTarget).length<1) /* Check if focus goes to buttons in the comment window */
+                                        me.dontCloseDummyComment = me.beforeCloseDummyComment = false;
+                                    else
+                                        me.beforeCloseDummyComment = true;
+                                }
                                 else if (/chat-msg-text/.test(e.target.id))
                                     me.dontCloseChat = false;
                             }
@@ -260,6 +266,10 @@ define([
                                 event.preventDefault();
                             }
                         }
+                    }).on('mouseup', function(e){
+                        me.beforeCloseDummyComment && setTimeout(function(){ // textbox in dummy comment lost focus
+                            me.dontCloseDummyComment = me.beforeCloseDummyComment = false;
+                        }, 10);
                     });
 
                     Common.NotificationCenter.on({
@@ -305,6 +315,11 @@ define([
                         }
                     });
                 }
+
+                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
+                me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -408,7 +423,7 @@ define([
                         old_rights = this._state.lostEditingRights;
                     this._state.lostEditingRights = !this._state.lostEditingRights;
                     this.api.asc_coAuthoringDisconnect();
-                    this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').panels['rights'].onLostEditRights();
+                    Common.NotificationCenter.trigger('collaboration:sharingdeny');
                     Common.NotificationCenter.trigger('api:disconnect');
                     if (!old_rights)
                         Common.UI.warning({
@@ -789,6 +804,11 @@ define([
                         text    = this.sendMergeText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = this.waitText;
+                        text    = this.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = this.txtEditingMode;
                         text    = this.txtEditingMode;
@@ -1066,9 +1086,9 @@ define([
                             callback: function(btn) {
                                 Common.localStorage.setItem("de-license-warning", now);
                                 if (btn == 'buynow')
-                                    window.open('https://www.onlyoffice.com', "_blank");
+                                    window.open('{{PUBLISHER_URL}}', "_blank");
                                 else if (btn == 'contact')
-                                    window.open('mailto:sales@onlyoffice.com', "_blank");
+                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
                             }
                         });
                     }
@@ -1083,7 +1103,7 @@ define([
                         primary: 'contact',
                         callback: function(btn) {
                             if (btn == 'contact')
-                                window.open('mailto:sales@onlyoffice.com', "_blank");
+                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
                         }
                     });
                 }
@@ -1174,11 +1194,11 @@ define([
 
                 this.appOptions.fileKey = this.document.key;
 
-                this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
+                this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization);
                 else if (typeof this.editorConfig.customization == 'object') {
-                    this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarBreakTabs =
+                    this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarNoTabs =
                     this.editorConfig.customization.toolbarHideFileName = false;
                 }
 
@@ -1187,6 +1207,10 @@ define([
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 if (this.appOptions.canBrandingExt)
                     this.updatePlugins(this.plugins, true);
+
+                if (this.appOptions.canComments)
+                    Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
+                    Common.NotificationCenter.on('comments:showdummy', _.bind(this.onShowDummyComment, this));
 
                 this.applyModeCommonElements();
                 this.applyModeEditorElements();
@@ -1409,6 +1433,7 @@ define([
                         }
                         this._state.lostEditingRights = true;
                         config.msg = this.errorUserDrop;
+                        Common.NotificationCenter.trigger('collaboration:sharingdeny');
                         break;
 
                     case Asc.c_oAscError.ID.MailMergeLoadFile:
@@ -1420,7 +1445,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.Warning:
-                        config.msg = this.errorConnectToServer;
+                        config.msg = this.errorConnectToServer.replace('%1', '{{API_URL_EDITING_CALLBACK}}');
                         config.closable = false;
                         break;
 
@@ -1615,11 +1640,12 @@ define([
                 }
 
                 /** coauthoring begin **/
-                if (this.contComments.isDummyComment && !this.dontCloseDummyComment) {
+                if (this.contComments.isDummyComment && !this.dontCloseDummyComment && !this.beforeShowDummyComment) {
                     this.contComments.clearDummyComment();
                 }
                 /** coauthoring end **/
             },
+
             onDocumentCanSaveChanged: function (isCanSave) {
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
 
@@ -1934,8 +1960,9 @@ define([
                     me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     me._state.openDlg = new Common.Views.OpenDialog({
-                        mode: mode,
-                        type: type,
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'TXT'),
+                        closable: (mode==2), // if save settings
+                        type: Common.Utils.importTextType.TXT,
                         preview: advOptions.asc_getOptions().asc_getData(),
                         codepages: advOptions.asc_getOptions().asc_getCodePages(),
                         settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
@@ -1953,8 +1980,9 @@ define([
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
+                        title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,
-                        type: type,
+                        type: Common.Utils.importTextType.DRM,
                         warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
@@ -2217,12 +2245,19 @@ define([
                 this.getApplication().getCollection('Common.Collections.Plugins').reset();
             },
 
+            onClearDummyComment: function() {
+                this.dontCloseDummyComment = false;
+            },
+
+            onShowDummyComment: function() {
+                this.beforeShowDummyComment = true;
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
-            defaultTitleText: 'ONLYOFFICE Document Editor',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "Ok" to back to document list.',
+            criticalErrorExtText: 'Press "OK" to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
             loadFontsTitleText: 'Loading Data',
@@ -2248,7 +2283,7 @@ define([
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            unsupportedBrowserErrorText: 'Your browser is not supported.',
             splitMaxRowsErrorText: 'The number of rows must be less than %1',
             splitMaxColsErrorText: 'The number of columns must be less than %1',
             splitDividerErrorText: 'The number of rows must be a divisor of %1',
@@ -2301,13 +2336,13 @@ define([
             sendMergeTitle: 'Sending Merge',
             sendMergeText: 'Sending Merge...',
             txtArt: 'Your text here',
-            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
-                                  'Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
+            errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
+                                  'Find more information about connecting Document Server <a href=\"%1\" target=\"_blank\">here</a>',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
             textStrict: 'Strict mode',
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',
-            textNoLicenseTitle: 'ONLYOFFICE connection limitation',
+            textNoLicenseTitle: '%1 connection limitation',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -2346,20 +2381,20 @@ define([
             txtBookmarkError: "Error! Bookmark not defined.",
             txtAbove: "above",
             txtBelow: "below",
-            txtOnPage: "on page ",
+            txtOnPage: "on page",
             txtHeader: "Header",
             txtFooter: "Footer",
-            txtSection: " -Section ",
-            txtFirstPage: "First Page ",
-            txtEvenPage: "Even Page ",
-            txtOddPage: "Odd Page ",
+            txtSection: "-Section",
+            txtFirstPage: "First Page",
+            txtEvenPage: "Even Page",
+            txtOddPage: "Odd Page",
             txtSameAsPrev: "Same as Previous",
             txtCurrentDocument: "Current Document",
             txtNoTableOfContents: "No table of contents entries found.",
             txtTableOfContents: "Table of Contents",
             errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicenseUsers: 'This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
@@ -2551,7 +2586,9 @@ define([
             txtUndefBookmark: 'Undefined Bookmark',
             txtEndOfFormula: 'Unexpected End of Formula',
             errorEmailClient: 'No email client could be found',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.'
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            txtHyperlink: 'Hyperlink',
+            waitText: 'Please, wait...'
         }
     })(), DE.Controllers.Main || {}))
 });

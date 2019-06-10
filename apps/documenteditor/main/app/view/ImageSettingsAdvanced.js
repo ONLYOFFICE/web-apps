@@ -136,6 +136,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (this._changedProps) {
                     this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                     this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
+                    this._changedProps.put_ResetCrop(false);
                 }
             }, this));
             this.spinners.push(this.spnWidth);
@@ -163,6 +164,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (this._changedProps) {
                     this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                     this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
+                    this._changedProps.put_ResetCrop(false);
                 }
             }, this));
             this.spinners.push(this.spnHeight);
@@ -177,6 +179,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (this._changedProps) {
                     this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnHeight.getNumberValue()));
                     this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnWidth.getNumberValue()));
+                    this._changedProps.put_ResetCrop(true);
                 }
             }, this));
 

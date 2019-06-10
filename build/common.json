@@ -17,8 +17,8 @@
                         "src": [
                             "Images/*",
                             "Native/*.js",
-							"libfont/js/fonts.*",
-							"libfont/wasm/fonts.*"
+                            "libfont/js/fonts.*",
+                            "libfont/wasm/fonts.*"
                         ],
                         "dest": "../deploy/sdkjs/common/"
                     },
