@@ -151,7 +151,7 @@ define([
 
             var tip = el.data('bs.tooltip');
             if (tip) {
-                if (tip.dontShow===undefined)
+                if (tip.dontShow===undefined && el.is(':hover'))
                     tip.dontShow = true;
             }
 
