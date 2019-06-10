@@ -2052,21 +2052,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = PE.enumLock;
-                var slots = me.toolbar.$el.find('.slot-comment');
-                slots.each(function(index, el) {
-                    var _cls = 'btn-toolbar';
-                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                    var button = new Common.UI.Button({
-                        id: 'tlbtn-addcomment-' + index,
-                        cls: _cls,
-                        iconCls: 'btn-menu-comments',
-                        lock: [_set.lostConnect, _set.noSlides],
-                        caption: me.toolbar.capBtnComment
-                    }).render( slots.eq(index) );
-
-                    me.btnsComment.push(button);
-                });
+                me.btnsComment = Common.Utils.injectComponents(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides]);
 
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();

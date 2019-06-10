@@ -2195,7 +2195,7 @@ define([
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: [toolbar.btnTableTemplate].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp) });
+                            { array: [toolbar.btnTableTemplate].concat(toolbar.btnsSetAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp) });
 
                 val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
@@ -2225,10 +2225,10 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsClearAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink].concat(toolbar.btnsSetAutofilter, toolbar.btnsClearAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp)});
 
                 need_disable = !this.appConfig.canModifyFilter;
-                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ].concat(toolbar.btnsSetAutofilter).concat(toolbar.btnsSortDown).concat(toolbar.btnsSortUp)});
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ].concat(toolbar.btnsSetAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp)});
 
             }
 
@@ -3150,21 +3150,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = SSE.enumLock;
-                var slots = me.toolbar.$el.find('.slot-comment');
-                slots.each(function(index, el) {
-                    var _cls = 'btn-toolbar';
-                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                    var button = new Common.UI.Button({
-                        id: 'tlbtn-addcomment-' + index,
-                        cls: _cls,
-                        iconCls: 'btn-menu-comments',
-                        lock: [_set.lostConnect, _set.commentLock],
-                        caption: me.toolbar.capBtnComment
-                    }).render( slots.eq(index) );
-
-                    me.btnsComment.push(button);
-                });
+                me.btnsComment = Common.Utils.injectComponents(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock]);
 
                 if ( this.btnsComment.length ) {
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();

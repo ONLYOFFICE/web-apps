@@ -886,11 +886,7 @@ define([
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length) {
-                        cmp.rendered ?
-                            $slot.append(cmp.$el) : cmp.render($slot);
-                    }
+                    Common.Utils.injectComponent($host.find(id), cmp);
                 };
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
