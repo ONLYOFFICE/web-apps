@@ -261,7 +261,7 @@ define([
 
             onReplace: function (btn) {
                 var me = this;
-                me.onQueryReplace(me.searchBar.query, me.replaceBar.query);
+                me.onQueryReplace(me.searchBar.query, me.replaceBar.query ? me.replaceBar.query : "");
                 setTimeout(function () {
                     me.onQuerySearch(me.searchBar.query, 'next');
                 }, 20);
