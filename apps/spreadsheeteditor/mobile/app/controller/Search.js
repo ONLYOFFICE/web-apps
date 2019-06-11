@@ -197,6 +197,12 @@ define([
                 $inputMatchCase.single('change', _.bind(me.onMatchCaseClick, me));
                 $inputMatchCell.single('change', _.bind(me.onMatchCellClick, me));
                 $inputHighlightResults.single('change', _.bind(me.onHighlightResultsClick, me));
+
+                if (isReplace) {
+                    Common.SharedSettings.set('look-in', 'formulas');
+                    $('input[name=look-in]').val(['formulas']);
+                    $('input[name=look-in]:eq(1)').parent().addClass('disabled');
+                }
             },
 
             onSearchbarShow: function(bar) {
@@ -368,6 +374,14 @@ define([
 
                 Common.SharedSettings.set('search-is-replace', isReplace);
                 $('.searchbar.document').toggleClass('replace', isReplace);
+
+                if (isReplace) {
+                    Common.SharedSettings.set('look-in', 'formulas');
+                    $('input[name=look-in]').val(['formulas']);
+                    $('input[name=look-in]:eq(1)').parent().addClass('disabled');
+                } else {
+                    $('input[name=look-in]:eq(1)').parent().removeClass('disabled');
+                }
             },
 
             onSearchInChange: function (e) {
