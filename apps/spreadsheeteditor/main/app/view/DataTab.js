@@ -96,41 +96,10 @@ define([
                 this.toolbar = options.toolbar;
 
                 this.lockedControls = [];
-                this.btnsSortDown = [];
-                this.btnsSortUp = [];
-                this.btnsSetAutofilter = [];
-                this.btnsClearAutofilter = [];
 
                 var me = this,
                     $host = me.toolbar.$el,
                     _set = SSE.enumLock;
-
-                var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length)
-                        cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
-                };
-
-                var _injectComponents = function ($slots, iconCls, split, menu, caption, toggle, lock, btnsArr) {
-                    $slots.each(function(index, el) {
-                        var _cls = 'btn-toolbar';
-                        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                        var button = new Common.UI.Button({
-                            id: "id-toolbar-" + iconCls + index,
-                            cls: _cls,
-                            iconCls: iconCls,
-                            caption: caption,
-                            split: split,
-                            menu: menu,
-                            lock: lock,
-                            disabled: true
-                        }).render( $slots.eq(index) );
-
-                        btnsArr.push(button);
-                        me.lockedControls.push(button);
-                    });
-                };
 
                 this.btnGroup = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -140,7 +109,7 @@ define([
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
-                _injectComponent('#slot-btn-group', this.btnGroup);
+                Common.Utils.injectComponent($host.find('#slot-btn-group'), this.btnGroup);
                 this.lockedControls.push(this.btnGroup);
 
                 this.btnUngroup = new Common.UI.Button({
@@ -152,7 +121,7 @@ define([
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
-                _injectComponent('#slot-btn-ungroup', this.btnUngroup);
+                Common.Utils.injectComponent($host.find('#slot-btn-ungroup'), this.btnUngroup);
                 this.lockedControls.push(this.btnUngroup);
 
                 this.btnTextToColumns = new Common.UI.Button({
@@ -163,7 +132,7 @@ define([
                     disabled: true,
                     lock: [_set.multiselect, _set.multiselectCols, _set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
-                _injectComponent('#slot-btn-text-column', this.btnTextToColumns);
+                Common.Utils.injectComponent($host.find('#slot-btn-text-column'), this.btnTextToColumns);
                 this.lockedControls.push(this.btnTextToColumns);
 
                 this.btnShow = new Common.UI.Button({
@@ -173,7 +142,7 @@ define([
                     caption: this.capBtnTextShow,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
-                _injectComponent('#slot-btn-show-details', this.btnShow);
+                Common.Utils.injectComponent($host.find('#slot-btn-show-details'), this.btnShow);
                 this.lockedControls.push(this.btnShow);
 
                 this.btnHide = new Common.UI.Button({
@@ -183,24 +152,23 @@ define([
                     caption: this.capBtnTextHide,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
-                _injectComponent('#slot-btn-hide-details', this.btnHide);
+                Common.Utils.injectComponent($host.find('#slot-btn-hide-details'), this.btnHide);
                 this.lockedControls.push(this.btnHide);
 
-                _injectComponents($host.find('.slot-sortdesc'), 'btn-sort-down', false, false, '', false,
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
-                    this.btnsSortDown);
+                this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'btn-sort-down', '',
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]);
 
-                _injectComponents($host.find('.slot-sortasc'), 'btn-sort-up', false, false, '', false,
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
-                    this.btnsSortUp);
+                this.btnsSortUp = Common.Utils.injectButtons($host.find('.slot-sortasc'), '', 'btn-sort-up', '',
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]);
 
-                _injectComponents($host.find('.slot-btn-setfilter'), 'btn-autofilter', false, false, '', true,
+                this.btnsSetAutofilter = Common.Utils.injectButtons($host.find('.slot-btn-setfilter'), '', 'btn-autofilter', '',
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
-                    this.btnsSetAutofilter);
+                    false, false, true);
 
-                _injectComponents($host.find('.slot-btn-clear-filter'), 'btn-clear-filter', false, false, '', false,
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot],
-                    this.btnsClearAutofilter);
+                this.btnsClearAutofilter = Common.Utils.injectButtons($host.find('.slot-btn-clear-filter'), '', 'btn-clear-filter', '',
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot]);
+
+                Array.prototype.push.apply(this.lockedControls, this.btnsSortDown.concat(this.btnsSortUp, this.btnsSetAutofilter,this.btnsClearAutofilter));
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },

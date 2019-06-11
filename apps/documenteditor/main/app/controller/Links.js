@@ -149,22 +149,14 @@ define([
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
 
             var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
-            _.each (this.view.btnsNotes, function(item){
-                item.setDisabled(need_disable);
-            }, this);
+            this.view.btnsNotes.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_header || control_plain;
             this.view.btnBookmarks.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
-            var need_disable = !value || this._state.prcontrolsdisable;
-
-            if ( this.toolbar.editMode ) {
-                _.each (this.view.btnsHyperlink, function(item){
-                    item.setDisabled(need_disable);
-                }, this);
-            }
+            this.toolbar.editMode && this.view.btnsHyperlink.setDisabled(!value || this._state.prcontrolsdisable);
         },
 
         onHyperlinkClick: function(btn) {

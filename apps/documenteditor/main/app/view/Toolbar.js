@@ -1259,11 +1259,7 @@ define([
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length) {
-                        cmp.rendered ?
-                            $slot.append(cmp.$el) : cmp.render($slot);
-                    }
+                    Common.Utils.injectComponent($host.find(id), cmp);
                 };
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
@@ -1323,30 +1319,8 @@ define([
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
 
-                +function injectBreakButtons() {
-                    var me = this;
-
-                    me.btnsPageBreak = createButtonSet();
-
-                    var $slots = $host.find('.btn-slot.btn-pagebreak');
-                    $slots.each(function(index, el) {
-                        var _cls = 'btn-toolbar';
-                        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                        var button = new Common.UI.Button({
-                            cls: _cls,
-                            iconCls: 'btn-pagebreak',
-                            caption: me.capBtnInsPagebreak,
-                            split: true,
-                            menu: true
-                        }).render( $slots.eq(index) );
-
-                        me.btnsPageBreak.add(button);
-                    });
-                    me.btnsPageBreak.setDisabled(true);
-
-                    Array.prototype.push.apply(me.paragraphControls, me.btnsPageBreak);
-                }.call(this);
+                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true);
+                Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
 
                 return $host;
             },

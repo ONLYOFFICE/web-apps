@@ -886,11 +886,7 @@ define([
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length) {
-                        cmp.rendered ?
-                            $slot.append(cmp.$el) : cmp.render($slot);
-                    }
+                    Common.Utils.injectComponent($host.find(id), cmp);
                 };
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
@@ -930,78 +926,20 @@ define([
                 _injectComponent('#slot-btn-slidesize', this.btnSlideSize);
                 _injectComponent('#slot-field-styles', this.listTheme);
 
-                function _injectBtns(opts) {
-                    var array = createButtonSet();
-                    var $slots = $host.find(opts.slot);
-                    var id = opts.btnconfig.id;
-                    $slots.each(function(index, el) {
-                        if ( !!id ) opts.btnconfig.id = id + index;
+                this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'btn-insertimage', this.capInsertImage,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true);
+                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'btn-text', this.capInsertText,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, false, true);
+                this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'btn-insertshape', this.capInsertShape,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, true);
+                this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'btn-addslide', this.capAddSlide,
+                    [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart], true, true);
 
-                        var button = new Common.UI.Button(opts.btnconfig);
-                        button.render( $slots.eq(index) );
-
-                        array.add(button);
-                    });
-
-                    return array;
-                }
-
-                var me = this;
-                me.btnsInsertImage = _injectBtns({
-                    slot: '.slot-insertimg',
-                    btnconfig: {
-                        id          : 'tlbtn-insertimage-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-insertimage',
-                        caption     : me.capInsertImage,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        menu        : true
-                    }
-                });
-
-                me.btnsInsertText = _injectBtns({
-                    slot: '.slot-instext',
-                    btnconfig: {
-                        id          : 'tlbtn-inserttext-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-text',
-                        caption     : me.capInsertText,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        enableToggle: true
-                    }
-                });
-
-                me.btnsInsertShape = _injectBtns({
-                    slot: '.slot-insertshape',
-                    btnconfig: {
-                        id          : 'tlbtn-insertshape-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-insertshape',
-                        caption     : me.capInsertShape,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        enableToggle: true,
-                        menu        : true
-                    }
-                });
-
-                me.btnsAddSlide = _injectBtns({
-                    slot: '.slot-addslide',
-                    btnconfig: {
-                        id          : 'tlbtn-addslide-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-addslide',
-                        split       : true,
-                        caption     : me.capAddSlide,
-                        lock        : [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart],
-                        menu        : true
-                    }
-                });
-
-                var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape, me.btnsAddSlide);
+                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide);
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
 
-                Array.prototype.push.apply(me.slideOnlyControls, created);
-                Array.prototype.push.apply(me.lockControls, created);
+                Array.prototype.push.apply(this.slideOnlyControls, created);
+                Array.prototype.push.apply(this.lockControls, created);
 
                 return $host;
             },
