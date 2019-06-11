@@ -86,7 +86,8 @@ define([
                 var me = this;
 
                 _.defer(function () {
-                    var editorLang = SSE.getController("Main").editorConfig.lang;
+                    var editorLang = Common.localStorage.getItem('sse-settings-func-lang');
+
                     editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
 
                     var localizationFunctions = function(data) {
@@ -105,8 +106,8 @@ define([
 
             fillFunctions: function() {
                 var me = this,
-                    functions = {},
-                    editorLang = SSE.getController("Main").editorConfig.lang;
+                    functions = {};
+                var editorLang = Common.localStorage.getItem('sse-settings-func-lang');
 
                 editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
 
@@ -141,7 +142,7 @@ define([
                         }
                     }
 
-                    view.setFunctions(functions);
+                    view.setFunctions(functions, editorLang);
                     view.render();
                 };
 
