@@ -4,6 +4,7 @@
 	{"src": "ProgramInterface/HomeTab.htm", "name": "Вкладка Главная"},
     {"src": "ProgramInterface/InsertTab.htm", "name": "Вкладка Вставка" },
     {"src": "ProgramInterface/CollaborationTab.htm", "name": "Вкладка Совместная работа"},
+	{"src": "ProgramInterface/PluginsTab.htm", "name": "Вкладка Плагины"},
     {"src": "UsageInstructions/OpenCreateNew.htm", "name": "Создание новой презентации или открытие существующей", "headername": "Базовые операции" },
     {"src": "UsageInstructions/CopyPasteUndoRedo.htm", "name": "Копирование / вставка данных, отмена / повтор действий"},
     {"src": "UsageInstructions/ManageSlides.htm", "name": "Управление слайдами", "headername": "Работа со слайдами"},
