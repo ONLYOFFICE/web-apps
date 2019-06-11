@@ -299,8 +299,8 @@
         getSettings: function() {
             return {
                 textsearch: this.txtSearch.val(),
-                casesensitive: this.miMatchCase.checked,
-                wholewords: this.miMatchWord.checked };
+                matchcase: this.miMatchCase.checked,
+                matchword: this.miMatchWord.checked };
         },
 
         textTitle           : 'Search & Replace',
