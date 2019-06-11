@@ -3147,7 +3147,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = SSE.enumLock;
-                me.btnsComment = Common.Utils.injectComponents(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock]);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', this.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock]);
 
                 if ( this.btnsComment.length ) {
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();

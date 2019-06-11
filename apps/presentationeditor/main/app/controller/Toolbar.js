@@ -2052,7 +2052,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = PE.enumLock;
-                me.btnsComment = Common.Utils.injectComponents(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides]);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides]);
 
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
