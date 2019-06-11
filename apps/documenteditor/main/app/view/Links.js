@@ -122,10 +122,10 @@ define([
                 var me = this,
                     $host = me.toolbar.$el;
 
-                this.btnsContents = Common.Utils.injectComponents($host.find('.btn-slot.btn-contents'), '', 'btn-contents', me.capBtnInsContents );
-                this.btnsNotes = Common.Utils.injectComponents($host.find('.btn-slot.slot-notes'), '', 'btn-notes', me.capBtnInsFootnote, undefined, true, true);
-                this.btnsHyperlink = Common.Utils.injectComponents($host.find('.btn-slot.slot-inshyperlink'), '', 'btn-inserthyperlink', me.capBtnInsLink);
-                this.paragraphControls = this.paragraphControls.concat(this.btnsContents, this.btnsNotes, this.btnsHyperlink);
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'btn-contents', me.capBtnInsContents );
+                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'btn-notes', me.capBtnInsFootnote, undefined, true, true);
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'btn-inserthyperlink', me.capBtnInsLink);
+                Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
