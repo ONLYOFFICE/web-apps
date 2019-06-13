@@ -89,6 +89,7 @@ define([
 
             setApi: function(api) {
                 this.api = api;
+                this.api.asc_registerCallback('asc_onRenameCellTextEnd',    _.bind(this.onReplaceNext, this));
             },
 
             setMode: function (mode) {
@@ -262,9 +263,10 @@ define([
             onReplace: function (btn) {
                 var me = this;
                 me.onQueryReplace(me.searchBar.query, me.replaceBar.query ? me.replaceBar.query : "");
-                setTimeout(function () {
-                    me.onQuerySearch(me.searchBar.query, 'next');
-                }, 20);
+            },
+
+            onReplaceNext: function() {
+                this.onQuerySearch(this.searchBar.query, 'next');
             },
 
             onReplaceAll: function (e) {
