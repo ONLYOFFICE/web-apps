@@ -209,13 +209,49 @@ define([
                         caption: this.txtNext
                     });
 
-                    if (!this.appConfig.isRestrictedEdit) // hide Display mode option for fillForms and commenting mode
+                    if (!this.appConfig.isRestrictedEdit) {// hide Display mode option for fillForms and commenting mode
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
+                            '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% } %></a>');
+
                         this.btnReviewView = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
                             iconCls: 'btn-ic-reviewview',
                             caption: this.txtView,
-                            menu: true
+                            menu: new Common.UI.Menu({
+                                cls: 'ppm-toolbar',
+                                items: [
+                                    {
+                                        caption: this.txtMarkupCap,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: true,
+                                        value: 'markup',
+                                        template: menuTemplate,
+                                        description: this.txtMarkup
+                                    },
+                                    {
+                                        caption: this.txtFinalCap,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: false,
+                                        template: menuTemplate,
+                                        description: this.txtFinal,
+                                        value: 'final'
+                                    },
+                                    {
+                                        caption: this.txtOriginalCap,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: false,
+                                        template: menuTemplate,
+                                        description: this.txtOriginal,
+                                        value: 'original'
+                                    }
+                                ]
+                            })
                         });
+                    }
                 }
 
                 if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && this._readonlyRights!==true) {
@@ -319,41 +355,7 @@ define([
                         me.btnPrev.updateHint(me.hintPrev);
                         me.btnNext.updateHint(me.hintNext);
 
-                        me.btnReviewView && me.btnReviewView.setMenu(
-                            new Common.UI.Menu({
-                                cls: 'ppm-toolbar',
-                                items: [
-                                    {
-                                        caption: me.txtMarkupCap,
-                                        checkable: true,
-                                        toggleGroup: 'menuReviewView',
-                                        checked: true,
-                                        value: 'markup',
-                                        template: menuTemplate,
-                                        description: me.txtMarkup
-                                    },
-                                    {
-                                        caption: me.txtFinalCap,
-                                        checkable: true,
-                                        toggleGroup: 'menuReviewView',
-                                        checked: false,
-                                        template: menuTemplate,
-                                        description: me.txtFinal,
-                                        value: 'final'
-                                    },
-                                    {
-                                        caption: me.txtOriginalCap,
-                                        checkable: true,
-                                        toggleGroup: 'menuReviewView',
-                                        checked: false,
-                                        template: menuTemplate,
-                                        description: me.txtOriginal,
-                                        value: 'original'
-                                    }
-                                ]
-                            }));
                         me.btnReviewView && me.btnReviewView.updateHint(me.tipReviewView);
-                        !me.appConfig.canReview && me.turnDisplayMode(Common.localStorage.getItem(me.appPrefix + "review-mode") || 'original');
                     }
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
                     me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
