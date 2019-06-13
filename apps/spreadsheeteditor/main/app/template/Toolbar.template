@@ -120,6 +120,10 @@
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-instable"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insimage"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>

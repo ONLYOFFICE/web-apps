@@ -2262,6 +2262,7 @@
   "SSE.Views.Toolbar.tipInsertImage": "Insert image",
   "SSE.Views.Toolbar.tipInsertOpt": "Insert cells",
   "SSE.Views.Toolbar.tipInsertShape": "Insert autoshape",
+  "SSE.Views.Toolbar.tipInsertTable": "Insert table",
   "SSE.Views.Toolbar.tipInsertText": "Insert text box",
   "SSE.Views.Toolbar.tipInsertTextart": "Insert Text Art",
   "SSE.Views.Toolbar.tipMerge": "Merge",

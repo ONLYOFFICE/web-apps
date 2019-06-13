@@ -728,6 +728,14 @@ define([
                     })
                 });
 
+                me.btnInsertTable = new Common.UI.Button({
+                    id          : 'tlbtn-inserttable',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'btn-inserttable',
+                    caption     : me.capInsertTable,
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.ruleMerge, _set.editPivot]
+                });
+
                 me.listStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-styles',
                     enableKeyEvents : true,
@@ -1386,7 +1394,7 @@ define([
                     me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
-                    me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
+                    me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
@@ -1519,6 +1527,7 @@ define([
             _injectComponent('#slot-btn-wrap',           this.btnWrap);
             _injectComponent('#slot-btn-text-orient',    this.btnTextOrient);
             _injectComponent('#slot-btn-insimage',       this.btnInsertImage);
+            _injectComponent('#slot-btn-instable',       this.btnInsertTable);
             _injectComponent('#slot-btn-inshyperlink',   this.btnInsertHyperlink);
             _injectComponent('#slot-btn-insshape',       this.btnInsertShape);
             _injectComponent('#slot-btn-instext',        this.btnInsertText);
@@ -1595,6 +1604,7 @@ define([
             _updateHint(this.btnAlignBottom, this.tipAlignBottom);
             _updateHint(this.btnWrap, this.tipWrap);
             _updateHint(this.btnTextOrient, this.tipTextOrientation);
+            _updateHint(this.btnInsertTable, this.tipInsertTable);
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
             _updateHint(this.btnInsertText, this.tipInsertText);
@@ -2350,6 +2360,8 @@ define([
         tipPrintArea: 'Print Area',
         capBtnInsHeader: 'Header/Footer',
         tipEditHeader: 'Edit header or footer',
-        textTabData: 'Data'
+        textTabData: 'Data',
+        capInsertTable: 'Table',
+        tipInsertTable: 'Insert table'
     }, SSE.Views.Toolbar || {}));
 });
