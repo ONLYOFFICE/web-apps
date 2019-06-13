@@ -20,11 +20,6 @@
         <div class="center" id="toolbar-title"></div>
         <% } %>
         <div class="right">
-            <% if (!phone) { %>
-                <a href="#" id="toolbar-collaboration" class="link icon-only" style="display: none;">
-                    <i class="icon icon-review"></i>
-                </a>
-            <% } %>
             <% if (android) { %>
             <a href="#" id="toolbar-undo" class="link icon-only disabled" style="display: none;">
                 <i class="icon icon-undo"></i>
@@ -45,6 +40,11 @@
             <% if (!phone) { %>
             <a href="#" id="toolbar-search" class="link icon-only">
                 <i class="icon icon-search"></i>
+            </a>
+            <% } %>
+            <% if (!phone) { %>
+            <a href="#" id="toolbar-collaboration" class="link icon-only disabled" style="display: none;">
+                <i class="icon icon-collaboration"></i>
             </a>
             <% } %>
             <a href="#" id="toolbar-settings" class="link icon-only">

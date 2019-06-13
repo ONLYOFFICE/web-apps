@@ -76,7 +76,17 @@ define([
                 { caption: 'A2',                    subtitle: Common.Utils.String.format('42{0} x 59,4{0}', txtCm),      value: [420, 594] },
                 { caption: 'A6',                    subtitle: Common.Utils.String.format('10,5{0} x 14,8{0}', txtCm),    value: [105, 148] }
             ],
-            _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric())
+            _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
+            _dataLang = [
+                { value: 'en', displayValue: 'English', exampleValue: ' SUM; MIN; MAX; COUNT' },
+                { value: 'de', displayValue: 'Deutsch', exampleValue: ' SUMME; MIN; MAX; ANZAHL' },
+                { value: 'es', displayValue: 'Spanish', exampleValue: ' SUMA; MIN; MAX; CALCULAR' },
+                { value: 'fr', displayValue: 'French', exampleValue: ' SOMME; MIN; MAX; NB' },
+                { value: 'it', displayValue: 'Italian', exampleValue: ' SOMMA; MIN; MAX; CONTA.NUMERI' },
+                { value: 'ru', displayValue: 'Russian', exampleValue: ' СУММ; МИН; МАКС; СЧЁТ' },
+                { value: 'pl', displayValue: 'Polish', exampleValue: ' SUMA; MIN; MAX; ILE.LICZB' }
+            ],
+            _indexLang = 0;
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -184,6 +194,7 @@ define([
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
+                $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
                 me.initSettings(pageId);
             },
 
@@ -204,7 +215,33 @@ define([
                     me.initSpreadsheetPageSize();
                 } else if ('#margins-view' == pageId) {
                     me.initSpreadsheetMargins();
+                } else if ('#language-formula-view' == pageId) {
+                    me.initFormulaLang();
+                } else {
+                    var _userCount = SSE.getController('Main').returnUserCount();
+                    if (_userCount > 0) {
+                        $('#settings-collaboration').show();
+                    }
                 }
+            },
+
+            initFormulaLang: function() {
+                var value = Common.localStorage.getItem('sse-settings-func-lang');
+                var item = _.findWhere(_dataLang, {value: value});
+                this.getView('Settings').renderFormLang(item ? _dataLang.indexOf(item) : 0, _dataLang);
+                $('.page[data-page=language-formula-view] input:radio[name=language-formula]').single('change', _.bind(this.onFormulaLangChange, this));
+                Common.Utils.addScrollIfNeed('.page[data-page=language-formula-view]', '.page[data-page=language-formula-view] .page-content');
+            },
+
+            onFormulaLangChange: function(e) {
+                var langValue = $(e.currentTarget).val();
+                Common.localStorage.setItem("sse-settings-func-lang", langValue);
+                this.initPageApplicationSettings();
+                SSE.getController('AddFunction').onDocumentReady();
+            },
+
+            onCollaboration: function() {
+                SSE.getController('Collaboration').showModal();
             },
 
             initSpreadsheetSettings: function() {
@@ -438,6 +475,16 @@ define([
                 var value = Common.localStorage.getItem('se-mobile-settings-unit');
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 $unitMeasurement.val([value]);
+
+                //init formula language
+                value = Common.localStorage.getItem('sse-settings-func-lang');
+                var item = _.findWhere(_dataLang, {value: value});
+                if(!item) {
+                    item = _dataLang[0];
+                }
+                var $pageLang = $('#language-formula');
+                $pageLang.find('.item-title').text(item.displayValue);
+                $pageLang.find('.item-example').text(item.exampleValue);
             },
 
             unitMeasurementChange: function (e) {

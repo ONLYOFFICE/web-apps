@@ -25,6 +25,18 @@
                             </a>
                         </li>
                         <% } %>
+                        <% if(phone) {%>
+                        <li>
+                            <div id="settings-collaboration" class="item-content" style="display: none;">
+                                <div class="item-media">
+                                    <i class="icon icon-collaboration"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCollaboration %></div>
+                                </div>
+                            </div>
+                        </li>
+                        <% } %>
                         <li>
                             <a id="settings-presentation-setup" class="item-link">
                                 <div class="item-content">
@@ -339,7 +351,7 @@
                 </ul>
             </div>
 
-            <div class="list-block media-list">
+            <div class="list-block">
                 <ul>
                     <li>
                         <a id="color-schemes" class="item-link item-content">

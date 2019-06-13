@@ -57,9 +57,9 @@
                         <% } %>
                         <% if(phone) {%>
                         <li>
-                            <div id="settings-collaboration" class="item-content">
+                            <div id="settings-collaboration" class="item-content" style="display: none;">
                                 <div class="item-media">
-                                    <i class="icon icon-review"></i>
+                                    <i class="icon icon-collaboration"></i>
                                 </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textCollaboration %></div>
@@ -83,7 +83,7 @@
                             <a id="settings-advanced" class="item-link" data-page="#settings-advanced-view">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
+                                        <i class="icon icon-settings"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textAdvancedSettings %></div>
@@ -217,9 +217,9 @@
                     </ul>
                 </div>
                 <div class="content-block-title"><%= scope.textFormat %></div>
-                <div class="list-block media-list">
+                <div class="list-block">
                     <ul>
-                        <li>
+                        <li class="media-item">
                             <a id="settings-document-format" class="item-link item-content" data-page="#settings-document-formats-view">
                                 <div class="item-inner">
                                     <div class="item-title-row">
@@ -240,7 +240,7 @@
                         </li>
                    </ul>
                 </div>
-                <div class="list-block media-list">
+                <div class="list-block">
                     <ul>
                         <li>
                             <a id="color-schemes" class="item-link item-content" data-page="#color-schemes-view">

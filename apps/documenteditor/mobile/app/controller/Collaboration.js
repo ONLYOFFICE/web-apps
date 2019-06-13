@@ -56,7 +56,9 @@ define([
             displayMode = "Markup",
             arrChangeReview = [],
             dateChange = [],
-            _fileKey;
+            _fileKey,
+            _userId,
+            editUsers = [];
 
         return {
             models: [],
@@ -77,6 +79,8 @@ define([
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onChangeEditUsers, this));
+                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onChangeEditUsers, this));
             },
 
             onLaunch: function () {
@@ -86,6 +90,7 @@ define([
             setMode: function(mode) {
                 this.appConfig = mode;
                 _fileKey = mode.fileKey;
+                _userId = mode.user.id;
                 return this;
             },
 
@@ -165,6 +170,9 @@ define([
                 } else if('#change-view' == pageId) {
                     me.initChange();
                     Common.Utils.addScrollIfNeed('.page[data-page=change-view]', '.page[data-page=change-view] .page-content');
+                } else if('#edit-users-view' == pageId) {
+                    me.initEditUsers();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-users-view]', '.page[data-page=edit-users-view] .page-content');
                 } else {
                     if(!this.appConfig.canReview) {
                         $('#reviewing-settings').hide();
@@ -251,6 +259,7 @@ define([
 
 
             initChange: function() {
+                var goto = false;
                 if(arrChangeReview.length == 0) {
                     this.api.asc_GetNextRevisionsChange();
                 }
@@ -260,16 +269,26 @@ define([
                     $('#current-change #date-change').html(arrChangeReview[0].date);
                     $('#current-change #user-name').html(arrChangeReview[0].user);
                     $('#current-change #text-change').html(arrChangeReview[0].changetext);
+                    goto = arrChangeReview[0].goto;
+                }
+                if (goto) {
+                    $('#btn-goto-change').show();
+                } else {
+                    $('#btn-goto-change').hide();
                 }
                 $('#btn-prev-change').single('click', _.bind(this.onPrevChange, this));
                 $('#btn-next-change').single('click', _.bind(this.onNextChange, this));
                 $('#btn-accept-change').single('click', _.bind(this.onAcceptCurrentChange, this));
                 $('#btn-reject-change').single('click', _.bind(this.onRejectCurrentChange, this));
+                $('#btn-goto-change').single('click', _.bind(this.onGotoNextChange, this));
+
                 if(this.appConfig.isReviewOnly) {
                     $('#btn-accept-change').remove();
                     $('#btn-reject-change').remove();
-                    $('.accept-reject').html('<div id="btn-delete-change"><i class="icon icon-review"></i></div>');
-                    $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
+                    if(arrChangeReview.length != 0 && arrChangeReview[0].editable) {
+                        $('.accept-reject').html('<div id="btn-delete-change"><i class="icon icon-delete-change"></i></div>');
+                        $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
+                    }
                 }
                 if(displayMode == "Final" || displayMode == "Original") {
                     $('#btn-accept-change').addClass('disabled');
@@ -277,7 +296,6 @@ define([
                     $('#btn-prev-change').addClass('disabled');
                     $('#btn-next-change').addClass('disabled');
                 }
-
             },
 
             onPrevChange: function() {
@@ -289,17 +307,23 @@ define([
             },
 
             onAcceptCurrentChange: function() {
+                var me = this;
                 if (this.api) {
                     this.api.asc_AcceptChanges(dateChange[0]);
+                    setTimeout(function () {
+                        me.api.asc_GetNextRevisionsChange();
+                    }, 10);
                 }
-                this.api.asc_GetNextRevisionsChange();
             },
 
             onRejectCurrentChange: function() {
+                var me = this;
                 if (this.api) {
                     this.api.asc_RejectChanges(dateChange[0]);
+                    setTimeout(function () {
+                        me.api.asc_GetNextRevisionsChange();
+                    }, 10);
                 }
-                this.api.asc_GetNextRevisionsChange();
             },
 
             updateInfoChange: function() {
@@ -308,9 +332,11 @@ define([
                         $('#current-change #date-change').empty();
                         $('#current-change #user-name').empty();
                         $('#current-change #text-change').empty();
-                        $('#current-change').css('display', 'none');
+                        $('#current-change').hide();
+                        $('#btn-goto-change').hide();
+                        $('#btn-delete-change').hide();
                     } else {
-                        $('#current-change').css('display', 'block');
+                        $('#current-change').show();
                         this.initChange();
                     }
                 }
@@ -322,10 +348,11 @@ define([
                     _.each(data, function (item) {
                         var changetext = '', proptext = '',
                             value = item.get_Value(),
+                            movetype = item.get_MoveType(),
                             settings = false;
                         switch (item.get_Type()) {
                             case Asc.c_oAscRevisionsChangeType.TextAdd:
-                                changetext = me.textInserted;
+                                changetext = (movetype==Asc.c_oAscRevisionsMove.NoMove) ? me.textInserted : me.textParaMoveTo;
                                 if (typeof value == 'object') {
                                     _.each(value, function (obj) {
                                         if (typeof obj === 'string')
@@ -352,7 +379,7 @@ define([
                                 }
                                 break;
                             case Asc.c_oAscRevisionsChangeType.TextRem:
-                                changetext = me.textDeleted;
+                                changetext = (movetype==Asc.c_oAscRevisionsMove.NoMove) ? me.textDeleted : (item.is_MovedDown() ? me.textParaMoveFromDown : me.textParaMoveFromUp);
                                 if (typeof value == 'object') {
                                     _.each(value, function (obj) {
                                         if (typeof obj === 'string')
@@ -490,14 +517,25 @@ define([
                                 changetext += '</b>';
                                 changetext += proptext;
                                 break;
+                                case Asc.c_oAscRevisionsChangeType.TablePr:
+                                    changetext = me.textTableChanged;
+                                    break;
+                                case Asc.c_oAscRevisionsChangeType.RowsAdd:
+                                    changetext = me.textTableRowsAdd;
+                                    break;
+                                case Asc.c_oAscRevisionsChangeType.RowsRem:
+                                    changetext = me.textTableRowsDel;
+                                    break;
 
                         }
                         var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
-                            user = item.get_UserName();
+                            user = item.get_UserName(),
+                            goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
                         date = me.dateToLocaleTimeString(date);
+                        var editable = (item.get_UserId() == _userId);
 
 
-                        arr.push({date: date, user: user, changetext: changetext});
+                        arr.push({date: date, user: user, changetext: changetext, goto: goto, editable: editable});
                     });
                     arrChangeReview = arr;
                     dateChange = data;
@@ -531,6 +569,61 @@ define([
                 if (this.api) {
                     this.api.asc_RejectChanges(dateChange[0]);
                 }
+            },
+
+            onGotoNextChange: function() {
+                if (this.api) {
+                    this.api.asc_FollowRevisionMove(dateChange[0]);
+                }
+            },
+
+            onChangeEditUsers: function(users) {
+                editUsers = users;
+            },
+
+            initEditUsers: function() {
+                var usersArray = [];
+                _.each(editUsers, function(item){
+                    var fio = item.asc_getUserName().split(' ');
+                    var initials = fio[0].substring(0, 1).toUpperCase();
+                    if (fio.length > 1) {
+                        initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
+                    }
+                    if(!item.asc_getView()) {
+                        var userAttr = {
+                            color: item.asc_getColor(),
+                            id: item.asc_getId(),
+                            idOriginal: item.asc_getIdOriginal(),
+                            name: item.asc_getUserName(),
+                            view: item.asc_getView(),
+                            initial: initials
+                        };
+                        if(item.asc_getIdOriginal() == _userId) {
+                            usersArray.unshift(userAttr);
+                        } else {
+                            usersArray.push(userAttr);
+                        }
+                    }
+                });
+                var userSort = _.chain(usersArray).groupBy('idOriginal').value();
+                var templateUserItem = _.template([
+                    '<%  _.each(users, function (user) { %>',
+                    '<li id="<%= user[0].id %>" class="<% if (user[0].view) {%> viewmode <% } %> item-content">' +
+                    '<div class="user-name item-inner">' +
+                    '<div class="color" style="background-color: <%= user[0].color %>;"><%= user[0].initial %></div>'+
+                    '<label><%= user[0].name %></label>' +
+                    '<% if (user.length>1) { %><label class="length"> (<%= user.length %>)</label><% } %>' +
+                    '</div>'+
+                    '</li>',
+                    '<% }); %>'].join(''));
+                var templateUserList = _.template(
+                    '<div class="item-content"><div class="item-inner">' +
+                    this.textEditUser +
+                    '</div></div>' +
+                    '<ul>' +
+                    templateUserItem({users: userSort}) +
+                    '</ul>');
+                $('#user-list').html(templateUserList());
             },
 
 
@@ -587,7 +680,14 @@ define([
             textEquation: 'Equation',
             textImage: 'Image',
             textChart: 'Chart',
-            textShape: 'Shape'
+            textShape: 'Shape',
+            textTableChanged: '<b>Table Settings Changed</b>',
+            textTableRowsAdd: '<b>Table Rows Added<b/>',
+            textTableRowsDel: '<b>Table Rows Deleted<b/>',
+            textParaMoveTo: '<b>Moved:</b>',
+            textParaMoveFromUp: '<b>Moved Up:</b>',
+            textParaMoveFromDown: '<b>Moved Down:</b>',
+            textEditUser: 'Document is currently being edited by several users.'
 
         }
     })(), DE.Controllers.Collaboration || {}))

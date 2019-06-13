@@ -81,6 +81,8 @@ define([
                 this.api.asc_registerCallback('asc_onCanRedo',      _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this))
+                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.displayCollaboration, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
             },
 
@@ -171,11 +173,11 @@ define([
             },
 
             activateControls: function() {
-                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document').removeClass('disabled');
+                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back, #toolbar-edit-document, #toolbar-collaboration').removeClass('disabled');
             },
 
             activateViewControls: function() {
-                $('#toolbar-search, #document-back').removeClass('disabled');
+                $('#toolbar-search, #document-back, #toolbar-collaboration').removeClass('disabled');
             },
 
             deactivateEditControls: function() {
@@ -190,6 +192,21 @@ define([
                 DE.getController('AddContainer').hideModal();
                 DE.getController('EditContainer').hideModal();
                 DE.getController('Settings').hideModal();
+            },
+
+            displayCollaboration: function(users) {
+                if(users !== undefined) {
+                    var length = 0;
+                    _.each(users, function (item) {
+                        if (!item.asc_getView())
+                            length++;
+                    });
+                    if (length > 0) {
+                        $('#toolbar-collaboration').show();
+                    } else {
+                        $('#toolbar-collaboration').hide();
+                    }
+                }
             },
 
             dlgLeaveTitleText   : 'You leave the application',

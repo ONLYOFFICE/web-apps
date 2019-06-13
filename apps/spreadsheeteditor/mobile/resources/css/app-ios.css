@@ -5844,7 +5844,8 @@ html:not(.phone) #editor-navbar.navbar .right a + a,
 html:not(.phone) #editor-navbar.navbar .left a + a {
   margin-left: 10px;
 }
-.phone.ios .container-edit .navbar:before {
+.phone.ios .container-edit .navbar:before,
+.phone.ios .container-collaboration .navbar:before {
   content: '';
   position: absolute;
   left: 0;
@@ -5859,20 +5860,24 @@ html:not(.phone) #editor-navbar.navbar .left a + a {
   -webkit-transform-origin: 50% 0%;
   transform-origin: 50% 0%;
 }
-html.pixel-ratio-2 .phone.ios .container-edit .navbar:before {
+html.pixel-ratio-2 .phone.ios .container-edit .navbar:before,
+html.pixel-ratio-2 .phone.ios .container-collaboration .navbar:before {
   -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
 }
-html.pixel-ratio-3 .phone.ios .container-edit .navbar:before {
+html.pixel-ratio-3 .phone.ios .container-edit .navbar:before,
+html.pixel-ratio-3 .phone.ios .container-collaboration .navbar:before {
   -webkit-transform: scaleY(0.33);
   transform: scaleY(0.33);
 }
-.phone.ios .container-edit .page-content .list-block:first-child {
+.phone.ios .container-edit .page-content .list-block:first-child,
+.phone.ios .container-collaboration .page-content .list-block:first-child {
   margin-top: -1px;
 }
 .container-edit.popover,
 .container-add.popover,
-.container-settings.popover {
+.container-settings.popover,
+.container-collaboration.popover {
   width: 360px;
 }
 .settings.popup .list-block ul,
@@ -6607,6 +6612,11 @@ i.icon.icon-format-csv {
   height: 30px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2058%2058%22%20height%3D%2258px%22%20width%3D%2258px%22%20y%3D%220px%22%20x%3D%220px%22%20xml%3Aspace%3D%22preserve%22%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill%3A%2340865c%3B%7D%3C%2Fstyle%3E%3C%2Fdefs%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2242.5%22%20x%3D%2213.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2238.5%22%20x%3D%2213.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2234.5%22%20x%3D%2213.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2230.5%22%20x%3D%2213.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2226.5%22%20x%3D%2213.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2222.5%22%20x%3D%2213.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2218.5%22%20x%3D%2213.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2214.5%22%20x%3D%2213.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2242.5%22%20x%3D%2224.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2238.5%22%20x%3D%2224.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2234.5%22%20x%3D%2224.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2230.5%22%20x%3D%2224.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2226.5%22%20x%3D%2224.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2222.5%22%20x%3D%2224.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2218.5%22%20x%3D%2224.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2214.5%22%20x%3D%2224.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2242.5%22%20x%3D%2235.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2238.5%22%20x%3D%2235.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2234.5%22%20x%3D%2235.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2230.5%22%20x%3D%2235.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2226.5%22%20x%3D%2235.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2222.5%22%20x%3D%2235.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2218.5%22%20x%3D%2235.5%22%20%2F%3E%3Crect%20height%3D%221%22%20width%3D%229%22%20class%3D%22cls-1%22%20y%3D%2214.5%22%20x%3D%2235.5%22%20%2F%3E%3C%2Fsvg%3E");
 }
+i.icon.icon-collaboration {
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M15.9912%206C15.9912%208.34102%2015.4074%2010.1346%2014.6055%2011.3121C13.7983%2012.4974%2012.8249%2013%2011.9912%2013C11.1575%2013%2010.1841%2012.4974%209.37695%2011.3121C8.57501%2010.1346%207.99121%208.34102%207.99121%206C7.99121%203.61508%209.96974%202%2011.9912%202C14.0127%202%2015.9912%203.61508%2015.9912%206ZM14.5015%2012.9506C13.7365%2013.6361%2012.8649%2014%2011.9912%2014C11.1195%2014%2010.2499%2013.6378%209.48619%2012.9554C7.78363%2013.6081%206.36015%2014.2591%205.26963%2014.9224C3.55256%2015.9667%203%2016.8326%203%2017.5C3%2018.2545%203.4257%2019.0877%204.82302%2019.7879C6.25015%2020.5031%208.57272%2020.9999%2012%2021C15.4273%2021%2017.7499%2020.5031%2019.177%2019.7879C20.5743%2019.0877%2021%2018.2545%2021%2017.5C21%2016.8326%2020.4474%2015.9667%2018.7304%2014.9224C17.6372%2014.2575%2016.2095%2013.605%2014.5015%2012.9506ZM15.2272%2012.1594C16.2765%2010.7825%2016.9912%208.67814%2016.9912%206C16.9912%203%2014.5%201%2011.9912%201C9.48242%201%206.99121%203%206.99121%206C6.99121%208.68159%207.70777%2010.7879%208.75931%2012.1647C4.60309%2013.7964%202%2015.4951%202%2017.5C2%2019.9852%205%2021.9999%2012%2022C19%2022%2022%2019.9852%2022%2017.5C22%2015.4929%2019.3913%2013.7927%2015.2272%2012.1594Z%22%20fill%3D%22%2340865c%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
 .chart-types .thumb.bar-normal {
   background-image: url('../img/charts/chart-03.png');
 }
@@ -7181,4 +7191,27 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
 .modal.modal-in {
   max-height: 100%;
   overflow: auto;
+}
+#user-list .item-content {
+  padding-left: 0;
+}
+#user-list .item-inner {
+  justify-content: flex-start;
+  padding-left: 15px;
+}
+#user-list .length {
+  margin-left: 4px;
+}
+#user-list .color {
+  min-width: 40px;
+  min-height: 40px;
+  margin-right: 20px;
+  text-align: center;
+  border-radius: 50px;
+  line-height: 40px;
+  color: #373737;
+  font-weight: 500;
+}
+#user-list ul:before {
+  content: none;
 }

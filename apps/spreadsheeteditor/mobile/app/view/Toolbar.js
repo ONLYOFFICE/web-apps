@@ -63,7 +63,8 @@ define([
                 "click #toolbar-edit"       : "showEdition",
                 "click #toolbar-add"        : "showInserts",
                 "click #toolbar-settings"   : "showSettings",
-                "click #toolbar-edit-document": "editDocument"
+                "click #toolbar-edit-document": "editDocument",
+                "click #toolbar-collaboration" : "showCollaboration"
             },
 
             // Set innerHTML and get the references to the DOM elements
@@ -153,6 +154,11 @@ define([
 
             editDocument: function () {
                 Common.Gateway.requestEditRights();
+            },
+
+            //Collaboration
+            showCollaboration: function () {
+                SSE.getController('Collaboration').showModal();
             },
 
             textBack: 'Back'

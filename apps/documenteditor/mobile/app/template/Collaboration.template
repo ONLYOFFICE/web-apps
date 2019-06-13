@@ -2,7 +2,7 @@
 <div id="collaboration-root-view">
     <div class="navbar">
         <div class="navbar-inner">
-            <div class="center sliding categories center-collaboration"><%= scope.textCollaboration %></div>
+            <div class="center sliding"><%= scope.textCollaboration %></div>
             <div class="right sliding close-collaboration"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
         </div>
     </div>
@@ -12,11 +12,17 @@
                 <div class="list-block">
                     <ul>
                         <li>
+                            <a id="list-edit-users" class="item-link" data-page="#edit-users-view">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textEditUsers %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
                             <a id="reviewing-settings" class="item-link" data-page="#reviewing-settings-view">
                                 <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
-                                    </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textReviewing %></div>
                                     </div>
@@ -46,9 +52,6 @@
                     <ul>
                         <li>
                             <div id="settings-review" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-review"></i>
-                                </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textReview %></div>
                                     <div class="item-after">
@@ -63,9 +66,6 @@
                         <li>
                             <a id="display-mode-settings" class="item-link" data-page="#display-mode-view">
                                 <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
-                                    </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textDisplayMode %></div>
                                     </div>
@@ -75,9 +75,6 @@
                         <li>
                             <a id="change-settings" class="item-link" data-page="#change-view">
                                 <div class="item-content">
-                                    <div class="item-media">
-                                        <i class="icon icon-doc-setup"></i>
-                                    </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textChange %></div>
                                     </div>
@@ -86,9 +83,6 @@
                         </li>
                         <li>
                             <div id="settings-accept-all" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-review"></i>
-                                </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textAcceptAllChanges %></div>
                                 </div>
@@ -96,9 +90,6 @@
                         </li>
                         <li>
                             <div id="settings-reject-all" class="item-content">
-                                <div class="item-media">
-                                    <i class="icon icon-review"></i>
-                                </div>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textRejectAllChanges %></div>
                                 </div>
@@ -176,18 +167,40 @@
             <div class="page-content">
                 <div class="content-block block-btn">
                 <span class="next-prev">
-                <a href="#" id="btn-prev-change" class="link icon-only"><i class="icon icon-review"></i></a>
-                <a href="#" id="btn-next-change" class="link icon-only"><i class="icon icon-review"></i></a>
+                <a href="#" id="btn-prev-change" class="link icon-only"><i class="icon icon-prev-change"></i></a>
+                <a href="#" id="btn-next-change" class="link icon-only"><i class="icon icon-next-change"></i></a>
                 </span>
+                <span class="right-buttons">
+                <a href="#" id="btn-goto-change" class="link icon-only" style="display: none;"><i class="icon icon-goto"></i></a>
                 <span class="accept-reject">
-                <a href="#" id="btn-accept-change" class="link icon-only"><i class="icon icon-review"></i></a>
-                <a href="#" id="btn-reject-change" class="link icon-only"><i class="icon icon-review"></i></a>
+                <a href="#" id="btn-accept-change" class="link icon-only"><i class="icon icon-accept"></i></a>
+                <a href="#" id="btn-reject-change" class="link icon-only"><i class="icon icon-reject"></i></a>
+                </span>
                 </span>
                 </div>
                 <div id="current-change" class="content-block block-description">
                     <p id="user-name"></p>
                     <p id="date-change"></p>
                     <p id="text-change"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Editable Users view -->
+<div id="edit-users-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textEditUsers %></div>
+            <div class="right sliding"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page page-change" data-page="edit-users-view">
+            <div class="page-content">
+                <div id="user-list" class="list-block">
                 </div>
             </div>
         </div>

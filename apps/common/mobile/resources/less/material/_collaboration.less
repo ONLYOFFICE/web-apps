@@ -4,6 +4,8 @@
     padding-top: 15px;
     padding-bottom: 15px;
     margin: 0;
+    max-width: 100%;
+    word-wrap: break-word;
   }
   #user-name {
     font-size: 17px;
@@ -21,7 +23,7 @@
   #text-change {
     color: #000000;
     font-size: 15px;
-    line-height: 18px;
+    line-height: 20px;
     margin: 0;
     margin-top: 10px;
   }
@@ -36,24 +38,23 @@
     #btn-next-change, #btn-reject-change {
       margin-left: 20px;
     }
-
+    #btn-goto-change {
+      margin-right: 20px;
+    }
+    .right-buttons {
+      display: flex;
+    }
     .link {
       display: inline-block;
-
-      .icon {
-        background-position: center;
-        height: 48px;
-        width: 48px;
-      }
     }
   }
-}
-.navbar .center-collaboration {
-  text-align: center;
 }
 .container-collaboration {
   .navbar .right.close-collaboration {
     position: absolute;
     right: 5px;
+  }
+  .page-content .list-block:first-child {
+    margin-top: -1px;
   }
 }

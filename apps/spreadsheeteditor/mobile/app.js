@@ -144,6 +144,7 @@ require([
             ,'AddShape'
             ,'AddOther'
             ,'AddLink'
+            ,'Collaboration'
         ]
     });
 
@@ -214,6 +215,7 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
         ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
         ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
+        ,'spreadsheeteditor/mobile/app/controller/Collaboration'
     ], function() {
         app.start();
     });

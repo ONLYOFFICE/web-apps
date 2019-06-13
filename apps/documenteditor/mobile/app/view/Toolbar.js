@@ -101,7 +101,7 @@ define([
 
             setMode: function (mode) {
                 if (mode.isEdit) {
-                    $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo, #toolbar-collaboration').show();
+                    $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
                 } else if (mode.canEdit && mode.canRequestEditRights){
                     $('#toolbar-edit-document').show();
                 }

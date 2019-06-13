@@ -129,6 +129,8 @@ define([
                     if (isEdit) {
                         $layout.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        $layout.find('#settings-spreadsheet').hide();
+                        $layout.find('#settings-application').hide();
                     }
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();
@@ -166,6 +168,11 @@ define([
 
             showSetApp: function() {
                 this.showPage('#settings-application-view');
+                $('#language-formula').single('click', _.bind(this.showFormulaLanguage, this));
+            },
+
+            showFormulaLanguage: function () {
+                this.showPage('#language-formula-view');
             },
 
             showColorSchemes: function () {
@@ -259,6 +266,38 @@ define([
                 $list.html(items.join(''));
             },
 
+            renderFormLang: function(indexLang, languages) {
+                var $pageLang = $('.page[data-page=language-formula-view]'),
+                    $list = $pageLang.find('ul'),
+                    items = [],
+                    textEx = this.textExample;
+
+                _.each(languages, function (lang, index) {
+                    items.push(_.template([
+                        '<li>',
+                        '<label class="label-radio item-content">',
+                        '<input type="radio" name="language-formula" value="<%= item.value %>" <% if (index == selectIndex) { %>checked="checked"<% } %> >',
+                        '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
+                        '<div class="item-inner">',
+                        '<div class="item-title-row">',
+                        '<div class="item-title"><%= item.displayValue %></div>',
+                        '</div>',
+                        '<div class="item-subtitle"><%= textExamp + ": "%> <%= item.exampleValue %></div>',
+                        '</div>',
+                        '</label>',
+                        '</li>'
+                    ].join(''))({
+                        android: Framework7.prototype.device.android,
+                        item: lang,
+                        index: index,
+                        selectIndex: indexLang,
+                        textExamp: textEx
+                    }));
+                });
+
+                $list.html(items.join(''));
+            },
+
             unknownText: 'Unknown',
             textFindAndReplace: 'Find and Replace',
             textSettings: 'Settings',
@@ -301,7 +340,10 @@ define([
             textTop: 'Top',
             textLeft: 'Left',
             textBottom: 'Bottom',
-            textRight: 'Right'
+            textRight: 'Right',
+            textCollaboration: 'Collaboration',
+            textFormulaLanguage: 'Formula Language',
+            textExample: 'Example'
     }
     })(), SSE.Views.Settings || {}))
 });

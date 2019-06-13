@@ -33,22 +33,22 @@
 
 /**
  *  Collaboration.js
- *  Document Editor
+ *  Presentation Editor
  *
- *  Created by Julia Svinareva on 14/5/19
+ *  Created by Julia Svinareva on 31/5/19
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
-    'text!documenteditor/mobile/app/template/Collaboration.template',
+    'text!presentationeditor/mobile/app/template/Collaboration.template',
     'jquery',
     'underscore',
     'backbone'
 ], function (settingsTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.Collaboration = Backbone.View.extend(_.extend((function() {
+    PE.Views.Collaboration = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -89,8 +89,7 @@ define([
 
             updateItemHandlers: function () {
                 var selectorsDynamicPage = [
-                    '.page[data-page=collaboration-root-view]',
-                    '.page[data-page=reviewing-settings-view]'
+                    '.page[data-page=collaboration-root-view]'
                 ].map(function (selector) {
                     return selector + ' a.item-link[data-page]';
                 }).join(', ');
@@ -119,7 +118,7 @@ define([
             },
 
             showPage: function(templateId, animate) {
-                var rootView = DE.getController('Collaboration').rootView();
+                var rootView = PE.getController('Collaboration').rootView();
 
                 if (rootView && this.layout) {
                     var $content = this.layout.find(templateId);
@@ -141,19 +140,10 @@ define([
 
 
             textCollaboration: 'Collaboration',
-            textReviewing: 'Review',
             textСomments: 'Сomments',
             textBack: 'Back',
-            textReview: 'Track Changes',
-            textAcceptAllChanges: 'Accept All Changes',
-            textRejectAllChanges: 'Reject All Changes',
-            textDisplayMode: 'Display Mode',
-            textMarkup: 'Markup',
-            textFinal: 'Final',
-            textOriginal: 'Original',
-            textChange: 'Review Change',
             textEditUsers: 'Users'
 
         }
-    })(), DE.Views.Collaboration || {}))
+    })(), PE.Views.Collaboration || {}))
 });

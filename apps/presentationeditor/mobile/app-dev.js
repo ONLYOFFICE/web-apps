@@ -147,7 +147,8 @@ require([
             'AddShape',
             'AddImage',
             'AddLink',
-            'AddSlide'
+            'AddSlide',
+            'Collaboration'
         ]
     });
 
@@ -214,7 +215,8 @@ require([
         'presentationeditor/mobile/app/controller/add/AddShape',
         'presentationeditor/mobile/app/controller/add/AddImage',
         'presentationeditor/mobile/app/controller/add/AddLink',
-        'presentationeditor/mobile/app/controller/add/AddSlide'
+        'presentationeditor/mobile/app/controller/add/AddSlide',
+        'presentationeditor/mobile/app/controller/Collaboration'
 
     ], function() {
         window.compareVersions = true;
