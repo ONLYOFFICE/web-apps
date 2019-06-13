@@ -485,6 +485,18 @@ define([
                 var $pageLang = $('#language-formula');
                 $pageLang.find('.item-title').text(item.displayValue);
                 $pageLang.find('.item-example').text(item.exampleValue);
+
+                value = Common.localStorage.getBool('sse-settings-r1c1');
+                var $r1c1Style = $('.page[data-page=settings-application-view] #r1-c1-style input');
+                $r1c1Style.prop('checked',value);
+                $r1c1Style.single('change',    _.bind(me.clickR1C1Style, me));
+            },
+
+            clickR1C1Style: function(e) {
+                var $target = $(e.currentTarget),
+                    checked = $target.prop('checked');
+                Common.localStorage.setBool('sse-settings-r1c1', checked);
+                this.api.asc_setR1C1Mode(checked);
             },
 
             unitMeasurementChange: function (e) {

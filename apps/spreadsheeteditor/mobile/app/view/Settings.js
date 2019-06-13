@@ -343,7 +343,8 @@ define([
             textRight: 'Right',
             textCollaboration: 'Collaboration',
             textFormulaLanguage: 'Formula Language',
-            textExample: 'Example'
+            textExample: 'Example',
+            textR1C1Style: 'R1C1 Reference Style'
     }
     })(), SSE.Views.Settings || {}))
 });
