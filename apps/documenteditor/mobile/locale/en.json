@@ -241,6 +241,7 @@
   "DE.Controllers.Collaboration.textParaMoveTo": "<b>Moved:</b>",
   "DE.Controllers.Collaboration.textParaMoveFromUp": "<b>Moved Up:</b>",
   "DE.Controllers.Collaboration.textParaMoveFromDown": "<b>Moved Down:</b>",
+  "DE.Controllers.Collaboration.textEditUser": "Document is currently being edited by several users.",
   "DE.Views.AddImage.textAddress": "Address",
   "DE.Views.AddImage.textBack": "Back",
   "DE.Views.AddImage.textFromLibrary": "Picture from Library",
@@ -496,5 +497,6 @@
   "DE.Views.Collaboration.textMarkup": "Markup",
   "DE.Views.Collaboration.textFinal": "Final",
   "DE.Views.Collaboration.textOriginal": "Original",
-  "DE.Views.Collaboration.textChange": "Review Change"
+  "DE.Views.Collaboration.textChange": "Review Change",
+  "DE.Views.Collaboration.textEditUsers": "Users"
 }
