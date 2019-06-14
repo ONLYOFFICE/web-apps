@@ -157,7 +157,7 @@ define([
             this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
             this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
             this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
-            this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.parsePlugins, this));
+            this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
 
             this.loadPlugins();
             return this;
@@ -454,6 +454,11 @@ define([
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
+        },
+
+        onPluginsInit: function(pluginsdata) {
+            !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
+            this.parsePlugins(pluginsdata)
         },
 
         runAutoStartPlugins: function() {
