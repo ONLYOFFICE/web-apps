@@ -824,6 +824,7 @@ Common.Utils.lockControls = function(causes, lock, opts, defControls) {
 
 Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split, menu, toggle) {
     var btnsArr = createButtonSet();
+    btnsArr.setDisabled(true);
     id = id || ("id-toolbar-" + iconCls);
     $slots.each(function(index, el) {
         var _cls = 'btn-toolbar';
