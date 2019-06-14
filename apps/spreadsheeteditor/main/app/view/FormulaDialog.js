@@ -102,26 +102,6 @@ define([
 
             this.syntaxLabel = $('#formula-dlg-args');
             this.descLabel = $('#formula-dlg-desc');
-
-            this.translationTable = {};
-
-            var name = '', translate = '',
-                descriptions = ['All', 'Cube', 'Database', 'DateAndTime', 'Engineering', 'Financial', 'Information',
-                                'Logical', 'LookupAndReference', 'Mathematic', 'Statistical', 'TextAndData', 'Last10' ];
-            for (var i=0; i<descriptions.length; i++) {
-                name = descriptions[i];
-                translate = 'sCategory' + name;
-                this.translationTable[name] = {
-                    en: this[translate],
-                    de: this[translate+'_de'],
-                    ru: this[translate+'_ru'],
-                    pl: this[translate+'_pl'],
-                    es: this[translate+'_es'],
-                    fr: this[translate+'_fr'],
-                    it: this[translate+'_it']
-                };
-            }
-
             this.fillFormulasGroups();
         },
         show: function () {
@@ -230,10 +210,11 @@ define([
                 var i, groupsListItems = [], length =  this.formulasGroups.length;
 
                 for (i = 0; i < length; ++i) {
-                    if (this.formulasGroups.at(i).get('functions').length) {
+                    var group = this.formulasGroups.at(i);
+                    if (group.get('functions').length) {
                         groupsListItems.push({
-                            value           : this.formulasGroups.at(i).get('index'),
-                            displayValue    : this.translationTable[this.formulasGroups.at(i).get('name')][lang] || this.translationTable[this.formulasGroups.at(i).get('name')]['en']
+                            value           : group.get('index'),
+                            displayValue    : this['sCategory' + group.get('name')] || group.get('name')
                         });
                     }
                 }
@@ -415,84 +396,7 @@ define([
         textGroupDescription:           'Select Function Group',
         textListDescription:            'Select Function',
         sDescription:                   'Description',
-        sCategoryAll_de:                'Alle',
-        sCategoryLast10_de:             '10 zuletzt verwendete',
-        sCategoryCube_de:               'Cube',
-        sCategoryDatabase_de:           'Datenbank',
-        sCategoryDateAndTime_de:        'Datum und Uhrzeit',
-        sCategoryEngineering_de:        'Konstruktion',
-        sCategoryFinancial_de:          'Finanzmathematik',
-        sCategoryInformation_de:        'Information',
-        sCategoryLogical_de:            'Logisch',
-        sCategoryLookupAndReference_de: 'Suchen und Bezüge',
-        sCategoryMathematic_de:         'Mathematik und Trigonometrie',
-        sCategoryStatistical_de:        'Statistik',
-        sCategoryTextAndData_de:        'Text und Daten',
-        sCategoryAll_ru:                'Все',
-        sCategoryLast10_ru:             '10 недавно использовавшихся',
-        sCategoryCube_ru:               'Кубические',
-        sCategoryDatabase_ru:           'Базы данных',
-        sCategoryDateAndTime_ru:        'Дата и время',
-        sCategoryEngineering_ru:        'Инженерные',
-        sCategoryFinancial_ru:          'Финансовые',
-        sCategoryInformation_ru:        'Информационные',
-        sCategoryLogical_ru:            'Логические',
-        sCategoryLookupAndReference_ru: 'Поиск и ссылки',
-        sCategoryMathematic_ru:         'Математические',
-        sCategoryStatistical_ru:        'Статистические',
-        sCategoryTextAndData_ru:        'Текст и данные',
-        txtTitle:                       'Insert Function',
-        sCategoryAll_es:                   'Todo',
-        sCategoryLast10_es:                '10 últimas utilizadas',
-        sCategoryLogical_es:               'Lógico',
-        sCategoryCube_es:                  'Cubo',
-        sCategoryDatabase_es:              'Base de Datos',
-        sCategoryDateAndTime_es:           'Fecha y hora',
-        sCategoryEngineering_es:           'Ingenería',
-        sCategoryFinancial_es:             'Financial',
-        sCategoryInformation_es:           'Información',
-        sCategoryLookupAndReference_es:    'Búsqueda y referencia',
-        sCategoryMathematic_es:            'Matemáticas y trigonometría',
-        sCategoryStatistical_es:           'Estadístico',
-        sCategoryTextAndData_es:           'Texto y datos',
-        sCategoryAll_fr:                   'Tout',
-        sCategoryLast10_fr:                '10 dernières utilisées',
-        sCategoryLogical_fr:               'Logique',
-        sCategoryCube_fr:                  'Cube',
-        sCategoryDatabase_fr:              'Base de données',
-        sCategoryDateAndTime_fr:           'Date et heure',
-        sCategoryEngineering_fr:           'Ingénierie',
-        sCategoryFinancial_fr:             'Financier',
-        sCategoryInformation_fr:           'Information',
-        sCategoryLookupAndReference_fr:    'Recherche et référence',
-        sCategoryMathematic_fr:            'Maths et trigonométrie',
-        sCategoryStatistical_fr:           'Statistiques',
-        sCategoryTextAndData_fr:           'Texte et données',
-        sCategoryAll_pl:                   'Wszystko',
-        sCategoryLast10_pl:                '10 ostatnio używanych',
-        sCategoryLogical_pl:               'Logiczny',
-        sCategoryCube_pl:                  'Sześcian',
-        sCategoryDatabase_pl:              'Baza danych',
-        sCategoryDateAndTime_pl:           'Data i czas',
-        sCategoryEngineering_pl:           'Inżyniera',
-        sCategoryFinancial_pl:             'Finansowe',
-        sCategoryInformation_pl:           'Informacja',
-        sCategoryLookupAndReference_pl:    'Wyszukiwanie i odniesienie',
-        sCategoryMathematic_pl:            'Matematyczne i trygonometryczne',
-        sCategoryStatistical_pl:           'Statystyczny',
-        sCategoryTextAndData_pl:           'Tekst i data',
-        sCategoryAll_it:                   'Tutto',
-        sCategoryLast10_it:                '10 ultime utilizzate',
-        sCategoryLogical_it:               'Logico',
-        sCategoryCube_it:                  'Cubo',
-        sCategoryDatabase_it:              'Banca dati',
-        sCategoryDateAndTime_it:           'Data e ora',
-        sCategoryEngineering_it:           'Ingegneria',
-        sCategoryFinancial_it:             'Finanziario',
-        sCategoryInformation_it:           'Informazioni',
-        sCategoryLookupAndReference_it:    'Ricerca e Riferimento',
-        sCategoryMathematic_it:            'Matematiche e trigonometriche',
-        sCategoryStatistical_it:           'Statistico',
-        sCategoryTextAndData_it:           'Testo e dati'
+        txtTitle:                       'Insert Function'
+
     }, SSE.Views.FormulaDialog || {}));
 });
