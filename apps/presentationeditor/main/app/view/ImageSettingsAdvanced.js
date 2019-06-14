@@ -262,6 +262,9 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
+
+                var pluginGuid = props.asc_getPluginGuid();
+                this.btnsCategory[1].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
             }
         },
 

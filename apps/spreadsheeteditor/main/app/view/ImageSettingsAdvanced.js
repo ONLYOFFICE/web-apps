@@ -141,6 +141,9 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
                 this.chFlipHor.setValue(props.asc_getFlipH());
                 this.chFlipVert.setValue(props.asc_getFlipV());
 
+                var pluginGuid = props.asc_getPluginGuid();
+                this.btnsCategory[0].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
+
                 this._changedProps = new Asc.asc_CImgProperty();
             }
         },
