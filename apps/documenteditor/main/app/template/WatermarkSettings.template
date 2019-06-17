@@ -29,13 +29,7 @@
             </tr>
             <tr>
                 <td class="padding-small" colspan="2">
-                    <label style="display:block;"><%= scope.textOpacity %></label>
-                    <div style="display: inline-block; margin-top: 3px;">
-                        <label id="watermark-lbl-opacity-start">0</label>
-                        <div id="watermark-slider-opacity" style="display: inline-block;margin: 0 4px; vertical-align: middle;"></div>
-                        <label id="watermark-lbl-opacity-end">100</label>
-                    </div>
-                    <div id="watermark-spin-opacity" style="display: inline-block;margin-left: 15px;"></div>
+                    <div id="watermark-chb-transparency"></div>
                 </td>
             </tr>
             <tr>
@@ -60,7 +54,7 @@
                     <button type="button" class="btn btn-text-default" id="watermark-from-url" style="width:90px;margin-left: 15px;"><%= scope.textFromUrl %></button>
                 </td>
                 <td rowspan="2">
-                    <div style="width: 80px; height: 70px; padding: 14px 20px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;margin-left: 15px;">
+                    <div style="width: 80px; height: 70px; padding: 9px 14px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;margin-left: 15px;">
                         <div id="watermark-texture-img" style="width: 50px;height: 50px;"></div>
                     </div>
                 </td>

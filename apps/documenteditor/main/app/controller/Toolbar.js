@@ -1922,12 +1922,12 @@ define([
                     }
 
                     (new DE.Views.WatermarkSettingsDialog({
-                        // props: props,
+                        props: me.api.asc_GetWatermarkProps(),
                         api: me.api,
                         fontStore: me.fontstore,
                         handler: function(result, value) {
                             if (result == 'ok') {
-                                me.api.asc_WatermarkAdd(value);
+                                me.api.asc_SetWatermarkProps(value);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
