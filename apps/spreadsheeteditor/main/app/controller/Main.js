@@ -931,10 +931,6 @@ define([
                     this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
-                    else if (typeof this.editorConfig.customization == 'object') {
-                        this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarNoTabs =
-                        this.editorConfig.customization.toolbarHideFileName = false;
-                    }
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
                 } else
