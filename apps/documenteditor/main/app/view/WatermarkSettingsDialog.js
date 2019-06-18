@@ -114,6 +114,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.textControls = [];
             this.imageControls = [];
             this.fontName = 'Arial';
+            this.lang = 'en';
             this.isAutoColor = false;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -206,9 +207,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 menuStyle   : 'min-width: 100%;max-height: 210px;',
                 scrollAlwaysVisible: true,
                 data        : []
-            }).on('selected', _.bind(function(combo, record) {
-                this.loadWMText(record);
-            }, this));
+            }).on('selected', _.bind(this.onSelectLang, this));
             this.textControls.push(this.cmbLang);
 
             this.cmbText = new Common.UI.ComboBox({
@@ -414,17 +413,38 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.cmbLang.setData(data);
             if (data.length) {
-                this.cmbLang.setValue('en', data[0].value);
-                this.loadWMText(this.cmbLang.getSelectedRecord());
+                var item = this.cmbLang.store.findWhere({value: this.lang}) || this.cmbLang.store.at(0);
+                this.cmbLang.setValue(this.lang);
+                this.onSelectLang(this.cmbLang, item.toJSON());
             } else
                 this.cmbLang.setDisabled(true);
         },
 
-        loadWMText: function(record) {
+        onSelectLang: function(combo, record) {
             if (!record) return;
 
             var data = [];
             record.wmtext.forEach(function(item) {
+                data.push({value: item});
+            });
+            this.lang = record.value;
+            this.cmbText.setData(data);
+            this.cmbText.setValue(data[0].value);
+        },
+
+        loadWMText: function(lang) {
+            if (!lang) return;
+
+            var data = [];
+            var item = this.cmbLang.store.findWhere({value: lang});
+            if (!item)
+                item = this.cmbLang.store.findWhere({value: lang.split(/[\-\_]/)[0]});
+            if (!item)
+                item = this.cmbLang.store.findWhere({value: 'en'});
+            if (!item)
+                item = this.cmbLang.store.at(0);
+
+            item && item.get('wmtext').forEach(function(item) {
                 data.push({value: item});
             });
             this.cmbText.setData(data);
@@ -460,13 +480,16 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     this.cmbScale.setValue((val<0) ? -1 : Math.round(val*100), Math.round(val*100) + ' %');
                 } else {
                     this.radioText.setValue(true);
-                    val = props.get_Text();
-                    val && this.cmbText.setValue(val);
                     !props.get_IsDiagonal() && this.radioHor.setValue(true);
                     this.chTransparency.setValue(props.get_Opacity()<255);
 
                     val = props.get_TextPr();
                     if (val) {
+                        var lang = Common.util.LanguageInfo.getLocalLanguageName(val.get_Lang());
+                        this.lang = lang[0];
+                        this.cmbLang.setValue(lang[1]);
+                        this.loadWMText(lang[0]);
+
                         var font = val.get_FontFamily().get_Name();
                         if (font) {
                             var rec = this.cmbFonts.store.findWhere({name: font});
@@ -510,8 +533,10 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                             }
                         }
                         this.btnTextColor.currentColor = clr;
-                        $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
+                        $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + ((typeof(clr) == 'object') ? clr.color : clr));
                     }
+                    val = props.get_Text();
+                    val && this.cmbText.setValue(val);
                 }
             }
         },
@@ -539,6 +564,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     val.put_Italic(this.btnItalic.pressed);
                     val.put_Underline(this.btnUnderline.pressed);
                     val.put_Strikeout(this.btnStrikeout.pressed);
+
+                    val.put_Lang(parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.lang)));
 
                     var color = new Asc.asc_CColor();
                     if (this.isAutoColor) {

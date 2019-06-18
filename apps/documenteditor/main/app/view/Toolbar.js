@@ -1018,7 +1018,7 @@ define([
 
                     me.btnWatermark = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-pageorient',
+                        iconCls: 'btn-watermark',
                         caption: me.capBtnWatermark,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
@@ -2457,7 +2457,7 @@ define([
             txtMarginAlign: 'Align to Margin',
             txtObjectsAlign: 'Align Selected Objects',
             capBtnWatermark: 'Watermark',
-            textEditWatermark: 'Settings',
+            textEditWatermark: 'Custom Watermark',
             textRemWatermark: 'Remove Watermark',
             tipWatermark: 'Edit watermark'
         }
