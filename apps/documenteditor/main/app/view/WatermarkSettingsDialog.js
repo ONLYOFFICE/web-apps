@@ -336,7 +336,6 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 })
             });
             this.btnTextColor.render($('#watermark-textcolor'));
-            // this.btnTextColor.on('click', _.bind(this.onTextColor, this));
             this.mnuTextColorPicker = initNewColor(this.btnTextColor, "#watermark-menu-textcolor");
             $('#watermark-auto-color').on('click', _.bind(this.onAutoColor, this));
             this.textControls.push(this.btnTextColor);

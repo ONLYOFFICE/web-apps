@@ -1024,13 +1024,9 @@ define([
                             cls: 'ppm-toolbar',
                             items: [
                                 {
-                                    caption: this.textAddWatermark,
-                                    value: 'add'
+                                    caption: this.textEditWatermark,
+                                    value: 'edit'
                                 },
-                                // {
-                                //     caption: this.textEditWatermark,
-                                //     value: 'add'
-                                // },
                                 {
                                     caption: this.textRemWatermark,
                                     value: 'remove'
@@ -2461,10 +2457,9 @@ define([
             txtMarginAlign: 'Align to Margin',
             txtObjectsAlign: 'Align Selected Objects',
             capBtnWatermark: 'Watermark',
-            textAddWatermark: 'Add Watermark',
-            textEditWatermark: 'Edit Watermark',
+            textEditWatermark: 'Settings',
             textRemWatermark: 'Remove Watermark',
-            tipWatermark: 'Insert watermark'
+            tipWatermark: 'Edit watermark'
         }
     })(), DE.Views.Toolbar || {}));
 });

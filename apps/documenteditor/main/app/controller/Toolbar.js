@@ -1906,9 +1906,10 @@ define([
 
         onWatermarkSelect: function(menu, item) {
             if (this.api) {
-                if (item.value == 'add') {
+                if (item.value == 'remove')
+                    this.api.asc_WatermarkRemove();
+                else {
                     var me = this;
-
                     if (_.isUndefined(me.fontstore)) {
                         me.fontstore = new Common.Collections.Fonts();
                         var fonts = me.toolbar.cmbFontName.store.toJSON();
@@ -1932,9 +1933,7 @@ define([
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     })).show();
-                } else if (item.value == 'remove')
-                    this.api.asc_WatermarkRemove();
-
+                }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Edit ' + item.value);
             }
