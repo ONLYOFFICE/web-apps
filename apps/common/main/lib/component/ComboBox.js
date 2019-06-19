@@ -90,7 +90,7 @@ define([
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control">',
+                    '<input type="text" class="form-control" spellcheck="false">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
