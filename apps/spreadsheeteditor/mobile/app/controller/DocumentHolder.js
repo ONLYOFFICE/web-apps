@@ -356,7 +356,10 @@ define([
 
             onApiFilterOptions: function(config) {
                 if(_isEdit) {
-                    SSE.getController('FilterOptions').showModal();
+                    var rect = config.asc_getCellCoord(),
+                        posX = rect.asc_getX() + rect.asc_getWidth() - 9,
+                        posY = rect.asc_getY() + rect.asc_getHeight() - 9;
+                    SSE.getController('FilterOptions').showModal(posX,posY);
                 }
             },
 

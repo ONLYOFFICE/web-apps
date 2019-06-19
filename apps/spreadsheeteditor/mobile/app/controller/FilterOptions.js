@@ -83,7 +83,7 @@ define([
                 this.appConfig = mode;
             },
 
-            showModal: function(x,y) {
+            showModal: function(posX,posY) {
                 var me = this,
                     isAndroid = Framework7.prototype.device.android === true,
                     modalView,
@@ -111,7 +111,7 @@ define([
                     });
                     mainView.hideNavbar();
                 } else {
-                    modalView = uiApp.popover(
+                    var popoverHTML =
                         '<div class="popover settings container-filter">' +
                         '<div class="popover-angle"></div>' +
                         '<div class="popover-inner">' +
@@ -121,8 +121,13 @@ define([
                         '</div>' +
                         '</div>' +
                         '</div>' +
-                        '</div>',
-                    );
+                        '</div>';
+                    var $target = $('#context-menu-target')
+                        .css({left: posX, top: Math.max(0, posY)});
+                    var popover = uiApp.popover(popoverHTML, $target);
+                    if (Common.SharedSettings.get('android')) {
+                        Common.Utils.androidMenuTop($(popover),  $target);
+                    }
                 }
 
                 if (Framework7.prototype.device.android === true) {
