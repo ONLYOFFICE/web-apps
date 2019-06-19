@@ -7220,3 +7220,10 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
 #user-list ul:before {
   content: none;
 }
+.filter-root-view .list-center .item-title {
+  text-align: center;
+  width: 100%;
+}
+.filter-root-view #btn-delete-filter {
+  color: #ff3b30;
+}
