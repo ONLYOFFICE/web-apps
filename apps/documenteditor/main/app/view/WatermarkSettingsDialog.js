@@ -116,6 +116,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.fontName = 'Arial';
             this.lang = 'en';
             this.isAutoColor = false;
+            this.isImageLoaded = false;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -361,6 +362,11 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.textControls.push(this.radioHor);
 
+            this.btnOk = new Common.UI.Button({
+                el: this.$window.find('.primary'),
+                disabled: true
+            });
+
             this.afterRender();
         },
 
@@ -399,6 +405,16 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             this.updateThemeColors();
             this._setDefaults(this.props);
+
+            var me = this;
+            var onApiWMLoaded = function() {
+                me.isImageLoaded = true;
+                me.btnOk.setDisabled(false);
+            };
+            this.api.asc_registerCallback('asc_onWatermarkImageLoaded', onApiWMLoaded);
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onWatermarkImageLoaded', onApiWMLoaded);
+            });
         },
 
         show: function() {
@@ -471,15 +487,17 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 props.put_DivId('watermark-texture-img');
                 props.put_Api(this.api);
 
-                var val = props.get_Type();
-                if (val == Asc.c_oAscWatermarkType.None) {
-                    this.radioNone.setValue(true);
-                } else if (val == Asc.c_oAscWatermarkType.Image) {
-                    this.radioImage.setValue(true);
+                var val,
+                    type = props.get_Type();
+                if (type == Asc.c_oAscWatermarkType.None) {
+                    this.radioNone.setValue(true, true);
+                } else if (type == Asc.c_oAscWatermarkType.Image) {
+                    this.radioImage.setValue(true, true);
+                    this.isImageLoaded = !!props.get_ImageUrl();
                     val = props.get_Scale() || -1;
                     this.cmbScale.setValue((val<0) ? -1 : Math.round(val*100), Math.round(val*100) + ' %');
                 } else {
-                    this.radioText.setValue(true);
+                    this.radioText.setValue(true, true);
                     !props.get_IsDiagonal() && this.radioHor.setValue(true);
                     this.chTransparency.setValue(props.get_Opacity()<255);
 
@@ -538,6 +556,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     val = props.get_Text();
                     val && this.cmbText.setValue(val);
                 }
+                this.disableControls(type);
             }
         },
 
@@ -592,13 +611,24 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 item.setDisabled(disable);
             });
             this.cmbLang.setDisabled(disable || this.languages.length<1);
+            this.btnOk.setDisabled(type==Asc.c_oAscWatermarkType.Image && !this.isImageLoaded);
         },
 
         onDlgBtnClick: function(event) {
-            var me = this;
-            var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
-            if (state == 'ok') {
-                this.handler && this.handler.call(this, state, this.getSettings());
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
+        },
+
+        _handleInput: function(state) {
+            if (this.handler) {
+                if (state == 'ok' && this.btnOk.isDisabled()) {
+                    return;
+                }
+                this.handler.call(this, state, this.getSettings());
             }
 
             this.close();
