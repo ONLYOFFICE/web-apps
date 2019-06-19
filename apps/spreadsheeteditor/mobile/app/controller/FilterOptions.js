@@ -152,11 +152,17 @@ define([
                 this.setClearDisable();
                 $clearFilter.single('click',    _.bind(me.onClickClearFilter, me));
                 $deleteFilter.single('click',    _.bind(me.onClickDeleteFilter, me));
+                $('.sortdown').single('click',  _.bind(me.onClickSort, me, 'down'));
+                $('.sortup').single('click', _.bind(me.onClickSort, me, 'up'));
                 this.setDataFilterCells();
             },
 
             setSettings: function(config) {
                 dataFilter = config;
+            },
+
+            onClickSort: function(type) {
+                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '');
             },
 
             onClickClearFilter: function () {

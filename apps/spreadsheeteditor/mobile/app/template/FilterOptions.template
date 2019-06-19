@@ -10,6 +10,18 @@
         <div class="page" data-page="filter-root-view">
             <div class="page-content">
                 <div class="list-block">
+                    <ul><li>
+                        <div class="item-content buttons">
+                            <div class="item-inner">
+                                <div class="row">
+                                    <a class="button no-ripple"><i class="icon sortdown"></i></a>
+                                    <a class="button no-ripple"><i class="icon sortup"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li></ul>
+                </div>
+                <div class="list-block list-center">
                     <ul>
                         <li id="btn-clear-filter">
                             <div class="item-content">
