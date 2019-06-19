@@ -5629,13 +5629,15 @@ a.item-link,
   opacity: 1;
 }
 .phone.android .container-edit .page-content .list-block:first-child,
-.phone.android .container-collaboration .page-content .list-block:first-child {
+.phone.android .container-collaboration .page-content .list-block:first-child,
+.phone.android .container-filter .page-content .list-block:first-child {
   margin-top: -1px;
 }
 .container-edit.popover,
 .container-add.popover,
 .container-settings.popover,
-.container-collaboration.popover {
+.container-collaboration.popover,
+.container-filter.popover {
   width: 360px;
 }
 .settings.popup .list-block,

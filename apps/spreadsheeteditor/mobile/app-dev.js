@@ -134,6 +134,7 @@ require([
             ,'AddOther'
             ,'AddLink'
             ,'Collaboration'
+            ,'FilterOptions'
         ]
     });
 
@@ -205,6 +206,7 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
         ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
         ,'spreadsheeteditor/mobile/app/controller/Collaboration'
+        ,'spreadsheeteditor/mobile/app/controller/FilterOptions'
     ], function() {
         window.compareVersions = true;
         app.start();

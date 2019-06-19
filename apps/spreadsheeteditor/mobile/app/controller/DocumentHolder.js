@@ -88,6 +88,9 @@ define([
 
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
+                if (_isEdit) {
+                    this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiFilterOptions, this));
+                }
             },
 
             // When our application is ready, lets get started
@@ -350,6 +353,13 @@ define([
             onCoAuthoringDisconnect: function() {
                 this.isDisconnected = true;
             },
+
+            onApiFilterOptions: function(config) {
+                if(_isEdit) {
+                    SSE.getController('FilterOptions').showModal();
+                }
+            },
+
 
             warnMergeLostData: 'Operation can destroy data in the selected cells.<br>Continue?',
             menuCopy:       'Copy',
