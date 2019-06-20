@@ -43,16 +43,18 @@
 define([
     'core',
     'spreadsheeteditor/main/app/collection/FormulaGroups',
-    'spreadsheeteditor/main/app/view/FormulaDialog'
+    'spreadsheeteditor/main/app/view/FormulaDialog',
+    'spreadsheeteditor/main/app/view/FormulaTab'
 ], function () {
     'use strict';
 
     SSE.Controllers = SSE.Controllers || {};
 
-    SSE.Controllers.FormulaDialog = Backbone.Controller.extend({
+    SSE.Controllers.FormulaDialog = Backbone.Controller.extend(_.extend({
         models: [],
         views: [
-            'FormulaDialog'
+            'FormulaDialog',
+            'FormulaTab'
         ],
         collections: [
             'FormulaGroups'
@@ -74,8 +76,27 @@ define([
                         me.formulasGroups.reset();
                         me.reloadTranslations(lang);
                     }
+                },
+                'FormulaTab': {
+                    'function:apply': this.applyFunction
                 }
             });
+        },
+
+        applyFunction: function(func) {
+            if (func) {
+                this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func);
+                this.updateLast10Formulas(func.origin);
+            }
+        },
+
+        setConfig: function(config) {
+            this.toolbar = config.toolbar;
+            this.formulaTab = this.createView('FormulaTab', {
+                toolbar: this.toolbar.toolbar,
+                formulasGroups: this.formulasGroups
+            });
+            return this;
         },
 
         setApi: function (api) {
@@ -84,8 +105,7 @@ define([
             if (this.formulasGroups && this.api) {
                 Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
 
-                this.reloadTranslations(
-                    Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang );
+                this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang );
 
                 var me = this;
 
@@ -93,14 +113,8 @@ define([
                     api             : this.api,
                     toolclose       : 'hide',
                     formulasGroups  : this.formulasGroups,
-                    handler         : function (func) {
-                        if (func) {
-                            me.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func);
-                            me.updateLast10Formulas(func.origin);
-                        }
-                    }
+                    handler         : _.bind(this.applyFunction, this)
                 });
-
                 this.formulas.on({
                     'hide': function () {
                         me.api.asc_enableKeyEvents(true);
@@ -117,6 +131,9 @@ define([
 
         onLaunch: function () {
             this.formulasGroups = this.getApplication().getCollection('FormulaGroups');
+
+            var descriptions = ['Financial', 'Logical', 'TextAndData', 'DateAndTime', 'LookupAndReference', 'Mathematic', 'Cube', 'Database', 'Engineering',  'Information',
+                 'Statistical', 'Last10'];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
         },
@@ -248,7 +265,8 @@ define([
                 last10FunctionsGroup = new SSE.Models.FormulaGroup ({
                     name    : ascGroupName,
                     index   : index,
-                    store   : store
+                    store   : store,
+                    caption : this['sCategory' + ascGroupName] || ascGroupName
                 });
                 if (last10FunctionsGroup) {
                     last10FunctionsGroup.set('functions', this.loadingLast10Formulas(descrarr));
@@ -256,10 +274,12 @@ define([
                     index += 1;
                 }
 
+                ascGroupName = 'All';
                 allFunctionsGroup = new SSE.Models.FormulaGroup ({
-                    name    : 'All',
+                    name    : ascGroupName,
                     index   : index,
-                    store   : store
+                    store   : store,
+                    caption : this['sCategory' + ascGroupName] || ascGroupName
                 });
                 if (allFunctionsGroup) {
                     store.push(allFunctionsGroup);
@@ -276,7 +296,8 @@ define([
                         formulaGroup = new SSE.Models.FormulaGroup({
                             name  : ascGroupName,
                             index : index,
-                            store : store
+                            store : store,
+                            caption : this['sCategory' + ascGroupName] || ascGroupName
                         });
 
                         index += 1;
@@ -308,6 +329,21 @@ define([
                        _.sortBy(allFunctions, function (model) {return model.get('name'); }));
                 }
             }
-        }
-    });
+            this.formulaTab.fillFunctions();
+        },
+        sCategoryAll:                   'All',
+        sCategoryLast10:                '10 last used',
+        sCategoryLogical:               'Logical',
+        sCategoryCube:                  'Cube',
+        sCategoryDatabase:              'Database',
+        sCategoryDateAndTime:           'Date and time',
+        sCategoryEngineering:           'Engineering',
+        sCategoryFinancial:             'Financial',
+        sCategoryInformation:           'Information',
+        sCategoryLookupAndReference:    'Lookup and reference',
+        sCategoryMathematic:            'Math and trigonometry',
+        sCategoryStatistical:           'Statistical',
+        sCategoryTextAndData:           'Text and data'
+
+    }, SSE.Controllers.FormulaDialog || {}));
 });

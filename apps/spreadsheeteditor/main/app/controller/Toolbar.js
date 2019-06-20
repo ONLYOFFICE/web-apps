@@ -3105,11 +3105,16 @@ define([
                         me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
                         me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
 
+                        var formulatab = me.getApplication().getController('FormulaDialog');
+                        formulatab.setConfig({toolbar: me});
+                        formulatab = formulatab.getView('FormulaTab');
+                        Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
+
                         if ( !config.isOffline ) {
                             tab = {action: 'pivot', caption: me.textPivot};
                             $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
                             if ($panel) {
-                                me.toolbar.addTab(tab, $panel, 4);
+                                me.toolbar.addTab(tab, $panel, 5);
                                 me.toolbar.setVisible('pivot', true);
                             }
                         }
@@ -3117,7 +3122,7 @@ define([
                         var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                         var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                         if ( $panel )
-                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.addTab(tab, $panel, 6);
 
                         if (!(config.customization && config.customization.compactHeader)) {
                             // hide 'print' and 'save' buttons group and next separator
@@ -3136,7 +3141,7 @@ define([
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
-                                    me.toolbar.addTab(tab, $panel, 6);
+                                    me.toolbar.addTab(tab, $panel, 7);
                             }
                         }
                     }

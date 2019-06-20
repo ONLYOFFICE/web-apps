@@ -214,7 +214,7 @@ define([
                     if (group.get('functions').length) {
                         groupsListItems.push({
                             value           : group.get('index'),
-                            displayValue    : this['sCategory' + group.get('name')] || group.get('name')
+                            displayValue    :  group.get('caption')
                         });
                     }
                 }
@@ -380,19 +380,6 @@ define([
 
         cancelButtonText:               'Cancel',
         okButtonText:                   'Ok',
-        sCategoryAll:                   'All',
-        sCategoryLast10:                '10 last used',
-        sCategoryLogical:               'Logical',
-        sCategoryCube:                  'Cube',
-        sCategoryDatabase:              'Database',
-        sCategoryDateAndTime:           'Date and time',
-        sCategoryEngineering:           'Engineering',
-        sCategoryFinancial:             'Financial',
-        sCategoryInformation:           'Information',
-        sCategoryLookupAndReference:    'Lookup and reference',
-        sCategoryMathematic:            'Math and trigonometry',
-        sCategoryStatistical:           'Statistical',
-        sCategoryTextAndData:           'Text and data',
         textGroupDescription:           'Select Function Group',
         textListDescription:            'Select Function',
         sDescription:                   'Description',

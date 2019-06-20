@@ -313,6 +313,7 @@ define([
                         { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                         { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
                         {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
+                        {caption: me.textTabFormula, action: 'formula', extcls: 'canedit'},
                         {caption: me.textTabData, action: 'data', extcls: 'canedit'}
                     ]}
                 );
@@ -2362,6 +2363,7 @@ define([
         tipEditHeader: 'Edit header or footer',
         textTabData: 'Data',
         capInsertTable: 'Table',
-        tipInsertTable: 'Insert table'
+        tipInsertTable: 'Insert table',
+        textTabFormula: 'Formula'
     }, SSE.Views.Toolbar || {}));
 });
