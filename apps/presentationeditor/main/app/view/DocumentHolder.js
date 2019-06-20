@@ -2147,6 +2147,7 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
+                    maxHeight: 300,
                     items   : [
                     ]
                 })
@@ -2161,15 +2162,6 @@ define([
                     restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
                 })
             });
 
@@ -2224,7 +2216,7 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
-                    style   : 'max-height: 300px;',
+                    maxHeight: 300,
                     items: [
                     ]
                 })
@@ -2239,15 +2231,6 @@ define([
                     restoreHeight: 300,
                     items   : [
                     ]
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
                 })
             });
 

@@ -2711,6 +2711,7 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
+                    maxHeight: 300,
                     items   : [
                     ]
                 })
@@ -2723,17 +2724,7 @@ define([
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
                     restoreHeight: 300,
-                    items   : [
-                    ]
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
+                    items   : []
                 })
             });
 
@@ -3345,9 +3336,8 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
-                    style   : 'max-height: 300px;',
-                    items: [
-                    ]
+                    maxHeight: 300,
+                    items: []
                 })
             });
 
@@ -3358,17 +3348,7 @@ define([
                     menuAlign: 'tl-tr',
                     maxHeight: 300,
                     restoreHeight: 300,
-                    items   : [
-                    ]
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
+                    items   : []
                 })
             });
 

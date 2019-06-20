@@ -580,13 +580,6 @@ define([
                             items: [],
                             maxHeight: 560,
                             restoreHeight: 560
-                        }).on('show:before', function (mnu) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40,
-                                alwaysVisibleY: true
-                            });
                         })
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
@@ -1277,12 +1270,6 @@ define([
                         mnuColorSchema = new Common.UI.Menu({
                             maxHeight: 560,
                             restoreHeight: 560
-                        }).on('render:after', function (mnu) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40
-                            });
                         });
                     }
                     mnuColorSchema.items = [];

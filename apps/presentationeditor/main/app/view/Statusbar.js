@@ -274,15 +274,6 @@ define([
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl'
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
                 });
 
                 this.btnLanguage = new Common.UI.Button({
