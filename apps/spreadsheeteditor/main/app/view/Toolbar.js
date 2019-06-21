@@ -1005,8 +1005,7 @@ define([
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [],
-                        maxHeight   : 560,
-                        restoreHeight: 560
+                        restoreHeight: true
                     })
                 });
 
@@ -1192,6 +1191,7 @@ define([
                     caption: me.capBtnPageSize,
                     lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
+                        restoreHeight: true,
                         items: [
                             {
                                 caption: 'US Letter',
@@ -1914,8 +1914,8 @@ define([
             }
 
             if (this.mnuColorSchema == null) {
-                this.mnuColorSchema = new Common.UI.Menu({maxHeight   : 560,
-                    restoreHeight: 560
+                this.mnuColorSchema = new Common.UI.Menu({
+                    restoreHeight: true
                 });
             }
 

@@ -76,6 +76,11 @@
  *  Arrow of the {Common.UI.MenuItem} menu items
  *
  *
+ *  @property {Boolean/Number} restoreHeight
+ *
+ *  Adjust to the browser height and restore to restoreHeight when it's Number
+ *
+ *
  */
 
 if (Common === undefined)
@@ -165,6 +170,11 @@ define([
                 this.menuAlignEl    = this.options.menuAlignEl;
                 this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
 
+                if (this.options.restoreHeight) {
+                    this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
+                    !this.options.maxHeight && (this.options.maxHeight = this.options.restoreHeight);
+                }
+
                 if (!this.options.cyclic) this.options.cls += ' no-cyclic';
 
                 _.each(this.options.items, function(item) {
@@ -230,8 +240,17 @@ define([
                         });
                     }
 
+                    if (this.options.maxHeight) {
+                        menuRoot.css({'max-height': me.options.maxHeight});
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            minScrollbarLength: 30,
+                            suppressScrollX: true,
+                            alwaysVisibleY: this.scrollAlwaysVisible
+                        });
+                    }
+
                     menuRoot.css({
-                        'max-height': me.options.maxHeight||'none',
                         position    : 'fixed',
                         right       : 'auto',
                         left        : -1000,
@@ -354,27 +373,14 @@ define([
 
             onBeforeShowMenu: function(e) {
                 Common.NotificationCenter.trigger('menu:show');
-
                 this.trigger('show:before', this, e);
-
-                if (this.options.maxHeight && !this.scroller) {
-                    this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        minScrollbarLength: 30,
-                        suppressScrollX: true,
-                        alwaysVisibleY: this.scrollAlwaysVisible
-                    });
-                }
-
                 this.alignPosition();
             },
 
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
                 if (this.scroller) {
-                    if (this.options.restoreHeight)
-                        this.scroller.update();
-
+                    this.scroller.update();
                     var menuRoot = (this.cmpEl.attr('role') === 'menu') ? this.cmpEl : this.cmpEl.find('[role=menu]'),
                         $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
@@ -486,10 +492,14 @@ define([
                     if (typeof (this.options.restoreHeight) == "number") {
                         if (top + menuH > docH) {
                             menuRoot.css('max-height', (docH - top) + 'px');
-                            menuH = menuRoot.outerHeight();
-                        } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight ) {
+                            (!this.scroller) && (this.scroller = new Common.UI.Scroller({
+                                el: $(this.el).find('.dropdown-menu '),
+                                minScrollbarLength: 30,
+                                suppressScrollX: true,
+                                alwaysVisibleY: this.scrollAlwaysVisible
+                            }));
+                        } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight) {
                             menuRoot.css('max-height', (Math.min(docH - top, this.options.restoreHeight)) + 'px');
-                            menuH = menuRoot.outerHeight();
                         }
                     }
                 } else {

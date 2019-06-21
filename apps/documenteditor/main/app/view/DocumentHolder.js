@@ -2711,7 +2711,7 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
+                    restoreHeight: true,
                     items   : [
                     ]
                 })
@@ -2722,7 +2722,6 @@ define([
                 menu        : new Common.UI.Menu({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
                     restoreHeight: 300,
                     items   : []
                 })
@@ -3336,7 +3335,7 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
+                    restoreHeight: true,
                     items: []
                 })
             });
@@ -3346,7 +3345,6 @@ define([
                 menu        : new Common.UI.Menu({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
                     restoreHeight: 300,
                     items   : []
                 })

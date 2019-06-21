@@ -827,8 +827,7 @@ define([
                         iconCls: 'btn-pagesize',
                         caption: me.capBtnPageSize,
                         menu: new Common.UI.Menu({
-                            maxHeight: 571,
-                            restoreHeight: 571,
+                            restoreHeight: true,
                             items: [
                                 {
                                     caption: 'US Letter',
@@ -963,8 +962,7 @@ define([
                         iconCls: 'btn-colorschemas',
                         menu: new Common.UI.Menu({
                             items: [],
-                            maxHeight: 560,
-                            restoreHeight: 560
+                            restoreHeight: true
                         })
                     });
                     this.toolbarControls.push(this.btnColorSchemas);
@@ -2071,8 +2069,7 @@ define([
 
                 if (this.mnuColorSchema == null) {
                     this.mnuColorSchema = new Common.UI.Menu({
-                        maxHeight: 560,
-                        restoreHeight: 560
+                        restoreHeight: true
                     });
                 }
                 this.mnuColorSchema.items = [];
