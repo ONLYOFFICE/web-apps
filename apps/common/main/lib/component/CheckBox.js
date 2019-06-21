@@ -137,6 +137,9 @@ define([
         },
 
         setDisabled: function(disabled) {
+            if (!this.rendered)
+                return;
+
             disabled = (disabled===true);
             if (disabled !== this.disabled) {
                 this.$label.toggleClass('disabled', disabled);
