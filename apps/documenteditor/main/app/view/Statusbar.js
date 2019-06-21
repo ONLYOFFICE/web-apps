@@ -231,7 +231,6 @@ define([
                 this.langMenu = new Common.UI.Menu({
                     cls: 'lang-menu',
                     style: 'margin-top:-5px;',
-                    maxHeight: 300,
                     restoreHeight: 300,
                     itemTemplate: _.template([
                         '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value.value %>">',
@@ -240,15 +239,6 @@ define([
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl'
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
                 });
 
                 this.zoomMenu = new Common.UI.Menu({

@@ -1005,17 +1005,7 @@ define([
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [],
-                        maxHeight   : 560,
-                        restoreHeight: 560
-                    }).on('show:before', function(mnu) {
-                        if ( !this.scroller ) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength  : 40,
-                                alwaysVisibleY: true
-                            });
-                        }
+                        restoreHeight: true
                     })
                 });
 
@@ -1201,6 +1191,7 @@ define([
                     caption: me.capBtnPageSize,
                     lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
+                        restoreHeight: true,
                         items: [
                             {
                                 caption: 'US Letter',
@@ -1923,14 +1914,8 @@ define([
             }
 
             if (this.mnuColorSchema == null) {
-                this.mnuColorSchema = new Common.UI.Menu({maxHeight   : 560,
-                    restoreHeight: 560
-                }).on('show:before', function(mnu) {
-                        this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40
-                    });
+                this.mnuColorSchema = new Common.UI.Menu({
+                    restoreHeight: true
                 });
             }
 

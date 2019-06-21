@@ -76,6 +76,11 @@
  *  Arrow of the {Common.UI.MenuItem} menu items
  *
  *
+ *  @property {Boolean/Number} restoreHeight
+ *
+ *  Adjust to the browser height and restore to restoreHeight when it's Number
+ *
+ *
  */
 
 if (Common === undefined)
@@ -143,7 +148,8 @@ define([
                 menuAlign   : 'tl-bl',
                 menuAlignEl : null,
                 offset      : [0, 0],
-                cyclic      : true
+                cyclic      : true,
+                scrollAlwaysVisible: true
             },
 
             template: _.template([
@@ -162,6 +168,12 @@ define([
                 this.offset         = [0, 0];
                 this.menuAlign      = this.options.menuAlign;
                 this.menuAlignEl    = this.options.menuAlignEl;
+                this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
+
+                if (this.options.restoreHeight) {
+                    this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
+                    !this.options.maxHeight && (this.options.maxHeight = this.options.restoreHeight);
+                }
 
                 if (!this.options.cyclic) this.options.cls += ' no-cyclic';
 
@@ -228,8 +240,17 @@ define([
                         });
                     }
 
+                    if (this.options.maxHeight) {
+                        menuRoot.css({'max-height': me.options.maxHeight});
+                        this.scroller = new Common.UI.Scroller({
+                            el: $(this.el).find('.dropdown-menu '),
+                            minScrollbarLength: 30,
+                            suppressScrollX: true,
+                            alwaysVisibleY: this.scrollAlwaysVisible
+                        });
+                    }
+
                     menuRoot.css({
-                        'max-height': me.options.maxHeight||'none',
                         position    : 'fixed',
                         right       : 'auto',
                         left        : -1000,
@@ -243,7 +264,6 @@ define([
                     this.parentEl.on('hide.bs.dropdown',    _.bind(me.onBeforeHideMenu, me));
                     this.parentEl.on('hidden.bs.dropdown',  _.bind(me.onAfterHideMenu, me));
                     this.parentEl.on('keydown.after.bs.dropdown', _.bind(me.onAfterKeydownMenu, me));
-                    menuRoot.on('scroll', _.bind(me.onScroll, me));
 
                     menuRoot.hover(
                         function(e) { me.isOver = true;},
@@ -313,64 +333,6 @@ define([
                 }
             },
 
-            doLayout: function() {
-                if (this.options.maxHeight > 0) {
-                    if (!this.rendered) {
-                        this.mustLayout = true;
-                        return;
-                    }
-
-                    var me = this,
-                        el = this.cmpEl;
-
-                    var menuRoot = (el.attr('role') === 'menu') ? el : el.find('[role=menu]');
-
-                    if (!menuRoot.is(':visible')) {
-                        var pos = [menuRoot.css('left'), menuRoot.css('top')];
-                        menuRoot.css({
-                            left    : '-1000px',
-                            top     : '-1000px',
-                            display : 'block'
-                        });
-                    }
-
-                    var $items = menuRoot.find('li');
-
-                    if ($items.height() * $items.length > this.options.maxHeight) {
-                        var scroll = '<div class="menu-scroll top"></div>';
-                        menuRoot.prepend(scroll);
-
-                        scroll = '<div class="menu-scroll bottom"></div>';
-                        menuRoot.append(scroll);
-
-                        menuRoot.css({
-                            'box-shadow'        : 'none',
-                            'overflow-y'        : 'hidden',
-                            'padding-top'       : '18px'
-//                            'padding-bottom'    : '18px'
-                        });
-
-                        menuRoot.find('> li:last-of-type').css('margin-bottom',18);
-
-                        var addEvent = function( elem, type, fn ) {
-                            elem.addEventListener ? elem.addEventListener( type, fn, false ) : elem.attachEvent( "on" + type, fn );
-                        };
-
-                        var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
-                        addEvent(menuRoot[0], eventname, _.bind(this.onMouseWheel,this));
-                        menuRoot.find('.menu-scroll').on('click', _.bind(this.onScrollClick, this));
-                    }
-
-                    if (pos) {
-                        menuRoot.css({
-                            display : '',
-                            left    : pos[0],
-                            top     : pos[1]
-                        });
-                    }
-                }
-            },
-
             addItem: function(item) {
                 this.insertItem(-1, item);
             },
@@ -405,19 +367,12 @@ define([
                     item.off('click').off('toggle');
                     item.remove();
                 });
-                this.rendered && this.cmpEl.find('.menu-scroll').off('click').remove();
 
                 me.items = [];
             },
 
             onBeforeShowMenu: function(e) {
                 Common.NotificationCenter.trigger('menu:show');
-
-                if (this.mustLayout) {
-                    delete this.mustLayout;
-                    this.doLayout.call(this);
-                }
-
                 this.trigger('show:before', this, e);
                 this.alignPosition();
             },
@@ -425,9 +380,7 @@ define([
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
                 if (this.scroller) {
-                    if (this.options.restoreHeight)
-                        this.scroller.update();
-
+                    this.scroller.update();
                     var menuRoot = (this.cmpEl.attr('role') === 'menu') ? this.cmpEl : this.cmpEl.find('[role=menu]'),
                         $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
@@ -437,14 +390,6 @@ define([
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
                             menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
                         }
-                    }
-                }
-
-                if (this.$el.find('> ul > .menu-scroll').length) {
-                    var el = this.$el.find('li .checked')[0];
-                    if (el) {
-                        var offset = el.offsetTop - this.options.maxHeight / 2;
-                        this.scrollMenu(offset < 0 ? 0 : offset);
                     }
                 }
             },
@@ -480,23 +425,6 @@ define([
                 }
             },
 
-            onScroll: function(item, e) {
-                if (this.scroller) return;
-
-                var menuRoot = (this.cmpEl.attr('role') === 'menu')
-                    ? this.cmpEl
-                    : this.cmpEl.find('[role=menu]'),
-                    scrollTop = menuRoot.scrollTop(),
-                    top = menuRoot.find('.menu-scroll.top'),
-                    bottom = menuRoot.find('.menu-scroll.bottom');
-                if (this.fromKeyDown) {
-                    top.css('top', scrollTop + 'px');
-                    bottom.css('bottom', (-scrollTop) + 'px');
-                }
-                top.toggleClass('disabled', scrollTop<1);
-                bottom.toggleClass('disabled', scrollTop + this.options.maxHeight > menuRoot[0].scrollHeight-1);
-            },
-
             onItemClick: function(item, e) {
                 if (!item.menu) this.isOver = false;
                 if (item.options.stopPropagation) {
@@ -512,32 +440,6 @@ define([
 
             onItemToggle: function(item, state, e) {
                 this.trigger('item:toggle', this, item, state, e);
-            },
-
-            onScrollClick: function(e) {
-                if (/disabled/.test(e.currentTarget.className)) return false;
-
-                this.scrollMenu(/top/.test(e.currentTarget.className));
-                return false;
-            },
-
-            onMouseWheel: function(e) {
-                this.scrollMenu(((e.detail && -e.detail) || e.wheelDelta) > 0);
-            },
-
-            scrollMenu: function(up) {
-                this.fromKeyDown = false;
-                var menuRoot = (this.cmpEl.attr('role') === 'menu')
-                        ? this.cmpEl
-                        : this.cmpEl.find('[role=menu]'),
-                    value = typeof(up)==='boolean'
-                        ? menuRoot.scrollTop() + (up ? -20 : 20)
-                        : up;
-
-                menuRoot.scrollTop(value);
-
-                menuRoot.find('.menu-scroll.top').css('top', menuRoot.scrollTop() + 'px');
-                menuRoot.find('.menu-scroll.bottom').css('bottom', (-menuRoot.scrollTop()) + 'px');
             },
 
             setOffset: function(offsetX, offsetY) {
@@ -590,10 +492,14 @@ define([
                     if (typeof (this.options.restoreHeight) == "number") {
                         if (top + menuH > docH) {
                             menuRoot.css('max-height', (docH - top) + 'px');
-                            menuH = menuRoot.outerHeight();
-                        } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight ) {
+                            (!this.scroller) && (this.scroller = new Common.UI.Scroller({
+                                el: $(this.el).find('.dropdown-menu '),
+                                minScrollbarLength: 30,
+                                suppressScrollX: true,
+                                alwaysVisibleY: this.scrollAlwaysVisible
+                            }));
+                        } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight) {
                             menuRoot.css('max-height', (Math.min(docH - top, this.options.restoreHeight)) + 'px');
-                            menuH = menuRoot.outerHeight();
                         }
                     }
                 } else {

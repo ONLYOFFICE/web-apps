@@ -926,13 +926,6 @@ define([
                 maxHeight: 200,
                 cyclic: false,
                 items: []
-            }).on('render:after', function(mnu) {
-                this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.dropdown-menu '),
-                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
-                    alwaysVisibleY: true
-                });
             }).on('show:after', function () {
                 this.scroller.update({alwaysVisibleY: true});
             });
@@ -943,12 +936,6 @@ define([
                 items: []
             }).on('render:after', function(mnu) {
                 mnu.cmpEl.removeAttr('oo_editor_input').attr('oo_editor_keyboard', true);
-                this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.dropdown-menu '),
-                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
-                    alwaysVisibleY: true
-                });
             });
 
             me.fireEvent('createdelayedelements', [me]);

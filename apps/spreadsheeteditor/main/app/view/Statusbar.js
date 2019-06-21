@@ -201,13 +201,6 @@ define([
                 var menuHiddenItems = new Common.UI.Menu({
                     maxHeight: 260,
                     menuAlign: 'tl-tr'
-                }).on('render:after', function(mnu) {
-                    this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40,
-                        alwaysVisibleY: true
-                    });
                 }).on('show:after', function () {
                     this.scroller.update({alwaysVisibleY: true});
                 });
