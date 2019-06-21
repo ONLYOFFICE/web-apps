@@ -788,8 +788,8 @@ define([
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function() {
-                if (me.coreProps && me.api) {
+            }).on('changed:after', function(input, newValue, oldValue) {
+                if (newValue !== oldValue && me.coreProps && me.api) {
                     me.coreProps.asc_putTitle(me.inputTitle.getValue());
                     me.api.asc_setCoreProps(me.coreProps);
                 }
@@ -799,8 +799,8 @@ define([
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function() {
-                if (me.coreProps && me.api) {
+            }).on('changed:after', function(input, newValue, oldValue) {
+                if (newValue !== oldValue && me.coreProps && me.api) {
                     me.coreProps.asc_putSubject(me.inputSubject.getValue());
                     me.api.asc_setCoreProps(me.coreProps);
                 }
@@ -810,8 +810,8 @@ define([
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function() {
-                if (me.coreProps && me.api) {
+            }).on('changed:after', function(input, newValue, oldValue) {
+                if (newValue !== oldValue && me.coreProps && me.api) {
                     me.coreProps.asc_putDescription(me.inputComment.getValue());
                     me.api.asc_setCoreProps(me.coreProps);
                 }
@@ -848,6 +848,8 @@ define([
                 validateOnBlur: false,
                 placeHolder: this.txtAddAuthor
             }).on('changed:after', function(input, newValue, oldValue) {
+                if (newValue == oldValue) return;
+
                 var val = newValue.trim();
                 if (!!val && val !== oldValue.trim()) {
                     val.split(/\s*[,;]\s*/).forEach(function(item){
