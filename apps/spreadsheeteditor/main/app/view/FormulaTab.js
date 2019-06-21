@@ -218,19 +218,8 @@ define([
                                 });
                             } else {
                                 btn.setMenu(new Common.UI.Menu({
-                                    maxHeight: 400,
+                                    restoreHeight: 415,
                                     items: arr
-                                }).on('show:before', function (mnu) {
-                                    if (!this.scroller) {
-                                        this.scroller = new Common.UI.Scroller({
-                                            el: $(this.el).find('.dropdown-menu '),
-                                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                            minScrollbarLength: 30,
-                                            alwaysVisibleY: true
-                                        });
-                                    }
-                                }).on('show:after', function (mnu) {
-                                    this.scroller && this.scroller.update({alwaysVisibleY: true});
                                 }));
                                 btn.menu.on('item:click', function (menu, item, e) {
                                     me.fireEvent('function:apply', [{name: item.caption, origin: item.value}]);
