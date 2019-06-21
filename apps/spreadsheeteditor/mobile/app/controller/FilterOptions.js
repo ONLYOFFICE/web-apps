@@ -52,7 +52,8 @@ define([
         // Private
         var rootView,
             dataFilter,
-            indChecked = [];
+            indChecked = [],
+            modalView;
 
         return {
             models: [],
@@ -86,7 +87,6 @@ define([
             showModal: function(posX,posY) {
                 var me = this,
                     isAndroid = Framework7.prototype.device.android === true,
-                    modalView,
                     mainView = SSE.getController('Editor').getView('Editor').f7View;
 
                 uiApp.closeModal();
@@ -124,9 +124,9 @@ define([
                         '</div>';
                     var $target = $('#context-menu-target')
                         .css({left: posX, top: Math.max(0, posY)});
-                    var popover = uiApp.popover(popoverHTML, $target);
+                    modalView = uiApp.popover(popoverHTML, $target);
                     if (Common.SharedSettings.get('android')) {
-                        Common.Utils.androidMenuTop($(popover),  $target);
+                        Common.Utils.androidMenuTop($(modalView),  $target);
                     }
                 }
 
@@ -166,6 +166,12 @@ define([
                 dataFilter = config;
             },
 
+            hideModal: function() {
+                if (modalView) {
+                    uiApp.closeModal(modalView);
+                }
+            },
+
             onClickSort: function(type) {
                 this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '');
             },
@@ -189,6 +195,7 @@ define([
                 var tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
                 if (this.api)
                     this.api.asc_changeAutoFilter(tablename, Asc.c_oAscChangeFilterOptions.filter, false);
+                this.hideModal();
             },
 
             setClearDisable: function() {
