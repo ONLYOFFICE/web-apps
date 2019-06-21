@@ -563,10 +563,9 @@ define([
                 });
 
                 //R1C1 reference style
-                value = Common.localStorage.getBool('sse-settings-r1c1');
-                if(value !== undefined) {
-                    this.api.asc_setR1C1Mode(value);
-                }
+                value = Common.localStorage.getBool('sse-settings-r1c1', false);
+                this.api.asc_setR1C1Mode(value);
+
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
