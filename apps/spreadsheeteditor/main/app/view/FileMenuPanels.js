@@ -1124,6 +1124,17 @@ define([
             this.lblUploaded = $('#id-info-uploaded');
 
             // edited info
+            var keyDownBefore = function(input, e){
+                if (e.keyCode === Common.UI.Keys.ESC) {
+                    var newVal = input._input.val(),
+                        oldVal = input.getValue();
+                    if (newVal !== oldVal) {
+                        input.setValue(oldVal);
+                        e.stopPropagation();
+                    }
+                }
+            };
+
             this.inputTitle = new Common.UI.InputField({
                 el          : $('#id-info-title'),
                 style       : 'width: 200px;',
@@ -1134,7 +1145,7 @@ define([
                     me.coreProps.asc_putTitle(me.inputTitle.getValue());
                     me.api.asc_setCoreProps(me.coreProps);
                 }
-            });
+            }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $('#id-info-subject'),
                 style       : 'width: 200px;',
@@ -1145,7 +1156,7 @@ define([
                     me.coreProps.asc_putSubject(me.inputSubject.getValue());
                     me.api.asc_setCoreProps(me.coreProps);
                 }
-            });
+            }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
                 el          : $('#id-info-comment'),
                 style       : 'width: 200px;',
@@ -1156,7 +1167,7 @@ define([
                     me.coreProps.asc_putDescription(me.inputComment.getValue());
                     me.api.asc_setCoreProps(me.coreProps);
                 }
-            });
+            }).on('keydown:before', keyDownBefore);
 
             // modify info
             this.lblModifyDate = $('#id-info-modify-date');
@@ -1207,7 +1218,7 @@ define([
                         me.api.asc_setCoreProps(me.coreProps);
                     }
                 }
-            });
+            }).on('keydown:before', keyDownBefore);
 
             this.rendered = true;
 
