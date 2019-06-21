@@ -209,7 +209,7 @@ define([
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
-                        if (!me.isModalShowed) {
+                        if (!me.isModalShowed && !me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible()) {
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
                             if (!e.relatedTarget ||

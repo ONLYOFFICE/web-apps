@@ -208,7 +208,7 @@ define([
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (me.isAppDisabled === true || me.isFrameClosed) return;
 
-                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible())) {
+                    if (!me.isModalShowed && !(me.loadMask && me.loadMask.isVisible()) && !me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible()) {
                         if (/form-control/.test(e.target.className))
                             me.inFormControl = false;
                         if (!e.relatedTarget ||
