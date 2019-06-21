@@ -304,27 +304,29 @@
   }
 
   table {
-    td {
-      padding: 0 20px 5px 0;
+    tr {
+      td {
+        padding: 0 20px 5px 0;
 
-      &.left {
-        padding: 5px 10px;
-        text-align: right;
-        width: 30%;
+        &.left {
+          padding: 5px 10px;
+          text-align: right;
+          width: 30%;
 
-        label {
-          font-weight: bold;
+          label {
+            font-weight: bold;
+          }
+        }
+
+        &.right {
+          padding: 5px 10px;
+          width: 70%;
         }
       }
 
-      &.right {
-        padding: 5px 10px;
-        width: 70%;
+      &.divider {
+        height: 10px;
       }
-    }
-
-    &.divider {
-      height: 10px;
     }
 
     &.main {
@@ -346,6 +348,27 @@
 
   label, span {
     font-size: 12px;
+  }
+
+  .close {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+
+    background-position: @but-close-offset-x @but-close-offset-y;
+
+    &.over,
+    &:hover {
+      background-position: @but-close-offset-x @but-close-offset-y - 16px;
+    }
+
+    &.disabled {
+      background-position: @but-close-offset-x @but-close-offset-y - 32px;
+      cursor: default;
+    }
   }
 }
 

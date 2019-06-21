@@ -62,8 +62,6 @@ define([
                         { caption: this.textManager, value: 'manager' },
                         { caption: '--' }
                     ]
-                }).on('show:after', function () {
-                    this.scroller.update({alwaysVisibleY: true});
                 })
             });
             this.btnNamedRanges.render($('#ce-cell-name-menu'));

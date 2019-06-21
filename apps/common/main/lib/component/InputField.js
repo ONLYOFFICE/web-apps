@@ -239,6 +239,8 @@ define([
             },
 
             onKeyDown: function(e) {
+                this.trigger('keydown:before', this, e);
+
                 if (e.isDefaultPrevented())
                     return;
 

@@ -380,7 +380,7 @@ define([
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
                 if (this.scroller) {
-                    this.scroller.update();
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                     var menuRoot = (this.cmpEl.attr('role') === 'menu') ? this.cmpEl : this.cmpEl.find('[role=menu]'),
                         $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
