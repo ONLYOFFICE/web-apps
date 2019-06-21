@@ -1109,6 +1109,8 @@ define([
             ].join(''));
 
             this.menu = options.menu;
+            this.coreProps = null;
+            this.authors = [];
         },
 
         render: function() {
@@ -1128,7 +1130,10 @@ define([
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
             }).on('changed:after', function() {
-                // me.api && me.api.asc_setDocumentTitle(me.inputTitle.getValue());
+                if (me.coreProps && me.api) {
+                    me.coreProps.asc_putTitle(me.inputTitle.getValue());
+                    me.api.asc_setCoreProps(me.coreProps);
+                }
             });
             this.inputSubject = new Common.UI.InputField({
                 el          : $('#id-info-subject'),
@@ -1136,7 +1141,10 @@ define([
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
             }).on('changed:after', function() {
-                // me.api && me.api.asc_setDocumentSubject(me.inputSubject.getValue());
+                if (me.coreProps && me.api) {
+                    me.coreProps.asc_putSubject(me.inputSubject.getValue());
+                    me.api.asc_setCoreProps(me.coreProps);
+                }
             });
             this.inputComment = new Common.UI.InputField({
                 el          : $('#id-info-comment'),
@@ -1144,7 +1152,10 @@ define([
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
             }).on('changed:after', function() {
-                // me.api && me.api.asc_setDocumentComment(me.inputComment.getValue());
+                if (me.coreProps && me.api) {
+                    me.coreProps.asc_putDescription(me.inputComment.getValue());
+                    me.api.asc_setCoreProps(me.coreProps);
+                }
             });
 
             // modify info
@@ -1164,7 +1175,11 @@ define([
                     var el = btn.closest('tr'),
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
-                    // remove idx author from info
+                    me.authors.splice(idx, 1);
+                    if (me.coreProps && me.api) {
+                        me.coreProps.asc_putCreator(me.authors.join(';'));
+                        me.api.asc_setCoreProps(me.coreProps);
+                    }
                 }
             });
 
@@ -1181,10 +1196,14 @@ define([
                         if (str) {
                             var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
                             me.trAuthor.before(div);
-                            // add str author to info
+                            me.authors.push(item);
                         }
                     });
                     me.inputAuthor.setValue('');
+                    if (me.coreProps && me.api) {
+                        me.coreProps.asc_putCreator(me.authors.join(';'));
+                        me.api.asc_setCoreProps(me.coreProps);
+                    }
                 }
             });
 
@@ -1241,9 +1260,9 @@ define([
             }
             this._ShowHideInfoItem(this.lblApplication, !!appname);
 
-            var props = (this.api) ? this.api.asc_getCoreProps() : null;
-            if (props) {
-                var value = props.asc_getCreated();
+            this.coreProps = (this.api) ? this.api.asc_getCoreProps() : null;
+            if (this.coreProps) {
+                var value = this.coreProps.asc_getCreated();
                 if (value)
                     this.lblDate.text(value.toLocaleString());
                 this._ShowHideInfoItem(this.lblDate, !!value);
@@ -1258,6 +1277,7 @@ define([
                 props = (this.api) ? this.api.asc_getCoreProps() : null,
                 value;
 
+            this.coreProps = props;
             // var app = (this.api) ? this.api.asc_getAppProps() : null;
             // if (app) {
             //     value = app.asc_getTotalTime();
@@ -1286,10 +1306,12 @@ define([
                 this.inputComment.setValue(value || '');
 
                 this.tblAuthor.find('tr:not(:last-of-type)').remove();
+                this.authors = [];
                 value = props.asc_getCreator();//"123\"\"\"\<\>,456";
                 value && value.split(/\s*[,;]\s*/).forEach(function(item) {
                     var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(item)));
                     me.trAuthor.before(div);
+                    me.authors.push(item);
                 });
             }
         },
