@@ -101,13 +101,6 @@ define([
                     style: 'min-width: 190px;max-width: 400px;',
                     maxHeight: 200,
                     items: []
-                }).on('render:after', function(mnu) {
-                        this.scroller = new Common.UI.Scroller({
-                        el: this.$el.find('.dropdown-menu'),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        suppressScrollX: true,
-                        minScrollbarLength  : 40
-                    });
                 })
             });
             this.btnInsField.render( $('#mmerge-btn-ins-field',me.$el)) ;

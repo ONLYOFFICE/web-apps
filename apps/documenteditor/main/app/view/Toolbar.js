@@ -827,6 +827,7 @@ define([
                         iconCls: 'btn-pagesize',
                         caption: me.capBtnPageSize,
                         menu: new Common.UI.Menu({
+                            restoreHeight: true,
                             items: [
                                 {
                                     caption: 'US Letter',
@@ -961,17 +962,7 @@ define([
                         iconCls: 'btn-colorschemas',
                         menu: new Common.UI.Menu({
                             items: [],
-                            maxHeight: 560,
-                            restoreHeight: 560
-                        }).on('show:before', function (mnu) {
-                            if (!this.scroller) {
-                                this.scroller = new Common.UI.Scroller({
-                                    el: $(this.el).find('.dropdown-menu '),
-                                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                    minScrollbarLength: 40,
-                                    alwaysVisibleY: true
-                                });
-                            }
+                            restoreHeight: true
                         })
                     });
                     this.toolbarControls.push(this.btnColorSchemas);
@@ -2078,14 +2069,7 @@ define([
 
                 if (this.mnuColorSchema == null) {
                     this.mnuColorSchema = new Common.UI.Menu({
-                        maxHeight: 560,
-                        restoreHeight: 560
-                    }).on('show:before', function (mnu) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 40
-                        });
+                        restoreHeight: true
                     });
                 }
                 this.mnuColorSchema.items = [];

@@ -578,15 +578,7 @@ define([
                         lock: [_set.themeLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [],
-                            maxHeight: 560,
-                            restoreHeight: 560
-                        }).on('show:before', function (mnu) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40,
-                                alwaysVisibleY: true
-                            });
+                            restoreHeight: true
                         })
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
@@ -1275,14 +1267,7 @@ define([
 
                     if (mnuColorSchema == null) {
                         mnuColorSchema = new Common.UI.Menu({
-                            maxHeight: 560,
-                            restoreHeight: 560
-                        }).on('render:after', function (mnu) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40
-                            });
+                            restoreHeight: true
                         });
                     }
                     mnuColorSchema.items = [];
