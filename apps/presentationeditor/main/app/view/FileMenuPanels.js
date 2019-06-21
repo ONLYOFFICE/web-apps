@@ -906,6 +906,7 @@ define([
             this.inputComment.setDisabled(lock);
             this.inputAuthor.setDisabled(lock);
             this.tblAuthor.find('.close').toggleClass('disabled', lock);
+            !lock && this.updateFileInfo();
         },
 
         txtPlacement: 'Location',
