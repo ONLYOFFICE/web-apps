@@ -515,6 +515,11 @@
                 &:hover {
                     background-position: @but-close-offset-x @but-close-offset-y - 16px;
                 }
+
+                &.disabled {
+                    background-position: @but-close-offset-x @but-close-offset-y - 32px;
+                    cursor: default;
+                }
             }
         }
 

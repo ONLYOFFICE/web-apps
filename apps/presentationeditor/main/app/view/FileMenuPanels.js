@@ -720,7 +720,7 @@ define([
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $(e.target);
-                if (btn.hasClass('close')) {
+                if (btn.hasClass('close') && !btn.hasClass('disabled')) {
                     var el = btn.closest('tr'),
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
@@ -882,8 +882,17 @@ define([
 
         setApi: function(o) {
             this.api = o;
+            this.api.asc_registerCallback('asc_onLockCore',  _.bind(this.onLockCore, this));
             this.updateInfo(this.doc);
             return this;
+        },
+
+        onLockCore: function(lock) {
+            this.inputTitle.setDisabled(lock);
+            this.inputSubject.setDisabled(lock);
+            this.inputComment.setDisabled(lock);
+            this.inputAuthor.setDisabled(lock);
+            this.tblAuthor.find('.close').toggleClass('disabled', lock);
         },
 
         txtPlacement: 'Location',
