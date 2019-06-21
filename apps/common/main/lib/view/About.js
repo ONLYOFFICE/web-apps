@@ -90,7 +90,7 @@ define([
                     '</tr>',
                     '<tr>',
                         '<td colspan="3" align="center">',
-                        '<a href="<%= publisherurl %>" target="_blank"><% print(publisherurl.replace(/https?:\\/{2}/, "")) %></a>',
+                        '<a href="<%= publisherurl %>" target="_blank"><% print(publisherurl.replace(/https?:\\/{2}/, "").replace(/\\/$/,"")) %></a>',
                         '</td>',
                     '</tr>',
                 '</table>',
@@ -143,7 +143,7 @@ define([
                     '</tr>',
                     '<tr>',
                         '<td colspan="3" align="center">',
-                            '<label class="asc-about-desc"><% print(publisherurl.replace(/https?:\\/{2}/, "")) %></label>',
+                            '<label class="asc-about-desc"><% print(publisherurl.replace(/https?:\\/{2}/, "").replace(/\\/$/,"")) %></label>',
                         '</td>',
                     '</tr>',
                 '</table>'
@@ -156,7 +156,7 @@ define([
             el.html(this.template({
                 publishername: '{{PUBLISHER_NAME}}',
                 publisheraddr: '{{PUBLISHER_ADDRESS}}',
-                publisherurl: /^(?:https?:\/{2})?(\S+)/.exec('{{PUBLISHER_URL}}')[1],
+                publisherurl: '{{PUBLISHER_URL}}',
                 supportemail: '{{SUPPORT_EMAIL}}',
                 phonenum: '{{PUBLISHER_PHONE}}',
                 scope: this

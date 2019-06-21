@@ -1095,7 +1095,7 @@ define([
                         primary: 'contact',
                         callback: function(btn) {
                             if (btn == 'contact')
-                                window.open('mailto:sales@onlyoffice.com', "_blank");
+                                window.open('mailto:{{SALES_EMAIL}}', "_blank");
                         }
                     });
                 }
@@ -1189,10 +1189,6 @@ define([
                 this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization);
-                else if (typeof this.editorConfig.customization == 'object') {
-                    this.editorConfig.customization.compactHeader = this.editorConfig.customization.toolbarNoTabs =
-                    this.editorConfig.customization.toolbarHideFileName = false;
-                }
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
