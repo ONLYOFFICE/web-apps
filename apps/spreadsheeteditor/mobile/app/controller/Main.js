@@ -222,8 +222,12 @@ define([
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
 
-                if (me.editorConfig.lang)
-                    me.api.asc_setLocale((me.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.editorConfig.lang)) : 0x0409);
+                var value = Common.localStorage.getItem("sse-settings-regional");
+                if (value!==null)
+                    this.api.asc_setLocale(parseInt(value));
+                else {
+                    this.api.asc_setLocale((this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409);
+                }
 
                if (me.appOptions.location == 'us' || me.appOptions.location == 'ca')
                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);

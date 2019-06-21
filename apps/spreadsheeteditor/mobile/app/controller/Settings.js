@@ -86,7 +86,39 @@ define([
                 { value: 'ru', displayValue: 'Russian', exampleValue: ' СУММ; МИН; МАКС; СЧЁТ' },
                 { value: 'pl', displayValue: 'Polish', exampleValue: ' SUMA; MIN; MAX; ILE.LICZB' }
             ],
-            _indexLang = 0;
+            _indexLang = 0,
+            _regdata = [
+                { code: 0x042C, name: ["az-Latn-AZ", "Azərbaycan­ılı (Azərbaycan)", "Azeri (Latin, Azerbaijan)"]},
+                { code: 0x0402, name: ["bg-BG", "Български (България)", "Bulgarian (Bulgaria)"] },
+                { code: 0x0405, name: ["cs-CZ", "Čeština (Česká republika)", "Czech (Czech Republic)"]},
+                { code: 0x0407, name: ["de-DE", "Deutsch (Deutschland)", "German (Germany)"]},
+                { code: 0x0807, name: ["de-CH", "Deutsch (Schweiz)", "German (Switzerland)"]},
+                { code: 0x0408, name: ["el-GR", "Ελληνικά (Ελλάδα)", "Greek (Greece)"]},
+                { code: 0x0C09, name: ["en-AU", "English (Australia)", "English (Australia)"]},
+                { code: 0x0809, name: ["en-GB", "English (United Kingdom)", "English (United Kingdom)"]},
+                { code: 0x0409, name: ["en-US", "English (United States)", "English (United States)"]},
+                { code: 0x0C0A, name: ["es-ES", "Español (España, alfabetización internacional)", "Spanish (Spain)"]},
+                { code: 0x080A, name: ["es-MX", "Español (México)", "Spanish (Mexico)"]},
+                { code: 0x040B, name: ["fi-FI", "Suomi (Suomi)", "Finnish (Finland)"]},
+                { code: 0x040C, name: ["fr-FR", "Français (France)", "French (France)"]},
+                { code: 0x0410, name: ["it-IT", "Italiano (Italia)", "Italian (Italy)"]},
+                { code: 0x0411, name: ["ja-JP", "日本語 (日本)", "Japanese (Japan)"]},
+                { code: 0x0412, name: ["ko-KR", "한국어 (대한민국)", "Korean (Korea)"]},
+                { code: 0x0426, name: ["lv-LV", "Latviešu (Latvija)", "Latvian (Latvia)"]},
+                { code: 0x0413, name: ["nl-NL", "Nederlands (Nederland)", "Dutch (Netherlands)"]},
+                { code: 0x0415, name: ["pl-PL", "Polski (Polska)", "Polish (Poland)"]},
+                { code: 0x0416, name: ["pt-BR", "Português (Brasil)", "Portuguese (Brazil)"]},
+                { code: 0x0816, name: ["pt-PT", "Português (Portugal)", "Portuguese (Portugal)"]},
+                { code: 0x0419, name: ["ru-RU", "Русский (Россия)", "Russian (Russia)"]},
+                { code: 0x041B, name: ["sk-SK", "Slovenčina (Slovenská republika)", "Slovak (Slovakia)"]},
+                { code: 0x0424, name: ["sl-SI", "Slovenski (Slovenija)", "Slovenian (Slovenia)"]},
+                { code: 0x081D, name: ["sv-FI", "Svenska (Finland)", "Swedish (Finland)"]},
+                { code: 0x041D, name: ["sv-SE", "Svenska (Sverige)", "Swedish (Sweden)"]},
+                { code: 0x041F, name: ["tr-TR", "Türkçe (Türkiye)", "Turkish (Turkey)"]},
+                { code: 0x0422, name: ["uk-UA", "Українська (Україна)", "Ukrainian (Ukraine)"]},
+                { code: 0x042A, name: ["vi-VN", "Tiếng Việt (Việt Nam)", "Vietnamese (Vietnam)"]},
+                { code: 0x0804, name: ["zh-CN", "中文(中华人民共和国)", "Chinese (People's Republic of China)"]}
+                ];
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -217,12 +249,28 @@ define([
                     me.initSpreadsheetMargins();
                 } else if ('#language-formula-view' == pageId) {
                     me.initFormulaLang();
+                } else if ('#regional-settings-view' == pageId) {
+                    me.initRegSettings();
                 } else {
                     var _userCount = SSE.getController('Main').returnUserCount();
                     if (_userCount > 0) {
                         $('#settings-collaboration').show();
                     }
                 }
+            },
+
+            initRegSettings: function() {
+                var value = Number(Common.localStorage.getItem('sse-settings-regional'));
+                this.getView('Settings').renderRegSettings(value ? value : 0x0409, _regdata);
+                $('.page[data-page=regional-settings-view] input:radio[name=region-settings]').single('change', _.bind(this.onRegSettings, this));
+                Common.Utils.addScrollIfNeed('.page[data-page=regional-settings-view]', '.page[data-page=regional-settings-view] .page-content');
+            },
+
+            onRegSettings: function(e) {
+                var regCode = $(e.currentTarget).val();
+                Common.localStorage.setItem("sse-settings-regional", regCode);
+                this.initPageApplicationSettings();
+                if (regCode!==null) this.api.asc_setLocale(parseInt(regCode));
             },
 
             initFormulaLang: function() {
@@ -486,6 +534,24 @@ define([
                 $pageLang.find('.item-title').text(item.displayValue);
                 $pageLang.find('.item-example').text(item.exampleValue);
 
+                //init regional settings
+                value = Number(Common.localStorage.getItem('sse-settings-regional'));
+                var item = _.findWhere(_regdata, {code: value});
+                if(!item) {
+                    item = _.findWhere(_regdata, {code: 0x0409});
+                }
+                var $regSettings = $('#regional-settings');
+                $regSettings.find('.item-title').text(item.name[1]);
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(Asc.c_oAscNumFormatType.None);
+                info.asc_setSymbol(value);
+                var arr = this.api.asc_getFormatCells(info);
+                var text = this.api.asc_getLocaleExample(arr[4], 1000.01, value);
+                text = text + ' ' + this.api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), value);
+                text = text + ' ' + this.api.asc_getLocaleExample(arr[6], Asc.cDate().getExcelDateWithTime(), value);
+                $regSettings.find('.item-example').text(text);
+
+                //init r1c1 reference
                 value = Common.localStorage.getBool('sse-settings-r1c1');
                 var $r1c1Style = $('.page[data-page=settings-application-view] #r1-c1-style input');
                 $r1c1Style.prop('checked',value);

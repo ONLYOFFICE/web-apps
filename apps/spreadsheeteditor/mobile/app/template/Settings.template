@@ -447,6 +447,21 @@
                         </li>
                     </ul>
                 </div>
+                <div class="content-block-title"><%= scope.textRegionalSettings %></div>
+                <div class="list-block">
+                    <ul>
+                        <li class="media-item">
+                            <a id="regional-settings" class="item-link item-content" data-page="#regional-settings-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textCustom %></div>
+                                    </div>
+                                    <div class="item-subtitle"><%= scope.textExample + ": "%><span class="item-example"><%= scope.textCustomSize %></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -668,6 +683,26 @@
                                 </div>
                             </div>
                         </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Regional Settings View --->
+<div id="regional-settings-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textRegionalSettings %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="regional-settings-view">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
                     </ul>
                 </div>
             </div>

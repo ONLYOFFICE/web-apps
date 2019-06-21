@@ -169,6 +169,7 @@ define([
             showSetApp: function() {
                 this.showPage('#settings-application-view');
                 $('#language-formula').single('click', _.bind(this.showFormulaLanguage, this));
+                $('#regional-settings').single('click', _.bind(this.showRegionalSettings, this));
             },
 
             showFormulaLanguage: function () {
@@ -177,6 +178,10 @@ define([
 
             showColorSchemes: function () {
                 this.showPage('#color-schemes-view');
+            },
+
+            showRegionalSettings: function () {
+                this.showPage('#regional-settings-view');
             },
 
             showSetSpreadsheet: function () {
@@ -298,6 +303,37 @@ define([
                 $list.html(items.join(''));
             },
 
+            renderRegSettings: function(regCode, regions) {
+                var $pageLang = $('.page[data-page=regional-settings-view]'),
+                    $list = $pageLang.find('ul'),
+                    items = [];
+
+                _.each(regions, function (reg) {
+                    var itemTemplate = [
+                        '<li>',
+                        '<label class="label-radio item-content">',
+                        '<input type="radio" name="region-settings" value="<%= item.code %>" <% if (item.code == selectReg) { %>checked="checked"<% } %> >',
+                        '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
+                        '<div class="item-inner">',
+                        '<div class="item-title-row">',
+                        '<i class="icon lang-flag <%= item.name[0]%>"></i>',
+                        '<div class="item-title"><%= item.name[1] %></div>',
+                        '</div>',
+                        '</div>',
+                        '</label>',
+                        '</li>'
+                    ].join('');
+                    items.push(_.template(itemTemplate)({
+                        android: Framework7.prototype.device.android,
+                        item: reg,
+                        selectReg: regCode,
+                    }));
+                });
+
+                $list.html(items);
+
+            },
+
             unknownText: 'Unknown',
             textFindAndReplace: 'Find and Replace',
             textSettings: 'Settings',
@@ -344,7 +380,8 @@ define([
             textCollaboration: 'Collaboration',
             textFormulaLanguage: 'Formula Language',
             textExample: 'Example',
-            textR1C1Style: 'R1C1 Reference Style'
+            textR1C1Style: 'R1C1 Reference Style',
+            textRegionalSettings: 'Regional Settings'
     }
     })(), SSE.Views.Settings || {}))
 });
