@@ -122,17 +122,7 @@ define([
                     this._isCoAuthoringStopped = true;
                     this.api.asc_coAuthoringDisconnect();
                     Common.NotificationCenter.trigger('api:disconnect');
-                /*
-                    setTimeout(_.bind(function(){
-                        Common.UI.alert({
-                            closable: false,
-                            title: this.notcriticalErrorTitle,
-                            msg: this.textUserLimit,
-                            iconCls: 'warn',
-                            buttons: ['ok']
-                        });
-                    }, this), 100);
-                */
+
                     return;
                 }
             }
@@ -225,7 +215,6 @@ define([
             }
         },
 
-        notcriticalErrorTitle: 'Warning',
-        textUserLimit: 'You are using ONLYOFFICE Editors free version.<br>Only two users can co-edit the document simultaneously.<br>Want more? Consider buying ONLYOFFICE Editors Pro version.<br><a href=\"http:\/\/www.onlyoffice.com\" target=\"_blank\">Read more</a>'
+        notcriticalErrorTitle: 'Warning'
     }, Common.Controllers.Chat || {}));
 });
