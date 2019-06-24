@@ -48,29 +48,23 @@ define([
     SSE.Views.FormulaTab = Common.UI.BaseView.extend(_.extend((function(){
         function setEvents() {
             var me = this;
-            var _setevent = function(btn){
-                (typeof btn.menu == 'object') && btn.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('function:apply', [{name: item.caption, origin: item.value}]);
-                });
-            };
-            // me.btnFinancial.menu.on('item:click', function (menu, item, e) {
-            //     me.fireEvent('function:apply', [{name: item.caption, origin: item.value}]);
-            // });
-            _setevent(this.btnFinancial);
-            _setevent(this.btnLogical);
-            _setevent(this.btnTextData);
-            _setevent(this.btnDateTime);
-            _setevent(this.btnReference);
-            _setevent(this.btnMath);
+            me.btnAutosum.on('click', function(){
+                me.fireEvent('function:apply', [{name: me.api.asc_getFormulaLocaleName('SUM'), origin: 'SUM'}, true]);
+            });
+            me.btnAutosum.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, true]);
+            });
+            me.btnFormula.on('click', function(){
+                me.fireEvent('function:apply', [{name: 'more', origin: 'more'}]);
+            });
         }
-
         return {
             options: {},
 
             initialize: function (options) {
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
-                this.formulasGroups =   options.formulasGroups;
+                this.formulasGroups = options.formulasGroups;
 
                 this.lockedControls = [];
 
@@ -88,7 +82,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-financial'), this.btnFinancial);
                 this.lockedControls.push(this.btnFinancial);
@@ -101,7 +95,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-logical'), this.btnLogical);
                 this.lockedControls.push(this.btnLogical);
@@ -114,7 +108,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-text'), this.btnTextData);
                 this.lockedControls.push(this.btnTextData);
@@ -127,7 +121,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-datetime'), this.btnDateTime);
                 this.lockedControls.push(this.btnDateTime);
@@ -140,7 +134,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-lookup'), this.btnReference);
                 this.lockedControls.push(this.btnReference);
@@ -153,10 +147,59 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-math'), this.btnMath);
                 this.lockedControls.push(this.btnMath);
+
+                this.btnRecent = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-cell-group',
+                    caption: this.txtRecent,
+                    hint: this.txtRecent,
+                    menu: true,
+                    split: false,
+                    disabled: true,
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-recent'), this.btnRecent);
+                this.lockedControls.push(this.btnRecent);
+
+                this.btnAutosum = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-cell-group',
+                    caption: this.txtAutosum,
+                    hint: this.txtAutosumTip,
+                    split: true,
+                    disabled: true,
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
+                    menu: new Common.UI.Menu({
+                        items : [
+                            {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'MIN',   value: 'MIN'},
+                            {caption: 'MAX',   value: 'MAX'},
+                            {caption: 'COUNT', value: 'COUNT'},
+                            {caption: '--'},
+                            {
+                                caption: me.txtAdditional,
+                                value: 'more'
+                            }
+                        ]
+                    })
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-autosum'), this.btnAutosum);
+                this.lockedControls.push(this.btnAutosum);
+
+                this.btnFormula = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-cell-group',
+                    caption: this.txtFormula,
+                    hint: this.txtFormulaTip,
+                    disabled: true,
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-additional-formula'), this.btnFormula);
+                this.lockedControls.push(this.btnFormula);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -170,7 +213,7 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    // setEvents.call(me);
+                    setEvents.call(me);
                 });
             },
 
@@ -191,64 +234,78 @@ define([
                 }, this);
             },
 
+            setButtonMenu: function(btn, name) {
+                var me = this,
+                    arr = [],
+                    group = me.formulasGroups.findWhere({name : name});
+
+                if (group) {
+                    var functions = group.get('functions');
+                    functions && functions.forEach(function(item) {
+                        arr.push(new Common.UI.MenuItem({
+                            caption: item.get('name'),
+                            value: item.get('origin')
+                        }));
+                    });
+                    arr.push(new Common.UI.MenuItem({
+                        caption: '--'
+                    }));
+                    arr.push(new Common.UI.MenuItem({
+                        caption: me.txtAdditional,
+                        value: 'more'
+                    }));
+
+                }
+                if (arr.length) {
+                    if (btn.menu && btn.menu.rendered) {
+                        btn.menu.removeAll();
+                        arr.forEach(function(item){
+                            btn.menu.addItem(item);
+                        });
+                    } else {
+                        btn.setMenu(new Common.UI.Menu({
+                            restoreHeight: 415,
+                            items: arr
+                        }));
+                        btn.menu.on('item:click', function (menu, item, e) {
+                            me.fireEvent('function:apply', [{name: item.caption, origin: item.value}]);
+                        });
+                    }
+                }
+                btn.setDisabled(arr.length<1);
+            },
+
             fillFunctions: function () {
                 if (this.formulasGroups) {
-                    var me = this;
-                    var setMenu = function(btn, name) {
-                        var i = 0,
-                            length = 0,
-                            functions = null,
-                            arr = [],
-                            group = me.formulasGroups.findWhere({name : name});
+                    this.setButtonMenu(this.btnFinancial, 'Financial');
+                    this.setButtonMenu(this.btnLogical, 'Logical');
+                    this.setButtonMenu(this.btnTextData, 'TextAndData');
+                    this.setButtonMenu(this.btnDateTime, 'DateAndTime');
+                    this.setButtonMenu(this.btnReference, 'LookupAndReference');
+                    this.setButtonMenu(this.btnMath, 'Mathematic');
+                    this.setButtonMenu(this.btnRecent, 'Last10');
 
-                        if (group) {
-                            functions = group.get('functions');
-                            functions && functions.forEach(function(item) {
-                                arr.push(new Common.UI.MenuItem({
-                                    caption: item.get('name'),
-                                    value: item.get('origin')
-                                }));
-                            });
-                        }
-                        if (arr.length) {
-                            if (btn.menu && btn.menu.rendered) {
-                                btn.menu.removeAll();
-                                arr.forEach(function(item){
-                                    btn.menu.addItem(item);
-                                });
-                            } else {
-                                btn.setMenu(new Common.UI.Menu({
-                                    restoreHeight: 415,
-                                    items: arr
-                                }));
-                                btn.menu.on('item:click', function (menu, item, e) {
-                                    me.fireEvent('function:apply', [{name: item.caption, origin: item.value}]);
-                                });
-                            }
-                        }
-                        btn.setDisabled(arr.length<1);
-                    };
-
-                    setMenu(this.btnFinancial, 'Financial');
-                    setMenu(this.btnLogical, 'Logical');
-                    setMenu(this.btnTextData, 'TextAndData');
-                    setMenu(this.btnDateTime, 'DateAndTime');
-                    setMenu(this.btnReference, 'LookupAndReference');
-                    setMenu(this.btnMath, 'Mathematic');
+                    var formulas = this.btnAutosum.menu.items;
+                    for (var i=0; i<Math.min(4,formulas.length); i++) {
+                        this.api && formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
+                    }
                 }
             },
 
-            capBtnGroup: 'Group',
-            capBtnUngroup: 'Ungroup',
-            textRows: 'Ungroup rows',
-            textColumns: 'Ungroup columns',
-            textClear: 'Clear outline',
-            tipGroup: 'Group range of cells',
-            tipUngroup: 'Ungroup range of cells',
-            capBtnTextToCol: 'Text to Columns',
-            tipToColumns: 'Separate cell text into columns',
-            capBtnTextShow: 'Show details',
-            capBtnTextHide: 'Hide details'
+            updateRecent: function() {
+                this.formulasGroups && this.setButtonMenu(this.btnRecent, 'Last10');
+            },
+
+            setApi: function (api) {
+                this.api = api;
+            },
+
+            txtRecent: 'Recently used',
+            txtAutosum: 'Autosum',
+            txtAutosumTip: 'Summation',
+            txtAdditional: 'Additional',
+            txtFormula: 'Function',
+            txtFormulaTip: 'Insert function'
         }
     }()), SSE.Views.FormulaTab || {}));
 });

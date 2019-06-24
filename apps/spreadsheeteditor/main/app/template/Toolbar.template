@@ -157,9 +157,10 @@
                 </div>
             </section>
             <section class="panel" data-tab="formula">
-                <!--<div class="group">-->
-                <!--</div>-->
-                <!--<div class="separator long"></div>-->
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-additional-formula"></span>
+                </div>
+                <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-autosum"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-recent"></span>

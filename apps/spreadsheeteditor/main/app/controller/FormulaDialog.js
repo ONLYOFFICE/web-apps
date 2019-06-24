@@ -79,14 +79,21 @@ define([
                 },
                 'FormulaTab': {
                     'function:apply': this.applyFunction
+                },
+                'Toolbar': {
+                    'function:apply': this.applyFunction
                 }
             });
         },
 
-        applyFunction: function(func) {
+        applyFunction: function(func, autocomplete) {
             if (func) {
-                this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func);
-                this.updateLast10Formulas(func.origin);
+                if (func.origin === 'more') {
+                    this.showDialog();
+                } else {
+                    this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete);
+                    !autocomplete && this.updateLast10Formulas(func.origin);
+                }
             }
         },
 
@@ -121,6 +128,8 @@ define([
                     }
                 });
             }
+
+            this.formulaTab && this.formulaTab.setApi(this.api);
 
             return this;
         },
@@ -224,6 +233,7 @@ define([
             if (this.formulasGroups) {
                 var group = this.formulasGroups.findWhere({name : 'Last10'});
                 group && group.set('functions', this.loadingLast10Formulas(this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"))));
+                this.formulaTab && this.formulaTab.updateRecent();
             }
         },
 
@@ -329,7 +339,7 @@ define([
                        _.sortBy(allFunctions, function (model) {return model.get('name'); }));
                 }
             }
-            this.formulaTab.fillFunctions();
+            this.formulaTab && this.formulaTab.fillFunctions();
         },
         sCategoryAll:                   'All',
         sCategoryLast10:                '10 last used',
