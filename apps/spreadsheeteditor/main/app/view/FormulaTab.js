@@ -201,6 +201,19 @@ define([
                 Common.Utils.injectComponent($host.find('#slot-btn-additional-formula'), this.btnFormula);
                 this.lockedControls.push(this.btnFormula);
 
+                this.btnMore = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-cell-group',
+                    caption: this.txtMore,
+                    hint: this.txtMore,
+                    menu: true,
+                    split: false,
+                    disabled: true,
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-more'), this.btnMore);
+                this.lockedControls.push(this.btnMore);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -247,6 +260,8 @@ define([
                             value: item.get('origin')
                         }));
                     });
+                }
+                if (arr.length) {
                     arr.push(new Common.UI.MenuItem({
                         caption: '--'
                     }));
@@ -255,8 +270,6 @@ define([
                         value: 'more'
                     }));
 
-                }
-                if (arr.length) {
                     if (btn.menu && btn.menu.rendered) {
                         btn.menu.removeAll();
                         arr.forEach(function(item){
@@ -289,6 +302,60 @@ define([
                     for (var i=0; i<Math.min(4,formulas.length); i++) {
                         this.api && formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
                     }
+
+                    // more button
+                    var me = this,
+                        morearr = [],
+                        formulaDialog = SSE.getController('FormulaDialog');
+                    ['Cube', 'Database', 'Engineering',  'Information', 'Statistical'].forEach(function(name) {
+                        var group = me.formulasGroups.findWhere({name : name});
+                        if (group) {
+                            var functions = group.get('functions'),
+                                arr = [];
+                            functions && functions.forEach(function(item) {
+                                arr.push(new Common.UI.MenuItem({
+                                    caption: item.get('name'),
+                                    value: item.get('origin')
+                                }));
+                            });
+                            if (arr.length) {
+                                arr.push(new Common.UI.MenuItem({
+                                    caption: '--'
+                                }));
+                                arr.push(new Common.UI.MenuItem({
+                                    caption: me.txtAdditional,
+                                    value: 'more'
+                                }));
+                                var mnu = new Common.UI.MenuItem({
+                                    caption : formulaDialog['sCategory' + name] || name,
+                                    menu        : new Common.UI.Menu({
+                                        restoreHeight: 415,
+                                        menuAlign: 'tl-tr',
+                                        items: arr
+                                    })
+                                });
+                                mnu.menu.on('item:click', function (menu, item, e) {
+                                    me.fireEvent('function:apply', [{name: item.caption, origin: item.value}]);
+                                });
+                                morearr.push(mnu);
+                            }
+                        }
+                    });
+                    var btn = this.btnMore;
+                    if (morearr.length) {
+                        if (btn.menu && btn.menu.rendered) {
+                            btn.menu.removeAll();
+                            morearr.forEach(function(item){
+                                btn.menu.addItem(item);
+                            });
+                        } else {
+                            btn.setMenu(new Common.UI.Menu({
+                                restoreHeight: 415,
+                                items: morearr
+                            }));
+                        }
+                    }
+                    btn.setDisabled(morearr.length<1);
                 }
             },
 
@@ -305,7 +372,8 @@ define([
             txtAutosumTip: 'Summation',
             txtAdditional: 'Additional',
             txtFormula: 'Function',
-            txtFormulaTip: 'Insert function'
+            txtFormulaTip: 'Insert function',
+            txtMore: 'More functions'
         }
     }()), SSE.Views.FormulaTab || {}));
 });

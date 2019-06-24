@@ -1622,6 +1622,7 @@
   "SSE.Views.FormulaTab.txtAdditional": "Additional",
   "SSE.Views.FormulaTab.txtFormula": "Function",
   "SSE.Views.FormulaTab.txtFormulaTip": "Insert function",
+  "SSE.Views.FormulaTab.txtMore": "More functions",
   "SSE.Views.GroupDialog.cancelButtonText": "Cancel",
   "SSE.Views.GroupDialog.okButtonText": "Ok",
   "SSE.Views.GroupDialog.textRows": "Rows",
