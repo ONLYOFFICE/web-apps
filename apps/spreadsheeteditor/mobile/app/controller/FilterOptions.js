@@ -104,6 +104,21 @@ define([
                         }
                     }).on('close', function (e) {
                         mainView.showNavbar();
+                        var isValid = true;
+                        if (indChecked.length === indChecked.filter(function (item) {return item === false;}).length) {
+                            isValid = false;
+                        }
+                        if(!isValid) {
+                            uiApp.modal({
+                                title   : me.textErrorTitle,
+                                text    : me.textErrorMsg,
+                                buttons: [
+                                    {
+                                        text: 'OK',
+                                    }
+                                ]
+                            });
+                        }
                     }).on('closed', function () {
                         if (_.isFunction(me.api.asc_OnHideContextMenu)) {
                             me.api.asc_OnHideContextMenu()
@@ -300,7 +315,8 @@ define([
                 var $filterCell = $('[name="filter-cell"]'),
                     $filterCellAll = $('[name="filter-cell-all"]'),
                     filterCellChecked = $('[name="filter-cell"]:checked').length,
-                    filterCellCheckedAll = $('[name="filter-cell"]').length;
+                    filterCellCheckedAll = $('[name="filter-cell"]').length,
+                    isValid = true;
                 if(e) {
                     if (e.target.name == "filter-cell") {
                         if (filterCellChecked < filterCellCheckedAll) {
@@ -319,26 +335,36 @@ define([
                         } else {
                             $filterCell.prop('checked', false);
                             checkAll = false;
+                            isValid = false;
+                            filterCellChecked = 0;
                         }
                         for (var i = 0; i < indChecked.length; i++) {
                             indChecked[i] = checkAll;
                         }
                     }
                 }
-
-                var arrCells = dataFilter.asc_getValues();
-                arrCells.forEach(function(item, index) {
-                    item.asc_setVisible(indChecked[index]);
-                });
-                dataFilter.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
-                this.api.asc_applyAutoFilter(dataFilter);
+                if(filterCellChecked === 0) {
+                    isValid = false;
+                } else {
+                    isValid = true;
+                }
+                if(isValid) {
+                    var arrCells = dataFilter.asc_getValues();
+                    arrCells.forEach(function (item, index) {
+                        item.asc_setVisible(indChecked[index]);
+                    });
+                    dataFilter.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
+                    this.api.asc_applyAutoFilter(dataFilter);
+                }
 
                 me.setClearDisable();
 
             },
 
             textEmptyItem: '{Blanks}',
-            textSelectAll: 'Select All'
+            textSelectAll: 'Select All',
+            textErrorTitle: 'Warning',
+            textErrorMsg: 'You must choose at least one value'
 
 
 
