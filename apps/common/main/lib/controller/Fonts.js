@@ -48,10 +48,10 @@ define([
     'common/main/lib/collection/Fonts'
 ], function () { 'use strict';
     Common.Controllers.Fonts = Backbone.Controller.extend((function() {
-        var FONT_TYPE_USERUSED = 4;
+        var FONT_TYPE_RECENT = 4;
 
         function isFontSaved(store, rec) {
-            var out = rec.get('type') == FONT_TYPE_USERUSED,
+            var out = rec.get('type') == FONT_TYPE_RECENT,
                 i = -1,
                 c = store.length,
                 su,
@@ -59,7 +59,7 @@ define([
             while (!out && ++i < c) {
                 su = store.at(i);
 
-                if (su.get('type') != FONT_TYPE_USERUSED)
+                if (su.get('type') != FONT_TYPE_RECENT)
                     break;
 
                 out = su.get('name') == n;
@@ -78,7 +78,7 @@ define([
 //                    name: data.name,
 //                    imgidx: data.imgidx,
 //                    cloneid: node.querySelector('img').id,
-//                    type: FONT_TYPE_USERUSED
+//                    type: FONT_TYPE_RECENT
 //                };
 //                combo.getStore().insert(0,[font]);
 //
@@ -93,7 +93,7 @@ define([
 //                }
 //
 //                font = combo.getStore().getAt(5);
-//                if (font.data.type==FONT_TYPE_USERUSED) {
+//                if (font.data.type==FONT_TYPE_RECENT) {
 //                    combo.getStore().remove(font);
 //                } else {
 //                    var plugin = combo.getPlugin('scrollpane');
