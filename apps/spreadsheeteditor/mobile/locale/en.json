@@ -301,6 +301,10 @@
   "SSE.Controllers.Toolbar.leaveButtonText": "Leave this Page",
   "SSE.Controllers.Toolbar.stayButtonText": "Stay on this Page",
   "SSE.Controllers.Collaboration.textEditUser": "Document is currently being edited by several users.",
+  "SSE.Controllers.FilterOptions.textEmptyItem": "{Blanks}",
+  "SSE.Controllers.FilterOptions.textSelectAll": "Select All",
+  "SSE.Controllers.FilterOptions.textErrorTitle": "Warning",
+  "SSE.Controllers.FilterOptions.textErrorMsg": "You must choose at least one value",
   "SSE.Views.AddFunction.sCatDateAndTime": "Date and time",
   "SSE.Views.AddFunction.sCatEngineering": "Engineering",
   "SSE.Views.AddFunction.sCatFinancial": "Financial",
@@ -550,9 +554,13 @@
   "SSE.Views.Settings.textExample": "Example",
   "SSE.Views.Settings.textCollaboration": "Collaboration",
   "SSE.Views.Settings.textR1C1Style": "R1C1 Reference Style",
+  "SSE.Views.Settings.textRegionalSettings": "Regional Settings",
   "SSE.Views.Toolbar.textBack": "Back",
   "SSE.Views.Collaboration.textCollaboration": "Collaboration",
   "SSE.Views.Collaboration.textСomments": "Сomments",
   "SSE.Views.Collaboration.textBack": "Back",
-  "SSE.Views.Collaboration.textEditUsers": "Users"
+  "SSE.Views.Collaboration.textEditUsers": "Users",
+  "SSE.Views.FilterOptions.textFilter": "Filter Options",
+  "SSE.Views.FilterOptions.textClearFilter": "Clear Filter",
+  "SSE.Views.FilterOptions.textDeleteFilter": "Delete Filter"
 }
