@@ -86,10 +86,10 @@ define([
             });
         },
 
-        applyFunction: function(func, autocomplete) {
+        applyFunction: function(func, autocomplete, group) {
             if (func) {
                 if (func.origin === 'more') {
-                    this.showDialog();
+                    this.showDialog(group);
                 } else {
                     this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete);
                     !autocomplete && this.updateLast10Formulas(func.origin);
@@ -202,7 +202,7 @@ define([
             return null;
         },
 
-        showDialog: function () {
+        showDialog: function (group) {
             if (this.formulas) {
                 if ( this.needUpdateFormula ) {
                     this.needUpdateFormula = false;
@@ -211,7 +211,7 @@ define([
                         this.formulas.fillFormulasGroups();
                     }
                 }
-                this.formulas.show();
+                this.formulas.show(group);
             }
         },
         hideDialog: function () {

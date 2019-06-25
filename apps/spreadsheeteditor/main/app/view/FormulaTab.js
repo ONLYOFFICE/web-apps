@@ -281,7 +281,7 @@ define([
                             items: arr
                         }));
                         btn.menu.on('item:click', function (menu, item, e) {
-                            me.fireEvent('function:apply', [{name: item.caption, origin: item.value}]);
+                            me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
                         });
                     }
                 }
@@ -335,7 +335,7 @@ define([
                                     })
                                 });
                                 mnu.menu.on('item:click', function (menu, item, e) {
-                                    me.fireEvent('function:apply', [{name: item.caption, origin: item.value}]);
+                                    me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
                                 });
                                 morearr.push(mnu);
                             }

@@ -104,7 +104,7 @@ define([
             this.descLabel = $('#formula-dlg-desc');
             this.fillFormulasGroups();
         },
-        show: function () {
+        show: function (group) {
             if (this.$window) {
                 var main_width, main_height, top, left, win_height = this.initConfig.height;
 
@@ -129,8 +129,8 @@ define([
             this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
             this.$window.on('mousedown',_.bind(this.onUpdateFocus, this));
 
-            if (this.cmbFuncGroup.getValue() == 0)
-                this.fillFunctions('Last10');
+            group && this.cmbFuncGroup.setValue(group);
+            (group || this.cmbFuncGroup.getValue()=='Last10') && this.fillFunctions(this.cmbFuncGroup.getValue());
 
             if (this.cmbListFunctions) {
                 _.delay(function (me) {
@@ -169,9 +169,7 @@ define([
         },
         onSelectGroup: function (combo, record) {
             if (!_.isUndefined(record) && !_.isUndefined(record.value)) {
-                if (record.value < this.formulasGroups.length) {
-                    this.fillFunctions(this.formulasGroups.at(record.value).get('name'));
-                }
+                record.value && this.fillFunctions(record.value);
             }
 
             this.onUpdateFocus();
@@ -213,7 +211,7 @@ define([
                     var group = this.formulasGroups.at(i);
                     if (group.get('functions').length) {
                         groupsListItems.push({
-                            value           : group.get('index'),
+                            value           : group.get('name'),
                             displayValue    :  group.get('caption')
                         });
                     }
@@ -232,7 +230,7 @@ define([
                 } else {
                     this.cmbFuncGroup.setData(groupsListItems);
                 }
-                this.cmbFuncGroup.setValue(0);
+                this.cmbFuncGroup.setValue('Last10');
                 this.fillFunctions('Last10');
 
             }
