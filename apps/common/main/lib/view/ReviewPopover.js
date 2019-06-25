@@ -967,6 +967,7 @@ define([
             this.externalUsers = data.data || [];
             this.isUsersLoading = false;
             this._state.emailSearch && this.onEmailListMenu(this._state.emailSearch.str, this._state.emailSearch.left, this._state.emailSearch.right);
+            this._state.emailSearch = null;
         },
 
         getPopover: function(options) {
@@ -993,7 +994,7 @@ define([
             }
         },
 
-        onEmailListMenu: function(str, left, right) {
+        onEmailListMenu: function(str, left, right, show) {
             var me   = this,
                 users = me.externalUsers,
                 menu = me.emailMenu;
