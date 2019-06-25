@@ -104,21 +104,7 @@ define([
                         }
                     }).on('close', function (e) {
                         mainView.showNavbar();
-                        var isValid = true;
-                        if (indChecked.length === indChecked.filter(function (item) {return item === false;}).length) {
-                            isValid = false;
-                        }
-                        if(!isValid) {
-                            uiApp.modal({
-                                title   : me.textErrorTitle,
-                                text    : me.textErrorMsg,
-                                buttons: [
-                                    {
-                                        text: 'OK',
-                                    }
-                                ]
-                            });
-                        }
+                        me.isValidChecked();
                     }).on('closed', function () {
                         if (_.isFunction(me.api.asc_OnHideContextMenu)) {
                             me.api.asc_OnHideContextMenu()
@@ -140,6 +126,9 @@ define([
                     var $target = $('#context-menu-target')
                         .css({left: posX, top: Math.max(0, posY)});
                     modalView = uiApp.popover(popoverHTML, $target);
+                    $$(modalView).on('close', function (e) {
+                        me.isValidChecked();
+                    });
                     if (Common.SharedSettings.get('android')) {
                         Common.Utils.androidMenuTop($(modalView),  $target);
                     }
@@ -159,6 +148,25 @@ define([
                 this.onPageShow(this.getView('FilterOptions'));
 
                 SSE.getController('Toolbar').getView('Toolbar').hideSearch();
+            },
+
+            isValidChecked: function () {
+                var me = this,
+                    isValid = true;
+                if (indChecked.length === indChecked.filter(function (item) {return item === false;}).length) {
+                    isValid = false;
+                }
+                if(!isValid) {
+                    uiApp.modal({
+                        title   : me.textErrorTitle,
+                        text    : me.textErrorMsg,
+                        buttons: [
+                            {
+                                text: 'OK',
+                            }
+                        ]
+                    });
+                }
             },
 
             rootView : function() {
