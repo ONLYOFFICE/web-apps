@@ -41,7 +41,7 @@
                             <a id="settings-spreadsheet" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-print"></i>
+                                        <i class="icon icon-table-settings"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textSpreadsheetSettings %></div>
@@ -53,7 +53,7 @@
                             <a id="settings-application" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-print"></i>
+                                        <i class="icon icon-app-settings"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textApplicationSettings %></div>
