@@ -128,7 +128,7 @@ define([
             },
 
             onInsertSort: function(type) {
-                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '');
+                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '', undefined, undefined, true);
             },
 
             onInsertFilter: function(checked) {
