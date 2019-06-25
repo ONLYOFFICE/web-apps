@@ -111,7 +111,7 @@ define([
                 editable: false,
                 store: new Common.UI.BordersStore(),
                 data: data,
-                menuStyle: 'min-width: 150px;'
+                menuStyle: 'min-width: 160px;'
             }, options));
         },
 
@@ -209,7 +209,7 @@ define([
                 editable: true,
                 store: new Common.UI.BordersStore(),
                 data: data,
-                menuStyle: 'min-width: 150px;'
+                menuStyle: 'min-width: 160px;'
             }, options));
         },
 
