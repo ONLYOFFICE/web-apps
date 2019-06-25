@@ -41,7 +41,7 @@
                             <a id="settings-spreadsheet" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-print"></i>
+                                        <i class="icon icon-table-settings"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textSpreadsheetSettings %></div>
@@ -53,7 +53,7 @@
                             <a id="settings-application" class="item-link">
                                 <div class="item-content">
                                     <div class="item-media">
-                                        <i class="icon icon-print"></i>
+                                        <i class="icon icon-app-settings"></i>
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textApplicationSettings %></div>
@@ -430,6 +430,38 @@
                         </li>
                     </ul>
                 </div>
+                <div class="list-block">
+                    <ul>
+                        <li id="r1-c1-style">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textR1C1Style %></div>
+                                    <div class="item-after">
+                                        <label class="label-switch">
+                                            <input type="checkbox">
+                                            <div class="checkbox"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title"><%= scope.textRegionalSettings %></div>
+                <div class="list-block">
+                    <ul>
+                        <li class="media-item">
+                            <a id="regional-settings" class="item-link item-content" data-page="#regional-settings-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textCustom %></div>
+                                    </div>
+                                    <div class="item-subtitle"><%= scope.textExample + ": "%><span class="item-example"><%= scope.textCustomSize %></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -651,6 +683,26 @@
                                 </div>
                             </div>
                         </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Regional Settings View --->
+<div id="regional-settings-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textRegionalSettings %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="regional-settings-view">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
                     </ul>
                 </div>
             </div>

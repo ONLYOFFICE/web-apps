@@ -69,6 +69,7 @@ define([
             setApi: function (api) {
                 var me = this;
                 me.api = api;
+                me.api.asc_registerCallback('asc_onError', _.bind(me.onError, me));
 
                 // me.api.asc_registerCallback('asc_onInitEditorFonts',    _.bind(onApiLoadFonts, me));
 
@@ -128,7 +129,7 @@ define([
             },
 
             onInsertSort: function(type) {
-                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '');
+                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '', undefined, undefined, true);
             },
 
             onInsertFilter: function(checked) {
@@ -137,6 +138,12 @@ define([
                 if (checked)
                     this.api.asc_addAutoFilter(); else
                     this.api.asc_changeAutoFilter(tablename, Asc.c_oAscChangeFilterOptions.filter, checked);
+            },
+
+            onError: function(id, level, errData) {
+                if(id === Asc.c_oAscError.ID.AutoFilterDataRangeError) {
+                    this.getView('AddOther').optionAutofilter(false);
+                }
             },
 
             textEmptyImgUrl : 'You need to specify image URL.',

@@ -5845,7 +5845,8 @@ html:not(.phone) #editor-navbar.navbar .left a + a {
   margin-left: 10px;
 }
 .phone.ios .container-edit .navbar:before,
-.phone.ios .container-collaboration .navbar:before {
+.phone.ios .container-collaboration .navbar:before,
+.phone.ios .container-filter .navbar:before {
   content: '';
   position: absolute;
   left: 0;
@@ -5861,23 +5862,27 @@ html:not(.phone) #editor-navbar.navbar .left a + a {
   transform-origin: 50% 0%;
 }
 html.pixel-ratio-2 .phone.ios .container-edit .navbar:before,
-html.pixel-ratio-2 .phone.ios .container-collaboration .navbar:before {
+html.pixel-ratio-2 .phone.ios .container-collaboration .navbar:before,
+html.pixel-ratio-2 .phone.ios .container-filter .navbar:before {
   -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
 }
 html.pixel-ratio-3 .phone.ios .container-edit .navbar:before,
-html.pixel-ratio-3 .phone.ios .container-collaboration .navbar:before {
+html.pixel-ratio-3 .phone.ios .container-collaboration .navbar:before,
+html.pixel-ratio-3 .phone.ios .container-filter .navbar:before {
   -webkit-transform: scaleY(0.33);
   transform: scaleY(0.33);
 }
 .phone.ios .container-edit .page-content .list-block:first-child,
-.phone.ios .container-collaboration .page-content .list-block:first-child {
+.phone.ios .container-collaboration .page-content .list-block:first-child,
+.phone.ios .container-filter .page-content .list-block:first-child {
   margin-top: -1px;
 }
 .container-edit.popover,
 .container-add.popover,
 .container-settings.popover,
-.container-collaboration.popover {
+.container-collaboration.popover,
+.container-filter.popover {
   width: 360px;
 }
 .settings.popup .list-block ul,
@@ -6730,6 +6735,11 @@ i.icon.icon-collaboration {
   width: 24px;
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M15.9912%206C15.9912%208.34102%2015.4074%2010.1346%2014.6055%2011.3121C13.7983%2012.4974%2012.8249%2013%2011.9912%2013C11.1575%2013%2010.1841%2012.4974%209.37695%2011.3121C8.57501%2010.1346%207.99121%208.34102%207.99121%206C7.99121%203.61508%209.96974%202%2011.9912%202C14.0127%202%2015.9912%203.61508%2015.9912%206ZM14.5015%2012.9506C13.7365%2013.6361%2012.8649%2014%2011.9912%2014C11.1195%2014%2010.2499%2013.6378%209.48619%2012.9554C7.78363%2013.6081%206.36015%2014.2591%205.26963%2014.9224C3.55256%2015.9667%203%2016.8326%203%2017.5C3%2018.2545%203.4257%2019.0877%204.82302%2019.7879C6.25015%2020.5031%208.57272%2020.9999%2012%2021C15.4273%2021%2017.7499%2020.5031%2019.177%2019.7879C20.5743%2019.0877%2021%2018.2545%2021%2017.5C21%2016.8326%2020.4474%2015.9667%2018.7304%2014.9224C17.6372%2014.2575%2016.2095%2013.605%2014.5015%2012.9506ZM15.2272%2012.1594C16.2765%2010.7825%2016.9912%208.67814%2016.9912%206C16.9912%203%2014.5%201%2011.9912%201C9.48242%201%206.99121%203%206.99121%206C6.99121%208.68159%207.70777%2010.7879%208.75931%2012.1647C4.60309%2013.7964%202%2015.4951%202%2017.5C2%2019.9852%205%2021.9999%2012%2022C19%2022%2022%2019.9852%2022%2017.5C22%2015.4929%2019.3913%2013.7927%2015.2272%2012.1594Z%22%20fill%3D%22%23aa5252%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+i.icon.icon-app-settings {
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M7%2014H16C18.2091%2014%2020%2015.7909%2020%2018C20%2020.2091%2018.2091%2022%2016%2022H7C4.79086%2022%203%2020.2091%203%2018C3%2015.7909%204.79086%2014%207%2014ZM16%2013C18.7614%2013%2021%2015.2386%2021%2018C21%2020.7614%2018.7614%2023%2016%2023H7C4.23858%2023%202%2020.7614%202%2018C2%2015.2386%204.23858%2013%207%2013H16Z%22%20fill%3D%22%23aa5252%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M16%2020C14.8954%2020%2014%2019.1046%2014%2018C14%2016.8954%2014.8954%2016%2016%2016C17.1046%2016%2018%2016.8954%2018%2018C18%2019.1046%2017.1046%2020%2016%2020ZM16%2021C14.3431%2021%2013%2019.6569%2013%2018C13%2016.3431%2014.3431%2015%2016%2015C17.6569%2015%2019%2016.3431%2019%2018C19%2019.6569%2017.6569%2021%2016%2021Z%22%20fill%3D%22%23aa5252%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M16%203H7C4.79086%203%203%204.79086%203%207C3%209.20914%204.79086%2011%207%2011H16C18.2091%2011%2020%209.20914%2020%207C20%204.79086%2018.2091%203%2016%203ZM7%202C4.23858%202%202%204.23858%202%207C2%209.76142%204.23858%2012%207%2012H16C18.7614%2012%2021%209.76142%2021%207C21%204.23858%2018.7614%202%2016%202H7Z%22%20fill%3D%22%23aa5252%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M7%209C8.10457%209%209%208.10457%209%207C9%205.89543%208.10457%205%207%205C5.89543%205%205%205.89543%205%207C5%208.10457%205.89543%209%207%209ZM7%2010C8.65685%2010%2010%208.65685%2010%207C10%205.34315%208.65685%204%207%204C5.34315%204%204%205.34315%204%207C4%208.65685%205.34315%2010%207%2010Z%22%20fill%3D%22%23aa5252%22%2F%3E%3C%2Fsvg%3E");
 }
 .label-switch input[type="checkbox"]:checked + .checkbox {
   background: #aa5252;

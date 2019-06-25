@@ -5845,7 +5845,8 @@ html:not(.phone) #editor-navbar.navbar .left a + a {
   margin-left: 10px;
 }
 .phone.ios .container-edit .navbar:before,
-.phone.ios .container-collaboration .navbar:before {
+.phone.ios .container-collaboration .navbar:before,
+.phone.ios .container-filter .navbar:before {
   content: '';
   position: absolute;
   left: 0;
@@ -5861,23 +5862,27 @@ html:not(.phone) #editor-navbar.navbar .left a + a {
   transform-origin: 50% 0%;
 }
 html.pixel-ratio-2 .phone.ios .container-edit .navbar:before,
-html.pixel-ratio-2 .phone.ios .container-collaboration .navbar:before {
+html.pixel-ratio-2 .phone.ios .container-collaboration .navbar:before,
+html.pixel-ratio-2 .phone.ios .container-filter .navbar:before {
   -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
 }
 html.pixel-ratio-3 .phone.ios .container-edit .navbar:before,
-html.pixel-ratio-3 .phone.ios .container-collaboration .navbar:before {
+html.pixel-ratio-3 .phone.ios .container-collaboration .navbar:before,
+html.pixel-ratio-3 .phone.ios .container-filter .navbar:before {
   -webkit-transform: scaleY(0.33);
   transform: scaleY(0.33);
 }
 .phone.ios .container-edit .page-content .list-block:first-child,
-.phone.ios .container-collaboration .page-content .list-block:first-child {
+.phone.ios .container-collaboration .page-content .list-block:first-child,
+.phone.ios .container-filter .page-content .list-block:first-child {
   margin-top: -1px;
 }
 .container-edit.popover,
 .container-add.popover,
 .container-settings.popover,
-.container-collaboration.popover {
+.container-collaboration.popover,
+.container-filter.popover {
   width: 360px;
 }
 .settings.popup .list-block ul,
@@ -6843,6 +6848,11 @@ i.icon.icon-delete-change {
   width: 24px;
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M9.5%201H9V1.5V3H5H4H2V4H4V21V22H5H19H20V21V4H22V3H20H19H15V1.5V1H14.5H9.5ZM14%203V2H10V3H14ZM5%204H19V21H5V4ZM7%206H8V19H7V6ZM11%206H10V19H11V6ZM13%206H14V19H13V6ZM17%206H16V19H17V6Z%22%20fill%3D%22%23446995%22%2F%3E%3C%2Fsvg%3E");
+}
+i.icon.icon-app-settings {
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M7%2014H16C18.2091%2014%2020%2015.7909%2020%2018C20%2020.2091%2018.2091%2022%2016%2022H7C4.79086%2022%203%2020.2091%203%2018C3%2015.7909%204.79086%2014%207%2014ZM16%2013C18.7614%2013%2021%2015.2386%2021%2018C21%2020.7614%2018.7614%2023%2016%2023H7C4.23858%2023%202%2020.7614%202%2018C2%2015.2386%204.23858%2013%207%2013H16Z%22%20fill%3D%22%23446995%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M16%2020C14.8954%2020%2014%2019.1046%2014%2018C14%2016.8954%2014.8954%2016%2016%2016C17.1046%2016%2018%2016.8954%2018%2018C18%2019.1046%2017.1046%2020%2016%2020ZM16%2021C14.3431%2021%2013%2019.6569%2013%2018C13%2016.3431%2014.3431%2015%2016%2015C17.6569%2015%2019%2016.3431%2019%2018C19%2019.6569%2017.6569%2021%2016%2021Z%22%20fill%3D%22%23446995%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M16%203H7C4.79086%203%203%204.79086%203%207C3%209.20914%204.79086%2011%207%2011H16C18.2091%2011%2020%209.20914%2020%207C20%204.79086%2018.2091%203%2016%203ZM7%202C4.23858%202%202%204.23858%202%207C2%209.76142%204.23858%2012%207%2012H16C18.7614%2012%2021%209.76142%2021%207C21%204.23858%2018.7614%202%2016%202H7Z%22%20fill%3D%22%23446995%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M7%209C8.10457%209%209%208.10457%209%207C9%205.89543%208.10457%205%207%205C5.89543%205%205%205.89543%205%207C5%208.10457%205.89543%209%207%209ZM7%2010C8.65685%2010%2010%208.65685%2010%207C10%205.34315%208.65685%204%207%204C5.34315%204%204%205.34315%204%207C4%208.65685%205.34315%2010%207%2010Z%22%20fill%3D%22%23446995%22%2F%3E%3C%2Fsvg%3E");
 }
 .label-switch input[type="checkbox"]:checked + .checkbox {
   background: #446995;
