@@ -87,38 +87,11 @@ define([
                 { value: 'pl', displayValue: 'Polish', exampleValue: ' SUMA; MIN; MAX; ILE.LICZB' }
             ],
             _indexLang = 0,
-            _regdata = [
-                { code: 0x042C, name: ["az-Latn-AZ", "Azərbaycan­ılı (Azərbaycan)", "Azeri (Latin, Azerbaijan)"]},
-                { code: 0x0402, name: ["bg-BG", "Български (България)", "Bulgarian (Bulgaria)"] },
-                { code: 0x0405, name: ["cs-CZ", "Čeština (Česká republika)", "Czech (Czech Republic)"]},
-                { code: 0x0407, name: ["de-DE", "Deutsch (Deutschland)", "German (Germany)"]},
-                { code: 0x0807, name: ["de-CH", "Deutsch (Schweiz)", "German (Switzerland)"]},
-                { code: 0x0408, name: ["el-GR", "Ελληνικά (Ελλάδα)", "Greek (Greece)"]},
-                { code: 0x0C09, name: ["en-AU", "English (Australia)", "English (Australia)"]},
-                { code: 0x0809, name: ["en-GB", "English (United Kingdom)", "English (United Kingdom)"]},
-                { code: 0x0409, name: ["en-US", "English (United States)", "English (United States)"]},
-                { code: 0x0C0A, name: ["es-ES", "Español (España, alfabetización internacional)", "Spanish (Spain)"]},
-                { code: 0x080A, name: ["es-MX", "Español (México)", "Spanish (Mexico)"]},
-                { code: 0x040B, name: ["fi-FI", "Suomi (Suomi)", "Finnish (Finland)"]},
-                { code: 0x040C, name: ["fr-FR", "Français (France)", "French (France)"]},
-                { code: 0x0410, name: ["it-IT", "Italiano (Italia)", "Italian (Italy)"]},
-                { code: 0x0411, name: ["ja-JP", "日本語 (日本)", "Japanese (Japan)"]},
-                { code: 0x0412, name: ["ko-KR", "한국어 (대한민국)", "Korean (Korea)"]},
-                { code: 0x0426, name: ["lv-LV", "Latviešu (Latvija)", "Latvian (Latvia)"]},
-                { code: 0x0413, name: ["nl-NL", "Nederlands (Nederland)", "Dutch (Netherlands)"]},
-                { code: 0x0415, name: ["pl-PL", "Polski (Polska)", "Polish (Poland)"]},
-                { code: 0x0416, name: ["pt-BR", "Português (Brasil)", "Portuguese (Brazil)"]},
-                { code: 0x0816, name: ["pt-PT", "Português (Portugal)", "Portuguese (Portugal)"]},
-                { code: 0x0419, name: ["ru-RU", "Русский (Россия)", "Russian (Russia)"]},
-                { code: 0x041B, name: ["sk-SK", "Slovenčina (Slovenská republika)", "Slovak (Slovakia)"]},
-                { code: 0x0424, name: ["sl-SI", "Slovenski (Slovenija)", "Slovenian (Slovenia)"]},
-                { code: 0x081D, name: ["sv-FI", "Svenska (Finland)", "Swedish (Finland)"]},
-                { code: 0x041D, name: ["sv-SE", "Svenska (Sverige)", "Swedish (Sweden)"]},
-                { code: 0x041F, name: ["tr-TR", "Türkçe (Türkiye)", "Turkish (Turkey)"]},
-                { code: 0x0422, name: ["uk-UA", "Українська (Україна)", "Ukrainian (Ukraine)"]},
-                { code: 0x042A, name: ["vi-VN", "Tiếng Việt (Việt Nam)", "Vietnamese (Vietnam)"]},
-                { code: 0x0804, name: ["zh-CN", "中文(中华人民共和国)", "Chinese (People's Republic of China)"]}
-                ];
+            _regDataCode = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+            { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+            { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }],
+            _regdata = [];
+
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -146,6 +119,10 @@ define([
                 });
 
                 this.localMarginProps = null;
+                _regDataCode.forEach(function(item) {
+                    var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
+                    _regdata.push({code: item.value, displayName: langinfo[1], langName: langinfo[0]});
+                });
 
 
             },
@@ -557,7 +534,7 @@ define([
                     item = _.findWhere(_regdata, {code: 0x0409});
                 }
                 var $regSettings = $('#regional-settings');
-                $regSettings.find('.item-title').text(item.name[1]);
+                $regSettings.find('.item-title').text(item.displayName);
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(Asc.c_oAscNumFormatType.None);
                 info.asc_setSymbol(value);
