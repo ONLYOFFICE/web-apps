@@ -130,7 +130,7 @@ define([
                 minHeight: '',
                 overflow: 'hidden',
                 position: 'absolute',
-                zIndex: '1001'
+                zIndex: '990'
             });
 
             var body = window.find('.body');
@@ -479,6 +479,9 @@ define([
                         });
                     }).on('show:after', function () {
                         this.scroller.update({alwaysVisibleY: true});
+                        me.$window.css({zIndex: '1001'});
+                    }).on('hide:after', function () {
+                        me.$window.css({zIndex: '990'});
                     });
 
                     me.on({
