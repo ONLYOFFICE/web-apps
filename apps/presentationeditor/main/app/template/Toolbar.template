@@ -122,6 +122,12 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-slidenum"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insertequation"></span>
                 </div>
             </section>
