@@ -494,6 +494,7 @@ define([
                         ascComment.asc_addReply(addReply);
 
                         me.api.asc_changeComment(id, ascComment);
+                        me.mode && me.mode.canRequestUsers && me.view.pickEMail(id, replyVal);
 
                         return true;
                     }
@@ -1125,7 +1126,8 @@ define([
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     commentsStore : this.popoverComments,
                     renderTo : this.sdkViewName,
-                    canRequestUsers: (this.mode) ? this.mode.canRequestUsers : undefined
+                    canRequestUsers: (this.mode) ? this.mode.canRequestUsers : undefined,
+                    canRequestSendNotify: (this.mode) ? this.mode.canRequestSendNotify : undefined
                 });
                 this.popover.setCommentsStore(this.popoverComments);
             }

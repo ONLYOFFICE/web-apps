@@ -199,6 +199,7 @@
         _config.editorConfig.canRename = _config.events && !!_config.events.onRequestRename;
         _config.editorConfig.canMakeActionLink = _config.events && !!_config.events.onMakeActionLink;
         _config.editorConfig.canRequestUsers = _config.events && !!_config.events.onRequestUsers;
+        _config.editorConfig.canRequestSendNotify = _config.events && !!_config.events.onRequestSendNotify;
         _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
         _config.frameEditorId = placeholderId;
 

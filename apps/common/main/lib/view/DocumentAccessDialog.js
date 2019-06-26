@@ -120,8 +120,10 @@ define([
 
         _onMessage: function(msg) {
             if (msg && msg.Referer == "onlyoffice") {
-                if (msg.needUpdate)
+                if (msg.needUpdate) {
                     this.trigger('accessrights', this, msg.sharingSettings);
+                    Common.NotificationCenter.trigger('mentions:clearusers', this);
+                }
                 Common.NotificationCenter.trigger('window:close', this);
             }
         },

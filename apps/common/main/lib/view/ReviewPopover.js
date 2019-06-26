@@ -101,6 +101,7 @@ define([
             this.commentsStore = options.commentsStore;
             this.reviewStore = options.reviewStore;
             this.canRequestUsers = options.canRequestUsers;
+            this.canRequestSendNotify = options.canRequestSendNotify;
             this.externalUsers = [];
             this._state = {commentsVisible: false, reviewVisible: false};
 
@@ -111,7 +112,10 @@ define([
 
             Common.UI.Window.prototype.initialize.call(this, _options);
 
-            this.canRequestUsers && Common.Gateway.on('setusers', _.bind(this.setUsers, this));
+            if (this.canRequestUsers) {
+                Common.Gateway.on('setusers', _.bind(this.setUsers, this));
+                Common.NotificationCenter.on('mentions:clearusers',   _.bind(this.clearUsers, this));
+            }
 
             return this;
         },
@@ -126,7 +130,7 @@ define([
                 minHeight: '',
                 overflow: 'hidden',
                 position: 'absolute',
-                zIndex: '990'
+                zIndex: '1001'
             });
 
             var body = window.find('.body');
@@ -239,7 +243,8 @@ define([
                                 textEdit: me.textEdit,
                                 textReply: me.textReply,
                                 textClose: me.textClose,
-                                maxCommLength: Asc.c_oAscMaxCellOrCommentLength
+                                maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
+                                textMention: me.canRequestSendNotify ? me.textMention : ''
                             })
                         )
                     });
@@ -970,6 +975,10 @@ define([
             this._state.emailSearch = null;
         },
 
+        clearUsers: function() {
+            this.externalUsers = [];
+        },
+
         getPopover: function(options) {
             if (!this.popover)
                 this.popover = new Common.Views.ReviewPopover(options);
@@ -1103,7 +1112,8 @@ define([
         textClose               : 'Close',
         textResolve             : 'Resolve',
         textOpenAgain           : "Open Again",
-        textLoading             : 'Loading'
+        textLoading             : 'Loading',
+        textMention             : '+mention will provide access to the document and send an email'
 
     }, Common.Views.ReviewPopover || {}))
 });
