@@ -104,7 +104,7 @@ define([
 
             _options.tpl = _.template(this.template)(_options);
 
-            this.arrow = {margin: 20, width: 12, height: 34};
+            this.arrow = {margin: 20, width: 10, height: 30};
             this.sdkBounds = {width: 0, height: 0, padding: 10, paddingTop: 20};
 
             Common.UI.Window.prototype.initialize.call(this, _options);
@@ -753,6 +753,10 @@ define([
                         topPos = Math.min(sdkBoundsTop + sdkBoundsHeight - outerHeight, this.arrowPosY + sdkBoundsTop - this.arrow.height);
                         topPos = Math.max(topPos, sdkBoundsTopPos);
 
+                        if (parseInt(arrowView.css('top')) + this.arrow.height > outerHeight) {
+                            arrowView.css({top: (outerHeight-this.arrow.height) + 'px'});
+                        }
+
                         this.$window.css('top', topPos + 'px');
                     }
                 }
@@ -821,7 +825,7 @@ define([
                                 commentsView.css({height: sdkBoundsHeight - sdkPanelHeight - 3 + 'px'});
 
                                 // arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - sdkPanelHeight - this.arrow.width);
-                                arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.width));
+                                arrowPosY = Math.min(arrowPosY, sdkBoundsHeight - (sdkPanelHeight + this.arrow.margin + this.arrow.height));
 
                                 arrowView.css({top: arrowPosY + 'px'});
                                 this.scroller.scrollTop(scrollPos);
@@ -838,8 +842,8 @@ define([
                                     }
                                 }
 
-                                arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - (sdkBoundsHeight - outerHeight) - this.arrow.width);
-                                arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.width);
+                                arrowPosY = Math.max(this.arrow.margin, this.arrowPosY - (sdkBoundsHeight - outerHeight) - this.arrow.height);
+                                arrowPosY = Math.min(arrowPosY, outerHeight - this.arrow.margin - this.arrow.height);
 
                                 arrowView.css({top: arrowPosY + 'px'});
                             }
