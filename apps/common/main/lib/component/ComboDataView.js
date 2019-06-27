@@ -245,11 +245,7 @@ define([
                 var picker = this.menuPicker;
                 if (picker) {
                     var record = picker.getSelectedRec();
-
-                    if (record) {
-                        record = record[0];
-                        this.fillComboView(record || picker.store.at(0), !!record, true);
-                    }
+                    this.fillComboView(record || picker.store.at(0), !!record, true);
 
                     picker.onResize();
                 }
@@ -311,7 +307,7 @@ define([
         },
 
         onAfterHideMenu: function(e, isFromInputControl) {
-            this.menuPicker.selectedBeforeHideRec = this.menuPicker.getSelectedRec()[0]; // for DataView - onKeyDown - Return key
+            this.menuPicker.selectedBeforeHideRec = this.menuPicker.getSelectedRec(); // for DataView - onKeyDown - Return key
             (this.showLast) ? this.menuPicker.showLastSelected() : this.menuPicker.deselectAll();
             this.trigger('hide:after', this, e, isFromInputControl);
         },
@@ -387,10 +383,7 @@ define([
                 var picker = this.menuPicker;
                 if (picker) {
                     var record = picker.getSelectedRec();
-                    if (record) {
-                        record = record[0];
-                        this.fillComboView(record || picker.store.at(0), false);
-                    }
+                    this.fillComboView(record || picker.store.at(0), false);
                 }
             }
         },

@@ -1014,7 +1014,7 @@ define([
                 data.preventDefault();
                 data.stopPropagation();
 
-                this.updateCellCheck(listView, listView.getSelectedRec()[0]);
+                this.updateCellCheck(listView, listView.getSelectedRec());
 
             } else {
                 Common.UI.DataView.prototype.onKeyDown.call(this.cellsList, e, data);

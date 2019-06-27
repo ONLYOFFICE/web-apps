@@ -523,10 +523,10 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
 
         removeTab: function(btn, eOpts){
             var rec = this.tabList.getSelectedRec();
-            if (rec.length>0) {
+            if (rec) {
                 var store = this.tabList.store;
-                var idx = _.indexOf(store.models, rec[0]);
-                store.remove(rec[0]);
+                var idx = _.indexOf(store.models, rec);
+                store.remove(rec);
                 if (idx>store.length-1) idx = store.length-1;
                 if (store.length>0) {
                     this.tabList.selectByIndex(idx);
