@@ -122,7 +122,7 @@ define([
                 var me = this,
                     $host = me.toolbar.$el;
 
-                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'btn-contents', me.capBtnInsContents );
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'btn-contents', me.capBtnInsContents, undefined, true, true );
                 this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'btn-notes', me.capBtnInsFootnote, undefined, true, true);
                 this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'btn-inserthyperlink', me.capBtnInsLink);
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
