@@ -69,6 +69,7 @@ define([
                 $('#add-other-section').single('click',     _.bind(me.showSectionBreak, me));
                 $('#add-other-link').single('click',        _.bind(me.showLink, me));
                 $('#add-other-pagenumber').single('click',  _.bind(me.showPagePosition, me));
+                $('#add-other-footnote').single('click',    _.bind(me.showPageFootnote, me));
 
                 me.initControls();
             },
@@ -138,6 +139,62 @@ define([
                 this.showPage('#addother-pagenumber');
             },
 
+            showPageFootnote: function () {
+                this.showPage('#addother-insert-footnote');
+            },
+
+            renderNumFormat: function (dataFormat, selectFormat) {
+                var $listFormat = $('#list-format-footnote ul'),
+                    items = [];
+
+                _.each(dataFormat, function (formatItem) {
+                    var itemTemplate = [
+                        '<li>',
+                        '<label class="label-radio item-content">',
+                        '<input type="radio" name="doc-footnote-format" data-value="<%= item.value %>" <% if (item.value == select) { %>checked="checked"<% } %> >',
+                        '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
+                        '<div class="item-inner">',
+                        '<div class="item-title"><%= item.text %></div>',
+                        '</div>',
+                        '</label>',
+                        '</li>'
+                    ].join('');
+                    items.push(_.template(itemTemplate)({
+                        android: Framework7.prototype.device.android,
+                        item: formatItem,
+                        select: selectFormat
+                    }));
+                });
+
+                $listFormat.html(items);
+            },
+
+            renderFootnotePos: function (dataPosition, selectPosition) {
+                var $listPos = $('#position-footnote ul'),
+                    items = [];
+
+                _.each(dataPosition, function (posItem) {
+                    var itemTemplate = [
+                        '<li>',
+                        '<label class="label-radio item-content">',
+                        '<input type="radio" name="doc-footnote-pos" data-value="<%= item.value%>" <% if (item.value == select) { %>checked="checked"<% } %> >',
+                        '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
+                        '<div class="item-inner">',
+                        '<div class="item-title"><%= item.displayValue %></div>',
+                        '</div>',
+                        '</label>',
+                        '</li>'
+                    ].join('');
+                    items.push(_.template(itemTemplate)({
+                        android: Framework7.prototype.device.android,
+                        item: posItem,
+                        select: selectPosition
+                    }));
+                });
+
+                $listPos.html(items);
+            },
+
             textPageBreak: 'Page Break',
             textSectionBreak: 'Section Break',
             textColumnBreak: 'Column Break',
@@ -159,7 +216,12 @@ define([
             textNextPage: 'Next Page',
             textContPage: 'Continuous Page',
             textEvenPage: 'Even Page',
-            textOddPage: 'Odd Page'
+            textOddPage: 'Odd Page',
+            textFootnote: 'Footnote',
+            textInsertFootnote: 'Insert Footnote',
+            textFormat: 'Format',
+            textStartFrom: 'Start At',
+            textLocation: 'Location'
         
         
         }
