@@ -51,6 +51,7 @@ define([
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
+    'presentationeditor/main/app/view/DateTimeDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
     'presentationeditor/main/app/view/SlideshowSettings'
@@ -360,6 +361,7 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+            this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -1461,6 +1463,19 @@ define([
                 this.api.asc_addSlideNumber();
             } else if (in_text && type=='datetime') {
                 //insert date time
+                var me = this;
+                (new PE.Views.DateTimeDialog({
+                    api: this.api,
+                    lang: this._state.lang,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_addDateTime(value);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             } else {
                 //insert header/footer
             }
@@ -2099,6 +2114,10 @@ define([
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
             }
+        },
+
+        onTextLanguage: function(langId) {
+            this._state.lang = langId;
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',
