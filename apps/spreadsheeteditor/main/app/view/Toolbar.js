@@ -833,6 +833,10 @@ define([
                             {
                                 caption : me.txtYen,
                                 value   : 0x0411 // ¥ ja-JP
+                            },{caption: '--'},
+                            {
+                                caption : me.textMoreFormats,
+                                value   : -1
                             }
                         ]
                     })
