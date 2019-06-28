@@ -756,7 +756,12 @@ define([
                                     '<input type="button" class="img-commonctrl"/>',
                                 '<% } %>',
                             '</label>',
-                            '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;width: 185px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                            '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                                '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                                '<% if (typeof count !=="undefined" && count) { %>',
+                                    '<div style="word-break: normal; margin-left: 10px; color: #afafaf;"><%= count%></div>',
+                                '<% } %>',
+                            '</div>',
                         '</div>'
                     ].join(''))
                 });
@@ -1195,7 +1200,7 @@ define([
             }
 
             var me = this,
-                isnumber, value,
+                isnumber, value, count,
                 index = 0, throughIndex = 2,
                 applyfilter = true,
                 selectAllState = false,
@@ -1207,6 +1212,7 @@ define([
                 value       = item.asc_getText();
                 isnumber    = isNumeric(value);
                 applyfilter = true;
+                count = item.asc_getRepeats ? item.asc_getRepeats() : undefined;
 
                 if (me.filter) {
                     if (null === value.match(me.filter)) {
@@ -1227,7 +1233,8 @@ define([
                         strval          : !isnumber ? value : '',
                         groupid         : '1',
                         check           : idxs[throughIndex],
-                        throughIndex    : throughIndex
+                        throughIndex    : throughIndex,
+                        count: count ? count.toString() : ''
                     }));
                     if (idxs[throughIndex]) selectedCells++;
                 } else {
@@ -1278,6 +1285,7 @@ define([
             }
             this.btnOk.setDisabled(this.cells.length<1);
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            this.cellsList.cmpEl.toggleClass('scroll-padding', this.cellsList.scroller.isVisible());
         },
 
         testFilter: function () {
