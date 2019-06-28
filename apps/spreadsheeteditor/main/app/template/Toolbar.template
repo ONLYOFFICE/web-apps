@@ -156,6 +156,23 @@
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                 </div>
             </section>
+            <section class="panel" data-tab="formula">
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-additional-formula"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-autosum"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-recent"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-financial"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-logical"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-text"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-lookup"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-math"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-more"></span>
+                </div>
+            </section>
             <section class="panel" data-tab="data">
                 <div class="group">
                     <div class="elset">

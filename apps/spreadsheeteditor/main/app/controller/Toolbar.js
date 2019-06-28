@@ -1182,10 +1182,8 @@ define([
                         controller.showDialog();
                     }
                 } else {
-
                     item.value = item.value || 'SUM';
-
-                    this.api.asc_insertFormula(this.api.asc_getFormulaLocaleName(item.value), Asc.c_oAscPopUpSelectorType.Func, true);
+                    this.toolbar.fireEvent('function:apply', [{name: this.api.asc_getFormulaLocaleName(item.value), origin: item.value}, true]);
 
                     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                     Common.component.Analytics.trackEvent('ToolBar', 'Insert formula');
@@ -1703,7 +1701,7 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.editFormula, is_formula,
                         { array: [toolbar.cmbFontName, toolbar.cmbFontSize, toolbar.btnIncFontSize, toolbar.btnDecFontSize,
                             toolbar.btnBold, toolbar.btnItalic, toolbar.btnUnderline, toolbar.btnStrikeout, toolbar.btnSubscript, toolbar.btnTextColor]});
-                toolbar.lockToolbar(SSE.enumLock.editText, is_text, {array:[toolbar.btnInsertFormula]});
+                toolbar.lockToolbar(SSE.enumLock.editText, is_text, {array: [toolbar.btnInsertFormula].concat(toolbar.btnsFormula)});
             }
             this._state.coauthdisable = undefined;
             this._state.selection_type = undefined;
@@ -3105,11 +3103,17 @@ define([
                         me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
                         me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
 
+                        var formulatab = me.getApplication().getController('FormulaDialog');
+                        formulatab.setConfig({toolbar: me});
+                        formulatab = formulatab.getView('FormulaTab');
+                        me.toolbar.btnsFormula = formulatab.getButtons('formula');
+                        Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
+
                         if ( !config.isOffline ) {
                             tab = {action: 'pivot', caption: me.textPivot};
                             $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
                             if ($panel) {
-                                me.toolbar.addTab(tab, $panel, 4);
+                                me.toolbar.addTab(tab, $panel, 5);
                                 me.toolbar.setVisible('pivot', true);
                             }
                         }
@@ -3117,7 +3121,7 @@ define([
                         var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                         var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                         if ( $panel )
-                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.addTab(tab, $panel, 6);
 
                         if (!(config.customization && config.customization.compactHeader)) {
                             // hide 'print' and 'save' buttons group and next separator
@@ -3136,7 +3140,7 @@ define([
                                 tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                                 $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                                 if ($panel)
-                                    me.toolbar.addTab(tab, $panel, 6);
+                                    me.toolbar.addTab(tab, $panel, 7);
                             }
                         }
                     }
