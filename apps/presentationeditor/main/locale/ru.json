@@ -96,6 +96,7 @@
   "Common.Views.Header.tipRedo": "Повторить",
   "Common.Views.Header.tipSave": "Сохранить",
   "Common.Views.Header.tipUndo": "Отменить",
+  "Common.Views.Header.tipUndock": "Открепить в отдельном окне",
   "Common.Views.Header.tipViewSettings": "Параметры представления",
   "Common.Views.Header.tipViewUsers": "Просмотр пользователей и управление правами доступа к документу",
   "Common.Views.Header.txtAccessRights": "Изменить права доступа",

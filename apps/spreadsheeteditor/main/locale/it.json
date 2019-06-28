@@ -252,7 +252,7 @@
   "SSE.Controllers.DocumentHolder.rightText": "A destra",
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Larghezza colonne {0} simboli ({1} pixel)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Altezza righe {0} punti ({1} pixel)",
-  "SSE.Controllers.DocumentHolder.textCtrlClick": "Premi CTRL e clicca sul collegamento",
+  "SSE.Controllers.DocumentHolder.textCtrlClick": "Fare clic sul collegamento per aprirlo o fare clic e tenere premuto il pulsante del mouse per selezionare la cella.",
   "SSE.Controllers.DocumentHolder.textInsertLeft": "Insert Left",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Insert Top",
   "SSE.Controllers.DocumentHolder.textSym": "sym",
