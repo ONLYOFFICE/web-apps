@@ -583,7 +583,7 @@ define([
                     me.btnInsDateTime = new Common.UI.Button({
                         id: 'id-toolbar-btn-datetime',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-editheader',
+                        iconCls: 'btn-datetime',
                         caption: me.capBtnDateTime,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
                     });
@@ -592,7 +592,7 @@ define([
                     me.btnInsSlideNum = new Common.UI.Button({
                         id: 'id-toolbar-btn-slidenum',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-editheader',
+                        iconCls: 'btn-pagenum',
                         caption: me.capBtnSlideNum,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
                     });
