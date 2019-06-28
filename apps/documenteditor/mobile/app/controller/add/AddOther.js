@@ -163,6 +163,7 @@ define([
                 if (me.api) {
                     me.api.asc_SetFootnoteProps(props, false);
                     me.api.asc_AddFootnote();
+                    DE.getController('AddContainer').hideModal();
                 }
             },
 
