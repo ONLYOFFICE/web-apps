@@ -231,19 +231,28 @@
 
         window.frameEditorId = params["frameEditorId"];
 
-        if ( lang == 'bg') { presenter = 'Изглед на презентатора';}
-        else if ( lang == 'cs') { presenter = 'Zobrazení přednášejícího';}
+
+        if ( lang == 'bg') { presenter = 'Изглед на презентатора'; loading = 'Зареждане...';}
+        else if ( lang == 'cs') { presenter = 'Zobrazení přednášejícího'; loading = 'Nahrávám...';}
         else if ( lang == 'de') { presenter = 'Referentenansicht'; loading = 'Ladevorgang...';}
         else if ( lang == 'es') { presenter = 'Vista del presentador'; loading = 'Cargando...';}
         else if ( lang == 'fr') { presenter = 'Mode présentateur'; loading = 'Chargement en cours...';}
         else if ( lang == 'it') { presenter = 'Visualizzazione del presenter'; loading = 'Caricamento in corso...';}
-        else if ( lang == 'pl') { presenter = 'Widok Prezentera';}
+        else if ( lang == 'pl') { presenter = 'Widok Prezentera'; loading = 'Ładowanie...';}
         else if ( lang == 'pt') { presenter = 'Vista de apresentador'; loading = 'Carregando...';}
         else if ( lang == 'ru') { presenter = 'Режим докладчика'; loading = 'Загрузка...';}
-        else if ( lang == 'sk') { presenter = 'Režim prezentácie';}
+        else if ( lang == 'sk') { presenter = 'Režim prezentácie'; loading = 'Nahrávam...';}
         else if ( lang == 'sl') { loading = 'Nalaganje...';}
         else if ( lang == 'zh') { presenter = '演示者视图';}
         else if ( lang == 'tr') { loading = 'Yükleniyor...';}
+        else if ( lang == 'hu') loading = 'Betöltés...';
+        else if ( lang == 'ja') loading = '読み込み中...';
+        else if ( lang == 'ko') loading = '로드 중...';
+        else if ( lang == 'lv') loading = 'Ieladēšana ...';
+        else if ( lang == 'nl') loading = 'Laden...';
+        else if ( lang == 'uk') loading = 'Завантаження...';
+        else if ( lang == 'vi') loading = 'Đang tải...';
+        else if ( lang == 'zh') loading = '加载中...';
         window.document.title = presenter;
 
         if (!stopLoading)
