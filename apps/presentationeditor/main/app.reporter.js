@@ -96,34 +96,7 @@ require([
     });
 
     var setDocumentTitle = function(title) {
-        function getUrlParams() {
-            var e,
-                a = /\+/g,  // Regex for replacing addition symbol with a space
-                r = /([^&=]+)=?([^&]*)/g,
-                d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-                q = window.location.search.substring(1),
-                urlParams = {};
-
-            while (e = r.exec(q))
-                urlParams[d(e[1])] = d(e[2]);
-
-            return urlParams;
-        }
-        var params = getUrlParams(),
-            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            presenter = 'Presenter View';
-
-        if ( lang == 'de')      presenter = '';
-        else if ( lang == 'es') presenter = '';
-        else if ( lang == 'fr') presenter = '';
-        else if ( lang == 'it') presenter = '';
-        else if ( lang == 'pt') presenter = '';
-        else if ( lang == 'ru') presenter = 'Режим докладчика';
-        else if ( lang == 'sl') presenter = '';
-        else if ( lang == 'tr') presenter = '';
-        presenter && (presenter += ' - ');
-
-        window.document.title = presenter + (title || '');
+        (title) && (window.document.title += (' - ' + title));
     };
 
     function load_document(data) {
