@@ -1212,7 +1212,7 @@ define([
                 value       = item.asc_getText();
                 isnumber    = isNumeric(value);
                 applyfilter = true;
-                // count = item.asc_getCount();//Math.floor(Math.random() * 5000 + 1);
+                count = item.asc_getRepeats();
 
                 if (me.filter) {
                     if (null === value.match(me.filter)) {
