@@ -76,7 +76,7 @@ define([
 
                 this.btnFinancial = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-finance',
                     caption: formulaDialog.sCategoryFinancial,
                     hint: formulaDialog.sCategoryFinancial,
                     menu: true,
@@ -89,7 +89,7 @@ define([
 
                 this.btnLogical = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-logic',
                     caption: formulaDialog.sCategoryLogical,
                     hint: formulaDialog.sCategoryLogical,
                     menu: true,
@@ -102,7 +102,7 @@ define([
 
                 this.btnTextData = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-func-text',
                     caption: formulaDialog.sCategoryTextAndData,
                     hint: formulaDialog.sCategoryTextAndData,
                     menu: true,
@@ -115,7 +115,7 @@ define([
 
                 this.btnDateTime = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-datetime',
                     caption: formulaDialog.sCategoryDateAndTime,
                     hint: formulaDialog.sCategoryDateAndTime,
                     menu: true,
@@ -128,7 +128,7 @@ define([
 
                 this.btnReference = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-lookup',
                     caption: formulaDialog.sCategoryLookupAndReference,
                     hint: formulaDialog.sCategoryLookupAndReference,
                     menu: true,
@@ -141,7 +141,7 @@ define([
 
                 this.btnMath = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-func-math',
                     caption: formulaDialog.sCategoryMathematic,
                     hint: formulaDialog.sCategoryMathematic,
                     menu: true,
@@ -154,7 +154,7 @@ define([
 
                 this.btnRecent = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-recent',
                     caption: this.txtRecent,
                     hint: this.txtRecent,
                     menu: true,
@@ -167,7 +167,7 @@ define([
 
                 this.btnAutosum = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-autosum',
                     caption: this.txtAutosum,
                     hint: this.txtAutosumTip,
                     split: true,
@@ -192,7 +192,7 @@ define([
 
                 this.btnFormula = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-ins-formula',
                     caption: this.txtFormula,
                     hint: this.txtFormulaTip,
                     disabled: true,
@@ -203,7 +203,7 @@ define([
 
                 this.btnMore = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-more',
                     caption: this.txtMore,
                     hint: this.txtMore,
                     menu: true,
