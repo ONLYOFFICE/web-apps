@@ -150,7 +150,8 @@ require([
             'AddShape',
             'AddImage',
             'AddOther',
-            'Collaboration'
+            'Collaboration',
+            'Plugins'
         ]
     });
 
@@ -220,7 +221,8 @@ require([
         'documenteditor/mobile/app/controller/add/AddShape',
         'documenteditor/mobile/app/controller/add/AddImage',
         'documenteditor/mobile/app/controller/add/AddOther',
-        'documenteditor/mobile/app/controller/Collaboration'
+        'documenteditor/mobile/app/controller/Collaboration',
+        'documenteditor/mobile/app/controller/Plugins'
     ], function() {
         window.compareVersions = true;
         app.start();
