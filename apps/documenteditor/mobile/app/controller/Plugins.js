@@ -49,7 +49,8 @@ define([
 
     DE.Controllers.Plugins = Backbone.Controller.extend(_.extend((function() {
         // Private
-        var rootView;
+        var rootView,
+            modal;
 
         return {
             models: [],
@@ -65,6 +66,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.showPluginModal, this));
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.pluginClose, this));
+                this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.pluginResize, this));
             },
 
             onLaunch: function () {
@@ -102,7 +104,7 @@ define([
                                 };
                         });
                     }
-                    var modal = uiApp.modal({
+                    modal = uiApp.modal({
                         title: '',
                         text: '',
                         afterText:
@@ -133,9 +135,11 @@ define([
                     });
                     $$(modal).find('.modal-inner').css({padding: '0'});
                     if (Common.SharedSettings.get('phone')) {
-                        $$(modal).find('#plugin-frame').css({height: '240px'});
+                        var height = Math.min(size[1], 240);
+                        $$(modal).find('#plugin-frame').css({height: height + 'px'});
                     } else {
-                        $$(modal).find('#plugin-frame').css({height: '500px'});
+                        var height = Math.min(size[1], 500);
+                        $$(modal).find('#plugin-frame').css({height: height + 'px'});
                     }
 
                     if (Framework7.prototype.device.android === true) {
@@ -155,6 +159,16 @@ define([
             pluginClose: function (plugin) {
                 if (this.iframe) {
                     this.iframe = null;
+                }
+            },
+
+            pluginResize: function(size) {
+                if (Common.SharedSettings.get('phone')) {
+                    var height = Math.min(size[1], 240);
+                    $$(modal).find('#plugin-frame').css({height: height + 'px'});
+                } else {
+                    var height = Math.min(size[1], 500);
+                    $$(modal).find('#plugin-frame').css({height: height + 'px'});
                 }
             },
 
