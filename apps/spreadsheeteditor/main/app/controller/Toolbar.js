@@ -1091,6 +1091,19 @@ define([
             if (this.api) {
                 if (item.value == -1) {
                     // show more formats
+                    if (this._state.numformatinfo && this._state.numformatinfo.asc_getType()==Asc.c_oAscNumFormatType.Accounting)
+                        this.onCustomNumberFormat();
+                    else {
+                        var value = this.api.asc_getLocale();
+                        (!value) && (value = ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409));
+
+                        var info = new Asc.asc_CFormatCellsInfo();
+                        info.asc_setType(Asc.c_oAscNumFormatType.Accounting);
+                        info.asc_setSeparator(false);
+                        info.asc_setSymbol(value);
+                        var format = this.api.asc_getFormatCells(info);
+                        this.onCustomNumberFormat((format && format.length>0) ? format[0] : undefined, info);
+                    }
                 } else {
                     var info = new Asc.asc_CFormatCellsInfo();
                     info.asc_setType(Asc.c_oAscNumFormatType.Accounting);
@@ -1117,7 +1130,7 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
         },
 
-        onCustomNumberFormat: function() {
+        onCustomNumberFormat: function(format, formatInfo) {
             var me = this,
                 value = me.api.asc_getLocale();
             (!value) && (value = ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409));
@@ -1130,7 +1143,7 @@ define([
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 },
-                props   : {format: me._state.numformat, formatInfo: me._state.numformatinfo, langId: value}
+                props   : {format: format ? format : me._state.numformat, formatInfo: formatInfo ? formatInfo : me._state.numformatinfo, langId: value}
             })).show();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
