@@ -130,6 +130,7 @@ require([
         nameSpace: 'DE',
         autoCreate: false,
         controllers : [
+            'Common.Controllers.Plugins',
             'Editor',
             'Toolbar',
             'Search',
@@ -200,6 +201,7 @@ require([
     require([
         'common/main/lib/util/LocalStorage',
         'common/main/lib/util/utils',
+        'common/mobile/lib/controller/Plugins',
         'documenteditor/mobile/app/controller/Editor',
         'documenteditor/mobile/app/controller/Toolbar',
         'documenteditor/mobile/app/controller/Search',

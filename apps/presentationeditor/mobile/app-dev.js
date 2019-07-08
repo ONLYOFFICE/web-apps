@@ -127,6 +127,7 @@ require([
         nameSpace: 'PE',
         autoCreate: false,
         controllers : [
+            'Common.Controllers.Plugins',
             'Editor',
             'Toolbar',
             'Search',
@@ -195,6 +196,7 @@ require([
     require([
         'common/main/lib/util/LocalStorage',
         'common/main/lib/util/utils',
+        'common/mobile/lib/controller/Plugins',
         'presentationeditor/mobile/app/controller/Editor',
         'presentationeditor/mobile/app/controller/Toolbar',
         'presentationeditor/mobile/app/controller/Search',

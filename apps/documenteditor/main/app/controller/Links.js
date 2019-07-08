@@ -294,7 +294,9 @@ define([
                             if (settings) {
                                 me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
                                 if (result == 'insert')
-                                    me.api.asc_AddFootnote(settings.custom);
+                                    setTimeout(function() {
+                                        me.api.asc_AddFootnote(settings.custom);
+                                    }, 1);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },
