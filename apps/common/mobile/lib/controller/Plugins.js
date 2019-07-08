@@ -33,12 +33,17 @@
 
 /**
  *  Plugins.js
- *  Document Editor
  *
- *  Created by Julia Svinareva on 1/7/19
+ *  Created by Julia Svinareva on 8/7/19
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
+
+if (Common === undefined)
+    var Common = {};
+
+Common.Controllers = Common.Controllers || {};
+
 define([
     'core',
     'jquery',
@@ -47,10 +52,9 @@ define([
 ], function (core, $, _, Backbone) {
     'use strict';
 
-    DE.Controllers.Plugins = Backbone.Controller.extend(_.extend((function() {
+    Common.Controllers.Plugins = Backbone.Controller.extend(_.extend((function() {
         // Private
-        var rootView,
-            modal;
+        var modal;
 
         return {
             models: [],
@@ -80,7 +84,6 @@ define([
             showPluginModal: function(plugin, variationIndex, frameId, urlAddition) {
                 var me = this,
                     isAndroid = Framework7.prototype.device.android === true,
-                    mainView = DE.getController('Editor').getView('Editor').f7View,
                     isEdit = me.appConfig.isEdit;
 
                 uiApp.closeModal();
@@ -131,7 +134,7 @@ define([
                         width: '90%',
                         left: '5%',
                         height: 'auto',
-                        top: '20px',
+                        top: '20px'
                     });
                     $$(modal).find('.modal-inner').css({padding: '0'});
                     if (Common.SharedSettings.get('phone')) {
@@ -146,8 +149,6 @@ define([
                         $$('.view.collaboration-root-view.navbar-through').removeClass('navbar-through').addClass('navbar-fixed');
                         $$('.view.collaboration-root-view .navbar').prependTo('.view.collaboration-root-view > .pages > .page');
                     }
-
-                    DE.getController('Toolbar').getView('Toolbar').hideSearch();
                 }
             },
 
@@ -175,5 +176,5 @@ define([
             textCancel: 'Cancel',
             textLoading: 'Loading'
         }
-    })(), DE.Controllers.Plugins || {}))
+    })(), Common.Controllers.Plugins || {}))
 });

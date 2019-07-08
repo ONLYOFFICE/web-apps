@@ -130,6 +130,7 @@ require([
         nameSpace: 'DE',
         autoCreate: false,
         controllers : [
+            'Common.Controllers.Plugins',
             'Editor',
             'Toolbar',
             'Search',
@@ -150,8 +151,7 @@ require([
             'AddShape',
             'AddImage',
             'AddOther',
-            'Collaboration',
-            'Plugins'
+            'Collaboration'
         ]
     });
 
@@ -201,6 +201,7 @@ require([
     require([
         'common/main/lib/util/LocalStorage',
         'common/main/lib/util/utils',
+        'common/mobile/lib/controller/Plugins',
         'documenteditor/mobile/app/controller/Editor',
         'documenteditor/mobile/app/controller/Toolbar',
         'documenteditor/mobile/app/controller/Search',
@@ -221,8 +222,7 @@ require([
         'documenteditor/mobile/app/controller/add/AddShape',
         'documenteditor/mobile/app/controller/add/AddImage',
         'documenteditor/mobile/app/controller/add/AddOther',
-        'documenteditor/mobile/app/controller/Collaboration',
-        'documenteditor/mobile/app/controller/Plugins'
+        'documenteditor/mobile/app/controller/Collaboration'
     ], function() {
         window.compareVersions = true;
         app.start();
