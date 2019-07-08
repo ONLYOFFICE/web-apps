@@ -162,7 +162,9 @@ define([
                 props.put_NumRestart(Asc.c_oAscFootnoteRestart.Continuous);
                 if (me.api) {
                     me.api.asc_SetFootnoteProps(props, false);
-                    me.api.asc_AddFootnote();
+                    setTimeout(function() {
+                        me.api.asc_AddFootnote();
+                    }, 1);
                     DE.getController('AddContainer').hideModal();
                 }
             },
