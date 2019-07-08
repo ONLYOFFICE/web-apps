@@ -130,8 +130,8 @@ define([
     },
 
     onLangSelect: function(cmb, rec, e) {
-        cmb.$el.find('.input-icon').toggleClass('spellcheck-lang', rec.spellcheck);
-        cmb._input.css('padding-left', rec.spellcheck ? 25 : 3);
+        cmb.$el.find('.input-icon').toggleClass('spellcheck-lang', rec && rec.spellcheck);
+        cmb._input.css('padding-left', rec && rec.spellcheck ? 25 : 3);
     },
 
     onPrimary: function() {
