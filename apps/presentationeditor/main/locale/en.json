@@ -951,6 +951,8 @@
   "PE.Views.DateTimeDialog.textLang": "Language",
   "PE.Views.DateTimeDialog.textFormat": "Formats",
   "PE.Views.DateTimeDialog.textUpdate": "Update automatically",
+  "PE.Views.DateTimeDialog.textDefault": "Set as default",
+  "PE.Views.DateTimeDialog.confirmDefault": "Set default format for {0}: \"{1}\"",
   "PE.Views.DocumentHolder.aboveText": "Above",
   "PE.Views.DocumentHolder.addCommentText": "Add Comment",
   "PE.Views.DocumentHolder.advancedImageText": "Image Advanced Settings",

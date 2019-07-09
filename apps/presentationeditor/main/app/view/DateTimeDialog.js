@@ -47,7 +47,7 @@ define([
 
     PE.Views.DateTimeDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 300,
+            width: 350,
             style: 'min-width: 230px;',
             cls: 'modal-dlg'
         },
@@ -61,7 +61,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 287px;">',
+                '<div class="box" style="height: 275px;">',
                     '<div class="input-row">',
                         '<label style="font-weight: bold;">' + this.textLang + '</label>',
                     '</div>',
@@ -69,9 +69,10 @@ define([
                     '<div class="input-row">',
                         '<label style="font-weight: bold;">' + this.textFormat + '</label>',
                     '</div>',
-                    '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 184px; overflow: hidden;"></div>',
+                    '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 165px; overflow: hidden;"></div>',
                     '<div class="input-row">',
-                        '<div id="datetime-dlg-update"></div>',
+                        '<div id="datetime-dlg-update" style="margin-top: 3px;"></div>',
+                        '<button type="button" class="btn btn-text-default auto" id="datetime-dlg-default" style="float: right;">' + this.textDefault + '</button>',
                     '</div>',
                 '</div>',
                 '<div class="footer center">',
@@ -130,20 +131,56 @@ define([
             this.listFormats.on('entervalue', _.bind(this.onPrimary, this));
             this.listFormats.$el.find('.listview').focus();
 
+            this.btnDefault = new Common.UI.Button({
+                el: $('#datetime-dlg-default')
+            });
+            this.btnDefault.on('click', _.bind(function(btn, e) {
+                var rec = this.listFormats.getSelectedRec();
+                Common.UI.warning({
+                    msg: Common.Utils.String.format(this.confirmDefault, Common.util.LanguageInfo.getLocalLanguageName(this.cmbLang.getValue())[1], rec ? rec.get('value') : ''),
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: _.bind(function(btn) {
+                        if (btn == 'yes') {
+                            this.defaultFormats[this.cmbLang.getValue()] = rec ? rec.get('format') : '';
+                            this.api.asc_setDefaultDateTimeFormat(this.defaultFormats);
+                            var arr = [];
+                            for (var name in this.defaultFormats) {
+                                if (name) {
+                                    arr.push(name + ' ' + this.defaultFormats[name]);
+                                }
+                            }
+                            var value = arr.join(';');
+                            Common.localStorage.setItem("pe-settings-datetime-default", value);
+                            Common.Utils.InternalSettings.set("pe-settings-datetime-default", value);
+                        }
+                    }, this)
+                });
+            }, this));
+
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
         },
 
         afterRender: function() {
+            var me = this,
+                value =  Common.Utils.InternalSettings.get("pe-settings-datetime-default"),
+                arr = (value) ? value.split(';') : [];
+            this.defaultFormats = [];
+            arr.forEach(function(item){
+                var pair = item.split(' ');
+                me.defaultFormats[parseInt(pair[0])] = pair[1];
+            });
+
             this._setDefaults();
         },
 
         _setDefaults: function () {
             this.props = new AscCommonSlide.CAscDateTime();
-
             if (this.lang) {
                 var item = this.cmbLang.store.findWhere({value: this.lang});
-                this.cmbLang.setValue(item ? item.get('value') : 0x0409);
+                item = item ? item.get('value') : 0x0409;
+                this.cmbLang.setValue(item)
             }
             this.updateFormats(this.cmbLang.getValue());
         },
@@ -167,9 +204,12 @@ define([
                     arr.push(rec);
                 }
             }
-            this.listFormats.store.reset(arr);
-            this.listFormats.selectByIndex(0);
-            this.onSelectFormat(this.listFormats, null, this.listFormats.getSelectedRec());
+            store.reset(arr);
+            var format = this.defaultFormats[lang];
+            format ? this.listFormats.selectRecord(store.findWhere({format: format})) : this.listFormats.selectByIndex(0);
+            var rec = this.listFormats.getSelectedRec();
+            this.listFormats.scrollToRecord(rec);
+            this.onSelectFormat(this.listFormats, null, rec);
         },
 
         onSelectFormat: function(lisvView, itemView, record) {
@@ -205,11 +245,13 @@ define([
 
         //
         cancelButtonText: 'Cancel',
-        okButtonText: 'Ok',
+        okButtonText: 'OK',
         txtTitle: 'Date & Time',
         textLang: 'Language',
         textFormat: 'Formats',
-        textUpdate: 'Update automatically'
+        textUpdate: 'Update automatically',
+        textDefault: 'Set as default',
+        confirmDefault: 'Set default format for {0}: "{1}"'
 
     }, PE.Views.DateTimeDialog || {}));
 });
