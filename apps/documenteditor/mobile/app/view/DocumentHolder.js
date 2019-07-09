@@ -82,9 +82,14 @@ define([
                 }
 
                 var menuItemTemplate = _.template([
-                    '<% _.each(menuItems, function(item) { %>',
-                    '<li data-event="<%= item.event %>"><a href="#" class="item-link list-button"><%= item.caption %></li>',
-                    '<% }); %>'
+                    '<% if(menuItems.itemsIcon) {%>',
+                    '<% _.each(menuItems.itemsIcon, function(item) { %>',
+                    '<li data-event="<%= item.event %>"><a href="#" class="item-link list-button"><i class="icon <%= item.icon %>"></i></a></li>',
+                    '<% }); }%>',
+                    '<% if(menuItems.items) {%>',
+                    '<% _.each(menuItems.items, function(item) { %>',
+                    '<li data-event="<%= item.event %>"><a href="#" class="item-link list-button"><%= item.caption %></a></li>',
+                    '<% }); }%>'
                 ].join(''));
 
                 $('#' + _anchorId)
