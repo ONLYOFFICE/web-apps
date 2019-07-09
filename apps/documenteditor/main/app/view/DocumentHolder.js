@@ -815,19 +815,19 @@ define([
 
                     if (arr.length > 0) {
                         if (isParagraph) {
-                            _.each(arr, function(variant){
-                                me.textMenu.insertItem(0, variant);
+                            _.each(arr, function(variant, index){
+                                me.textMenu.insertItem(index, variant);
                             })
                         } else {
-                            _.each(arr, function(variant){
-                                me.menuSpellCheckTable.menu.insertItem(0, variant);
+                            _.each(arr, function(variant, index){
+                                me.menuSpellCheckTable.menu.insertItem(index, variant);
                             })
                         }
                     }
 
                     if (arrMore.length > 0) {
-                        _.each(arrMore, function(variant){
-                            moreMenu.menu.insertItem(0, variant);
+                        _.each(arrMore, function(variant, index){
+                            moreMenu.menu.addItem(variant);
                         });
                     }
 

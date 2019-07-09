@@ -324,7 +324,7 @@ define([
                         } else if (index === 0) {
                             menuRoot.prepend(item.render().el);
                         } else {
-                            $('li:nth-child(' + (index+1) + ')', menuRoot).before(item.render().el);
+                            menuRoot.children('li:nth-child(' + (index+1) + ')').before(item.render().el);
                         }
 
                         item.on('click',  _.bind(me.onItemClick, me));
