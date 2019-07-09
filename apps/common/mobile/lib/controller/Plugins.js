@@ -57,6 +57,8 @@ define([
         var modal;
 
         return {
+            configPlugins: {autostart:[]},// {config: 'from editor config', plugins: 'loaded plugins', UIplugins: 'loaded customization plugins', autostart: 'autostart guids'}
+            serverPlugins: {autostart:[]},
             models: [],
             collections: [],
             views: [
@@ -71,9 +73,11 @@ define([
                 this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.showPluginModal, this));
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.pluginClose, this));
                 this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.pluginResize, this));
+                this.loadPlugins();
             },
 
             onLaunch: function () {
+                Common.Gateway.on('init', this.loadConfig.bind(this));
             },
 
             setMode: function(mode) {
@@ -171,6 +175,84 @@ define([
                     var height = Math.min(size[1], 500);
                     $$(modal).find('#plugin-frame').css({height: height + 'px'});
                 }
+            },
+
+            loadConfig: function(data) {
+                this.configPlugins.config = data.config.plugins;
+            },
+
+            loadPlugins: function() {
+                var me = this;
+                if (me.configPlugins.config) {
+                    me.configPlugins.plugins = me.getPlugins(me.configPlugins.config);
+                    me.registerPlugins();
+                } else {
+                    me.configPlugins.plugins = false;
+                }
+                var server_plugins_url = '../../../../plugins.json';
+                Common.Utils.loadConfig(server_plugins_url, function (obj) {
+                    if ( obj != 'error' ) {
+                        me.serverPlugins.config = obj;
+                        me.serverPlugins.plugins = me.getPlugins(me.serverPlugins.config);
+                        me.registerPlugins();
+                    } else
+                        me.serverPlugins.config = false;
+                });
+            },
+
+            registerPlugins: function() {
+                var me = this;
+                if (me.serverPlugins.plugins && me.configPlugins.plugins) {
+                    var arr = me.configPlugins.plugins;
+                    arr = arr.concat(me.serverPlugins.plugins);
+                    me.api.asc_pluginsRegister('', arr);
+                } else if (me.serverPlugins.plugins) {
+                    me.api.asc_pluginsRegister('', me.serverPlugins.plugins);
+                } else {
+                    me.api.asc_pluginsRegister('', me.configPlugins.plugins);
+                }
+            },
+
+            getPlugins: function(pluginsConfig) {
+                var arrPluginsConfigs = [];
+                pluginsConfig.pluginsData.forEach(function(item) {
+                    var value = window["Asc"].loadConfigAsInterface(item);
+                    value["baseUrl"] = item.substring(0, item.lastIndexOf("config.json"));
+                    arrPluginsConfigs.push(value);
+                });
+                var arrPlugins = [];
+                arrPluginsConfigs.forEach(function (item) {
+                    var plugin = new Asc.CPlugin();
+                    plugin["set_Name"](item["name"]);
+                    plugin["set_Guid"](item["guid"]);
+                    plugin["set_BaseUrl"](item["baseUrl"]);
+                    var variations = item["variations"];
+                    var variationsArr = [];
+                    variations.forEach(function (itemVar) {
+                        var variation = new Asc.CPluginVariation();
+                        variation["set_Description"](itemVar["description"]);
+                        variation["set_Url"](itemVar["url"]);
+                        variation["set_Icons"](itemVar["icons"]);
+                        variation["set_Visual"](itemVar["isVisual"]);
+                        variation["set_CustomWindow"](itemVar["'isCustomWindow"]);
+                        variation["set_System"](itemVar["isSystem"]);
+                        variation["set_Viewer"](itemVar["isViewer"]);
+                        variation["set_EditorsSupport"](itemVar["EditorsSupport"]);
+                        variation["set_Modal"](itemVar["isModal"]);
+                        variation["set_InsideMode"](itemVar["isInsideMode"]);
+                        variation["set_InitDataType"](itemVar["initDataType"]);
+                        variation["set_InitData"](itemVar["initData"]);
+                        variation["set_UpdateOleOnResize"](itemVar["isUpdateOleOnResize"]);
+                        variation["set_Buttons"](itemVar["buttons"]);
+                        variation["set_Size"](itemVar["size"]);
+                        variation["set_InitOnSelectionChanged"](itemVar["initOnSelectionChanged"]);
+                        variation["set_Events"](itemVar["events"]);
+                        variationsArr.push(variation);
+                    });
+                    plugin["set_Variations"](variationsArr);
+                    arrPlugins.push(plugin);
+                });
+                return arrPlugins;
             },
 
             textCancel: 'Cancel',
