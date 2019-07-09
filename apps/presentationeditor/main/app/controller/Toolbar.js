@@ -52,6 +52,7 @@ define([
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
     'presentationeditor/main/app/view/DateTimeDialog',
+    'presentationeditor/main/app/view/HeaderFooterDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
     'presentationeditor/main/app/view/SlideshowSettings'
@@ -1477,7 +1478,21 @@ define([
                     }
                 })).show();
             } else {
-                //insert header/footer
+                //edit header/footer
+                var me = this;
+                (new PE.Views.HeaderFooterDialog({
+                    api: this.api,
+                    lang: this.api.asc_getDefaultLanguage(),
+                    props: this.api.asc_getHeaderFooterProperties(),
+                    handler: function(result, value) {
+                        if (result == 'ok' || result == 'all') {
+                            if (me.api) {
+                                me.api.asc_setHeaderFooterProperties(value, result == 'all');
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             }
         },
 
