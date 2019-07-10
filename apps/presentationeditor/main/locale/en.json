@@ -1522,6 +1522,8 @@
   "PE.Views.SlideSettings.txtLeather": "Leather",
   "PE.Views.SlideSettings.txtPapyrus": "Papyrus",
   "PE.Views.SlideSettings.txtWood": "Wood",
+  "PE.Views.SlideSettings.strSlideNum": "Show Slide Number",
+  "PE.Views.SlideSettings.strDateTime": "Show Date and Time",
   "PE.Views.SlideshowSettings.cancelButtonText": "Cancel",
   "PE.Views.SlideshowSettings.okButtonText": "OK",
   "PE.Views.SlideshowSettings.textLoop": "Loop continuously until 'Esc' is pressed",

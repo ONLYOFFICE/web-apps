@@ -79,7 +79,8 @@ define([
             this._stateDisabled = {
                 background: true,
                 effects: true,
-                timing: true
+                timing: true,
+                header: true
             };
 
             this._state = {
@@ -249,6 +250,20 @@ define([
                 if (this.api) this.api.SlideTimingApplyToAll();
                 this.fireEvent('editcomplete', this);
             }, this));
+
+            this.chSlideNum = new Common.UI.CheckBox({
+                el: $('#slide-checkbox-slidenum'),
+                labelText: this.strSlideNum,
+                disabled: true
+            });
+            this.chSlideNum.on('change', _.bind(this.onHeaderChange, this, 'slidenum'));
+
+            this.chDateTime = new Common.UI.CheckBox({
+                el: $('#slide-checkbox-datetime'),
+                labelText: this.strDateTime,
+                disabled: true
+            });
+            this.chDateTime.on('change', _.bind(this.onHeaderChange, this, 'datetime'));
         },
 
         render: function () {
@@ -1011,6 +1026,15 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onHeaderChange: function(type, field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply)   {
+                var props = this.api.asc_getHeaderFooterProperties();
+                props.get_Slide()[(type=='slidenum') ? 'put_ShowSlideNum' : 'put_ShowDateTime'](field.getValue()=='checked');
+                this.api.asc_setHeaderFooterProperties(props);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         UpdateThemeColors: function() {
             if (!this.btnBackColor) {
                 this.btnBackColor = new Common.UI.ColorButton({
@@ -1419,11 +1443,19 @@ define([
                     this._state.GradColor = color;
                 }
 
+
+                value = this.api.asc_getHeaderFooterProperties();
+                if (value) {
+                    var slideprops = value.get_Slide() || new AscCommonSlide.CAscHFProps();
+                    this.chSlideNum.setValue(!!slideprops.get_ShowSlideNum(), true);
+                    this.chDateTime.setValue(!!slideprops.get_ShowDateTime(), true);
+                }
+
                 this._noApply = false;
             }
         },
 
-        SetSlideDisabled: function(background, effects, timing) {
+        SetSlideDisabled: function(background, effects, timing, header) {
             if (this._initSettings) return;
             
             if (background !== this._stateDisabled.background) {
@@ -1447,6 +1479,11 @@ define([
                 this.numDelay.setDisabled(timing || this.chDelay.getValue()!=='checked');
                 this.btnApplyToAll.setDisabled(timing);
                 this._stateDisabled.timing = timing;
+            }
+            if (header !== this._stateDisabled.header) {
+                this.chSlideNum.setDisabled(header);
+                this.chDateTime.setDisabled(header);
+                this._stateDisabled.header = header;
             }
         },
 
@@ -1520,6 +1557,8 @@ define([
         textDirection: 'Direction',
         textStyle: 'Style',
         textGradient: 'Gradient',
-        textSec: 's'
+        textSec: 's',
+        strSlideNum: 'Show Slide Number',
+        strDateTime: 'Show Date and Time'
     }, PE.Views.SlideSettings || {}));
 });
