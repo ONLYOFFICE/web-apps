@@ -139,9 +139,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             });
             this.cmbLang.setValue(0x0409);
             this.cmbLang.on('selected', _.bind(function(combo, record) {
-                this.props.get_DateTime().put_Lang(record.value);
                 this.updateFormats(record.value);
-                this.onSelectFormat();
             }, this));
             this.dateControls.push(this.cmbLang);
 
@@ -152,9 +150,6 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 editable    : false,
                 data        : []
             });
-            this.cmbFormat.on('selected', _.bind(function(combo, record) {
-                this.onSelectFormat(record.value);
-            }, this));
             this.dateControls.push(this.cmbFormat);
 
             this.chUpdate = new Common.UI.CheckBox({
@@ -162,18 +157,12 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 labelText: this.textUpdate,
                 value: 'checked'
             });
-            this.chUpdate.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this.onSelectFormat();
-            }, this));
             this.dateControls.push(this.chUpdate);
 
             this.chNotTitle = new Common.UI.CheckBox({
                 el: $('#hf-dlg-chb-not-title'),
                 labelText: this.textNotTitle
             });
-            this.chNotTitle.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this.props.put_ShowOnTitleSlide(newValue!='checked');
-            }, this));
 
             this.afterRender();
         },
@@ -191,10 +180,6 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             this._setDefaults(this.hfProps);
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
-        },
-
         setType: function(type, field, newValue) {
             newValue = (newValue=='checked');
             if (type == 'date') {
@@ -202,11 +187,6 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                     item.setDisabled(!newValue);
                 });
                 this.props.put_ShowDateTime(newValue);
-                if (newValue) {
-                    !this.props.get_DateTime() && this.props.put_DateTime(new AscCommonSlide.CAscDateTime());
-                    this.props.get_DateTime().put_Lang(this.cmbLang.getValue());
-                    this.onSelectFormat();
-                }
             } else if (type == 'slide') {
                 this.props.put_ShowSlideNum(newValue);
             } else if (type == 'footer') {
@@ -289,9 +269,17 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         getSettings: function () {
-            if (this.chFooter.getValue()=='checked') {
-                this.props.put_Footer(this.inputFooter.getValue());
+            var props = this.props;
+            if (props.get_ShowDateTime()) {
+                !props.get_DateTime() && props.put_DateTime(new AscCommonSlide.CAscDateTime());
+                props.get_DateTime().put_Lang(this.cmbLang.getValue());
+                this.onSelectFormat();
             }
+            if (props.get_ShowFooter()) {
+                props.put_Footer(this.inputFooter.getValue());
+            }
+            props.put_ShowOnTitleSlide(this.chNotTitle.getValue()!='checked');
+
             this.hfProps.put_Slide(this.props);
             return this.hfProps;
         },
