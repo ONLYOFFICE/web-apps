@@ -272,7 +272,8 @@ define([
                             '<%= caption %>',
                         '</a>'
                     ].join('')),
-                    menuAlign: 'bl-tl'
+                    menuAlign: 'bl-tl',
+                    search: true
                 });
 
                 this.btnLanguage = new Common.UI.Button({

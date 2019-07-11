@@ -149,6 +149,7 @@ define([
                 menuAlignEl : null,
                 offset      : [0, 0],
                 cyclic      : true,
+                search      : false,
                 scrollAlwaysVisible: true
             },
 
@@ -169,6 +170,7 @@ define([
                 this.menuAlign      = this.options.menuAlign;
                 this.menuAlignEl    = this.options.menuAlignEl;
                 this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
+                this.search = this.options.search;
 
                 if (this.options.restoreHeight) {
                     this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
@@ -229,6 +231,7 @@ define([
 
                 var rootEl = this.cmpEl.parent(),
                     menuRoot = (rootEl.attr('role') === 'menu') ? rootEl : rootEl.find('[role=menu]');
+                this.menuRoot = menuRoot;
 
                 if (menuRoot) {
                     if (!me.rendered) {
@@ -314,10 +317,7 @@ define([
                     me.items.splice(index, 0, item);
 
                 if (this.rendered) {
-                    var menuRoot = (el.attr('role') === 'menu')
-                        ? el
-                        : el.find('[role=menu]');
-
+                    var menuRoot = this.menuRoot;
                     if (menuRoot) {
                         if (index < 0) {
                             menuRoot.append(item.render().el);
@@ -381,7 +381,7 @@ define([
                 this.trigger('show:after', this, e);
                 if (this.scroller) {
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
-                    var menuRoot = (this.cmpEl.attr('role') === 'menu') ? this.cmpEl : this.cmpEl.find('[role=menu]'),
+                    var menuRoot = this.menuRoot,
                         $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
                         var itemTop = $selected.position().top,
@@ -390,8 +390,10 @@ define([
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
                             menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
                         }
+                        setTimeout(function(){$selected.focus();}, 1);
                     }
                 }
+                this._search = {};
             },
 
             onBeforeHideMenu: function(e) {
@@ -422,6 +424,56 @@ define([
                 } else if (e.keyCode == Common.UI.Keys.ESC)  {
 //                    Common.NotificationCenter.trigger('menu:afterkeydown', e);
 //                    return false;
+                } else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
+                    var me = this;
+                    clearTimeout(this._search.timer);
+                    this._search.timer = setTimeout(function () { me._search = {}; }, 1000);
+
+                    (!this._search.text) && (this._search.text = '');
+                    (!this._search.char) && (this._search.char = e.key);
+                    (this._search.char !== e.key) && (this._search.full = true);
+                    this._search.text += e.key;
+                    if (this._search.index===undefined) {
+                        var $items = this.menuRoot.find('> li').find('> a');
+                        this._search.index = $items.index($items.filter(':focus'));
+                    }
+                    this.selectCandidate();
+                }
+            },
+
+            selectCandidate: function() {
+                var index = this._search.index || 0,
+                    re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                    itemCandidate, idxCandidate;
+
+                for (var i=0; i<this.items.length; i++) {
+                    var item = this.items[i];
+                    if (re.test(item.caption)) {
+                        if (!itemCandidate) {
+                            itemCandidate = item;
+                            idxCandidate = i;
+                        }
+                        if (this._search.full && i==index || i>index) {
+                            itemCandidate = item;
+                            idxCandidate = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (itemCandidate) {
+                    this._search.index = idxCandidate;
+                    var item = itemCandidate.cmpEl.find('a');
+                    if (this.scroller) {
+                        this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+                        var itemTop = item.position().top,
+                            itemHeight = item.height(),
+                            listHeight = this.menuRoot.height();
+                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                            this.menuRoot.scrollTop(this.menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        }
+                    }
+                    item.focus();
                 }
             },
 
@@ -453,9 +505,7 @@ define([
             },
 
             alignPosition: function() {
-                var menuRoot    = (this.cmpEl.attr('role') === 'menu')
-                        ? this.cmpEl
-                        : this.cmpEl.find('[role=menu]'),
+                var menuRoot = this.menuRoot,
                     menuParent  = this.menuAlignEl || menuRoot.parent(),
                     m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
                     offset      = menuParent.offset(),

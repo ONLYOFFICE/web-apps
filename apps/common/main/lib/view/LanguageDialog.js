@@ -104,7 +104,8 @@ define([
                     '</ul>',
                 '</span>'
             ].join('')),
-            data: this.options.languages
+            data: this.options.languages,
+            search: true
         });
 
         if (this.cmbLanguage.scroller) this.cmbLanguage.scroller.update({alwaysVisibleY: true});

@@ -110,18 +110,9 @@ function patchDropDownKeyDown(e) {
              _.delay(function() {
                  var mnu = $('> [role=menu]', li),
                     $subitems = mnu.find('> li:not(.divider):not(.disabled):visible > a'),
-                    $dataviews = mnu.find('> li:not(.divider):not(.disabled):visible .dataview'),
-                    focusIdx = 0;
-                 if (mnu.find('> .menu-scroll').length>0) {
-                    var offset = mnu.scrollTop();
-                    for (var i=0; i<$subitems.length; i++) {
-                        if ($subitems[i].offsetTop > offset) {
-                            focusIdx = i; break;
-                        }
-                    }
-                }
+                    $dataviews = mnu.find('> li:not(.divider):not(.disabled):visible .dataview');
                 if ($subitems.length>0 && $dataviews.length<1)
-                    $subitems.eq(focusIdx).focus();
+                    ($subitems.index($subitems.filter(':focus'))<0) && $subitems.eq(0).focus();
             }, 250);
         }
     } else if (e.keyCode == 37) {     // left
