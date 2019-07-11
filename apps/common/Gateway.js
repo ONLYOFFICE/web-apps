@@ -106,6 +106,10 @@ if (Common === undefined) {
 
             'showSharingSettings': function(data) {
                 $me.trigger('showsharingsettings', data);
+            },
+
+            'setSharingSettings': function(data) {
+                $me.trigger('setsharingsettings', data);
             }
         };
 

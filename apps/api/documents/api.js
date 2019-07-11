@@ -554,6 +554,15 @@
             });
         };
 
+        var _setSharingSettings = function(data) {
+            _sendCommand({
+                command: 'setSharingSettings',
+                data: {
+                    data: data
+                }
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -595,7 +604,8 @@
             detachMouseEvents   : _detachMouseEvents,
             destroyEditor       : _destroyEditor,
             setUsers            : _setUsers,
-            showSharingSettings : _showSharingSettings
+            showSharingSettings : _showSharingSettings,
+            setSharingSettings  : _setSharingSettings
         }
     };
 
