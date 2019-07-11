@@ -780,7 +780,7 @@ define([
             };
 
             this.addWordVariants = function(isParagraph) {
-                if (!me.textMenu) return;
+                if (!me.textMenu || !me.textMenu.isVisible() && !me.tableMenu.isVisible()) return;
 
                 if (_.isUndefined(isParagraph)) {
                     isParagraph = me.textMenu.isVisible();
@@ -2723,7 +2723,8 @@ define([
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     restoreHeight: 300,
-                    items   : []
+                    items   : [],
+                    search: true
                 })
             });
 
@@ -3346,7 +3347,8 @@ define([
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     restoreHeight: 300,
-                    items   : []
+                    items   : [],
+                    search: true
                 })
             });
 
