@@ -74,7 +74,6 @@ define([
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.pluginClose, this));
                 this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.pluginResize, this));
                 this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.registerPlugins, this));
-                this.loadPlugins();
             },
 
             onLaunch: function () {
@@ -180,6 +179,7 @@ define([
 
             loadConfig: function(data) {
                 this.configPlugins.config = data.config.plugins;
+                this.loadPlugins();
             },
 
             loadPlugins: function() {
