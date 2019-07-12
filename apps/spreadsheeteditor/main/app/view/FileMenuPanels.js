@@ -1470,25 +1470,36 @@ define([
 
         setMode: function(mode) {
             this.sharingSettingsUrl = mode.sharingSettingsUrl;
+            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
+            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
             return this;
         },
 
         changeAccessRights: function(btn,event,opts) {
-            if (this._docAccessDlg) return;
+            if (this._docAccessDlg || this._readonlyRights) return;
 
             var me = this;
             me._docAccessDlg = new Common.Views.DocumentAccessDialog({
                 settingsurl: this.sharingSettingsUrl
             });
             me._docAccessDlg.on('accessrights', function(obj, rights){
-                me.doc.info.sharingSettings = rights;
-                me._ShowHideInfoItem('rights', me.doc.info.sharingSettings!==undefined && me.doc.info.sharingSettings!==null && me.doc.info.sharingSettings.length>0);
-                me.cntRights.html(me.templateRights({users: me.doc.info.sharingSettings}));
+                me.updateSharingSettings(rights);
             }).on('close', function(obj){
                 me._docAccessDlg = undefined;
             });
 
             me._docAccessDlg.show();
+        },
+
+        setSharingSettings: function(data) {
+            data && this.updateSharingSettings(data.sharingSettings);
+        },
+
+        updateSharingSettings: function(rights) {
+            this.doc.info.sharingSettings = rights;
+            this._ShowHideInfoItem('rights', this.doc.info.sharingSettings!==undefined && this.doc.info.sharingSettings!==null && this.doc.info.sharingSettings.length>0);
+            this.cntRights.html(this.templateRights({users: this.doc.info.sharingSettings}));
+            Common.NotificationCenter.trigger('mentions:clearusers', this);
         },
 
         onLostEditRights: function() {

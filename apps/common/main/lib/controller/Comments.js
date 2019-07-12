@@ -495,6 +495,7 @@ define([
                         ascComment.asc_addReply(addReply);
 
                         me.api.asc_changeComment(id, ascComment);
+                        me.mode && me.mode.canRequestUsers && me.view.pickEMail(id, replyVal);
 
                         return true;
                     }
@@ -1125,7 +1126,9 @@ define([
             if (_.isUndefined(this.popover)) {
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     commentsStore : this.popoverComments,
-                    renderTo : this.sdkViewName
+                    renderTo : this.sdkViewName,
+                    canRequestUsers: (this.mode) ? this.mode.canRequestUsers : undefined,
+                    canRequestSendNotify: (this.mode) ? this.mode.canRequestSendNotify : undefined
                 });
                 this.popover.setCommentsStore(this.popoverComments);
             }
@@ -1343,9 +1346,9 @@ define([
                     if (!_.isUndefined(comment.asc_putDocumentFlag))
                         comment.asc_putDocumentFlag(false);
 
-                    this.api.asc_addComment(comment);
+                    var commentId = this.api.asc_addComment(comment);
                     this.view.showEditContainer(false);
-
+                    this.mode && this.mode.canRequestUsers && this.view.pickEMail(commentId, commentVal);
                     if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                         this.api.asc_SetDocumentPlaceChangedEnabled(false);
                     }

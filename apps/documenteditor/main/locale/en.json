@@ -284,6 +284,7 @@
   "Common.Views.ReviewPopover.textClose": "Close",
   "Common.Views.ReviewPopover.textEdit": "OK",
   "Common.Views.ReviewPopover.textFollowMove": "Follow Move",
+  "Common.Views.ReviewPopover.textMention": "+mention will provide access to the document and send an email",
   "Common.Views.ReviewPopover.textOpenAgain": "Open Again",
   "Common.Views.ReviewPopover.textReply": "Reply",
   "Common.Views.ReviewPopover.textResolve": "Resolve",

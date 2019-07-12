@@ -180,6 +180,7 @@ define([
                     this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('document:ready',                  _.bind(this.onDocumentReady, this));
 
                     this.isShowOpenDialog = false;
 
@@ -211,7 +212,9 @@ define([
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
                             if (!e.relatedTarget ||
-                                !/area_id/.test(e.target.id) && ($(e.target).parent().find(e.relatedTarget).length<1 || e.target.localName == 'textarea') /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
+                                !/area_id/.test(e.target.id)
+                                && !(e.target.localName == 'input' && $(e.target).parent().find(e.relatedTarget).length>0) /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
+                                && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                                 && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
@@ -313,6 +316,8 @@ define([
                                                   && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
                 this.appOptions.canBack         = this.editorConfig.nativeApp !== true && this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
+                this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
+                this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -783,6 +788,12 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+            },
+
+            onDocumentReady: function() {
+                if (this.editorConfig.actionLink && this.editorConfig.actionLink.action && this.editorConfig.actionLink.action.type == 'comment') {
+                    this.getApplication().getController('Common.Controllers.Comments').getView().fireEvent('comment:show', [this.editorConfig.actionLink.action.data, false]);
+                }
             },
 
             onLicenseChanged: function(params) {

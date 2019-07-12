@@ -504,7 +504,7 @@ define([
                 return this.offset;
             },
 
-            alignPosition: function() {
+            alignPosition: function(fixedAlign, fixedOffset) {
                 var menuRoot = this.menuRoot,
                     menuParent  = this.menuAlignEl || menuRoot.parent(),
                     m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
@@ -553,8 +553,13 @@ define([
                         }
                     }
                 } else {
-                    if (top + menuH > docH)
-                        top = docH - menuH;
+                    if (top + menuH > docH) {
+                        if (fixedAlign && typeof fixedAlign == 'string') { // how to align if menu height > window height
+                            m = fixedAlign.match(/^([a-z]+)-([a-z]+)/);
+                            top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1] + (fixedOffset || 0);
+                        } else
+                            top = docH - menuH;
+                    }
 
                     if (top < 0)
                         top = 0;
