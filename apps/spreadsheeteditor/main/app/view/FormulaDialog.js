@@ -319,20 +319,20 @@ define([
                 event.stopPropagation();
             }
 
-            charVal = String.fromCharCode(e.keyCode);
+            charVal = e.key;
             if (e.keyCode > 64 && e.keyCode < 91 && charVal && charVal.length) {
-
+                charVal = charVal.toLocaleLowerCase();
                 selectRecord = this.store.findWhere({selected: true});
                 if (selectRecord) {
                     value = selectRecord.get('value');
-                    isEqualSelectRecord = (value && value.length && value[0] === charVal)
+                    isEqualSelectRecord = (value && value.length && value[0].toLocaleLowerCase() === charVal)
                 }
 
                 for (i = 0; i < this.store.length; ++i) {
                     record = this.store.at(i);
                     value = record.get('value');
 
-                    if (value[0] === charVal) {
+                    if (value[0].toLocaleLowerCase() === charVal) {
 
                         if (null === firstRecord) firstRecord = record;
 
