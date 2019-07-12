@@ -57,6 +57,8 @@ define([
         var modal;
 
         return {
+            configPlugins: {autostart:[]},// {config: 'from editor config', plugins: 'loaded plugins', UIplugins: 'loaded customization plugins', autostart: 'autostart guids'}
+            serverPlugins: {autostart:[]},
             models: [],
             collections: [],
             views: [
@@ -71,9 +73,11 @@ define([
                 this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.showPluginModal, this));
                 this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.pluginClose, this));
                 this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.pluginResize, this));
+                this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.registerPlugins, this));
             },
 
             onLaunch: function () {
+                Common.Gateway.on('init', this.loadConfig.bind(this));
             },
 
             setMode: function(mode) {
@@ -171,6 +175,133 @@ define([
                     var height = Math.min(size[1], 500);
                     $$(modal).find('#plugin-frame').css({height: height + 'px'});
                 }
+            },
+
+            loadConfig: function(data) {
+                this.configPlugins.config = data.config.plugins;
+                this.loadPlugins();
+            },
+
+            loadPlugins: function() {
+                var me = this;
+                if (me.configPlugins.config) {
+                    me.getPlugins(me.configPlugins.config.pluginsData)
+                        .then(function(loaded)
+                        {
+                            me.configPlugins.plugins = loaded;
+                            me.mergePlugins();
+                        });
+                } else {
+                    me.configPlugins.plugins = false;
+                }
+                var server_plugins_url = '../../../../plugins.json';
+                Common.Utils.loadConfig(server_plugins_url, function (obj) {
+                    if ( obj != 'error' ) {
+                        me.serverPlugins.config = obj;
+                        me.getPlugins(me.serverPlugins.config.pluginsData)
+                            .then(function(loaded)
+                            {
+                                me.serverPlugins.plugins = loaded;
+                                me.mergePlugins();
+                            });
+                    } else
+                        me.serverPlugins.plugins = false;
+                });
+            },
+
+            mergePlugins: function() {
+                var me = this;
+                if (me.serverPlugins.plugins !== undefined && me.configPlugins.plugins !== undefined) {
+                    var arr = [],
+                        plugins = this.configPlugins;
+                    if (plugins.plugins && plugins.plugins.length>0) {
+                        arr = plugins.plugins;
+                    }
+                    plugins = this.serverPlugins;
+                    if (plugins.plugins && plugins.plugins.length>0) {
+                        arr = arr.concat(plugins.plugins);
+                    }
+                    this.registerPlugins(arr);
+                }
+            },
+
+            registerPlugins: function(plugins) {
+                var me = this;
+                var arr = [];
+                plugins.forEach(function(item){
+                    var plugin = new Asc.CPlugin();
+                    plugin.set_Name(item['name']);
+                    plugin.set_Guid(item['guid']);
+                    plugin.set_BaseUrl(item['baseUrl']);
+
+                    var variations = item['variations'],
+                        variationsArr = [];
+                    variations.forEach(function(itemVar){
+                        var variation = new Asc.CPluginVariation();
+                        variation.set_Description(itemVar['description']);
+                        variation.set_Url(itemVar['url']);
+                        variation.set_Icons(itemVar['icons']);
+                        variation.set_Visual(itemVar['isVisual']);
+                        variation.set_CustomWindow(itemVar['isCustomWindow']);
+                        variation.set_System(itemVar['isSystem']);
+                        variation.set_Viewer(itemVar['isViewer']);
+                        variation.set_EditorsSupport(itemVar['EditorsSupport']);
+                        variation.set_Modal(itemVar['isModal']);
+                        variation.set_InsideMode(itemVar['isInsideMode']);
+                        variation.set_InitDataType(itemVar['initDataType']);
+                        variation.set_InitData(itemVar['initData']);
+                        variation.set_UpdateOleOnResize(itemVar['isUpdateOleOnResize']);
+                        variation.set_Buttons(itemVar['buttons']);
+                        variation.set_Size(itemVar['size']);
+                        variation.set_InitOnSelectionChanged(itemVar['initOnSelectionChanged']);
+                        variation.set_Events(itemVar['events']);
+
+                        variationsArr.push(variation);
+                    });
+
+                    plugin["set_Variations"](variationsArr);
+                    arr.push(plugin);
+                });
+                me.api.asc_pluginsRegister('', arr);
+            },
+
+            getPlugins: function(pluginsData, fetchFunction) {
+                if (!pluginsData || pluginsData.length<1)
+                    return Promise.resolve([]);
+
+                fetchFunction = fetchFunction || function (url) {
+                    return fetch(url)
+                        .then(function(response) {
+                            if ( response.ok ) return response.json();
+                            else return Promise.reject(url);
+                        }).then(function(json) {
+                            json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
+                            return json;
+                        });
+                };
+
+                var loaded = [];
+                return pluginsData.map(fetchFunction).reduce(function (previousPromise, currentPromise) {
+                    return previousPromise
+                        .then(function()
+                        {
+                            return currentPromise;
+                        })
+                        .then(function(item)
+                        {
+                            loaded.push(item);
+                            return Promise.resolve(item);
+                        })
+                        .catch(function(item)
+                        {
+                            return Promise.resolve(item);
+                        });
+
+                }, Promise.resolve())
+                    .then(function ()
+                    {
+                        return Promise.resolve(loaded);
+                    });
             },
 
             textCancel: 'Cancel',

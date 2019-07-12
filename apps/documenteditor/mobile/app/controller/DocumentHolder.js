@@ -379,15 +379,17 @@ define([
 
             _initMenu: function (stack) {
                 var me = this,
-                    menuItems = [],
+                    arrItems = [],
+                    arrItemsIcon = [],
                     canCopy = me.api.can_CopyCut();
 
                 _actionSheets = [];
 
                 if (canCopy) {
-                    menuItems.push({
+                    arrItemsIcon.push({
                         caption: me.menuCopy,
-                        event: 'copy'
+                        event: 'copy',
+                        icon: 'icon-copy'
                     });
                 }
 
@@ -438,59 +440,61 @@ define([
 
                     if (_isEdit && !me.isDisconnected) {
                         if (!lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy) {
-                            menuItems.push({
+                            arrItemsIcon.push({
                                 caption: me.menuCut,
-                                event: 'cut'
+                                event: 'cut',
+                                icon: 'icon-cut'
                             });
 
                             // Swap 'Copy' and 'Cut'
-                            swapItems(menuItems, 0, 1);
+                            swapItems(arrItemsIcon, 0, 1);
                         }
 
                         if (!lockedText && !lockedTable && !lockedImage && !lockedHeader) {
-                            menuItems.push({
+                            arrItemsIcon.push({
                                 caption: me.menuPaste,
-                                event: 'paste'
+                                event: 'paste',
+                                icon: 'icon-paste'
                             });
                         }
 
                         if(isTable && me.api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuMerge,
                                 event: 'merge'
                             });
                         }
 
                         if(isTable && me.api.CheckBeforeSplitCells() && !lockedTable && !lockedHeader) {
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuSplit,
                                 event: 'split'
                             });
                         }
 
                         if(!lockedText && !lockedTable && !lockedImage && !lockedHeader) {
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuDelete,
                                 event: 'delete'
                             });
                         }
 
                         if(isTable && !lockedTable && !lockedText && !lockedHeader) {
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuDeleteTable,
                                 event: 'deletetable'
                             });
                         }
 
                         if(!lockedText && !lockedTable && !lockedImage && !lockedHeader){
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuEdit,
                                 event: 'edit'
                             });
                         }
 
                         if (!_.isEmpty(me.api.can_AddHyperlink()) && !lockedHeader) {
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuAddLink,
                                 event: 'addlink'
                             });
@@ -498,12 +502,12 @@ define([
 
                         if (_canReview) {
                             if (_inRevisionChange) {
-                                menuItems.push({
+                                arrItems.push({
                                     caption: me.menuReviewChange,
                                     event: 'reviewchange'
                                 });
                             } else {
-                                menuItems.push({
+                                arrItems.push({
                                     caption: me.menuReview,
                                     event: 'review'
                                 });
@@ -513,21 +517,23 @@ define([
                 }
 
                 if (isLink) {
-                    menuItems.push({
+                    arrItems.push({
                         caption: me.menuOpenLink,
                         event: 'openlink'
                     });
                 }
 
-                if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
-                    _actionSheets = menuItems.slice(3);
+                if (Common.SharedSettings.get('phone') && arrItems.length > 2) {
+                    _actionSheets = arrItems.slice(2);
 
-                    menuItems = menuItems.slice(0, 3);
-                    menuItems.push({
+                    arrItems = arrItems.slice(0, 2);
+                    arrItems.push({
                         caption: me.menuMore,
                         event: 'showActionSheet'
                     });
                 }
+
+                var menuItems = {itemsIcon: arrItemsIcon, items: arrItems};
 
                 return menuItems;
             },
