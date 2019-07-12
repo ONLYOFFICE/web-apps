@@ -823,7 +823,7 @@ define([
         },
 
         setSharingSettings: function(data) {
-            data && data.data && this.updateSharingSettings(data.data);
+            data && this.updateSharingSettings(data.sharingSettings);
         },
 
         updateSharingSettings: function(rights) {

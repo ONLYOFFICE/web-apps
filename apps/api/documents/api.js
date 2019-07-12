@@ -541,9 +541,7 @@
         var _setUsers = function(data) {
             _sendCommand({
                 command: 'setUsers',
-                data: {
-                    data: data
-                }
+                data: data
             });
         };
 
@@ -557,9 +555,7 @@
         var _setSharingSettings = function(data) {
             _sendCommand({
                 command: 'setSharingSettings',
-                data: {
-                    data: data
-                }
+                data: data
             });
         };
 

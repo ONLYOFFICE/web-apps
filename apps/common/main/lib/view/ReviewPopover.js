@@ -972,7 +972,7 @@ define([
         },
 
         setUsers: function(data) {
-            this.externalUsers = data.data || [];
+            this.externalUsers = data.users || [];
             this.isUsersLoading = false;
             this._state.emailSearch && this.onEmailListMenu(this._state.emailSearch.str, this._state.emailSearch.left, this._state.emailSearch.right);
             this._state.emailSearch = null;
