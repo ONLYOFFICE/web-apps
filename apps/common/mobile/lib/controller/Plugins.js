@@ -82,15 +82,13 @@ define([
 
             setMode: function(mode) {
                 this.appConfig = mode;
+                this.loadPlugins();
             },
 
 
             showPluginModal: function(plugin, variationIndex, frameId, urlAddition) {
                 var me = this,
-                    isAndroid = Framework7.prototype.device.android === true,
-                    isEdit = me.appConfig.isEdit;
-
-                uiApp.closeModal();
+                    isAndroid = Framework7.prototype.device.android === true;
 
                 var variation = plugin.get_Variations()[variationIndex];
                 if (variation.get_Visual()) {
@@ -104,13 +102,15 @@ define([
                         size = variation.get_Size(); //size[0] - width, size[1] - height
                     if (_.isArray(arrBtns)) {
                         _.each(arrBtns, function(b, index){
-                            if ((isEdit || b.isViewer !== false))
+                            if ((me.appConfig.isEdit || b.isViewer !== false))
                                 newBtns[index] = {
                                     text: b.text,
                                     attributes: {result: index}
                                 };
                         });
                     }
+                    uiApp.closeModal();
+
                     modal = uiApp.modal({
                         title: '',
                         text: '',
@@ -179,7 +179,6 @@ define([
 
             loadConfig: function(data) {
                 this.configPlugins.config = data.config.plugins;
-                this.loadPlugins();
             },
 
             loadPlugins: function() {
