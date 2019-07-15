@@ -247,13 +247,6 @@ define([
                 });
                 this.btnPreview.render($('#slot-status-btn-preview'));
 
-                this.btnDocLanguage = new Common.UI.Button({
-                    el: $('#btn-doc-lang',this.el),
-                    hint: this.tipSetDocLang,
-                    hintAnchor: 'top',
-                    disabled: true
-                });
-
                 var panelLang = $('.cnt-lang',this.el);
                 this.langMenu = new Common.UI.Menu({
                     cls: 'lang-menu',
@@ -349,7 +342,6 @@ define([
 
                 if (this.langMenu.items.length>0) {
                     this.btnLanguage.setDisabled(false || this._state.no_paragraph);
-                    this.btnDocLanguage.setDisabled(!!this.mode.isDisconnected);
                 }
             },
 
@@ -372,7 +364,6 @@ define([
             SetDisabled: function(disable) {
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs || this._state.no_paragraph);
-                this.btnDocLanguage.setDisabled(disable || !langs);
                 this.mode.isEdit = !disable;
             },
 
@@ -409,7 +400,6 @@ define([
             tipPreview      : 'Start Slideshow',
             tipAccessRights : 'Manage document access rights',
             tipSetLang      : 'Set Text Language',
-            tipSetDocLang   : 'Set Document Language',
             textShowBegin: 'Show from Beginning',
             textShowCurrent: 'Show from Current slide',
             textShowPresenterView: 'Show presenter view'

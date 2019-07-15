@@ -80,8 +80,7 @@ define([
         events: function() {
             return {
                 'click #btn-zoom-down': _.bind(this.zoomDocument,this,'down'),
-                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up'),
-                'click #btn-doc-lang':_.bind(this.onBtnLanguage,this)
+                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up')
             };
         },
 
@@ -105,6 +104,8 @@ define([
                     var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
                     me.btnSpelling = review.getButton('spelling', 'statusbar');
                     me.btnSpelling.render( me.statusbar.$el.find('#btn-doc-spell') );
+                    me.btnDocLang = review.getButton('doclang', 'statusbar');
+                    me.btnDocLang.render( me.statusbar.$el.find('#btn-doc-lang') );
                 } else {
                     me.statusbar.$el.find('.el-edit, .el-review').hide();
                 }
@@ -212,20 +213,6 @@ define([
 
         createDelayedElements: function() {
             this.statusbar.$el.css('z-index', '');
-        },
-
-        onBtnLanguage: function() {
-            var me = this;
-            (new Common.Views.LanguageDialog({
-                languages: me.langs,
-                current: me.api.asc_getDefaultLanguage(),
-                handler: function(result, value) {
-                    if (result=='ok') {
-                        var record = _.findWhere(me.langs, {'value':value});
-                        record && me.api.asc_setDefaultLanguage(record.code);
-                    }
-                }
-            })).show();
         },
 
         onLangMenu: function(obj, langid, title) {

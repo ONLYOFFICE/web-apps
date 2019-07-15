@@ -1538,7 +1538,7 @@
   "PE.Views.Statusbar.tipFitPage": "Fit to slide",
   "PE.Views.Statusbar.tipFitWidth": "Fit to width",
   "PE.Views.Statusbar.tipPreview": "Start slideshow",
-  "PE.Views.Statusbar.tipSetDocLang": "Set document language",
+  "del_PE.Views.Statusbar.tipSetDocLang": "Set document language",
   "PE.Views.Statusbar.tipSetLang": "Set text language",
   "del_PE.Views.Statusbar.tipSetSpelling": "Spell checking",
   "PE.Views.Statusbar.tipZoomFactor": "Zoom",

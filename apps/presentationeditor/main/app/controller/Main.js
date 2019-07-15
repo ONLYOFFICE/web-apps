@@ -1692,6 +1692,7 @@ define([
                 if (this.languages && this.languages.length>0) {
                     this.getApplication().getController('DocumentHolder').getView('DocumentHolder').setLanguages(this.languages);
                     this.getApplication().getController('Statusbar').setLanguages(this.languages);
+                    this.getApplication().getController('Common.Controllers.ReviewChanges').setLanguages(this.languages);
                 }
             },
 
