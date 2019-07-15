@@ -545,7 +545,7 @@ define([
 
             Common.localStorage.setItem(this.view.appPrefix + "settings-spellcheck", state ? 1 : 0);
             this.api.asc_setSpellCheck(state);
-            Common.Utils.InternalSettings.set("de-settings-spellcheck", state);
+            Common.Utils.InternalSettings.set(this.view.appPrefix + "settings-spellcheck", state);
         },
 
         onReviewViewClick: function(menu, item, e) {

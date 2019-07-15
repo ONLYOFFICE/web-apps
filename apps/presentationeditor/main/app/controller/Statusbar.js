@@ -58,9 +58,6 @@ define([
         initialize: function() {
             var me = this;
             this.addListeners({
-                'FileMenu': {
-                    'settings:apply': _.bind(this.applySettings, this)
-                },
                 'Statusbar': {
                     'langchanged': this.onLangMenu
                 },
@@ -101,7 +98,17 @@ define([
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
             this.statusbar.btnPreview.on('click', _.bind(this.onPreviewBtnClick, this));
             this.statusbar.btnPreview.menu.on('item:click', _.bind(this.onPreviewItemClick, this));
-            this.statusbar.btnSetSpelling.on('click', _.bind(this.onBtnSpelling, this));
+
+            var me = this;
+            Common.NotificationCenter.on('app:face', function (cfg) {
+                if ( cfg.isEdit ) {
+                    var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
+                    me.btnSpelling = review.getButton('spelling', 'statusbar');
+                    me.btnSpelling.render( me.statusbar.$el.find('#btn-doc-spell') );
+                } else {
+                    me.statusbar.$el.find('.el-edit, .el-review').hide();
+                }
+            });
         },
 
         setApi: function(api) {
@@ -204,7 +211,6 @@ define([
         },
 
         createDelayedElements: function() {
-            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("pe-settings-spellcheck", true), true);
             this.statusbar.$el.css('z-index', '');
         },
 
@@ -224,17 +230,6 @@ define([
 
         onLangMenu: function(obj, langid, title) {
             this.api.put_TextPrLang(langid);
-        },
-
-        onBtnSpelling: function(d, b, e) {
-            Common.localStorage.setItem("pe-settings-spellcheck", d.pressed ? 1 : 0);
-            Common.Utils.InternalSettings.set("pe-settings-spellcheck", d.pressed);
-            this.api.asc_setSpellCheck(d.pressed);
-            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-        },
-
-        applySettings: function(menu) {
-            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("pe-settings-spellcheck", true), true);
         },
 
         zoomText        : 'Zoom {0}%'

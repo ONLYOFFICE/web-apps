@@ -99,7 +99,7 @@ define([
                 $('.statusbar #label-zoom').css('min-width', 80);
 
                 if ( cfg.isEdit ) {
-                    var review = DE.getController('Common.Controllers.ReviewChanges').getView();
+                    var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
                     if (cfg.canReview) {
                         me.btnTurnReview = review.getButton('turn', 'statusbar');
                         me.btnTurnReview.render(me.statusbar.$layout.find('#btn-doc-review'));

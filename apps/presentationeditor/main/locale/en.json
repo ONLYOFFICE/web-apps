@@ -1540,7 +1540,7 @@
   "PE.Views.Statusbar.tipPreview": "Start slideshow",
   "PE.Views.Statusbar.tipSetDocLang": "Set document language",
   "PE.Views.Statusbar.tipSetLang": "Set text language",
-  "PE.Views.Statusbar.tipSetSpelling": "Spell checking",
+  "del_PE.Views.Statusbar.tipSetSpelling": "Spell checking",
   "PE.Views.Statusbar.tipZoomFactor": "Zoom",
   "PE.Views.Statusbar.tipZoomIn": "Zoom in",
   "PE.Views.Statusbar.tipZoomOut": "Zoom out",

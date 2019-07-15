@@ -254,13 +254,6 @@ define([
                     disabled: true
                 });
 
-                this.btnSetSpelling = new Common.UI.Button({
-                    el: $('#btn-doc-spell',this.el),
-                    enableToggle: true,
-                    hint: this.tipSetSpelling,
-                    hintAnchor: 'top'
-                });
-
                 var panelLang = $('.cnt-lang',this.el);
                 this.langMenu = new Common.UI.Menu({
                     cls: 'lang-menu',
@@ -417,7 +410,6 @@ define([
             tipAccessRights : 'Manage document access rights',
             tipSetLang      : 'Set Text Language',
             tipSetDocLang   : 'Set Document Language',
-            tipSetSpelling  : 'Spell checking',
             textShowBegin: 'Show from Beginning',
             textShowCurrent: 'Show from Current slide',
             textShowPresenterView: 'Show presenter view'
