@@ -1237,6 +1237,8 @@
   "PE.Views.HeaderFooterDialog.textFooter": "Text in footer",
   "PE.Views.HeaderFooterDialog.textNotTitle": "Don't show on title slide",
   "PE.Views.HeaderFooterDialog.textPreview": "Preview",
+  "PE.Views.HeaderFooterDialog.diffLanguage": "You can’t use a date format in a different language than the slide master.<br>To change the master, click 'Apply to all' instead of 'Apply'",
+  "PE.Views.HeaderFooterDialog.notcriticalErrorTitle": "Warning",
   "PE.Views.HyperlinkSettingsDialog.cancelButtonText": "Cancel",
   "PE.Views.HyperlinkSettingsDialog.okButtonText": "OK",
   "PE.Views.HyperlinkSettingsDialog.strDisplay": "Display",

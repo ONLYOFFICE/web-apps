@@ -234,18 +234,17 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                     item.setDisabled(!val);
                 });
 
-                var lang = this.lang,
-                    format;
+                var format,
+                    datetime = slideprops.get_DateTime(),
+                    item = this.cmbLang.store.findWhere({value: datetime.get_Lang() || this.lang});
+                this._originalLang = item ? item.get('value') : 0x0409;
+                this.cmbLang.setValue(this._originalLang);
+
                 if (val) {
-                    var datetime = slideprops.get_DateTime();
-                    lang = datetime.get_Lang() || this.lang;
                     format = datetime.get_DateTime();
                     this.chUpdate.setValue(!!format, true);
                     !format && (format = datetime.get_CustomDateTime());
                 }
-                var item = this.cmbLang.store.findWhere({value: lang});
-                item = item ? item.get('value') : 0x0409;
-                this.cmbLang.setValue(item);
                 this.updateFormats(this.cmbLang.getValue(), format);
 
                 val = slideprops.get_ShowSlideNum();
@@ -294,7 +293,20 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         _handleInput: function(state) {
-            this.handler && this.handler.call(this, state, this.getSettings());
+            if (this.handler) {
+                if (state == 'ok') {
+                    if (this.cmbLang.getValue() !== this._originalLang)  {
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            maxwidth: 600,
+                            msg  : this.diffLanguage
+                        });
+                        return;
+                    }
+                }
+
+                this.handler.call(this, state, this.getSettings());
+            }
             this.close();
         },
 
@@ -309,7 +321,9 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         textSlideNum: 'Slide number',
         textFooter: 'Text in footer',
         textNotTitle: 'Don\'t show on title slide',
-        textPreview: 'Preview'
+        textPreview: 'Preview',
+        diffLanguage: 'You can’t use a date format in a different language than the slide master.\nTo change the master, click \'Apply to all\' instead of \'Apply\'',
+        notcriticalErrorTitle: 'Warning'
 
     }, PE.Views.HeaderFooterDialog || {}))
 });
