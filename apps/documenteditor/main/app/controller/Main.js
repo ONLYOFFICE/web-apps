@@ -391,7 +391,6 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
 //                    docInfo.put_Review(this.permissions.review);
-//                    docInfo.put_OfflineApp(this.editorConfig.nativeApp === true); // used in sdk for testing
 
                     var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
                     if (type && typeof type[1] === 'string') {

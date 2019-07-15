@@ -327,13 +327,8 @@ define([
         },
 
         onCreateNew: function(menu, type) {
-            if (this.mode.nativeApp === true) {
-                this.api.OpenNewDocument(type == 'blank' ? '' : type);
-            } else {
-                var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
-                if (newDocumentPage) newDocumentPage.focus();
-            }
-
+            var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
+            if (newDocumentPage) newDocumentPage.focus();
             if (menu) {
                 menu.hide();
             }

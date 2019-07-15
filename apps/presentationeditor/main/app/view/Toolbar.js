@@ -1242,16 +1242,6 @@ define([
                     this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
 
                 this.mode = mode;
-                if (!mode.nativeApp) {
-                    var nativeBtnGroup = $('.toolbar-group-native');
-
-                    if (nativeBtnGroup) {
-                        nativeBtnGroup.hide();
-                    }
-                }
-
-                if (mode.isDesktopApp)
-                    $('.toolbar-group-native').hide();
             },
 
             onSendThemeColorSchemes: function (schemas) {

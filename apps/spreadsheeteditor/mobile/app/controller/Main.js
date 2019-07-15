@@ -202,10 +202,9 @@ define([
 
                 me.editorConfig.user          =
                 me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
-                me.appOptions.nativeApp       = me.editorConfig.nativeApp === true;
                 me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
                 me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
-                me.appOptions.canOpenRecent   = me.editorConfig.nativeApp !== true && me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
+                me.appOptions.canOpenRecent   = me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
                 me.appOptions.templates       = me.editorConfig.templates;
                 me.appOptions.recent          = me.editorConfig.recent;
                 me.appOptions.createUrl       = me.editorConfig.createUrl;
@@ -218,7 +217,7 @@ define([
                 me.appOptions.customization   = me.editorConfig.customization;
                 me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object')
                     && (typeof (me.editorConfig.customization.goback) == 'object') && !_.isEmpty(me.editorConfig.customization.goback.url);
-                me.appOptions.canBack         = me.editorConfig.nativeApp !== true && me.appOptions.canBackToFolder === true;
+                me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
 
@@ -694,7 +693,7 @@ define([
                 me.appOptions.canEdit        = me.permissions.edit !== false && // can edit
                     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view';
-                me.appOptions.canDownload    = !me.appOptions.nativeApp && (me.permissions.download !== false);
+                me.appOptions.canDownload    = (me.permissions.download !== false);
                 me.appOptions.canPrint       = (me.permissions.print !== false);
 
                 me.applyModeCommonElements();
