@@ -33,44 +33,49 @@
 
 /**
  *  Collaboration.js
- *  Document Editor
  *
- *  Created by Julia Svinareva on 14/5/19
+ *  Created by Julia Svinareva on 12/7/19
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
+
+if (Common === undefined)
+    var Common = {};
+
+Common.Controllers = Common.Controllers || {};
+
 define([
     'core',
     'jquery',
     'underscore',
     'backbone',
-    'documenteditor/mobile/app/view/Collaboration'
+    'common/mobile/lib/view/Collaboration'
 ], function (core, $, _, Backbone) {
     'use strict';
 
-    DE.Controllers.Collaboration = Backbone.Controller.extend(_.extend((function() {
+    Common.Controllers.Collaboration = Backbone.Controller.extend(_.extend((function() {
         // Private
-        var _settings = [],
-            _headerType = 1,
-             rootView,
+        var rootView,
+            _userId,
+            editUsers = [],
+            editor = !!window.DE ? 'DE' : !!window.PE ? 'PE' : 'SSE',
             displayMode = "Markup",
             arrChangeReview = [],
             dateChange = [],
-            _fileKey,
-            _userId,
-            editUsers = [];
+            _fileKey;
+
 
         return {
             models: [],
             collections: [],
             views: [
-                'Collaboration'
+                'Common.Views.Collaboration'
             ],
 
             initialize: function() {
                 var me = this;
                 me.addListeners({
-                    'Collaboration': {
+                    'Common.Views.Collaboration': {
                         'page:show' : me.onPageShow
                     }
                 });
@@ -78,19 +83,23 @@ define([
 
             setApi: function(api) {
                 this.api = api;
-                this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onChangeEditUsers, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onChangeEditUsers, this));
+                if (editor === 'DE') {
+                    this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
+                }
             },
 
             onLaunch: function () {
-                this.createView('Collaboration').render();
+                this.createView('Common.Views.Collaboration').render();
             },
 
             setMode: function(mode) {
                 this.appConfig = mode;
-                _fileKey = mode.fileKey;
                 _userId = mode.user.id;
+                if (editor === 'DE') {
+                    _fileKey = mode.fileKey;
+                }
                 return this;
             },
 
@@ -99,7 +108,8 @@ define([
                 var me = this,
                     isAndroid = Framework7.prototype.device.android === true,
                     modalView,
-                    mainView = DE.getController('Editor').getView('Editor').f7View;
+                    appPrefix = !!window.DE ? DE : !!window.PE ? PE : SSE,
+                    mainView = appPrefix.getController('Editor').getView('Editor').f7View;
 
                 uiApp.closeModal();
 
@@ -107,7 +117,7 @@ define([
                     modalView = $$(uiApp.pickerModal(
                         '<div class="picker-modal settings container-collaboration">' +
                         '<div class="view collaboration-root-view navbar-through">' +
-                        this.getView('Collaboration').rootLayout() +
+                        this.getView('Common.Views.Collaboration').rootLayout() +
                         '</div>' +
                         '</div>'
                     )).on('opened', function () {
@@ -129,7 +139,7 @@ define([
                         '<div class="popover-inner">' +
                         '<div class="content-block">' +
                         '<div class="view popover-view collaboration-root-view navbar-through">' +
-                        this.getView('Collaboration').rootLayout() +
+                        this.getView('Common.Views.Collaboration').rootLayout() +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -149,9 +159,9 @@ define([
                 });
 
                 Common.NotificationCenter.trigger('collaborationcontainer:show');
-                this.onPageShow(this.getView('Collaboration'));
+                this.onPageShow(this.getView('Common.Views.Collaboration'));
 
-                DE.getController('Toolbar').getView('Toolbar').hideSearch();
+                appPrefix.getController('Toolbar').getView('Toolbar').hideSearch();
             },
 
             rootView : function() {
@@ -173,12 +183,68 @@ define([
                 } else if('#edit-users-view' == pageId) {
                     me.initEditUsers();
                     Common.Utils.addScrollIfNeed('.page[data-page=edit-users-view]', '.page[data-page=edit-users-view] .page-content');
+                } else if ('#comments-view' == pageId) {
+                    me.initComments();
+                    Common.Utils.addScrollIfNeed('.page[data-page=comments-view]', '.page[data-page=comments-view] .page-content');
                 } else {
-                    if(!this.appConfig.canReview) {
+                    if(editor === 'DE' && !this.appConfig.canReview) {
                         $('#reviewing-settings').hide();
                     }
                 }
             },
+
+            //Edit users
+
+            onChangeEditUsers: function(users) {
+                editUsers = users;
+            },
+
+            initEditUsers: function() {
+                var usersArray = [];
+                _.each(editUsers, function(item){
+                    var fio = item.asc_getUserName().split(' ');
+                    var initials = fio[0].substring(0, 1).toUpperCase();
+                    if (fio.length > 1) {
+                        initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
+                    }
+                    if(!item.asc_getView()) {
+                        var userAttr = {
+                            color: item.asc_getColor(),
+                            id: item.asc_getId(),
+                            idOriginal: item.asc_getIdOriginal(),
+                            name: item.asc_getUserName(),
+                            view: item.asc_getView(),
+                            initial: initials
+                        };
+                        if(item.asc_getIdOriginal() == _userId) {
+                            usersArray.unshift(userAttr);
+                        } else {
+                            usersArray.push(userAttr);
+                        }
+                    }
+                });
+                var userSort = _.chain(usersArray).groupBy('idOriginal').value();
+                var templateUserItem = _.template([
+                    '<%  _.each(users, function (user) { %>',
+                    '<li id="<%= user[0].id %>" class="<% if (user[0].view) {%> viewmode <% } %> item-content">' +
+                    '<div class="user-name item-inner">' +
+                    '<div class="color" style="background-color: <%= user[0].color %>;"><%= user[0].initial %></div>'+
+                    '<label><%= user[0].name %></label>' +
+                    '<% if (user.length>1) { %><label class="length"> (<%= user.length %>)</label><% } %>' +
+                    '</div>'+
+                    '</li>',
+                    '<% }); %>'].join(''));
+                var templateUserList = _.template(
+                    '<div class="item-content"><div class="item-inner">' +
+                    this.textEditUser +
+                    '</div></div>' +
+                    '<ul>' +
+                    templateUserItem({users: userSort}) +
+                    '</ul>');
+                $('#user-list').html(templateUserList());
+            },
+
+            //Review
 
             initReviewingSettingsView: function () {
                 var me = this;
@@ -204,13 +270,14 @@ define([
                     $checkbox.attr('checked', true);
                 } else {
                     this.api.asc_SetTrackRevisions(state);
-                    Common.localStorage.setItem("de-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
+                    var prefix = !!window.DE ? 'de' : !!window.PE ? 'pe' : 'sse';
+                    Common.localStorage.setItem(prefix + "-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
                 }
             },
 
             onAcceptAllClick: function() {
                 if (this.api) {
-                   this.api.asc_AcceptAllChanges();
+                    this.api.asc_AcceptAllChanges();
                 }
             },
 
@@ -517,15 +584,15 @@ define([
                                 changetext += '</b>';
                                 changetext += proptext;
                                 break;
-                                case Asc.c_oAscRevisionsChangeType.TablePr:
-                                    changetext = me.textTableChanged;
-                                    break;
-                                case Asc.c_oAscRevisionsChangeType.RowsAdd:
-                                    changetext = me.textTableRowsAdd;
-                                    break;
-                                case Asc.c_oAscRevisionsChangeType.RowsRem:
-                                    changetext = me.textTableRowsDel;
-                                    break;
+                            case Asc.c_oAscRevisionsChangeType.TablePr:
+                                changetext = me.textTableChanged;
+                                break;
+                            case Asc.c_oAscRevisionsChangeType.RowsAdd:
+                                changetext = me.textTableRowsAdd;
+                                break;
+                            case Asc.c_oAscRevisionsChangeType.RowsRem:
+                                changetext = me.textTableRowsDel;
+                                break;
 
                         }
                         var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
@@ -576,57 +643,6 @@ define([
                     this.api.asc_FollowRevisionMove(dateChange[0]);
                 }
             },
-
-            onChangeEditUsers: function(users) {
-                editUsers = users;
-            },
-
-            initEditUsers: function() {
-                var usersArray = [];
-                _.each(editUsers, function(item){
-                    var fio = item.asc_getUserName().split(' ');
-                    var initials = fio[0].substring(0, 1).toUpperCase();
-                    if (fio.length > 1) {
-                        initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
-                    }
-                    if(!item.asc_getView()) {
-                        var userAttr = {
-                            color: item.asc_getColor(),
-                            id: item.asc_getId(),
-                            idOriginal: item.asc_getIdOriginal(),
-                            name: item.asc_getUserName(),
-                            view: item.asc_getView(),
-                            initial: initials
-                        };
-                        if(item.asc_getIdOriginal() == _userId) {
-                            usersArray.unshift(userAttr);
-                        } else {
-                            usersArray.push(userAttr);
-                        }
-                    }
-                });
-                var userSort = _.chain(usersArray).groupBy('idOriginal').value();
-                var templateUserItem = _.template([
-                    '<%  _.each(users, function (user) { %>',
-                    '<li id="<%= user[0].id %>" class="<% if (user[0].view) {%> viewmode <% } %> item-content">' +
-                    '<div class="user-name item-inner">' +
-                    '<div class="color" style="background-color: <%= user[0].color %>;"><%= user[0].initial %></div>'+
-                    '<label><%= user[0].name %></label>' +
-                    '<% if (user.length>1) { %><label class="length"> (<%= user.length %>)</label><% } %>' +
-                    '</div>'+
-                    '</li>',
-                    '<% }); %>'].join(''));
-                var templateUserList = _.template(
-                    '<div class="item-content"><div class="item-inner">' +
-                    this.textEditUser +
-                    '</div></div>' +
-                    '<ul>' +
-                    templateUserItem({users: userSort}) +
-                    '</ul>');
-                $('#user-list').html(templateUserList());
-            },
-
-
 
 
             textInserted: '<b>Inserted:</b>',
@@ -690,5 +706,5 @@ define([
             textEditUser: 'Document is currently being edited by several users.'
 
         }
-    })(), DE.Controllers.Collaboration || {}))
+    })(), Common.Controllers.Collaboration || {}))
 });

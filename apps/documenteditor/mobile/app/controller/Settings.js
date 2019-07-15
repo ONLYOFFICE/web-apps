@@ -47,7 +47,7 @@ define([
     'underscore',
     'backbone',
     'documenteditor/mobile/app/view/Settings',
-    'documenteditor/mobile/app/controller/Collaboration'
+    'common/mobile/lib/controller/Collaboration'
 ], function (core, $, _, Backbone) {
     'use strict';
 
@@ -249,7 +249,7 @@ define([
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
                     $('#settings-collaboration').single('click',                _.bind(me.clickCollaboration, me));
-                    var _stateDisplayMode = DE.getController('Collaboration').getDisplayMode();
+                    var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
                     if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                         $('#settings-document').addClass('disabled');
                     }
@@ -261,7 +261,7 @@ define([
             },
 
             clickCollaboration: function() {
-                DE.getController('Collaboration').showModal();
+                DE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             onNoCharacters: function(e) {
@@ -339,7 +339,7 @@ define([
                 var value = Common.localStorage.getItem('de-mobile-settings-unit');
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 $unitMeasurement.val([value]);
-                var _stateDisplayMode = DE.getController('Collaboration').getDisplayMode();
+                var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
                 if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                     $('#settings-no-characters').addClass('disabled');
                     $('#settings-hidden-borders').addClass('disabled');

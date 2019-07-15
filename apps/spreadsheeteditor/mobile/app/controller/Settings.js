@@ -282,7 +282,7 @@ define([
             },
 
             onCollaboration: function() {
-                SSE.getController('Collaboration').showModal();
+                SSE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             initSpreadsheetSettings: function() {

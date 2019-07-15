@@ -20,6 +20,7 @@
                                 </div>
                             </a>
                         </li>
+                        <% if (editor === 'DE') { %>
                         <li>
                             <a id="reviewing-settings" class="item-link" data-page="#reviewing-settings-view">
                                 <div class="item-content">
@@ -29,7 +30,27 @@
                                 </div>
                             </a>
                         </li>
+                        <% } %>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Editable Users view -->
+<div id="edit-users-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textEditUsers %></div>
+            <div class="right sliding"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page page-change" data-page="edit-users-view">
+            <div class="page-content">
+                <div id="user-list" class="list-block">
                 </div>
             </div>
         </div>
@@ -137,14 +158,14 @@
                             </label>
                         </li>
                         <li>
-                             <label class="label-radio item-content">
-                                 <input type="radio" name="doc-orientation" value="Original">
-                                 <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
-                                 <div class="item-inner">
-                                     <div class="item-title"><%= scope.textOriginal %></div>
-                                 </div>
-                             </label>
-                         </li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="doc-orientation" value="Original">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textOriginal %></div>
+                                </div>
+                            </label>
+                        </li>
                     </ul>
                 </div>
 
@@ -170,7 +191,7 @@
                 <a href="#" id="btn-prev-change" class="link icon-only"><i class="icon icon-prev-change"></i></a>
                 <a href="#" id="btn-next-change" class="link icon-only"><i class="icon icon-next-change"></i></a>
                 </span>
-                <span class="right-buttons">
+                    <span class="right-buttons">
                 <a href="#" id="btn-goto-change" class="link icon-only" style="display: none;"><i class="icon icon-goto"></i></a>
                 <span class="accept-reject">
                 <a href="#" id="btn-accept-change" class="link icon-only"><i class="icon icon-accept"></i></a>
@@ -182,25 +203,6 @@
                     <p id="user-name"></p>
                     <p id="date-change"></p>
                     <p id="text-change"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Editable Users view -->
-<div id="edit-users-view">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
-            <div class="center sliding"><%= scope.textEditUsers %></div>
-            <div class="right sliding"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
-        </div>
-    </div>
-    <div class="pages">
-        <div class="page page-change" data-page="edit-users-view">
-            <div class="page-content">
-                <div id="user-list" class="list-block">
                 </div>
             </div>
         </div>

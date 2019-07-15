@@ -153,7 +153,7 @@ define([
 
             //Collaboration
             showCollaboration: function () {
-                DE.getController('Collaboration').showModal();
+                DE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             editDocument: function () {

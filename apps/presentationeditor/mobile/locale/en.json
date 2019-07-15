@@ -226,7 +226,7 @@
   "PE.Controllers.Toolbar.dlgLeaveTitleText": "You leave the application",
   "PE.Controllers.Toolbar.leaveButtonText": "Leave this Page",
   "PE.Controllers.Toolbar.stayButtonText": "Stay on this Page",
-  "PE.Controllers.Collaboration.textEditUser": "Document is currently being edited by several users.",
+  "Common.Controllers.Collaboration.textEditUser": "Document is currently being edited by several users.",
   "PE.Views.AddImage.textAddress": "Address",
   "PE.Views.AddImage.textBack": "Back",
   "PE.Views.AddImage.textFromLibrary": "Picture from Library",
@@ -477,8 +477,8 @@
   "PE.Views.Settings.unknownText": "Unknown",
   "PE.Views.Settings.textCollaboration": "Collaboration",
   "PE.Views.Toolbar.textBack": "Back",
-  "PE.Views.Collaboration.textCollaboration": "Collaboration",
-  "PE.Views.Collaboration.textСomments": "Сomments",
-  "PE.Views.Collaboration.textBack": "Back",
-  "PE.Views.Collaboration.textEditUsers": "Users"
+  "Common.Views.Collaboration.textCollaboration": "Collaboration",
+  "Common.Views.Collaboration.textСomments": "Сomments",
+  "Common.Views.Collaboration.textBack": "Back",
+  "Common.Views.Collaboration.textEditUsers": "Users"
 }
