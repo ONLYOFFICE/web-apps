@@ -705,7 +705,7 @@ define([
             arr = _.map(arr, function(str){
                 return str.slice(1, str.length);
             });
-            Common.Gateway.requestSendNotify({
+            (arr.length>0) && Common.Gateway.requestSendNotify({
                 emails: arr,
                 actionId: commentId, // comment id
                 actionLink: {
