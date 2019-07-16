@@ -790,7 +790,7 @@ define([
 
             onDocumentReady: function() {
                 if (this.editorConfig.actionLink && this.editorConfig.actionLink.action && this.editorConfig.actionLink.action.type == 'comment') {
-                    this.getApplication().getController('Common.Controllers.Comments').getView().fireEvent('comment:show', [this.editorConfig.actionLink.action.data, false]);
+                    Common.NotificationCenter.trigger('comments:showaction', this.editorConfig.actionLink.action.data, false);
                 }
             },
 

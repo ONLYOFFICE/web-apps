@@ -130,6 +130,7 @@ define([
             });
 
             Common.NotificationCenter.on('comments:updatefilter',   _.bind(this.onUpdateFilter, this));
+            Common.NotificationCenter.on('comments:showaction',     _.bind(this.onShowAction, this));
             Common.NotificationCenter.on('app:comment:add',         _.bind(this.onAppAddComment, this));
             Common.NotificationCenter.on('layout:changed', function(area){
                 Common.Utils.asyncCall(function(e) {
@@ -281,7 +282,7 @@ define([
             return false;
         },
         onShowComment: function (id, selected) {
-            var comment = this.findComment(id);
+            var comment = (typeof id == Object) ? id : this.findComment(id);
             if (comment) {
                 if (null !== comment.get('quote')) {
                     if (this.api) {
@@ -495,7 +496,7 @@ define([
                         ascComment.asc_addReply(addReply);
 
                         me.api.asc_changeComment(id, ascComment);
-                        me.mode && me.mode.canRequestUsers && me.view.pickEMail(id, replyVal);
+                        me.mode && me.mode.canRequestUsers && me.view.pickEMail(ascComment.asc_getDurableId ? ascComment.asc_getDurableId() : ascComment.asc_getGuid(), replyVal);
 
                         return true;
                     }
@@ -1193,6 +1194,7 @@ define([
                 groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
             var comment = new Common.Models.Comment({
                 uid                 : id,
+                originalUid         : data.asc_getDurableId ? data.asc_getDurableId() : data.asc_getGuid(),
                 userid              : data.asc_getUserId(),
                 username            : data.asc_getUserName(),
                 usercolor           : (user) ? user.get('color') : null,
@@ -1342,13 +1344,14 @@ define([
                     comment.asc_putUserId(this.currentUserId);
                     comment.asc_putUserName(this.currentUserName);
                     comment.asc_putSolved(false);
+                    comment.asc_putDurableId ? comment.asc_putDurableId(AscCommon.CreateUInt32()) : comment.asc_putGuid(AscCommon.CreateUInt32());
 
                     if (!_.isUndefined(comment.asc_putDocumentFlag))
                         comment.asc_putDocumentFlag(false);
 
                     var commentId = this.api.asc_addComment(comment);
                     this.view.showEditContainer(false);
-                    this.mode && this.mode.canRequestUsers && this.view.pickEMail(commentId, commentVal);
+                    this.mode && this.mode.canRequestUsers && this.view.pickEMail(comment.asc_getDurableId ? comment.asc_getDurableId() : comment.asc_getGuid(), commentVal);
                     if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                         this.api.asc_SetDocumentPlaceChangedEnabled(false);
                     }
@@ -1521,6 +1524,11 @@ define([
         clearCollections: function() {
             this.collection.reset();
             this.groupCollection = [];
+        },
+
+        onShowAction: function(id, selected) {
+            var comment = this.collection.findWhere({originalUid: id});
+            comment && this.onShowComment(comment, selected);
         }
 
     }, Common.Controllers.Comments || {}));
