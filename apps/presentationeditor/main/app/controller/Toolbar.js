@@ -51,6 +51,8 @@ define([
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
+    'presentationeditor/main/app/view/DateTimeDialog',
+    'presentationeditor/main/app/view/HeaderFooterDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
     'presentationeditor/main/app/view/SlideshowSettings'
@@ -309,6 +311,9 @@ define([
             toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this, 'header'));
+            toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
+            toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
 
             this.onSetupCopyStyleButton();
         },
@@ -357,6 +362,7 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+            this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -619,7 +625,7 @@ define([
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart,
                     this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
-                    this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme
+                    this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ]});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides,
                     { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt) });
@@ -674,13 +680,14 @@ define([
 
             if (paragraph_locked!==undefined && this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
-                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls.concat(me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum)});
             }
 
             if (this._state.no_paragraph !== no_paragraph) {
                 if (this._state.activated) this._state.no_paragraph = no_paragraph;
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: me.toolbar.paragraphControls});
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: [me.toolbar.btnCopyStyle]});
+                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, !no_paragraph && this._state.prcontrolsdisable, {array: [me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum]});
             }
 
             if (this._state.no_text !== no_text) {
@@ -1443,6 +1450,52 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
         },
 
+        onEditHeaderClick: function(type, e) {
+            var selectedElements = this.api.getSelectedElements(),
+                in_text = false;
+
+            for (var i=0; i < selectedElements.length; i++) {
+                if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                    in_text = true;
+                    break;
+                }
+            }
+            if (in_text && type=='slidenum') {
+                this.api.asc_addSlideNumber();
+            } else if (in_text && type=='datetime') {
+                //insert date time
+                var me = this;
+                (new PE.Views.DateTimeDialog({
+                    api: this.api,
+                    lang: this._state.lang,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_addDateTime(value);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            } else {
+                //edit header/footer
+                var me = this;
+                (new PE.Views.HeaderFooterDialog({
+                    api: this.api,
+                    lang: this.api.asc_getDefaultLanguage(),
+                    props: this.api.asc_getHeaderFooterProperties(),
+                    handler: function(result, value) {
+                        if (result == 'ok' || result == 'all') {
+                            if (me.api) {
+                                me.api.asc_setHeaderFooterProperties(value, result == 'all');
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            }
+        },
+
         onClearStyleClick: function(btn, e) {
             if (this.api)
                 this.api.ClearFormating();
@@ -2076,6 +2129,10 @@ define([
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
             }
+        },
+
+        onTextLanguage: function(langId) {
+            this._state.lang = langId;
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

@@ -252,7 +252,7 @@ define([
                     store.reset(arr);
                 }
                 var rec = this.internalList.getSelectedRec();
-                this.btnOk.setDisabled(rec.length<1 || rec[0].get('level')==0 && rec[0].get('index')>0);
+                this.btnOk.setDisabled(!rec || rec.get('level')==0 && rec.get('index')>0);
 
             } else
                 this.btnOk.setDisabled(false);
@@ -338,14 +338,14 @@ define([
                 display = url;
             } else {
                 var rec = this.internalList.getSelectedRec();
-                if (rec.length>0) {
-                    props.put_Bookmark(rec[0].get('name'));
-                    if (rec[0].get('index')==0)
+                if (rec) {
+                    props.put_Bookmark(rec.get('name'));
+                    if (rec.get('index')==0)
                         props.put_TopOfDocument();
-                    var para = rec[0].get('headingParagraph');
+                    var para = rec.get('headingParagraph');
                     if (para)
                         props.put_Heading(para);
-                    display = rec[0].get('name');
+                    display = rec.get('name');
                 }
             }
 
@@ -382,7 +382,7 @@ define([
                         }
                     } else {
                         var rec = this.internalList.getSelectedRec();
-                        if (rec.length<1 || rec[0].get('level')==0 && rec[0].get('index')>0)
+                        if (!rec || rec.get('level')==0 && rec.get('index')>0)
                             return;
                     }
                     if (this.inputDisplay.checkValidate() !== true) {

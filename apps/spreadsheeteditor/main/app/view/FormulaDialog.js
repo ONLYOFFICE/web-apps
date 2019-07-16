@@ -71,7 +71,6 @@ define([
 
                         '<label class="header">' + t.textGroupDescription + '</label>',
                         '<div id="formula-dlg-combo-group" class="input-group-nr" style="margin-top: 10px"/>',
-
                         '<label class="header" style="margin-top:10px">' + t.textListDescription + '</label>',
                         '<div id="formula-dlg-combo-functions" class="combo-functions"/>',
                         '<label id="formula-dlg-args" style="margin-top: 7px">' + '</label>',

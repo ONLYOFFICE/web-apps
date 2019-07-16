@@ -571,6 +571,33 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnInsertTextArt);
 
+                    me.btnEditHeader = new Common.UI.Button({
+                        id: 'id-toolbar-btn-editheader',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-editheader',
+                        caption: me.capBtnInsHeader,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnEditHeader);
+
+                    me.btnInsDateTime = new Common.UI.Button({
+                        id: 'id-toolbar-btn-datetime',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-datetime',
+                        caption: me.capBtnDateTime,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnInsDateTime);
+
+                    me.btnInsSlideNum = new Common.UI.Button({
+                        id: 'id-toolbar-btn-slidenum',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-pagenum',
+                        caption: me.capBtnSlideNum,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnInsSlideNum);
+
                     me.btnColorSchemas = new Common.UI.Button({
                         id: 'id-toolbar-btn-colorschemas',
                         cls: 'btn-toolbar',
@@ -917,6 +944,9 @@ define([
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-slidesize', this.btnSlideSize);
                 _injectComponent('#slot-field-styles', this.listTheme);
+                _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
+                _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
 
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'btn-insertimage', this.capInsertImage,
                     [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true);
@@ -1024,6 +1054,9 @@ define([
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);
+                this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnInsDateTime.updateHint(this.tipDateTime);
+                this.btnInsSlideNum.updateHint(this.tipSlideNum);
 
                 // set menus
 
@@ -1644,7 +1677,13 @@ define([
             textTabProtect: 'Protection',
             mniImageFromStorage: 'Image from Storage',
             txtSlideAlign: 'Align to Slide',
-            txtObjectsAlign: 'Align Selected Objects'
+            txtObjectsAlign: 'Align Selected Objects',
+            tipEditHeader: 'Edit Header or Footer',
+            tipSlideNum: 'Insert slide number',
+            tipDateTime: 'Insert current date and time',
+            capBtnInsHeader: 'Header/Footer',
+            capBtnSlideNum: 'Slide Number',
+            capBtnDateTime: 'Date & Time'
         }
     }()), PE.Views.Toolbar || {}));
 });

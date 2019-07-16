@@ -218,9 +218,7 @@ define([
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
             var item = this.viewSettingsPicker.getSelectedRec();
-            if (item[0]) {
-                item[0].get('panel').show();
-            }
+            item && item.get('panel').show();
         },
 
         setMode: function(mode) {

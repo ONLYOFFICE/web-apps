@@ -738,7 +738,7 @@ define([
 
                 if (this.options.handler) {
                     this.options.handler.call(this,
-                        event.currentTarget.attributes['result'].value, active[0].get('inindex'));
+                        event.currentTarget.attributes['result'].value, active.get('inindex'));
                 }
 
                 this.close();
@@ -746,7 +746,7 @@ define([
 
             onPrimary: function() {
                 if (this.options.handler) {
-                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec()[0].get('inindex'));
+                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec().get('inindex'));
                 }
 
                 this.close();

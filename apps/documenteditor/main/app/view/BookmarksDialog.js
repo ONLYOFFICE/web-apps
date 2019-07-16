@@ -314,9 +314,7 @@ define([
 
         gotoBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
-            if (rec.length>0) {
-                this.props.asc_SelectBookmark(rec[0].get('value'));
-            }
+            rec && this.props.asc_SelectBookmark(rec.get('value'));
         },
 
         addBookmark: function(btn, eOpts){
@@ -333,11 +331,11 @@ define([
 
         deleteBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
-            if (rec.length>0) {
-                this.props.asc_RemoveBookmark(rec[0].get('value'));
+            if (rec) {
+                this.props.asc_RemoveBookmark(rec.get('value'));
                 var store = this.bookmarksList.store;
-                var idx = _.indexOf(store.models, rec[0]);
-                store.remove(rec[0]);
+                var idx = _.indexOf(store.models, rec);
+                store.remove(rec);
                 this.txtName.setValue('');
                 this.btnAdd.setDisabled(true);
                 this.btnGoto.setDisabled(true);
@@ -350,13 +348,11 @@ define([
             if (btn.cmpEl && btn.cmpEl.parent().hasClass('open')) return;
 
             var rec = this.bookmarksList.getSelectedRec();
-            if (rec.length>0) {
-                Common.Gateway.requestMakeActionLink({
-                                                        action: {
-                                                            type: "bookmark", data: rec[0].get('value')
-                                                        }
-                                                    });
-            }
+            rec && Common.Gateway.requestMakeActionLink({
+                                                            action: {
+                                                                type: "bookmark", data: rec.get('value')
+                                                            }
+                                                        });
         },
 
         onRadioSort: function(field, newValue, eOpts) {

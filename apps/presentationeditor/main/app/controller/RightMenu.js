@@ -135,6 +135,7 @@ define([
                     this._settings[settingsType].lockedBackground = value.get_LockBackground();
                     this._settings[settingsType].lockedEffects = value.get_LockTranzition();
                     this._settings[settingsType].lockedTiming = value.get_LockTiming();
+                    this._settings[settingsType].lockedHeader = !!value.get_LockHeader && value.get_LockHeader();
                 } else {
                     this._settings[settingsType].locked = value.get_Locked();
                     if (settingsType == Common.Utils.documentSettingsType.Shape && value.asc_getTextArtProperties()) {
@@ -178,7 +179,8 @@ define([
                         if (pnl.locked!==undefined)
                             this.rightmenu.slideSettings.SetSlideDisabled(this._state.no_slides || pnl.lockedBackground || pnl.locked,
                                                                           this._state.no_slides || pnl.lockedEffects || pnl.locked,
-                                                                          this._state.no_slides || pnl.lockedTiming || pnl.locked);
+                                                                          this._state.no_slides || pnl.lockedTiming || pnl.locked,
+                                                                          this._state.no_slides || pnl.lockedHeader || pnl.locked);
                     } else
                         pnl.panel.setLocked(pnl.locked);
                 }
@@ -214,7 +216,7 @@ define([
         SetDisabled: function(disabled, allowSignature) {
             this.setMode({isEdit: !disabled});
             if (this.rightmenu) {
-                this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled, disabled);
+                this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled, disabled, disabled);
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
                 this.rightmenu.textartSettings.disableControls(disabled);

@@ -182,7 +182,7 @@ define([
 
                             if (this._isChartStylesChanged) {
                                 if (rec)
-                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec()[0],true);
+                                    this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
                                 else
                                     this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
                             }

@@ -150,7 +150,7 @@ define([
 
         getSettings: function() {
             var rec = this.rangeList.getSelectedRec();
-            return (rec.length>0) ? (new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable'), undefined, undefined, undefined, true)) : null;
+            return (rec) ? (new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true)) : null;
         },
 
         onPrimary: function() {

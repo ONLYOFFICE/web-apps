@@ -274,7 +274,7 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.getSelectedRec()[0],true);
+                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.getSelectedRec(),true);
                         else
                             view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.store.at(0), true);
                     }
