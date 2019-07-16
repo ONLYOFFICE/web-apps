@@ -292,9 +292,6 @@ define([
                 }
             }
 
-            if (this.mode.isDesktopApp && this.mode.isOffline)
-                this.$el.find('#fm-btn-create, #fm-btn-back, #fm-btn-create+.devider').hide();
-
             if (this.mode.canProtect) {
                 this.panels['protect'] = (new PE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
                 this.panels['protect'].setMode(this.mode);

@@ -436,8 +436,10 @@ define([
         },
 
         onCreateNew: function(menu, type) {
-            var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
-            if (newDocumentPage) newDocumentPage.focus();
+            if ( !Common.Controllers.Desktop.process('create:new') ) {
+                var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
+                if (newDocumentPage) newDocumentPage.focus();
+            }
 
             if (menu) {
                 menu.hide();
