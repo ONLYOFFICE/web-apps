@@ -282,7 +282,12 @@ define([
             return false;
         },
         onShowComment: function (id, selected) {
-            var comment = (typeof id == Object) ? id : this.findComment(id);
+            var comment;
+            if (typeof id == 'object') {
+                comment = id;
+                id = comment.get('uid');
+            } else
+                comment = this.findComment(id);
             if (comment) {
                 if (null !== comment.get('quote')) {
                     if (this.api) {
