@@ -138,6 +138,8 @@ define([
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', _intvars.get('toolbar-height-tabs'));
 
+            me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
+
             if ( !config.isEdit ||
                     ( !Common.localStorage.itemExists("sse-compact-toolbar") &&
                         config.customization && config.customization.compactToolbar ))
