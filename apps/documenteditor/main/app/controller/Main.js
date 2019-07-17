@@ -195,7 +195,6 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
-                    Common.NotificationCenter.on('document:ready',                  _.bind(this.onDocumentReady, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -1043,12 +1042,6 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
-            },
-
-            onDocumentReady: function() {
-                if (this.editorConfig.actionLink && this.editorConfig.actionLink.action && this.editorConfig.actionLink.action.type == 'comment') {
-                    Common.NotificationCenter.trigger('comments:showaction', this.editorConfig.actionLink.action.data, false);
-                }
             },
 
             onLicenseChanged: function(params) {

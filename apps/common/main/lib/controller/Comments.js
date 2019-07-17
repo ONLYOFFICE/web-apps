@@ -130,7 +130,6 @@ define([
             });
 
             Common.NotificationCenter.on('comments:updatefilter',   _.bind(this.onUpdateFilter, this));
-            Common.NotificationCenter.on('comments:showaction',     _.bind(this.onShowAction, this));
             Common.NotificationCenter.on('app:comment:add',         _.bind(this.onAppAddComment, this));
             Common.NotificationCenter.on('layout:changed', function(area){
                 Common.Utils.asyncCall(function(e) {
@@ -282,12 +281,7 @@ define([
             return false;
         },
         onShowComment: function (id, selected) {
-            var comment;
-            if (typeof id == 'object') {
-                comment = id;
-                id = comment.get('uid');
-            } else
-                comment = this.findComment(id);
+            var comment = this.findComment(id);
             if (comment) {
                 if (null !== comment.get('quote')) {
                     if (this.api) {
@@ -1528,11 +1522,6 @@ define([
         clearCollections: function() {
             this.collection.reset();
             this.groupCollection = [];
-        },
-
-        onShowAction: function(id, selected) {
-            var comment = this.collection.findWhere({guid: id});
-            comment && this.onShowComment(comment, selected);
         }
 
     }, Common.Controllers.Comments || {}));

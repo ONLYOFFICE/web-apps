@@ -168,7 +168,6 @@ define([
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
-                Common.NotificationCenter.on('document:ready',               _.bind(this.onDocumentReady, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -799,12 +798,6 @@ define([
                 } else checkWarns();
 
                 Common.Gateway.documentReady();
-            },
-
-            onDocumentReady: function() {
-                if (this.editorConfig.actionLink && this.editorConfig.actionLink.action && this.editorConfig.actionLink.action.type == 'comment') {
-                    Common.NotificationCenter.trigger('comments:showaction', this.editorConfig.actionLink.action.data, false);
-                }
             },
 
             onLicenseChanged: function(params) {
