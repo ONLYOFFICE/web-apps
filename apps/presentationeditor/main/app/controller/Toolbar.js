@@ -1942,7 +1942,7 @@ define([
             this._state.clrtext_asccolor = undefined;
         },
 
-        _onInitEditorThemes: function(editorThemes, documentThemes) {
+        _onInitEditorThemes: function(editorThemes/*array */, documentThemes) {
             var me = this;
             window.styles_loaded = false;
 

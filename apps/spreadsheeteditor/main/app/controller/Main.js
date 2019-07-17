@@ -99,6 +99,32 @@ define([
                         'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
+
+                var me = this,
+                    styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
+                        'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
+                    translate = {
+                        'Series': this.txtSeries,
+                        'Diagram Title': this.txtDiagramTitle,
+                        'X Axis': this.txtXAxis,
+                        'Y Axis': this.txtYAxis,
+                        'Your text here': this.txtArt,
+                        'Table': this.txtTable,
+                        'Print_Area': this.txtPrintArea
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+                translate['Currency [0]'] = me.txtStyle_Currency + ' [0]';
+                translate['Comma [0]'] = me.txtStyle_Comma + ' [0]';
+
+                for (var i=1; i<7; i++) {
+                    translate['Accent'+i] = me.txtAccent + i;
+                    translate['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
+                    translate['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
+                    translate['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
+                }
+                me.translationTable = translate;
             },
 
             onLaunch: function() {
@@ -106,7 +132,6 @@ define([
                 var me = this;
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
-                this.translationTable = [];
                 this.isModalShowed = 0;
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -123,35 +148,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
 
                 // Initialize api
-                var styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
-                                'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
-                    translate = {
-                        'Series': this.txtSeries,
-                        'Diagram Title': this.txtDiagramTitle,
-                        'X Axis': this.txtXAxis,
-                        'Y Axis': this.txtYAxis,
-                        'Your text here': this.txtArt,
-                        'Table': this.txtTable,
-                        'Print_Area': this.txtPrintArea
-                    };
-                styleNames.forEach(function(item){
-                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
-                });
-                translate['Currency [0]'] = me.translationTable['Currency [0]'] = me.txtStyle_Currency + ' [0]';
-                translate['Comma [0]'] = me.translationTable['Comma [0]'] = me.txtStyle_Comma + ' [0]';
-
-                for (var i=1; i<7; i++) {
-                    translate['Accent'+i] = me.translationTable['Accent'+i] = me.txtAccent + i;
-                    translate['20% - Accent'+i] = me.translationTable['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
-                    translate['40% - Accent'+i] = me.translationTable['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
-                    translate['60% - Accent'+i] = me.translationTable['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
-                }
-
-                this.api = new Asc.spreadsheet_api({
-                    'id-view'  : 'editor_sdk',
-                    'id-input' : 'ce-cell-content',
-                    'translate': translate
-                });
+                this.api = this.getApplication().getController('Viewport').getApi();
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));

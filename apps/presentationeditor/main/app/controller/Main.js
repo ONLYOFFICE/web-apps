@@ -96,42 +96,10 @@ define([
                         'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
-            },
 
-            onLaunch: function() {
-                var me = this;
-
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
-                this.languages = null;
-                this.translationTable = [];
-                this.isModalShowed = 0;
-
-                window.storagename = 'presentation';
-
-                this.stackLongActions = new Common.IrregularStack({
-                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
-                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
-                });
-
-                // Initialize viewport
-
-                if (!Common.Utils.isBrowserSupported()){
-                    Common.Utils.showBrowserRestriction();
-                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
-                    return;
-                }
-
-                var value = Common.localStorage.getItem("pe-settings-fontrender");
-                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
-                Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
-
-                // Initialize api
-
-                window["flat_desine"] = true;
-
-                this.api = new Asc.asc_docs_api({
-                    'id-view'  : 'editor_sdk',
-                    'translate': {
+                var me = this,
+                    themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle'],
+                    translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
                         'X Axis': this.txtXAxis,
@@ -154,13 +122,43 @@ define([
                         'Loading': this.txtLoading,
                         'Click to add notes': this.txtAddNotes,
                         'Click to add first slide': this.txtAddFirstSlide
-                    }
+                    };
+
+                themeNames.forEach(function(item){
+                    translate[item] = me['txtTheme_' + item.replace(/ /g, '_')] || item;
+                });
+                me.translationTable = translate;
+            },
+
+            onLaunch: function() {
+                var me = this;
+
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this.languages = null;
+                this.isModalShowed = 0;
+
+                window.storagename = 'presentation';
+
+                this.stackLongActions = new Common.IrregularStack({
+                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
+                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
-                var themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle'];
-                themeNames.forEach(function(item){
-                    me.translationTable[item] = me['txtTheme_' + item.replace(/ /g, '_')] || item;
-                });
+                // Initialize viewport
+
+                if (!Common.Utils.isBrowserSupported()){
+                    Common.Utils.showBrowserRestriction();
+                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+                    return;
+                }
+
+                var value = Common.localStorage.getItem("pe-settings-fontrender");
+                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
+
+                // Initialize api
+                window["flat_desine"] = true;
+                this.api = this.getApplication().getController('Viewport').getApi();
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);

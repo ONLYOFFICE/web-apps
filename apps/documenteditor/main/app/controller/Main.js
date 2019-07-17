@@ -97,38 +97,9 @@ define([
                         'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
-            },
 
-            onLaunch: function() {
-                var me = this;
-
-                this.stackLongActions = new Common.IrregularStack({
-                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
-                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
-                });
-
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
-                this.languages = null;
-                this.translationTable = [];
-                this.isModalShowed = 0;
-                // Initialize viewport
-
-                if (!Common.Utils.isBrowserSupported()){
-                    Common.Utils.showBrowserRestriction();
-                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
-                    return;
-                }
-
-                var value = Common.localStorage.getItem("de-settings-fontrender");
-                if (value === null)
-                    window.devicePixelRatio > 1 ? value = '1' : '0';
-                Common.Utils.InternalSettings.set("de-settings-fontrender", value);
-
-                // Initialize api
-
-                window["flat_desine"] = true;
-
-                var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
+                var me = this,
+                    styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
                 translate = {
                     'Series': this.txtSeries,
@@ -164,15 +135,38 @@ define([
                     "Hyperlink": this.txtHyperlink
                 };
                 styleNames.forEach(function(item){
-                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
-                me.translationTable['Header'] = this.txtHeader;
-                me.translationTable['Footer'] = this.txtFooter;
+                me.translationTable = translate;
+            },
 
-                this.api = new Asc.asc_docs_api({
-                    'id-view'  : 'editor_sdk',
-                    'translate': translate
+            onLaunch: function() {
+                var me = this;
+
+                this.stackLongActions = new Common.IrregularStack({
+                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
+                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
+
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this.languages = null;
+                this.isModalShowed = 0;
+                // Initialize viewport
+
+                if (!Common.Utils.isBrowserSupported()){
+                    Common.Utils.showBrowserRestriction();
+                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+                    return;
+                }
+
+                var value = Common.localStorage.getItem("de-settings-fontrender");
+                if (value === null)
+                    window.devicePixelRatio > 1 ? value = '1' : '0';
+                Common.Utils.InternalSettings.set("de-settings-fontrender", value);
+
+                // Initialize api
+                window["flat_desine"] = true;
+                this.api = this.getApplication().getController('Viewport').getApi();
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
