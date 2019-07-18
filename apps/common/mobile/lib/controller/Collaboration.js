@@ -163,6 +163,22 @@ define([
                     domCache: true
                 });
 
+                if (!Common.SharedSettings.get('phone')) {
+                    this.picker = $$(modalView);
+                    var $overlay = $('.modal-overlay');
+
+                    $$(this.picker).on('opened', function () {
+                        $overlay.on('removeClass', function () {
+                            if (!$overlay.hasClass('modal-overlay-visible')) {
+                                $overlay.addClass('modal-overlay-visible')
+                            }
+                        });
+                    }).on('close', function () {
+                        $overlay.off('removeClass');
+                        $overlay.removeClass('modal-overlay-visible')
+                    });
+                }
+
                 Common.NotificationCenter.trigger('collaborationcontainer:show');
                 this.onPageShow(this.getView('Common.Views.Collaboration'));
 
