@@ -804,12 +804,12 @@ define([
 
                     me.listTheme.fieldPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px;"/>',
+                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px; background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''));
                     me.listTheme.menuPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px;"/>',
+                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px; background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''));
 

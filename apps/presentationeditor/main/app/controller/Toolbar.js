@@ -1960,26 +1960,51 @@ define([
             me.toolbar.listTheme.menuPicker.store.reset([]); // remove all
 
             var themeStore = this.getCollection('SlideThemes'),
-                mainController = this.getApplication().getController('Main');
+                mainController = this.getApplication().getController('Main'),
+                imageUrl = (window.devicePixelRatio > 1) ? '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png' : '../../../../sdkjs/common/Images/fonts_thumbnail.png';
             if (themeStore) {
-                var arr = [];
-                _.each(defaultThemes.concat(docThemes), function(theme) {
-                    arr.push(new Common.UI.DataViewModel({
-                        imageUrl: theme.get_Image(),
+                var arr1 = [], arr2 = [];
+                _.each(defaultThemes, function(theme, index) {
+                    var tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                    arr1.push(new Common.UI.DataViewModel({
+                        imageUrl: imageUrl,
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
-                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name(),
+                        tip     : tip,
                         itemWidth   : 85,
-                        itemHeight  : 38
+                        itemHeight  : 38,
+                        offsety     : index * 38
                     }));
-                    me.toolbar.listTheme.menuPicker.store.add({
-                        imageUrl: theme.get_Image(),
+                    arr2.push({
+                        imageUrl: imageUrl,
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
-                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name()
+                        tip     : tip,
+                        offsety     : index * 38
                     });
                 });
-                themeStore.reset(arr);
+                _.each(docThemes, function(theme) {
+                    var image = theme.get_Image(),
+                        tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                    arr1.push(new Common.UI.DataViewModel({
+                        imageUrl: image,
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index(),
+                        tip     : tip,
+                        itemWidth   : 85,
+                        itemHeight  : 38,
+                        offsety     : 0
+                    }));
+                    arr2.push({
+                        imageUrl: image,
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index(),
+                        tip     : tip,
+                        offsety     : 0
+                    });
+                });
+                themeStore.reset(arr1);
+                me.toolbar.listTheme.menuPicker.store.reset(arr2);
             }
 
             if (me.toolbar.listTheme.menuPicker.store.length > 0 &&  me.toolbar.listTheme.rendered){
