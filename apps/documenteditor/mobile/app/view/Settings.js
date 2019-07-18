@@ -287,7 +287,10 @@ define([
             textColorSchemes: 'Color Schemes',
             textNoCharacters: 'Nonprinting Characters',
             textHiddenTableBorders: 'Hidden Table Borders',
-            textCollaboration: 'Collaboration'
+            textCollaboration: 'Collaboration',
+            textCommentingDisplay: 'Commenting Display',
+            textDisplayComments: 'Display Comments',
+            textDisplayResolvedComments: 'Display Resolved Comments'
 
     }
     })(), DE.Views.Settings || {}))

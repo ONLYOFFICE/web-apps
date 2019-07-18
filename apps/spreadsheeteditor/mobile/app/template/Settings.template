@@ -462,6 +462,33 @@
                         </li>
                     </ul>
                 </div>
+                <div class="content-block-title"><%= scope.textCommentingDisplay %></div>
+                <div class="list-block">
+                    <ul>
+                        <div id="settings-display-comments" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDisplayComments %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="settings-display-resolved" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDisplayResolvedComments %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

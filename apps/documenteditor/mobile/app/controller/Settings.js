@@ -234,6 +234,16 @@ define([
                     $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
                     $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
+                    var displayComments = Common.localStorage.getBool("de-settings-livecomment", true);
+                    $('#settings-display-comments input:checkbox').attr('checked', displayComments);
+                    $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
+                    var displayResolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                    if (!displayComments) {
+                        $("#settings-display-resolved").addClass("disabled");
+                        displayResolved = false;
+                    }
+                    $('#settings-display-resolved input:checkbox').attr('checked', displayResolved);
+                    $('#settings-display-resolved input:checkbox').single('change',   _.bind(me.onChangeDisplayResolved, me));
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-advanced-view]', '.page[data-page=settings-advanced-view] .page-content');
                 } else if ('#color-schemes-view' == pageId) {
                     me.initPageColorSchemes();
@@ -257,6 +267,32 @@ define([
                     if (_userCount > 0) {
                         $('#settings-collaboration').show();
                     }
+                }
+            },
+
+            onChangeDisplayComments: function(e) {
+                var displayComments = $(e.currentTarget).is(':checked');
+                if (!displayComments) {
+                    this.api.asc_hideComments();
+                    $("#settings-display-resolved input").prop( "checked", false );
+                    Common.localStorage.setBool("de-settings-resolvedcomment", false);
+                    $("#settings-display-resolved").addClass("disabled");
+                } else {
+                    var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
+                    this.api.asc_showComments(resolved);
+                    $("#settings-display-resolved").removeClass("disabled");
+                }
+                Common.localStorage.setBool("de-settings-livecomment", displayComments);
+            },
+
+            onChangeDisplayResolved: function(e) {
+                var displayComments = Common.localStorage.getBool("de-settings-livecomment");
+                if (displayComments) {
+                    var resolved = $(e.currentTarget).is(':checked');
+                    if (this.api) {
+                        this.api.asc_showComments(resolved);
+                    }
+                    Common.localStorage.setBool("de-settings-resolvedcomment", resolved);
                 }
             },
 

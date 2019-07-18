@@ -507,9 +507,9 @@ define([
                 this.api.asc_setZoom(zf>0 ? zf : 1);
 
                 /** coauthoring begin **/
-                value = Common.localStorage.getItem("sse-settings-livecomment");
-                this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                this.isLiveCommenting?this.api.asc_showComments(true):this.api.asc_hideComments();
+                this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
+                var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                this.isLiveCommenting ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode
