@@ -252,6 +252,7 @@ define([
                 ascComment.asc_putUserId(comment.get('userid'));
                 ascComment.asc_putUserName(comment.get('username'));
                 ascComment.asc_putSolved(!comment.get('resolved'));
+                ascComment.asc_putGuid(comment.get('guid'));
 
                 if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                     ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -344,6 +345,7 @@ define([
                     ascComment.asc_putUserId(t.currentUserId);
                     ascComment.asc_putUserName(t.currentUserName);
                     ascComment.asc_putSolved(comment.get('resolved'));
+                    ascComment.asc_putGuid(comment.get('guid'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -400,6 +402,7 @@ define([
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
+                    ascComment.asc_putGuid(comment.get('guid'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -462,6 +465,7 @@ define([
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
+                    ascComment.asc_putGuid(comment.get('guid'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -520,6 +524,7 @@ define([
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
+                    ascComment.asc_putGuid(comment.get('guid'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
