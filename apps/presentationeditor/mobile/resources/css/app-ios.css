@@ -6274,6 +6274,157 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   margin-left: 20px;
   color: #212121;
 }
+.page-change .block-description {
+  background-color: #fff;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin: 0;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+.page-change #user-name {
+  font-size: 17px;
+  line-height: 22px;
+  color: #000000;
+  margin: 0;
+}
+.page-change #date-change {
+  font-size: 14px;
+  line-height: 18px;
+  color: #6d6d72;
+  margin: 0;
+  margin-top: 3px;
+}
+.page-change #text-change {
+  color: #000000;
+  font-size: 15px;
+  line-height: 20px;
+  margin: 0;
+  margin-top: 10px;
+}
+.page-change .block-btn,
+.page-change .content-block.block-btn:first-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 26px 0;
+}
+.page-change .block-btn #btn-next-change,
+.page-change .content-block.block-btn:first-child #btn-next-change,
+.page-change .block-btn #btn-reject-change,
+.page-change .content-block.block-btn:first-child #btn-reject-change {
+  margin-left: 20px;
+}
+.page-change .block-btn #btn-goto-change,
+.page-change .content-block.block-btn:first-child #btn-goto-change {
+  margin-right: 20px;
+}
+.page-change .block-btn .right-buttons,
+.page-change .content-block.block-btn:first-child .right-buttons {
+  display: flex;
+}
+.page-change .block-btn .link,
+.page-change .content-block.block-btn:first-child .link {
+  display: inline-block;
+}
+.navbar .center-collaboration {
+  display: flex;
+  justify-content: space-around;
+}
+.container-collaboration .navbar .right.close-collaboration {
+  position: absolute;
+  right: 10px;
+}
+.container-collaboration .page-content .list-block:first-child {
+  margin-top: -1px;
+}
+#user-list .item-content {
+  padding-left: 0;
+}
+#user-list .item-inner {
+  justify-content: flex-start;
+  padding-left: 15px;
+}
+#user-list .length {
+  margin-left: 4px;
+}
+#user-list .color {
+  min-width: 40px;
+  min-height: 40px;
+  margin-right: 20px;
+  text-align: center;
+  border-radius: 50px;
+  line-height: 40px;
+  color: #373737;
+  font-weight: 500;
+}
+#user-list ul:before {
+  content: none;
+}
+.page-comments .list-block .item-inner {
+  display: block;
+  padding: 16px 0;
+  word-wrap: break-word;
+}
+.page-comments p {
+  margin: 0;
+}
+.page-comments .user-name {
+  font-size: 17px;
+  line-height: 22px;
+  color: #000000;
+  margin: 0;
+  font-weight: bold;
+}
+.page-comments .comment-date,
+.page-comments .reply-date {
+  font-size: 12px;
+  line-height: 18px;
+  color: #6d6d72;
+  margin: 0;
+  margin-top: 0px;
+}
+.page-comments .comment-text,
+.page-comments .reply-text {
+  color: #000000;
+  font-size: 15px;
+  line-height: 25px;
+  margin: 0;
+  max-width: 100%;
+  padding-right: 15px;
+}
+.page-comments .reply-item {
+  margin-top: 15px;
+}
+.page-comments .reply-item .user-name {
+  padding-top: 16px;
+}
+.page-comments .reply-item:before {
+  content: '';
+  position: absolute;
+  left: auto;
+  bottom: 0;
+  right: auto;
+  top: 0;
+  height: 1px;
+  width: 100%;
+  background-color: #c8c7cc;
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+}
+.page-comments .comment-quote {
+  color: #aa5252;
+  border-left: 1px solid #aa5252;
+  padding-left: 10px;
+  margin: 5px 0;
+  font-size: 15px;
+}
+.settings.popup .list-block ul.list-reply:last-child:after,
+.settings.popover .list-block ul.list-reply:last-child:after {
+  display: none;
+}
 .tablet .searchbar.document.replace .center .searchbar:first-child {
   margin-right: 10px;
 }
@@ -6872,27 +7023,4 @@ html.pixel-ratio-3 .numbers li {
 .modal.modal-in {
   max-height: 100%;
   overflow: auto;
-}
-#user-list .item-content {
-  padding-left: 0;
-}
-#user-list .item-inner {
-  justify-content: flex-start;
-  padding-left: 15px;
-}
-#user-list .length {
-  margin-left: 4px;
-}
-#user-list .color {
-  min-width: 40px;
-  min-height: 40px;
-  margin-right: 20px;
-  text-align: center;
-  border-radius: 50px;
-  line-height: 40px;
-  color: #373737;
-  font-weight: 500;
-}
-#user-list ul:before {
-  content: none;
 }

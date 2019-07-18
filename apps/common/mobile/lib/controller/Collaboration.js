@@ -79,12 +79,17 @@ define([
                         'page:show' : me.onPageShow
                     }
                 });
+                Common.NotificationCenter.on('comments:filterchange',   _.bind(this.onFilterChange, this));
             },
 
             setApi: function(api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onChangeEditUsers, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onChangeEditUsers, this));
+                this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
+                this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
+                this.api.asc_registerCallback('asc_onChangeCommentData', _.bind(this.onApiChangeCommentData, this));
+                this.api.asc_registerCallback('asc_onRemoveComment', _.bind(this.onApiRemoveComment, this));
                 if (editor === 'DE') {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
                 }
@@ -642,6 +647,216 @@ define([
                 if (this.api) {
                     this.api.asc_FollowRevisionMove(dateChange[0]);
                 }
+            },
+
+            //Comments
+
+            groupCollectionComments: [],
+            collectionComments: [],
+            groupCollectionFilter: [],
+            filter: [],
+
+            initComments: function() {
+                this.getView('Common.Views.Collaboration').renderComments((this.groupCollectionFilter.length !== 0) ? this.groupCollectionFilter : (this.collectionComments.length !== 0) ? this.collectionComments : false);
+                $('.comment-quote').single('click', _.bind(this.onSelectComment, this));
+            },
+
+            readSDKReplies: function (data) {
+                var i = 0,
+                    replies = [],
+                    date = null;
+                var repliesCount = data.asc_getRepliesCount();
+                if (repliesCount) {
+                    for (i = 0; i < repliesCount; ++i) {
+                        date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
+                            ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
+
+                        var user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        replies.push({
+                            userid              : data.asc_getReply(i).asc_getUserId(),
+                            username            : data.asc_getReply(i).asc_getUserName(),
+                            usercolor           : (user) ? user.asc_getColor() : null,
+                            date                : this.dateToLocaleTimeString(date),
+                            reply               : data.asc_getReply(i).asc_getText(),
+                            time                : date.getTime()
+                        });
+                    }
+                }
+                return replies;
+            },
+
+            readSDKComment: function(id, data) {
+                var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
+                    ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
+                var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()}),
+                    groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
+                var comment = {
+                    uid                 : id,
+                    userid              : data.asc_getUserId(),
+                    username            : data.asc_getUserName(),
+                    usercolor           : (user) ? user.asc_getColor() : null,
+                    date                : this.dateToLocaleTimeString(date),
+                    quote               : data.asc_getQuoteText(),
+                    comment             : data.asc_getText(),
+                    resolved            : data.asc_getSolved(),
+                    unattached          : !_.isUndefined(data.asc_getDocumentFlag) ? data.asc_getDocumentFlag() : false,
+                    time                : date.getTime(),
+                    replys              : [],
+                    groupName           : (groupname && groupname.length>1) ? groupname[1] : null
+                }
+                if (comment) {
+                    var replies = this.readSDKReplies(data);
+                    if (replies.length) {
+                        comment.replys = replies;
+                    }
+                }
+                return comment;
+            },
+
+            onApiChangeCommentData: function(id, data) {
+                var me = this,
+                    i = 0,
+                    date = null,
+                    replies = null,
+                    repliesCount = 0,
+                    dateReply = null,
+                    comment = _.findWhere(me.collectionComments, {uid: id}) || this.findCommentInGroup(id);
+
+                if (comment) {
+
+                    date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
+                        ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
+
+                    var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()});
+                    comment.comment = data.asc_getText();
+                    comment.userid = data.asc_getUserId();
+                    comment.username = data.asc_getUserName();
+                    comment.usercolor = (user) ? user.asc_getColor() : null;
+                    comment.resolved = data.asc_getSolved();
+                    comment.quote = data.asc_getQuoteText();
+                    comment.time = date.getTime();
+                    comment.date = me.dateToLocaleTimeString(date);
+
+                    replies = _.clone(comment.replys);
+
+                    replies.length = 0;
+
+                    repliesCount = data.asc_getRepliesCount();
+                    for (i = 0; i < repliesCount; ++i) {
+
+                        dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
+                            ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
+
+                        user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        replies.push({
+                            userid              : data.asc_getReply(i).asc_getUserId(),
+                            username            : data.asc_getReply(i).asc_getUserName(),
+                            usercolor           : (user) ? user.asc_getColor() : null,
+                            date                : me.dateToLocaleTimeString(dateReply),
+                            reply               : data.asc_getReply(i).asc_getText(),
+                            time                : dateReply.getTime()
+                        });
+                    }
+                    comment.replys = replies;
+                    if($('.page-comments').length > 0) {
+                        this.initComments();
+                    }
+                }
+            },
+
+            onApiAddComment: function (id, data) {
+                var comment = this.readSDKComment(id, data);
+                if (comment) {
+                    comment.groupName ? this.addCommentToGroupCollection(comment) : this.collectionComments.push(comment);
+                }
+                if($('.page-comments').length > 0) {
+                    this.initComments();
+                }
+            },
+
+            onApiAddComments: function (data) {
+                for (var i = 0; i < data.length; ++i) {
+                    var comment = this.readSDKComment(data[i].asc_getId(), data[i]);
+                    comment.groupName ? this.addCommentToGroupCollection(comment) : this.collectionComments.push(comment);
+                }
+                if($('.page-comments').length > 0) {
+                    this.initComments();
+                }
+            },
+
+            stringOOToLocalDate: function (date) {
+                if (typeof date === 'string')
+                    return parseInt(date);
+                return 0;
+            },
+
+            addCommentToGroupCollection: function (comment) {
+                var groupname = comment.groupName;
+                if (!this.groupCollectionComments[groupname])
+                    this.groupCollectionComments[groupname] = [];
+                this.groupCollectionComments[groupname].push(comment);
+                if (this.filter.indexOf(groupname) != -1) {
+                    this.groupCollectionFilter.push(comment);
+                }
+            },
+
+            findCommentInGroup: function (id) {
+                for (var name in this.groupCollectionComments) {
+                    var store = this.groupCollectionComments[name],
+                        model = _.findWhere(store, {uid: id});
+                    if (model) return model;
+                }
+            },
+
+            onApiRemoveComment: function (id) {
+                function remove (collection, key) {
+                    if(collection instanceof Array) {
+                        var index = collection.indexOf(key);
+                        if(index != -1) {
+                            collection.splice(index, 1);
+                        }
+                    }
+                }
+                if (this.groupCollectionComments) {
+                    for (var name in this.groupCollectionComments) {
+                        var store = this.groupCollectionComments[name],
+                            comment = _.findWhere(store, {uid: id});
+                        if (comment) {
+                            remove(this.groupCollectionComments[name], comment);
+                            if (this.filter.indexOf(name) != -1) {
+                                remove(this.groupCollectionFilter, comment);
+                            }
+                        }
+                    }
+                }
+                if (this.collectionComments.length > 0) {
+                    var comment = _.findWhere(this.collectionComments, {uid: id});
+                    if (comment) {
+                        remove(this.collectionComments, comment);
+                    }
+                }
+                if($('.page-comments').length > 0) {
+                    this.initComments();
+                }
+            },
+
+            onFilterChange: function (filter) {
+                if (filter) {
+                    var me = this,
+                        comments = [];
+                    this.filter = filter;
+                    filter.forEach(function(item){
+                        if (!me.groupCollectionComments[item])
+                            me.groupCollectionComments[item] = [];
+                        comments = comments.concat(me.groupCollectionComments[item]);
+                    });
+                    this.groupCollectionFilter = comments;
+                }
+            },
+
+            onSelectComment: function (e) {
+                var id = $(e.currentTarget).data('id');
+                this.api.asc_selectComment(id);
             },
 
 

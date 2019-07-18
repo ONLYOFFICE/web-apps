@@ -146,6 +146,44 @@ define([
                 }
             },
 
+            renderComments: function (comments) {
+                var $listComments = $('#comments-list'),
+                    items = [];
+
+                _.each(comments, function (comment) {
+                    var itemTemplate = [
+                        '<li class="comment item-content">',
+                        '<div class="item-inner">',
+                        '<p class="user-name"><%= item.username %></p>',
+                        '<p class="comment-date"><%= item.date %></p>',
+                        '<% if(item.quote) {%>',
+                        '<p class="comment-quote" data-id="<%= item.uid %>"><%= item.quote %></p>',
+                        '<% } %>',
+                        '<p class="comment-text"><%= item.comment %></p>',
+                        '<% if(replys > 0) {%>',
+                        '<ul class="list-reply">',
+                        '<% _.each(item.replys, function (reply) { %>',
+                        '<li class="reply-item">',
+                        '<p class="user-name"><%= reply.username %></p>',
+                        '<p class="reply-date"><%= reply.date %></p>',
+                        '<p class="reply-text"><%= reply.reply %></p>',
+                        '</li>',
+                        '<% }); %>',
+                        '</ul>',
+                        '<% } %>',
+                        '</div>',
+                        '</li>'
+                    ].join('');
+                    items.push(_.template(itemTemplate)({
+                        android: Framework7.prototype.device.android,
+                        item: comment,
+                        replys: comment.replys.length
+                    }));
+                });
+
+                $listComments.html(items);
+            },
+
 
 
             textCollaboration: 'Collaboration',
