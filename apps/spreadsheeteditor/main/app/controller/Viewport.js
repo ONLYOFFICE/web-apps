@@ -322,6 +322,7 @@ define([
         onLaunch: function() {
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
+            this.getApplication().getController('CellEditor').createView('CellEditor',{ el: '#cell-editing-box' }).render();
 
             this.api = new Asc.spreadsheet_api({
                 'id-view'  : 'editor_sdk',
