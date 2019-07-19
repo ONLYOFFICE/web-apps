@@ -168,6 +168,8 @@ define([
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
 
+                $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
+
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
                     switch (value) {
