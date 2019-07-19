@@ -162,7 +162,7 @@ define([
 
             //Collaboration
             showCollaboration: function () {
-                PE.getController('Collaboration').showModal();
+                PE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             textBack: 'Back'

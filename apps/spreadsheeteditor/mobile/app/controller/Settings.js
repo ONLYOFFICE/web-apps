@@ -282,7 +282,7 @@ define([
             },
 
             onCollaboration: function() {
-                SSE.getController('Collaboration').showModal();
+                SSE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             initSpreadsheetSettings: function() {
@@ -549,6 +549,44 @@ define([
                 var $r1c1Style = $('.page[data-page=settings-application-view] #r1-c1-style input');
                 $r1c1Style.prop('checked',value);
                 $r1c1Style.single('change',    _.bind(me.clickR1C1Style, me));
+
+                //init Commenting Display
+                var displayComments = Common.localStorage.getBool("sse-settings-livecomment", true);
+                $('#settings-display-comments input:checkbox').attr('checked', displayComments);
+                $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
+                var displayResolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                if (!displayComments) {
+                    $("#settings-display-resolved").addClass("disabled");
+                    displayResolved = false;
+                }
+                $('#settings-display-resolved input:checkbox').attr('checked', displayResolved);
+                $('#settings-display-resolved input:checkbox').single('change',   _.bind(me.onChangeDisplayResolved, me));
+            },
+
+            onChangeDisplayComments: function(e) {
+                var displayComments = $(e.currentTarget).is(':checked');
+                if (!displayComments) {
+                    this.api.asc_hideComments();
+                    $("#settings-display-resolved input").prop( "checked", false );
+                    Common.localStorage.setBool("sse-settings-resolvedcomment", false);
+                    $("#settings-display-resolved").addClass("disabled");
+                } else {
+                    var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
+                    this.api.asc_showComments(resolved);
+                    $("#settings-display-resolved").removeClass("disabled");
+                }
+                Common.localStorage.setBool("sse-settings-livecomment", displayComments);
+            },
+
+            onChangeDisplayResolved: function(e) {
+                var displayComments = Common.localStorage.getBool("sse-settings-livecomment");
+                if (displayComments) {
+                    var resolved = $(e.currentTarget).is(':checked');
+                    if (this.api) {
+                        this.api.asc_showComments(resolved);
+                    }
+                    Common.localStorage.setBool("sse-settings-resolvedcomment", resolved);
+                }
             },
 
             clickR1C1Style: function(e) {

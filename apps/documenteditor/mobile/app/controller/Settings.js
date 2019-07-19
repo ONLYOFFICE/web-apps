@@ -47,7 +47,7 @@ define([
     'underscore',
     'backbone',
     'documenteditor/mobile/app/view/Settings',
-    'documenteditor/mobile/app/controller/Collaboration'
+    'common/mobile/lib/controller/Collaboration'
 ], function (core, $, _, Backbone) {
     'use strict';
 
@@ -85,7 +85,8 @@ define([
             _isReviewOnly = false,
             _fileKey,
             templateInsert,
-            _metricText = Common.Utils.Metric.getCurrentMetricName();
+            _metricText = Common.Utils.Metric.getCurrentMetricName(),
+            _isEdit;
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -147,6 +148,7 @@ define([
                 _canReview = mode.canReview;
                 _isReviewOnly = mode.isReviewOnly;
                 _fileKey = mode.fileKey;
+                _isEdit = mode.isEdit;
             },
 
             initEvents: function () {
@@ -234,6 +236,16 @@ define([
                     $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
                     $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
+                    var displayComments = Common.localStorage.getBool("de-settings-livecomment", true);
+                    $('#settings-display-comments input:checkbox').attr('checked', displayComments);
+                    $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
+                    var displayResolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                    if (!displayComments) {
+                        $("#settings-display-resolved").addClass("disabled");
+                        displayResolved = false;
+                    }
+                    $('#settings-display-resolved input:checkbox').attr('checked', displayResolved);
+                    $('#settings-display-resolved input:checkbox').single('change',   _.bind(me.onChangeDisplayResolved, me));
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-advanced-view]', '.page[data-page=settings-advanced-view] .page-content');
                 } else if ('#color-schemes-view' == pageId) {
                     me.initPageColorSchemes();
@@ -249,7 +261,7 @@ define([
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
                     $('#settings-collaboration').single('click',                _.bind(me.clickCollaboration, me));
-                    var _stateDisplayMode = DE.getController('Collaboration').getDisplayMode();
+                    var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
                     if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                         $('#settings-document').addClass('disabled');
                     }
@@ -260,8 +272,34 @@ define([
                 }
             },
 
+            onChangeDisplayComments: function(e) {
+                var displayComments = $(e.currentTarget).is(':checked');
+                if (!displayComments) {
+                    this.api.asc_hideComments();
+                    $("#settings-display-resolved input").prop( "checked", false );
+                    Common.localStorage.setBool("de-settings-resolvedcomment", false);
+                    $("#settings-display-resolved").addClass("disabled");
+                } else {
+                    var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
+                    this.api.asc_showComments(resolved);
+                    $("#settings-display-resolved").removeClass("disabled");
+                }
+                Common.localStorage.setBool("de-settings-livecomment", displayComments);
+            },
+
+            onChangeDisplayResolved: function(e) {
+                var displayComments = Common.localStorage.getBool("de-settings-livecomment");
+                if (displayComments) {
+                    var resolved = $(e.currentTarget).is(':checked');
+                    if (this.api) {
+                        this.api.asc_showComments(resolved);
+                    }
+                    Common.localStorage.setBool("de-settings-resolvedcomment", resolved);
+                }
+            },
+
             clickCollaboration: function() {
-                DE.getController('Collaboration').showModal();
+                DE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             onNoCharacters: function(e) {
@@ -339,10 +377,13 @@ define([
                 var value = Common.localStorage.getItem('de-mobile-settings-unit');
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 $unitMeasurement.val([value]);
-                var _stateDisplayMode = DE.getController('Collaboration').getDisplayMode();
+                var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
                 if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                     $('#settings-no-characters').addClass('disabled');
                     $('#settings-hidden-borders').addClass('disabled');
+                }
+                if (!_isEdit) {
+                    $('.page[data-page=settings-advanced-view] .page-content > :not(.display-view)').hide();
                 }
             },
 

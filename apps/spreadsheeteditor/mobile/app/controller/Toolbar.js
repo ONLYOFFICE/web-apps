@@ -160,6 +160,7 @@ define([
 
             onApiActiveSheetChanged: function (index) {
                 locked.sheet = this.api.asc_isWorksheetLockedOrDeleted(index);
+                Common.NotificationCenter.trigger('comments:filterchange', ['doc', 'sheet' + this.api.asc_getWorksheetId(index)], false );
             },
 
             onApiCanRevert: function(which, can) {

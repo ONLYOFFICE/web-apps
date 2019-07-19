@@ -33,64 +33,78 @@
 
 /**
  *  Collaboration.js
- *  Document Editor
  *
- *  Created by Julia Svinareva on 14/5/19
+ *  Created by Julia Svinareva on 12/7/19
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
+
+if (Common === undefined)
+    var Common = {};
+
+Common.Controllers = Common.Controllers || {};
+
 define([
     'core',
     'jquery',
     'underscore',
     'backbone',
-    'documenteditor/mobile/app/view/Collaboration'
+    'common/mobile/lib/view/Collaboration'
 ], function (core, $, _, Backbone) {
     'use strict';
 
-    DE.Controllers.Collaboration = Backbone.Controller.extend(_.extend((function() {
+    Common.Controllers.Collaboration = Backbone.Controller.extend(_.extend((function() {
         // Private
-        var _settings = [],
-            _headerType = 1,
-             rootView,
+        var rootView,
+            _userId,
+            editUsers = [],
+            editor = !!window.DE ? 'DE' : !!window.PE ? 'PE' : 'SSE',
             displayMode = "Markup",
             arrChangeReview = [],
             dateChange = [],
-            _fileKey,
-            _userId,
-            editUsers = [];
+            _fileKey;
+
 
         return {
             models: [],
             collections: [],
             views: [
-                'Collaboration'
+                'Common.Views.Collaboration'
             ],
 
             initialize: function() {
                 var me = this;
                 me.addListeners({
-                    'Collaboration': {
+                    'Common.Views.Collaboration': {
                         'page:show' : me.onPageShow
                     }
                 });
+                Common.NotificationCenter.on('comments:filterchange',   _.bind(this.onFilterChange, this));
             },
 
             setApi: function(api) {
                 this.api = api;
-                this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onChangeEditUsers, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onChangeEditUsers, this));
+                this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
+                this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
+                this.api.asc_registerCallback('asc_onChangeCommentData', _.bind(this.onApiChangeCommentData, this));
+                this.api.asc_registerCallback('asc_onRemoveComment', _.bind(this.onApiRemoveComment, this));
+                if (editor === 'DE') {
+                    this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
+                }
             },
 
             onLaunch: function () {
-                this.createView('Collaboration').render();
+                this.createView('Common.Views.Collaboration').render();
             },
 
             setMode: function(mode) {
                 this.appConfig = mode;
-                _fileKey = mode.fileKey;
                 _userId = mode.user.id;
+                if (editor === 'DE') {
+                    _fileKey = mode.fileKey;
+                }
                 return this;
             },
 
@@ -99,7 +113,8 @@ define([
                 var me = this,
                     isAndroid = Framework7.prototype.device.android === true,
                     modalView,
-                    mainView = DE.getController('Editor').getView('Editor').f7View;
+                    appPrefix = !!window.DE ? DE : !!window.PE ? PE : SSE,
+                    mainView = appPrefix.getController('Editor').getView('Editor').f7View;
 
                 uiApp.closeModal();
 
@@ -107,7 +122,7 @@ define([
                     modalView = $$(uiApp.pickerModal(
                         '<div class="picker-modal settings container-collaboration">' +
                         '<div class="view collaboration-root-view navbar-through">' +
-                        this.getView('Collaboration').rootLayout() +
+                        this.getView('Common.Views.Collaboration').rootLayout() +
                         '</div>' +
                         '</div>'
                     )).on('opened', function () {
@@ -129,7 +144,7 @@ define([
                         '<div class="popover-inner">' +
                         '<div class="content-block">' +
                         '<div class="view popover-view collaboration-root-view navbar-through">' +
-                        this.getView('Collaboration').rootLayout() +
+                        this.getView('Common.Views.Collaboration').rootLayout() +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -148,10 +163,26 @@ define([
                     domCache: true
                 });
 
-                Common.NotificationCenter.trigger('collaborationcontainer:show');
-                this.onPageShow(this.getView('Collaboration'));
+                if (!Common.SharedSettings.get('phone')) {
+                    this.picker = $$(modalView);
+                    var $overlay = $('.modal-overlay');
 
-                DE.getController('Toolbar').getView('Toolbar').hideSearch();
+                    $$(this.picker).on('opened', function () {
+                        $overlay.on('removeClass', function () {
+                            if (!$overlay.hasClass('modal-overlay-visible')) {
+                                $overlay.addClass('modal-overlay-visible')
+                            }
+                        });
+                    }).on('close', function () {
+                        $overlay.off('removeClass');
+                        $overlay.removeClass('modal-overlay-visible')
+                    });
+                }
+
+                Common.NotificationCenter.trigger('collaborationcontainer:show');
+                this.onPageShow(this.getView('Common.Views.Collaboration'));
+
+                appPrefix.getController('Toolbar').getView('Toolbar').hideSearch();
             },
 
             rootView : function() {
@@ -173,12 +204,68 @@ define([
                 } else if('#edit-users-view' == pageId) {
                     me.initEditUsers();
                     Common.Utils.addScrollIfNeed('.page[data-page=edit-users-view]', '.page[data-page=edit-users-view] .page-content');
+                } else if ('#comments-view' == pageId) {
+                    me.initComments();
+                    Common.Utils.addScrollIfNeed('.page[data-page=comments-view]', '.page[data-page=comments-view] .page-content');
                 } else {
-                    if(!this.appConfig.canReview) {
+                    if(editor === 'DE' && !this.appConfig.canReview) {
                         $('#reviewing-settings').hide();
                     }
                 }
             },
+
+            //Edit users
+
+            onChangeEditUsers: function(users) {
+                editUsers = users;
+            },
+
+            initEditUsers: function() {
+                var usersArray = [];
+                _.each(editUsers, function(item){
+                    var fio = item.asc_getUserName().split(' ');
+                    var initials = fio[0].substring(0, 1).toUpperCase();
+                    if (fio.length > 1) {
+                        initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
+                    }
+                    if(!item.asc_getView()) {
+                        var userAttr = {
+                            color: item.asc_getColor(),
+                            id: item.asc_getId(),
+                            idOriginal: item.asc_getIdOriginal(),
+                            name: item.asc_getUserName(),
+                            view: item.asc_getView(),
+                            initial: initials
+                        };
+                        if(item.asc_getIdOriginal() == _userId) {
+                            usersArray.unshift(userAttr);
+                        } else {
+                            usersArray.push(userAttr);
+                        }
+                    }
+                });
+                var userSort = _.chain(usersArray).groupBy('idOriginal').value();
+                var templateUserItem = _.template([
+                    '<%  _.each(users, function (user) { %>',
+                    '<li id="<%= user[0].id %>" class="<% if (user[0].view) {%> viewmode <% } %> item-content">' +
+                    '<div class="user-name item-inner">' +
+                    '<div class="color" style="background-color: <%= user[0].color %>;"><%= user[0].initial %></div>'+
+                    '<label><%= user[0].name %></label>' +
+                    '<% if (user.length>1) { %><label class="length"> (<%= user.length %>)</label><% } %>' +
+                    '</div>'+
+                    '</li>',
+                    '<% }); %>'].join(''));
+                var templateUserList = _.template(
+                    '<div class="item-content"><div class="item-inner">' +
+                    this.textEditUser +
+                    '</div></div>' +
+                    '<ul>' +
+                    templateUserItem({users: userSort}) +
+                    '</ul>');
+                $('#user-list').html(templateUserList());
+            },
+
+            //Review
 
             initReviewingSettingsView: function () {
                 var me = this;
@@ -204,13 +291,14 @@ define([
                     $checkbox.attr('checked', true);
                 } else {
                     this.api.asc_SetTrackRevisions(state);
-                    Common.localStorage.setItem("de-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
+                    var prefix = !!window.DE ? 'de' : !!window.PE ? 'pe' : 'sse';
+                    Common.localStorage.setItem(prefix + "-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
                 }
             },
 
             onAcceptAllClick: function() {
                 if (this.api) {
-                   this.api.asc_AcceptAllChanges();
+                    this.api.asc_AcceptAllChanges();
                 }
             },
 
@@ -517,15 +605,15 @@ define([
                                 changetext += '</b>';
                                 changetext += proptext;
                                 break;
-                                case Asc.c_oAscRevisionsChangeType.TablePr:
-                                    changetext = me.textTableChanged;
-                                    break;
-                                case Asc.c_oAscRevisionsChangeType.RowsAdd:
-                                    changetext = me.textTableRowsAdd;
-                                    break;
-                                case Asc.c_oAscRevisionsChangeType.RowsRem:
-                                    changetext = me.textTableRowsDel;
-                                    break;
+                            case Asc.c_oAscRevisionsChangeType.TablePr:
+                                changetext = me.textTableChanged;
+                                break;
+                            case Asc.c_oAscRevisionsChangeType.RowsAdd:
+                                changetext = me.textTableRowsAdd;
+                                break;
+                            case Asc.c_oAscRevisionsChangeType.RowsRem:
+                                changetext = me.textTableRowsDel;
+                                break;
 
                         }
                         var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
@@ -577,56 +665,215 @@ define([
                 }
             },
 
-            onChangeEditUsers: function(users) {
-                editUsers = users;
+            //Comments
+
+            groupCollectionComments: [],
+            collectionComments: [],
+            groupCollectionFilter: [],
+            filter: [],
+
+            initComments: function() {
+                this.getView('Common.Views.Collaboration').renderComments((this.groupCollectionFilter.length !== 0) ? this.groupCollectionFilter : (this.collectionComments.length !== 0) ? this.collectionComments : false);
+                $('.comment-quote').single('click', _.bind(this.onSelectComment, this));
             },
 
-            initEditUsers: function() {
-                var usersArray = [];
-                _.each(editUsers, function(item){
-                    var fio = item.asc_getUserName().split(' ');
-                    var initials = fio[0].substring(0, 1).toUpperCase();
-                    if (fio.length > 1) {
-                        initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
+            readSDKReplies: function (data) {
+                var i = 0,
+                    replies = [],
+                    date = null;
+                var repliesCount = data.asc_getRepliesCount();
+                if (repliesCount) {
+                    for (i = 0; i < repliesCount; ++i) {
+                        date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
+                            ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
+
+                        var user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        replies.push({
+                            userid              : data.asc_getReply(i).asc_getUserId(),
+                            username            : data.asc_getReply(i).asc_getUserName(),
+                            usercolor           : (user) ? user.asc_getColor() : null,
+                            date                : this.dateToLocaleTimeString(date),
+                            reply               : data.asc_getReply(i).asc_getText(),
+                            time                : date.getTime()
+                        });
                     }
-                    if(!item.asc_getView()) {
-                        var userAttr = {
-                            color: item.asc_getColor(),
-                            id: item.asc_getId(),
-                            idOriginal: item.asc_getIdOriginal(),
-                            name: item.asc_getUserName(),
-                            view: item.asc_getView(),
-                            initial: initials
-                        };
-                        if(item.asc_getIdOriginal() == _userId) {
-                            usersArray.unshift(userAttr);
-                        } else {
-                            usersArray.push(userAttr);
+                }
+                return replies;
+            },
+
+            readSDKComment: function(id, data) {
+                var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
+                    ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
+                var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()}),
+                    groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
+                var comment = {
+                    uid                 : id,
+                    userid              : data.asc_getUserId(),
+                    username            : data.asc_getUserName(),
+                    usercolor           : (user) ? user.asc_getColor() : null,
+                    date                : this.dateToLocaleTimeString(date),
+                    quote               : data.asc_getQuoteText(),
+                    comment             : data.asc_getText(),
+                    resolved            : data.asc_getSolved(),
+                    unattached          : !_.isUndefined(data.asc_getDocumentFlag) ? data.asc_getDocumentFlag() : false,
+                    time                : date.getTime(),
+                    replys              : [],
+                    groupName           : (groupname && groupname.length>1) ? groupname[1] : null
+                }
+                if (comment) {
+                    var replies = this.readSDKReplies(data);
+                    if (replies.length) {
+                        comment.replys = replies;
+                    }
+                }
+                return comment;
+            },
+
+            onApiChangeCommentData: function(id, data) {
+                var me = this,
+                    i = 0,
+                    date = null,
+                    replies = null,
+                    repliesCount = 0,
+                    dateReply = null,
+                    comment = _.findWhere(me.collectionComments, {uid: id}) || this.findCommentInGroup(id);
+
+                if (comment) {
+
+                    date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
+                        ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
+
+                    var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()});
+                    comment.comment = data.asc_getText();
+                    comment.userid = data.asc_getUserId();
+                    comment.username = data.asc_getUserName();
+                    comment.usercolor = (user) ? user.asc_getColor() : null;
+                    comment.resolved = data.asc_getSolved();
+                    comment.quote = data.asc_getQuoteText();
+                    comment.time = date.getTime();
+                    comment.date = me.dateToLocaleTimeString(date);
+
+                    replies = _.clone(comment.replys);
+
+                    replies.length = 0;
+
+                    repliesCount = data.asc_getRepliesCount();
+                    for (i = 0; i < repliesCount; ++i) {
+
+                        dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
+                            ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
+
+                        user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        replies.push({
+                            userid              : data.asc_getReply(i).asc_getUserId(),
+                            username            : data.asc_getReply(i).asc_getUserName(),
+                            usercolor           : (user) ? user.asc_getColor() : null,
+                            date                : me.dateToLocaleTimeString(dateReply),
+                            reply               : data.asc_getReply(i).asc_getText(),
+                            time                : dateReply.getTime()
+                        });
+                    }
+                    comment.replys = replies;
+                    if($('.page-comments').length > 0) {
+                        this.initComments();
+                    }
+                }
+            },
+
+            onApiAddComment: function (id, data) {
+                var comment = this.readSDKComment(id, data);
+                if (comment) {
+                    comment.groupName ? this.addCommentToGroupCollection(comment) : this.collectionComments.push(comment);
+                }
+                if($('.page-comments').length > 0) {
+                    this.initComments();
+                }
+            },
+
+            onApiAddComments: function (data) {
+                for (var i = 0; i < data.length; ++i) {
+                    var comment = this.readSDKComment(data[i].asc_getId(), data[i]);
+                    comment.groupName ? this.addCommentToGroupCollection(comment) : this.collectionComments.push(comment);
+                }
+                if($('.page-comments').length > 0) {
+                    this.initComments();
+                }
+            },
+
+            stringOOToLocalDate: function (date) {
+                if (typeof date === 'string')
+                    return parseInt(date);
+                return 0;
+            },
+
+            addCommentToGroupCollection: function (comment) {
+                var groupname = comment.groupName;
+                if (!this.groupCollectionComments[groupname])
+                    this.groupCollectionComments[groupname] = [];
+                this.groupCollectionComments[groupname].push(comment);
+                if (this.filter.indexOf(groupname) != -1) {
+                    this.groupCollectionFilter.push(comment);
+                }
+            },
+
+            findCommentInGroup: function (id) {
+                for (var name in this.groupCollectionComments) {
+                    var store = this.groupCollectionComments[name],
+                        model = _.findWhere(store, {uid: id});
+                    if (model) return model;
+                }
+            },
+
+            onApiRemoveComment: function (id) {
+                function remove (collection, key) {
+                    if(collection instanceof Array) {
+                        var index = collection.indexOf(key);
+                        if(index != -1) {
+                            collection.splice(index, 1);
                         }
                     }
-                });
-                var userSort = _.chain(usersArray).groupBy('idOriginal').value();
-                var templateUserItem = _.template([
-                    '<%  _.each(users, function (user) { %>',
-                    '<li id="<%= user[0].id %>" class="<% if (user[0].view) {%> viewmode <% } %> item-content">' +
-                    '<div class="user-name item-inner">' +
-                    '<div class="color" style="background-color: <%= user[0].color %>;"><%= user[0].initial %></div>'+
-                    '<label><%= user[0].name %></label>' +
-                    '<% if (user.length>1) { %><label class="length"> (<%= user.length %>)</label><% } %>' +
-                    '</div>'+
-                    '</li>',
-                    '<% }); %>'].join(''));
-                var templateUserList = _.template(
-                    '<div class="item-content"><div class="item-inner">' +
-                    this.textEditUser +
-                    '</div></div>' +
-                    '<ul>' +
-                    templateUserItem({users: userSort}) +
-                    '</ul>');
-                $('#user-list').html(templateUserList());
+                }
+                if (this.groupCollectionComments) {
+                    for (var name in this.groupCollectionComments) {
+                        var store = this.groupCollectionComments[name],
+                            comment = _.findWhere(store, {uid: id});
+                        if (comment) {
+                            remove(this.groupCollectionComments[name], comment);
+                            if (this.filter.indexOf(name) != -1) {
+                                remove(this.groupCollectionFilter, comment);
+                            }
+                        }
+                    }
+                }
+                if (this.collectionComments.length > 0) {
+                    var comment = _.findWhere(this.collectionComments, {uid: id});
+                    if (comment) {
+                        remove(this.collectionComments, comment);
+                    }
+                }
+                if($('.page-comments').length > 0) {
+                    this.initComments();
+                }
             },
 
+            onFilterChange: function (filter) {
+                if (filter) {
+                    var me = this,
+                        comments = [];
+                    this.filter = filter;
+                    filter.forEach(function(item){
+                        if (!me.groupCollectionComments[item])
+                            me.groupCollectionComments[item] = [];
+                        comments = comments.concat(me.groupCollectionComments[item]);
+                    });
+                    this.groupCollectionFilter = comments;
+                }
+            },
 
+            onSelectComment: function (e) {
+                var id = $(e.currentTarget).data('id');
+                this.api.asc_selectComment(id);
+            },
 
 
             textInserted: '<b>Inserted:</b>',
@@ -690,5 +937,5 @@ define([
             textEditUser: 'Document is currently being edited by several users.'
 
         }
-    })(), DE.Controllers.Collaboration || {}))
+    })(), Common.Controllers.Collaboration || {}))
 });

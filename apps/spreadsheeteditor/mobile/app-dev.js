@@ -134,8 +134,8 @@ require([
             ,'AddShape'
             ,'AddOther'
             ,'AddLink'
-            ,'Collaboration'
             ,'FilterOptions'
+            ,'Common.Controllers.Collaboration'
         ]
     });
 
@@ -207,8 +207,8 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
         ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
         ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
-        ,'spreadsheeteditor/mobile/app/controller/Collaboration'
         ,'spreadsheeteditor/mobile/app/controller/FilterOptions'
+        ,'common/mobile/lib/controller/Collaboration'
     ], function() {
         window.compareVersions = true;
         app.start();

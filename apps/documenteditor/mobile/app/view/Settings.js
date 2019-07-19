@@ -124,7 +124,6 @@ define([
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-document').hide();
-                        $layour.find('#settings-advanced').hide();
                         $layour.find('#color-schemes').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-orthography').hide();
@@ -287,7 +286,10 @@ define([
             textColorSchemes: 'Color Schemes',
             textNoCharacters: 'Nonprinting Characters',
             textHiddenTableBorders: 'Hidden Table Borders',
-            textCollaboration: 'Collaboration'
+            textCollaboration: 'Collaboration',
+            textCommentingDisplay: 'Commenting Display',
+            textDisplayComments: 'Comments',
+            textDisplayResolvedComments: 'Resolved Comments'
 
     }
     })(), DE.Views.Settings || {}))

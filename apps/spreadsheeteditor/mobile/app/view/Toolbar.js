@@ -158,7 +158,7 @@ define([
 
             //Collaboration
             showCollaboration: function () {
-                SSE.getController('Collaboration').showModal();
+                SSE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             textBack: 'Back'

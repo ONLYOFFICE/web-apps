@@ -194,7 +194,7 @@ define([
             },
 
             onCollaboration: function() {
-                PE.getController('Collaboration').showModal();
+                PE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             initPageColorSchemes: function () {

@@ -72,6 +72,7 @@ input, textarea {
 @import url('../../../../common/mobile/resources/less/ios/_color-palette.less');
 @import url('../../../../common/mobile/resources/less/ios/_about.less');
 @import url('../../../../common/mobile/resources/less/ios/_color-schema.less');
+@import url('../../../../common/mobile/resources/less/ios/_collaboration.less');
 
 @import url('ios/_search.less');
 @import url('ios/_icons.less');
@@ -243,34 +244,4 @@ input, textarea {
 .modal.modal-in {
   max-height: 100%;
   overflow: auto;
-}
-
-//Edit users
-@initialEditUser: #373737;
-
-#user-list {
-  .item-content {
-    padding-left: 0;
-  }
-  .item-inner {
-    justify-content: flex-start;
-    padding-left: 15px;
-  }
-  .length {
-    margin-left: 4px;
-  }
-  .color {
-    min-width: 40px;
-    min-height: 40px;
-    margin-right: 20px;
-    text-align: center;
-    border-radius: 50px;
-    line-height: 40px;
-    color: @initialEditUser;
-    font-weight: 500;
-
-  }
-  ul:before {
-    content: none;
-  }
 }

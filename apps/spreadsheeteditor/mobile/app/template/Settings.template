@@ -430,7 +430,49 @@
                         </li>
                     </ul>
                 </div>
+                <div class="content-block-title"><%= scope.textRegionalSettings %></div>
                 <div class="list-block">
+                    <ul>
+                        <li class="media-item">
+                            <a id="regional-settings" class="item-link item-content" data-page="#regional-settings-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textCustom %></div>
+                                    </div>
+                                    <div class="item-subtitle"><%= scope.textExample + ": "%><span class="item-example"><%= scope.textCustomSize %></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-view"><%= scope.textCommentingDisplay %></div>
+                <div class="list-block display-view">
+                    <ul>
+                        <div id="settings-display-comments" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDisplayComments %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="settings-display-resolved" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDisplayResolvedComments %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <div class="list-block display-view">
                     <ul>
                         <li id="r1-c1-style">
                             <div class="item-content">
@@ -444,21 +486,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="content-block-title"><%= scope.textRegionalSettings %></div>
-                <div class="list-block">
-                    <ul>
-                        <li class="media-item">
-                            <a id="regional-settings" class="item-link item-content" data-page="#regional-settings-view">
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title"><%= scope.textCustom %></div>
-                                    </div>
-                                    <div class="item-subtitle"><%= scope.textExample + ": "%><span class="item-example"><%= scope.textCustomSize %></span></div>
-                                </div>
-                            </a>
                         </li>
                     </ul>
                 </div>

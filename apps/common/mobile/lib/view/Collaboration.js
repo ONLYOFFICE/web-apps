@@ -33,22 +33,26 @@
 
 /**
  *  Collaboration.js
- *  Document Editor
  *
- *  Created by Julia Svinareva on 14/5/19
+ *  Created by Julia Svinareva on 12/7/19
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
 
+if (Common === undefined)
+    var Common = {};
+
+Common.Views = Common.Views || {};
+
 define([
-    'text!documenteditor/mobile/app/template/Collaboration.template',
+    'text!common/mobile/lib/template/Collaboration.template',
     'jquery',
     'underscore',
     'backbone'
 ], function (settingsTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.Collaboration = Backbone.View.extend(_.extend((function() {
+    Common.Views.Collaboration = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -81,7 +85,8 @@ define([
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
                     orthography: Common.SharedSettings.get('sailfish'),
-                    scope   : this
+                    scope   : this,
+                    editor  : !!window.DE ? 'DE' : !!window.PE ? 'PE' : 'SSE'
                 }));
 
                 return this;
@@ -119,7 +124,10 @@ define([
             },
 
             showPage: function(templateId, animate) {
-                var rootView = DE.getController('Collaboration').rootView();
+                var me = this;
+                var prefix = !!window.DE ? DE : !!window.PE ? PE : SSE;
+                var rootView = prefix.getController('Common.Controllers.Collaboration').rootView();
+
 
                 if (rootView && this.layout) {
                     var $content = this.layout.find(templateId);
@@ -136,6 +144,44 @@ define([
 
                     this.fireEvent('page:show', [this, templateId]);
                 }
+            },
+
+            renderComments: function (comments) {
+                var $listComments = $('#comments-list'),
+                    items = [];
+
+                _.each(comments, function (comment) {
+                    var itemTemplate = [
+                        '<li class="comment item-content">',
+                        '<div class="item-inner">',
+                        '<p class="user-name"><%= item.username %></p>',
+                        '<p class="comment-date"><%= item.date %></p>',
+                        '<% if(item.quote) {%>',
+                        '<p class="comment-quote" data-id="<%= item.uid %>"><%= item.quote %></p>',
+                        '<% } %>',
+                        '<p class="comment-text"><%= item.comment %></p>',
+                        '<% if(replys > 0) {%>',
+                        '<ul class="list-reply">',
+                        '<% _.each(item.replys, function (reply) { %>',
+                        '<li class="reply-item">',
+                        '<p class="user-name"><%= reply.username %></p>',
+                        '<p class="reply-date"><%= reply.date %></p>',
+                        '<p class="reply-text"><%= reply.reply %></p>',
+                        '</li>',
+                        '<% }); %>',
+                        '</ul>',
+                        '<% } %>',
+                        '</div>',
+                        '</li>'
+                    ].join('');
+                    items.push(_.template(itemTemplate)({
+                        android: Framework7.prototype.device.android,
+                        item: comment,
+                        replys: comment.replys.length
+                    }));
+                });
+
+                $listComments.html(items);
             },
 
 
@@ -155,5 +201,5 @@ define([
             textEditUsers: 'Users'
 
         }
-    })(), DE.Views.Collaboration || {}))
+    })(), Common.Views.Collaboration || {}))
 });
