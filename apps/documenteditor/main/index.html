@@ -43,9 +43,17 @@
         }
 
         .loadmask > .brendpanel .loading-logo {
-            background: url(http://192.168.3.191:8080/web-apps-pro/apps/common/main/resources/img/header/header-logo.png) 50% 50% no-repeat;
-            width: 110px;
+            padding: 0 24px 0 12px;
+            max-width: 200px;
             height: 20px;
+        }
+
+        .loadmask > .brendpanel .loading-logo > i {
+            display: inline-block;
+            width: 86px;
+            height: 20px;
+            background-image: url(http://192.168.3.191:8080/web-apps-pro/apps/common/main/resources/img/header/header-logo.png);
+            background-repeat: no-repeat;
         }
 
         .loadmask > .brendpanel .circle {
@@ -200,7 +208,7 @@
     <!-- debug end -->
 </head>
 <body>
-    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"><i></i></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
     <div id="viewport"></div>
 
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
