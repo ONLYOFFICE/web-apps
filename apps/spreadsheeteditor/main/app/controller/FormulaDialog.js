@@ -68,6 +68,8 @@ define([
             this.addListeners({
                 'FileMenu': {
                     'settings:apply': function() {
+                        if (!me.mode || !me.mode.isEdit) return;
+
                         me.needUpdateFormula = true;
 
                         var lang = Common.localStorage.getItem("sse-settings-func-locale");
@@ -135,6 +137,7 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             return this;
         },
 
