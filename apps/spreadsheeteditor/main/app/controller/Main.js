@@ -143,6 +143,8 @@ define([
 //                    viewport.applicationUI.setVisible(true);
                 }
 
+                $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
+
                 var value = Common.localStorage.getItem("sse-settings-fontrender");
                 if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
