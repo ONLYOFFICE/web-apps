@@ -430,23 +430,6 @@
                         </li>
                     </ul>
                 </div>
-                <div class="list-block">
-                    <ul>
-                        <li id="r1-c1-style">
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title"><%= scope.textR1C1Style %></div>
-                                    <div class="item-after">
-                                        <label class="label-switch">
-                                            <input type="checkbox">
-                                            <div class="checkbox"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
                 <div class="content-block-title"><%= scope.textRegionalSettings %></div>
                 <div class="list-block">
                     <ul>
@@ -462,8 +445,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textCommentingDisplay %></div>
-                <div class="list-block">
+                <div class="content-block-title display-view"><%= scope.textCommentingDisplay %></div>
+                <div class="list-block display-view">
                     <ul>
                         <div id="settings-display-comments" class="item-content">
                             <div class="item-inner">
@@ -487,6 +470,23 @@
                                 </div>
                             </div>
                         </div>
+                    </ul>
+                </div>
+                <div class="list-block display-view">
+                    <ul>
+                        <li id="r1-c1-style">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textR1C1Style %></div>
+                                    <div class="item-after">
+                                        <label class="label-switch">
+                                            <input type="checkbox">
+                                            <div class="checkbox"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

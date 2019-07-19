@@ -130,7 +130,6 @@ define([
                         $layout.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layout.find('#settings-spreadsheet').hide();
-                        $layout.find('#settings-application').hide();
                     }
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();
@@ -170,6 +169,9 @@ define([
                 this.showPage('#settings-application-view');
                 $('#language-formula').single('click', _.bind(this.showFormulaLanguage, this));
                 $('#regional-settings').single('click', _.bind(this.showRegionalSettings, this));
+                if (!isEdit) {
+                    $('.page[data-page=settings-application-view] .page-content > :not(.display-view)').hide();
+                }
             },
 
             showFormulaLanguage: function () {

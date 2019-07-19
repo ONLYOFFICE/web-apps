@@ -85,7 +85,8 @@ define([
             _isReviewOnly = false,
             _fileKey,
             templateInsert,
-            _metricText = Common.Utils.Metric.getCurrentMetricName();
+            _metricText = Common.Utils.Metric.getCurrentMetricName(),
+            _isEdit;
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -147,6 +148,7 @@ define([
                 _canReview = mode.canReview;
                 _isReviewOnly = mode.isReviewOnly;
                 _fileKey = mode.fileKey;
+                _isEdit = mode.isEdit;
             },
 
             initEvents: function () {
@@ -379,6 +381,9 @@ define([
                 if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                     $('#settings-no-characters').addClass('disabled');
                     $('#settings-hidden-borders').addClass('disabled');
+                }
+                if (!_isEdit) {
+                    $('.page[data-page=settings-advanced-view] .page-content > :not(.display-view)').hide();
                 }
             },
 
