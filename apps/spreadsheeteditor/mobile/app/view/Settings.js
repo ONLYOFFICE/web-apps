@@ -383,8 +383,8 @@ define([
             textR1C1Style: 'R1C1 Reference Style',
             textRegionalSettings: 'Regional Settings',
             textCommentingDisplay: 'Commenting Display',
-            textDisplayComments: 'Display Comments',
-            textDisplayResolvedComments: 'Display Resolved Comments'
+            textDisplayComments: 'Comments',
+            textDisplayResolvedComments: 'Resolved Comments'
     }
     })(), SSE.Views.Settings || {}))
 });

@@ -289,8 +289,8 @@ define([
             textHiddenTableBorders: 'Hidden Table Borders',
             textCollaboration: 'Collaboration',
             textCommentingDisplay: 'Commenting Display',
-            textDisplayComments: 'Display Comments',
-            textDisplayResolvedComments: 'Display Resolved Comments'
+            textDisplayComments: 'Comments',
+            textDisplayResolvedComments: 'Resolved Comments'
 
     }
     })(), DE.Views.Settings || {}))
