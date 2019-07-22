@@ -351,13 +351,13 @@ define([
                     $parent.find('#status-label-lang').text(info.displayValue);
 
                     this.langMenu.prevTip = info.value;
-
-                    var index = $parent.find('ul li a:contains("'+info.displayValue+'")').parent().index();
-                    if (index < 0) {
+                    var lang = this.langMenu.items.find(function(item){ return item.caption == info.displayValue; });
+                    if (lang)
+                        lang.setChecked(true);
+                    else {
                         this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();
-                    } else
-                        this.langMenu.items[index].setChecked(true);
+                    }
                 }
             },
 
