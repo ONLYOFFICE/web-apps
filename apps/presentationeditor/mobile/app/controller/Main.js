@@ -133,6 +133,8 @@ define([
                 uiApp.params.smartSelectPickerCloseText = me.textDone;
                 uiApp.params.notificationCloseButtonText = me.textClose;
 
+                $('#editor_sdk').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line"></div></div></div></div></div>');
+
                 if (me.api){
                     Common.Utils.Metric.setCurrentMetric(1); //pt
 
@@ -546,6 +548,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {
