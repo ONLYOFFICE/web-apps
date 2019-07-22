@@ -160,6 +160,8 @@ define([
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
 
+                $('#editor_sdk').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line"></div></div></div></div></div>');
+
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
@@ -786,6 +788,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onDocumentReady: function() {
