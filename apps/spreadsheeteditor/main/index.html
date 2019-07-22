@@ -46,8 +46,9 @@
             display: inline-block;
             width: 86px;
             height: 20px;
-            background-image: url(http://192.168.3.191:8080/web-apps-pro/apps/common/main/resources/img/header/header-logo.png);
-            background-repeat: no-repeat;
+            background: url('../../common/main/resources/img/header/header-logo.png') no-repeat;
+            background-size: contain;
+            opacity: 0;
         }
 
         .loadmask > .brendpanel .spacer {
@@ -177,37 +178,9 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
-            margin = (customer !== '') ? 50 : 20,
-            loading = 'Loading...',
-            logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
+            logo = params["headerlogo"] ? 'url(' + encodeUrlParam(params["headerlogo"]) + ')' : null;
 
         window.frameEditorId = params["frameEditorId"];
-
-        if ( lang == 'de')      loading = 'Ladevorgang...';
-        else if ( lang == 'es') loading = 'Cargando...';
-        else if ( lang == 'fr') loading = 'Chargement en cours...';
-        else if ( lang == 'it') loading = 'Caricamento in corso...';
-        else if ( lang == 'pt') loading = 'Carregando...';
-        else if ( lang == 'ru') loading = 'Загрузка...';
-        else if ( lang == 'sl') loading = 'Nalaganje...';
-        else if ( lang == 'tr') loading = 'Yükleniyor...';
-        else if ( lang == 'bg') loading = 'Зареждане...';
-        else if ( lang == 'cs') loading = 'Nahrávám...';
-        else if ( lang == 'hu') loading = 'Betöltés...';
-        else if ( lang == 'ja') loading = '読み込み中...';
-        else if ( lang == 'ko') loading = '로드 중...';
-        else if ( lang == 'lv') loading = 'Ieladēšana ...';
-        else if ( lang == 'nl') loading = 'Laden...';
-        else if ( lang == 'pl') loading = 'Ładowanie...';
-        else if ( lang == 'sk') loading = 'Nahrávam...';
-        else if ( lang == 'uk') loading = 'Завантаження...';
-        else if ( lang == 'vi') loading = 'Đang tải...';
-        else if ( lang == 'zh') loading = '加载中...';
-
-        if (stopLoading) {
-            document.getElementById('loading-mask').remove();
-        }
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
@@ -219,6 +192,18 @@
 <body>
     <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"><i></i></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="columns"></div><div class="columns"></div></div></div>
     <div id="viewport"></div>
+
+    <script>
+        if (stopLoading) {
+            document.body.removeChild(document.getElementById('loading-mask'));
+        } else {
+            var elem = document.querySelector('.loading-logo i');
+            if (elem) {
+                logo && (elem.style.backgroundImage = logo);
+                elem.style.opacity = 1;
+            }
+        }
+    </script>
 
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
     <img class="inline-svg" src="../../common/main/resources/img/header/buttons.svg">
