@@ -121,7 +121,7 @@ define([
                 formatTableInfo = info.asc_getFormatTableInfo(),
                 sparkLineInfo = info.asc_getSparklineInfo(),
                 cellInfo = info,
-                pivotInfo = null;//info.asc_getPivotTableInfo();
+                pivotInfo = info.asc_getPivotTableInfo();
 
             if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
@@ -200,12 +200,12 @@ define([
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
 
-            // if (pivotInfo) {
-            //     settingsType = Common.Utils.documentSettingsType.Pivot;
-            //     this._settings[settingsType].props = pivotInfo;
-            //     this._settings[settingsType].locked = isPivotLocked || true; // disable pivot settings
-            //     this._settings[settingsType].hidden = 0;
-            // }
+            if (pivotInfo) {
+                settingsType = Common.Utils.documentSettingsType.Pivot;
+                this._settings[settingsType].props = pivotInfo;
+                this._settings[settingsType].locked = isPivotLocked; // disable pivot settings
+                this._settings[settingsType].hidden = 0;
+            }
 
             if (SelectedObjects.length<=0) { // cell is selected
                 settingsType = Common.Utils.documentSettingsType.Cell;
