@@ -122,6 +122,8 @@ define([
                     'translate': translate
                 });
 
+                $('#editor_sdk').append('<div class="doc-placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>');
+
                 // Localization uiApp params
                 uiApp.params.modalButtonOk = me.textOK;
                 uiApp.params.modalButtonCancel = me.textCancel;
@@ -599,6 +601,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {
