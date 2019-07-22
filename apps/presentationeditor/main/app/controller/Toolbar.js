@@ -1961,7 +1961,7 @@ define([
 
             var themeStore = this.getCollection('SlideThemes'),
                 mainController = this.getApplication().getController('Main'),
-                imageUrl = (window.devicePixelRatio > 1) ? '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png' : '../../../../sdkjs/common/Images/fonts_thumbnail.png';
+                imageUrl = (window.devicePixelRatio > 1) ? '../../../../sdkjs/common/Images/themes_thumbnail@2x.png' : '../../../../sdkjs/common/Images/themes_thumbnail.png';
             if (themeStore) {
                 var arr1 = [], arr2 = [];
                 _.each(defaultThemes, function(theme, index) {
