@@ -416,8 +416,29 @@ define([
                         info = document.info || {};
 
                     $('#settings-document-title').html(document.title ? document.title : me.unknownText);
-                    $('#settings-document-autor').html(info.author ? info.author : me.unknownText);
-                    $('#settings-document-date').html(info.created ? info.created : me.unknownText);
+                    $('#settings-document-owner').html(info.author ? info.author : me.unknownText);
+
+                    var appProps = (this.api) ? this.api.asc_getAppProps() : null;
+                    if (appProps) {
+                        var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                        appName ? $('#settings-doc-application').html(appName) : $('.display-application').remove();
+                    }
+                    var props = (this.api) ? this.api.asc_getCoreProps() : null,
+                        value;
+                    if (props) {
+                        value = props.asc_getTitle();
+                        value ? $('#settings-doc-title').html(value) : $('.display-title').remove();
+                        value = props.asc_getSubject();
+                        value ? $('#settings-doc-subject').html(value) : $('.display-subject').remove();
+                        value = props.asc_getDescription();
+                        value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
+                        value = props.asc_getCreator();
+                        var templateCreator = "";
+                        value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                            templateCreator = templateCreator + "<li class='item-content'><div class='item-inner'><div class='item-title'>" + item + "</div></div></li>";
+                        });
+                        templateCreator ? $('#list-creator').html(templateCreator) : $('.display-author').remove();
+                    }
                 }
             },
 
