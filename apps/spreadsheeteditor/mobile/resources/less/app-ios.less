@@ -319,3 +319,40 @@ input, textarea {
   &.ja, &.ja-JP                     {background-position: 0          -192px;}
   &.es-MX                           {background-position: -16px      -192px;}
 }
+
+// Skeleton of workbook
+
+.doc-placeholder {
+  background: #fbfbfb;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #dfdfdf;
+  white-space: nowrap;
+  padding-top: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  > .columns {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    background: linear-gradient(90deg, #d5d5d5 0px, rgba(0,0,0,0) 1px) 0 0,
+    linear-gradient(rgba(0,255,0,0) 19px, #d5d5d5 20px) 0 0,
+    linear-gradient( #f1f1f1 0px, #f1f1f1 20px) 0 0 repeat-x;
+    background-size: 80px 20px;
+
+    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    -moz-animation: flickerAnimation 2s infinite ease-in-out;
+    -o-animation: flickerAnimation 2s infinite ease-in-out;
+    animation: flickerAnimation 2s infinite ease-in-out;
+
+    &:first-child {
+      background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
+      background-size: 20px 20px;
+      width: 35px;
+    }
+  }
+}
