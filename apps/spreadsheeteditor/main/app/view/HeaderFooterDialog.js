@@ -763,6 +763,7 @@ define([
         },
 
         onPresetSelect: function(footer, combo, record) {
+            combo.setValue(this.textPresets);
             if (this.HFObject)
                 this.HFObject.applyPreset(record.value, !!footer);
             this.onCanvasClick(footer ? '#footer-left-img' : '#header-left-img');
