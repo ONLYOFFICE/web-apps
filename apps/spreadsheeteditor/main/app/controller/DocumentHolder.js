@@ -159,6 +159,9 @@ define([
                 view.pmiTextCut.on('click',                         _.bind(me.onCopyPaste, me));
                 view.pmiTextCopy.on('click',                        _.bind(me.onCopyPaste, me));
                 view.pmiTextPaste.on('click',                       _.bind(me.onCopyPaste, me));
+                view.pmiCommonCut.on('click',                       _.bind(me.onCopyPaste, me));
+                view.pmiCommonCopy.on('click',                      _.bind(me.onCopyPaste, me));
+                view.pmiCommonPaste.on('click',                     _.bind(me.onCopyPaste, me));
                 view.pmiInsertEntire.on('click',                    _.bind(me.onInsertEntire, me));
                 view.pmiDeleteEntire.on('click',                    _.bind(me.onDeleteEntire, me));
                 view.pmiInsertCells.menu.on('item:click',           _.bind(me.onInsertCells, me));
@@ -1514,7 +1517,10 @@ define([
                 case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
             }
 
-            if (isimagemenu || isshapemenu || ischartmenu) {
+            if (this.api.asc_getHeaderFooterMode()) {
+                if (!documentHolder.copyPasteMenu || !showMenu && !documentHolder.copyPasteMenu.isVisible()) return;
+                if (showMenu) this.showPopupMenu(documentHolder.copyPasteMenu, {}, event);
+            } else if (isimagemenu || isshapemenu || ischartmenu) {
                 if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = false;
@@ -1661,8 +1667,7 @@ define([
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
-                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect(),
-                    inHeaderDlg = $('.asc-window.enable-key-events:visible').length>0;
+                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = cellinfo.asc_getFill().asc_getColor();
                 documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
@@ -1719,8 +1724,6 @@ define([
 
                 commentsController && commentsController.blockPopover(true);
 
-                documentHolder.pmiClear.setVisible(!inHeaderDlg);
-                documentHolder.ssMenu.items[3].setVisible(!inHeaderDlg);
                 documentHolder.pmiClear.menu.items[0].setDisabled(!this.permissions.canModifyFilter);
                 documentHolder.pmiClear.menu.items[1].setDisabled(iscelledit);
                 documentHolder.pmiClear.menu.items[2].setDisabled(iscelledit || !this.permissions.canModifyFilter);
