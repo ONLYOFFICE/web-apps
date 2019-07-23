@@ -208,7 +208,7 @@ DE.ApplicationController = new(function(){
     }
 
     function onPrintUrl(url) {
-        common.utils.dialogPrint(url);
+        common.utils.dialogPrint(url, api);
     }
 
     function hidePreloader() {

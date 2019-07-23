@@ -1778,10 +1778,14 @@ define([
                     this.iframePrint.style.bottom = "0";
                     document.body.appendChild(this.iframePrint);
                     this.iframePrint.onload = function() {
+                        try {
                         me.iframePrint.contentWindow.focus();
                         me.iframePrint.contentWindow.print();
                         me.iframePrint.contentWindow.blur();
                         window.focus();
+                        } catch (e) {
+                            me.api.asc_DownloadAs(Asc.c_oAscFileType.PDF);
+                        }
                     };
                 }
                 if (url) this.iframePrint.src = url;

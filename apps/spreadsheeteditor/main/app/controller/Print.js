@@ -348,7 +348,11 @@ define([
                 this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
             }
         },
-        
+
+        getPrintParams: function() {
+            return this.adjPrintParams;
+        },
+
         warnCheckMargings:      'Margins are incorrect',
         strAllSheets:           'All Sheets',
         textWarning: 'Warning',
