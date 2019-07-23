@@ -1661,7 +1661,8 @@ define([
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
-                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
+                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect(),
+                    inHeaderDlg = $('.asc-window.enable-key-events:visible').length>0;
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = cellinfo.asc_getFill().asc_getColor();
                 documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
@@ -1718,6 +1719,8 @@ define([
 
                 commentsController && commentsController.blockPopover(true);
 
+                documentHolder.pmiClear.setVisible(!inHeaderDlg);
+                documentHolder.ssMenu.items[3].setVisible(!inHeaderDlg);
                 documentHolder.pmiClear.menu.items[0].setDisabled(!this.permissions.canModifyFilter);
                 documentHolder.pmiClear.menu.items[1].setDisabled(iscelledit);
                 documentHolder.pmiClear.menu.items[2].setDisabled(iscelledit || !this.permissions.canModifyFilter);
