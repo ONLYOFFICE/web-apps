@@ -202,7 +202,7 @@ define([
                 document.title ? $('#settings-presentation-title').html(document.title) : $('.display-presentation-title').remove();
                 info.author ? $('#settings-pe-owner').html(info.author) : $('.display-owner').remove();
                 info.uploaded ? $('#settings-pe-uploaded').html(info.uploaded.toLocaleString()) : $('.display-uploaded').remove();
-                /*info.created ? $('#settings-pe-date').html(info.created) : $('.display-created-date').remove();*/
+                info.folder ? $('#settings-pe-location').html(info.folder) : $('.display-location').remove();
 
                 var appProps = (this.api) ? this.api.asc_getAppProps() : null;
                 if (appProps) {

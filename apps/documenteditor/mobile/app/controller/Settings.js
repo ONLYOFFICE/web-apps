@@ -415,8 +415,10 @@ define([
                     var document = Common.SharedSettings.get('document') || {},
                         info = document.info || {};
 
-                    $('#settings-document-title').html(document.title ? document.title : me.unknownText);
-                    $('#settings-document-owner').html(info.author ? info.author : me.unknownText);
+                    document.title ? $('#settings-document-title').html(document.title) : $('.display-document-title').remove();
+                    info.author ? $('#settings-document-owner').html(info.author) : $('.display-owner').remove();
+                    info.uploaded ? $('#settings-doc-uploaded').html(info.uploaded.toLocaleString()) : $('.display-uploaded').remove();
+                    info.folder ? $('#settings-doc-location').html(info.folder) : $('.display-location').remove();
 
                     var appProps = (this.api) ? this.api.asc_getAppProps() : null;
                     if (appProps) {
@@ -432,6 +434,12 @@ define([
                         value ? $('#settings-doc-subject').html(value) : $('.display-subject').remove();
                         value = props.asc_getDescription();
                         value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
+                        value = props.asc_getModified();
+                        value ? $('#settings-doc-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                        value = props.asc_getLastModifiedBy();
+                        value ? $('#settings-doc-mod-by').html(value) : $('.display-mode-by').remove();
+                        value = props.asc_getCreated();
+                        value ? $('#settings-doc-date').html(value.toLocaleString()) : $('.display-created-date').remove();
                         value = props.asc_getCreator();
                         var templateCreator = "";
                         value && value.split(/\s*[,;]\s*/).forEach(function(item) {

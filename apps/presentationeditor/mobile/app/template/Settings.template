@@ -163,6 +163,16 @@
                         </li>
                     </ul>
                 </div>
+                <div class="content-block-title display-location"><%= scope.textLocation %></div>
+                <div class="list-block display-location">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-location" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <div class="content-block-title display-uploaded"><%= scope.textUploaded %></div>
                 <div class="list-block display-uploaded">
                     <ul>

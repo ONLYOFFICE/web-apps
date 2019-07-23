@@ -250,7 +250,8 @@ define([
             textCreated: 'Created',
             textLastModified: 'Last Modified',
             textLastModifiedBy: 'Last Modified By',
-            textUploaded: 'Uploaded'
+            textUploaded: 'Uploaded',
+            textLocation: 'Location'
         }
     })(), PE.Views.Settings || {}))
 });

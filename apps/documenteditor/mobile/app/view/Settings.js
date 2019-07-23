@@ -294,7 +294,13 @@ define([
             textTitle: 'Title',
             textComment: 'Comment',
             textOwner: 'Owner',
-            textApplication : 'Application'
+            textApplication : 'Application',
+            textLocation: 'Location',
+            textUploaded: 'Uploaded',
+            textLastModified: 'Last Modified',
+            textLastModifiedBy: 'Last Modified By',
+            textCreated: 'Created'
+
 
     }
     })(), DE.Views.Settings || {}))
