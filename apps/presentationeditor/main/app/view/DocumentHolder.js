@@ -2031,8 +2031,8 @@ define([
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([
-                        '<div class="style" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;background-position: 0 -<%= offsety %>px;background-size: cover;"/>',
+                        '<div class="style" id="<%= id %>"">',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''))
                 }).on('item:click', function(picker, item, record, e) {

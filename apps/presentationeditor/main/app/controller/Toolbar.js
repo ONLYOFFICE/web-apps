@@ -1960,23 +1960,18 @@ define([
             me.toolbar.listTheme.menuPicker.store.reset([]); // remove all
 
             var themeStore = this.getCollection('SlideThemes'),
-                mainController = this.getApplication().getController('Main'),
-                imageUrl = (window.devicePixelRatio > 1) ? '../../../../sdkjs/common/Images/themes_thumbnail@2x.png' : '../../../../sdkjs/common/Images/themes_thumbnail.png';
+                mainController = this.getApplication().getController('Main');
             if (themeStore) {
                 var arr1 = [], arr2 = [];
                 _.each(defaultThemes, function(theme, index) {
                     var tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
                     arr1.push(new Common.UI.DataViewModel({
-                        imageUrl: imageUrl,
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
                         tip     : tip,
-                        itemWidth   : 85,
-                        itemHeight  : 38,
                         offsety     : index * 38
                     }));
                     arr2.push({
-                        imageUrl: imageUrl,
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
                         tip     : tip,
@@ -1991,8 +1986,6 @@ define([
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
                         tip     : tip,
-                        itemWidth   : 85,
-                        itemHeight  : 38,
                         offsety     : 0
                     }));
                     arr2.push({
