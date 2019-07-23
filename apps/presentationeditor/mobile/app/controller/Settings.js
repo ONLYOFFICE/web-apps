@@ -190,7 +190,49 @@ define([
                     me.initPageApplicationSettings();
                 } else if ('#color-schemes-view' == pageId) {
                     me.initPageColorSchemes();
+                } else if ('#settings-info-view' == pageId) {
+                    me.initPageInfo();
                 }
+            },
+
+            initPageInfo: function() {
+                var document = Common.SharedSettings.get('document') || {},
+                    info = document.info || {};
+
+                document.title ? $('#settings-presentation-title').html(document.title) : $('.display-presentation-title').remove();
+                info.author ? $('#settings-pe-owner').html(info.author) : $('.display-owner').remove();
+                info.uploaded ? $('#settings-pe-uploaded').html(info.uploaded.toLocaleString()) : $('.display-uploaded').remove();
+                /*info.created ? $('#settings-pe-date').html(info.created) : $('.display-created-date').remove();*/
+
+                var appProps = (this.api) ? this.api.asc_getAppProps() : null;
+                if (appProps) {
+                    var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                    appName ? $('#settings-pe-application').html(appName) : $('.display-application').remove();
+                }
+
+                var props = (this.api) ? this.api.asc_getCoreProps() : null,
+                    value;
+                if (props) {
+                    value = props.asc_getTitle();
+                    value ? $('#settings-pe-title').html(value) : $('.display-title').remove();
+                    value = props.asc_getSubject();
+                    value ? $('#settings-pe-subject').html(value) : $('.display-subject').remove();
+                    value = props.asc_getDescription();
+                    value ? $('#settings-pe-comment').html(value) : $('.display-comment').remove();
+                    value = props.asc_getModified();
+                    value ? $('#settings-pe-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                    value = props.asc_getLastModifiedBy();
+                    value ? $('#settings-pe-mod-by').html(value) : $('.display-mode-by').remove();
+                    value = props.asc_getCreated();
+                    value ? $('#settings-pe-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                    value = props.asc_getCreator();
+                    var templateCreator = "";
+                    value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                        templateCreator = templateCreator + "<li class='item-content'><div class='item-inner'><div class='item-title'>" + item + "</div></div></li>";
+                    });
+                    templateCreator ? $('#list-creator').html(templateCreator) : $('.display-author').remove();
+                }
+
             },
 
             onCollaboration: function() {
