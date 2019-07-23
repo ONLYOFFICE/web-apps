@@ -372,6 +372,9 @@ define([
                 data: data
             }));
             this.cmbFontSize[0].on('selected', _.bind(this.onFontSizeSelect, this));
+            this.cmbFontSize[0].on('changed:before', _.bind(this.onFontSizeChanged, this, true));
+            this.cmbFontSize[0].on('changed:after',  _.bind(this.onFontSizeChanged, this, false));
+
             this.cmbFontSize[0].setValue(this._state.fontsize);
             this.headerControls.push(this.cmbFontSize[0]);
 
@@ -385,6 +388,8 @@ define([
                 data: data
             }));
             this.cmbFontSize[1].on('selected', _.bind(this.onFontSizeSelect, this));
+            this.cmbFontSize[1].on('changed:before', _.bind(this.onFontSizeChanged, this, true));
+            this.cmbFontSize[1].on('changed:after',  _.bind(this.onFontSizeChanged, this, false));
             this.cmbFontSize[1].setValue(this._state.fontsize);
             this.footerControls.push(this.cmbFontSize[1]);
 
@@ -780,6 +785,36 @@ define([
             if (this.HFObject)
                 this.HFObject.setFontSize(record.value);
             this.onCanvasClick(this.currentCanvas);
+        },
+
+        onFontSizeChanged: function(before, combo, record, e) {
+            var value,
+                me = this;
+
+            if (before) {
+                var item = combo.store.findWhere({
+                    displayValue: record.value
+                });
+
+                if (!item) {
+                    value = /^\+?(\d*\.?\d+)$|^\+?(\d+\.?\d*)$/.exec(record.value);
+
+                    if (!value) {
+                        value = combo.getValue();
+                        combo.setRawValue(value);
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            } else {
+                value = parseFloat(record.value);
+                value = value > 409 ? 409 :
+                    value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
+
+                combo.setRawValue(value);
+                if (this.HFObject)
+                    this.HFObject.setFontSize(value);
+            }
         },
 
         onBoldClick: function(btn, e) {
