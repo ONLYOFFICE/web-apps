@@ -195,6 +195,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('download:advanced',               _.bind(this.onAdvancedOptions, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -1948,7 +1949,7 @@ define([
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
             },
 
-            onAdvancedOptions: function(advOptions, mode) {
+            onAdvancedOptions: function(advOptions, mode, formatOptions) {
                 if (this._state.openDlg) return;
 
                 var type = advOptions.asc_getOptionId(),
@@ -1966,7 +1967,11 @@ define([
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
                                 if (me && me.api) {
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
+                                    if (mode==2) {
+                                        formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTXTAdvancedOptions(encoding));
+                                        me.api.asc_DownloadAs(formatOptions);
+                                    } else
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
                                     me.loadMask && me.loadMask.show();
                                 }
                             }

@@ -302,7 +302,7 @@ define([
                         buttons: ['ok', 'cancel'],
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
-                                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                                Common.NotificationCenter.trigger('download:advanced', this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
                                 menu.hide();
                             }
                         }, this)
@@ -326,7 +326,7 @@ define([
                         });
                     } else {
                         var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX);
-                        // opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
+                        opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
                         this.api.asc_DownloadAs(opts);
                     }
                 } else {
@@ -348,7 +348,7 @@ define([
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
                                 this.isFromFileDownloadAs = ext;
-                                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
+                                Common.NotificationCenter.trigger('download:advanced', this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
                                 menu.hide();
                             }
                         }, this)
@@ -374,7 +374,7 @@ define([
                     } else {
                         this.isFromFileDownloadAs = ext;
                         var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
-                        // opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
+                        opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
                         this.api.asc_DownloadAs(opts);
                     }
                 } else {
