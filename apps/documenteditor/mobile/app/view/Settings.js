@@ -289,7 +289,18 @@ define([
             textCollaboration: 'Collaboration',
             textCommentingDisplay: 'Commenting Display',
             textDisplayComments: 'Comments',
-            textDisplayResolvedComments: 'Resolved Comments'
+            textDisplayResolvedComments: 'Resolved Comments',
+            textSubject: 'Subject',
+            textTitle: 'Title',
+            textComment: 'Comment',
+            textOwner: 'Owner',
+            textApplication : 'Application',
+            textLocation: 'Location',
+            textUploaded: 'Uploaded',
+            textLastModified: 'Last Modified',
+            textLastModifiedBy: 'Last Modified By',
+            textCreated: 'Created'
+
 
     }
     })(), DE.Views.Settings || {}))
