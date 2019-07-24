@@ -890,6 +890,9 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
 
+                value = Common.localStorage.getBool("de-settings-compatible", false);
+                Common.Utils.InternalSettings.set("de-settings-compatible", value);
+
                 Common.Utils.InternalSettings.set("de-settings-showsnaplines", me.api.get_ShowSnapLines());
 
                 function checkWarns() {
@@ -2002,7 +2005,7 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                if (!window.localStorage.getBool("de-hide-try-undoredo"))
+                if (!Common.localStorage.getBool("de-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
                         msg: this.textTryUndoRedo,
@@ -2012,7 +2015,7 @@ define([
                         customButtonText: this.textStrict,
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
-                            if (dontshow) window.localStorage.setItem("de-hide-try-undoredo", 1);
+                            if (dontshow) Common.localStorage.setItem("de-hide-try-undoredo", 1);
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("de-settings-coauthmode", 0);
                                 Common.Utils.InternalSettings.set("de-settings-coauthmode", false);

@@ -307,6 +307,28 @@ define([
                             }
                         }, this)
                     });
+                } else if (format == Asc.c_oAscFileType.DOCX) {
+                    if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") /* && this.api.checkCompatibility()*/) {
+                        Common.UI.warning({
+                            closable: false,
+                            width: 600,
+                            title: this.notcriticalErrorTitle,
+                            msg: this.txtCompatible,
+                            buttons: ['ok', 'cancel'],
+                            dontshow: true,
+                            callback: _.bind(function(btn, dontshow){
+                                if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
+                                if (btn == 'ok') {
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                                    menu.hide();
+                                }
+                            }, this)
+                        });
+                    } else {
+                        var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX);
+                        // opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
+                        this.api.asc_DownloadAs(opts);
+                    }
                 } else {
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                     menu.hide();
@@ -331,6 +353,30 @@ define([
                             }
                         }, this)
                     });
+                } else if (format == Asc.c_oAscFileType.DOCX) {
+                    if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") /* && this.api.checkCompatibility()*/) {
+                        Common.UI.warning({
+                            closable: false,
+                            width: 600,
+                            title: this.notcriticalErrorTitle,
+                            msg: this.txtCompatible,
+                            buttons: ['ok', 'cancel'],
+                            dontshow: true,
+                            callback: _.bind(function(btn, dontshow){
+                                if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
+                                if (btn == 'ok') {
+                                    this.isFromFileDownloadAs = ext;
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
+                                    menu.hide();
+                                }
+                            }, this)
+                        });
+                    } else {
+                        this.isFromFileDownloadAs = ext;
+                        var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+                        // opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
+                        this.api.asc_DownloadAs(opts);
+                    }
                 } else {
                     this.isFromFileDownloadAs = ext;
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
@@ -822,6 +868,8 @@ define([
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
         warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
         warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
-        txtUntitled: 'Untitled'
+        txtUntitled: 'Untitled',
+        txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.'
+
     }, DE.Controllers.LeftMenu || {}));
 });
