@@ -266,9 +266,11 @@ define([
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
-                    if ( this.printSettingsDlg.type=='print' )
-                        this.api.asc_Print(this.adjPrintParams, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
-                    else {
+                    if ( this.printSettingsDlg.type=='print' ) {
+                        var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
+                        opts.asc_setAdjustPrint(this.adjPrintParams);
+                        this.api.asc_Print(opts);
+                    } else {
                         var opts = new Asc.asc_CDownloadOptions(this.downloadFormat, this.asUrl);
                         opts.asc_setAdjustPrint(this.adjPrintParams);
                         this.api.asc_DownloadAs(opts);

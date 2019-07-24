@@ -201,7 +201,7 @@ PE.ApplicationController = new(function(){
 
     function onPrint() {
         if (permissions.print!==false)
-            api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
+            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
     }
 
     function onPrintUrl(url) {
@@ -267,7 +267,7 @@ PE.ApplicationController = new(function(){
                     common.utils.openLink(embedConfig.saveUrl);
                 } else
                 if (api && permissions.print!==false){
-                    api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
+                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
                 }
 
                 Common.Analytics.trackEvent('Save');
