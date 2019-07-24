@@ -302,13 +302,13 @@ define([
                         buttons: ['ok', 'cancel'],
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
-                                this.api.asc_DownloadAs(format);
+                                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 menu.hide();
                             }
                         }, this)
                     });
                 } else {
-                    this.api.asc_DownloadAs(format);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                     menu.hide();
                 }
             } else
@@ -326,14 +326,14 @@ define([
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
                                 this.isFromFileDownloadAs = ext;
-                                this.api.asc_DownloadAs(format, true);
+                                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                                 menu.hide();
                             }
                         }, this)
                     });
                 } else {
                     this.isFromFileDownloadAs = ext;
-                    this.api.asc_DownloadAs(format, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                     menu.hide();
                 }
             } else {

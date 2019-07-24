@@ -65,7 +65,7 @@
                             iframePrint.contentWindow.blur();
                             window.focus();
                         } catch (e) {
-                            api.asc_DownloadAs(Asc.c_oAscFileType.PDF);
+                            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                         }
                     };
 

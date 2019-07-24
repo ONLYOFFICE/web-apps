@@ -676,11 +676,11 @@ define([
                             me.warnDownloadAs,
                             me.notcriticalErrorTitle,
                             function () {
-                                me.api.asc_DownloadAs(format);
+                                me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                             }
                         );
                     } else {
-                        me.api.asc_DownloadAs(format);
+                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                     }
 
                     me.hideModal();

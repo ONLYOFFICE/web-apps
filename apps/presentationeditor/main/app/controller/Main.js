@@ -419,7 +419,7 @@ define([
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = Asc.c_oAscFileType.PPTX;
-                this.api.asc_DownloadAs(_format, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
             },
 
             onProcessMouse: function(data) {
@@ -1784,7 +1784,7 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(Asc.c_oAscFileType.PDF);
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                         }
                     };
                 }

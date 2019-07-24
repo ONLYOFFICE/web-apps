@@ -311,7 +311,7 @@ define([
                     return;
                 }
                 this._state.isFromGatewayDownloadAs = true;
-                this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
             },
 
             goBack: function(current) {

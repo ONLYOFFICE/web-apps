@@ -319,7 +319,7 @@ define([
                     return;
                 }
                 this._state.isFromGatewayDownloadAs = true;
-                this.api.asc_DownloadAs(Asc.c_oAscFileType.XLSX, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
             },
 
             goBack: function(current) {

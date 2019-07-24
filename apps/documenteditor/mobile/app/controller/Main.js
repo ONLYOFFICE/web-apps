@@ -322,7 +322,7 @@ define([
                 if (type && typeof type[1] === 'string') {
                     this.api.asc_DownloadOrigin(true)
                 } else {
-                    this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
                 }
             },
 

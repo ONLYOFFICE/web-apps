@@ -113,7 +113,7 @@ define([
                         if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
                             Common.NotificationCenter.trigger('download:settings', this.toolbar, _format);
                         else
-                            _main.api.asc_DownloadAs(_format);
+                            _main.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format));
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();

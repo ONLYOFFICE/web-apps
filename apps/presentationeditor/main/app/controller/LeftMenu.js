@@ -247,13 +247,13 @@ define([
         },
 
         clickSaveAsFormat: function(menu, format) {
-            this.api.asc_DownloadAs(format);
+            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
             menu.hide();
         },
 
         clickSaveCopyAsFormat: function(menu, format, ext) {
             this.isFromFileDownloadAs = ext;
-            this.api.asc_DownloadAs(format, true);
+            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
             menu.hide();
         },
 

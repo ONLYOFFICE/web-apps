@@ -434,7 +434,7 @@ define([
                 if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
                     Common.NotificationCenter.trigger('download:settings', this, _format, true);
                 else
-                    this.api.asc_DownloadAs(_format, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
             },
 
             onProcessMouse: function(data) {
@@ -2021,7 +2021,9 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(Asc.c_oAscFileType.PDF, false, me.getApplication().getController('Print').getPrintParams());
+                            var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                            opts.asc_setAdjustPrint(me.getApplication().getController('Print').getPrintParams());
+                            me.api.asc_DownloadAs(opts);
                         }
                     };
                 }

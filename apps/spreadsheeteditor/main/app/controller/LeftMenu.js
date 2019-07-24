@@ -264,7 +264,7 @@ define([
                     buttons: ['ok', 'cancel'],
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
-                            this.api.asc_DownloadAs(format);
+                            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                             menu.hide();
                         }
                     }, this)
@@ -273,7 +273,7 @@ define([
                 menu.hide();
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
             } else {
-                this.api.asc_DownloadAs(format);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                 menu.hide();
             }
         },
@@ -287,7 +287,7 @@ define([
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
                             this.isFromFileDownloadAs = ext;
-                            this.api.asc_DownloadAs(format, true);
+                            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                             menu.hide();
                         }
                     }, this)
@@ -298,7 +298,7 @@ define([
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format, true);
             } else {
                 this.isFromFileDownloadAs = ext;
-                this.api.asc_DownloadAs(format, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                 menu.hide();
             }
         },
