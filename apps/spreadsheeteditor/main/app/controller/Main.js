@@ -2026,7 +2026,7 @@ define([
                         window.focus();
                         } catch (e) {
                             var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
-                            opts.asc_setAdjustPrint(me.getApplication().getController('Print').getPrintParams());
+                            opts.asc_setAdvancedOptions(me.getApplication().getController('Print').getPrintParams());
                             me.api.asc_DownloadAs(opts);
                         }
                     };
