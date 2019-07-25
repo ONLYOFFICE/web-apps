@@ -264,7 +264,7 @@ define([
                     buttons: ['ok', 'cancel'],
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
-                            Common.NotificationCenter.trigger('download:advanced', this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
                             menu.hide();
                         }
                     }, this)
@@ -287,7 +287,7 @@ define([
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
                             this.isFromFileDownloadAs = ext;
-                            Common.NotificationCenter.trigger('download:advanced', this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
                             menu.hide();
                         }
                     }, this)

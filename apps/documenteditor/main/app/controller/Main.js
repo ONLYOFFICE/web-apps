@@ -1949,29 +1949,28 @@ define([
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
             },
 
-            onAdvancedOptions: function(advOptions, mode, formatOptions) {
+            onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'TXT'),
                         closable: (mode==2), // if save settings
                         type: Common.Utils.importTextType.TXT,
-                        preview: advOptions.asc_getOptions().asc_getData(),
-                        codepages: advOptions.asc_getOptions().asc_getCodePages(),
-                        settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
+                        preview: advOptions.asc_getData(),
+                        codepages: advOptions.asc_getCodePages(),
+                        settings: advOptions.asc_getRecommendedSettings(),
                         api: me.api,
                         handler: function (result, encoding) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
                                 if (me && me.api) {
                                     if (mode==2) {
-                                        formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTXTAdvancedOptions(encoding));
+                                        formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding));
                                         me.api.asc_DownloadAs(formatOptions);
                                     } else
-                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
                                     me.loadMask && me.loadMask.show();
                                 }
                             }

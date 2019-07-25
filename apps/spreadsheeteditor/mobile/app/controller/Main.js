@@ -1213,17 +1213,16 @@ define([
                Common.Utils.ThemeColor.setColors(colors, standart_colors);
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     var picker,
                         pages = [],
                         pagesName = [];
 
-                    _.each(advOptions.asc_getOptions().asc_getCodePages(), function(page) {
+                    _.each(advOptions.asc_getCodePages(), function(page) {
                         pages.push(page.asc_getCodePage());
                         pagesName.push(page.asc_getCodePageName());
                     });
@@ -1252,7 +1251,7 @@ define([
                                         delimiter = picker.cols[1].value;
 
                                     if (me.api) {
-                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter));
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding, delimiter));
 
                                         if (!me._isDocReady) {
                                             me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
@@ -1264,7 +1263,7 @@ define([
                         ]
                     });
 
-                    var recommendedSettings = advOptions.asc_getOptions().asc_getRecommendedSettings();
+                    var recommendedSettings = advOptions.asc_getRecommendedSettings();
 
                     picker = uiApp.picker({
                         container: '#txt-encoding',
