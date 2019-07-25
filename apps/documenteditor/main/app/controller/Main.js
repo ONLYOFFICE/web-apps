@@ -195,6 +195,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('download:advanced',               _.bind(this.onAdvancedOptions, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -463,7 +464,7 @@ define([
 
                     if ( !_format || _supported.indexOf(_format) < 0 )
                         _format = Asc.c_oAscFileType.DOCX;
-                    this.api.asc_DownloadAs(_format, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
                 }
             },
 
@@ -889,6 +890,9 @@ define([
                 value = Common.localStorage.getBool("de-settings-spellcheck", true);
                 Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
+
+                value = Common.localStorage.getBool("de-settings-compatible", false);
+                Common.Utils.InternalSettings.set("de-settings-compatible", value);
 
                 Common.Utils.InternalSettings.set("de-settings-showsnaplines", me.api.get_ShowSnapLines());
 
@@ -1945,25 +1949,28 @@ define([
                 this.getApplication().getController('Toolbar').getView().updateMetricUnit();
             },
 
-            onAdvancedOptions: function(advOptions, mode) {
+            onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'TXT'),
                         closable: (mode==2), // if save settings
                         type: Common.Utils.importTextType.TXT,
-                        preview: advOptions.asc_getOptions().asc_getData(),
-                        codepages: advOptions.asc_getOptions().asc_getCodePages(),
-                        settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
+                        preview: advOptions.asc_getData(),
+                        codepages: advOptions.asc_getCodePages(),
+                        settings: advOptions.asc_getRecommendedSettings(),
                         api: me.api,
                         handler: function (result, encoding) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
                                 if (me && me.api) {
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
+                                    if (mode==2) {
+                                        formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding));
+                                        me.api.asc_DownloadAs(formatOptions);
+                                    } else
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
                                     me.loadMask && me.loadMask.show();
                                 }
                             }
@@ -2002,7 +2009,7 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                if (!window.localStorage.getBool("de-hide-try-undoredo"))
+                if (!Common.localStorage.getBool("de-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
                         msg: this.textTryUndoRedo,
@@ -2012,7 +2019,7 @@ define([
                         customButtonText: this.textStrict,
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
-                            if (dontshow) window.localStorage.setItem("de-hide-try-undoredo", 1);
+                            if (dontshow) Common.localStorage.setItem("de-hide-try-undoredo", 1);
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("de-settings-coauthmode", 0);
                                 Common.Utils.InternalSettings.set("de-settings-coauthmode", false);
@@ -2070,7 +2077,7 @@ define([
                 if (!this.appOptions.canPrint || this.isModalShowed) return;
                 
                 if (this.api)
-                    this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -2090,10 +2097,14 @@ define([
                     this.iframePrint.style.bottom = "0";
                     document.body.appendChild(this.iframePrint);
                     this.iframePrint.onload = function() {
+                        try {
                         me.iframePrint.contentWindow.focus();
                         me.iframePrint.contentWindow.print();
                         me.iframePrint.contentWindow.blur();
                         window.focus();
+                        } catch (e) {
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                        }
                     };
                 }
                 if (url) this.iframePrint.src = url;

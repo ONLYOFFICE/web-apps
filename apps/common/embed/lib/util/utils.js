@@ -44,7 +44,7 @@
                         newDocumentPage.focus();
                 }
             }
-            , dialogPrint: function(url) {
+            , dialogPrint: function(url, api) {
                 $('#id-print-frame').remove();
 
                 if ( !!url ) {
@@ -59,10 +59,14 @@
                     document.body.appendChild(iframePrint);
 
                     iframePrint.onload = function () {
-                        iframePrint.contentWindow.focus();
-                        iframePrint.contentWindow.print();
-                        iframePrint.contentWindow.blur();
-                        window.focus();
+                        try {
+                            iframePrint.contentWindow.focus();
+                            iframePrint.contentWindow.print();
+                            iframePrint.contentWindow.blur();
+                            window.focus();
+                        } catch (e) {
+                            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                        }
                     };
 
                     iframePrint.src = url;

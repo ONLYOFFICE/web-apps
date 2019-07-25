@@ -201,11 +201,11 @@ PE.ApplicationController = new(function(){
 
     function onPrint() {
         if (permissions.print!==false)
-            api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
+            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
     }
 
     function onPrintUrl(url) {
-        common.utils.dialogPrint(url);
+        common.utils.dialogPrint(url, api);
     }
 
     function hidePreloader() {
@@ -267,7 +267,7 @@ PE.ApplicationController = new(function(){
                     common.utils.openLink(embedConfig.saveUrl);
                 } else
                 if (api && permissions.print!==false){
-                    api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
+                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
                 }
 
                 Common.Analytics.trackEvent('Save');
@@ -558,7 +558,7 @@ PE.ApplicationController = new(function(){
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
             return;
         }
-        if (api) api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
+        if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
     }
     // Helpers
     // -------------------------

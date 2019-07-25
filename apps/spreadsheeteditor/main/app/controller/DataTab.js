@@ -68,7 +68,7 @@ define([
             });
 
             this._state = {
-                CSVOptions: new Asc.asc_CCSVAdvancedOptions(0, 4, '')
+                CSVOptions: new Asc.asc_CTextOptions(0, 4, '')
             };
         },
         onLaunch: function () {
@@ -177,7 +177,7 @@ define([
                 handler: function (result, encoding, delimiter, delimiterChar) {
                     if (result == 'ok') {
                         if (me && me.api) {
-                            me.api.asc_TextToColumns(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                            me.api.asc_TextToColumns(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
                         }
                     }
                 }

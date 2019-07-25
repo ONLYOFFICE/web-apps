@@ -419,7 +419,7 @@ define([
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = Asc.c_oAscFileType.PPTX;
-                this.api.asc_DownloadAs(_format, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
             },
 
             onProcessMouse: function(data) {
@@ -1758,7 +1758,7 @@ define([
                 if (!this.appOptions.canPrint || this.isModalShowed) return;
                 
                 if (this.api)
-                    this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -1778,20 +1778,23 @@ define([
                     this.iframePrint.style.bottom = "0";
                     document.body.appendChild(this.iframePrint);
                     this.iframePrint.onload = function() {
+                        try {
                         me.iframePrint.contentWindow.focus();
                         me.iframePrint.contentWindow.print();
                         me.iframePrint.contentWindow.blur();
                         window.focus();
+                        } catch (e) {
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                        }
                     };
                 }
                 if (url) this.iframePrint.src = url;
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,

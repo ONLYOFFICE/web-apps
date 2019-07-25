@@ -266,10 +266,15 @@ define([
                     this.adjPrintParams.asc_setIgnorePrintArea(this.printSettingsDlg.getIgnorePrintArea());
                     Common.localStorage.setItem("sse-print-settings-range", printtype);
 
-                    if ( this.printSettingsDlg.type=='print' )
-                        this.api.asc_Print(this.adjPrintParams, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
-                    else
-                        this.api.asc_DownloadAs(this.downloadFormat, this.asUrl, this.adjPrintParams);
+                    if ( this.printSettingsDlg.type=='print' ) {
+                        var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera);
+                        opts.asc_setAdvancedOptions(this.adjPrintParams);
+                        this.api.asc_Print(opts);
+                    } else {
+                        var opts = new Asc.asc_CDownloadOptions(this.downloadFormat, this.asUrl);
+                        opts.asc_setAdvancedOptions(this.adjPrintParams);
+                        this.api.asc_DownloadAs(opts);
+                    }
                     Common.component.Analytics.trackEvent((this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
                     Common.component.Analytics.trackEvent('ToolBar', (this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');
                     Common.NotificationCenter.trigger('edit:complete', view);
@@ -348,7 +353,11 @@ define([
                 this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
             }
         },
-        
+
+        getPrintParams: function() {
+            return this.adjPrintParams;
+        },
+
         warnCheckMargings:      'Margins are incorrect',
         strAllSheets:           'All Sheets',
         textWarning: 'Warning',

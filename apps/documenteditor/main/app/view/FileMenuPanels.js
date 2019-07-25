@@ -198,6 +198,10 @@ define([
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.textCompatible %></label></td>',
+                    '<td class="right"><span id="fms-chb-compatible" /></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
@@ -268,6 +272,11 @@ define([
             this.chSpell = new Common.UI.CheckBox({
                 el: $('#fms-chb-spell-check'),
                 labelText: this.strSpellCheckMode
+            });
+
+            this.chCompatible = new Common.UI.CheckBox({
+                el: $('#fms-chb-compatible'),
+                labelText: this.textOldVersions
             });
 
             this.chAutosave = new Common.UI.CheckBox({
@@ -448,6 +457,7 @@ define([
 
             this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
             this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
+            this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
         },
 
         applySettings: function() {
@@ -469,6 +479,8 @@ define([
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
             Common.localStorage.save();
 
@@ -531,7 +543,9 @@ define([
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments'
+        strResolvedComment: 'Turn on display of the resolved comments',
+        textCompatible: 'Compatibility',
+        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

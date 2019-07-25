@@ -364,7 +364,7 @@ define([
 
                     this.langMenu.prevTip = info.value;
 
-                    var lang = this.langMenu.items.find(function(item){ return item.caption == info.displayValue; });
+                    var lang = _.find(this.langMenu.items, function(item) { return item.caption == info.displayValue; });
                     if (lang)
                         lang.setChecked(true);
                     else {

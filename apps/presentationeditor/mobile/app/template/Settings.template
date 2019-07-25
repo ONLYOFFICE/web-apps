@@ -143,8 +143,8 @@
     <div class="pages">
         <div class="page" data-page="settings-info-view">
             <div class="page-content">
-                <div class="content-block-title"><%= scope.textPresentTitle %></div>
-                <div class="list-block">
+                <div class="content-block-title display-presentation-title"><%= scope.textPresentTitle %></div>
+                <div class="list-block display-presentation-title">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
@@ -153,22 +153,112 @@
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textAuthor %></div>
-                <div class="list-block">
+                <div class="content-block-title display-owner"><%= scope.textOwner %></div>
+                <div class="list-block display-owner">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-presentation-autor" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-pe-owner" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textCreateDate %></div>
-                <div class="list-block">
+                <div class="content-block-title display-location"><%= scope.textLocation %></div>
+                <div class="list-block display-location">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-presentation-date" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-pe-location" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-uploaded"><%= scope.textUploaded %></div>
+                <div class="list-block display-uploaded">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-uploaded" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-subject"><%= scope.textSubject %></div>
+                <div class="list-block display-subject">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-subject" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-title"><%= scope.textTitle %></div>
+                <div class="list-block display-title">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-title" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-comment"><%= scope.textComment %></div>
+                <div class="list-block display-comment">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-comment" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-last-mode"><%= scope.textLastModified %></div>
+                <div class="list-block display-last-mode">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-last-mod" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-mode-by"><%= scope.textLastModifiedBy %></div>
+                <div class="list-block display-mode-by">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-mod-by" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-created-date"><%= scope.textCreated %></div>
+                <div class="list-block display-created-date">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-date" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-application"><%= scope.textApplication %></div>
+                <div class="list-block display-application">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-application" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-author"><%= scope.textAuthor %></div>
+                <div class="list-block display-author">
+                    <ul id="list-creator">
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-pe-author" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>

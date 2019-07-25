@@ -159,6 +159,9 @@ define([
                 view.pmiTextCut.on('click',                         _.bind(me.onCopyPaste, me));
                 view.pmiTextCopy.on('click',                        _.bind(me.onCopyPaste, me));
                 view.pmiTextPaste.on('click',                       _.bind(me.onCopyPaste, me));
+                view.pmiCommonCut.on('click',                       _.bind(me.onCopyPaste, me));
+                view.pmiCommonCopy.on('click',                      _.bind(me.onCopyPaste, me));
+                view.pmiCommonPaste.on('click',                     _.bind(me.onCopyPaste, me));
                 view.pmiInsertEntire.on('click',                    _.bind(me.onInsertEntire, me));
                 view.pmiDeleteEntire.on('click',                    _.bind(me.onDeleteEntire, me));
                 view.pmiInsertCells.menu.on('item:click',           _.bind(me.onInsertCells, me));
@@ -1514,7 +1517,10 @@ define([
                 case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
             }
 
-            if (isimagemenu || isshapemenu || ischartmenu) {
+            if (this.api.asc_getHeaderFooterMode()) {
+                if (!documentHolder.copyPasteMenu || !showMenu && !documentHolder.copyPasteMenu.isVisible()) return;
+                if (showMenu) this.showPopupMenu(documentHolder.copyPasteMenu, {}, event);
+            } else if (isimagemenu || isshapemenu || ischartmenu) {
                 if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = false;
@@ -2198,7 +2204,7 @@ define([
                                         if (me && me.api) {
                                             var props = new Asc.SpecialPasteProps();
                                             props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
-                                            props.asc_setAdvancedOptions(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                                            props.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
                                             me.api.asc_SpecialPaste(props);
                                         }
                                         me._state.lastSpecPasteChecked = item;

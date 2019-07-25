@@ -302,22 +302,32 @@
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textAuthor %></div>
-                <div class="list-block">
+                <div class="content-block-title display-owner"><%= scope.textOwner %></div>
+                <div class="list-block display-owner">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-autor" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-document-owner" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textCreateDate %></div>
-                <div class="list-block">
+                <div class="content-block-title display-location"><%= scope.textLocation %></div>
+                <div class="list-block display-location">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-date" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-doc-location" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-uploaded"><%= scope.textUploaded %></div>
+                <div class="list-block display-uploaded">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-uploaded" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
@@ -353,6 +363,87 @@
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textSpaces %></div>
                                 <div class="item-after" id="statistic-spaces">0</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-block-title display-subject"><%= scope.textSubject %></div>
+                <div class="list-block display-subject">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-subject" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-title"><%= scope.textTitle %></div>
+                <div class="list-block display-title">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-title" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-comment"><%= scope.textComment %></div>
+                <div class="list-block display-comment">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-comment" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-last-mode"><%= scope.textLastModified %></div>
+                <div class="list-block display-last-mode">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-last-mod" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-mode-by"><%= scope.textLastModifiedBy %></div>
+                <div class="list-block display-mode-by">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-mod-by" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-created-date"><%= scope.textCreated %></div>
+                <div class="list-block display-created-date">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-date" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-application"><%= scope.textApplication %></div>
+                <div class="list-block display-application">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-application" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-author"><%= scope.textAuthor %></div>
+                <div class="list-block display-author">
+                    <ul id="list-creator">
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-author" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>

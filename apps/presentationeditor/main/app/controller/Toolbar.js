@@ -161,7 +161,7 @@ define([
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
 
-                        _main.api.asc_DownloadAs(_format);
+                        _main.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format));
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
@@ -893,7 +893,7 @@ define([
         
         onPrint: function(e) {
             if (this.api)
-                this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
@@ -1962,24 +1962,42 @@ define([
             var themeStore = this.getCollection('SlideThemes'),
                 mainController = this.getApplication().getController('Main');
             if (themeStore) {
-                var arr = [];
-                _.each(defaultThemes.concat(docThemes), function(theme) {
-                    arr.push(new Common.UI.DataViewModel({
-                        imageUrl: theme.get_Image(),
+                var arr1 = [], arr2 = [];
+                _.each(defaultThemes, function(theme, index) {
+                    var tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                    arr1.push(new Common.UI.DataViewModel({
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
-                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name(),
-                        itemWidth   : 85,
-                        itemHeight  : 38
+                        tip     : tip,
+                        offsety     : index * 38
                     }));
-                    me.toolbar.listTheme.menuPicker.store.add({
-                        imageUrl: theme.get_Image(),
+                    arr2.push({
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
-                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name()
+                        tip     : tip,
+                        offsety     : index * 38
                     });
                 });
-                themeStore.reset(arr);
+                _.each(docThemes, function(theme) {
+                    var image = theme.get_Image(),
+                        tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                    arr1.push(new Common.UI.DataViewModel({
+                        imageUrl: image,
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index(),
+                        tip     : tip,
+                        offsety     : 0
+                    }));
+                    arr2.push({
+                        imageUrl: image,
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index(),
+                        tip     : tip,
+                        offsety     : 0
+                    });
+                });
+                themeStore.reset(arr1);
+                me.toolbar.listTheme.menuPicker.store.reset(arr2);
             }
 
             if (me.toolbar.listTheme.menuPicker.store.length > 0 &&  me.toolbar.listTheme.rendered){
