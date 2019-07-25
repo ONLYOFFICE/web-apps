@@ -1425,7 +1425,7 @@
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "Spell Checking",
   "DE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "DE.Views.FileMenuPanels.Settings.textCompatible": "Compatibility",
-  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Make the files compatible with older MS Word versions",
+  "DE.Views.FileMenuPanels.Settings.textOldVersions": "Make the files compatible with older MS Word versions when saved as DOCX",
   "DE.Views.HeaderFooterSettings.textBottomCenter": "Bottom center",
   "DE.Views.HeaderFooterSettings.textBottomLeft": "Bottom left",
   "DE.Views.HeaderFooterSettings.textBottomPage": "Bottom of Page",

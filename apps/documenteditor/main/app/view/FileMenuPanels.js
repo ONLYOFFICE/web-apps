@@ -545,7 +545,7 @@ define([
         strForcesave: 'Always save to server (otherwise save to server on document close)',
         strResolvedComment: 'Turn on display of the resolved comments',
         textCompatible: 'Compatibility',
-        textOldVersions: 'Make the files compatible with older MS Word versions'
+        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
