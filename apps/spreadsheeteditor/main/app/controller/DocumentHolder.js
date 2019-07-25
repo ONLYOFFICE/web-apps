@@ -2204,7 +2204,7 @@ define([
                                         if (me && me.api) {
                                             var props = new Asc.SpecialPasteProps();
                                             props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
-                                            props.asc_setAdvancedOptions(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                                            props.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
                                             me.api.asc_SpecialPaste(props);
                                         }
                                         me._state.lastSpecPasteChecked = item;

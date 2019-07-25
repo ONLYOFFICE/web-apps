@@ -381,7 +381,7 @@ define([
 
                 if (format) {
                     _.defer(function () {
-                        me.api.asc_DownloadAs(format);
+                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                     });
                 }
 

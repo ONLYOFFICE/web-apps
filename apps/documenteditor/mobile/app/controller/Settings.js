@@ -567,13 +567,13 @@ define([
                                 me.warnDownloadAs,
                                 me.notcriticalErrorTitle,
                                 function () {
-                                    me.api.asc_DownloadAs(format);
+                                    me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 }
                             );
                         });
                     } else {
                         _.defer(function () {
-                            me.api.asc_DownloadAs(format);
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                         });
                     }
 

@@ -168,6 +168,7 @@ define([
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
+                Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -434,7 +435,7 @@ define([
                 if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
                     Common.NotificationCenter.trigger('download:settings', this, _format, true);
                 else
-                    this.api.asc_DownloadAs(_format, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
             },
 
             onProcessMouse: function(data) {
@@ -1602,25 +1603,28 @@ define([
                 return false;
             },
 
-            onAdvancedOptions: function(advOptions, mode) {
+            onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'CSV'),
                         closable: (mode==2), // if save settings
                         type: Common.Utils.importTextType.CSV,
-                        preview: advOptions.asc_getOptions().asc_getData(),
-                        codepages: advOptions.asc_getOptions().asc_getCodePages(),
-                        settings: advOptions.asc_getOptions().asc_getRecommendedSettings(),
+                        preview: advOptions.asc_getData(),
+                        codepages: advOptions.asc_getCodePages(),
+                        settings: advOptions.asc_getRecommendedSettings(),
                         api: me.api,
                         handler: function (result, encoding, delimiter, delimiterChar) {
                             me.isShowOpenDialog = false;
                             if (result == 'ok') {
                                 if (me && me.api) {
-                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                                    if (mode==2) {
+                                        formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
+                                        me.api.asc_DownloadAs(formatOptions);
+                                    } else
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
                                     me.loadMask && me.loadMask.show();
                                 }
                             }
@@ -2021,7 +2025,9 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(Asc.c_oAscFileType.PDF, false, me.getApplication().getController('Print').getPrintParams());
+                            var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF);
+                            opts.asc_setAdvancedOptions(me.getApplication().getController('Print').getPrintParams());
+                            me.api.asc_DownloadAs(opts);
                         }
                     };
                 }

@@ -311,7 +311,7 @@ define([
                     return;
                 }
                 this._state.isFromGatewayDownloadAs = true;
-                this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
             },
 
             goBack: function(current) {
@@ -1089,11 +1089,10 @@ define([
                 this.isThumbnailsShow = isShow;
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
 
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
