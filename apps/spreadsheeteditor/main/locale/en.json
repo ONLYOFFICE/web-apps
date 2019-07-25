@@ -1662,6 +1662,7 @@
   "SSE.Views.HeaderFooterDialog.textOdd": "Odd page",
   "SSE.Views.HeaderFooterDialog.textEven": "Even page",
   "SSE.Views.HeaderFooterDialog.textAll": "All pages",
+  "SSE.Views.HeaderFooterDialog.textMaxError": "The text string you entered is too long. Reduce the number of characters used.",
   "SSE.Views.HyperlinkSettingsDialog.cancelButtonText": "Cancel",
   "SSE.Views.HyperlinkSettingsDialog.strDisplay": "Display",
   "SSE.Views.HyperlinkSettingsDialog.strLinkTo": "Link to",
