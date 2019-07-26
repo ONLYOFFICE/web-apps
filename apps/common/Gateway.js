@@ -110,6 +110,10 @@ if (Common === undefined) {
 
             'setSharingSettings': function(data) {
                 $me.trigger('setsharingsettings', data);
+            },
+
+            'insertImage': function(data) {
+                $me.trigger('insertimage', data);
             }
         };
 
@@ -290,6 +294,10 @@ if (Common === undefined) {
 
             requestSendNotify:  function (emails) {
                 _postMessage({event:'onRequestSendNotify', data: emails})
+            },
+
+            requestInsertImage:  function () {
+                _postMessage({event:'onRequestInsertImage'})
             },
 
             on: function(event, handler){

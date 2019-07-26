@@ -203,6 +203,7 @@
         _config.editorConfig.canRequestSendNotify = _config.events && !!_config.events.onRequestSendNotify;
         _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
         _config.editorConfig.canRequestSaveAs = _config.events && !!_config.events.onRequestSaveAs;
+        _config.editorConfig.canRequestInsertImage = _config.events && !!_config.events.onRequestInsertImage;
         _config.frameEditorId = placeholderId;
 
         _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
@@ -561,6 +562,13 @@
             });
         };
 
+        var _insertImage = function(data) {
+            _sendCommand({
+                command: 'insertImage',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -603,7 +611,8 @@
             destroyEditor       : _destroyEditor,
             setUsers            : _setUsers,
             showSharingSettings : _showSharingSettings,
-            setSharingSettings  : _setSharingSettings
+            setSharingSettings  : _setSharingSettings,
+            insertImage         : _insertImage
         }
     };
 
