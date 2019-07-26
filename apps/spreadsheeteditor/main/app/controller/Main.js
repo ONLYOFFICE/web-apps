@@ -322,6 +322,7 @@ define([
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
                 this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
+                this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')

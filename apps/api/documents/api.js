@@ -202,6 +202,7 @@
         _config.editorConfig.canRequestUsers = _config.events && !!_config.events.onRequestUsers;
         _config.editorConfig.canRequestSendNotify = _config.events && !!_config.events.onRequestSendNotify;
         _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
+        _config.editorConfig.canRequestSaveAs = _config.events && !!_config.events.onRequestSaveAs;
         _config.frameEditorId = placeholderId;
 
         _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");

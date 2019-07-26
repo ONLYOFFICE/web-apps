@@ -250,6 +250,16 @@ if (Common === undefined) {
                 });
             },
 
+            requestSaveAs: function(url, title) {
+                _postMessage({
+                    event: 'onRequestSaveAs',
+                    data: {
+                        url: url,
+                        title: title
+                    }
+                });
+            },
+
             collaborativeChanges: function() {
                 _postMessage({event: 'onCollaborativeChanges'});
             },
