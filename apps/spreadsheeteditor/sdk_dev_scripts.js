@@ -110,6 +110,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/cell/model/Workbook.js",
 	"../../../../sdkjs/cell/model/Serialize.js",
 	"../../../../sdkjs/cell/model/ConditionalFormatting.js",
+	"../../../../sdkjs/cell/model/DataValidation.js",
 	"../../../../sdkjs/cell/model/CellInfo.js",
 	"../../../../sdkjs/cell/view/mobileTouch.js",
 	"../../../../sdkjs/cell/view/StringRender.js",
