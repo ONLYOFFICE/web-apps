@@ -289,6 +289,11 @@ module.exports = function(grunt) {
                 options: {
                     plugins: [{
                         cleanupIDs: false
+                    },
+                    {
+                        convertPathData: {
+                            floatPrecision: 4
+                        }
                     }]
                 },
                 dist: {
