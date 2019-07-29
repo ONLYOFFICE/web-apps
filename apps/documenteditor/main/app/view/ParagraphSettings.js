@@ -77,7 +77,8 @@ define([
                 AddInterval: false,
                 BackColor: '#000000',
                 DisabledControls: true,
-                HideTextOnlySettings: false
+                HideTextOnlySettings: false,
+                PrAlign: undefined
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -183,8 +184,10 @@ define([
 
         setApi: function(api) {
             this.api = api;
-            if (this.api)
+            if (this.api) {
                 this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
+                this.api.asc_registerCallback('asc_onPrAlign', _.bind(this.onApiParagraphAlign, this));
+            }
             return this;
         },
 
@@ -418,11 +421,15 @@ define([
                                 borderProps: me.borderAdvancedProps,
                                 isChart: me.isChart,
                                 api: me.api,
+                                textAlign: me._state.PrAlign,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         if (me.api) {
                                             me.borderAdvancedProps = value.borderProps;
                                             me.api.paraApply(value.paragraphProps);
+                                            setTimeout(function () {
+                                                me.api.put_PrAlign(value.horizontalAlign);
+                                            },50);
                                         }
                                     }
                                     me.fireEvent('editcomplete', me);
@@ -479,6 +486,12 @@ define([
             if (this._state.HideTextOnlySettings !== value) {
                 this._state.HideTextOnlySettings = value;
                 this.TextOnlySettings.toggleClass('hidden', value==true);
+            }
+        },
+
+        onApiParagraphAlign: function(align) {
+            if (this._state.PrAlign !== align) {
+                this._state.PrAlign = align;
             }
         },
 

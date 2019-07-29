@@ -51,7 +51,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 335,
+            contentWidth: 370,
             height: 394,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'de-para-settings-adv-category'
@@ -62,6 +62,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 title: this.textTitle,
                 items: [
                     {panelId: 'id-adv-paragraph-indents', panelCaption: this.strParagraphIndents},
+                    {panelId: 'id-adv-paragraph-line',    panelCaption: this.strParagraphLine},
                     {panelId: 'id-adv-paragraph-borders', panelCaption: this.strBorders},
                     {panelId: 'id-adv-paragraph-font',    panelCaption: this.strParagraphFont},
                     {panelId: 'id-adv-paragraph-tabs',    panelCaption: this.strTabs},
@@ -84,6 +85,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.Margins = undefined;
             this.FirstLine = undefined;
             this.LeftIndent = undefined;
+            this.Spacing = null;
             this.spinners = [];
 
             this.tableStylerRows = this.options.tableStylerRows;
@@ -92,6 +94,42 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.api = this.options.api;
             this._originalProps = new Asc.asc_CParagraphProperty(this.options.paragraphProps);
             this.isChart = this.options.isChart;
+
+            this.CurLineRuleIdx = this._originalProps.asc_getSpacing().get_LineRule();
+
+            this._arrLineRule = [
+                {displayValue: this.textAtLeast,defaultValue: 5, value: c_paragraphLinerule.LINERULE_LEAST, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'},
+                {displayValue: this.textAuto,   defaultValue: 1, value: c_paragraphLinerule.LINERULE_AUTO, minValue: 0.5,    step: 0.01, defaultUnit: ''},
+                {displayValue: this.textExact,  defaultValue: 5, value: c_paragraphLinerule.LINERULE_EXACT, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
+            ];
+
+            this._arrSpecian = [
+                {displayValue: this.textNoneSpecian, value: c_paragraphSpecian.NONE_SPECIAN},
+                {displayValue: this.textFirstLine, value: c_paragraphSpecian.FIRST_LINE},
+                {displayValue: this.textHanging, value: c_paragraphSpecian.HANGING}
+            ];
+            this.CurSpecian = undefined;
+
+            this._arrTextAlignment = [
+                {displayValue: this.textLeft, value: c_paragraphTextAlignment.LEFT},
+                {displayValue: this.textCentered, value: c_paragraphTextAlignment.CENTERED},
+                {displayValue: this.textRight, value: c_paragraphTextAlignment.RIGHT},
+                {displayValue: this.textJustified, value: c_paragraphTextAlignment.JUSTIFIED}
+            ];
+            this.textAlign = this.options.textAlign;
+
+            this._arrOutlinelevel = [
+                {displayValue: this.textBodyText},
+                {displayValue: this.textLevel + '1'},
+                {displayValue: this.textLevel + '2'},
+                {displayValue: this.textLevel + '3'},
+                {displayValue: this.textLevel + '4'},
+                {displayValue: this.textLevel + '5'},
+                {displayValue: this.textLevel + '6'},
+                {displayValue: this.textLevel + '7'},
+                {displayValue: this.textLevel + '8'},
+                {displayValue: this.textLevel + '9'}
+            ];
         },
 
         render: function() {
@@ -100,25 +138,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             var me = this;
 
             // Indents & Placement
-
-            this.numFirstLine = new Common.UI.MetricSpinner({
-                el: $('#paragraphadv-spin-first-line'),
-                step: .1,
-                width: 85,
-                defaultUnit : "cm",
-                defaultValue : 0,
-                value: '0 cm',
-                maxValue: 55.87,
-                minValue: -55.87
-            });
-            this.numFirstLine.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (this._changedProps) {
-                    if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
-                        this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
-                    this._changedProps.get_Ind().put_FirstLine(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                }
-            }, this));
-            this.spinners.push(this.numFirstLine);
 
             this.numIndentsLeft = new Common.UI.MetricSpinner({
                 el: $('#paragraphadv-spin-indent-left'),
@@ -157,6 +176,117 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 }
             }, this));
             this.spinners.push(this.numIndentsRight);
+
+            this.numSpacingBefore = new Common.UI.MetricSpinner({
+                el: $('#paragraphadv-spin-spacing-before'),
+                step: .1,
+                width: 85,
+                value: '',
+                defaultUnit : "cm",
+                maxValue: 55.88,
+                minValue: 0,
+                allowAuto   : true,
+                autoText    : this.txtAutoText
+            });
+            this.numSpacingBefore.on('change', _.bind(function (field, newValue, oldValue, eOpts) {
+                if (this.Spacing === null) {
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
+                    this.Spacing = properties.asc_getSpacing();
+                }
+                this.Spacing.Before = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+            }, this));
+            this.spinners.push(this.numSpacingBefore);
+
+            this.numSpacingAfter = new Common.UI.MetricSpinner({
+                el: $('#paragraphadv-spin-spacing-after'),
+                step: .1,
+                width: 85,
+                value: '',
+                defaultUnit : "cm",
+                maxValue: 55.88,
+                minValue: 0,
+                allowAuto   : true,
+                autoText    : this.txtAutoText
+            });
+            this.numSpacingAfter.on('change', _.bind(function (field, newValue, oldValue, eOpts) {
+                if (this.Spacing === null) {
+                    var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
+                    this.Spacing = properties.asc_getSpacing();
+                }
+                this.Spacing.After = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+            }, this));
+            this.spinners.push(this.numSpacingAfter);
+
+            this.cmbLineRule = new Common.UI.ComboBox({
+                el: $('#paragraphadv-spin-line-rule'),
+                cls: 'input-group-nr',
+                editable: false,
+                data: this._arrLineRule,
+                style: 'width: 85px;'
+            });
+            this.cmbLineRule.setValue(this.CurLineRuleIdx);
+            this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
+
+            this.numLineHeight = new Common.UI.MetricSpinner({
+                el: $('#paragraphadv-spin-line-height'),
+                step: .01,
+                width: 85,
+                value: '',
+                defaultUnit : "",
+                maxValue: 132,
+                minValue: 0.5
+            });
+            this.spinners.push(this.numLineHeight);
+            this.numLineHeight.on('change', _.bind(this.onNumLineHeightChange, this));
+
+            this.chAddInterval = new Common.UI.CheckBox({
+                el: $('#paragraphadv-checkbox-add-interval'),
+                labelText: this.strSomeParagraphSpace
+            });
+
+            this.cmbSpecian = new Common.UI.ComboBox({
+                el: $('#paragraphadv-spin-specian'),
+                cls: 'input-group-nr',
+                editable: false,
+                data: this._arrSpecian,
+                style: 'width: 85px;'
+            });
+            this.cmbSpecian.setValue('');
+            this.cmbSpecian.on('selected', _.bind(this.onSpecianSelect, this));
+
+            this.numSpecianBy = new Common.UI.MetricSpinner({
+                el: $('#paragraphadv-spin-specian-by'),
+                step: .1,
+                width: 85,
+                defaultUnit : "cm",
+                defaultValue : 0,
+                value: '0 cm',
+                maxValue: 55.87,
+                minValue: 0
+            });
+            this.spinners.push(this.numSpecianBy);
+            this.numSpecianBy.on('change', _.bind(this.onFirstLineChange, this));
+
+            this.cmbTextAlignment = new Common.UI.ComboBox({
+                el: $('#paragraphadv-spin-text-alignment'),
+                cls: 'input-group-nr',
+                editable: false,
+                data: this._arrTextAlignment,
+                style: 'width: 175px;'
+            });
+            this.cmbTextAlignment.setValue('');
+
+            this.cmbOutlinelevel = new Common.UI.ComboBox({
+                el: $('#paragraphadv-spin-outline-level'),
+                cls: 'input-group-nr',
+                editable: false,
+                data: this._arrOutlinelevel,
+                style: 'width: 175px;'
+            });
+            this.cmbOutlinelevel.setValue('');
+            this.cmbOutlinelevel.on('selected', _.bind(this.onOutlinelevelSelect, this));
+
+            // Line & Page Breaks
 
             this.chBreakBefore = new Common.UI.CheckBox({
                 el: $('#paragraphadv-checkbox-break-before'),
@@ -600,7 +730,16 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 }
             }
 
-            return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
+            if (this.Spacing !== null) {
+                this._changedProps.asc_putSpacing(this.Spacing);
+            }
+
+            var spaceBetweenPrg = this.chAddInterval.getValue();
+            this._changedProps.asc_putContextualSpacing(spaceBetweenPrg == 'checked');
+
+            var horizontalAlign = this.cmbTextAlignment.getValue();
+
+            return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color}, horizontalAlign: horizontalAlign };
         },
 
         _setDefaults: function(props) {
@@ -610,12 +749,33 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.hideTextOnlySettings(this.isChart);
 
                 this.FirstLine = (props.get_Ind() !== null) ? props.get_Ind().get_FirstLine() : null;
-                this.numFirstLine.setValue(this.FirstLine!== null ? Common.Utils.Metric.fnRecalcFromMM(this.FirstLine) : '', true);
                 this.LeftIndent = (props.get_Ind() !== null) ? props.get_Ind().get_Left() : null;
                 if (this.FirstLine<0 && this.LeftIndent !== null)
                     this.LeftIndent = this.LeftIndent + this.FirstLine;
                 this.numIndentsLeft.setValue(this.LeftIndent!==null ? Common.Utils.Metric.fnRecalcFromMM(this.LeftIndent) : '', true);
                 this.numIndentsRight.setValue((props.get_Ind() !== null && props.get_Ind().get_Right() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Right()) : '', true);
+
+                this.numSpacingBefore.setValue((props.asc_getSpacing() !== null && props.asc_getSpacing().asc_getBefore() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.asc_getSpacing().asc_getBefore()) : '', true);
+                this.numSpacingAfter.setValue((props.asc_getSpacing() !== null && props.asc_getSpacing().asc_getAfter() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.asc_getSpacing().asc_getAfter()) : '', true);
+
+                var linerule = props.asc_getSpacing().asc_getLineRule();
+                this.cmbLineRule.setValue((linerule !== null) ? linerule : '', true);
+
+                if(props.asc_getSpacing() !== null && props.asc_getSpacing().asc_getLine() !== null) {
+                    this.numLineHeight.setValue((linerule==c_paragraphLinerule.LINERULE_AUTO) ? props.asc_getSpacing().asc_getLine() : Common.Utils.Metric.fnRecalcFromMM(props.asc_getSpacing().asc_getLine()), true);
+                } else {
+                    this.numLineHeight.setValue('', true);
+                }
+
+                this.chAddInterval.setValue((props.asc_getContextualSpacing() !== null && props.asc_getContextualSpacing() !== undefined) ? props.asc_getContextualSpacing() : 'indeterminate', true);
+
+                if(this.CurSpecian === undefined) {
+                    this.CurSpecian = (props.asc_getInd().get_FirstLine() === 0) ? c_paragraphSpecian.NONE_SPECIAN : ((props.asc_getInd().get_FirstLine() > 0) ? c_paragraphSpecian.FIRST_LINE : c_paragraphSpecian.HANGING);
+                }
+                this.cmbSpecian.setValue(this.CurSpecian);
+                this.numSpecianBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
+
+                this.cmbTextAlignment.setValue(this.textAlign !== undefined ? this.textAlign : c_paragraphTextAlignment.LEFT, true);
 
                 this.chKeepLines.setValue((props.get_KeepLines() !== null && props.get_KeepLines() !== undefined) ? props.get_KeepLines() : 'indeterminate', true);
                 this.chBreakBefore.setValue((props.get_PageBreakBefore() !== null && props.get_PageBreakBefore() !== undefined) ? props.get_PageBreakBefore() : 'indeterminate', true);
@@ -723,13 +883,19 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    if (spinner.el.id == 'paragraphadv-spin-spacing' || spinner.el.id == 'paragraphadv-spin-position' )
+                    if (spinner.el.id == 'paragraphadv-spin-spacing' || spinner.el.id == 'paragraphadv-spin-position' || spinner.el.id == 'paragraphadv-spin-spacing-before' || spinner.el.id == 'paragraphadv-spin-spacing-after')
                         spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                     else
                         spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
-
+            this._arrLineRule[2].defaultUnit =  this._arrLineRule[0].defaultUnit = Common.Utils.Metric.getCurrentMetricName();
+            this._arrLineRule[2].minValue =  this._arrLineRule[0].minValue = parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2));
+            this._arrLineRule[2].step =  this._arrLineRule[0].step = (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01;
+            if (this.CurLineRuleIdx !== null) {
+                this.numLineHeight.setDefaultUnit(this._arrLineRule[this.CurLineRuleIdx].defaultUnit);
+                this.numLineHeight.setStep(this._arrLineRule[this.CurLineRuleIdx].step);
+            }
         },
 
         updateThemeColors: function() {
@@ -1162,11 +1328,68 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.btnsCategory[4].setVisible(!value);   // Paddings
         },
 
+        onLineRuleSelect: function(combo, record) {
+            if (this.Spacing === null) {
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
+                this.Spacing = properties.asc_getSpacing();
+            }
+            this.Spacing.LineRule = record.value;
+            if ( this.CurLineRuleIdx !== this.Spacing.LineRule ) {
+                this.numLineHeight.setDefaultUnit(this._arrLineRule[record.value].defaultUnit);
+                this.numLineHeight.setMinValue(this._arrLineRule[record.value].minValue);
+                this.numLineHeight.setStep(this._arrLineRule[record.value].step);
+                this.numLineHeight.setValue((this.Spacing.LineRule == c_paragraphLinerule.LINERULE_AUTO) ? this._arrLineRule[record.value].defaultValue : Common.Utils.Metric.fnRecalcFromMM(this._arrLineRule[record.value].defaultValue));
+                this.CurLineRuleIdx = record.value;
+            }
+        },
+
+        onNumLineHeightChange: function(field, newValue, oldValue, eOpts) {
+            if ( this.cmbLineRule.getRawValue() === '' )
+                return;
+            if (this.Spacing === null) {
+                var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
+                this.Spacing = properties.asc_getSpacing();
+            }
+            this.Spacing.Line = (this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+        },
+
+        onSpecianSelect: function(combo, record) {
+            this.CurSpecian = record.value;
+            this.numSpecianBy.setValue(0, true);
+            if (this._changedProps) {
+                if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
+                    this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
+                this._changedProps.get_Ind().put_FirstLine(0);
+            }
+        },
+
+        onFirstLineChange: function(field, newValue, oldValue, eOpts){
+            if (this._changedProps) {
+                if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
+                    this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
+                var value = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+                if (this.CurSpecian === c_paragraphSpecian.HANGING) {
+                    value = -value;
+                } else if (this.CurSpecian === c_paragraphSpecian.NONE_SPECIAN && value > 0 )  {
+                    this.CurSpecian = c_paragraphSpecian.FIRST_LINE;
+                    this.cmbSpecian.setValue(c_paragraphSpecian.FIRST_LINE);
+                } else if (value === 0) {
+                    this.CurSpecian = c_paragraphSpecian.NONE_SPECIAN;
+                    this.cmbSpecian.setValue(c_paragraphSpecian.NONE_SPECIAN);
+                }
+                this._changedProps.get_Ind().put_FirstLine(value);
+            }
+        },
+
+        onOutlinelevelSelect: function(combo, record) {
+
+        },
+
         textTitle:      'Paragraph - Advanced Settings',
         strIndentsFirstLine:    'First line',
-        strIndentsLeftText:     'Left',
-        strIndentsRightText:    'Right',
-        strParagraphIndents:    'Indents & Placement',
+        strIndentsLeftText:     'Indentation Left',
+        strIndentsRightText:    'Indentation Right',
+        strParagraphIndents:    'Indents & Spacing',
         strParagraphPosition:   'Placement',
         strParagraphFont:   'Font',
         strBreakBefore:         'Page break before',
@@ -1217,6 +1440,28 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         tipOuter:           'Set Outer Border Only',
         noTabs:             'The specified tabs will appear in this field',
         textLeader: 'Leader',
-        textNone: 'None'
+        textNone: 'None',
+        strParagraphLine: 'Line & Page Breaks',
+        strIndentsSpacingBefore: 'Spacing Before',
+        strIndentsSpacingAfter: 'Spacing After',
+        strIndentLineSpacingAt: 'At',
+        strIndentsLineSpacing: 'Line Spacing',
+        txtAutoText: 'Auto',
+        textAuto: 'Multiple',
+        textAtLeast: 'At least',
+        textExact: 'Exactly',
+        strSomeParagraphSpace: 'Don\'t add interval between paragraphs of the same style',
+        strIndentsSpecian: 'Specian',
+        textNoneSpecian: '(none)',
+        textFirstLine: 'First line',
+        textHanging: 'Hanging',
+        strIndentsSpecianBy: 'By',
+        textCentered: 'Centered',
+        textJustified: 'Justified',
+        textBodyText: 'BodyText',
+        textLevel: 'Level ',
+        strIndentsTextAlignment: 'Text Alignment',
+        strIndentsOutlinelevel: 'Outline level'
+
     }, DE.Views.ParagraphSettingsAdvanced || {}));
 });

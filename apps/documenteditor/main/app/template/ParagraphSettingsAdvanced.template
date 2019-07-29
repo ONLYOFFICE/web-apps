@@ -1,23 +1,68 @@
 <div id="id-adv-paragraph-indents" class="settings-panel active">
     <div class="inner-content">
-        <table cols="3" style="width: 100%;">
+        <table cols="4" style="width: 100%;">
             <tr>
-                <td class="padding-large">
-                    <label class="input-label"><%= scope.strIndentsFirstLine %></label>
-                    <div id="paragraphadv-spin-first-line" style="width: 85px;"></div>
+                <td colspan=2 class="padding-large">
+                    <label class="input-label"><%= scope.strIndentsTextAlignment %></label>
+                    <div id="paragraphadv-spin-text-alignment"></div>
                 </td>
-                <td class="padding-large">
+                <td colspan=2 class="padding-large">
+                    <label class="input-label"><%= scope.strIndentsOutlinelevel %></label>
+                    <div id="paragraphadv-spin-outline-level"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large" style="padding-right: 5px;">
                     <label class="input-label"><%= scope.strIndentsLeftText %></label>
                     <div id="paragraphadv-spin-indent-left"></div>
                 </td>
-                <td class="padding-large">
+                <td class="padding-large" style="padding-right: 5px;">
                     <label class="input-label"><%= scope.strIndentsRightText %></label>
                     <div id="paragraphadv-spin-indent-right"></div>
+                </td>
+                <td class="padding-large" style="padding-right: 5px;">
+                    <label class="input-label"><%= scope.strIndentsSpecian %></label>
+                    <div id="paragraphadv-spin-specian"></div>
+                </td>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.strIndentsSpecianBy %></label>
+                    <div id="paragraphadv-spin-specian-by"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" style="padding-right: 5px;">
+                    <label class="input-label"><%= scope.strIndentsSpacingBefore %></label>
+                    <div id="paragraphadv-spin-spacing-before"></div>
+                </td>
+                <td class="padding-small" style="padding-right: 5px;">
+                    <label class="input-label"><%= scope.strIndentsSpacingAfter %></label>
+                    <div id="paragraphadv-spin-spacing-after"></div>
+                </td>
+                <td class="padding-small" style="padding-right: 5px;">
+                    <label class="input-label"><%= scope.strIndentsLineSpacing %></label>
+                    <div id="paragraphadv-spin-line-rule"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.strIndentLineSpacingAt %></label>
+                    <div id="paragraphadv-spin-line-height"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=4 class="padding-large">
+                    <div id="paragraphadv-checkbox-add-interval"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=4 class="padding-large">
+                    <div style="border: 1px solid #cbcbcb; width: 360px;">
+                        <div id="paragraphadv-indent-preview" style="height: 94px; position: relative;"></div>
+                    </div>
                 </td>
             </tr>
         </table>
     </div>
-    <div class="separator horizontal padding-large text-only"></div>
+</div>
+<div id="id-adv-paragraph-line" class="settings-panel">
     <div class="inner-content text-only" style="padding-right: 0px;" >
         <table cols="2" style="width: 100%;">
             <tr>
