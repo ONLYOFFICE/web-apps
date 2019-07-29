@@ -163,11 +163,10 @@ define([
             this.btnSearch.on('click',          this.onBtnMenuClick.bind(this));
             this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
 
-            this.$el.html($markup);
-
             this.menuFile = new DE.Views.FileMenu();
-            this.menuFile.render();
-            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Document Editor'})).render();
+            this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: 'Document Editor'});
+
+            this.$el.html($markup);
 
             return this;
         },
