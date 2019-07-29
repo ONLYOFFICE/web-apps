@@ -855,6 +855,47 @@ Common.Utils.injectComponent = function ($slot, cmp) {
     }
 };
 
+jQuery.fn.extend({
+    elementById: function (id, parent) {
+        /**
+         * usage:   $obj.findById('#id')
+         *          $().findById('#id', $obj | node)
+         *          $.fn.findById('#id', $obj | node)
+         *
+         * return:  dom element
+         * */
+        var _el = document.getElementById(id.substring(1));
+        if ( !_el ) {
+            parent = parent || this;
+            if ( parent instanceof jQuery ) {
+                parent.each(function (i, node) {
+                    _el = node.querySelectorAll(id);
+                    if ( _el.length == 0 ) {
+                        if ( ('#' + node.id) == id ) {
+                            _el = node;
+                            return false;
+                        }
+                    } else
+                    if ( _el.length ) {
+                        _el = _el[0];
+                        return false;
+                    }
+                })
+            } else {
+                _el = parent.querySelectorAll(id);
+                if ( _el && _el.length ) return _el[0];
+            }
+        }
+
+        return _el;
+    },
+
+    findById: function (id, parent) {
+        var _el = $.fn.elementById.apply(this, arguments);
+        return !!_el ? $(_el) : $();
+    }
+});
+
 Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
 Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
 Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
