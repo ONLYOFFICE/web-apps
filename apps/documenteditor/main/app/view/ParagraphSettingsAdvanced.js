@@ -104,9 +104,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             ];
 
             this._arrSpecian = [
-                {displayValue: this.textNoneSpecian, value: c_paragraphSpecian.NONE_SPECIAN},
-                {displayValue: this.textFirstLine, value: c_paragraphSpecian.FIRST_LINE},
-                {displayValue: this.textHanging, value: c_paragraphSpecian.HANGING}
+                {displayValue: this.textNoneSpecian, value: c_paragraphSpecian.NONE_SPECIAN, defaultValue: 0},
+                {displayValue: this.textFirstLine, value: c_paragraphSpecian.FIRST_LINE, defaultValue: 27},
+                {displayValue: this.textHanging, value: c_paragraphSpecian.HANGING, defaultValue: 27}
             ];
             this.CurSpecian = undefined;
 
@@ -116,7 +116,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 {displayValue: this.textRight, value: c_paragraphTextAlignment.RIGHT},
                 {displayValue: this.textJustified, value: c_paragraphTextAlignment.JUSTIFIED}
             ];
-            this.textAlign = this.options.textAlign;
 
             this._arrOutlinelevel = [
                 {displayValue: this.textBodyText},
@@ -222,7 +221,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 cls: 'input-group-nr',
                 editable: false,
                 data: this._arrLineRule,
-                style: 'width: 85px;'
+                style: 'width: 85px;',
+                menuStyle   : 'min-width: 85px;'
             });
             this.cmbLineRule.setValue(this.CurLineRuleIdx);
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
@@ -249,7 +249,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 cls: 'input-group-nr',
                 editable: false,
                 data: this._arrSpecian,
-                style: 'width: 85px;'
+                style: 'width: 85px;',
+                menuStyle   : 'min-width: 85px;'
             });
             this.cmbSpecian.setValue('');
             this.cmbSpecian.on('selected', _.bind(this.onSpecianSelect, this));
@@ -272,7 +273,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 cls: 'input-group-nr',
                 editable: false,
                 data: this._arrTextAlignment,
-                style: 'width: 175px;'
+                style: 'width: 175px;',
+                menuStyle   : 'min-width: 175px;'
             });
             this.cmbTextAlignment.setValue('');
 
@@ -281,7 +283,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 cls: 'input-group-nr',
                 editable: false,
                 data: this._arrOutlinelevel,
-                style: 'width: 175px;'
+                style: 'width: 175px;',
+                menuStyle   : 'min-width: 175px;'
             });
             this.cmbOutlinelevel.setValue('');
             this.cmbOutlinelevel.on('selected', _.bind(this.onOutlinelevelSelect, this));
@@ -738,8 +741,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this._changedProps.asc_putContextualSpacing(spaceBetweenPrg == 'checked');
 
             var horizontalAlign = this.cmbTextAlignment.getValue();
+            this._changedProps.asc_putJc((horizontalAlign !== undefined && horizontalAlign !== null) ? horizontalAlign : c_paragraphTextAlignment.LEFT);
 
-            return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color}, horizontalAlign: horizontalAlign };
+            return { paragraphProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
         },
 
         _setDefaults: function(props) {
@@ -775,7 +779,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.cmbSpecian.setValue(this.CurSpecian);
                 this.numSpecianBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
 
-                this.cmbTextAlignment.setValue(this.textAlign !== undefined ? this.textAlign : c_paragraphTextAlignment.LEFT, true);
+                this.cmbTextAlignment.setValue((props.asc_getJc() !== undefined && props.asc_getJc() !== null) ? props.asc_getJc() : c_paragraphTextAlignment.LEFT, true);
 
                 this.chKeepLines.setValue((props.get_KeepLines() !== null && props.get_KeepLines() !== undefined) ? props.get_KeepLines() : 'indeterminate', true);
                 this.chBreakBefore.setValue((props.get_PageBreakBefore() !== null && props.get_PageBreakBefore() !== undefined) ? props.get_PageBreakBefore() : 'indeterminate', true);
@@ -1338,7 +1342,14 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 this.numLineHeight.setDefaultUnit(this._arrLineRule[record.value].defaultUnit);
                 this.numLineHeight.setMinValue(this._arrLineRule[record.value].minValue);
                 this.numLineHeight.setStep(this._arrLineRule[record.value].step);
-                this.numLineHeight.setValue((this.Spacing.LineRule == c_paragraphLinerule.LINERULE_AUTO) ? this._arrLineRule[record.value].defaultValue : Common.Utils.Metric.fnRecalcFromMM(this._arrLineRule[record.value].defaultValue));
+                var value = this.numLineHeight.getNumberValue();
+                if (this.Spacing.LineRule === c_paragraphLinerule.LINERULE_AUTO) {
+                    this.numLineHeight.setValue(this._arrLineRule[record.value].defaultValue);
+                } else if (this.CurLineRuleIdx === c_paragraphLinerule.LINERULE_AUTO) {
+                    this.numLineHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(this._arrLineRule[record.value].defaultValue));
+                } else {
+                    this.numLineHeight.setValue(value);
+                }
                 this.CurLineRuleIdx = record.value;
             }
         },
@@ -1355,11 +1366,21 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
         onSpecianSelect: function(combo, record) {
             this.CurSpecian = record.value;
-            this.numSpecianBy.setValue(0, true);
+            if (this.CurSpecian === c_paragraphSpecian.NONE_SPECIAN) {
+                this.numSpecianBy.setValue(0, true);
+            }
             if (this._changedProps) {
                 if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
                     this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
-                this._changedProps.get_Ind().put_FirstLine(0);
+                var value = Common.Utils.Metric.fnRecalcToMM(this.numSpecianBy.getNumberValue());
+                if (value === 0) {
+                    this.numSpecianBy.setValue(Common.Utils.Metric.fnRecalcFromMM(this._arrSpecian[record.value].defaultValue));
+                    value = this._arrSpecian[record.value].defaultValue;
+                }
+                if (this.CurSpecian === c_paragraphSpecian.HANGING) {
+                    value = -value;
+                }
+                this._changedProps.get_Ind().put_FirstLine(value);
             }
         },
 
@@ -1387,8 +1408,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
         textTitle:      'Paragraph - Advanced Settings',
         strIndentsFirstLine:    'First line',
-        strIndentsLeftText:     'Indentation Left',
-        strIndentsRightText:    'Indentation Right',
+        strIndentsLeftText:     'Indent Left',
+        strIndentsRightText:    'Indent Right',
         strParagraphIndents:    'Indents & Spacing',
         strParagraphPosition:   'Placement',
         strParagraphFont:   'Font',
@@ -1451,7 +1472,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textAtLeast: 'At least',
         textExact: 'Exactly',
         strSomeParagraphSpace: 'Don\'t add interval between paragraphs of the same style',
-        strIndentsSpecian: 'Specian',
+        strIndentsSpecian: 'Special',
         textNoneSpecian: '(none)',
         textFirstLine: 'First line',
         textHanging: 'Hanging',
