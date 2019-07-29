@@ -2055,7 +2055,7 @@ define([
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
                 this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
                 this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
-                this.mnuInsertImage.items[2].setVisible(this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
             onSendThemeColorSchemes: function (schemas) {
