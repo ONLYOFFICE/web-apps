@@ -208,7 +208,7 @@ define([
 
                 this.trigger('render:before', this);
 
-                this.cmpEl = $(this.el);
+                this.cmpEl = me.$el || $(this.el);
 
                 if (parentEl) {
                     this.setElement(parentEl, false);
@@ -225,7 +225,7 @@ define([
                         this.cmpEl = this.template({
                             options : me.options
                         });
-                        $(this.el).append(this.cmpEl);
+                        this.$el.append(this.cmpEl);
                     }
                 }
 
@@ -246,7 +246,7 @@ define([
                     if (this.options.maxHeight) {
                         menuRoot.css({'max-height': me.options.maxHeight});
                         this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
+                            el: me.$el.find('.dropdown-menu '),
                             minScrollbarLength: 30,
                             suppressScrollX: true,
                             alwaysVisibleY: this.scrollAlwaysVisible
@@ -543,7 +543,7 @@ define([
                         if (top + menuH > docH) {
                             menuRoot.css('max-height', (docH - top) + 'px');
                             (!this.scroller) && (this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
+                                el: this.$el.find('.dropdown-menu '),
                                 minScrollbarLength: 30,
                                 suppressScrollX: true,
                                 alwaysVisibleY: this.scrollAlwaysVisible

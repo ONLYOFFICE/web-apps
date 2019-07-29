@@ -104,27 +104,25 @@ define([
         },
 
         render: function (parentEl) {
-            var me = this,
-                el = $(this.el);
+            var me = this;
             if (!me.rendered) {
                 if (parentEl) {
                     this.setElement(parentEl, false);
                     parentEl.html(this.template({
                         labelText: this.options.labelText
                     }));
-                    el = $(this.el);
                 } else {
-                    el.html(this.template({
+                    me.$el.html(this.template({
                         labelText: this.options.labelText
                     }));
                 }
 
-                this.$chk = el.find('input[type=button]');
-                this.$label = el.find('label');
-                this.$chk.on('click', _.bind(this.onItemCheck, this));
-            }
+                this.$chk = me.$el.find('input[type=button]');
+                this.$label = me.$el.find('label');
+                this.$chk.on('click', this.onItemCheck.bind(this));
 
-            this.rendered = true;
+                this.rendered = true;
+            }
 
             if (this.options.disabled)
                 this.setDisabled(this.options.disabled);

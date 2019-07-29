@@ -108,12 +108,12 @@ define([
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
                 } else {
-                    $(this.el).html(this.cmpEl);
+                    this.$el.html(this.cmpEl);
                 }
 
-                this.cmpEl.on('click', _.bind(this.handleClick, this));
+                this.cmpEl.on('click', me.handleClick.bind(me));
             } else {
-                this.cmpEl = $(this.el);
+                this.cmpEl = me.$el || $(this.el);
             }
 
             me.rendered = true;

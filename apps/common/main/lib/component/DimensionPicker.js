@@ -97,7 +97,7 @@ define([
 
                 me = this;
 
-                rootEl = $(this.el);
+                rootEl = me.$el || $(this.el);
 
                 me.itemSize    = me.options.itemSize;
                 me.minRows     = me.options.minRows;
@@ -133,7 +133,7 @@ define([
             },
 
             render: function() {
-                $(this.el).html(this.template());
+                (this.$el || $(this.el)).html(this.template());
 
                 return this;
             },

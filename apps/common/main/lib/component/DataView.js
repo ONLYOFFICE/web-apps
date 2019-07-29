@@ -135,7 +135,7 @@ define([
             if (_.isUndefined(this.model.id))
                 return this;
 
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
 
             el.html(this.template(this.model.toJSON()));
             el.addClass('item');
@@ -262,7 +262,6 @@ define([
 
             this.trigger('render:before', this);
 
-            this.cmpEl = $(this.el);
             if (parentEl) {
                 this.setElement(parentEl, false);
                 this.cmpEl = $(this.template({
@@ -272,6 +271,7 @@ define([
 
                 parentEl.html(this.cmpEl);
             } else {
+                this.cmpEl = me.$el || $(this.el);
                 this.cmpEl.html(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
                     style: me.style
