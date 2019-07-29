@@ -204,6 +204,7 @@
         _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
         _config.editorConfig.canRequestSaveAs = _config.events && !!_config.events.onRequestSaveAs;
         _config.editorConfig.canRequestInsertImage = _config.events && !!_config.events.onRequestInsertImage;
+        _config.editorConfig.canRequestMailMergeRecipients = _config.events && !!_config.events.onRequestMailMergeRecipients;
         _config.frameEditorId = placeholderId;
 
         _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
@@ -569,6 +570,13 @@
             });
         };
 
+        var _setMailMergeRecipients = function(data) {
+            _sendCommand({
+                command: 'setMailMergeRecipients',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -612,7 +620,8 @@
             setUsers            : _setUsers,
             showSharingSettings : _showSharingSettings,
             setSharingSettings  : _setSharingSettings,
-            insertImage         : _insertImage
+            insertImage         : _insertImage,
+            setMailMergeRecipients: _setMailMergeRecipients
         }
     };
 

@@ -114,6 +114,10 @@ if (Common === undefined) {
 
             'insertImage': function(data) {
                 $me.trigger('insertimage', data);
+            },
+
+            'setMailMergeRecipients': function(data) {
+                $me.trigger('setmailmergerecipients', data);
             }
         };
 
@@ -298,6 +302,10 @@ if (Common === undefined) {
 
             requestInsertImage:  function () {
                 _postMessage({event:'onRequestInsertImage'})
+            },
+
+            requestMailMergeRecipients:  function () {
+                _postMessage({event:'onRequestMailMergeRecipients'})
             },
 
             on: function(event, handler){

@@ -324,6 +324,7 @@ define([
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
+            Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
@@ -2605,7 +2606,7 @@ define([
             this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
             this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
             this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
-            if (this.toolbar.mode.fileChoiceUrl)
+            if (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients)
                 this.toolbar.btnMailRecepients.setDisabled(false);
             this._state.activated = true;
 
@@ -2803,22 +2804,28 @@ define([
         onSelectRecepientsClick: function() {
             if (this._mailMergeDlg) return;
 
-            var me = this;
-            me._mailMergeDlg = new Common.Views.SelectFileDlg({
-                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
-                        });
-            me._mailMergeDlg.on('selectfile', function(obj, recepients){
-                me.api.asc_StartMailMerge(recepients);
-                if (!me.mergeEditor)
-                    me.mergeEditor = me.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
-                if (me.mergeEditor)
-                    me.mergeEditor.setEditMode(false);
+            if (this.toolbar.mode.canRequestMailMergeRecipients) {
+                Common.Gateway.requestMailMergeRecipients();
+            } else {
+                var me = this;
+                me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
+                });
+                me._mailMergeDlg.on('selectfile', function(obj, recepients){
+                    me.setMailMergeRecipients(recepients);
+                }).on('close', function(obj){
+                    me._mailMergeDlg = undefined;
+                });
+                me._mailMergeDlg.show();
+            }
+        },
 
-            }).on('close', function(obj){
-                me._mailMergeDlg = undefined;
-            });
-
-            me._mailMergeDlg.show();
+        setMailMergeRecipients: function(recepients) {
+            this.api.asc_StartMailMerge(recepients);
+            if (!this.mergeEditor)
+                this.mergeEditor = this.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
+            if (this.mergeEditor)
+                this.mergeEditor.setEditMode(false);
         },
 
         createDelayedElements: function() {
