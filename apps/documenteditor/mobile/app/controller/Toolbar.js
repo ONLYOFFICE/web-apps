@@ -81,7 +81,7 @@ define([
                 this.api.asc_registerCallback('asc_onCanRedo',      _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this))
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.displayCollaboration, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
             },
