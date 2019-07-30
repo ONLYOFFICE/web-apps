@@ -131,7 +131,6 @@
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
-                    url: '../../../../sdkjs-plugins/',
                     pluginsData: [
                         "helloworld/config.json",
                         "chess/config.json",
