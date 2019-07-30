@@ -1232,6 +1232,38 @@ define([
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
+                    var buttons = [];
+                    if (mode === 2) {
+                        buttons.push({
+                            text: me.textCancel,
+                            onClick: function () {
+                                me._state.openDlg = null;
+                            }
+                        });
+                    }
+                    buttons.push({
+                        text: 'OK',
+                        bold: true,
+                        onClick: function() {
+                            var encoding  = picker.cols[0].value,
+                                delimiter = picker.cols[1].value;
+
+                            if (me.api) {
+                                if (mode==2) {
+                                    formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter));
+                                    me.api.asc_DownloadAs(formatOptions);
+                                } else {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding, delimiter));
+                                }
+
+                                if (!me._isDocReady) {
+                                    me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                                }
+                            }
+                            me._state.openDlg = null;
+                        }
+                    });
+
                     me._state.openDlg = uiApp.modal({
                         title: me.advCSVOptions,
                         text: '',
@@ -1243,30 +1275,7 @@ define([
                             '</div>' +
                             '<div id="txt-encoding" class="small"></div>' +
                         '</div>',
-                        buttons: [
-                            {
-                                text: 'OK',
-                                bold: true,
-                                onClick: function() {
-                                    var encoding  = picker.cols[0].value,
-                                        delimiter = picker.cols[1].value;
-
-                                    if (me.api) {
-                                        if (mode==2) {
-                                            formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding));
-                                            me.api.asc_DownloadAs(formatOptions);
-                                        } else {
-                                            me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding, delimiter));
-                                        }
-
-                                        if (!me._isDocReady) {
-                                            me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
-                                        }
-                                    }
-                                    me._state.openDlg = null;
-                                }
-                            }
-                        ]
+                        buttons: buttons
                     });
 
                     var recommendedSettings = advOptions.asc_getRecommendedSettings();

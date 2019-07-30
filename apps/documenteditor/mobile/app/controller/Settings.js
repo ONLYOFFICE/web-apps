@@ -564,7 +564,7 @@ define([
                     if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                         _.defer(function () {
                             uiApp.confirm(
-                                me.warnDownloadAs,
+                                (format === Asc.c_oAscFileType.TXT) ? me.warnDownloadAs : me.warnDownloadAsRTF,
                                 me.notcriticalErrorTitle,
                                 function () {
                                     Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
@@ -746,7 +746,8 @@ define([
             unknownText: 'Unknown',
             txtLoading              : 'Loading...',
             notcriticalErrorTitle   : 'Warning',
-            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'
+            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
+            warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
         }
     })(), DE.Controllers.Settings || {}))
 });
