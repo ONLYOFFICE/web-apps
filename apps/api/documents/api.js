@@ -23,9 +23,11 @@
                 key: 'key',
                 vkey: 'vkey',
                 info: {
-                    author: 'author name',
+                    author: 'author name', // must be deprecated, use owner instead
+                    owner: 'owner name',
                     folder: 'path to document',
-                    created: '<creation date>',
+                    created: '<creation date>', // must be deprecated, use uploaded instead
+                    uploaded: '<uploaded date>',
                     sharingSettings: [
                         {
                             user: 'user name',
