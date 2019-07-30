@@ -91,7 +91,8 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android: Common.SharedSettings.get('android'),
                     phone: Common.SharedSettings.get('phone'),
-                    scope: this
+                    scope: this,
+                    width: $(window).width()
                 }));
 
                 return this;

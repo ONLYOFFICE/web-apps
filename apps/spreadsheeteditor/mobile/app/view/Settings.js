@@ -100,7 +100,8 @@ define([
                         csv: Asc.c_oAscFileType.CSV,
                         xltx: Asc.c_oAscFileType.XLTX,
                         ots: Asc.c_oAscFileType.OTS
-                    }
+                    },
+                        width   : $(window).width()
                 }));
 
                 return this;
