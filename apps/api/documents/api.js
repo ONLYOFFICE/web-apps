@@ -139,7 +139,6 @@
                 }
             },
             events: {
-                'onReady': <application ready callback>, // deprecated
                 'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onDocumentStateChange': <document state changed callback>
@@ -174,7 +173,6 @@
                 }
             },
             events: {
-                'onReady': <application ready callback>, // deprecated
                 'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onError': <error callback>,
@@ -206,9 +204,6 @@
         _config.editorConfig.canRequestInsertImage = _config.events && !!_config.events.onRequestInsertImage;
         _config.editorConfig.canRequestMailMergeRecipients = _config.events && !!_config.events.onRequestMailMergeRecipients;
         _config.frameEditorId = placeholderId;
-
-        _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
-        _config.events && (_config.events.onAppReady = _config.events.onAppReady || _config.events.onReady);
 
         var onMouseUp = function (evt) {
             _processMouse(evt);
