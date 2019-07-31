@@ -264,6 +264,10 @@ define([
 
                 if (data.doc) {
                     DE.getController('Toolbar').setDocumentTitle(data.doc.title);
+                    if (data.doc.info) {
+                        data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+                    }
                 }
             },
 
@@ -322,7 +326,7 @@ define([
                 if (type && typeof type[1] === 'string') {
                     this.api.asc_DownloadOrigin(true)
                 } else {
-                    this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
                 }
             },
 
@@ -1113,17 +1117,16 @@ define([
                Common.Utils.ThemeColor.setColors(colors, standart_colors);
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     var picker,
                         pages = [],
                         pagesName = [];
 
-                    _.each(advOptions.asc_getOptions().asc_getCodePages(), function(page) {
+                    _.each(advOptions.asc_getCodePages(), function(page) {
                         pages.push(page.asc_getCodePage());
                         pagesName.push(page.asc_getCodePageName());
                     });
@@ -1150,7 +1153,7 @@ define([
                                     var encoding = picker.value;
 
                                     if (me.api) {
-                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
+                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
 
                                         if (!me._isDocReady) {
                                             me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
@@ -1166,7 +1169,7 @@ define([
                         container: '#txt-encoding',
                         toolbar: false,
                         rotateEffect: true,
-                        value: [advOptions.asc_getOptions().asc_getRecommendedSettings().asc_getCodePage()],
+                        value: [advOptions.asc_getRecommendedSettings().asc_getCodePage()],
                         cols: [{
                             values: pages,
                             displayValues: pagesName

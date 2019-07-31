@@ -264,7 +264,7 @@ define([
                     buttons: ['ok', 'cancel'],
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
-                            this.api.asc_DownloadAs(format);
+                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
                             menu.hide();
                         }
                     }, this)
@@ -273,7 +273,7 @@ define([
                 menu.hide();
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
             } else {
-                this.api.asc_DownloadAs(format);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                 menu.hide();
             }
         },
@@ -287,7 +287,7 @@ define([
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
                             this.isFromFileDownloadAs = ext;
-                            this.api.asc_DownloadAs(format, true);
+                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
                             menu.hide();
                         }
                     }, this)
@@ -298,7 +298,7 @@ define([
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format, true);
             } else {
                 this.isFromFileDownloadAs = ext;
-                this.api.asc_DownloadAs(format, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                 menu.hide();
             }
         },
@@ -315,27 +315,31 @@ define([
                         defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
                 }
 
-                me._saveCopyDlg = new Common.Views.SaveAsDlg({
-                    saveFolderUrl: me.mode.saveAsUrl,
-                    saveFileUrl: url,
-                    defFileName: defFileName
-                });
-                me._saveCopyDlg.on('saveaserror', function(obj, err){
-                    var config = {
-                        closable: false,
-                        title: me.textWarning,
-                        msg: err,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                    };
-                    Common.UI.alert(config);
-                }).on('close', function(obj){
-                    me._saveCopyDlg = undefined;
-                });
-                me._saveCopyDlg.show();
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        var config = {
+                            closable: false,
+                            title: me.textWarning,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
             }
             this.isFromFileDownloadAs = false;
         },

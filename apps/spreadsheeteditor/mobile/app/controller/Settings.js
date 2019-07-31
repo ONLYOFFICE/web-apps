@@ -259,8 +259,10 @@ define([
                     info = document.info || {};
 
                 document.title ? $('#settings-spreadsheet-title').html(document.title) : $('.display-spreadsheet-title').remove();
-                info.author ? $('#settings-sse-owner').html(info.author) : $('.display-owner').remove();
-                info.uploaded ? $('#settings-sse-uploaded').html(info.uploaded.toLocaleString()) : $('.display-uploaded').remove();
+                var value = info.owner || info.author;
+                value ? $('#settings-sse-owner').html(value) : $('.display-owner').remove();
+                value = info.uploaded || info.created;
+                value ? $('#settings-sse-uploaded').html(value) : $('.display-uploaded').remove();
                 info.folder ? $('#settings-sse-location').html(info.folder) : $('.display-location').remove();
 
                 var appProps = (this.api) ? this.api.asc_getAppProps() : null;
@@ -269,8 +271,7 @@ define([
                     appName ? $('#settings-sse-application').html(appName) : $('.display-application').remove();
                 }
 
-                var props = (this.api) ? this.api.asc_getCoreProps() : null,
-                    value;
+                var props = (this.api) ? this.api.asc_getCoreProps() : null;
                 if (props) {
                     value = props.asc_getTitle();
                     value ? $('#settings-sse-title').html(value) : $('.display-title').remove();
@@ -676,11 +677,11 @@ define([
                             me.warnDownloadAs,
                             me.notcriticalErrorTitle,
                             function () {
-                                me.api.asc_DownloadAs(format);
+                                me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                             }
                         );
                     } else {
-                        me.api.asc_DownloadAs(format);
+                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                     }
 
                     me.hideModal();

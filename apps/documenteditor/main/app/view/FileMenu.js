@@ -259,7 +259,7 @@ define([
             this.miNew.$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
 
             this.miDownload[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
-            this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && this.mode.saveAsUrl ?'show':'hide']();
+            this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) ?'show':'hide']();
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
 //            this.hkSaveAs[this.mode.canDownload?'enable':'disable']();
 
@@ -306,7 +306,7 @@ define([
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
-            if (this.mode.canDownload && this.mode.saveAsUrl) {
+            if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
                 this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render());
             }
 

@@ -365,7 +365,7 @@ define([
             this.$el.on('click', '#mmerge-readmore-link', _.bind(this.openHelp, this));
 
             if (this.mode) {
-                if (!this.mode.mergeFolderUrl)
+                if (!this.mode.canRequestSaveAs && !this.mode.mergeFolderUrl)
                     this.btnPortal.setVisible(false);
                 if (!this.mode.canSendEmailAddresses) {
                     this._arrMergeSrc.pop();
@@ -426,7 +426,7 @@ define([
                 if (num>this._state.recipientsCount-1) num = this._state.recipientsCount-1;
 
                 this.lockControls(DE.enumLockMM.noRecipients, this._state.recipientsCount<1, {
-                    array: (this.mode.mergeFolderUrl) ? [this.btnPortal] : [],
+                    array: (this.mode.canRequestSaveAs || this.mode.mergeFolderUrl) ? [this.btnPortal] : [],
                     merge: true
                 });
 
@@ -537,28 +537,33 @@ define([
             if (this._mailMergeDlg) return;
             var me = this;
             if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
-                me._mailMergeDlg = new Common.Views.SaveAsDlg({
-                                    saveFolderUrl: me.mode.mergeFolderUrl,
-                                    saveFileUrl: url,
-                                    defFileName: me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx')
-                                });
-                me._mailMergeDlg.on('saveasfolder', function(obj, folder){ // save last folder
-                }).on('saveaserror', function(obj, err){ // save last folder
-                    var config = {
-                        closable: false,
-                        title: me.notcriticalErrorTitle,
-                        msg: err,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            me.fireEvent('editcomplete', me);
-                        }
-                    };
-                    Common.UI.alert(config);
-                }).on('close', function(obj){
-                    me._mailMergeDlg = undefined;
-                });
-                me._mailMergeDlg.show();
+                var defFileName = me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx');
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._mailMergeDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.mergeFolderUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._mailMergeDlg.on('saveasfolder', function(obj, folder){ // save last folder
+                    }).on('saveaserror', function(obj, err){ // save last folder
+                        var config = {
+                            closable: false,
+                            title: me.notcriticalErrorTitle,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                me.fireEvent('editcomplete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._mailMergeDlg = undefined;
+                    });
+                    me._mailMergeDlg.show();
+                }
             }
         },
 
@@ -766,7 +771,7 @@ define([
         onCmbMergeToSelect: function(combo, record) {
             var mergeVisible = (record.value == Asc.c_oAscFileType.HTML);
             this.btnMerge.setVisible(mergeVisible);
-            this.btnPortal.setVisible(!mergeVisible && this.mode.mergeFolderUrl);
+            this.btnPortal.setVisible(!mergeVisible && (this.mode.canRequestSaveAs || this.mode.mergeFolderUrl));
             this.btnDownload.setVisible(!mergeVisible);
         },
 
@@ -778,7 +783,7 @@ define([
             if (this._initSettings) return;
 
             this.lockControls(DE.enumLockMM.lostConnect, disable, {
-                array: _.union([this.btnEditData, this.btnInsField, this.chHighlight], (this.mode.mergeFolderUrl) ? [this.btnPortal] : []),
+                array: _.union([this.btnEditData, this.btnInsField, this.chHighlight], (this.mode.canRequestSaveAs || this.mode.mergeFolderUrl) ? [this.btnPortal] : []),
                 merge: true
             });
         },

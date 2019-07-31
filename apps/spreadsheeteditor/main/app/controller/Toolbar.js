@@ -113,7 +113,7 @@ define([
                         if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
                             Common.NotificationCenter.trigger('download:settings', this.toolbar, _format);
                         else
-                            _main.api.asc_DownloadAs(_format);
+                            _main.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format));
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
@@ -365,6 +365,7 @@ define([
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
                 toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this));
+                Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
             }
@@ -862,14 +863,23 @@ define([
                     }
                 })).show();
             } else if (item.value === 'storage') {
-                var me = this;
-                (new Common.Views.SelectFileDlg({
-                    fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                })).on('selectfile', function(obj, file){
-                    me.toolbar.fireEvent('insertimage', me.toolbar);
-                    me.api.asc_addImageDrawingObject(file.url, undefined, true);// for loading from storage;
-                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                }).show();
+                if (this.toolbar.mode.canRequestInsertImage) {
+                    Common.Gateway.requestInsertImage();
+                } else {
+                    (new Common.Views.SelectFileDlg({
+                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                    })).on('selectfile', function(obj, file){
+                        me.insertImage(file);
+                    }).show();
+                }
+            }
+        },
+
+        insertImage: function(data) {
+            if (data && data.url) {
+                this.toolbar.fireEvent('insertimage', this.toolbar);
+                this.api.asc_addImageDrawingObject(data.url, undefined, data.token);// for loading from storage
+                Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
@@ -2324,6 +2334,8 @@ define([
 
             toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()),
                                 { array: this.btnsComment });
+
+            toolbar.lockToolbar(SSE.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: [this.toolbar.btnEditHeader]});
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {

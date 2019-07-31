@@ -1243,6 +1243,11 @@ define([
         },
 
         updateInfo: function(doc) {
+            if (!this.doc && doc && doc.info) {
+                doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+            }
+
             this.doc = doc;
             if (!this.rendered)
                 return;
@@ -1254,12 +1259,14 @@ define([
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
                 visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
-                if (doc.info.author)
-                    this.lblOwner.text(doc.info.author);
-                visible = this._ShowHideInfoItem(this.lblOwner, doc.info.author!==undefined && doc.info.author!==null) || visible;
-                if (doc.info.uploaded)
-                    this.lblUploaded.text(doc.info.uploaded.toLocaleString());
-                visible = this._ShowHideInfoItem(this.lblUploaded, doc.info.uploaded!==undefined && doc.info.uploaded!==null) || visible;
+                var value = doc.info.owner || doc.info.author;
+                if (value)
+                    this.lblOwner.text(value);
+                visible = this._ShowHideInfoItem(this.lblOwner, !!value) || visible;
+                value = doc.info.uploaded || doc.info.created;
+                if (value)
+                    this.lblUploaded.text(value);
+                visible = this._ShowHideInfoItem(this.lblUploaded, !!value) || visible;
             } else
                 this._ShowHideDocInfo(false);
             $('tr.divider.general', this.el)[visible?'show':'hide']();

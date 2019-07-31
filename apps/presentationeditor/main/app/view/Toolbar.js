@@ -983,7 +983,7 @@ define([
                             me.fireEvent('insert:image', [item.value]);
                         })
                     );
-                    btn.menu.items[2].setVisible(config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    btn.menu.items[2].setVisible(config.canRequestInsertImage || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
                 });
 
                 me.btnsInsertText.forEach(function (btn) {

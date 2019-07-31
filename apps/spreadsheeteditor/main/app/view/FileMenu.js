@@ -203,8 +203,6 @@ define([
 
             var me = this;
             me.panels = {
-                'saveas'    : (new SSE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
-                'save-copy' : (new SSE.Views.FileMenuPanels.ViewSaveCopy({menu:me})).render(),
                 'opts'      : (new SSE.Views.FileMenuPanels.Settings({menu:me})).render(),
                 'info'      : (new SSE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
                 'rights'    : (new SSE.Views.FileMenuPanels.DocumentRights({menu:me})).render()
@@ -245,7 +243,7 @@ define([
             this.miNew.$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
 
             this.miDownload[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
-            this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && this.mode.saveAsUrl ?'show':'hide']();
+            this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
 //            this.hkSaveAs[this.mode.canDownload?'enable':'disable']();
 
@@ -286,6 +284,14 @@ define([
             if (this.mode.canProtect) {
                 this.panels['protect'] = (new SSE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
                 this.panels['protect'].setMode(this.mode);
+            }
+
+            if (this.mode.canDownload) {
+                this.panels['saveas'] = ((new SSE.Views.FileMenuPanels.ViewSaveAs({menu: this})).render());
+            }
+
+            if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
+                this.panels['save-copy'] = ((new SSE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render());
             }
 
             if (this.mode.canHelp) {

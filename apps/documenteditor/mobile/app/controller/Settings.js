@@ -416,8 +416,10 @@ define([
                         info = document.info || {};
 
                     document.title ? $('#settings-document-title').html(document.title) : $('.display-document-title').remove();
-                    info.author ? $('#settings-document-owner').html(info.author) : $('.display-owner').remove();
-                    info.uploaded ? $('#settings-doc-uploaded').html(info.uploaded.toLocaleString()) : $('.display-uploaded').remove();
+                    var value = info.owner || info.author;
+                    value ? $('#settings-document-owner').html(value) : $('.display-owner').remove();
+                    value = info.uploaded || info.created;
+                    value ? $('#settings-doc-uploaded').html(value) : $('.display-uploaded').remove();
                     info.folder ? $('#settings-doc-location').html(info.folder) : $('.display-location').remove();
 
                     var appProps = (this.api) ? this.api.asc_getAppProps() : null;
@@ -425,8 +427,7 @@ define([
                         var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
                         appName ? $('#settings-doc-application').html(appName) : $('.display-application').remove();
                     }
-                    var props = (this.api) ? this.api.asc_getCoreProps() : null,
-                        value;
+                    var props = (this.api) ? this.api.asc_getCoreProps() : null;
                     if (props) {
                         value = props.asc_getTitle();
                         value ? $('#settings-doc-title').html(value) : $('.display-title').remove();
@@ -567,13 +568,13 @@ define([
                                 me.warnDownloadAs,
                                 me.notcriticalErrorTitle,
                                 function () {
-                                    me.api.asc_DownloadAs(format);
+                                    me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 }
                             );
                         });
                     } else {
                         _.defer(function () {
-                            me.api.asc_DownloadAs(format);
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                         });
                     }
 

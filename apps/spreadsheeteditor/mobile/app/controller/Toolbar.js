@@ -87,7 +87,7 @@ define([
                 this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onApiWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this))
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.displayCollaboration, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
 

@@ -179,8 +179,17 @@ define([
             });
             this.chFirstPage.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = (field.getValue()=='checked');
-                if (this.HFObject)
-                    this.HFObject.setDifferentFirst(checked);
+                var id = (this.HFObject) ? this.HFObject.setDifferentFirst(checked) : null;
+                if (id)  {
+                    var me = this;
+                    this.showError(function() {
+                        field.setValue(!checked, true);
+                        _.delay(function(){
+                            me.onCanvasClick(id);
+                        },50);
+                    });
+                    return;
+                }
 
                 this.btnFirst.setVisible(checked);
                 if (!checked && this.btnFirst.isActive())
@@ -193,8 +202,17 @@ define([
             });
             this.chOddPage.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = (field.getValue()=='checked');
-                if (this.HFObject)
-                    this.HFObject.setDifferentOddEven(checked);
+                var id = (this.HFObject) ? this.HFObject.setDifferentOddEven(checked) : null;
+                if (id)  {
+                    var me = this;
+                    this.showError(function() {
+                        field.setValue(!checked, true);
+                        _.delay(function(){
+                            me.onCanvasClick(id);
+                        },50);
+                    });
+                    return;
+                }
 
                 this.btnOdd.setVisible(checked);
                 this.btnEven.setVisible(checked);
@@ -691,14 +709,31 @@ define([
         },
 
         _handleInput: function(state) {
+            if (this.HFObject) {
+                var id = this.HFObject.destroy(state=='ok');
+                if (id)  {
+                    var me = this;
+                    this.showError(function() {
+                        _.delay(function(){
+                            me.onCanvasClick(id);
+                        },50);
+                    });
+                    return;
+                }
+                this.HFObject = null;
+            }
             if (this.options.handler) {
                 this.options.handler.call(this, this, state);
             }
-            if (this.HFObject) {
-                this.HFObject.destroy(state=='ok');
-                this.HFObject = null;
-            }
             this.close();
+        },
+
+        showError: function(callback) {
+            Common.UI.warning({
+                title: this.notcriticalErrorTitle,
+                msg  : this.textMaxError,
+                callback: callback
+            });
         },
 
         scrollerUpdate: function() {
@@ -876,8 +911,34 @@ define([
         },
 
         onPageTypeToggle: function(type, btn, state) {
+            if (this._pagetype) return;
+
             if (state && this.HFObject) {
-                this.HFObject.switchHeaderFooterType(type);
+                var prev = this.HFObject.getPageType(),
+                    id = this.HFObject.switchHeaderFooterType(type);
+                if (id)  {
+                    this._pagetype = true;
+                    var me = this;
+                    this.showError(function() {
+                        switch (prev) {
+                            case Asc.c_oAscHeaderFooterType.odd:
+                                me.btnOdd.isVisible() ? me.btnOdd.toggle(true) : me.btnAll.toggle(true);
+                                break;
+                            case Asc.c_oAscHeaderFooterType.even:
+                                me.btnEven.toggle(true);
+                                break;
+                            case Asc.c_oAscHeaderFooterType.first:
+                                me.btnFirst.toggle(true);
+                                break;
+                        }
+                        _.delay(function(){
+                            me.onCanvasClick(id);
+                        },50);
+                        me._pagetype = false;
+                    });
+                    return;
+                }
+
                 this.scrollerScrollTop();
                 this.onCanvasClick(this.currentCanvas, undefined, true);
             }
@@ -987,7 +1048,8 @@ define([
         textFirst: 'First page',
         textOdd: 'Odd page',
         textEven: 'Even page',
-        textAll: 'All pages'
+        textAll: 'All pages',
+        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });
