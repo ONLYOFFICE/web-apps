@@ -164,7 +164,7 @@ define([
                                     '<% if (closable!==false) %>' +
                                         '<div class="tool close img-commonctrl"></div>' +
                                     '<% %>' +
-                                    '<span class="title"><%= title %></span> ' +
+                                    '<div class="title"><%= title %></div> ' +
                                 '</div>' +
                             '<% } %>' +
                             '<div class="body"><%= tpl %></div>' +
