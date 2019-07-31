@@ -30,25 +30,25 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-small" style="padding-right: 5px;">
+                <td style="padding-right: 5px;">
                     <label class="input-label"><%= scope.strIndentsSpacingBefore %></label>
                     <div id="paragraphadv-spin-spacing-before"></div>
                 </td>
-                <td class="padding-small" style="padding-right: 5px;">
+                <td style="padding-right: 5px;">
                     <label class="input-label"><%= scope.strIndentsSpacingAfter %></label>
                     <div id="paragraphadv-spin-spacing-after"></div>
                 </td>
-                <td class="padding-small" style="padding-right: 5px;">
+                <td style="padding-right: 5px;">
                     <label class="input-label"><%= scope.strIndentsLineSpacing %></label>
                     <div id="paragraphadv-spin-line-rule"></div>
                 </td>
-                <td class="padding-small">
+                <td>
                     <label class="input-label"><%= scope.strIndentLineSpacingAt %></label>
                     <div id="paragraphadv-spin-line-height"></div>
                 </td>
             </tr>
             <tr class="text-only">
-                <td colspan=4>
+                <td colspan=4 style="padding-top: 8px;">
                     <div id="paragraphadv-checkbox-add-interval"></div>
                 </td>
             </tr>
