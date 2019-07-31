@@ -74,8 +74,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                         '</div>',
                         '<div class="separator horizontal"/>',
                         '<div class="footer center">',
-                            '<button class="btn normal dlg-btn primary" result="all" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
                             '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyText + '</button>',
+                            '<button class="btn normal dlg-btn" result="all" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
                             '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
                         '</div>'
                     ].join('')
