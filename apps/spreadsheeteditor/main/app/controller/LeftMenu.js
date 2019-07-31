@@ -202,6 +202,9 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
+
+            this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
+
             this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
@@ -646,6 +649,7 @@ define([
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
+            this.leftMenu.btnSpellcheck.setDisabled(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
             if ( this.dlgSearch ) {
@@ -844,6 +848,7 @@ define([
 
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
             this.leftMenu.btnSearch.setDisabled(isRangeSelection);
+            this.leftMenu.btnSpellcheck.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isRangeSelection);
                 this.leftMenu.panelPlugins.disableControls(isRangeSelection);
@@ -855,6 +860,7 @@ define([
 
             this.leftMenu.btnAbout.setDisabled(isEditFormula);
             this.leftMenu.btnSearch.setDisabled(isEditFormula);
+            this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
                 this.leftMenu.panelPlugins.disableControls(isEditFormula);
