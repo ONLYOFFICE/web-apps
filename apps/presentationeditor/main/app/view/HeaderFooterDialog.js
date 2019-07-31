@@ -196,6 +196,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         setType: function(type, field, newValue) {
+            var me = this;
             newValue = (newValue=='checked');
             if (type == 'date') {
                 _.each(this.dateControls, function(item) {
@@ -208,6 +209,9 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             } else if (type == 'footer') {
                 this.inputFooter.setDisabled(!newValue);
                 this.props.put_ShowFooter(newValue);
+                newValue && setTimeout(function(){
+                                me.inputFooter.cmpEl.find('input').focus();
+                            },50);
             }
             this.props.updateView();
         },
@@ -232,9 +236,14 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
 
         setDateTimeType: function(type, field, newValue) {
             if (newValue) {
+                var me = this;
                 this.cmbLang.setDisabled(type == 'fixed');
                 this.cmbFormat.setDisabled(type == 'fixed');
                 this.inputFixed.setDisabled(type == 'update');
+                (type == 'fixed') && setTimeout(function(){
+                    me.inputFixed.cmpEl.find('input').focus();
+                },50);
+
             }
         },
 
