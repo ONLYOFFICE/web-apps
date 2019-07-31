@@ -65,6 +65,7 @@
                 saveAsUrl: 'folder for saving files'
                 licenseUrl: <url for license>,
                 customerId: <customer id>,
+                region: <regional settings> // can be 'en-us' or lang code
 
                 user: {
                     id: 'user id',
