@@ -1367,6 +1367,17 @@ define([
                         config.msg = this.errorFrmlMaxTextLength;
                         break;
 
+                    case Asc.c_oAscError.ID.DataValidate:
+                        var icon = errData ? errData.asc_getErrorStyle() : null;
+                        if (icon) {
+                            config.iconCls = (icon==Asc.c_oAscEDataValidationErrorStyle.Stop) ? 'error' : ((icon==Asc.c_oAscEDataValidationErrorStyle.Information) ? 'info' : 'warn');
+                        }
+                        errData && errData.asc_getErrorTitle() && (config.title = errData.asc_getErrorTitle());
+                        config.buttons  = ['ok', 'cancel'];
+                        config.msg = errData && errData.asc_getError() ? errData.asc_getError() : this.errorDataValidate;
+                        config.maxwidth = 600;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1395,9 +1406,9 @@ define([
                 } else {
                     Common.Gateway.reportWarning(id, config.msg);
 
-                    config.title    = this.notcriticalErrorTitle;
-                    config.iconCls  = 'warn';
-                    config.buttons  = ['ok'];
+                    config.title    = config.title || this.notcriticalErrorTitle;
+                    config.iconCls  = config.iconCls || 'warn';
+                    config.buttons  = config.buttons || ['ok'];
                     config.callback = _.bind(function(btn){
                         if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && this.appOptions.canDownload) {
                             Common.UI.Menu.Manager.hideAll();
@@ -1405,6 +1416,8 @@ define([
                         } else if (id == Asc.c_oAscError.ID.EditingError) {
                             this.disableEditing(true);
                             Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
+                        } else if (id == Asc.c_oAscError.ID.DataValidate && btn !== 'ok') {
+                            this.api.asc_closeCellEditor();
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -2376,7 +2389,8 @@ define([
             errorNoDataToParse: 'No data was selected to parse.',
             errorCannotUngroup: 'Cannot ungroup. To start an outline, select the detail rows or columns and group them.',
             errorFrmlMaxTextLength: 'Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)',
-            waitText: 'Please, wait...'
+            waitText: 'Please, wait...',
+            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.'
         }
     })(), SSE.Controllers.Main || {}))
 });
