@@ -48,12 +48,12 @@
                 </td>
             </tr>
             <tr class="text-only">
-                <td colspan=4 class="padding-large">
+                <td colspan=4>
                     <div id="paragraphadv-checkbox-add-interval"></div>
                 </td>
             </tr>
             <tr>
-                <td colspan=4 class="padding-large">
+                <td colspan=4 class="padding-large" style="padding-top: 16px;">
                     <div style="border: 1px solid #cbcbcb; width: 355px;">
                         <div id="paragraphadv-indent-preview" style="height: 94px; position: relative;"></div>
                     </div>

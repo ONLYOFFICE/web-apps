@@ -1328,6 +1328,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
         hideTextOnlySettings: function(value) {
             this.TextOnlySettings.toggleClass('hidden', value==true);
+            this.btnsCategory[1].setVisible(!value);   // Line & Page Breaks
             this.btnsCategory[2].setVisible(!value);   // Borders
             this.btnsCategory[5].setVisible(!value);   // Paddings
         },
