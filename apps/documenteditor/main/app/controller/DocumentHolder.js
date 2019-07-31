@@ -46,8 +46,8 @@ var c_paragraphLinerule = {
     LINERULE_EXACT: 2
 };
 
-var c_paragraphSpecian = {
-    NONE_SPECIAN: 0,
+var c_paragraphSpecial = {
+    NONE_SPECIAL: 0,
     FIRST_LINE: 1,
     HANGING: 2
 };

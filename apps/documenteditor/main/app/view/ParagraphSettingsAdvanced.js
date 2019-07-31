@@ -103,12 +103,12 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 {displayValue: this.textExact,  defaultValue: 5, value: c_paragraphLinerule.LINERULE_EXACT, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
             ];
 
-            this._arrSpecian = [
-                {displayValue: this.textNoneSpecian, value: c_paragraphSpecian.NONE_SPECIAN, defaultValue: 0},
-                {displayValue: this.textFirstLine, value: c_paragraphSpecian.FIRST_LINE, defaultValue: 27},
-                {displayValue: this.textHanging, value: c_paragraphSpecian.HANGING, defaultValue: 27}
+            this._arrSpecial = [
+                {displayValue: this.textNoneSpecial, value: c_paragraphSpecial.NONE_SPECIAL, defaultValue: 0},
+                {displayValue: this.textFirstLine, value: c_paragraphSpecial.FIRST_LINE, defaultValue: 12.7},
+                {displayValue: this.textHanging, value: c_paragraphSpecial.HANGING, defaultValue: 12.7}
             ];
-            this.CurSpecian = undefined;
+            this.CurSpecial = undefined;
 
             this._arrTextAlignment = [
                 {displayValue: this.textLeft, value: c_paragraphTextAlignment.LEFT},
@@ -244,19 +244,19 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 labelText: this.strSomeParagraphSpace
             });
 
-            this.cmbSpecian = new Common.UI.ComboBox({
-                el: $('#paragraphadv-spin-specian'),
+            this.cmbSpecial = new Common.UI.ComboBox({
+                el: $('#paragraphadv-spin-special'),
                 cls: 'input-group-nr',
                 editable: false,
-                data: this._arrSpecian,
+                data: this._arrSpecial,
                 style: 'width: 85px;',
                 menuStyle   : 'min-width: 85px;'
             });
-            this.cmbSpecian.setValue('');
-            this.cmbSpecian.on('selected', _.bind(this.onSpecianSelect, this));
+            this.cmbSpecial.setValue('');
+            this.cmbSpecial.on('selected', _.bind(this.onSpecialSelect, this));
 
-            this.numSpecianBy = new Common.UI.MetricSpinner({
-                el: $('#paragraphadv-spin-specian-by'),
+            this.numSpecialBy = new Common.UI.MetricSpinner({
+                el: $('#paragraphadv-spin-special-by'),
                 step: .1,
                 width: 85,
                 defaultUnit : "cm",
@@ -265,8 +265,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 maxValue: 55.87,
                 minValue: 0
             });
-            this.spinners.push(this.numSpecianBy);
-            this.numSpecianBy.on('change', _.bind(this.onFirstLineChange, this));
+            this.spinners.push(this.numSpecialBy);
+            this.numSpecialBy.on('change', _.bind(this.onFirstLineChange, this));
 
             this.cmbTextAlignment = new Common.UI.ComboBox({
                 el: $('#paragraphadv-spin-text-alignment'),
@@ -773,11 +773,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this.chAddInterval.setValue((props.asc_getContextualSpacing() !== null && props.asc_getContextualSpacing() !== undefined) ? props.asc_getContextualSpacing() : 'indeterminate', true);
 
-                if(this.CurSpecian === undefined) {
-                    this.CurSpecian = (props.asc_getInd().get_FirstLine() === 0) ? c_paragraphSpecian.NONE_SPECIAN : ((props.asc_getInd().get_FirstLine() > 0) ? c_paragraphSpecian.FIRST_LINE : c_paragraphSpecian.HANGING);
+                if(this.CurSpecial === undefined) {
+                    this.CurSpecial = (props.asc_getInd().get_FirstLine() === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((props.asc_getInd().get_FirstLine() > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);
                 }
-                this.cmbSpecian.setValue(this.CurSpecian);
-                this.numSpecianBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
+                this.cmbSpecial.setValue(this.CurSpecial);
+                this.numSpecialBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
 
                 this.cmbTextAlignment.setValue((props.asc_getJc() !== undefined && props.asc_getJc() !== null) ? props.asc_getJc() : c_paragraphTextAlignment.LEFT, true);
 
@@ -1328,8 +1328,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
         hideTextOnlySettings: function(value) {
             this.TextOnlySettings.toggleClass('hidden', value==true);
-            this.btnsCategory[1].setVisible(!value);   // Borders
-            this.btnsCategory[4].setVisible(!value);   // Paddings
+            this.btnsCategory[2].setVisible(!value);   // Borders
+            this.btnsCategory[5].setVisible(!value);   // Paddings
         },
 
         onLineRuleSelect: function(combo, record) {
@@ -1364,20 +1364,20 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.Spacing.Line = (this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
         },
 
-        onSpecianSelect: function(combo, record) {
-            this.CurSpecian = record.value;
-            if (this.CurSpecian === c_paragraphSpecian.NONE_SPECIAN) {
-                this.numSpecianBy.setValue(0, true);
+        onSpecialSelect: function(combo, record) {
+            this.CurSpecial = record.value;
+            if (this.CurSpecial === c_paragraphSpecial.NONE_SPECIAL) {
+                this.numSpecialBy.setValue(0, true);
             }
             if (this._changedProps) {
                 if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
                     this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
-                var value = Common.Utils.Metric.fnRecalcToMM(this.numSpecianBy.getNumberValue());
+                var value = Common.Utils.Metric.fnRecalcToMM(this.numSpecialBy.getNumberValue());
                 if (value === 0) {
-                    this.numSpecianBy.setValue(Common.Utils.Metric.fnRecalcFromMM(this._arrSpecian[record.value].defaultValue));
-                    value = this._arrSpecian[record.value].defaultValue;
+                    this.numSpecialBy.setValue(Common.Utils.Metric.fnRecalcFromMM(this._arrSpecial[record.value].defaultValue), true);
+                    value = this._arrSpecial[record.value].defaultValue;
                 }
-                if (this.CurSpecian === c_paragraphSpecian.HANGING) {
+                if (this.CurSpecial === c_paragraphSpecial.HANGING) {
                     value = -value;
                 }
                 this._changedProps.get_Ind().put_FirstLine(value);
@@ -1389,14 +1389,14 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
                     this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                 var value = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
-                if (this.CurSpecian === c_paragraphSpecian.HANGING) {
+                if (this.CurSpecial === c_paragraphSpecial.HANGING) {
                     value = -value;
-                } else if (this.CurSpecian === c_paragraphSpecian.NONE_SPECIAN && value > 0 )  {
-                    this.CurSpecian = c_paragraphSpecian.FIRST_LINE;
-                    this.cmbSpecian.setValue(c_paragraphSpecian.FIRST_LINE);
+                } else if (this.CurSpecial === c_paragraphSpecial.NONE_SPECIAL && value > 0 )  {
+                    this.CurSpecial = c_paragraphSpecial.FIRST_LINE;
+                    this.cmbSpecial.setValue(c_paragraphSpecial.FIRST_LINE);
                 } else if (value === 0) {
-                    this.CurSpecian = c_paragraphSpecian.NONE_SPECIAN;
-                    this.cmbSpecian.setValue(c_paragraphSpecian.NONE_SPECIAN);
+                    this.CurSpecial = c_paragraphSpecial.NONE_SPECIAL;
+                    this.cmbSpecial.setValue(c_paragraphSpecial.NONE_SPECIAL);
                 }
                 this._changedProps.get_Ind().put_FirstLine(value);
             }
@@ -1472,11 +1472,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textAtLeast: 'At least',
         textExact: 'Exactly',
         strSomeParagraphSpace: 'Don\'t add interval between paragraphs of the same style',
-        strIndentsSpecian: 'Special',
-        textNoneSpecian: '(none)',
+        strIndentsSpecial: 'Special',
+        textNoneSpecial: '(none)',
         textFirstLine: 'First line',
         textHanging: 'Hanging',
-        strIndentsSpecianBy: 'By',
+        strIndentsSpecialBy: 'By',
         textCentered: 'Centered',
         textJustified: 'Justified',
         textBodyText: 'BodyText',

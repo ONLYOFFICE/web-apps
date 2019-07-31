@@ -21,12 +21,12 @@
                     <div id="paragraphadv-spin-indent-right"></div>
                 </td>
                 <td class="padding-large" style="padding-right: 5px;">
-                    <label class="input-label"><%= scope.strIndentsSpecian %></label>
-                    <div id="paragraphadv-spin-specian"></div>
+                    <label class="input-label"><%= scope.strIndentsSpecial %></label>
+                    <div id="paragraphadv-spin-special"></div>
                 </td>
                 <td class="padding-large">
-                    <label class="input-label"><%= scope.strIndentsSpecianBy %></label>
-                    <div id="paragraphadv-spin-specian-by"></div>
+                    <label class="input-label"><%= scope.strIndentsSpecialBy %></label>
+                    <div id="paragraphadv-spin-special-by"></div>
                 </td>
             </tr>
             <tr>
@@ -47,14 +47,14 @@
                     <div id="paragraphadv-spin-line-height"></div>
                 </td>
             </tr>
-            <tr>
+            <tr class="text-only">
                 <td colspan=4 class="padding-large">
                     <div id="paragraphadv-checkbox-add-interval"></div>
                 </td>
             </tr>
             <tr>
                 <td colspan=4 class="padding-large">
-                    <div style="border: 1px solid #cbcbcb; width: 360px;">
+                    <div style="border: 1px solid #cbcbcb; width: 355px;">
                         <div id="paragraphadv-indent-preview" style="height: 94px; position: relative;"></div>
                     </div>
                 </td>
