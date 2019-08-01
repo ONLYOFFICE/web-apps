@@ -227,26 +227,15 @@ define([
                 })
             );
 
-            var me = this;
-            me.panels = {
-//                    'saveas'    : (new DE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
-                'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:me})).render($markup.find('#panel-settings')),
-                'info'      : (new DE.Views.FileMenuPanels.DocumentInfo({menu:me})).render($markup.find('#panel-info')),
-                'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:me})).render($markup.find('#panel-rights'))
-            };
+            this.rendered = true;
+            this.$el.html($markup);
+            this.$el.find('.content-box').hide();
+            this.applyMode();
 
-            me.rendered = true;
-            me.$el.html($markup);
-            me.$el.find('.content-box').hide();
-
-            if ( !!me.mode ) {
-                me.applyMode();
-            }
-
-            if ( !!me.api ) {
-                me.panels['info'].setApi(me.api);
-                if ( me.panels['protect'] )
-                    me.panels['protect'].setApi(api);
+            if ( !!this.api ) {
+                this.panels['info'].setApi(this.api);
+                if ( this.panels['protect'] )
+                    this.panels['protect'].setApi(api);
             }
 
             return this;
@@ -276,6 +265,16 @@ define([
         },
 
         applyMode: function() {
+            if (!this.panels) {
+                this.panels = {
+                    'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:this})).render(this.$el.find('#panel-settings')),
+                    'info'      : (new DE.Views.FileMenuPanels.DocumentInfo({menu:this})).render(this.$el.find('#panel-info')),
+                    'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:this})).render(this.$el.find('#panel-rights'))
+                };
+            }
+
+            if (!this.mode) return;
+
             this.miPrint[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
             this.miProtect[this.mode.canProtect ?'show':'hide']();
@@ -311,32 +310,29 @@ define([
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
                     $('a',this.miNew.$el).text(this.btnCreateNewCaption + '...');
-                    this.panels['new'] = ((new DE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates})).render());
+                    !this.panels['new'] && (this.panels['new'] = ((new DE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates})).render()));
                 }
             }
 
-            if ( this.mode.canOpenRecent ) {
-                if (this.mode.recent){
-                    this.panels['recent'] = (new DE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render();
-                }
+            if ( this.mode.canOpenRecent && this.mode.recent ) {
+                !this.panels['recent'] && (this.panels['recent'] = (new DE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
             }
 
             if (this.mode.canProtect) {
-//                this.$el.find('#fm-btn-back').hide();
-                this.panels['protect'] = (new DE.Views.FileMenuPanels.ProtectDoc({menu:this})).render();
+                !this.panels['protect'] && (this.panels['protect'] = (new DE.Views.FileMenuPanels.ProtectDoc({menu:this})).render());
                 this.panels['protect'].setMode(this.mode);
             }
 
             if (this.mode.canDownload) {
-                this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this})).render());
+                !this.panels['saveas'] && (this.panels['saveas'] = ((new DE.Views.FileMenuPanels.ViewSaveAs({menu: this})).render()));
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.miDownload.$el).text(this.textDownload);
 
             if (this.mode.canDownload && this.mode.saveAsUrl) {
-                this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render());
+                !this.panels['save-copy'] && (this.panels['save-copy'] = ((new DE.Views.FileMenuPanels.ViewSaveCopy({menu: this})).render()));
             }
 
-            if (this.mode.canHelp) {
+            if (this.mode.canHelp && !this.panels['help']) {
                 this.panels['help'] = ((new DE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
