@@ -87,7 +87,7 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({rows:this.formats}));
+            this.$el.html(this.template({rows:this.formats}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -243,56 +243,57 @@ define([
             this.menu = options.menu;
         },
 
-        render: function() {
-            $(this.el).html(this.template({scope: this}));
+        render: function(node) {
+            let me = this;
+            let $markup = $(this.template({scope: this}));
 
             this.chInputMode = new Common.UI.CheckBox({
-                el: $('#fms-chb-input-mode'),
+                el: $markup.findById('#fms-chb-input-mode'),
                 labelText: this.strInputMode
             });
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
-                el: $('#fms-chb-live-comment'),
+                el: $markup.findById('#fms-chb-live-comment'),
                 labelText: this.strLiveComment
-            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this.chResolvedComment.setDisabled(field.getValue()!=='checked');
-            }, this));
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                me.chResolvedComment.setDisabled(field.getValue()!=='checked');
+            });
 
             this.chResolvedComment = new Common.UI.CheckBox({
-                el: $('#fms-chb-resolved-comment'),
+                el: $markup.findById('#fms-chb-resolved-comment'),
                 labelText: this.strResolvedComment
             });
             /** coauthoring end **/
 
             this.chSpell = new Common.UI.CheckBox({
-                el: $('#fms-chb-spell-check'),
+                el: $markup.findById('#fms-chb-spell-check'),
                 labelText: this.strSpellCheckMode
             });
 
             this.chAutosave = new Common.UI.CheckBox({
-                el: $('#fms-chb-autosave'),
+                el: $markup.findById('#fms-chb-autosave'),
                 labelText: this.strAutosave
-            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (field.getValue()!=='checked' && this.cmbCoAuthMode.getValue()) {
-                    this.cmbCoAuthMode.setValue(0);
-                    this.onSelectCoAuthMode(this.cmbCoAuthMode.getSelectedRecord());
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                if (field.getValue()!=='checked' && me.cmbCoAuthMode.getValue()) {
+                    me.cmbCoAuthMode.setValue(0);
+                    me.onSelectCoAuthMode(me.cmbCoAuthMode.getSelectedRecord());
                 }
-            }, this));
-            this.lblAutosave = $('#fms-lbl-autosave');
+            });
+            this.lblAutosave = $markup.findById('#fms-lbl-autosave');
 
             this.chForcesave = new Common.UI.CheckBox({
-                el: $('#fms-chb-forcesave'),
+                el: $markup.findById('#fms-chb-forcesave'),
                 labelText: this.strForcesave
             });
 
             this.chAlignGuides = new Common.UI.CheckBox({
-                el: $('#fms-chb-align-guides'),
+                el: $markup.findById('#fms-chb-align-guides'),
                 labelText: this.strAlignGuides
             });
 
             this.cmbZoom = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-zoom'),
+                el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -316,7 +317,7 @@ define([
 
             /** coauthoring begin **/
             this.cmbShowChanges = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-show-changes'),
+                el          : $markup.findById('#fms-cmb-show-changes'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -328,7 +329,7 @@ define([
             });
 
             this.cmbCoAuthMode = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-coauth-mode'),
+                el          : $markup.findById('#fms-cmb-coauth-mode'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -336,17 +337,17 @@ define([
                     { value: 1, displayValue: this.strFast, descValue: this.strCoAuthModeDescFast},
                     { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
                 ]
-            }).on('selected', _.bind( function(combo, record) {
-                if (record.value == 1 && (this.chAutosave.getValue()!=='checked'))
-                    this.chAutosave.setValue(1);
-                this.onSelectCoAuthMode(record);
-            }, this));
+            }).on('selected', function(combo, record) {
+                if (record.value == 1 && (me.chAutosave.getValue()!=='checked'))
+                    me.chAutosave.setValue(1);
+                me.onSelectCoAuthMode(record);
+            });
 
-            this.lblCoAuthMode = $('#fms-lbl-coauth-mode');
+            this.lblCoAuthMode = $markup.findById('#fms-lbl-coauth-mode');
             /** coauthoring end **/
 
             this.cmbFontRender = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-font-render'),
+                el          : $markup.find('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -358,7 +359,7 @@ define([
             });
 
             this.cmbUnit = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-unit'),
+                el          : $markup.findById('#fms-cmb-unit'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -370,10 +371,10 @@ define([
             });
 
             this.btnApply = new Common.UI.Button({
-                el: '#fms-btn-apply'
+                el: $markup.findById('#fms-btn-apply')
             });
 
-            this.btnApply.on('click', _.bind(this.applySettings, this));
+            this.btnApply.on('click', this.applySettings.bind(this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -382,6 +383,7 @@ define([
                 });
             }
 
+            this.$el = $(node).html($markup);
             return this;
         },
 
@@ -764,23 +766,22 @@ define([
             this.authors = [];
         },
 
-        render: function() {
-            $(this.el).html(this.template());
-
+        render: function(node) {
             var me = this;
+            var $markup = $(me.template());
 
             // server info
-            this.lblPlacement = $('#id-info-placement');
-            this.lblOwner = $('#id-info-owner');
-            this.lblUploaded = $('#id-info-uploaded');
+            this.lblPlacement = $markup.findById('#id-info-placement');
+            this.lblOwner = $markup.findById('#id-info-owner');
+            this.lblUploaded = $markup.findById('#id-info-uploaded');
 
             // statistic info
-            this.lblStatPages = $('#id-info-pages');
-            this.lblStatWords = $('#id-info-words');
-            this.lblStatParagraphs = $('#id-info-paragraphs');
-            this.lblStatSymbols = $('#id-info-symbols');
-            this.lblStatSpaces = $('#id-info-spaces');
-            // this.lblEditTime = $('#id-info-edittime');
+            this.lblStatPages = $markup.findById('#id-info-pages');
+            this.lblStatWords = $markup.findById('#id-info-words');
+            this.lblStatParagraphs = $markup.findById('#id-info-paragraphs');
+            this.lblStatSymbols = $markup.findById('#id-info-symbols');
+            this.lblStatSpaces = $markup.findById('#id-info-spaces');
+            // this.lblEditTime = $markup.find('#id-info-edittime');
 
             // edited info
             var keyDownBefore = function(input, e){
@@ -795,7 +796,7 @@ define([
             };
 
             this.inputTitle = new Common.UI.InputField({
-                el          : $('#id-info-title'),
+                el          : $markup.findById('#id-info-title'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
@@ -806,7 +807,7 @@ define([
                 }
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
-                el          : $('#id-info-subject'),
+                el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
@@ -817,7 +818,7 @@ define([
                 }
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
-                el          : $('#id-info-comment'),
+                el          : $markup.findById('#id-info-comment'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
@@ -829,18 +830,18 @@ define([
             }).on('keydown:before', keyDownBefore);
 
             // modify info
-            this.lblModifyDate = $('#id-info-modify-date');
-            this.lblModifyBy = $('#id-info-modify-by');
+            this.lblModifyDate = $markup.findById('#id-info-modify-date');
+            this.lblModifyBy = $markup.findById('#id-info-modify-by');
 
             // creation info
-            this.lblDate = $('#id-info-date');
-            this.lblApplication = $('#id-info-appname');
-            this.tblAuthor = $('#id-info-author table');
-            this.trAuthor = $('#id-info-add-author').closest('tr');
+            this.lblDate = $markup.findById('#id-info-date');
+            this.lblApplication = $markup.findById('#id-info-appname');
+            this.tblAuthor = $markup.findById('#id-info-author table');
+            this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
             this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="close img-commonctrl"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
-                var btn = $(e.target);
+                var btn = $markup.find(e.target);
                 if (btn.hasClass('close') && !btn.hasClass('disabled')) {
                     var el = btn.closest('tr'),
                         idx = me.tblAuthor.find('tr').index(el);
@@ -854,7 +855,7 @@ define([
             });
 
             this.inputAuthor = new Common.UI.InputField({
-                el          : $('#id-info-add-author'),
+                el          : $markup.findById('#id-info-add-author'),
                 style       : 'width: 200px;',
                 validateOnBlur: false,
                 placeHolder: this.txtAddAuthor
@@ -885,11 +886,12 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: $markup,
                     suppressScrollX: true
                 });
             }
 
+            me.$el = $(node).html($markup);
             return this;
         },
 
@@ -1139,12 +1141,12 @@ define([
             this.menu = options.menu;
         },
 
-        render: function() {
-            $(this.el).html(this.template());
+        render: function(node) {
+            var $markup = $(this.template());
 
-            this.cntRights = $('#id-info-rights');
+            this.cntRights = $markup.findById('#id-info-rights');
             this.btnEditRights = new Common.UI.Button({
-                el: '#id-info-btn-edit'
+                el: $markup.elementById('#id-info-btn-edit')
             });
             this.btnEditRights.on('click', _.bind(this.changeAccessRights, this));
 
@@ -1154,14 +1156,15 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: $markup,
                     suppressScrollX: true
                 });
             }
 
-            Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
-            Common.NotificationCenter.on('collaboration:sharingdeny', _.bind(this.onLostEditRights, this));
+            Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
+            Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
 
+            this.$el = $(node).html($markup);
             return this;
         },
 
