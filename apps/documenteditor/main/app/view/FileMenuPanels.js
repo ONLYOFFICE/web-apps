@@ -92,7 +92,7 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -153,7 +153,7 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -244,8 +244,8 @@ define([
         },
 
         render: function(node) {
-            let me = this;
-            let $markup = $(this.template({scope: this}));
+            var me = this;
+            var $markup = $(this.template({scope: this}));
 
             this.chInputMode = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-input-mode'),
@@ -376,14 +376,14 @@ define([
 
             this.btnApply.on('click', this.applySettings.bind(this));
 
+            this.$el = $(node).html($markup);
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
-
-            this.$el = $(node).html($markup);
             return this;
         },
 
@@ -884,14 +884,13 @@ define([
 
             this.updateInfo(this.doc);
 
+            this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $markup,
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
-
-            me.$el = $(node).html($markup);
             return this;
         },
 
@@ -1154,17 +1153,17 @@ define([
 
             this.updateInfo(this.doc);
 
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: $markup,
-                    suppressScrollX: true
-                });
-            }
-
             Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
             Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
 
             this.$el = $(node).html($markup);
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el,
+                    suppressScrollX: true
+                });
+            }
             return this;
         },
 
@@ -1495,7 +1494,7 @@ define([
             this.cntSignatureView = $('#id-fms-signature-view');
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }

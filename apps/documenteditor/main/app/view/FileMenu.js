@@ -82,7 +82,7 @@ define([
         },
 
         render: function () {
-            let $markup = $(this.template());
+            var $markup = $(this.template());
 
             this.miSave = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-save'),
