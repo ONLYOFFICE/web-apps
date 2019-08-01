@@ -1678,7 +1678,7 @@ define([
             mniImageFromStorage: 'Image from Storage',
             txtSlideAlign: 'Align to Slide',
             txtObjectsAlign: 'Align Selected Objects',
-            tipEditHeader: 'Edit Header or Footer',
+            tipEditHeader: 'Edit header or footer',
             tipSlideNum: 'Insert slide number',
             tipDateTime: 'Insert current date and time',
             capBtnInsHeader: 'Header/Footer',

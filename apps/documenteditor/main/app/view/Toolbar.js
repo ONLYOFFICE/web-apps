@@ -2278,7 +2278,7 @@ define([
             textTitleError: 'Error',
             textInsertPageNumber: 'Insert page number',
             textToCurrent: 'To Current Position',
-            tipEditHeader: 'Edit Document Header or Footer',
+            tipEditHeader: 'Edit header or footer',
             mniEditHeader: 'Edit Document Header',
             mniEditFooter: 'Edit Document Footer',
             mniHiddenChars: 'Nonprinting Characters',

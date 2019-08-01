@@ -1801,5 +1801,12 @@
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.tipEditHeader": "Edit header or footer",
+  "PE.Views.Toolbar.tipSlideNum": "Insert slide number",
+  "PE.Views.Toolbar.tipDateTime": "Insert current date and time",
+  "PE.Views.Toolbar.capBtnInsHeader": "Header/Footer",
+  "PE.Views.Toolbar.capBtnSlideNum": "Slide Number",
+  "PE.Views.Toolbar.capBtnDateTime": "Date & Time"
+
 }
