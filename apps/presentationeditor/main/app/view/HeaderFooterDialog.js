@@ -74,8 +74,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                         '</div>',
                         '<div class="separator horizontal"/>',
                         '<div class="footer center">',
-                            '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyText + '</button>',
-                            '<button class="btn normal dlg-btn" result="all" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
+                            '<button class="btn normal dlg-btn primary" result="all" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
+                            '<button class="btn normal dlg-btn" result="ok" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyText + '</button>',
                             '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
                         '</div>'
                     ].join('')
@@ -216,7 +216,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             this.props.updateView();
         },
 
-        updateFormats: function(lang) {
+        updateFormats: function(lang, format) {
             var props = new AscCommonSlide.CAscDateTime();
             props.put_Lang(lang);
             var data = props.get_DateTimeExamples(),
@@ -230,7 +230,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 }
             }
             this.cmbFormat.setData(arr);
-            var format = this.defaultFormats[lang];
+            format = format || this.defaultFormats[lang];
             this.cmbFormat.setValue(format ? format : arr[0].value);
         },
 
@@ -267,7 +267,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                     item.setDisabled(!val);
                 });
 
-                var format,
+                var format, fixed,
                     datetime = slideprops.get_DateTime(),
                     item = this.cmbLang.store.findWhere({value: datetime ? (datetime.get_Lang() || this.lang) : this.lang});
                 this._originalLang = item ? item.get('value') : 0x0409;
@@ -276,10 +276,11 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 if (val) {
                     format = datetime.get_DateTime();
                     !format ? this.radioFixed.setValue(true) : this.radioUpdate.setValue(true);
-                    !format && (this.inputFixed.setValue(datetime.get_CustomDateTime() || ''));
+                    !format && (fixed = datetime.get_CustomDateTime() || '');
                     this.setDateTimeType(!format ? 'fixed' : 'update', null, true);
                 }
-                this.updateFormats(this.cmbLang.getValue());
+                this.updateFormats(this.cmbLang.getValue(), format);
+                this.inputFixed.setValue((fixed!==undefined) ? fixed : this.cmbFormat.getRawValue());
 
                 val = slideprops.get_ShowSlideNum();
                 this.chSlide.setValue(val, true);
@@ -322,7 +323,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         onPrimary: function() {
-            this._handleInput('ok');
+            this._handleInput('all');
             return false;
         },
 
