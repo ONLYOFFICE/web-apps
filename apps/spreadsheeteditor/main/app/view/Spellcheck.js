@@ -38,7 +38,12 @@
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
+    'common/main/lib/component/Layout',
+    'common/main/lib/component/Button',
+    'common/main/lib/component/ListView',
+    'common/main/lib/component/InputField',
+    'common/main/lib/component/ComboBox',
+    'common/main/lib/component/ComboDataView'
 ], function (template) {
     'use strict';
 
@@ -46,8 +51,16 @@ define([
         el: '#left-panel-spellcheck',
 
         template: _.template([
-            '<div id="spellcheck-box" class="layout-ct vbox">',
-                '<div id="spellcheck-header"><%= scope.txtSpelling %></div>',
+            '<div id="spellcheck-box" class="layout-ct vbox settings-panel active" style="padding-left: 15px; padding-right: 15px; padding-top: 12px; width: 260px">',
+                '<table cols="2"><tbody>',
+                '<tr><td colspan="2" class="padding-large"><div id="spellcheck-header" style="font-size: 14px;"><%= scope.txtSpelling %></div></td></tr>',
+                '<tr><td colspan="2" class="padding-small"><div id="spellcheck-current-word" style="vertical-align: top; width: 176px; display: inline-block;"></div><div id="spellcheck-preview" style="vertical-align: top; display: inline-block;"></div><div id="spellcheck-next" style="vertical-align: top; display: inline-block;"></div></td></tr>',
+                '<tr><td colspan="2" class="padding-small"><div id="spellcheck-suggestions-list" style="width: 230px; height: 100px; background-color: #fff;"></div></td></tr>',
+                '<tr><td class="padding-large"><div id="spellcheck-change" style="width: 105px;"></div></td><td class="padding-large"><div id="spellcheck-ignore" style="width: 105px; float: right;"></div></td></tr>',
+                '<tr><td colspan="2" class="padding-large"><div id="spellcheck-add-to-dictionary"><button class="btn btn-text-default" style="width: auto; padding: 0 15px;"><%= scope.txtAddToDictionary %></button></div></td></tr>',
+                '<tr><td colspan="2" class="padding-large"><label class="header"><%= scope.txtDictionaryLanguage %></label><div id="spellcheck-dictionary-language" style="margin-top: 3px;"></div></td></tr>',
+                '</tbody></table>',
+                '<div id="spellcheck-complete" style="display: flex;"><i class="img-commonctrl img-complete" style="display: inline-block;margin-right: 10px;"></i><%= scope.txtComplete %></div>',
             '</div>'
         ].join('')),
 
@@ -60,6 +73,92 @@ define([
             el = el || this.el;
             this.$el = $(el);
             this.$el.html(this.template({scope: this}));
+
+            this.currentWord = new Common.UI.InputField({
+                el : $('#spellcheck-current-word'),
+                allowBlank  : true,
+                validateOnBlur: false
+            });
+
+            this.buttonPreview = new Common.UI.Button({
+                style: 'margin-left: 5px; width: 22px; height: 22px; border: 1px solid #cfcfcf;',
+                cls: 'btn-toolbar bg-white',
+                iconCls: 'btn-spellcheck-preview'
+            });
+            this.buttonPreview.render($('#spellcheck-preview'));
+
+            this.buttonNext = new Common.UI.Button({
+                style: 'margin-left: 5px; width: 22px; height: 22px; border: 1px solid #cfcfcf;',
+                cls: 'btn-toolbar bg-white',
+                iconCls: 'btn-spellcheck-next'
+            });
+            this.buttonNext.render($('#spellcheck-next'));
+
+            this.suggestionList = new Common.UI.ListView({
+                el: $('#spellcheck-suggestions-list'),
+                emptyText: this.noSuggestions,
+                store: new Common.UI.DataViewStore()
+            });
+
+            this.btnChange = new Common.UI.Button({
+                cls: 'btn-text-split-default',
+                caption: this.textChange,
+                split: true,
+                enableToggle: true,
+                allowDepress: true,
+                width: 105,
+                menu        : new Common.UI.Menu({
+                    style       : 'min-width: 105px;',
+                    items: [
+                        {
+                            caption: this.textChange,
+                            checkable: true,
+                            allowDepress: true,
+                            value: 0
+                        },
+                        {
+                            caption: this.textChangeAll,
+                            value: 1
+                        }
+                        ]
+                })
+            });
+            this.btnChange.render( $('#spellcheck-change')) ;
+
+            this.btnIgnore = new Common.UI.Button({
+                cls: 'btn-text-split-default',
+                caption: this.textIgnore,
+                split: true,
+                enableToggle: true,
+                allowDepress: true,
+                width: 105,
+                menu        : new Common.UI.Menu({
+                    style       : 'min-width: 105px;',
+                    items: [
+                        {
+                            caption: this.textIgnore,
+                            checkable: true,
+                            allowDepress: true,
+                            value: 0
+                        },
+                        {
+                            caption: this.textIgnoreAll,
+                            value: 1
+                        }
+                    ]
+                })
+            });
+            this.btnIgnore.render( $('#spellcheck-ignore')) ;
+
+            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+                el          : $('#spellcheck-dictionary-language'),
+                style       : 'width: 230px',
+                menuStyle   : 'min-width: 230px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : []
+            });
+
 
             this.trigger('render:after', this);
             return this;
@@ -78,6 +177,15 @@ define([
         ChangeSettings: function(props) {
         },
 
-        txtSpelling: 'Spelling'
+        txtSpelling: 'Spelling',
+        noSuggestions: 'No spelling suggestions',
+        textChange: 'Change',
+        textChangeAll: 'Change All',
+        textIgnore: 'Ignore',
+        textIgnoreAll: 'Ignore All',
+        txtAddToDictionary: 'Add To Dictionary',
+        txtDictionaryLanguage: 'Dictionary Language',
+        txtComplete: 'Spellcheck has been complete'
+
     }, SSE.Views.Spellcheck || {}));
 });
