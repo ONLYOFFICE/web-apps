@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Upozornenie",
   "Common.Controllers.Chat.textEnterMessage": "Zadať svoju správu tu",
-  "Common.Controllers.Chat.textUserLimit": "Používate ONLYOFFICE vydanie zadarmo.<br>Iba dvaja používatelia dokážu spolueditovať dokument súčasne.<br>Chcete viac? Zvážte kúpu ONLYOFFICE Podnikové vydanie.<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Read more</a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonymný",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zatvoriť",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objekt je blokovaný, pretože ho práve upravuje iný používateľ.",
@@ -288,7 +287,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Prekročený čas konverzie.",
   "DE.Controllers.Main.criticalErrorExtText": "Stlačte \"OK\" pre návrat do zoznamu dokumentov.",
   "DE.Controllers.Main.criticalErrorTitle": "Chyba",
-  "DE.Controllers.Main.defaultTitleText": "Dokumentový editor ONLYOFFICE ",
   "DE.Controllers.Main.downloadErrorText": "Sťahovanie zlyhalo.",
   "DE.Controllers.Main.downloadMergeText": "Sťahovanie...",
   "DE.Controllers.Main.downloadMergeTitle": "Sťahovanie",
@@ -1041,7 +1039,6 @@
   "DE.Views.FileMenuPanels.CreateNew.noTemplatesText": "Neexistujú žiadne šablóny",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Autor",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Zmeniť prístupové práva",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "Dátum vytvorenia",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Nahrávanie...",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Strany",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Odseky",

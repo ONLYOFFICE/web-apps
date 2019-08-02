@@ -102,7 +102,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "转换超时",
   "SSE.Controllers.Main.criticalErrorExtText": "按“确定”返回文件列表",
   "SSE.Controllers.Main.criticalErrorTitle": "错误:",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE电子表格编辑器",
   "SSE.Controllers.Main.downloadErrorText": "下载失败",
   "SSE.Controllers.Main.downloadMergeText": "下载中…",
   "SSE.Controllers.Main.downloadMergeTitle": "下载中",

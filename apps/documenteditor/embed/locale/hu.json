@@ -1,6 +1,10 @@
 {
+  "common.view.modals.txtCopy": "Másolás a vágólapra",
+  "common.view.modals.txtEmbed": "Beágyaz",
   "common.view.modals.txtHeight": "Magasság",
+  "common.view.modals.txtShare": "Hivatkozás megosztása",
   "common.view.modals.txtWidth": "Szélesség",
+  "DE.ApplicationController.convertationErrorText": "Az átalakítás nem sikerült.",
   "DE.ApplicationController.convertationTimeoutText": "Időtúllépés az átalakítás során.",
   "DE.ApplicationController.criticalErrorTitle": "Hiba",
   "DE.ApplicationController.downloadErrorText": "Sikertelen letöltés.",
@@ -12,10 +16,13 @@
   "DE.ApplicationController.notcriticalErrorTitle": "Figyelmeztetés",
   "DE.ApplicationController.scriptLoadError": "A kapcsolat túl lassú, néhány komponens nem töltődött be. Frissítse az oldalt.",
   "DE.ApplicationController.textLoadingDocument": "Dokumentum betöltése",
+  "DE.ApplicationController.textOf": "of",
   "DE.ApplicationController.txtClose": "Bezár",
   "DE.ApplicationController.unknownErrorText": "Ismeretlen hiba.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "A böngészője nem támogatott.",
+  "DE.ApplicationController.waitText": "Kérjük várjon...",
   "DE.ApplicationView.txtDownload": "Letöltés",
+  "DE.ApplicationView.txtEmbed": "Beágyaz",
   "DE.ApplicationView.txtFullScreen": "Teljes képernyő",
   "DE.ApplicationView.txtShare": "Megosztás"
 }

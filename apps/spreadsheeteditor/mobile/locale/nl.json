@@ -102,7 +102,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Time-out voor conversie overschreden.",
   "SSE.Controllers.Main.criticalErrorExtText": "Druk op \"OK\" om terug te gaan naar de lijst met documenten.",
   "SSE.Controllers.Main.criticalErrorTitle": "Fout",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE Spreadsheet Editor",
   "SSE.Controllers.Main.downloadErrorText": "Download mislukt.",
   "SSE.Controllers.Main.downloadMergeText": "Downloaden...",
   "SSE.Controllers.Main.downloadMergeTitle": "Downloaden",

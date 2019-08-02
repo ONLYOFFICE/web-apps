@@ -102,7 +102,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Timeout für die Konvertierung wurde überschritten.",
   "SSE.Controllers.Main.criticalErrorExtText": "Drücken Sie \"OK\", um zur Dokumentenliste zurückzukehren.",
   "SSE.Controllers.Main.criticalErrorTitle": "Fehler",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE Spreadsheet Editor",
   "SSE.Controllers.Main.downloadErrorText": "Herunterladen ist fehlgeschlagen.",
   "SSE.Controllers.Main.downloadMergeText": "Wird heruntergeladen...",
   "SSE.Controllers.Main.downloadMergeTitle": "Wird heruntergeladen",

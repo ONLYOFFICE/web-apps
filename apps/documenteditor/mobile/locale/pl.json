@@ -49,7 +49,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Przekroczono limit czasu konwersji.",
   "DE.Controllers.Main.criticalErrorExtText": "Naciśnij \"OK\" aby powrócić do listy dokumentów.",
   "DE.Controllers.Main.criticalErrorTitle": "Błąd",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Edytor dokumentów",
   "DE.Controllers.Main.downloadErrorText": "Pobieranie nieudane.",
   "DE.Controllers.Main.downloadMergeText": "Pobieranie...",
   "DE.Controllers.Main.downloadMergeTitle": "Pobieranie",

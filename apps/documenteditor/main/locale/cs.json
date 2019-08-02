@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Varování",
   "Common.Controllers.Chat.textEnterMessage": "Zde napište svou zprávu",
-  "Common.Controllers.Chat.textUserLimit": "Používáte ONLYOFFICE bezplatnou edici.<br>Pouze dva uživatelé mohou zároveň upravovat dokument.<br>Chcete více? Zvažte zakoupení ONLYOFFICE Enterprise edice.<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Více informací</a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonymní",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zavřít",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objekt je vypnut, protože je upravován jiným uživatelem.",
@@ -243,7 +242,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Vypršel čas konverze.",
   "DE.Controllers.Main.criticalErrorExtText": "Kliněte na \"OK\" pro návrat k seznamu dokumentů",
   "DE.Controllers.Main.criticalErrorTitle": "Chyba",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Editor dokumentů",
   "DE.Controllers.Main.downloadErrorText": "Stahování selhalo.",
   "DE.Controllers.Main.downloadMergeText": "Stahování...",
   "DE.Controllers.Main.downloadMergeTitle": "Stahuji",
@@ -969,7 +967,6 @@
   "DE.Views.FileMenuPanels.CreateNew.noTemplatesText": "Nejsou zde žádné šablony.",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Autor",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Změnit přístupová práva",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "Datum vytvoření",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Nahrávám ...",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Stránky",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Odstavce",
