@@ -287,7 +287,7 @@ define([
                     }
                 });
 
-                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.defaultTitleText = '{{APP_TITLE_TEXT}}';
                 me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
@@ -1368,8 +1368,8 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.DataValidate:
-                        var icon = errData ? errData.asc_getErrorStyle() : null;
-                        if (icon) {
+                        var icon = errData ? errData.asc_getErrorStyle() : undefined;
+                        if (icon!==undefined) {
                             config.iconCls = (icon==Asc.c_oAscEDataValidationErrorStyle.Stop) ? 'error' : ((icon==Asc.c_oAscEDataValidationErrorStyle.Information) ? 'info' : 'warn');
                         }
                         errData && errData.asc_getErrorTitle() && (config.title = errData.asc_getErrorTitle());
@@ -1417,7 +1417,7 @@ define([
                             this.disableEditing(true);
                             Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                         } else if (id == Asc.c_oAscError.ID.DataValidate && btn !== 'ok') {
-                            this.api.asc_closeCellEditor();
+                            this.api.asc_closeCellEditor(true);
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
