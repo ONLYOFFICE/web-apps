@@ -1093,6 +1093,8 @@ define([
                     this._state.GradColor = color;
                 }
 
+                this.chShadow.setValue(!!shapeprops.asc_getShadow(), true);
+
                 this._noApply = false;
             }
         },
@@ -1365,6 +1367,13 @@ define([
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
 
+            this.chShadow = new Common.UI.CheckBox({
+                el: $('#shape-checkbox-shadow'),
+                labelText: this.strShadow
+            });
+            this.chShadow.on('change', _.bind(this.onCheckShadow, this));
+            this.lockedControls.push(this.chShadow);
+
             $(this.el).on('click', '#shape-advanced-link', _.bind(this.openAdvancedSettings, this));
             this.linkAdvanced = $('#shape-advanced-link');
         },
@@ -1530,6 +1539,16 @@ define([
                 props.asc_putFlipVInvert(true);
             this.imgprops.asc_putShapeProperties(props);
             this.api.asc_setGraphicObjectProps(this.imgprops);
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onCheckShadow: function(field, newValue, oldValue, eOpts) {
+            if (this.api)   {
+                var props = new Asc.asc_CShapeProperty();
+                props.asc_putShadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
+                this.imgprops.asc_putShapeProperties(props);
+                this.api.asc_setGraphicObjectProps(this.imgprops);
+            }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
@@ -1745,6 +1764,7 @@ define([
         textHint270: 'Rotate 90° Counterclockwise',
         textHint90: 'Rotate 90° Clockwise',
         textHintFlipV: 'Flip Vertically',
-        textHintFlipH: 'Flip Horizontally'
+        textHintFlipH: 'Flip Horizontally',
+        strShadow: 'Show shadow'
     }, SSE.Views.ShapeSettings || {}));
 });

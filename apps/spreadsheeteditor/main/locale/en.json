@@ -1978,6 +1978,7 @@
   "SSE.Views.ShapeSettings.txtNoBorders": "No Line",
   "SSE.Views.ShapeSettings.txtPapyrus": "Papyrus",
   "SSE.Views.ShapeSettings.txtWood": "Wood",
+  "SSE.Views.ShapeSettings.strShadow": "Show shadow",
   "SSE.Views.ShapeSettingsAdvanced.cancelButtonText": "Cancel",
   "SSE.Views.ShapeSettingsAdvanced.okButtonText": "OK",
   "SSE.Views.ShapeSettingsAdvanced.strColumns": "Columns",

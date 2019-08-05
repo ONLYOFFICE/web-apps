@@ -1822,6 +1822,7 @@
   "DE.Views.ShapeSettings.txtTight": "Tight",
   "DE.Views.ShapeSettings.txtTopAndBottom": "Top and bottom",
   "DE.Views.ShapeSettings.txtWood": "Wood",
+  "DE.Views.ShapeSettings.strShadow": "Show shadow",
   "DE.Views.SignatureSettings.notcriticalErrorTitle": "Warning",
   "DE.Views.SignatureSettings.strDelete": "Remove Signature",
   "DE.Views.SignatureSettings.strDetails": "Signature Details",

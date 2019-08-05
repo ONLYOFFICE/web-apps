@@ -1819,6 +1819,7 @@
   "DE.Views.ShapeSettings.txtTight": "По контуру",
   "DE.Views.ShapeSettings.txtTopAndBottom": "Сверху и снизу",
   "DE.Views.ShapeSettings.txtWood": "Дерево",
+  "DE.Views.ShapeSettings.strShadow": "Отображать тень",
   "DE.Views.SignatureSettings.notcriticalErrorTitle": "Внимание",
   "DE.Views.SignatureSettings.strDelete": "Удалить подпись",
   "DE.Views.SignatureSettings.strDetails": "Состав подписи",

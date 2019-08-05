@@ -1401,6 +1401,7 @@
   "PE.Views.ShapeSettings.txtNoBorders": "Без обводки",
   "PE.Views.ShapeSettings.txtPapyrus": "Папирус",
   "PE.Views.ShapeSettings.txtWood": "Дерево",
+  "PE.Views.ShapeSettings.strShadow": "Отображать тень",
   "PE.Views.ShapeSettingsAdvanced.cancelButtonText": "Отмена",
   "PE.Views.ShapeSettingsAdvanced.okButtonText": "OK",
   "PE.Views.ShapeSettingsAdvanced.strColumns": "Колонки",
