@@ -56,7 +56,7 @@ define([
             '<div style="display: flex; width: 100%; padding-bottom: 8px;"><div id="spellcheck-current-word" style="vertical-align: top; width: 100%; display: inline-block;"></div><div id="spellcheck-preview" style="display: inline-block;"></div><div id="spellcheck-next" style="display: inline-block;"></div></div>',
             '<div id="spellcheck-suggestions-list" style="width: 100%; height: 100px; background-color: #fff; margin-bottom: 8px;"></div>',
             '<div id="spellcheck-change" style="width: 105px; display: inline-block; padding-bottom: 16px;"></div><div id="spellcheck-ignore" class="padding-large" style="margin-left: 19px; width: 105px; display: inline-block;"></div>',
-            '<div id="spellcheck-add-to-dictionary" style="padding-bottom: 16px;"><button class="btn btn-text-default" style="width: auto; padding: 0 15px;"><%= scope.txtAddToDictionary %></button></div>',
+            '<button class="btn btn-text-default" id="spellcheck-add-to-dictionary" style="width: 105px; display: block; margin-bottom: 16px;"><%= scope.txtAddToDictionary %></button>',
             '<label class="header"><%= scope.txtDictionaryLanguage %></label><div id="spellcheck-dictionary-language" style="margin-top: 3px; padding-bottom: 16px;"></div>',
             '<div id="spellcheck-complete" style="display: flex;"><i class="img-commonctrl img-complete" style="display: inline-block;margin-right: 10px;"></i><%= scope.txtComplete %></div>',
             '</div>'
@@ -151,11 +151,14 @@ define([
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
                 el          : $('#spellcheck-dictionary-language'),
                 style       : 'width: 230px',
-                menuStyle   : 'min-width: 230px;max-height: 300px;',
+                menuStyle   : 'min-width: 230px;max-height: 200px;',
                 editable    : false,
                 cls         : 'input-group-nr'
             });
 
+            this.btnToDictionary = new Common.UI.Button({
+                el: $('#spellcheck-add-to-dictionary')
+            });
 
             this.trigger('render:after', this);
             return this;
