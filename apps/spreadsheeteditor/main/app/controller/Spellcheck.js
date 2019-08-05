@@ -126,12 +126,13 @@ define([
                 var langs = [], info,
                     allLangs = Common.util.LanguageInfo.getLanguages();
                 this.languages.forEach(function (code) {
-                    if (allLangs.hasOwnProperty(parseInt(code))) {
-                        info = allLangs[parseInt(code)];
+                    code = parseInt(code);
+                    if (allLangs.hasOwnProperty(code)) {
+                        info = allLangs[code];
                         langs.push({
                             displayValue:   info[1],
                             shortName:      info[0],
-                            value:          parseInt(code)
+                            value:          code
                         });
                     }
                 });
@@ -141,14 +142,15 @@ define([
                     return 0;
                 });
                 combo.setData(langs);
-                if (value) {
-                    var item = combo.store.findWhere({value: value});
-                    combo.setValue(item ? item.get('value') : 0x0409);
-                    value = combo.getValue();
-                } else {
-                    value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
-                    combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                var item = combo.store.findWhere({value: value});
+                if (!item && allLangs[value]) {
+                    value = allLangs[value][0].split(/[\-\_]/)[0];
+                    item = combo.store.find(function(model){
+                                return model.get('shortName').indexOf(value)==0;
+                            });
                 }
+                combo.setValue(item ? item.get('value') : langs[0].value);
+                value = combo.getValue();
             } else {
                 combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
                 combo.setDisabled(true);
@@ -201,19 +203,26 @@ define([
         onSpellCheckVariantsFound: function (property) {
             this._currentSpellObj = property;
 
-            var word = property.get_Word();
-            this.panelSpellcheck.currentWord.setValue(word);
-
-            var variants = property.get_Variants(),
-                arr = [];
-            variants.forEach(function (item) {
-                var rec = new Common.UI.DataViewModel();
-                rec.set({
-                    value: item
+            var arr = [],
+                word;
+            if (property) {
+                word = property.get_Word();
+                var variants = property.get_Variants();
+                variants.forEach(function (item) {
+                    var rec = new Common.UI.DataViewModel();
+                    rec.set({
+                        value: item
+                    });
+                    arr.push(rec);
                 });
-                arr.push(rec);
-            });
+            }
+            this.panelSpellcheck.currentWord.setValue(word || '');
             this.panelSpellcheck.suggestionList.store.reset(arr);
+            this.panelSpellcheck.currentWord.setDisabled(!word);
+            this.panelSpellcheck.btnChange.setDisabled(arr.length<1);
+            this.panelSpellcheck.btnIgnore.setDisabled(!word);
+            this.panelSpellcheck.btnToDictionary.setDisabled(!word);
+            this.panelSpellcheck.lblComplete.toggleClass('hidden', !property || !!word);
         }
 
     }, SSE.Controllers.Spellcheck || {}));
