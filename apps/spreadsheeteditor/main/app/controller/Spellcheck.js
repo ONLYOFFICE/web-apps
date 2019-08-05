@@ -88,6 +88,7 @@ define([
         onAfterRender: function(panelSpellcheck) {
             panelSpellcheck.buttonPreview.on('click', _.bind(this.onClickPreview, this));
             panelSpellcheck.buttonNext.on('click', _.bind(this.onClickNext, this));
+            panelSpellcheck.cmbDictionaryLanguage.on('selected', _.bind(this.onSelectLanguage, this));
         },
 
         onClickPreview: function() {
@@ -121,6 +122,17 @@ define([
             });
             this.languages = langs;
             this.panelSpellcheck.cmbDictionaryLanguage.setData(this.languages);
+            /*var codeCurLang = this.api.asc_getDefaultLanguage();*/
+            var codeCurLang = 1036;
+            var curLang = allLangs[codeCurLang][0];
+            this.panelSpellcheck.cmbDictionaryLanguage.setValue(curLang);
+        },
+
+        onSelectLanguage: function (combo, record) {
+            var lang = record.code;
+            if (this.api && lang) {
+                /*this.api.asc_setDefaultLanguage(lang);*/
+            }
         }
 
     }, SSE.Controllers.Spellcheck || {}));

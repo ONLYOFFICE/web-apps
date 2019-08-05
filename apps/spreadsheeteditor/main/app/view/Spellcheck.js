@@ -51,16 +51,14 @@ define([
         el: '#left-panel-spellcheck',
 
         template: _.template([
-            '<div id="spellcheck-box" class="layout-ct vbox settings-panel active" style="padding-left: 15px; padding-right: 15px; padding-top: 12px; width: 260px">',
-                '<table cols="2"><tbody>',
-                '<tr><td colspan="2" class="padding-large"><div id="spellcheck-header" style="font-size: 14px;"><%= scope.txtSpelling %></div></td></tr>',
-                '<tr><td colspan="2" class="padding-small"><div id="spellcheck-current-word" style="vertical-align: top; width: 176px; display: inline-block;"></div><div id="spellcheck-preview" style="vertical-align: top; display: inline-block;"></div><div id="spellcheck-next" style="vertical-align: top; display: inline-block;"></div></td></tr>',
-                '<tr><td colspan="2" class="padding-small"><div id="spellcheck-suggestions-list" style="width: 230px; height: 100px; background-color: #fff;"></div></td></tr>',
-                '<tr><td class="padding-large"><div id="spellcheck-change" style="width: 105px;"></div></td><td class="padding-large"><div id="spellcheck-ignore" style="width: 105px; float: right;"></div></td></tr>',
-                '<tr><td colspan="2" class="padding-large"><div id="spellcheck-add-to-dictionary"><button class="btn btn-text-default" style="width: auto; padding: 0 15px;"><%= scope.txtAddToDictionary %></button></div></td></tr>',
-                '<tr><td colspan="2" class="padding-large"><label class="header"><%= scope.txtDictionaryLanguage %></label><div id="spellcheck-dictionary-language" style="margin-top: 3px;"></div></td></tr>',
-                '</tbody></table>',
-                '<div id="spellcheck-complete" style="display: flex;"><i class="img-commonctrl img-complete" style="display: inline-block;margin-right: 10px;"></i><%= scope.txtComplete %></div>',
+            '<div id="spellcheck-box" class="layout-ct vbox active" style="padding-left: 15px; padding-right: 15px; padding-top: 20px; width: 100%; position: relative;">',
+            '<div id="spellcheck-header" style="font-size: 14px; padding-bottom: 16px;"><%= scope.txtSpelling %></div>',
+            '<div style="display: flex; width: 100%; padding-bottom: 8px;"><div id="spellcheck-current-word" style="vertical-align: top; width: 100%; display: inline-block;"></div><div id="spellcheck-preview" style="display: inline-block;"></div><div id="spellcheck-next" style="display: inline-block;"></div></div>',
+            '<div id="spellcheck-suggestions-list" style="width: 100%; height: 100px; background-color: #fff; margin-bottom: 8px;"></div>',
+            '<div id="spellcheck-change" style="width: 105px; display: inline-block; padding-bottom: 16px;"></div><div id="spellcheck-ignore" class="padding-large" style="margin-left: 19px; width: 105px; display: inline-block;"></div>',
+            '<div id="spellcheck-add-to-dictionary" style="padding-bottom: 16px;"><button class="btn btn-text-default" style="width: auto; padding: 0 15px;"><%= scope.txtAddToDictionary %></button></div>',
+            '<label class="header"><%= scope.txtDictionaryLanguage %></label><div id="spellcheck-dictionary-language" style="margin-top: 3px; padding-bottom: 16px;"></div>',
+            '<div id="spellcheck-complete" style="display: flex;"><i class="img-commonctrl img-complete" style="display: inline-block;margin-right: 10px;"></i><%= scope.txtComplete %></div>',
             '</div>'
         ].join('')),
 
@@ -153,7 +151,7 @@ define([
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
                 el          : $('#spellcheck-dictionary-language'),
                 style       : 'width: 230px',
-                menuStyle   : 'width: 230px;',
+                menuStyle   : 'min-width: 230px;max-height: 300px;',
                 editable    : false,
                 cls         : 'input-group-nr'
             });
