@@ -58,6 +58,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         initialize : function(options) {
+            var me = this;
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
@@ -129,6 +130,28 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 {displayValue: this.textLevel + '8'},
                 {displayValue: this.textLevel + '9'}
             ];
+
+            this._arrTabAlign = [
+                { value: 1, displayValue: this.textTabLeft },
+                { value: 3, displayValue: this.textTabCenter },
+                { value: 2, displayValue: this.textTabRight }
+            ];
+            this._arrKeyTabAlign = [];
+            this._arrTabAlign.forEach(function(item) {
+                me._arrKeyTabAlign[item.value] = item.displayValue;
+            });
+
+            this._arrTabLeader = [
+                { value: Asc.c_oAscTabLeader.None,      displayValue: this.textNone },
+                { value: Asc.c_oAscTabLeader.Dot,       displayValue: '....................' },
+                { value: Asc.c_oAscTabLeader.Hyphen,    displayValue: '-----------------' },
+                { value: Asc.c_oAscTabLeader.MiddleDot, displayValue: '·················' },
+                { value: Asc.c_oAscTabLeader.Underscore,displayValue: '__________' }
+            ];
+            this._arrKeyTabLeader = [];
+            this._arrTabLeader.forEach(function(item) {
+                me._arrKeyTabLeader[item.value] = item.displayValue;
+            });
         },
 
         render: function() {
@@ -504,7 +527,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.numTab = new Common.UI.MetricSpinner({
                 el: $('#paraadv-spin-tab'),
                 step: .1,
-                width: 180,
+                width: 95,
                 defaultUnit : "cm",
                 value: '1.25 cm',
                 maxValue: 55.87,
@@ -515,7 +538,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.numDefaultTab = new Common.UI.MetricSpinner({
                 el: $('#paraadv-spin-default-tab'),
                 step: .1,
-                width: 107,
+                width: 95,
                 defaultUnit : "cm",
                 value: '1.25 cm',
                 maxValue: 55.87,
@@ -531,7 +554,15 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.tabList = new Common.UI.ListView({
                 el: $('#paraadv-list-tabs'),
                 emptyText: this.noTabs,
-                store: new Common.UI.DataViewStore()
+                store: new Common.UI.DataViewStore(),
+                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
+                    '<div style="width:98px;padding-right: 5px;display: inline-block;"><%= value %></div>',
+                    '<div style="width:98px;padding-right: 5px;display: inline-block;padding-left: 7px;"><%= displayTabAlign %></div>',
+                    '<div style="width:98px;display: inline-block;padding-left: 16px;"><%= displayTabLeader %></div>',
+                    '</div>'
+                ].join(''))
             });
             this.tabList.store.comparator = function(rec) {
                 return rec.get("tabPos");
@@ -548,31 +579,21 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
             this.cmbAlign = new Common.UI.ComboBox({
                 el          : $('#paraadv-cmb-align'),
-                style       : 'width: 85px;',
-                menuStyle   : 'min-width: 85px;',
+                style       : 'width: 95px;',
+                menuStyle   : 'min-width: 95px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: 1, displayValue: this.textTabLeft },
-                    { value: 3, displayValue: this.textTabCenter },
-                    { value: 2, displayValue: this.textTabRight }
-                ]
+                data        : this._arrTabAlign
             });
             this.cmbAlign.setValue(1);
 
             this.cmbLeader = new Common.UI.ComboBox({
                 el          : $('#paraadv-cmb-leader'),
-                style       : 'width: 85px;',
-                menuStyle   : 'min-width: 85px;',
+                style       : 'width: 95px;',
+                menuStyle   : 'min-width: 95px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscTabLeader.None,      displayValue: this.textNone },
-                    { value: Asc.c_oAscTabLeader.Dot,       displayValue: '....................' },
-                    { value: Asc.c_oAscTabLeader.Hyphen,    displayValue: '-----------------' },
-                    { value: Asc.c_oAscTabLeader.MiddleDot, displayValue: '·················' },
-                    { value: Asc.c_oAscTabLeader.Underscore,displayValue: '__________' }
-                ]
+                data        : this._arrTabLeader
             });
             this.cmbLeader.setValue(Asc.c_oAscTabLeader.None);
 
@@ -866,7 +887,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                             tabPos: pos,
                             value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                             tabAlign: tab.get_Value(),
-                            tabLeader: tab.asc_getLeader()
+                            tabLeader: tab.asc_getLeader(),
+                            displayTabLeader: this._arrKeyTabLeader[tab.asc_getLeader()],
+                            displayTabAlign: this._arrKeyTabAlign[tab.get_Value()]
                         });
                         arr.push(rec);
                     }
@@ -1265,7 +1288,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         addTab: function(btn, eOpts){
             var val = this.numTab.getNumberValue(),
                 align = this.cmbAlign.getValue(),
-                leader = this.cmbLeader.getValue();
+                leader = this.cmbLeader.getValue(),
+                displayAlign = this._arrKeyTabAlign[align],
+                displayLeader = this._arrKeyTabLeader[leader];
 
             var store = this.tabList.store;
             var rec = store.find(function(record){
@@ -1274,6 +1299,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if (rec) {
                 rec.set('tabAlign', align);
                 rec.set('tabLeader', leader);
+                rec.set('displayTabAlign', displayAlign);
+                rec.set('displayTabLeader', displayLeader);
                 this._tabListChanged = true;
             } else {
                 rec = new Common.UI.DataViewModel();
@@ -1281,7 +1308,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     tabPos: val,
                     value: val + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                     tabAlign: align,
-                    tabLeader: leader
+                    tabLeader: leader,
+                    displayTabLeader: displayLeader,
+                    displayTabAlign: displayAlign
                 });
                 store.add(rec);
             }

@@ -172,32 +172,36 @@
     </div>
 </div>
 <div id="id-adv-paragraph-tabs" class="settings-panel">
-    <div class="inner-content">
-        <div class="padding-small" style="display: inline-block;">
-            <label class="input-label"><%= scope.textTabPosition %></label>
-            <div id="paraadv-spin-tab"></div>
-        </div>
-        <div class="padding-small" style="display: inline-block; float: right;">
-            <label class="input-label"><%= scope.textDefault %></label>
-            <div id="paraadv-spin-default-tab"></div>
-        </div>
-        <div class="padding-large">
-            <div id="paraadv-list-tabs" style="width:180px; height: 94px;"></div>
-        </div>
-        <div class="padding-large" style="display: inline-block;margin-right: 7px;">
-            <label class="input-label"><%= scope.textAlign %></label>
-            <div id="paraadv-cmb-align"></div>
-        </div>
-        <div class="padding-large" style="display: inline-block;">
-            <label class="input-label"><%= scope.textLeader %></label>
-            <div id="paraadv-cmb-leader"></div>
-        </div>
-        <div style="margin-bottom: 45px;"></div>
-        <div>
-            <button type="button" class="btn btn-text-default" id="paraadv-button-add-tab" style="width:90px;margin-right: 4px;"><%= scope.textSet %></button>
-            <button type="button" class="btn btn-text-default" id="paraadv-button-remove-tab" style="width:90px;margin-right: 4px;"><%= scope.textRemove %></button>
-            <button type="button" class="btn btn-text-default" id="paraadv-button-remove-all" style="width:90px;margin-right: 4px;"><%= scope.textRemoveAll %></button>
-        </div>
+    <div class="inner-content" style="width: 330px;">
+            <div class="padding-large">
+                <label class="input-label"><%= scope.textDefault %></label>
+                <div id="paraadv-spin-default-tab"></div>
+
+            </div>
+            <div>
+                <div class="padding-small" style="margin-right: 9px; display: inline-block;">
+                    <label class="input-label"><%= scope.textTabPosition %></label>
+                    <div id="paraadv-spin-tab"></div>
+                </div>
+                <div class="padding-small" style="margin-right: 9px; display: inline-block;">
+                    <label class="input-label"><%= scope.textAlign %></label>
+                    <div id="paraadv-cmb-align"></div>
+                </div>
+                <div class="padding-small" style="display: inline-block;">
+                    <label class="input-label"><%= scope.textLeader %></label>
+                    <div id="paraadv-cmb-leader"></div>
+                </div>
+            </div>
+            <div>
+                <div colspan=3 class="padding-large">
+                     <div id="paraadv-list-tabs" style="width:310px; height: 110px;"></div>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-text-default" id="paraadv-button-add-tab" style="width:95px;margin-right: 9px; display: inline-block;"><%= scope.textSet %></button>
+                <button type="button" class="btn btn-text-default" id="paraadv-button-remove-tab" style="width:95px;margin-right: 9px; display: inline-block;"><%= scope.textRemove %></button>
+                <button type="button" class="btn btn-text-default" id="paraadv-button-remove-all" style="width:95px;display: inline-block;"><%= scope.textRemoveAll %></button>
+            </div>
     </div>
 </div>
 <div id="id-adv-paragraph-margins" class="settings-panel">
