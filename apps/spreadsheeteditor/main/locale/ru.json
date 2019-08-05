@@ -1973,6 +1973,7 @@
   "SSE.Views.ShapeSettings.txtNoBorders": "Без обводки",
   "SSE.Views.ShapeSettings.txtPapyrus": "Папирус",
   "SSE.Views.ShapeSettings.txtWood": "Дерево",
+  "SSE.Views.ShapeSettings.strShadow": "Отображать тень",
   "SSE.Views.ShapeSettingsAdvanced.cancelButtonText": "Отмена",
   "SSE.Views.ShapeSettingsAdvanced.okButtonText": "ОК",
   "SSE.Views.ShapeSettingsAdvanced.strColumns": "Колонки",

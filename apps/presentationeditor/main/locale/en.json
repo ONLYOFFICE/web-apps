@@ -1402,6 +1402,7 @@
   "PE.Views.ShapeSettings.txtNoBorders": "No Line",
   "PE.Views.ShapeSettings.txtPapyrus": "Papyrus",
   "PE.Views.ShapeSettings.txtWood": "Wood",
+  "PE.Views.ShapeSettings.strShadow": "Show shadow",
   "PE.Views.ShapeSettingsAdvanced.cancelButtonText": "Cancel",
   "PE.Views.ShapeSettingsAdvanced.okButtonText": "OK",
   "PE.Views.ShapeSettingsAdvanced.strColumns": "Columns",
