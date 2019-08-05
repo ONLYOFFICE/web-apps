@@ -132,7 +132,10 @@ define([
                         'Y Axis': this.txtYAxis,
                         'Your text here': this.txtArt,
                         'Table': this.txtTable,
-                        'Print_Area': this.txtPrintArea
+                        'Print_Area': this.txtPrintArea,
+                        'Confidential': this.txtConfidential,
+                        'Prepared by': this.txtPreparedBy,
+                        'Page': this.txtPage
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2390,7 +2393,10 @@ define([
             errorCannotUngroup: 'Cannot ungroup. To start an outline, select the detail rows or columns and group them.',
             errorFrmlMaxTextLength: 'Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)',
             waitText: 'Please, wait...',
-            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.'
+            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.',
+            txtConfidential: 'Confidential',
+            txtPreparedBy: 'Prepared by',
+            txtPage: 'Page'
         }
     })(), SSE.Controllers.Main || {}))
 });
