@@ -977,6 +977,7 @@
   "PE.Views.DocumentHolder.hyperlinkText": "Hyperlink",
   "PE.Views.DocumentHolder.ignoreAllSpellText": "Ignore All",
   "PE.Views.DocumentHolder.ignoreSpellText": "Ignore",
+  "PE.Views.DocumentHolder.toDictionaryText": "Add to Dictionary",
   "PE.Views.DocumentHolder.insertColumnLeftText": "Column Left",
   "PE.Views.DocumentHolder.insertColumnRightText": "Column Right",
   "PE.Views.DocumentHolder.insertColumnText": "Insert Column",

@@ -977,6 +977,7 @@
   "PE.Views.DocumentHolder.hyperlinkText": "Гиперссылка",
   "PE.Views.DocumentHolder.ignoreAllSpellText": "Пропустить все",
   "PE.Views.DocumentHolder.ignoreSpellText": "Пропустить",
+  "PE.Views.DocumentHolder.toDictionaryText": "Добавить в словарь",
   "PE.Views.DocumentHolder.insertColumnLeftText": "Столбец слева",
   "PE.Views.DocumentHolder.insertColumnRightText": "Столбец справа",
   "PE.Views.DocumentHolder.insertColumnText": "Вставить столбец",

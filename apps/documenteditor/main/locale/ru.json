@@ -1099,6 +1099,7 @@
   "DE.Views.DocumentHolder.hyperlinkText": "Гиперссылка",
   "DE.Views.DocumentHolder.ignoreAllSpellText": "Пропустить все",
   "DE.Views.DocumentHolder.ignoreSpellText": "Пропустить",
+  "DE.Views.DocumentHolder.toDictionaryText": "Добавить в словарь",
   "DE.Views.DocumentHolder.imageText": "Дополнительные параметры изображения",
   "DE.Views.DocumentHolder.insertColumnLeftText": "Столбец слева",
   "DE.Views.DocumentHolder.insertColumnRightText": "Столбец справа",

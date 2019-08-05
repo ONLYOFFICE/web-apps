@@ -1100,6 +1100,7 @@
   "DE.Views.DocumentHolder.hyperlinkText": "Hyperlink",
   "DE.Views.DocumentHolder.ignoreAllSpellText": "Ignore All",
   "DE.Views.DocumentHolder.ignoreSpellText": "Ignore",
+  "DE.Views.DocumentHolder.toDictionaryText": "Add to Dictionary",
   "DE.Views.DocumentHolder.imageText": "Image Advanced Settings",
   "DE.Views.DocumentHolder.insertColumnLeftText": "Column Left",
   "DE.Views.DocumentHolder.insertColumnRightText": "Column Right",

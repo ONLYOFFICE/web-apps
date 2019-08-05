@@ -2746,6 +2746,13 @@ define([
                 }
             });
 
+            var menuToDictionaryTable = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_AddToDictionary(me._currentSpellObj);
+                me.fireEvent('editcomplete', me);
+            });
+
             var menuIgnoreSpellTableSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -2764,6 +2771,7 @@ define([
                         menuIgnoreSpellTableSeparator,
                         menuIgnoreSpellTable,
                         menuIgnoreAllSpellTable,
+                        menuToDictionaryTable,
                         { caption: '--' },
                         me.langTableMenu
                     ]
@@ -3366,6 +3374,13 @@ define([
                 me.fireEvent('editcomplete', me);
             });
 
+            var menuToDictionaryPara = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_AddToDictionary(me._currentSpellObj);
+                me.fireEvent('editcomplete', me);
+            });
+
             var menuIgnoreSpellParaSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -3553,15 +3568,17 @@ define([
                     menuParaPaste.setDisabled(disabled);
 
                     // spellCheck
-                    me.menuSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuSpellcheckParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreAllSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    me.langParaMenu.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    me.menuSpellPara.setVisible(spell);
+                    menuSpellcheckParaSeparator.setVisible(spell);
+                    menuIgnoreSpellPara.setVisible(spell);
+                    menuIgnoreAllSpellPara.setVisible(spell);
+                    menuToDictionaryPara.setVisible(spell);
+                    me.langParaMenu.setVisible(spell);
                     me.langParaMenu.setDisabled(disabled);
-                    menuIgnoreSpellParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuIgnoreSpellParaSeparator.setVisible(spell);
 
-                    if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
+                    if (spell && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(true);
                     } else {
                         me.menuSpellPara.setCaption(me.loadSpellText, true);
@@ -3576,9 +3593,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 11);
+                        eqlen = me.addEquationMenu(true, 12);
                     } else
-                        me.clearEquationMenu(true, 11);
+                        me.clearEquationMenu(true, 12);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
 
                     menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
@@ -3635,6 +3652,7 @@ define([
                     menuSpellcheckParaSeparator,
                     menuIgnoreSpellPara,
                     menuIgnoreAllSpellPara,
+                    menuToDictionaryPara,
                     me.langParaMenu,
                     menuIgnoreSpellParaSeparator,
                     menuParaCut,
@@ -4055,7 +4073,8 @@ define([
         textCrop: 'Crop',
         textCropFill: 'Fill',
         textCropFit: 'Fit',
-        textFollow: 'Follow move'
+        textFollow: 'Follow move',
+        toDictionaryText: 'Add to Dictionary'
 
     }, DE.Views.DocumentHolder || {}));
 });
