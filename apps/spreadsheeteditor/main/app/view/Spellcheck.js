@@ -153,10 +153,9 @@ define([
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
                 el          : $('#spellcheck-dictionary-language'),
                 style       : 'width: 230px',
-                menuStyle   : 'min-width: 230px;',
+                menuStyle   : 'width: 230px;',
                 editable    : false,
-                cls         : 'input-group-nr',
-                data        : []
+                cls         : 'input-group-nr'
             });
 
 

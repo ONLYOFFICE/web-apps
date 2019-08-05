@@ -683,7 +683,8 @@ define([
                     leftMenuView                = leftmenuController.getView('LeftMenu'),
                     documentHolderView          = documentHolderController.getView('DocumentHolder'),
                     chatController              = application.getController('Common.Controllers.Chat'),
-                    pluginsController           = application.getController('Common.Controllers.Plugins');
+                    pluginsController           = application.getController('Common.Controllers.Plugins'),
+                    spellcheckController        = application.getController('Spellcheck');
 
                 leftMenuView.getMenu('file').loadDocument({doc:me.appOptions.spreadsheet});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
@@ -700,6 +701,7 @@ define([
 
                 documentHolderController.setApi(me.api).loadConfig({config:me.editorConfig});
                 chatController.setApi(this.api).setMode(this.appOptions);
+                spellcheckController.setApi(this.api).setMode(this.appOptions);
 
                 statusbarController.createDelayedElements();
                 statusbarController.setApi(me.api);

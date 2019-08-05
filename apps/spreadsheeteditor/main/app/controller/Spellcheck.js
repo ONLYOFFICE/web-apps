@@ -54,6 +54,9 @@ define([
             this.addListeners({
                 'Spellcheck': {
                     'show': function() {
+                        if (me.api) {
+                            me.api.asc_startSpellCheck();
+                        }
                     },
                     'hide': function() {
                     }
@@ -73,7 +76,7 @@ define([
 
         setApi: function(api) {
             this.api = api;
-            // this.api.asc_registerCallback('asc_onDocumentOutlineUpdate', _.bind(this.updateSpellcheck, this));
+            this.api.asc_registerCallback('asc_onSpellCheckInit',_.bind(this.loadLanguages, this));
             return this;
         },
 
@@ -83,10 +86,41 @@ define([
         },
 
         onAfterRender: function(panelSpellcheck) {
+            panelSpellcheck.buttonPreview.on('click', _.bind(this.onClickPreview, this));
+            panelSpellcheck.buttonNext.on('click', _.bind(this.onClickNext, this));
+        },
+
+        onClickPreview: function() {
+            if (this.api) {
+                this.api.asc_previousWord();
+            }
+        },
+
+        onClickNext: function() {
+            if (this.api) {
+                this.api.asc_nextWord();
+            }
         },
 
         SetDisabled: function(state) {
             this._isDisabled = state;
+        },
+
+        loadLanguages: function (apiLangs) {
+            var langs = [], info,
+                allLangs = Common.util.LanguageInfo.getLanguages();
+            apiLangs.forEach(function (code) {
+                if (allLangs.hasOwnProperty(parseInt(code))) {
+                    info = allLangs[parseInt(code)];
+                    langs.push({
+                        displayValue:   info[1],
+                        value:          info[0],
+                        code:           parseInt(code),
+                    });
+                }
+            });
+            this.languages = langs;
+            this.panelSpellcheck.cmbDictionaryLanguage.setData(this.languages);
         }
 
     }, SSE.Controllers.Spellcheck || {}));
