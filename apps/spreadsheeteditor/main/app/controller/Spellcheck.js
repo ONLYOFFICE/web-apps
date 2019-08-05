@@ -54,9 +54,6 @@ define([
             this.addListeners({
                 'Spellcheck': {
                     'show': function() {
-                        if (me.api) {
-                            me.api.asc_startSpellCheck();
-                        }
                     },
                     'hide': function() {
                     }
@@ -77,6 +74,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onSpellCheckInit',_.bind(this.loadLanguages, this));
+            this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
             return this;
         },
 
@@ -86,15 +84,12 @@ define([
         },
 
         onAfterRender: function(panelSpellcheck) {
-            panelSpellcheck.buttonPreview.on('click', _.bind(this.onClickPreview, this));
             panelSpellcheck.buttonNext.on('click', _.bind(this.onClickNext, this));
             panelSpellcheck.cmbDictionaryLanguage.on('selected', _.bind(this.onSelectLanguage, this));
-        },
-
-        onClickPreview: function() {
-            if (this.api) {
-                this.api.asc_previousWord();
-            }
+            panelSpellcheck.btnChange.on('click', _.bind(this.onClickChange, this));
+            panelSpellcheck.btnIgnore.on('click', _.bind(this.onClickIgnore, this));
+            panelSpellcheck.btnChange.menu.on('item:click', _.bind(this.onClickChangeMenu, this));
+            panelSpellcheck.btnIgnore.menu.on('item:click', _.bind(this.onClickIgnoreMenu, this));
         },
 
         onClickNext: function() {
@@ -133,6 +128,54 @@ define([
             if (this.api && lang) {
                 /*this.api.asc_setDefaultLanguage(lang);*/
             }
+        },
+
+        onClickChange: function (btn, e) {
+            if (this.api) {
+                /*this.api.asc_change();*/
+            }
+        },
+
+        onClickChangeMenu: function (menu, item) {
+            /*if (this.api) {
+                if (item.value == 0) {
+                    this.api.asc_change();
+                } else if (item.value == 1) {
+                    this.api.asc_changeAll();
+                }
+            }*/
+        },
+
+        onClickIgnore: function () {
+            if (this.api) {
+                /*this.api.asc_ignore();*/
+            }
+        },
+
+        onClickIgnoreMenu: function () {
+            /*if (this.api) {
+                if (item.value == 0) {
+                    this.api.asc_ignore();
+                } else if (item.value == 1) {
+                    this.api.asc_ignoreAll();
+                }
+            }*/
+        },
+
+        onSpellCheckVariantsFound: function (property) {
+            var word = property.get_Word();
+            this.panelSpellcheck.currentWord.setValue(word);
+
+            var variants = property.get_Variants(),
+                arr = [];
+            variants.forEach(function (item) {
+                var rec = new Common.UI.DataViewModel();
+                rec.set({
+                    value: item
+                });
+                arr.push(rec);
+            });
+            this.panelSpellcheck.suggestionList.store.reset(arr);
         }
 
     }, SSE.Controllers.Spellcheck || {}));

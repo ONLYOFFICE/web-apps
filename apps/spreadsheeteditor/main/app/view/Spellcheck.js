@@ -53,7 +53,7 @@ define([
         template: _.template([
             '<div id="spellcheck-box" class="layout-ct vbox active" style="padding-left: 15px; padding-right: 15px; padding-top: 20px; width: 100%; position: relative;">',
             '<div id="spellcheck-header" style="font-size: 14px; padding-bottom: 16px;"><%= scope.txtSpelling %></div>',
-            '<div style="display: flex; width: 100%; padding-bottom: 8px;"><div id="spellcheck-current-word" style="vertical-align: top; width: 100%; display: inline-block;"></div><div id="spellcheck-preview" style="display: inline-block;"></div><div id="spellcheck-next" style="display: inline-block;"></div></div>',
+            '<div style="display: flex; width: 100%; padding-bottom: 8px;"><div id="spellcheck-current-word" style="vertical-align: top; width: 100%; display: inline-block;"></div><div id="spellcheck-next" style="display: inline-block;"></div></div>',
             '<div id="spellcheck-suggestions-list" style="width: 100%; height: 100px; background-color: #fff; margin-bottom: 8px;"></div>',
             '<div id="spellcheck-change" style="width: 105px; display: inline-block; padding-bottom: 16px;"></div><div id="spellcheck-ignore" class="padding-large" style="margin-left: 19px; width: 105px; display: inline-block;"></div>',
             '<div id="spellcheck-add-to-dictionary" style="padding-bottom: 16px;"><button class="btn btn-text-default" style="width: auto; padding: 0 15px;"><%= scope.txtAddToDictionary %></button></div>',
@@ -78,13 +78,6 @@ define([
                 validateOnBlur: false
             });
 
-            this.buttonPreview = new Common.UI.Button({
-                style: 'margin-left: 5px; width: 22px; height: 22px; border: 1px solid #cfcfcf;',
-                cls: 'btn-toolbar bg-white',
-                iconCls: 'btn-spellcheck-preview'
-            });
-            this.buttonPreview.render($('#spellcheck-preview'));
-
             this.buttonNext = new Common.UI.Button({
                 style: 'margin-left: 5px; width: 22px; height: 22px; border: 1px solid #cfcfcf;',
                 cls: 'btn-toolbar bg-white',
@@ -102,16 +95,12 @@ define([
                 cls: 'btn-text-split-default',
                 caption: this.textChange,
                 split: true,
-                enableToggle: true,
-                allowDepress: true,
                 width: 105,
                 menu        : new Common.UI.Menu({
                     style       : 'min-width: 105px;',
                     items: [
                         {
                             caption: this.textChange,
-                            checkable: true,
-                            allowDepress: true,
                             value: 0
                         },
                         {
@@ -127,16 +116,12 @@ define([
                 cls: 'btn-text-split-default',
                 caption: this.textIgnore,
                 split: true,
-                enableToggle: true,
-                allowDepress: true,
                 width: 105,
                 menu        : new Common.UI.Menu({
                     style       : 'min-width: 105px;',
                     items: [
                         {
                             caption: this.textIgnore,
-                            checkable: true,
-                            allowDepress: true,
                             value: 0
                         },
                         {
