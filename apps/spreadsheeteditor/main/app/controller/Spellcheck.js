@@ -118,6 +118,10 @@ define([
         },
 
         loadLanguages: function () {
+            var value = Common.localStorage.getItem("sse-spellcheck-locale");
+            (!value) && (value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409);
+
+            var combo = this.panelSpellcheck.cmbDictionaryLanguage;
             if (this.languages && this.languages.length>0) {
                 var langs = [], info,
                     allLangs = Common.util.LanguageInfo.getLanguages();
@@ -126,60 +130,71 @@ define([
                         info = allLangs[parseInt(code)];
                         langs.push({
                             displayValue:   info[1],
-                            value:          info[0],
-                            code:           parseInt(code)
+                            value:          parseInt(code)
                         });
                     }
                 });
-                this.panelSpellcheck.cmbDictionaryLanguage.setData(langs);
-                /*var codeCurLang = this.api.asc_getDefaultLanguage();*/
-                var codeCurLang = 1036;
-                var curLang = allLangs[codeCurLang][0];
-                this.panelSpellcheck.cmbDictionaryLanguage.setValue(curLang);
-            } else
-                this.panelSpellcheck.cmbDictionaryLanguage.setDisabled(true);
+                combo.setData(langs);
+                if (value) {
+                    var item = combo.store.findWhere({value: value});
+                    combo.setValue(item ? item.get('value') : 0x0409);
+                    value = combo.getValue();
+                } else {
+                    value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+                    combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                }
+            } else {
+                combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                combo.setDisabled(true);
+            }
+            this.api.asc_setDefaultLanguage(value);
         },
 
         onSelectLanguage: function (combo, record) {
             var lang = record.code;
             if (this.api && lang) {
-                /*this.api.asc_setDefaultLanguage(lang);*/
+                this.api.asc_setDefaultLanguage(lang);
+                Common.localStorage.setItem("sse-spellcheck-locale", this.panelSpellcheck.cmbDictionaryLanguage.getValue());
             }
         },
 
         onClickChange: function (btn, e) {
             if (this.api) {
-                /*this.api.asc_change();*/
+                var rec = this.panelSpellcheck.suggestionList.getSelectedRec();
+                rec && this.api.asc_replaceMisspelledWord(rec.get('value'), this._currentSpellObj);
             }
         },
 
         onClickChangeMenu: function (menu, item) {
-            /*if (this.api) {
+            if (this.api) {
+                var rec = this.panelSpellcheck.suggestionList.getSelectedRec();
                 if (item.value == 0) {
-                    this.api.asc_change();
+                    rec && this.api.asc_replaceMisspelledWord(rec.get('value'), this._currentSpellObj);
                 } else if (item.value == 1) {
-                    this.api.asc_changeAll();
+                    rec && this.api.asc_replaceMisspelledWord(rec.get('value'), this._currentSpellObj, true);
                 }
-            }*/
+            }
         },
 
         onClickIgnore: function () {
             if (this.api) {
-                /*this.api.asc_ignore();*/
+                this.api.asc_ignoreMisspelledWord(this._currentSpellObj, false)
             }
         },
 
-        onClickIgnoreMenu: function () {
-            /*if (this.api) {
+        onClickIgnoreMenu: function (menu, item) {
+            if (this.api) {
                 if (item.value == 0) {
-                    this.api.asc_ignore();
+                    this.api.asc_ignoreMisspelledWord(this._currentSpellObj, false);
                 } else if (item.value == 1) {
-                    this.api.asc_ignoreAll();
+                    this.api.asc_ignoreMisspelledWord(this._currentSpellObj, true);
                 }
-            }*/
+            }
         },
 
         onSpellCheckVariantsFound: function (property) {
+            this._currentSpellObj = property;
+
             var word = property.get_Word();
             this.panelSpellcheck.currentWord.setValue(word);
 
