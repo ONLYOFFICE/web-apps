@@ -151,7 +151,7 @@ define([
         },
 
         onSelectLanguage: function (combo, record) {
-            var lang = record.code;
+            var lang = record.value;
             if (this.api && lang) {
                 this.api.asc_setDefaultLanguage(lang);
                 Common.localStorage.setItem("sse-spellcheck-locale", this.panelSpellcheck.cmbDictionaryLanguage.getValue());
