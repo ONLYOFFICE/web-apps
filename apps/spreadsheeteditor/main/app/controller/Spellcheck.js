@@ -130,9 +130,15 @@ define([
                         info = allLangs[parseInt(code)];
                         langs.push({
                             displayValue:   info[1],
+                            shortName:      info[0],
                             value:          parseInt(code)
                         });
                     }
+                });
+                langs.sort(function(a, b){
+                    if (a.shortName < b.shortName) return -1;
+                    if (a.shortName > b.shortName) return 1;
+                    return 0;
                 });
                 combo.setData(langs);
                 if (value) {
