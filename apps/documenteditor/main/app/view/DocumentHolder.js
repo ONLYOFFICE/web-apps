@@ -2995,6 +2995,7 @@ define([
                     menuParagraphAdvancedInTable.setDisabled(disabled);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
                     menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     
                     me.langTableMenu.setDisabled(disabled);
@@ -3573,7 +3574,7 @@ define([
                     menuSpellcheckParaSeparator.setVisible(spell);
                     menuIgnoreSpellPara.setVisible(spell);
                     menuIgnoreAllSpellPara.setVisible(spell);
-                    menuToDictionaryPara.setVisible(spell);
+                    menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
                     me.langParaMenu.setVisible(spell);
                     me.langParaMenu.setDisabled(disabled);
                     menuIgnoreSpellParaSeparator.setVisible(spell);
