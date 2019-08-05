@@ -1069,7 +1069,7 @@ define([
                     this._state.GradColor = color;
                 }
 
-                // this.chShadow.setValue(!!props.get_shadow());
+                this.chShadow.setValue(!!props.asc_getShadow(), true);
 
                 this._noApply = false;
             }
@@ -1459,7 +1459,7 @@ define([
         onCheckShadow: function(field, newValue, oldValue, eOpts) {
             if (this.api)   {
                 var props = new Asc.asc_CShapeProperty();
-                props.put_shadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
+                props.asc_putShadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
                 this.api.ShapeApply(props);
             }
             this.fireEvent('editcomplete', this);

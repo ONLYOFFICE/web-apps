@@ -1156,7 +1156,7 @@ define([
                     this._state.GradColor = color;
                 }
 
-                // this.chShadow.setValue(!!shapeprops.get_shadow());
+                this.chShadow.setValue(!!shapeprops.asc_getShadow(), true);
 
                 this._noApply = false;
             }
@@ -1603,7 +1603,7 @@ define([
         onCheckShadow: function(field, newValue, oldValue, eOpts) {
             if (this.api)   {
                 var props = new Asc.asc_CShapeProperty();
-                props.put_shadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
+                props.asc_putShadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
                 this.imgprops.put_ShapeProperties(props);
                 this.api.ImgApply(this.imgprops);
             }

@@ -1093,7 +1093,7 @@ define([
                     this._state.GradColor = color;
                 }
 
-                // this.chShadow.setValue(!!shapeprops.get_shadow());
+                this.chShadow.setValue(!!shapeprops.asc_getShadow(), true);
 
                 this._noApply = false;
             }
@@ -1545,9 +1545,9 @@ define([
         onCheckShadow: function(field, newValue, oldValue, eOpts) {
             if (this.api)   {
                 var props = new Asc.asc_CShapeProperty();
-                props.put_shadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
-                this.asc_setGraphicObjectProps.put_ShapeProperties(props);
-                this.api.ImgApply(this.imgprops);
+                props.asc_putShadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
+                this.imgprops.asc_putShapeProperties(props);
+                this.api.asc_setGraphicObjectProps(this.imgprops);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
