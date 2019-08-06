@@ -1653,6 +1653,7 @@
   "SSE.Views.LeftMenu.tipSupport": "Обратная связь и поддержка",
   "SSE.Views.LeftMenu.txtDeveloper": "РЕЖИМ РАЗРАБОТЧИКА",
   "SSE.Views.LeftMenu.txtTrial": "ПРОБНЫЙ РЕЖИМ",
+  "SSE.Views.LeftMenu.tipSpellcheck": "Проверка орфографии",
   "SSE.Views.MainSettingsPrint.okButtonText": "Сохранить",
   "SSE.Views.MainSettingsPrint.strBottom": "Снизу",
   "SSE.Views.MainSettingsPrint.strLandscape": "Альбомная",
