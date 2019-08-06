@@ -107,7 +107,7 @@ define([
                     caption: this.capBtnGroup,
                     split: false,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-group'), this.btnGroup);
                 this.lockedControls.push(this.btnGroup);
@@ -119,7 +119,7 @@ define([
                     split: true,
                     menu: true,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-ungroup'), this.btnUngroup);
                 this.lockedControls.push(this.btnUngroup);
