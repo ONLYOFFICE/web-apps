@@ -54,8 +54,8 @@ define([
             '<div id="spellcheck-box" class="layout-ct vbox active" style="padding: 20px 15px 0; width: 100%; position: relative;">',
             '<div id="spellcheck-header" style="font-size: 14px; padding-bottom: 16px;"><%= scope.txtSpelling %></div>',
             '<div style="display: flex; width: 100%; padding-bottom: 8px;"><div id="spellcheck-current-word" style="vertical-align: top; width: 100%; display: inline-block;"></div><div id="spellcheck-next" style="display: inline-block;"></div></div>',
-            '<div id="spellcheck-suggestions-list" style="width: 100%; height: 100px; background-color: #fff; margin-bottom: 8px;"></div>',
-            '<div id="spellcheck-change" style="width: 105px; display: inline-block; padding-bottom: 16px;"></div><div id="spellcheck-ignore" class="padding-large" style="margin-left: 19px; width: 105px; display: inline-block;"></div>',
+            '<div id="spellcheck-suggestions-list" style="width: 100%; height: 116px; background-color: #fff; margin-bottom: 8px;"></div>',
+            '<div id="spellcheck-change" style="display: inline-block; padding-bottom: 16px;"></div><div id="spellcheck-ignore" class="padding-large" style="margin-left: 9px; display: inline-block;"></div>',
             '<button class="btn btn-text-default auto" id="spellcheck-add-to-dictionary" style="min-width: 105px; display: block; margin-bottom: 16px;"><%= scope.txtAddToDictionary %></button>',
             '<label class="header" style=" display: block;"><%= scope.txtDictionaryLanguage %></label><div id="spellcheck-dictionary-language" style="margin-top: 3px; padding-bottom: 16px;display: flex;"></div>',
             '<div id="spellcheck-complete" style="display: flex;" class="hidden"><i class="img-commonctrl img-complete" style="display: inline-block;margin-right: 10px;"></i><%= scope.txtComplete %></div>',
@@ -90,17 +90,18 @@ define([
             this.suggestionList = new Common.UI.ListView({
                 el: $('#spellcheck-suggestions-list'),
                 emptyText: this.noSuggestions,
-                store: new Common.UI.DataViewStore()
+                store: new Common.UI.DataViewStore(),
+                scrollAlwaysVisible: true
             });
 
             this.btnChange = new Common.UI.Button({
                 cls: 'btn-text-split-default',
                 caption: this.textChange,
                 split: true,
-                width: 105,
+                width: 110,
                 disabled: true,
                 menu        : new Common.UI.Menu({
-                    style       : 'min-width: 105px;',
+                    style       : 'min-width: 110px',
                     items: [
                         {
                             caption: this.textChange,
@@ -108,7 +109,8 @@ define([
                         },
                         {
                             caption: this.textChangeAll,
-                            value: 1
+                            value: 1,
+                            disabled: true
                         }
                         ]
                 })
@@ -119,10 +121,10 @@ define([
                 cls: 'btn-text-split-default',
                 caption: this.textIgnore,
                 split: true,
-                width: 105,
+                width: 110,
                 disabled: true,
                 menu        : new Common.UI.Menu({
-                    style       : 'min-width: 105px;',
+                    style       : 'min-width: 110px;',
                     items: [
                         {
                             caption: this.textIgnore,
@@ -130,7 +132,8 @@ define([
                         },
                         {
                             caption: this.textIgnoreAll,
-                            value: 1
+                            value: 1,
+                            disabled: true
                         }
                     ]
                 })
