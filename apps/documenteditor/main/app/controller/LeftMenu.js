@@ -331,6 +331,7 @@ define([
                         var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX);
                         opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
                         this.api.asc_DownloadAs(opts);
+                        menu.hide();
                     }
                 } else {
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
@@ -382,6 +383,7 @@ define([
                         var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
                         opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
                         this.api.asc_DownloadAs(opts);
+                        menu.hide();
                     }
                 } else {
                     this.isFromFileDownloadAs = ext;
