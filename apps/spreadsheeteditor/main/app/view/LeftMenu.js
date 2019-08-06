@@ -149,6 +149,7 @@ define([
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
             });
+            this.btnSpellcheck.hide();
             this.btnSpellcheck.on('click',      _.bind(this.onBtnMenuClick, this));
 
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));

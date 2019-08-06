@@ -702,7 +702,6 @@ define([
 
                 documentHolderController.setApi(me.api).loadConfig({config:me.editorConfig});
                 chatController.setApi(this.api).setMode(this.appOptions);
-                spellcheckController.setApi(this.api).setMode(this.appOptions);
 
                 statusbarController.createDelayedElements();
                 statusbarController.setApi(me.api);
@@ -713,6 +712,8 @@ define([
                 this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
 
                 if (me.appOptions.isEdit) {
+                    spellcheckController.setApi(me.api).setMode(me.appOptions);
+
                     if (me.appOptions.canAutosave) {
                         value = Common.localStorage.getItem("sse-settings-autosave");
                         if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
