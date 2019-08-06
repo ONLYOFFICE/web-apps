@@ -568,7 +568,10 @@ define([
                                 (format === Asc.c_oAscFileType.TXT) ? me.warnDownloadAs : me.warnDownloadAsRTF,
                                 me.notcriticalErrorTitle,
                                 function () {
-                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                    if (format == Asc.c_oAscFileType.TXT)
+                                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                    else
+                                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 }
                             );
                         });
