@@ -54,7 +54,7 @@ define([
             this.addListeners({
                 'Spellcheck': {
                     'show': function() {
-                        me.loadLanguages();
+                        me._initSettings && me.loadLanguages();
                     },
                     'hide': function() {
                     }
@@ -70,6 +70,7 @@ define([
             });
             this.panelSpellcheck.on('render:after', _.bind(this.onAfterRender, this));
             this._isDisabled = false;
+            this._initSettings = true;
         },
 
         setApi: function(api) {
@@ -116,6 +117,7 @@ define([
 
         setLanguages: function (array) {
             this.languages = array;
+            this._initSettings = true;
         },
 
         loadLanguages: function () {
@@ -160,6 +162,7 @@ define([
                 combo.setDisabled(true);
             }
             this.api.asc_setDefaultLanguage(value);
+            this._initSettings = false;
         },
 
         onSelectLanguage: function (combo, record) {
