@@ -2324,7 +2324,7 @@
   "SSE.Views.Top10FilterDialog.txtTitle": "Наложение условия по списку",
   "SSE.Views.Top10FilterDialog.txtTop": "Наибольшие",
   "SSE.Views.Spellcheck.txtSpelling": "Орфография",
-  "SSE.Views.Spellcheck.noSuggestions": "Вариантов нет",
+  "SSE.Views.Spellcheck.noSuggestions": "Вариантов не найдено",
   "SSE.Views.Spellcheck.textChange": "Заменить",
   "SSE.Views.Spellcheck.textChangeAll": "Заменить все",
   "SSE.Views.Spellcheck.textIgnore": "Пропустить",
