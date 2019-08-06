@@ -75,6 +75,7 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
+            this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             return this;
         },
 
@@ -105,7 +106,7 @@ define([
         onDictionary: function() {
             if (this.api) {
                 var str = this.panelSpellcheck.currentWord.getValue();
-                str && this.api.asc_AddToDictionary(str);
+                str && this.api.asc_spellCheckAddToDictionary(str);
             }
         },
 
@@ -219,14 +220,29 @@ define([
                     arr.push(rec);
                 });
             }
+            var disabled = this.api.isCellEdited;
             this.panelSpellcheck.currentWord.setValue(word || '');
             this.panelSpellcheck.suggestionList.store.reset(arr);
             (arr.length>0) && this.panelSpellcheck.suggestionList.selectByIndex(0);
-            this.panelSpellcheck.currentWord.setDisabled(!word);
-            this.panelSpellcheck.btnChange.setDisabled(arr.length<1);
-            this.panelSpellcheck.btnIgnore.setDisabled(!word);
-            this.panelSpellcheck.btnToDictionary.setDisabled(!word);
+            this.panelSpellcheck.currentWord.setDisabled(!word || disabled);
+            this.panelSpellcheck.btnChange.setDisabled(arr.length<1 || disabled);
+            this.panelSpellcheck.btnIgnore.setDisabled(!word || disabled);
+            this.panelSpellcheck.btnToDictionary.setDisabled(!word || disabled);
             this.panelSpellcheck.lblComplete.toggleClass('hidden', !property || !!word);
+        },
+
+        onApiEditCell: function(state) {
+            if (state == Asc.c_oAscCellEditorState.editEnd) {
+                this.panelSpellcheck.buttonNext.setDisabled(false);
+                this.panelSpellcheck.cmbDictionaryLanguage.setDisabled(false);
+            } else {
+                this.panelSpellcheck.buttonNext.setDisabled(true);
+                this.panelSpellcheck.currentWord.setDisabled(true);
+                this.panelSpellcheck.btnChange.setDisabled(true);
+                this.panelSpellcheck.btnIgnore.setDisabled(true);
+                this.panelSpellcheck.btnToDictionary.setDisabled(true);
+                this.panelSpellcheck.cmbDictionaryLanguage.setDisabled(true);
+            }
         }
 
     }, SSE.Controllers.Spellcheck || {}));

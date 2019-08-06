@@ -56,7 +56,7 @@ define([
             '<div style="display: flex; width: 100%; padding-bottom: 8px;"><div id="spellcheck-current-word" style="vertical-align: top; width: 100%; display: inline-block;"></div><div id="spellcheck-next" style="display: inline-block;"></div></div>',
             '<div id="spellcheck-suggestions-list" style="width: 100%; height: 116px; background-color: #fff; margin-bottom: 8px;"></div>',
             '<div id="spellcheck-change" style="display: inline-block; padding-bottom: 16px;"></div><div id="spellcheck-ignore" class="padding-large" style="margin-left: 9px; display: inline-block;"></div>',
-            '<button class="btn btn-text-default auto" id="spellcheck-add-to-dictionary" style="min-width: 105px; display: block; margin-bottom: 16px;"><%= scope.txtAddToDictionary %></button>',
+            '<button class="btn btn-text-default auto" id="spellcheck-add-to-dictionary" style="min-width: 110px; display: block; margin-bottom: 16px;"><%= scope.txtAddToDictionary %></button>',
             '<label class="header" style=" display: block;"><%= scope.txtDictionaryLanguage %></label><div id="spellcheck-dictionary-language" style="margin-top: 3px; padding-bottom: 16px;display: flex;"></div>',
             '<div id="spellcheck-complete" style="display: flex;" class="hidden"><i class="img-commonctrl img-complete" style="display: inline-block;margin-right: 10px;"></i><%= scope.txtComplete %></div>',
             '</div>'
@@ -149,7 +149,8 @@ define([
             });
 
             this.btnToDictionary = new Common.UI.Button({
-                el: $('#spellcheck-add-to-dictionary')
+                el: $('#spellcheck-add-to-dictionary'),
+                disabled    : true
             });
 
             this.lblComplete = this.$el.find('#spellcheck-complete');
