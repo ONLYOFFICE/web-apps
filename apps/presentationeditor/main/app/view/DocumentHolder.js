@@ -2184,7 +2184,7 @@ define([
             var menuToDictionaryTable = new Common.UI.MenuItem({
                 caption     : me.toDictionaryText
             }).on('click', function(item, e) {
-                me.api.asc_AddToDictionary(me._currentSpellObj);
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -2255,7 +2255,7 @@ define([
             var menuToDictionaryPara = new Common.UI.MenuItem({
                 caption     : me.toDictionaryText
             }).on('click', function(item, e) {
-                me.api.asc_AddToDictionary(me._currentSpellObj);
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
                 me.fireEvent('editcomplete', me);
             });
 
