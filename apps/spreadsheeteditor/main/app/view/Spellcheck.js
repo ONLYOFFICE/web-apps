@@ -51,7 +51,7 @@ define([
         el: '#left-panel-spellcheck',
 
         template: _.template([
-            '<div id="spellcheck-box" class="layout-ct vbox active" style="padding: 20px 15px 0; width: 100%; position: relative;">',
+            '<div id="spellcheck-box" class="layout-ct vbox active" style="padding: 20px 15px 0; width: 100%; position: relative;overflow: hidden;">',
             '<div id="spellcheck-header" style="font-size: 14px; padding-bottom: 16px;"><%= scope.txtSpelling %></div>',
             '<div style="display: flex; width: 100%; padding-bottom: 8px;"><div id="spellcheck-current-word" style="vertical-align: top; width: 100%; display: inline-block;"></div><div id="spellcheck-next" style="display: inline-block;"></div></div>',
             '<div id="spellcheck-suggestions-list" style="width: 100%; height: 116px; background-color: #fff; margin-bottom: 8px;"></div>',
@@ -145,7 +145,10 @@ define([
                 style       : 'width: 100%',
                 menuStyle   : 'width: 100%;max-height: 163px;',
                 editable    : false,
-                cls         : 'input-group-nr'
+                cls         : 'input-group-nr',
+                scroller    : {
+                    suppressScrollX: true
+                }
             });
 
             this.btnToDictionary = new Common.UI.Button({
@@ -155,6 +158,14 @@ define([
 
             this.lblComplete = this.$el.find('#spellcheck-complete');
             this.trigger('render:after', this);
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el.find('#spellcheck-box'),
+                    suppressScrollX: true
+                });
+            }
+
             return this;
         },
 
