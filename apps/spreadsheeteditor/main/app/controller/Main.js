@@ -167,6 +167,7 @@ define([
                 this.api.asc_registerCallback('asc_onDocumentName',          _.bind(this.onDocumentName, this));
                 this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
                 this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
+                this.api.asc_registerCallback('asc_onSpellCheckInit',        _.bind(this.loadLanguages, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
@@ -686,7 +687,8 @@ define([
                     leftMenuView                = leftmenuController.getView('LeftMenu'),
                     documentHolderView          = documentHolderController.getView('DocumentHolder'),
                     chatController              = application.getController('Common.Controllers.Chat'),
-                    pluginsController           = application.getController('Common.Controllers.Plugins');
+                    pluginsController           = application.getController('Common.Controllers.Plugins'),
+                    spellcheckController        = application.getController('Spellcheck');
 
                 leftMenuView.getMenu('file').loadDocument({doc:me.appOptions.spreadsheet});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
@@ -713,6 +715,8 @@ define([
                 this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
 
                 if (me.appOptions.isEdit) {
+                    spellcheckController.setApi(me.api).setMode(me.appOptions);
+
                     if (me.appOptions.canAutosave) {
                         value = Common.localStorage.getItem("sse-settings-autosave");
                         if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
@@ -743,6 +747,7 @@ define([
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
+                            me.setLanguages();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                                 var shapes = me.api.asc_getPropertyEditorShapes();
@@ -1829,6 +1834,15 @@ define([
                     this.updateThemeColors();
                     this.fillTextArt(this.api.asc_getTextArtPreviews());
                 }
+            },
+
+            loadLanguages: function(apiLangs) {
+                this.languages = apiLangs;
+                window.styles_loaded && this.setLanguages();
+            },
+
+            setLanguages: function() {
+                this.getApplication().getController('Spellcheck').setLanguages(this.languages);
             },
 
             onInternalCommand: function(data) {

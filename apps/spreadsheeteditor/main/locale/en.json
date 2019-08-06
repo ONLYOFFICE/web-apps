@@ -1720,6 +1720,7 @@
   "SSE.Views.LeftMenu.tipSupport": "Feedback & Support",
   "SSE.Views.LeftMenu.txtDeveloper": "DEVELOPER MODE",
   "SSE.Views.LeftMenu.txtTrial": "TRIAL MODE",
+  "SSE.Views.LeftMenu.tipSpellcheck": "Spell Checking",
   "SSE.Views.MainSettingsPrint.okButtonText": "Save",
   "SSE.Views.MainSettingsPrint.strBottom": "Bottom",
   "SSE.Views.MainSettingsPrint.strLandscape": "Landscape",
@@ -2394,5 +2395,15 @@
   "SSE.Views.Top10FilterDialog.txtItems": "Item",
   "SSE.Views.Top10FilterDialog.txtPercent": "Percent",
   "SSE.Views.Top10FilterDialog.txtTitle": "Top 10 AutoFilter",
-  "SSE.Views.Top10FilterDialog.txtTop": "Top"
+  "SSE.Views.Top10FilterDialog.txtTop": "Top",
+  "SSE.Views.Spellcheck.txtSpelling": "Spelling",
+  "SSE.Views.Spellcheck.noSuggestions": "No spelling suggestions",
+  "SSE.Views.Spellcheck.textChange": "Change",
+  "SSE.Views.Spellcheck.textChangeAll": "Change All",
+  "SSE.Views.Spellcheck.textIgnore": "Ignore",
+  "SSE.Views.Spellcheck.textIgnoreAll": "Ignore All",
+  "SSE.Views.Spellcheck.txtAddToDictionary": "Add To Dictionary",
+  "SSE.Views.Spellcheck.txtDictionaryLanguage": "Dictionary Language",
+  "SSE.Views.Spellcheck.txtComplete": "Spellcheck has been complete",
+  "SSE.Views.Spellcheck.txtNextTip": "Go to the next word"
 }

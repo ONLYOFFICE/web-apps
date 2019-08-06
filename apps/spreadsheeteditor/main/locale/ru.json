@@ -1715,6 +1715,7 @@
   "SSE.Views.LeftMenu.tipSupport": "Обратная связь и поддержка",
   "SSE.Views.LeftMenu.txtDeveloper": "РЕЖИМ РАЗРАБОТЧИКА",
   "SSE.Views.LeftMenu.txtTrial": "ПРОБНЫЙ РЕЖИМ",
+  "SSE.Views.LeftMenu.tipSpellcheck": "Проверка орфографии",
   "SSE.Views.MainSettingsPrint.okButtonText": "Сохранить",
   "SSE.Views.MainSettingsPrint.strBottom": "Снизу",
   "SSE.Views.MainSettingsPrint.strLandscape": "Альбомная",
@@ -2389,5 +2390,15 @@
   "SSE.Views.Top10FilterDialog.txtItems": "Элемент",
   "SSE.Views.Top10FilterDialog.txtPercent": "Процент",
   "SSE.Views.Top10FilterDialog.txtTitle": "Наложение условия по списку",
-  "SSE.Views.Top10FilterDialog.txtTop": "Наибольшие"
+  "SSE.Views.Top10FilterDialog.txtTop": "Наибольшие",
+  "SSE.Views.Spellcheck.txtSpelling": "Орфография",
+  "SSE.Views.Spellcheck.noSuggestions": "Вариантов не найдено",
+  "SSE.Views.Spellcheck.textChange": "Заменить",
+  "SSE.Views.Spellcheck.textChangeAll": "Заменить все",
+  "SSE.Views.Spellcheck.textIgnore": "Пропустить",
+  "SSE.Views.Spellcheck.textIgnoreAll": "Пропустить все",
+  "SSE.Views.Spellcheck.txtAddToDictionary": "Добавить в словарь",
+  "SSE.Views.Spellcheck.txtDictionaryLanguage": "Язык словаря",
+  "SSE.Views.Spellcheck.txtComplete": "Проверка орфографии закончена",
+  "SSE.Views.Spellcheck.txtNextTip": "Перейти к следующему слову"
 }
