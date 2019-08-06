@@ -104,8 +104,8 @@ define([
 
         onDictionary: function() {
             if (this.api) {
-                var rec = this.panelSpellcheck.suggestionList.getSelectedRec();
-                rec && this.api.asc_AddToDictionary(rec.get('value'));
+                var str = this.panelSpellcheck.currentWord.getValue();
+                str && this.api.asc_AddToDictionary(str);
             }
         },
 
@@ -119,7 +119,10 @@ define([
 
         loadLanguages: function () {
             var value = Common.localStorage.getItem("sse-spellcheck-locale");
-            (!value) && (value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409);
+            if (value)
+                value = parseInt(value);
+            else
+                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
 
             var combo = this.panelSpellcheck.cmbDictionaryLanguage;
             if (this.languages && this.languages.length>0) {
@@ -208,7 +211,7 @@ define([
             if (property) {
                 word = property.get_Word();
                 var variants = property.get_Variants();
-                variants.forEach(function (item) {
+                variants && variants.forEach(function (item) {
                     var rec = new Common.UI.DataViewModel();
                     rec.set({
                         value: item
@@ -218,6 +221,7 @@ define([
             }
             this.panelSpellcheck.currentWord.setValue(word || '');
             this.panelSpellcheck.suggestionList.store.reset(arr);
+            (arr.length>0) && this.panelSpellcheck.suggestionList.selectByIndex(0);
             this.panelSpellcheck.currentWord.setDisabled(!word);
             this.panelSpellcheck.btnChange.setDisabled(arr.length<1);
             this.panelSpellcheck.btnIgnore.setDisabled(!word);
