@@ -2403,5 +2403,6 @@
   "SSE.Views.Spellcheck.textIgnoreAll": "Ignore All",
   "SSE.Views.Spellcheck.txtAddToDictionary": "Add To Dictionary",
   "SSE.Views.Spellcheck.txtDictionaryLanguage": "Dictionary Language",
-  "SSE.Views.Spellcheck.txtComplete": "Spellcheck has been complete"
+  "SSE.Views.Spellcheck.txtComplete": "Spellcheck has been complete",
+  "SSE.Views.Spellcheck.txtNextTip": "Go to the next word"
 }

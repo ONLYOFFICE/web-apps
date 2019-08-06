@@ -2331,5 +2331,6 @@
   "SSE.Views.Spellcheck.textIgnoreAll": "Пропустить все",
   "SSE.Views.Spellcheck.txtAddToDictionary": "Добавить в словарь",
   "SSE.Views.Spellcheck.txtDictionaryLanguage": "Язык словаря",
-  "SSE.Views.Spellcheck.txtComplete": "Проверка орфографии закончена"
+  "SSE.Views.Spellcheck.txtComplete": "Проверка орфографии закончена",
+  "SSE.Views.Spellcheck.txtNextTip": "Перейти к следующему слову"
 }

@@ -82,7 +82,8 @@ define([
             this.buttonNext = new Common.UI.Button({
                 style: 'margin-left: 5px; width: 22px; height: 22px; border: 1px solid #cfcfcf;',
                 cls: 'btn-toolbar bg-white',
-                iconCls: 'btn-spellcheck-next'
+                iconCls: 'btn-spellcheck-next',
+                hint: this.txtNextTip
             });
             this.buttonNext.render($('#spellcheck-next'));
 
@@ -174,7 +175,8 @@ define([
         textIgnoreAll: 'Ignore All',
         txtAddToDictionary: 'Add To Dictionary',
         txtDictionaryLanguage: 'Dictionary Language',
-        txtComplete: 'Spellcheck has been complete'
+        txtComplete: 'Spellcheck has been complete',
+        txtNextTip: 'Go to the next word'
 
     }, SSE.Views.Spellcheck || {}));
 });
