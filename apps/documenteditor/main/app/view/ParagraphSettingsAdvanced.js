@@ -296,8 +296,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 cls: 'input-group-nr',
                 editable: false,
                 data: this._arrTextAlignment,
-                style: 'width: 175px;',
-                menuStyle   : 'min-width: 175px;'
+                style: 'width: 173px;',
+                menuStyle   : 'min-width: 173px;'
             });
             this.cmbTextAlignment.setValue('');
 
@@ -306,8 +306,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 cls: 'input-group-nr',
                 editable: false,
                 data: this._arrOutlinelevel,
-                style: 'width: 175px;',
-                menuStyle   : 'min-width: 175px;'
+                style: 'width: 174px;',
+                menuStyle   : 'min-width: 174px;'
             });
             this.cmbOutlinelevel.setValue('');
             this.cmbOutlinelevel.on('selected', _.bind(this.onOutlinelevelSelect, this));
@@ -482,7 +482,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.numSpacing = new Common.UI.MetricSpinner({
                 el: $('#paragraphadv-spin-spacing'),
                 step: .01,
-                width: 100,
+                width: 90,
                 defaultUnit : "cm",
                 defaultValue : 0,
                 value: '0 cm',
@@ -504,7 +504,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.numPosition = new Common.UI.MetricSpinner({
                 el: $('#paragraphadv-spin-position'),
                 step: .01,
-                width: 100,
+                width: 90,
                 defaultUnit : "cm",
                 defaultValue : 0,
                 value: '0 cm',

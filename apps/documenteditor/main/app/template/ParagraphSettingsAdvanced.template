@@ -1,65 +1,59 @@
 <div id="id-adv-paragraph-indents" class="settings-panel active">
     <div class="inner-content">
-        <table cols="4" style="width: 100%;">
-            <tr>
-                <td colspan=2 class="padding-large">
+            <div>
+                <div class="padding-large" style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsTextAlignment %></label>
                     <div id="paragraphadv-spin-text-alignment"></div>
-                </td>
-                <td colspan=2 class="padding-large">
+                </div>
+                <div class="padding-large" style="display: inline-block; float: right;">
                     <label class="input-label"><%= scope.strIndentsOutlinelevel %></label>
                     <div id="paragraphadv-spin-outline-level"></div>
-                </td>
-            </tr>
-            <tr>
-                <td class="padding-large" style="padding-right: 5px;">
+                </div>
+            </div>
+            <div>
+                <div class="padding-large" style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsLeftText %></label>
                     <div id="paragraphadv-spin-indent-left"></div>
-                </td>
-                <td class="padding-large" style="padding-right: 5px;">
+                </div>
+                <div class="padding-large" style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsRightText %></label>
                     <div id="paragraphadv-spin-indent-right"></div>
-                </td>
-                <td class="padding-large" style="padding-right: 5px;">
+                </div>
+                <div class="padding-large" style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsSpecial %></label>
                     <div id="paragraphadv-spin-special"></div>
-                </td>
-                <td class="padding-large">
+                </div>
+                <div class="padding-large" style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsSpecialBy %></label>
                     <div id="paragraphadv-spin-special-by"></div>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding-right: 5px;">
+                </div>
+            </div>
+            <div>
+                <div style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsSpacingBefore %></label>
                     <div id="paragraphadv-spin-spacing-before"></div>
-                </td>
-                <td style="padding-right: 5px;">
+                </div>
+                <div style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsSpacingAfter %></label>
                     <div id="paragraphadv-spin-spacing-after"></div>
-                </td>
-                <td style="padding-right: 5px;">
+                </div>
+                <div style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsLineSpacing %></label>
                     <div id="paragraphadv-spin-line-rule"></div>
-                </td>
-                <td>
+                </div>
+                <div style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentLineSpacingAt %></label>
                     <div id="paragraphadv-spin-line-height"></div>
-                </td>
-            </tr>
-            <tr class="text-only">
-                <td colspan=4 style="padding-top: 8px;">
-                    <div id="paragraphadv-checkbox-add-interval"></div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan=4 class="padding-large" style="padding-top: 16px;">
-                    <div style="border: 1px solid #cbcbcb; width: 355px;">
-                        <div id="paragraphadv-indent-preview" style="height: 94px; position: relative;"></div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+            <div class="text-only" style="padding-top: 8px;">
+                <div id="paragraphadv-checkbox-add-interval"></div>
+            </div>
+            <div class="padding-large" style="padding-top: 16px;">
+                <div style="border: 1px solid #cbcbcb; width: 350px;">
+                    <div id="paragraphadv-indent-preview" style="height: 94px; position: relative;"></div>
+                </div>
+            </div>
     </div>
 </div>
 <div id="id-adv-paragraph-line" class="settings-panel">
@@ -89,15 +83,15 @@
         <div style="width: 100%;" class="padding-small">
             <label class="input-label"><%= scope.textBorderWidth %></label>
             <div id="paragraphadv-combo-border-size" style="display: inline-block; vertical-align: middle; width: 93px;"></div>
-            <div style="display: inline-block; float:right;vertical-align: middle;">
+            <div style="display: inline-block; vertical-align: middle; padding-left: 20px;">
                 <label class="input-label" ><%= scope.textBorderColor %></label>
                 <div id="paragraphadv-border-color-btn" style="display: inline-block;"></div>
             </div>
         </div>
         <label class="input-label padding-small" style="width: 100%;"><%= scope.textBorderDesc %></label>
         <div style="width: 100%;" class="padding-large">
-            <div id="id-deparagraphstyler" style="display: inline-block; vertical-align: middle; width: 200px; height: 170px;outline: 1px solid #ccc;"></div>
-            <div style="display: inline-block; float:right;vertical-align: middle; width: 76px; text-align: right; height: 170px; padding-top: 10px;">
+            <div id="id-deparagraphstyler" style="display: inline-block; vertical-align: middle; width: 200px; height: 170px;outline: 1px solid #ccc; margin-top: 2px;"></div>
+            <div style="display: inline-block; vertical-align: top; width: 76px; text-align: right; height: 170px; padding-top: 0px; margin-left: 9px;">
                 <div id="paragraphadv-button-border-top" style="display: inline-block;"></div>
                 <div id="paragraphadv-button-border-inner-hor" style="display: inline-block;"></div>
                 <div id="paragraphadv-button-border-bottom" style="display: inline-block;"></div>
@@ -115,60 +109,38 @@
     </div>
 </div>
 <div id="id-adv-paragraph-font" class="settings-panel">
-    <div class="inner-content">
-        <table cols="2" style="width: 100%;">
-            <tr>
-                <td colspan=2 class="padding-small">
-                    <label class="header"><%= scope.textEffects %></label>
-                </td>
-            </tr>
-            <tr>
-                <td class="padding-small">
-                    <div id="paragraphadv-checkbox-strike"></div>
-                </td>
-                <td class="padding-small">
-                    <div id="paragraphadv-checkbox-subscript"></div>
-                </td>
-            </tr>
-            <tr>
-                <td class="padding-small">
-                    <div id="paragraphadv-checkbox-double-strike"></div>
-                </td>
-                <td class="padding-small">
-                    <div id="paragraphadv-checkbox-small-caps"></div>
-                </td>
-            </tr>
-            <tr>
-                <td class="padding-large">
-                    <div id="paragraphadv-checkbox-superscript"></div>
-                </td>
-                <td class="padding-large">
-                    <div id="paragraphadv-checkbox-all-caps"></div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan=2 class="padding-small">
-                    <label class="header"><%= scope.textCharacterSpacing %></label>
-                </td>
-            </tr>
-            <tr>
-                <td class="padding-large" width="50%">
+    <div class="inner-content" style="width: 100%;">
+        <div class="padding-small">
+            <label class="header"><%= scope.textEffects %></label>
+        </div>
+        <div style="width: 250px;">
+            <div class="padding-large" style="display: inline-block;">
+                <div class="padding-small" id="paragraphadv-checkbox-strike"></div>
+                <div class="padding-small" id="paragraphadv-checkbox-double-strike"></div>
+                <div id="paragraphadv-checkbox-superscript"></div>
+            </div>
+            <div class="padding-large" style="display: inline-block; float: right;">
+                <div class="padding-small" id="paragraphadv-checkbox-subscript"></div>
+                <div class="padding-small" id="paragraphadv-checkbox-small-caps"></div>
+                <div id="paragraphadv-checkbox-all-caps"></div>
+            </div>
+        </div>
+            <div class="padding-small">
+                <label class="header"><%= scope.textCharacterSpacing %></label>
+            </div>
+            <div class="padding-large">
+                <div style="display: inline-block;">
                     <label class="input-label"><%= scope.textSpacing %></label>
                     <div id="paragraphadv-spin-spacing"></div>
-                </td>
-                <td class="padding-large text-only" width="50%">
+                </div>
+                <div class="text-only" style="display: inline-block; margin-left: 15px;">
                     <label class="input-label"><%= scope.textPosition %></label>
                     <div id="paragraphadv-spin-position"></div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan=2>
-                    <div style="border: 1px solid #cbcbcb;">
-                        <div id="paragraphadv-font-img" style="width: 300px; height: 80px; position: relative;"></div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+            <div style="border: 1px solid #cbcbcb;">
+                <div id="paragraphadv-font-img" style="width: 300px; height: 80px; position: relative; margin: 0 auto;"></div>
+            </div>
     </div>
 </div>
 <div id="id-adv-paragraph-tabs" class="settings-panel">
@@ -206,27 +178,25 @@
 </div>
 <div id="id-adv-paragraph-margins" class="settings-panel">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
-            <tr>
-                <td class="padding-small" width="50%">
+            <div style="width: 230px;">
+                <div class="padding-small" style="display: inline-block;">
                     <label class="input-label"><%= scope.textTop %></label>
                     <div id="paraadv-number-margin-top"></div>
-                </td>
-                <td class="padding-small" width="50%">
+                </div>
+                <div class="padding-small" style="display: inline-block; float: right;">
                     <label class="input-label"><%= scope.textLeft %></label>
                     <div id="paraadv-number-margin-left"></div>
-                </td>
-            </tr>
-            <tr>
-                <td class="padding-small" width="50%">
+                </div>
+            </div>
+            <div style="width: 230px;">
+                <div class="padding-small" style="display: inline-block;">
                     <label class="input-label"><%= scope.textBottom %></label>
                     <div id="paraadv-number-margin-bottom"></div>
-                </td>
-                <td class="padding-small" width="50%">
+                </div>
+                <div class="padding-small" style="display: inline-block; float: right;">
                     <label class="input-label"><%= scope.textRight %></label>
                     <div id="paraadv-number-margin-right"></div>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
     </div>
 </div>
