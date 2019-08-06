@@ -2322,5 +2322,14 @@
   "SSE.Views.Top10FilterDialog.txtItems": "Элемент",
   "SSE.Views.Top10FilterDialog.txtPercent": "Процент",
   "SSE.Views.Top10FilterDialog.txtTitle": "Наложение условия по списку",
-  "SSE.Views.Top10FilterDialog.txtTop": "Наибольшие"
+  "SSE.Views.Top10FilterDialog.txtTop": "Наибольшие",
+  "SSE.Views.Spellcheck.txtSpelling": "Орфография",
+  "SSE.Views.Spellcheck.noSuggestions": "Вариатов нет",
+  "SSE.Views.Spellcheck.textChange": "Заменить",
+  "SSE.Views.Spellcheck.textChangeAll": "Заменить все",
+  "SSE.Views.Spellcheck.textIgnore": "Пропустить",
+  "SSE.Views.Spellcheck.textIgnoreAll": "Пропустить все",
+  "SSE.Views.Spellcheck.txtAddToDictionary": "Добавить в словарь",
+  "SSE.Views.Spellcheck.txtDictionaryLanguage": "Язык словаря",
+  "SSE.Views.Spellcheck.txtComplete": "Проверка орфографии закончена"
 }
