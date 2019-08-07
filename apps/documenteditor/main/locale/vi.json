@@ -248,7 +248,7 @@
   "DE.Controllers.Main.errorAccessDeny": "Bạn đang cố gắng thực hiện hành động mà bạn không có quyền.<br>Vui lòng liên hệ với quản trị viên Server Tài liệu của bạn.",
   "DE.Controllers.Main.errorBadImageUrl": "URL hình ảnh không chính xác",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Mất kết nối server. Không thể chỉnh sửa tài liệu ngay lúc này.",
-  "DE.Controllers.Main.errorConnectToServer": "Không thể lưu tài liệu. Vui lòng kiểm tra cài đặt kết nối hoặc liên hệ với quản trị viên của bạn.<br>Khi bạn nhấp vào nút 'OK', bạn sẽ được nhắc tải xuống tài liệu.<br><br>Tìm thêm thông tin về kết nối Server Tài liệu <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">ở đây</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Không thể lưu tài liệu. Vui lòng kiểm tra cài đặt kết nối hoặc liên hệ với quản trị viên của bạn.<br>Khi bạn nhấp vào nút 'OK', bạn sẽ được nhắc tải xuống tài liệu.<br><br>Tìm thêm thông tin về kết nối Server Tài liệu <a href=\"%1\" target=\"_blank\">ở đây</a>",
   "DE.Controllers.Main.errorDatabaseConnection": "Lỗi bên ngoài.<br>Lỗi kết nối cơ sở dữ liệu. Vui lòng liên hệ bộ phận hỗ trợ trong trường hợp lỗi vẫn còn.",
   "DE.Controllers.Main.errorDataRange": "Phạm vi dữ liệu không chính xác.",
   "DE.Controllers.Main.errorDefaultMessage": "Mã lỗi: %1",

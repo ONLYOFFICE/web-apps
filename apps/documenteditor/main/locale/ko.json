@@ -317,7 +317,7 @@
   "DE.Controllers.Main.errorAccessDeny": "권한이없는 작업을 수행하려고합니다. <br> 문서 관리자에게 문의하십시오.",
   "DE.Controllers.Main.errorBadImageUrl": "이미지 URL이 잘못되었습니다.",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "서버 연결이 끊어졌습니다. 지금 문서를 편집 할 수 없습니다.",
-  "DE.Controllers.Main.errorConnectToServer": "문서를 저장할 수 없습니다. 연결 설정을 확인하거나 관리자에게 문의하십시오. <br> '확인'버튼을 클릭하면 문서를 다운로드하라는 메시지가 나타납니다. <br > <br> Document Server 연결에 대한 추가 정보 찾기 <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\"> 여기 </a> ",
+  "DE.Controllers.Main.errorConnectToServer": "문서를 저장할 수 없습니다. 연결 설정을 확인하거나 관리자에게 문의하십시오.<br>'확인'버튼을 클릭하면 문서를 다운로드하라는 메시지가 나타납니다.<br ><br>Document Server 연결에 대한 추가 정보 찾기 <a href=\"%1\" target=\"_blank\">여기</a> ",
   "DE.Controllers.Main.errorDatabaseConnection": "외부 오류. <br> 데이터베이스 연결 오류입니다. 오류가 계속 발생하면 지원부에 문의하십시오.",
   "DE.Controllers.Main.errorDataRange": "잘못된 데이터 범위입니다.",
   "DE.Controllers.Main.errorDefaultMessage": "오류 코드 : % 1",

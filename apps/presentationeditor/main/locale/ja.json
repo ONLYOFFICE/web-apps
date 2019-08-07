@@ -100,7 +100,7 @@
   "PE.Controllers.Main.downloadTextText": "プレゼンテーションのダウンロード中...",
   "PE.Controllers.Main.downloadTitleText": "プレゼンテーションのダウンロード中",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "サーバーとの接続が失われました。今、文書を編集することができません。",
-  "PE.Controllers.Main.errorConnectToServer": "文書を保存できませんでした。接続設定を確認するか、管理者にお問い合わせください。<br>OKボタンをクリックするとドキュメントをダウンロードするように求められます。<br><br>ドキュメントサーバーの接続の詳細情報を見つけます:<a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "PE.Controllers.Main.errorConnectToServer": "文書を保存できませんでした。接続設定を確認するか、管理者にお問い合わせください。<br>OKボタンをクリックするとドキュメントをダウンロードするように求められます。<br><br>ドキュメントサーバーの接続の詳細情報を見つけます:<a href=\"%1\" target=\"_blank\">ここに</a>",
   "PE.Controllers.Main.errorDatabaseConnection": "外部エラーです。<br>データベース接続エラーです。この問題は解決しない場合は、サポートにお問い合わせください。 ",
   "PE.Controllers.Main.errorDataRange": "データ範囲が正しくありません",
   "PE.Controllers.Main.errorDefaultMessage": "エラー コード:%1",

@@ -195,7 +195,7 @@
   "PE.Controllers.Main.errorAccessDeny": "Pokúšate sa vykonať akciu, na ktorú nemáte práva.<br>Prosím, kontaktujte svojho správcu dokumentového servera. ",
   "PE.Controllers.Main.errorBadImageUrl": "Adresa URL obrázku je nesprávna",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Serverové pripojenie sa stratilo. Práve teraz nie je možné dokument upravovať.",
-  "PE.Controllers.Main.errorConnectToServer": "Dokument sa nepodarilo uložiť. Prosím, skontrolujte nastavenia pripojenia alebo kontaktujte správcu.<br>Po kliknutí na tlačidlo 'OK' sa zobrazí výzva na prevzatie dokumentu.<br><br>Viac informácií o pripojení dokumentového servera nájdete <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">tu</a>",
+  "PE.Controllers.Main.errorConnectToServer": "Dokument sa nepodarilo uložiť. Prosím, skontrolujte nastavenia pripojenia alebo kontaktujte správcu.<br>Po kliknutí na tlačidlo 'OK' sa zobrazí výzva na prevzatie dokumentu.<br><br>Viac informácií o pripojení dokumentového servera nájdete <a href=\"%1\" target=\"_blank\">tu</a>",
   "PE.Controllers.Main.errorDatabaseConnection": "Externá chyba.<br>Chyba spojenia databázy. Prosím, kontaktujte podporu ak chyba pretrváva. ",
   "PE.Controllers.Main.errorDataRange": "Nesprávny rozsah údajov.",
   "PE.Controllers.Main.errorDefaultMessage": "Kód chyby: %1",

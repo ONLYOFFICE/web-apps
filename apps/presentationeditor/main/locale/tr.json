@@ -152,7 +152,7 @@
   "PE.Controllers.Main.errorAccessDeny": "Hakkınız olmayan bir eylem gerçekleştirmeye çalışıyorsunuz.<br>Lütfen Belge Sunucu yöneticinize başvurun.",
   "PE.Controllers.Main.errorBadImageUrl": "Resim URL'si yanlış",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Sunucu bağlantısı kesildi. Döküman şu an düzenlenemez.",
-  "PE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "PE.Controllers.Main.errorConnectToServer": "Belge kaydedilemedi. Lütfen internet bağlantınızı kontrol edin veya yöneticiniz ile iletişime geçin. <br>'TAMAM' tuşuna tıkladığınızda belgeyi indirebileceksiniz.<br><br>Belge Sunucusuna bağlanma konusunda daha fazla bilgi için <a href=\"%1\" target=\"_blank\">buraya</a> tıklayın",
   "PE.Controllers.Main.errorDatabaseConnection": "Harci hata. <br>Veri tabanı bağlantı hatası. Hata devam ederse lütfen destek ile iletişime geçin.",
   "PE.Controllers.Main.errorDataRange": "Yanlış veri aralığı.",
   "PE.Controllers.Main.errorDefaultMessage": "Hata kodu: %1",

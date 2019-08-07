@@ -137,7 +137,7 @@
   "PE.Controllers.Main.errorAccessDeny": "Você está tentando executar uma ação para a qual não tem direitos.<br>Entre em contato com o administrador do Document Server.",
   "PE.Controllers.Main.errorBadImageUrl": "URL da imagem está incorreta",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Conexão com servidor perdida. O documento não pode ser editado neste momento.",
-  "PE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "PE.Controllers.Main.errorConnectToServer": "O documento não pôde ser salvo. Verifique as configurações de conexão ou entre em contato com o administrador.<br>Quando você clicar no botão 'OK', você será solicitado à fazer o download do documento. <br><br>Encontre mais informações sobre como conecta ao Document Server <a href=\"%1\" target=\"_blank\">aqui</a>",
   "PE.Controllers.Main.errorDatabaseConnection": "Erro externo.<br>Erro de conexão ao banco de dados. Entre em contato com o suporte caso o erro persista.",
   "PE.Controllers.Main.errorDataRange": "Intervalo de dados incorreto.",
   "PE.Controllers.Main.errorDefaultMessage": "Código do erro: %1",

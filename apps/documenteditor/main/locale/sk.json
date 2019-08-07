@@ -295,7 +295,7 @@
   "DE.Controllers.Main.errorAccessDeny": "Pokúšate sa vykonať akciu, na ktorú nemáte práva.<br>Prosím, kontaktujte svojho správcu dokumentového servera. ",
   "DE.Controllers.Main.errorBadImageUrl": "Adresa URL obrázku je nesprávna",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Serverové pripojenie sa stratilo. Práve teraz nie je možné dokument upravovať.",
-  "DE.Controllers.Main.errorConnectToServer": "Dokument sa nepodarilo uložiť. Prosím, skontrolujte nastavenia pripojenia alebo kontaktujte správcu.<br>Po kliknutí na tlačidlo 'OK' sa zobrazí výzva na prevzatie dokumentu.<br><br>Viac informácií o pripojení dokumentového servera nájdete <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">tu</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Dokument sa nepodarilo uložiť. Prosím, skontrolujte nastavenia pripojenia alebo kontaktujte správcu.<br>Po kliknutí na tlačidlo 'OK' sa zobrazí výzva na prevzatie dokumentu.<br><br>Viac informácií o pripojení dokumentového servera nájdete <a href=\"%1\" target=\"_blank\">tu</a>",
   "DE.Controllers.Main.errorDatabaseConnection": "Externá chyba.<br>Chyba spojenia databázy. Prosím, kontaktujte podporu ak chyba pretrváva. ",
   "DE.Controllers.Main.errorDataRange": "Nesprávny rozsah údajov.",
   "DE.Controllers.Main.errorDefaultMessage": "Kód chyby: %1",
