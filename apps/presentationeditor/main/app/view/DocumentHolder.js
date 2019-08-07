@@ -1871,6 +1871,20 @@ define([
                 }
             });
 
+            var mnuPrintSelection = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', function(item){
+                if (me.api){
+                    var printopt = new Asc.asc_CAdjustPrint();
+                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    opts.asc_setAdvancedOptions(printopt);
+                    me.api.asc_Print(opts);
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+                }
+            });
+
             var menuSlidePaste = new Common.UI.MenuItem({
                 caption : me.textPaste,
                 value : 'paste'
@@ -1910,7 +1924,7 @@ define([
                     menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
-                    for (var i = 9; i < 13; i++) {
+                    for (var i = 9; i < 14; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
 
@@ -1940,6 +1954,7 @@ define([
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
                     mnuChangeTheme.setDisabled(me._state.themeLock || locked );
                     mnuSlideHide.setDisabled(lockedLayout || locked);
+                    mnuPrintSelection.setDisabled(me.slidesCount<1);
                 },
                 items: [
                     menuSlidePaste,
@@ -1973,6 +1988,7 @@ define([
                     menuSlideSettings,
                     {caption: '--'},
                     mnuSelectAll,
+                    mnuPrintSelection,
                     {caption: '--'},
                     mnuPreview
                 ]
@@ -3577,7 +3593,8 @@ define([
         textCrop: 'Crop',
         textCropFill: 'Fill',
         textCropFit: 'Fit',
-        toDictionaryText: 'Add to Dictionary'
+        toDictionaryText: 'Add to Dictionary',
+        txtPrintSelection: 'Print Selection'
 
     }, PE.Views.DocumentHolder || {}));
 });

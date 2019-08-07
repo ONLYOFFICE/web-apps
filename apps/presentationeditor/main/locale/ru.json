@@ -1123,6 +1123,7 @@
   "PE.Views.DocumentHolder.txtUnderbar": "Черта под текстом",
   "PE.Views.DocumentHolder.txtUngroup": "Разгруппировать",
   "PE.Views.DocumentHolder.vertAlignText": "Вертикальное выравнивание",
+  "PE.Views.DocumentHolder.txtPrintSelection": "Напечатать выделенное",
   "PE.Views.DocumentPreview.goToSlideText": "Перейти к слайду",
   "PE.Views.DocumentPreview.slideIndexText": "Слайд {0} из {1}",
   "PE.Views.DocumentPreview.txtClose": "Завершить показ слайдов",
