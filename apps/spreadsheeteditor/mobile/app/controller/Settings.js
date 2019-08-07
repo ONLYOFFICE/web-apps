@@ -200,6 +200,7 @@ define([
                         });
                     }).on('close', function () {
                         $overlay.off('removeClass');
+                        $overlay.removeClass('modal-overlay-visible');
                     });
                 }
 
@@ -670,20 +671,24 @@ define([
                 var me = this,
                     format = $(e.currentTarget).data('format');
 
+                me.hideModal();
+
                 if (format) {
                     if (format == Asc.c_oAscFileType.CSV) {
-                        uiApp.confirm(
-                            me.warnDownloadAs,
-                            me.notcriticalErrorTitle,
-                            function () {
-                                Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
-                            }
-                        );
+                        setTimeout(function () {
+                            uiApp.confirm(
+                                me.warnDownloadAs,
+                                me.notcriticalErrorTitle,
+                                function () {
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                }
+                            );
+                        }, 50);
                     } else {
-                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                        setTimeout(function () {
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                        }, 50);
                     }
-
-                    me.hideModal();
                 }
             },
 
