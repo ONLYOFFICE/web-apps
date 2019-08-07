@@ -1277,6 +1277,7 @@
   "DE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
+  "DE.Views.DocumentHolder.txtPrintSelection": "Print Selection",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "Cancel",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "OK",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",

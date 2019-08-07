@@ -1871,6 +1871,18 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
+        onPrintSelection: function(item){
+            if (this.api){
+                var printopt = new Asc.asc_CAdjustPrint();
+                printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                opts.asc_setAdvancedOptions(printopt);
+                this.api.asc_Print(opts);
+                this.fireEvent('editcomplete', this);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+            }
+        },
+
         onControlsSelect: function(item, e) {
             var me = this;
             var props = this.api.asc_GetContentControlProperties();
@@ -2351,6 +2363,10 @@ define([
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuImgPrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
             var menuSignatureEditSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 }).on('click', _.bind(me.onSignatureClick, me));
             var menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 }).on('click', _.bind(me.onSignatureClick, me));
             var menuEditSignSeparator = new Common.UI.MenuItem({ caption: '--' });
@@ -2481,7 +2497,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[16].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[17].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2506,6 +2522,8 @@ define([
                     menuImgCopy.setDisabled(!cancopy);
                     menuImgCut.setDisabled(islocked || !cancopy);
                     menuImgPaste.setDisabled(islocked);
+                    menuImgPrint.setVisible(me.mode.canPrint);
+                    menuImgPrint.setDisabled(!cancopy);
 
                     var signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         isInSign = !!signGuid;
@@ -2522,6 +2540,7 @@ define([
                     menuImgCut,
                     menuImgCopy,
                     menuImgPaste,
+                    menuImgPrint,
                     { caption: '--' },
                     menuSignatureEditSign,
                     menuSignatureEditSetup,
@@ -2793,6 +2812,11 @@ define([
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuTablePrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
+
             var menuEquationSeparatorInTable = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -2898,7 +2922,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 7; i < 24; i++) {
+                    for (var i = 8; i < 25; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -2913,8 +2937,8 @@ define([
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
 
                     var disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
-                    me.tableMenu.items[10].setDisabled(disabled);
                     me.tableMenu.items[11].setDisabled(disabled);
+                    me.tableMenu.items[12].setDisabled(disabled);
 
                     if (me.api) {
                         mnuTableMerge.setDisabled(disabled || !me.api.CheckBeforeMergeCells());
@@ -2932,6 +2956,8 @@ define([
                     menuTableCopy.setDisabled(!cancopy);
                     menuTableCut.setDisabled(disabled || !cancopy);
                     menuTablePaste.setDisabled(disabled);
+                    menuTablePrint.setVisible(me.mode.canPrint);
+                    menuTablePrint.setDisabled(!cancopy);
 
                     // bullets & numbering
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -3015,9 +3041,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(false, 6);
+                        eqlen = me.addEquationMenu(false, 7);
                     } else
-                        me.clearEquationMenu(false, 6);
+                        me.clearEquationMenu(false, 7);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
 
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
@@ -3045,6 +3071,7 @@ define([
                     menuTableCut,
                     menuTableCopy,
                     menuTablePaste,
+                    menuTablePrint,
                     { caption: '--' },
                     menuEquationSeparatorInTable,
                     menuTableRefreshField,
@@ -3405,6 +3432,10 @@ define([
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuParaPrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
             var menuEquationSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -3567,6 +3598,8 @@ define([
                     menuParaCopy.setDisabled(!cancopy);
                     menuParaCut.setDisabled(disabled || !cancopy);
                     menuParaPaste.setDisabled(disabled);
+                    menuParaPrint.setVisible(me.mode.canPrint);
+                    menuParaPrint.setDisabled(!cancopy);
 
                     // spellCheck
                     var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
@@ -3594,9 +3627,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 12);
+                        eqlen = me.addEquationMenu(true, 13);
                     } else
-                        me.clearEquationMenu(true, 12);
+                        me.clearEquationMenu(true, 13);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
 
                     menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
@@ -3659,6 +3692,7 @@ define([
                     menuParaCut,
                     menuParaCopy,
                     menuParaPaste,
+                    menuParaPrint,
                     { caption: '--' },
                     menuEquationSeparator,
                     menuParaRemoveControl,
@@ -4075,7 +4109,8 @@ define([
         textCropFill: 'Fill',
         textCropFit: 'Fit',
         textFollow: 'Follow move',
-        toDictionaryText: 'Add to Dictionary'
+        toDictionaryText: 'Add to Dictionary',
+        txtPrintSelection: 'Print Selection'
 
     }, DE.Views.DocumentHolder || {}));
 });

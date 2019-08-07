@@ -1276,6 +1276,7 @@
   "DE.Views.DocumentHolder.txtUngroup": "Разгруппировать",
   "DE.Views.DocumentHolder.updateStyleText": "Обновить стиль %1",
   "DE.Views.DocumentHolder.vertAlignText": "Вертикальное выравнивание",
+  "DE.Views.DocumentHolder.txtPrintSelection": "Напечатать выделенное",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "Отмена",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "ОК",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Границы и заливка",
