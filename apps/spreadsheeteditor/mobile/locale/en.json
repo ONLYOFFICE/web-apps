@@ -329,6 +329,7 @@
   "SSE.Views.AddLink.textRequired": "Required",
   "SSE.Views.AddLink.textSheet": "Sheet",
   "SSE.Views.AddLink.textTip": "Screen Tip",
+  "SSE.Views.AddLink.textSelectedRange": "Selected Range",
   "SSE.Views.AddOther.textAddress": "Address",
   "SSE.Views.AddOther.textBack": "Back",
   "SSE.Views.AddOther.textFilter": "Filter",
