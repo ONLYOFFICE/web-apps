@@ -109,8 +109,7 @@ define([
                         },
                         {
                             caption: this.textChangeAll,
-                            value: 1,
-                            disabled: true
+                            value: 1
                         }
                         ]
                 })
