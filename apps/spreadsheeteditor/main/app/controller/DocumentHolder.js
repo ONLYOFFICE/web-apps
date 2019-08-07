@@ -40,6 +40,24 @@
  *
  */
 
+var c_paragraphLinerule = {
+    LINERULE_AUTO: 1,
+    LINERULE_EXACT: 2
+};
+
+var c_paragraphTextAlignment = {
+    RIGHT: 0,
+    LEFT: 1,
+    CENTERED: 2,
+    JUSTIFIED: 3
+};
+
+var c_paragraphSpecial = {
+    NONE_SPECIAL: 0,
+    FIRST_LINE: 1,
+    HANGING: 2
+};
+
 define([
     'core',
     'common/main/lib/util/utils',
