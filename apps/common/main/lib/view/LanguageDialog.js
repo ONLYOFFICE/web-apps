@@ -85,7 +85,7 @@ define([
         this.cmbLanguage = new Common.UI.ComboBox({
             el: $window.find('#id-document-language'),
             cls: 'input-group-nr',
-            menuStyle: 'min-width: 318px; max-height: 300px;',
+            menuStyle: 'min-width: 318px; max-height: 285px;',
             editable: false,
             template: _.template([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
