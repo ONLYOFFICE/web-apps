@@ -382,6 +382,6 @@ define([
         tipPlugins  : 'Plugins',
         txtDeveloper: 'DEVELOPER MODE',
         txtTrial: 'TRIAL MODE',
-        tipSpellcheck: 'Spell Checking'
+        tipSpellcheck: 'Spell checking'
     }, SSE.Views.LeftMenu || {}));
 });
