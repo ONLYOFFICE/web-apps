@@ -45,7 +45,7 @@
                 <i class="icon icon-search"></i>
             </a>
             <% } %>
-            <% if (!phone) { %>
+            <% if (width >= 390) { %>
             <a href="#" id="toolbar-collaboration" class="link icon-only disabled" style="display: none;">
                 <i class="icon icon-collaboration"></i>
             </a>

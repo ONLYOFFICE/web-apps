@@ -102,7 +102,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Превишава се времето на изтичане на реализациите.",
   "SSE.Controllers.Main.criticalErrorExtText": "Натиснете 'OK', за да се върнете към списъка с документи.",
   "SSE.Controllers.Main.criticalErrorTitle": "Грешка",
-  "SSE.Controllers.Main.defaultTitleText": "Редактор на електронни таблици ONLYOFFICE",
   "SSE.Controllers.Main.downloadErrorText": "Изтеглянето се провали.",
   "SSE.Controllers.Main.downloadMergeText": "Изтегля се ...",
   "SSE.Controllers.Main.downloadMergeTitle": "Изтеглянето",

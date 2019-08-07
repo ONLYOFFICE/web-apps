@@ -101,7 +101,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Vypršel čas konverze.",
   "SSE.Controllers.Main.criticalErrorExtText": "Stisknutím tlačítka \"OK\" se vrátíte do seznamu dokumentů.",
   "SSE.Controllers.Main.criticalErrorTitle": "Chyba",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE Tabulkový editor",
   "SSE.Controllers.Main.downloadErrorText": "Stahování selhalo.",
   "SSE.Controllers.Main.downloadMergeText": "Stahování...",
   "SSE.Controllers.Main.downloadMergeTitle": "Stahuji",

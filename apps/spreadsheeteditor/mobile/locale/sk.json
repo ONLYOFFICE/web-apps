@@ -102,7 +102,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Prekročený čas konverzie.",
   "SSE.Controllers.Main.criticalErrorExtText": "Stlačením tlačidla 'OK' sa vrátite do zoznamu dokumentov.",
   "SSE.Controllers.Main.criticalErrorTitle": "Chyba",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE Editor tabuliek",
   "SSE.Controllers.Main.downloadErrorText": "Sťahovanie zlyhalo.",
   "SSE.Controllers.Main.downloadMergeText": "Sťahovanie...",
   "SSE.Controllers.Main.downloadMergeTitle": "Sťahovanie",

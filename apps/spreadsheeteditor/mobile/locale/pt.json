@@ -101,7 +101,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Tempo limite de conversão excedido.",
   "SSE.Controllers.Main.criticalErrorExtText": "Pressione \"OK\" para voltar para a lista de documento.",
   "SSE.Controllers.Main.criticalErrorTitle": "Erro",
-  "SSE.Controllers.Main.defaultTitleText": "Editor de planilha ONLYOFFICE",
   "SSE.Controllers.Main.downloadErrorText": "Download falhou.",
   "SSE.Controllers.Main.downloadMergeText": "Baixando...",
   "SSE.Controllers.Main.downloadMergeTitle": "Baixando",

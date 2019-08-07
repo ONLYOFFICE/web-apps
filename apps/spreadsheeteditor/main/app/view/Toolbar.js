@@ -89,7 +89,8 @@ define([
         printAreaLock:  'print-area-lock',
         namedRangeLock: 'named-range-lock',
         multiselectCols:'is-multiselect-cols',
-        headerLock: 'header-lock'
+        headerLock: 'header-lock',
+        sheetLock: 'sheet-lock'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({

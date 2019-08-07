@@ -101,7 +101,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Термін переходу перевищено.",
   "SSE.Controllers.Main.criticalErrorExtText": "Натисніть \"ОК\", щоб повернутися до списку документів.",
   "SSE.Controllers.Main.criticalErrorTitle": "Помилка",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE Редактор електронних таблиць",
   "SSE.Controllers.Main.downloadErrorText": "Завантаження не вдалося",
   "SSE.Controllers.Main.downloadMergeText": "Завантаження...",
   "SSE.Controllers.Main.downloadMergeTitle": "Завантаження",

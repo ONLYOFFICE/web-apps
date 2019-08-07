@@ -132,7 +132,10 @@ define([
                         'Y Axis': this.txtYAxis,
                         'Your text here': this.txtArt,
                         'Table': this.txtTable,
-                        'Print_Area': this.txtPrintArea
+                        'Print_Area': this.txtPrintArea,
+                        'Confidential': this.txtConfidential,
+                        'Prepared by': this.txtPreparedBy,
+                        'Page': this.txtPage
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -164,6 +167,7 @@ define([
                 this.api.asc_registerCallback('asc_onDocumentName',          _.bind(this.onDocumentName, this));
                 this.api.asc_registerCallback('asc_onPrintUrl',              _.bind(this.onPrintUrl, this));
                 this.api.asc_registerCallback('asc_onMeta',                  _.bind(this.onMeta, this));
+                this.api.asc_registerCallback('asc_onSpellCheckInit',        _.bind(this.loadLanguages, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
@@ -287,7 +291,7 @@ define([
                     }
                 });
 
-                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.defaultTitleText = '{{APP_TITLE_TEXT}}';
                 me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
@@ -683,7 +687,8 @@ define([
                     leftMenuView                = leftmenuController.getView('LeftMenu'),
                     documentHolderView          = documentHolderController.getView('DocumentHolder'),
                     chatController              = application.getController('Common.Controllers.Chat'),
-                    pluginsController           = application.getController('Common.Controllers.Plugins');
+                    pluginsController           = application.getController('Common.Controllers.Plugins'),
+                    spellcheckController        = application.getController('Spellcheck');
 
                 leftMenuView.getMenu('file').loadDocument({doc:me.appOptions.spreadsheet});
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
@@ -710,6 +715,8 @@ define([
                 this.formulaInput = celleditorController.getView('CellEditor').$el.find('textarea');
 
                 if (me.appOptions.isEdit) {
+                    spellcheckController.setApi(me.api).setMode(me.appOptions);
+
                     if (me.appOptions.canAutosave) {
                         value = Common.localStorage.getItem("sse-settings-autosave");
                         if (value===null && me.appOptions.customization && me.appOptions.customization.autosave===false)
@@ -740,6 +747,7 @@ define([
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
+                            me.setLanguages();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                                 var shapes = me.api.asc_getPropertyEditorShapes();
@@ -1368,8 +1376,8 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.DataValidate:
-                        var icon = errData ? errData.asc_getErrorStyle() : null;
-                        if (icon) {
+                        var icon = errData ? errData.asc_getErrorStyle() : undefined;
+                        if (icon!==undefined) {
                             config.iconCls = (icon==Asc.c_oAscEDataValidationErrorStyle.Stop) ? 'error' : ((icon==Asc.c_oAscEDataValidationErrorStyle.Information) ? 'info' : 'warn');
                         }
                         errData && errData.asc_getErrorTitle() && (config.title = errData.asc_getErrorTitle());
@@ -1417,7 +1425,7 @@ define([
                             this.disableEditing(true);
                             Common.NotificationCenter.trigger('api:disconnect', true); // enable download and print
                         } else if (id == Asc.c_oAscError.ID.DataValidate && btn !== 'ok') {
-                            this.api.asc_closeCellEditor();
+                            this.api.asc_closeCellEditor(true);
                         }
                         this._state.lostEditingRights = false;
                         this.onEditComplete();
@@ -1826,6 +1834,15 @@ define([
                     this.updateThemeColors();
                     this.fillTextArt(this.api.asc_getTextArtPreviews());
                 }
+            },
+
+            loadLanguages: function(apiLangs) {
+                this.languages = apiLangs;
+                window.styles_loaded && this.setLanguages();
+            },
+
+            setLanguages: function() {
+                this.getApplication().getController('Spellcheck').setLanguages(this.languages);
             },
 
             onInternalCommand: function(data) {
@@ -2390,7 +2407,10 @@ define([
             errorCannotUngroup: 'Cannot ungroup. To start an outline, select the detail rows or columns and group them.',
             errorFrmlMaxTextLength: 'Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)',
             waitText: 'Please, wait...',
-            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.'
+            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.',
+            txtConfidential: 'Confidential',
+            txtPreparedBy: 'Prepared by',
+            txtPage: 'Page'
         }
     })(), SSE.Controllers.Main || {}))
 });

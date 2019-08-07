@@ -90,7 +90,8 @@ define([
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
                     orthography: Common.SharedSettings.get('sailfish'),
-                    scope   : this
+                    scope   : this,
+                    width   : $(window).width()
                 }));
 
                 return this;
