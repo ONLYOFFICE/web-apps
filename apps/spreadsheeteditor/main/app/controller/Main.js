@@ -134,8 +134,9 @@ define([
                         'Table': this.txtTable,
                         'Print_Area': this.txtPrintArea,
                         'Confidential': this.txtConfidential,
-                        'Prepared by': this.txtPreparedBy,
-                        'Page': this.txtPage
+                        'Prepared by ': this.txtPreparedBy + ' ',
+                        'Page': this.txtPage,
+                        'Page %1 of %2': this.txtPageOf
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2410,7 +2411,8 @@ define([
             errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.',
             txtConfidential: 'Confidential',
             txtPreparedBy: 'Prepared by',
-            txtPage: 'Page'
+            txtPage: 'Page',
+            txtPageOf: 'Page %1 of %2'
         }
     })(), SSE.Controllers.Main || {}))
 });
