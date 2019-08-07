@@ -1927,6 +1927,7 @@ define([
                     for (var i = 9; i < 14; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
+                    mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
 
                     var selectedElements = me.api.getSelectedElements(),
                         locked           = false,
