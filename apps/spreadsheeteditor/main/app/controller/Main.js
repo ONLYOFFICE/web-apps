@@ -136,7 +136,12 @@ define([
                         'Confidential': this.txtConfidential,
                         'Prepared by ': this.txtPreparedBy + ' ',
                         'Page': this.txtPage,
-                        'Page %1 of %2': this.txtPageOf
+                        'Page %1 of %2': this.txtPageOf,
+                        'Pages': this.txtPages,
+                        'Date': this.txtDate,
+                        'Time': this.txtTime,
+                        'Tab': this.txtTab,
+                        'File': this.txtFile
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2412,7 +2417,12 @@ define([
             txtConfidential: 'Confidential',
             txtPreparedBy: 'Prepared by',
             txtPage: 'Page',
-            txtPageOf: 'Page %1 of %2'
+            txtPageOf: 'Page %1 of %2',
+            txtPages: 'Pages',
+            txtDate: 'Date',
+            txtTime: 'Time',
+            txtTab: 'Tab',
+            txtFile: 'File'
         }
     })(), SSE.Controllers.Main || {}))
 });
