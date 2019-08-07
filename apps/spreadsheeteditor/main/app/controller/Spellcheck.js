@@ -55,6 +55,7 @@ define([
                 'Spellcheck': {
                     'show': function() {
                         me._initSettings && me.loadLanguages();
+                        me.onClickNext();
                     },
                     'hide': function() {
                     }
