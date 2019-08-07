@@ -1239,6 +1239,7 @@
   "PE.Views.HeaderFooterDialog.textSlideNum": "Номер слайда",
   "PE.Views.HeaderFooterDialog.textTitle": "Параметры верхнего и нижнего колонтитулов",
   "PE.Views.HeaderFooterDialog.textUpdate": "Обновлять автоматически",
+  "PE.Views.HeaderFooterDialog.textFixed": "Фиксировано",
   "PE.Views.HyperlinkSettingsDialog.cancelButtonText": "Отмена",
   "PE.Views.HyperlinkSettingsDialog.okButtonText": "OK",
   "PE.Views.HyperlinkSettingsDialog.strDisplay": "Отображать",
@@ -1798,5 +1799,11 @@
   "PE.Views.Toolbar.txtScheme8": "Поток",
   "PE.Views.Toolbar.txtScheme9": "Литейная",
   "PE.Views.Toolbar.txtSlideAlign": "Выровнять относительно слайда",
-  "PE.Views.Toolbar.txtUngroup": "Разгруппировать"
+  "PE.Views.Toolbar.txtUngroup": "Разгруппировать",
+  "PE.Views.Toolbar.tipEditHeader": "Изменить колонтитулы",
+  "PE.Views.Toolbar.tipSlideNum": "Вставить номер слайда",
+  "PE.Views.Toolbar.tipDateTime": "Вставить текущую дату и время",
+  "PE.Views.Toolbar.capBtnInsHeader": "Колонтитулы",
+  "PE.Views.Toolbar.capBtnSlideNum": "Номер слайда",
+  "PE.Views.Toolbar.capBtnDateTime": "Дата и время"
 }
