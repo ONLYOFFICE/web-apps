@@ -54,8 +54,14 @@ define([
             me.btnUngroup.on('click', function (b, e) {
                 me.fireEvent('data:ungroup');
             });
+            me.btnGroup.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('data:group', [item.value, item.checked]);
+            });
             me.btnGroup.on('click', function (b, e) {
                 me.fireEvent('data:group');
+            });
+            me.btnGroup.menu.on('show:before', function (menu, e) {
+                me.fireEvent('data:groupsettings', [menu]);
             });
             me.btnTextToColumns.on('click', function (b, e) {
                 me.fireEvent('data:tocolumns');
@@ -105,7 +111,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-cell-group',
                     caption: this.capBtnGroup,
-                    split: false,
+                    split: true,
+                    menu: true,
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
@@ -193,6 +200,17 @@ define([
                     me.btnUngroup.setMenu(_menu);
 
                     me.btnGroup.updateHint(me.tipGroup);
+                    _menu = new Common.UI.Menu({
+                        items: [
+                            {caption: me.textGroupRows, value: 'rows'},
+                            {caption: me.textGroupColumns, value: 'columns'},
+                            {caption: '--'},
+                            {caption: me.textBelow, value: 'below', checkable: true},
+                            {caption: me.textRightOf, value: 'right', checkable: true}
+                        ]
+                    });
+                    me.btnGroup.setMenu(_menu);
+
                     me.btnTextToColumns.updateHint(me.tipToColumns);
 
                     me.btnsSortDown.forEach( function(btn) {
@@ -243,13 +261,17 @@ define([
             capBtnUngroup: 'Ungroup',
             textRows: 'Ungroup rows',
             textColumns: 'Ungroup columns',
+            textGroupRows: 'Group rows',
+            textGroupColumns: 'Group columns',
             textClear: 'Clear outline',
             tipGroup: 'Group range of cells',
             tipUngroup: 'Ungroup range of cells',
             capBtnTextToCol: 'Text to Columns',
             tipToColumns: 'Separate cell text into columns',
             capBtnTextShow: 'Show details',
-            capBtnTextHide: 'Hide details'
+            capBtnTextHide: 'Hide details',
+            textBelow: 'Summary rows below detail',
+            textRightOf: 'Summary columns to right of detail'
         }
     }()), SSE.Views.DataTab || {}));
 });
