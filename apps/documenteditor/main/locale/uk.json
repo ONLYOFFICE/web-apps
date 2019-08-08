@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Застереження",
   "Common.Controllers.Chat.textEnterMessage": "ВВедіть своє повідомлення тут",
-  "Common.Controllers.Chat.textUserLimit": "Ви використовуюєте ONLYOFFICE Free Edition. <br> Тільки два користувачі можуть одночасно редагувати документ одночасно. <br> Хочете більше? Подумайте про придбання версії ONLYOFFICE Enterprise Edition. <br> <a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\"> Докладніше </a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Гість",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Закрити",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Об'єкт вимкнено, оскільки його редагує інший користувач.",
@@ -240,7 +239,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Термін переходу перевищено.",
   "DE.Controllers.Main.criticalErrorExtText": "Натисніть \"OK\", щоб повернутися до списку документів.",
   "DE.Controllers.Main.criticalErrorTitle": "Помилка",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Document Editor",
   "DE.Controllers.Main.downloadErrorText": "Завантаження не вдалося",
   "DE.Controllers.Main.downloadMergeText": "Завантаження...",
   "DE.Controllers.Main.downloadMergeTitle": "Завантаження",
@@ -965,7 +963,6 @@
   "DE.Views.FileMenuPanels.CreateNew.noTemplatesText": "Немає шаблонів",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Автор",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Змінити права доступу",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "Дата створення",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Завантаження...",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Сторінки",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Параграфи",

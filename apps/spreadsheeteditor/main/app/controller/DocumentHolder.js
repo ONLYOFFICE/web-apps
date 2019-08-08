@@ -77,7 +77,8 @@ define([
                     ttHeight: 20
                 },
                 filter: {ttHeight: 40},
-                func_arg: {}
+                func_arg: {},
+                input_msg: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -289,6 +290,7 @@ define([
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
                 this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
+                this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
             }
             return this;
         },
@@ -2127,6 +2129,63 @@ define([
                     functip.ref = undefined;
                     functip.text = '';
                     functip.isHidden = true;
+                }
+            }
+        },
+
+        onInputMessage: function(title, message) {
+            var inputtip = this.tooltips.input_msg;
+
+            if (message) {
+                if (!inputtip.parentEl) {
+                    inputtip.parentEl = $('<div id="tip-container-inputtip" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(inputtip.parentEl);
+                }
+
+                var hint = title ? ('<b>' + (title || '') + '</b><br>') : '';
+                hint += (message || '');
+
+                if (inputtip.ref && inputtip.ref.isVisible()) {
+                    if (inputtip.text != hint) {
+                        inputtip.ref.hide();
+                        inputtip.ref = undefined;
+                        inputtip.text = '';
+                        inputtip.isHidden = true;
+                    }
+                }
+
+                if (!inputtip.ref || !inputtip.ref.isVisible()) {
+                    inputtip.text = hint;
+                    inputtip.ref = new Common.UI.Tooltip({
+                        owner   : inputtip.parentEl,
+                        html    : true,
+                        title   : hint
+                    });
+
+                    inputtip.ref.show([-10000, -10000]);
+                    inputtip.isHidden = false;
+                }
+
+                var pos = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    ],
+                    coord  = this.api.asc_getActiveCellCoord(),
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputtip.ref.getBSTip().$tip.height() - 5];
+                var tipwidth = inputtip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+
+                inputtip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            } else {
+                if (!inputtip.isHidden && inputtip.ref) {
+                    inputtip.ref.hide();
+                    inputtip.ref = undefined;
+                    inputtip.text = '';
+                    inputtip.isHidden = true;
                 }
             }
         },

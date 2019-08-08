@@ -78,6 +78,7 @@ define([
             if (api) {
                 this.api = api;
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
+                this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -190,6 +191,12 @@ define([
 
         onHideClick: function() {
             this.api.asc_changeGroupDetails(false);
+        },
+
+        onWorksheetLocked: function(index,locked) {
+            if (index == this.api.asc_getActiveWorksheetIndex()) {
+                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.btnGroup, this.view.btnUngroup]});
+            }
         },
 
         textWizard: 'Text to Columns Wizard'

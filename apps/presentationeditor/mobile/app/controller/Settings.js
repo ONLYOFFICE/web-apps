@@ -200,8 +200,10 @@ define([
                     info = document.info || {};
 
                 document.title ? $('#settings-presentation-title').html(document.title) : $('.display-presentation-title').remove();
-                info.author ? $('#settings-pe-owner').html(info.author) : $('.display-owner').remove();
-                info.uploaded ? $('#settings-pe-uploaded').html(info.uploaded.toLocaleString()) : $('.display-uploaded').remove();
+                var value = info.owner || info.author;
+                value ? $('#settings-pe-owner').html(value) : $('.display-owner').remove();
+                value = info.uploaded || info.created;
+                value ? $('#settings-pe-uploaded').html(value) : $('.display-uploaded').remove();
                 info.folder ? $('#settings-pe-location').html(info.folder) : $('.display-location').remove();
 
                 var appProps = (this.api) ? this.api.asc_getAppProps() : null;
@@ -210,8 +212,7 @@ define([
                     appName ? $('#settings-pe-application').html(appName) : $('.display-application').remove();
                 }
 
-                var props = (this.api) ? this.api.asc_getCoreProps() : null,
-                    value;
+                var props = (this.api) ? this.api.asc_getCoreProps() : null;
                 if (props) {
                     value = props.asc_getTitle();
                     value ? $('#settings-pe-title').html(value) : $('.display-title').remove();

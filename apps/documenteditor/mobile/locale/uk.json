@@ -46,7 +46,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Термін переходу перевищено.",
   "DE.Controllers.Main.criticalErrorExtText": "Натисніть \"ОК\", щоб повернутися до списку документів.",
   "DE.Controllers.Main.criticalErrorTitle": "Помилка",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Document Editor",
   "DE.Controllers.Main.downloadErrorText": "Завантаження не вдалося",
   "DE.Controllers.Main.downloadMergeText": "Завантаження...",
   "DE.Controllers.Main.downloadMergeTitle": "Завантаження",

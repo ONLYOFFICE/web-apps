@@ -101,7 +101,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Đã quá thời gian chờ chuyển đổi.",
   "SSE.Controllers.Main.criticalErrorExtText": "Ấn 'OK' để trở lại danh sách tài liệu.",
   "SSE.Controllers.Main.criticalErrorTitle": "Lỗi",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE Spreadsheet Editor",
   "SSE.Controllers.Main.downloadErrorText": "Tải về không thành công.",
   "SSE.Controllers.Main.downloadMergeText": "Đang tải...",
   "SSE.Controllers.Main.downloadMergeTitle": "Đang tải về",

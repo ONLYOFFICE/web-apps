@@ -123,7 +123,7 @@ define([
                     '</div>',
                     '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="insert" style="margin-right: 10px;  width: 86px;">' + me.textInsert + '</button>',
-                    '<button id="note-settings-btn-apply" class="btn normal dlg-btn primary" result="apply" style="margin-right: 10px;  width: 86px;">' + me.textApply + '</button>',
+                    '<button id="note-settings-btn-apply" class="btn normal dlg-btn" result="apply" style="margin-right: 10px;  width: 86px;">' + me.textApply + '</button>',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textCancel + '</button>',
                     '</div>'
                 ].join('')
@@ -271,17 +271,17 @@ define([
         },
 
         onDlgBtnClick: function(event) {
-            var me = this;
-            var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
-            if (state == 'insert' || state == 'apply') {
-                this.handler && this.handler.call(this, state,  (state == 'insert' || state == 'apply') ? this.getSettings() : undefined);
-            }
-
-            this.close();
+            this._handleInput((typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event);
         },
 
         onPrimary: function() {
-            return true;
+            this._handleInput('insert');
+            return false;
+        },
+
+        _handleInput: function(state) {
+            this.handler && this.handler.call(this, state,  (state == 'insert' || state == 'apply') ? this.getSettings() : undefined);
+            this.close();
         },
 
         onFormatSelect: function(combo, record) {

@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Opozorilo",
   "Common.Controllers.Chat.textEnterMessage": "Svoje sporočilo vnesite tu",
-  "Common.Controllers.Chat.textUserLimit": "You are using ONLYOFFICE Free Edition.<br>Only two users can co-edit the document simultaneously.<br>Want more? Consider buying ONLYOFFICE Enterprise Edition.<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Read more</a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimno",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zapri",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objekt je onemogočen, saj ga ureja drug uporabnik.",
@@ -174,7 +173,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Pretvorbena prekinitev presežena.",
   "DE.Controllers.Main.criticalErrorExtText": "Pritisnite \"OK\" za vrnitev na seznam dokumentov.",
   "DE.Controllers.Main.criticalErrorTitle": "Napaka",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE urejevalec dokumentov",
   "DE.Controllers.Main.downloadErrorText": "Prenos ni uspel.",
   "DE.Controllers.Main.downloadMergeText": "Downloading...",
   "DE.Controllers.Main.downloadMergeTitle": "Downloading",
@@ -851,7 +849,6 @@
   "DE.Views.FileMenuPanels.CreateNew.noTemplatesText": "Ni predlog",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Avtor",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Spremeni pravice dostopa",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "Datum nastanka",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Nalaganje...",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Strani",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Odstavki",

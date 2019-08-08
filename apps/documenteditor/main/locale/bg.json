@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Внимание",
   "Common.Controllers.Chat.textEnterMessage": "Въведете съобщението си тук",
-  "Common.Controllers.Chat.textUserLimit": "Използвате ONLYOFFICE Free Edition. <br> Само двама потребители могат да редактират документа едновременно. <br> Искате ли повече? Помислете за закупуване на ONLYOFFICE Enterprise Edition. <br> <a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\"> Прочетете повече </a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Анонимен",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Затвори",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Обектът е деактивиран, защото се редактира от друг потребител.",
@@ -333,7 +332,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Превишава се времето на изтичане на реализация. ",
   "DE.Controllers.Main.criticalErrorExtText": "Натиснете \"OK\", за да се върнете към списъка с документи.",
   "DE.Controllers.Main.criticalErrorTitle": "Грешка",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Редактор на документи",
   "DE.Controllers.Main.downloadErrorText": "Изтеглянето се провали.",
   "DE.Controllers.Main.downloadMergeText": "Изтегля се ...",
   "DE.Controllers.Main.downloadMergeTitle": "Изтеглянето",
@@ -1346,7 +1344,6 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtAppName": "Приложение",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Автор",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Промяна на правото за достъп",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "Дата на създаването",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Зареждане...",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Страници",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Параграфи",

@@ -202,6 +202,12 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
+
+            if (this.mode.isEdit) {
+                this.leftMenu.btnSpellcheck.show();
+                this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
+            }
+
             this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
@@ -315,27 +321,31 @@ define([
                         defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
                 }
 
-                me._saveCopyDlg = new Common.Views.SaveAsDlg({
-                    saveFolderUrl: me.mode.saveAsUrl,
-                    saveFileUrl: url,
-                    defFileName: defFileName
-                });
-                me._saveCopyDlg.on('saveaserror', function(obj, err){
-                    var config = {
-                        closable: false,
-                        title: me.textWarning,
-                        msg: err,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                    };
-                    Common.UI.alert(config);
-                }).on('close', function(obj){
-                    me._saveCopyDlg = undefined;
-                });
-                me._saveCopyDlg.show();
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        var config = {
+                            closable: false,
+                            title: me.textWarning,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
             }
             this.isFromFileDownloadAs = false;
         },
@@ -642,6 +652,7 @@ define([
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
+            this.leftMenu.btnSpellcheck.setDisabled(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
             if ( this.dlgSearch ) {
@@ -840,6 +851,7 @@ define([
 
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
             this.leftMenu.btnSearch.setDisabled(isRangeSelection);
+            this.leftMenu.btnSpellcheck.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isRangeSelection);
                 this.leftMenu.panelPlugins.disableControls(isRangeSelection);
@@ -851,6 +863,7 @@ define([
 
             this.leftMenu.btnAbout.setDisabled(isEditFormula);
             this.leftMenu.btnSearch.setDisabled(isEditFormula);
+            this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
                 this.leftMenu.panelPlugins.disableControls(isEditFormula);

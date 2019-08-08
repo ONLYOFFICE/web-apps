@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Figyelmeztetés",
   "Common.Controllers.Chat.textEnterMessage": "Írja be ide az üzenetet",
-  "Common.Controllers.Chat.textUserLimit": "Ön az ONLYOFFICE Ingyenes Kiadást használja.<br>Csak két felhasználó szerkesztheti egyszerre a dokumentumot.<br>Többet szeretne? Fontolja meg az ONLYOFFICE Vállalati Kiadás megvásárlását<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Tudjon meg többet</a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Névtelen",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Bezár",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Az objektum le van tiltva, mert azt egy másik felhasználó szerkeszti.",
@@ -326,7 +325,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Időtúllépés az átalakítás során.",
   "DE.Controllers.Main.criticalErrorExtText": "Nyomja meg az \"OK\" gombot a dokumentumlistához való visszatéréshez.",
   "DE.Controllers.Main.criticalErrorTitle": "Hiba",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Dokumentum Szerkesztő",
   "DE.Controllers.Main.downloadErrorText": "Sikertelen letöltés.",
   "DE.Controllers.Main.downloadMergeText": "Letöltés...",
   "DE.Controllers.Main.downloadMergeTitle": "Letöltés",
@@ -1266,7 +1264,6 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtAppName": "Applikáció",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Szerző",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Hozzáférési jogok módosítása",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "Létrehozás dátuma",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Betöltés...",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Oldalak",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Bekezdések",

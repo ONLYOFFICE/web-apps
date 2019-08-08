@@ -54,7 +54,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Timeout für die Konvertierung wurde überschritten.",
   "DE.Controllers.Main.criticalErrorExtText": "Drücken Sie \"OK\", um zur Dokumentenliste zurückzukehren.",
   "DE.Controllers.Main.criticalErrorTitle": "Fehler",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Document Editor",
   "DE.Controllers.Main.downloadErrorText": "Herunterladen ist fehlgeschlagen.",
   "DE.Controllers.Main.downloadMergeText": "Wird heruntergeladen...",
   "DE.Controllers.Main.downloadMergeTitle": "Wird heruntergeladen",

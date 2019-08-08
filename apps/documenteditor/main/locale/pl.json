@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Ostrzeżenie",
   "Common.Controllers.Chat.textEnterMessage": "Wprowadź swoją wiadomość tutaj",
-  "Common.Controllers.Chat.textUserLimit": "Używasz ONLYOFFICE Free Edition. <br> Tylko dwóch użytkowników może jednocześnie edytować dokument. Chcesz więcej? Zastanów się nad zakupem ONLYOFFICE Enterprise Edition. <a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\"> Czytaj więcej </a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Gość",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zamknij",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Obiekt jest wyłączony, ponieważ jest edytowany przez innego użytkownika.",
@@ -272,7 +271,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Przekroczono limit czasu konwersji.",
   "DE.Controllers.Main.criticalErrorExtText": "Naciśnij \"OK\", aby powrócić do listy dokumentów.",
   "DE.Controllers.Main.criticalErrorTitle": "Błąd",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Edytor dokumentów",
   "DE.Controllers.Main.downloadErrorText": "Pobieranie nieudane.",
   "DE.Controllers.Main.downloadMergeText": "Pobieranie...",
   "DE.Controllers.Main.downloadMergeTitle": "Pobieranie",
@@ -1060,7 +1058,6 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtAppName": "Aplikacja",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Autor",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Zmień prawa dostępu",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "Data utworzenia",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Ładowanie...",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Strony",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Akapity",

@@ -101,7 +101,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Konversijas taimauts pārsniegts.",
   "SSE.Controllers.Main.criticalErrorExtText": "Nospiediet \"OK\", lai atgrieztos dokumentu sarakstā.",
   "SSE.Controllers.Main.criticalErrorTitle": "Kļūda",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE Spreadsheet Editor",
   "SSE.Controllers.Main.downloadErrorText": "Lejuplāde neizdevās.",
   "SSE.Controllers.Main.downloadMergeText": "Lejupielādē...",
   "SSE.Controllers.Main.downloadMergeTitle": "Lejupielāde",

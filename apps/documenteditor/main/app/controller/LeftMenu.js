@@ -302,7 +302,10 @@ define([
                         buttons: ['ok', 'cancel'],
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
-                                Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                if (format == Asc.c_oAscFileType.TXT)
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                else
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 menu.hide();
                             }
                         }, this)
@@ -328,6 +331,7 @@ define([
                         var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX);
                         opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
                         this.api.asc_DownloadAs(opts);
+                        menu.hide();
                     }
                 } else {
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
@@ -348,7 +352,10 @@ define([
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
                                 this.isFromFileDownloadAs = ext;
-                                Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                                if (format == Asc.c_oAscFileType.TXT)
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                                else
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                                 menu.hide();
                             }
                         }, this)
@@ -376,6 +383,7 @@ define([
                         var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
                         opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
                         this.api.asc_DownloadAs(opts);
+                        menu.hide();
                     }
                 } else {
                     this.isFromFileDownloadAs = ext;
@@ -400,27 +408,31 @@ define([
                         defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
                 }
 
-                me._saveCopyDlg = new Common.Views.SaveAsDlg({
-                    saveFolderUrl: me.mode.saveAsUrl,
-                    saveFileUrl: url,
-                    defFileName: defFileName
-                });
-                me._saveCopyDlg.on('saveaserror', function(obj, err){
-                    var config = {
-                        closable: false,
-                        title: me.notcriticalErrorTitle,
-                        msg: err,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                    };
-                    Common.UI.alert(config);
-                }).on('close', function(obj){
-                    me._saveCopyDlg = undefined;
-                });
-                me._saveCopyDlg.show();
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        var config = {
+                            closable: false,
+                            title: me.notcriticalErrorTitle,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
             }
             this.isFromFileDownloadAs = false;
         },

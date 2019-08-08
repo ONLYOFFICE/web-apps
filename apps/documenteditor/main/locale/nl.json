@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Waarschuwing",
   "Common.Controllers.Chat.textEnterMessage": "Voer hier uw bericht in",
-  "Common.Controllers.Chat.textUserLimit": "U gebruikt ONLYOFFICE Free Edition.<br>Er kunnen maar twee gebruikers tegelijk het document bewerken.<br>U wilt meer? Overweeg ONLYOFFICE Enterprise Edition aan te schaffen.<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Meer informatie</a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anoniem",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Sluiten",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Het object is gedeactiveerd omdat het wordt bewerkt door een andere gebruiker.",
@@ -329,7 +328,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Time-out voor conversie overschreden.",
   "DE.Controllers.Main.criticalErrorExtText": "Klik op \"OK\" om terug te keren naar de lijst met documenten.",
   "DE.Controllers.Main.criticalErrorTitle": "Fout",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE-documenteditor",
   "DE.Controllers.Main.downloadErrorText": "Download mislukt.",
   "DE.Controllers.Main.downloadMergeText": "Downloaden...",
   "DE.Controllers.Main.downloadMergeTitle": "Downloaden",
@@ -1212,7 +1210,6 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtAppName": "Applicatie",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Auteur",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Toegangsrechten wijzigen",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "Datum gemaakt",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "Laden...",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "Pagina's",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "Alinea's",

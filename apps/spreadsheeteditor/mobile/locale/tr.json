@@ -101,7 +101,6 @@
   "SSE.Controllers.Main.convertationTimeoutText": "Değişim süresi aşıldı.",
   "SSE.Controllers.Main.criticalErrorExtText": "Belge listesine dönmek için 'TAMAM' tuşuna tıklayın.",
   "SSE.Controllers.Main.criticalErrorTitle": "Hata",
-  "SSE.Controllers.Main.defaultTitleText": "ONLYOFFICE Spreadsheet Editör",
   "SSE.Controllers.Main.downloadErrorText": "İndirme başarısız oldu.",
   "SSE.Controllers.Main.downloadMergeText": "İndiriliyor...",
   "SSE.Controllers.Main.downloadMergeTitle": "İndiriliyor",

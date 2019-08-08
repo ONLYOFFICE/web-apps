@@ -89,7 +89,8 @@ define([
         printAreaLock:  'print-area-lock',
         namedRangeLock: 'named-range-lock',
         multiselectCols:'is-multiselect-cols',
-        headerLock: 'header-lock'
+        headerLock: 'header-lock',
+        sheetLock: 'sheet-lock'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -1462,7 +1463,7 @@ define([
                         $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                     } else
                         this.btnPageMargins.menu.items[0].setVisible(false);
-                    this.btnInsertImage.menu.items[2].setVisible(mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    this.btnInsertImage.menu.items[2].setVisible(mode.canRequestInsertImage || mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
                 }
 
                 me.setTab('home');

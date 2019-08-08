@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "警告",
   "Common.Controllers.Chat.textEnterMessage": "在这里输入你的信息",
-  "Common.Controllers.Chat.textUserLimit": "您正在使用ONLYOFFICE免费版。<br>只有两个用户可以同时共同编辑文档。<br>想要更多？考虑购买ONLYOFFICE企业版。<br> <a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">阅读更多内容</a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "匿名",
   "Common.Controllers.ExternalDiagramEditor.textClose": "关闭",
   "Common.Controllers.ExternalDiagramEditor.warningText": "该对象被禁用，因为它被另一个用户编辑。",
@@ -333,7 +332,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "转换超时",
   "DE.Controllers.Main.criticalErrorExtText": "按“确定”返回该文件列表。",
   "DE.Controllers.Main.criticalErrorTitle": "错误:",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE文档编辑器",
   "DE.Controllers.Main.downloadErrorText": "下载失败",
   "DE.Controllers.Main.downloadMergeText": "下载中…",
   "DE.Controllers.Main.downloadMergeTitle": "下载中",
@@ -1346,7 +1344,6 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtAppName": "应用",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "作者",
   "DE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "更改访问权限",
-  "DE.Views.FileMenuPanels.DocumentInfo.txtDate": "创建日期",
   "DE.Views.FileMenuPanels.DocumentInfo.txtLoading": "载入中……",
   "DE.Views.FileMenuPanels.DocumentInfo.txtPages": "页面",
   "DE.Views.FileMenuPanels.DocumentInfo.txtParagraphs": "段落",

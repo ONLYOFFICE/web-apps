@@ -314,6 +314,7 @@ define([
             toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this, 'header'));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
             toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
+            Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
             this.onSetupCopyStyleButton();
         },
@@ -1390,13 +1391,23 @@ define([
                     }
                 })).show();
             } else if (opts === 'storage') {
-                (new Common.Views.SelectFileDlg({
-                    fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                })).on('selectfile', function(obj, file){
-                    me.toolbar.fireEvent('insertimage', me.toolbar);
-                    me.api.AddImageUrl(file.url, undefined, true);// for loading from storage;
-                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                }).show();
+                if (this.toolbar.mode.canRequestInsertImage) {
+                    Common.Gateway.requestInsertImage();
+                } else {
+                    (new Common.Views.SelectFileDlg({
+                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                    })).on('selectfile', function(obj, file){
+                        me.insertImage(file);
+                    }).show();
+                }
+            }
+        },
+
+        insertImage: function(data) {
+            if (data && data.url) {
+                this.toolbar.fireEvent('insertimage', this.toolbar);
+                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 

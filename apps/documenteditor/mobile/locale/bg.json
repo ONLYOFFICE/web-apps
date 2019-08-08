@@ -54,7 +54,6 @@
   "DE.Controllers.Main.convertationTimeoutText": "Превишава се времето на изтичане на реализация.",
   "DE.Controllers.Main.criticalErrorExtText": "Натиснете 'OK', за да се върнете към списъка с документи.",
   "DE.Controllers.Main.criticalErrorTitle": "Грешка",
-  "DE.Controllers.Main.defaultTitleText": "ONLYOFFICE Редактор на документи",
   "DE.Controllers.Main.downloadErrorText": "Изтеглянето се провали.",
   "DE.Controllers.Main.downloadMergeText": "Изтегля се ...",
   "DE.Controllers.Main.downloadMergeTitle": "Изтеглянето",
