@@ -3219,7 +3219,6 @@ define([
             if (this.api && state) {
                 this._state.pgsize = [0, 0];
                 this.api.asc_changeDocSize(item.value[0], item.value[1], this.api.asc_getActiveWorksheetIndex());
-                Common.NotificationCenter.trigger('page:settings');
                 Common.component.Analytics.trackEvent('ToolBar', 'Page Size');
             }
 
@@ -3231,7 +3230,6 @@ define([
                 this._state.pgmargins = undefined;
                 if (item.value !== 'advanced') {
                     this.api.asc_changePageMargins(item.value[1], item.value[3], item.value[0], item.value[2], this.api.asc_getActiveWorksheetIndex());
-                    Common.NotificationCenter.trigger('page:settings');
                 } else {
                     var win, props,
                         me = this;
@@ -3250,7 +3248,6 @@ define([
                                 Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
 
                                 me.api.asc_changePageMargins( props.asc_getLeft(), props.asc_getRight(), props.asc_getTop(), props.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
-                                Common.NotificationCenter.trigger('page:settings');
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         }
@@ -3269,7 +3266,6 @@ define([
             this._state.pgorient = undefined;
             if (this.api && item.checked) {
                 this.api.asc_changePageOrient(item.value==Asc.c_oAscPageOrientation.PagePortrait, this.api.asc_getActiveWorksheetIndex());
-                Common.NotificationCenter.trigger('page:settings');
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
