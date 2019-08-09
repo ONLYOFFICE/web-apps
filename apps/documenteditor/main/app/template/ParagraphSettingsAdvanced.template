@@ -5,7 +5,7 @@
                     <label class="input-label"><%= scope.textAlign %></label>
                     <div id="paragraphadv-spin-text-alignment"></div>
                 </div>
-                <div class="padding-large" style="display: inline-block; float: right;">
+                <div class="padding-large" style="display: none; float: right;">
                     <label class="input-label"><%= scope.strIndentsOutlinelevel %></label>
                     <div id="paragraphadv-spin-outline-level"></div>
                 </div>
@@ -53,7 +53,7 @@
             <div class="text-only" style="padding-top: 8px;">
                 <div id="paragraphadv-checkbox-add-interval"></div>
             </div>
-            <div class="padding-large" style="padding-top: 16px;">
+            <div class="padding-large" style="padding-top: 16px; display: none;">
                 <div style="border: 1px solid #cbcbcb; width: 350px;">
                     <div id="paragraphadv-indent-preview" style="height: 58px; position: relative;"></div>
                 </div>

@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="padding-large" style="padding-top: 16px;">
+        <div class="padding-large" style="padding-top: 16px; display: none;">
             <div style="border: 1px solid #cbcbcb; width: 350px;">
                 <div id="paragraphadv-indent-preview" style="height: 80px; position: relative;"></div>
             </div>
