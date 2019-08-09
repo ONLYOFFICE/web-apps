@@ -111,7 +111,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.textControls = [];
             this.imageControls = [];
             this.fontName = 'Arial';
-            this.lang = 'en';
+            this.lang = {value: 'en', displayValue: 'English'};
             this.text = '';
             this.isAutoColor = false;
             this.isImageLoaded = false;
@@ -430,10 +430,9 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 });
                 if (data.length) {
                     me.cmbLang.setData(data);
-                    var item = me.cmbLang.store.findWhere({value: me.lang}) || me.cmbLang.store.at(0);
-                    me.cmbLang.setValue(me.lang);
+                    me.cmbLang.setValue(me.lang.displayValue);
+                    me.loadWMText(me.lang.value);
                     me.cmbLang.setDisabled(!me.radioText.getValue());
-                    me.onSelectLang(me.cmbLang, item.toJSON());
                     me.text && me.cmbText.setValue(me.text);
                 } else
                     me.cmbLang.setDisabled(true);
@@ -452,7 +451,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             record.wmtext.forEach(function(item) {
                 data.push({value: item});
             });
-            this.lang = record.value;
+            this.lang = record;
             if (data.length>0) {
                 this.cmbText.setData(data);
                 this.cmbText.setValue(data[0].value);
@@ -517,7 +516,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     val = props.get_TextPr();
                     if (val) {
                         var lang = Common.util.LanguageInfo.getLocalLanguageName(val.get_Lang());
-                        this.lang = lang[0];
+                        this.lang = {value: lang[0], displayValue: lang[1]};
                         this.cmbLang.setValue(lang[1]);
                         this.loadWMText(lang[0]);
 
@@ -598,7 +597,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     val.put_Underline(this.btnUnderline.pressed);
                     val.put_Strikeout(this.btnStrikeout.pressed);
 
-                    val.put_Lang(parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.lang)));
+                    val.put_Lang(parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.lang.value)));
 
                     var color = new Asc.asc_CColor();
                     if (this.isAutoColor) {
