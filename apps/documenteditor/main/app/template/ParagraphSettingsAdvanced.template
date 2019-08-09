@@ -10,6 +10,7 @@
                     <div id="paragraphadv-spin-outline-level"></div>
                 </div>
             </div>
+            <div><label class="header" style="padding-bottom: 4px;"><%= scope.strIndent %></label></div>
             <div>
                 <div class="padding-large" style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsLeftText %></label>
@@ -20,14 +21,16 @@
                     <div id="paragraphadv-spin-indent-right"></div>
                 </div>
                 <div class="padding-large" style="display: inline-block;">
-                    <label class="input-label"><%= scope.strIndentsSpecial %></label>
-                    <div id="paragraphadv-spin-special"></div>
-                </div>
-                <div class="padding-large" style="display: inline-block;">
-                    <label class="input-label"><%= scope.strIndentsSpecialBy %></label>
-                    <div id="paragraphadv-spin-special-by"></div>
+                    <div>
+                        <label class="input-label"><%= scope.strIndentsSpecial %></label>
+                    </div>
+                    <div>
+                        <div id="paragraphadv-spin-special" style="display: inline-block;"></div>
+                        <div id="paragraphadv-spin-special-by" style="display: inline-block;"></div>
+                    </div>
                 </div>
             </div>
+            <div><label class="header" style="padding-bottom: 4px;"><%= scope.strSpacing %></label></div>
             <div>
                 <div style="display: inline-block;">
                     <label class="input-label"><%= scope.strIndentsSpacingBefore %></label>
@@ -38,12 +41,13 @@
                     <div id="paragraphadv-spin-spacing-after"></div>
                 </div>
                 <div style="display: inline-block;">
-                    <label class="input-label"><%= scope.strIndentsLineSpacing %></label>
-                    <div id="paragraphadv-spin-line-rule"></div>
-                </div>
-                <div style="display: inline-block;">
-                    <label class="input-label"><%= scope.strIndentLineSpacingAt %></label>
-                    <div id="paragraphadv-spin-line-height"></div>
+                    <div>
+                        <label class="input-label"><%= scope.strIndentsLineSpacing %></label>
+                    </div>
+                    <div>
+                        <div id="paragraphadv-spin-line-rule" style="display: inline-block;"></div>
+                        <div id="paragraphadv-spin-line-height" style="display: inline-block;"></div>
+                    </div>
                 </div>
             </div>
             <div class="text-only" style="padding-top: 8px;">
@@ -51,7 +55,7 @@
             </div>
             <div class="padding-large" style="padding-top: 16px;">
                 <div style="border: 1px solid #cbcbcb; width: 350px;">
-                    <div id="paragraphadv-indent-preview" style="height: 94px; position: relative;"></div>
+                    <div id="paragraphadv-indent-preview" style="height: 58px; position: relative;"></div>
                 </div>
             </div>
     </div>
@@ -113,13 +117,13 @@
         <div class="padding-small">
             <label class="header"><%= scope.textEffects %></label>
         </div>
-        <div style="width: 250px;">
+        <div>
             <div class="padding-large" style="display: inline-block;">
                 <div class="padding-small" id="paragraphadv-checkbox-strike"></div>
                 <div class="padding-small" id="paragraphadv-checkbox-double-strike"></div>
                 <div id="paragraphadv-checkbox-superscript"></div>
             </div>
-            <div class="padding-large" style="display: inline-block; float: right;">
+            <div class="padding-large" style="display: inline-block; padding-left: 40px;">
                 <div class="padding-small" id="paragraphadv-checkbox-subscript"></div>
                 <div class="padding-small" id="paragraphadv-checkbox-small-caps"></div>
                 <div id="paragraphadv-checkbox-all-caps"></div>
@@ -144,56 +148,56 @@
     </div>
 </div>
 <div id="id-adv-paragraph-tabs" class="settings-panel">
-    <div class="inner-content" style="width: 330px;">
+    <div class="inner-content">
             <div class="padding-large">
                 <label class="input-label"><%= scope.textDefault %></label>
                 <div id="paraadv-spin-default-tab"></div>
 
             </div>
             <div>
-                <div class="padding-small" style="margin-right: 9px; display: inline-block;">
+                <div class="padding-large" style="display: inline-block; margin-right: 9px;">
                     <label class="input-label"><%= scope.textTabPosition %></label>
                     <div id="paraadv-spin-tab"></div>
                 </div>
-                <div class="padding-small" style="margin-right: 9px; display: inline-block;">
+                <div class="padding-large" style=" display: inline-block; margin-right: 9px;">
                     <label class="input-label"><%= scope.textAlign %></label>
                     <div id="paraadv-cmb-align"></div>
                 </div>
-                <div class="padding-small" style="display: inline-block;">
+                <div class="padding-large" style="display: inline-block;">
                     <label class="input-label"><%= scope.textLeader %></label>
                     <div id="paraadv-cmb-leader"></div>
                 </div>
             </div>
             <div>
                 <div colspan=3 class="padding-large">
-                     <div id="paraadv-list-tabs" style="width:310px; height: 110px;"></div>
+                     <div id="paraadv-list-tabs" style="width:348px; height: 110px;"></div>
                 </div>
             </div>
             <div>
-                <button type="button" class="btn btn-text-default" id="paraadv-button-add-tab" style="width:95px;margin-right: 9px; display: inline-block;"><%= scope.textSet %></button>
-                <button type="button" class="btn btn-text-default" id="paraadv-button-remove-tab" style="width:95px;margin-right: 9px; display: inline-block;"><%= scope.textRemove %></button>
-                <button type="button" class="btn btn-text-default" id="paraadv-button-remove-all" style="width:95px;display: inline-block;"><%= scope.textRemoveAll %></button>
+                <button type="button" class="btn btn-text-default" id="paraadv-button-add-tab" style="width:108px;margin-right: 9px; display: inline-block;"><%= scope.textSet %></button>
+                <button type="button" class="btn btn-text-default" id="paraadv-button-remove-tab" style="width:108px;margin-right: 9px; display: inline-block;"><%= scope.textRemove %></button>
+                <button type="button" class="btn btn-text-default" id="paraadv-button-remove-all" style="width:108px;display: inline-block;"><%= scope.textRemoveAll %></button>
             </div>
     </div>
 </div>
 <div id="id-adv-paragraph-margins" class="settings-panel">
     <div class="inner-content">
-            <div style="width: 230px;">
+            <div>
                 <div class="padding-small" style="display: inline-block;">
                     <label class="input-label"><%= scope.textTop %></label>
                     <div id="paraadv-number-margin-top"></div>
                 </div>
-                <div class="padding-small" style="display: inline-block; float: right;">
+                <div class="padding-small" style="display: inline-block; padding-left: 15px;">
                     <label class="input-label"><%= scope.textLeft %></label>
                     <div id="paraadv-number-margin-left"></div>
                 </div>
             </div>
-            <div style="width: 230px;">
+            <div>
                 <div class="padding-small" style="display: inline-block;">
                     <label class="input-label"><%= scope.textBottom %></label>
                     <div id="paraadv-number-margin-bottom"></div>
                 </div>
-                <div class="padding-small" style="display: inline-block; float: right;">
+                <div class="padding-small" style="display: inline-block; padding-left: 15px;">
                     <label class="input-label"><%= scope.textRight %></label>
                     <div id="paraadv-number-margin-right"></div>
                 </div>

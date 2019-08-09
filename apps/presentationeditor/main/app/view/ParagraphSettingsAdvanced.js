@@ -86,7 +86,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 {displayValue: this.textExact,  defaultValue: 5, value: c_paragraphLinerule.LINERULE_EXACT, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
             ];
 
-            var curLineRule = this._originalProps.asc_getSpacing().get_LineRule(),
+            var curLineRule = this._originalProps.get_Spacing().get_LineRule(),
                 curItem = _.findWhere(this._arrLineRule, {value: curLineRule});
             this.CurLineRuleIdx = this._arrLineRule.indexOf(curItem);
 
@@ -208,7 +208,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.numSpacingBefore.on('change', _.bind(function (field, newValue, oldValue, eOpts) {
                 if (this.Spacing === null) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
-                    this.Spacing = properties.asc_getSpacing();
+                    this.Spacing = properties.get_Spacing();
                 }
                 this.Spacing.Before = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
             }, this));
@@ -228,7 +228,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.numSpacingAfter.on('change', _.bind(function (field, newValue, oldValue, eOpts) {
                 if (this.Spacing === null) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
-                    this.Spacing = properties.asc_getSpacing();
+                    this.Spacing = properties.get_Spacing();
                 }
                 this.Spacing.After = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
             }, this));
@@ -321,7 +321,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.numTab = new Common.UI.MetricSpinner({
                 el: $('#paraadv-spin-tab'),
                 step: .1,
-                width: 128,
+                width: 108,
                 defaultUnit : "cm",
                 value: '1.25 cm',
                 maxValue: 55.87,
@@ -332,7 +332,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.numDefaultTab = new Common.UI.MetricSpinner({
                 el: $('#paraadv-spin-default-tab'),
                 step: .1,
-                width: 128,
+                width: 108,
                 defaultUnit : "cm",
                 value: '1.25 cm',
                 maxValue: 55.87,
@@ -352,7 +352,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                    '<div style="width: 138px;display: inline-block;"><%= value %></div>',
+                    '<div style="width: 117px;display: inline-block;"><%= value %></div>',
                     '<div style="display: inline-block;"><%= displayTabAlign %></div>',
                     '</div>'
                 ].join(''))
@@ -372,8 +372,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
 
             this.cmbAlign = new Common.UI.ComboBox({
                 el          : $('#paraadv-cmb-align'),
-                style       : 'width: 128px;',
-                menuStyle   : 'min-width: 128px;',
+                style       : 'width: 108px;',
+                menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : this._arrTabAlign
@@ -426,22 +426,22 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.numIndentsLeft.setValue((props.get_Ind() !== null && props.get_Ind().get_Left() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Left()) : '', true);
                 this.numIndentsRight.setValue((props.get_Ind() !== null && props.get_Ind().get_Right() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Ind().get_Right()) : '', true);
 
-                this.cmbTextAlignment.setValue((props.asc_getJc() !== undefined && props.asc_getJc() !== null) ? props.asc_getJc() : c_paragraphTextAlignment.CENTERED, true);
+                this.cmbTextAlignment.setValue((props.get_Jc() !== undefined && props.get_Jc() !== null) ? props.get_Jc() : c_paragraphTextAlignment.CENTERED, true);
 
                 if(this.CurSpecial === undefined) {
-                    this.CurSpecial = (props.asc_getInd().get_FirstLine() === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((props.asc_getInd().get_FirstLine() > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);
+                    this.CurSpecial = (props.get_Ind().get_FirstLine() === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((props.get_Ind().get_FirstLine() > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);
                 }
                 this.cmbSpecial.setValue(this.CurSpecial);
                 this.numSpecialBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
 
-                this.numSpacingBefore.setValue((props.asc_getSpacing() !== null && props.asc_getSpacing().asc_getBefore() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.asc_getSpacing().asc_getBefore()) : '', true);
-                this.numSpacingAfter.setValue((props.asc_getSpacing() !== null && props.asc_getSpacing().asc_getAfter() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.asc_getSpacing().asc_getAfter()) : '', true);
+                this.numSpacingBefore.setValue((props.get_Spacing() !== null && props.get_Spacing().get_Before() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_Before()) : '', true);
+                this.numSpacingAfter.setValue((props.get_Spacing() !== null && props.get_Spacing().get_After() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_After()) : '', true);
 
-                var linerule = props.asc_getSpacing().asc_getLineRule();
+                var linerule = props.get_Spacing().get_LineRule();
                 this.cmbLineRule.setValue((linerule !== null) ? linerule : '', true);
 
-                if(props.asc_getSpacing() !== null && props.asc_getSpacing().asc_getLine() !== null) {
-                    this.numLineHeight.setValue((linerule==c_paragraphLinerule.LINERULE_AUTO) ? props.asc_getSpacing().asc_getLine() : Common.Utils.Metric.fnRecalcFromMM(props.asc_getSpacing().asc_getLine()), true);
+                if(props.get_Spacing() !== null && props.get_Spacing().get_Line() !== null) {
+                    this.numLineHeight.setValue((linerule==c_paragraphLinerule.LINERULE_AUTO) ? props.get_Spacing().get_Line() : Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_Line()), true);
                 } else {
                     this.numLineHeight.setValue('', true);
                 }
@@ -743,7 +743,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         onLineRuleSelect: function(combo, record) {
             if (this.Spacing === null) {
                 var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
-                this.Spacing = properties.asc_getSpacing();
+                this.Spacing = properties.get_Spacing();
             }
             this.Spacing.LineRule = record.value;
             var selectItem = _.findWhere(this._arrLineRule, {value: record.value}),
@@ -766,15 +766,15 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 return;
             if (this.Spacing === null) {
                 var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
-                this.Spacing = properties.asc_getSpacing();
+                this.Spacing = properties.get_Spacing();
             }
             this.Spacing.Line = (this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
         },
 
         textTitle:      'Paragraph - Advanced Settings',
         strIndentsFirstLine:    'First line',
-        strIndentsLeftText:     'Indent Left',
-        strIndentsRightText:    'Indent Right',
+        strIndentsLeftText:     'Left',
+        strIndentsRightText:    'Right',
         strParagraphIndents:    'Indents & Spacing',
         strParagraphFont:   'Font',
         cancelButtonText:       'Cancel',
@@ -807,13 +807,13 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         textNoneSpecial: '(none)',
         textFirstLine: 'First line',
         textHanging: 'Hanging',
-        strIndentsSpecialBy: 'By',
-        strIndentsSpacingBefore: 'Spacing Before',
-        strIndentsSpacingAfter: 'Spacing After',
-        strIndentLineSpacingAt: 'At',
+        strIndentsSpacingBefore: 'Before',
+        strIndentsSpacingAfter: 'After',
         strIndentsLineSpacing: 'Line Spacing',
         txtAutoText: 'Auto',
         textAuto: 'Multiple',
-        textExact: 'Exactly'
+        textExact: 'Exactly',
+        strIndent: 'Indents',
+        strSpacing: 'Spacing'
     }, PE.Views.ParagraphSettingsAdvanced || {}));
 });

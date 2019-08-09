@@ -86,7 +86,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 {displayValue: this.textExact,  defaultValue: 5, value: c_paragraphLinerule.LINERULE_EXACT, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
             ];
 
-            var curLineRule = this._originalProps.asc_getSpacing().get_LineRule(),
+            var curLineRule = this._originalProps.asc_getSpacing().asc_getLineRule(),
                 curItem = _.findWhere(this._arrLineRule, {value: curLineRule});
             this.CurLineRuleIdx = this._arrLineRule.indexOf(curItem);
 
@@ -144,9 +144,9 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             this.numIndentsLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var numval = field.getNumberValue();
                 if (this._changedProps) {
-                    if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
+                    if (this._changedProps.asc_getInd()===null || this._changedProps.asc_getInd()===undefined)
                         this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
-                    this._changedProps.get_Ind().put_Left(Common.Utils.Metric.fnRecalcToMM(numval));
+                    this._changedProps.asc_getInd().put_Left(Common.Utils.Metric.fnRecalcToMM(numval));
                 }
             }, this));
             this.spinners.push(this.numIndentsLeft);
@@ -163,9 +163,9 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             });
             this.numIndentsRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
-                    if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
+                    if (this._changedProps.asc_getInd()===null || this._changedProps.asc_getInd()===undefined)
                         this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
-                    this._changedProps.get_Ind().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this._changedProps.asc_getInd().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
             this.spinners.push(this.numIndentsRight);
@@ -321,7 +321,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             this.numTab = new Common.UI.MetricSpinner({
                 el: $('#paraadv-spin-tab'),
                 step: .1,
-                width: 128,
+                width: 108,
                 defaultUnit : "cm",
                 value: '1.25 cm',
                 maxValue: 55.87,
@@ -332,7 +332,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             this.numDefaultTab = new Common.UI.MetricSpinner({
                 el: $('#paraadv-spin-default-tab'),
                 step: .1,
-                width: 128,
+                width: 108,
                 defaultUnit : "cm",
                 value: '1.25 cm',
                 maxValue: 55.87,
@@ -352,7 +352,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                    '<div style="width: 138px;display: inline-block;"><%= value %></div>',
+                    '<div style="width: 117px;display: inline-block;"><%= value %></div>',
                     '<div style="display: inline-block;"><%= displayTabAlign %></div>',
                     '</div>'
                 ].join(''))
@@ -372,8 +372,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
 
             this.cmbAlign = new Common.UI.ComboBox({
                 el          : $('#paraadv-cmb-align'),
-                style       : 'width: 128px;',
-                menuStyle   : 'min-width: 128px;',
+                style       : 'width: 108px;',
+                menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : this._arrTabAlign
@@ -425,7 +425,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
         _setDefaults: function(props) {
             if (props ){
                 this._originalProps = new Asc.asc_CParagraphProperty(props);
-                this.FirstLine = (props.get_Ind() !== null) ? props.get_Ind().get_FirstLine() : null;
+                this.FirstLine = (props.asc_getInd() !== null) ? props.asc_getInd().asc_getFirstLine() : null;
 
                 this.numIndentsLeft.setValue((props.asc_getInd() !== null && props.asc_getInd().asc_getLeft() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.asc_getInd().asc_getLeft()) : '', true);
                 this.numIndentsRight.setValue((props.asc_getInd() !== null && props.asc_getInd().asc_getRight() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.asc_getInd().asc_getRight()) : '', true);
@@ -433,7 +433,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 this.cmbTextAlignment.setValue((props.asc_getJc() !== undefined && props.asc_getJc() !== null) ? props.asc_getJc() : c_paragraphTextAlignment.CENTERED, true);
 
                 if(this.CurSpecial === undefined) {
-                    this.CurSpecial = (props.asc_getInd().get_FirstLine() === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((props.asc_getInd().get_FirstLine() > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);
+                    this.CurSpecial = (props.asc_getInd().asc_getFirstLine() === 0) ? c_paragraphSpecial.NONE_SPECIAL : ((props.asc_getInd().asc_getFirstLine() > 0) ? c_paragraphSpecial.FIRST_LINE : c_paragraphSpecial.HANGING);
                 }
                 this.cmbSpecial.setValue(this.CurSpecial);
                 this.numSpecialBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
@@ -478,7 +478,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                             tabPos: pos,
                             value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                             tabAlign: tab.asc_getValue(),
-                            displayTabAlign: this._arrKeyTabAlign[tab.get_Value()]
+                            displayTabAlign: this._arrKeyTabAlign[tab.asc_getValue()]
                         });
                         arr.push(rec);
                     }
@@ -711,7 +711,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 this.numSpecialBy.setValue(0, true);
             }
             if (this._changedProps) {
-                if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
+                if (this._changedProps.asc_getInd()===null || this._changedProps.asc_getInd()===undefined)
                     this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                 var value = Common.Utils.Metric.fnRecalcToMM(this.numSpecialBy.getNumberValue());
                 if (value === 0) {
@@ -721,13 +721,13 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 if (this.CurSpecial === c_paragraphSpecial.HANGING) {
                     value = -value;
                 }
-                this._changedProps.get_Ind().put_FirstLine(value);
+                this._changedProps.asc_getInd().put_FirstLine(value);
             }
         },
 
         onFirstLineChange: function(field, newValue, oldValue, eOpts){
             if (this._changedProps) {
-                if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
+                if (this._changedProps.asc_getInd()===null || this._changedProps.asc_getInd()===undefined)
                     this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                 var value = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
                 if (this.CurSpecial === c_paragraphSpecial.HANGING) {
@@ -739,7 +739,7 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                     this.CurSpecial = c_paragraphSpecial.NONE_SPECIAL;
                     this.cmbSpecial.setValue(c_paragraphSpecial.NONE_SPECIAL);
                 }
-                this._changedProps.get_Ind().put_FirstLine(value);
+                this._changedProps.asc_getInd().put_FirstLine(value);
             }
         },
 
@@ -776,8 +776,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
 
         textTitle:      'Paragraph - Advanced Settings',
         strIndentsFirstLine:    'First line',
-        strIndentsLeftText:     'Indent Left',
-        strIndentsRightText:    'Indent Right',
+        strIndentsLeftText:     'Left',
+        strIndentsRightText:    'Right',
         strParagraphIndents:    'Indents & Spacing',
         strParagraphFont:   'Font',
         cancelButtonText:       'Cancel',
@@ -811,12 +811,13 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
         textFirstLine: 'First line',
         textHanging: 'Hanging',
         strIndentsSpecialBy: 'By',
-        strIndentsSpacingBefore: 'Spacing Before',
-        strIndentsSpacingAfter: 'Spacing After',
-        strIndentLineSpacingAt: 'At',
+        strIndentsSpacingBefore: 'Before',
+        strIndentsSpacingAfter: 'After',
         strIndentsLineSpacing: 'Line Spacing',
         txtAutoText: 'Auto',
         textAuto: 'Multiple',
-        textExact: 'Exactly'
+        textExact: 'Exactly',
+        strIndent: 'Indents',
+        strSpacing: 'Spacing'
     }, SSE.Views.ParagraphSettingsAdvanced || {}));
 });
