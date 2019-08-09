@@ -464,7 +464,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 data.push({value: item});
             });
             this.cmbText.setData(data);
-            this.cmbText.setValue(data[0].value);
+            (data.length>0) && this.cmbText.setValue(data[0].value);
         },
 
         insertFromUrl: function() {
