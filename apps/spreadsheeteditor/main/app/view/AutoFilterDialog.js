@@ -517,7 +517,7 @@ define([
             this.handler        =   options.handler;
             this.throughIndexes =   [];
             this.filteredIndexes =  [];
-            this.curSize = undefined;
+            this.curSize = null;
 
             _options.tpl        =   _.template(this.template)(_options);
 
@@ -1372,9 +1372,14 @@ define([
 
         onWindowResize: function () {
             var size = this.getSize();
-            if (size !== this.curSize) {
-                this.$window.find('.combo-values').css({'height': size[1]-100 + 'px'});
+            if (this.curSize === null) {
                 this.curSize = size;
+            } else {
+                if (size[0] !== this.curSize[0] || size[1] !== this.curSize[1]) {
+                    this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
+                    this.curSize = size;
+                    this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                }
             }
         },
 
