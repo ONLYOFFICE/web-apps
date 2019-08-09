@@ -2,7 +2,7 @@
     <div class="inner-content">
         <div>
             <div class="padding-large" style="display: inline-block;">
-                <label class="input-label"><%= scope.strIndentsTextAlignment %></label>
+                <label class="input-label"><%= scope.textAlign %></label>
                 <div id="paragraphadv-spin-text-alignment"></div>
             </div>
         </div>

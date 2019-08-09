@@ -112,9 +112,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.CurSpecial = undefined;
 
             this._arrTextAlignment = [
-                {displayValue: this.textLeft, value: c_paragraphTextAlignment.LEFT},
-                {displayValue: this.textCentered, value: c_paragraphTextAlignment.CENTERED},
-                {displayValue: this.textRight, value: c_paragraphTextAlignment.RIGHT},
+                {displayValue: this.textTabLeft, value: c_paragraphTextAlignment.LEFT},
+                {displayValue: this.textTabCenter, value: c_paragraphTextAlignment.CENTERED},
+                {displayValue: this.textTabRight, value: c_paragraphTextAlignment.RIGHT},
                 {displayValue: this.textJustified, value: c_paragraphTextAlignment.JUSTIFIED}
             ];
 
@@ -1505,11 +1505,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textNoneSpecial: '(none)',
         textFirstLine: 'First line',
         textHanging: 'Hanging',
-        textCentered: 'Centered',
         textJustified: 'Justified',
         textBodyText: 'BodyText',
         textLevel: 'Level ',
-        strIndentsTextAlignment: 'Text Alignment',
         strIndentsOutlinelevel: 'Outline level',
         strIndent: 'Indents',
         strSpacing: 'Spacing'

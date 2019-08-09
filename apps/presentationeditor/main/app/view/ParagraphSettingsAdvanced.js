@@ -91,9 +91,9 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.CurLineRuleIdx = this._arrLineRule.indexOf(curItem);
 
             this._arrTextAlignment = [
-                {displayValue: this.textLeft, value: c_paragraphTextAlignment.LEFT},
-                {displayValue: this.textCentered, value: c_paragraphTextAlignment.CENTERED},
-                {displayValue: this.textRight, value: c_paragraphTextAlignment.RIGHT},
+                {displayValue: this.textTabLeft, value: c_paragraphTextAlignment.LEFT},
+                {displayValue: this.textTabCenter, value: c_paragraphTextAlignment.CENTERED},
+                {displayValue: this.textTabRight, value: c_paragraphTextAlignment.RIGHT},
                 {displayValue: this.textJustified, value: c_paragraphTextAlignment.JUSTIFIED}
             ];
 
@@ -798,11 +798,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         textTabPosition: 'Tab Position',
         textDefault: 'Default Tab',
         noTabs: 'The specified tabs will appear in this field',
-        strIndentsTextAlignment: 'Text Alignment',
-        textLeft: 'Left',
-        textCentered: 'Centered',
         textJustified: 'Justified',
-        textRight: 'Right',
         strIndentsSpecial: 'Special',
         textNoneSpecial: '(none)',
         textFirstLine: 'First line',
