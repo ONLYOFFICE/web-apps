@@ -603,7 +603,6 @@ define([
             '<ul class="dropdown-menu <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu">',
                 '<% _.each(items, function(item) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<% item.checkable = item.checkable || false;  %>',
                     '<% item.checked = item.checked || false;  %>',
                     '<li><%= itemTemplate(item) %></li>',
                 '<% }) %>',
@@ -620,7 +619,7 @@ define([
                                                                 '<a id="<%= id %>" <% if(typeof style !== "undefined") { %> style="<%= style %>" <% } %>',
                                                                     '<% if(typeof canFocused !== "undefined") { %> tabindex="-1" type="menuitem" <% } %>',
                                                                     '<% if(typeof stopPropagation !== "undefined") { %> data-stopPropagation="true" <% } %>',
-                                                                    'class="<% if (checked) { %> checked <% } %> <% if (checkable) { %> checkable <% } %>" >',
+                                                                    'class="<% if (checked) { %> checked <% } %>" >',
                                                                     '<% if (typeof iconCls !== "undefined") { %>',
                                                                         '<span class="menu-item-icon <%= iconCls %>"></span>',
                                                                     '<% } %>',
@@ -726,7 +725,6 @@ define([
             var template = _.template([
                                 '<% _.each(items, function(item) { %>',
                                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                                    '<% item.checkable = item.checkable || false;  %>',
                                     '<% item.checked = item.checked || false;  %>',
                                     '<li><%= itemTemplate(item) %></li>',
                                 '<% }) %>'
@@ -768,7 +766,7 @@ define([
             if (item.disabled)
                 return false;
 
-            if (!item.checked)
+            if (item.checkable && !item.checked)
                 this.setChecked(index, !item.checked);
 
             this.isOver = false;

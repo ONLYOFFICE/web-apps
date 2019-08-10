@@ -233,7 +233,7 @@ define([
                     style: 'margin-top:-5px;',
                     restoreHeight: 300,
                     itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %> <% if (checkable) { %> checkable <% } %>">',
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
                             '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                             '<%= caption %>',
                         '</a>'
