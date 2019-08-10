@@ -137,7 +137,7 @@ define([
             this.hint           = me.options.hint;
             this.rendered       = false;
 
-            if (this.menu !== null && !(this.menu instanceof Common.UI.Menu)) {
+            if (this.menu !== null && !(this.menu instanceof Common.UI.Menu) && !(this.menu instanceof Common.UI.MenuSimple)) {
                 this.menu = new Common.UI.Menu(_.extend({}, me.options.menu));
             }
 
