@@ -69,7 +69,7 @@ define([
                 Common.Utils.String.format(this.pageIndexText, model.get('current'), model.get('count')) );
         }
 
-        function _clickLanguage(menu, item, state) {
+        function _clickLanguage(menu, item) {
             var $parent = menu.$el.parent();
             $parent.find('#status-label-lang').text(item.caption);
             this.langMenu.prevTip = item.value.value;
@@ -248,14 +248,14 @@ define([
                 this.btnPreview.render($('#slot-status-btn-preview'));
 
                 var panelLang = $('.cnt-lang',this.el);
-                this.langMenu = new Common.UI.Menu({
+                this.langMenu = new Common.UI.MenuSimple({
                     cls: 'lang-menu',
                     style: 'margin-top:-5px;',
                     restoreHeight: 300,
                     itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value.value %>">',
-                            '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
-                            '<%= caption %>',
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
+                        '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                        '<%= caption %>',
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl',
@@ -328,18 +328,18 @@ define([
             },
 
             reloadLanguages: function(array) {
-                this.langMenu.removeAll();
+                var arr = [],
+                    saved = this.langMenu.saved;
                 _.each(array, function(item) {
-                    this.langMenu.addItem({
+                    arr.push({
                         caption     : item['displayValue'],
                         value       : {value: item['value'], code: item['code']},
                         checkable   : true,
-                        checked     : this.langMenu.saved == item['displayValue'],
-                        spellcheck   : item['spellcheck'],
-                        toggleGroup : 'language'
+                        checked     : saved == item['displayValue'],
+                        spellcheck  : item['spellcheck']
                     });
-                }, this);
-
+                });
+                this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {
                     this.btnLanguage.setDisabled(false || this._state.no_paragraph);
                 }
@@ -357,7 +357,7 @@ define([
                         this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();
                     } else
-                        this.langMenu.items[index].setChecked(true);
+                        this.langMenu.setChecked(index, true);
                 }
             },
 

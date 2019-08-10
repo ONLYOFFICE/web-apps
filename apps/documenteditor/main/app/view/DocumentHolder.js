@@ -741,7 +741,6 @@ define([
             };
 
             this.changeLanguageMenu = function(menu) {
-                var i;
                 if (me._currLang.id===null || me._currLang.id===undefined) {
                     menu.clearAll();
                 } else {
