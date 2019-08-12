@@ -8,6 +8,7 @@
   "Common.Views.Collaboration.textCollaboration": "Collaboration",
   "Common.Views.Collaboration.textEditUsers": "Users",
   "Common.Views.Collaboration.textСomments": "Сomments",
+  "Common.Views.Collaboration.textNoComments": "This presentation doesn't contain comments",
   "PE.Controllers.AddContainer.textImage": "Image",
   "PE.Controllers.AddContainer.textLink": "Link",
   "PE.Controllers.AddContainer.textShape": "Shape",

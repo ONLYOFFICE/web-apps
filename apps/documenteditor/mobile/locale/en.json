@@ -75,6 +75,7 @@
   "Common.Views.Collaboration.textReview": "Track Changes",
   "Common.Views.Collaboration.textReviewing": "Review",
   "Common.Views.Collaboration.textСomments": "Сomments",
+  "Common.Views.Collaboration.textNoComments": "This document doesn't contain comments",
   "DE.Controllers.AddContainer.textImage": "Image",
   "DE.Controllers.AddContainer.textOther": "Other",
   "DE.Controllers.AddContainer.textShape": "Shape",
