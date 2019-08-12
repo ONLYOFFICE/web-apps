@@ -580,5 +580,6 @@
   "Common.Views.Collaboration.textBack": "Back",
   "Common.Views.Collaboration.textCollaboration": "Collaboration",
   "Common.Views.Collaboration.textEditUsers": "Users",
-  "Common.Views.Collaboration.textСomments": "Сomments"
+  "Common.Views.Collaboration.textСomments": "Сomments",
+  "Common.Views.Collaboration.textNoSpreadsheetComments": "This spreadsheet doesn\'t contain comments"
 }

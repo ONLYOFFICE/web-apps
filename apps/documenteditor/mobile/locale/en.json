@@ -594,5 +594,6 @@
   "Common.Views.Collaboration.textFinal": "Final",
   "Common.Views.Collaboration.textOriginal": "Original",
   "Common.Views.Collaboration.textChange": "Review Change",
-  "Common.Views.Collaboration.textEditUsers": "Users"
+  "Common.Views.Collaboration.textEditUsers": "Users",
+  "Common.Views.Collaboration.textNoDocumentComments": "This document doesn\'t contain comments"
 }
