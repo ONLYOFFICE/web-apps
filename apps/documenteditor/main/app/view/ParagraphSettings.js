@@ -77,7 +77,7 @@ define([
                 AddInterval: false,
                 BackColor: '#000000',
                 DisabledControls: true,
-                HideTextOnlySettings: false,
+                HideTextOnlySettings: false
             };
             this.spinners = [];
             this.lockedControls = [];

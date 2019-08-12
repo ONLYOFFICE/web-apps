@@ -5,7 +5,7 @@
                     <label class="input-label"><%= scope.textAlign %></label>
                     <div id="paragraphadv-spin-text-alignment"></div>
                 </div>
-                <div class="padding-large" style="display: none; float: right;">
+                <div class="padding-large text-only" style="display: none; float: right;">
                     <label class="input-label"><%= scope.strIndentsOutlinelevel %></label>
                     <div id="paragraphadv-spin-outline-level"></div>
                 </div>
