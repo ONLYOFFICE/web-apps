@@ -1825,6 +1825,7 @@
   "SSE.Views.ParagraphSettingsAdvanced.strIndentsSpacingAfter": "После",
   "SSE.Views.ParagraphSettingsAdvanced.strIndentsLineSpacing": "Междустрочный интервал",
   "SSE.Views.ParagraphSettingsAdvanced.textAuto": "Множитель",
+  "SSE.Views.ParagraphSettingsAdvanced.txtAutoText": "Авто",
   "SSE.Views.ParagraphSettingsAdvanced.textExact": "Точно",
   "SSE.Views.ParagraphSettingsAdvanced.strIndentsSpecial": "Первая строка",
   "SSE.Views.ParagraphSettingsAdvanced.textNoneSpecial": "(нет)",

@@ -1348,6 +1348,7 @@
   "PE.Views.ParagraphSettingsAdvanced.strIndentsSpacingAfter": "После",
   "PE.Views.ParagraphSettingsAdvanced.strIndentsLineSpacing": "Междустрочный интервал",
   "PE.Views.ParagraphSettingsAdvanced.textAuto": "Множитель",
+  "PE.Views.ParagraphSettingsAdvanced.txtAutoText": "Авто",
   "PE.Views.ParagraphSettingsAdvanced.textExact": "Точно",
   "PE.Views.ParagraphSettingsAdvanced.strIndentsSpecial": "Первая строка",
   "PE.Views.ParagraphSettingsAdvanced.textNoneSpecial": "(нет)",

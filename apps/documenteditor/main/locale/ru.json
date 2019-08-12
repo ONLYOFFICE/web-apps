@@ -1757,7 +1757,7 @@
   "DE.Views.ParagraphSettingsAdvanced.strIndentsSpacingBefore": "Перед",
   "DE.Views.ParagraphSettingsAdvanced.strIndentsSpacingAfter": "После",
   "DE.Views.ParagraphSettingsAdvanced.strIndentsLineSpacing": "Междустрочный интервал",
-  "DE.Views.ParagraphSettingsAdvanced.txtAutoText": "Auto",
+  "DE.Views.ParagraphSettingsAdvanced.txtAutoText": "Авто",
   "DE.Views.ParagraphSettingsAdvanced.textAuto": "Множитель",
   "DE.Views.ParagraphSettingsAdvanced.textAtLeast": "Минимум",
   "DE.Views.ParagraphSettingsAdvanced.textExact": "Точно",
