@@ -262,27 +262,59 @@ define([
                     });
                 }
                 if (arr.length) {
-                    arr.push(new Common.UI.MenuItem({
-                        caption: '--'
-                    }));
-                    arr.push(new Common.UI.MenuItem({
-                        caption: me.txtAdditional,
-                        value: 'more'
-                    }));
-
                     if (btn.menu && btn.menu.rendered) {
-                        btn.menu.removeAll();
-                        arr.forEach(function(item){
-                            btn.menu.addItem(item);
-                        });
+                        var menu = btn.menu.items[0]._internalMenu;
+                        if (menu) {
+                            menu.removeAll();
+                            arr.forEach(function(item){
+                                menu.addItem(item);
+                            });
+                        }
                     } else {
                         btn.setMenu(new Common.UI.Menu({
-                            restoreHeight: 415,
-                            items: arr
+                            items: [
+                                {template: _.template('<div id="id-toolbar-formula-menu-'+ name +'" style="display: flex;" class="open"></div>')},
+                                { caption: '--' },
+                                {
+                                    caption: me.txtAdditional,
+                                    value: 'more'
+                                }
+                            ]
                         }));
-                        btn.menu.on('item:click', function (menu, item, e) {
+                        btn.menu.items[2].on('click', function (item, e) {
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
                         });
+                        btn.menu.on('show:after', function (menu, e) {
+                            var internalMenu = menu.items[0]._internalMenu;
+                            internalMenu.scroller.update({alwaysVisibleY: true});
+                            _.delay(function() {
+                                menu.items[0]._internalMenu && menu.items[0]._internalMenu.cmpEl.focus();
+                            }, 10);
+                        }).on('keydown:before', function(menu, e) {
+                            if (e.keyCode == Common.UI.Keys.RETURN) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        } );
+
+                        var menuContainer = btn.menu.items[0].cmpEl.children(':first');
+                        var menu = new Common.UI.Menu({
+                            maxHeight: 300,
+                            cls: 'internal-menu',
+                            items: arr
+                        });
+                        menu.render(menuContainer);
+                        menu.cmpEl.css({
+                            display     : 'block',
+                            position    : 'relative',
+                            left        : 0,
+                            top         : 0
+                        });
+                        menu.cmpEl.attr({tabindex: "-1"});
+                        menu.on('item:click', function (menu, item, e) {
+                            me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
+                        });
+                        btn.menu.items[0]._internalMenu = menu;
                     }
                 }
                 btn.setDisabled(arr.length<1);
