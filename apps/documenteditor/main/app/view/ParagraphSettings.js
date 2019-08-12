@@ -77,7 +77,7 @@ define([
                 AddInterval: false,
                 BackColor: '#000000',
                 DisabledControls: true,
-                HideTextOnlySettings: false
+                HideTextOnlySettings: false,
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -183,8 +183,9 @@ define([
 
         setApi: function(api) {
             this.api = api;
-            if (this.api)
+            if (this.api) {
                 this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
+            }
             return this;
         },
 
