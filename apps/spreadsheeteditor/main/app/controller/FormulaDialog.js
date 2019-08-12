@@ -343,7 +343,7 @@ define([
                        _.sortBy(allFunctions, function (model) {return model.get('name'); }));
                 }
             }
-            !suppressEvent && this.formulaTab && this.formulaTab.fillFunctions();
+            (!suppressEvent || this._formulasInited) && this.formulaTab && this.formulaTab.fillFunctions();
         },
 
         onTabActive: function (tab) {
