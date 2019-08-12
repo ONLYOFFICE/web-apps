@@ -523,6 +523,7 @@ define([
 
             Common.UI.Window.prototype.initialize.call(this, _options);
 
+            this.on('resizing', _.bind(this.onWindowResizing, this));
             this.on('resize', _.bind(this.onWindowResize, this));
         },
         render: function () {
@@ -1370,16 +1371,27 @@ define([
             return false;
         },
 
-        onWindowResize: function () {
+        onWindowResize: function (args) {
+            if (args && args[1]=='start')
+                this.curSize = {resize: false, height: this.getSize()[1]};
+            else if (this.curSize.resize) {
+                var size = this.getSize();
+                this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
+                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            }
+        },
+
+        onWindowResizing: function () {
+            if (!this.curSize) return;
+
             var size = this.getSize();
-            if (this.curSize === null) {
-                this.curSize = size;
-            } else {
-                if (size[0] !== this.curSize[0] || size[1] !== this.curSize[1]) {
-                    this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
-                    this.curSize = size;
-                    this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            if (size[1] !== this.curSize.height) {
+                if (!this.curSize.resize) {
+                    this.curSize.resize = true;
+                    this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: false, suppressScrollX: true});
                 }
+                this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
+                this.curSize.height = size[1];
             }
         },
 
