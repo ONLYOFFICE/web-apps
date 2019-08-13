@@ -320,6 +320,72 @@ define([
                 btn.setDisabled(arr.length<1);
             },
 
+            setMenuItemMenu: function(name) {
+                var me = this,
+                    arr = [],
+                    formulaDialog = SSE.getController('FormulaDialog'),
+                    group = me.formulasGroups.findWhere({name : name});
+
+                if (group) {
+                    var functions = group.get('functions');
+                    functions && functions.forEach(function(item) {
+                        arr.push(new Common.UI.MenuItem({
+                            caption: item.get('name'),
+                            value: item.get('origin')
+                        }));
+                    });
+                    if (arr.length) {
+                        var mnu = new Common.UI.MenuItem({
+                            caption : formulaDialog['sCategory' + name] || name,
+                            menu: new Common.UI.Menu({
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    {template: _.template('<div id="id-toolbar-formula-menu-'+ name +'" style="display: flex;" class="open"></div>')},
+                                    { caption: '--' },
+                                    {
+                                        caption: me.txtAdditional,
+                                        value: 'more'
+                                    }
+                                ]
+                            })
+                        });
+                        mnu.menu.items[2].on('click', function (item, e) {
+                            me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
+                        });
+                        mnu.menu.on('show:after', function (menu, e) {
+                            var internalMenu = menu.items[0]._internalMenu;
+                            internalMenu.scroller.update({alwaysVisibleY: true});
+                            _.delay(function() {
+                                menu.items[0]._internalMenu && menu.items[0]._internalMenu.cmpEl.focus();
+                            }, 10);
+                        }).on('keydown:before', function(menu, e) {
+                            if (e.keyCode == Common.UI.Keys.RETURN) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            } else if (e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.ESC) {
+                                var $parent = menu.cmpEl.parent();
+                                if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
+                                    $parent.removeClass('over');
+                                    $parent.find('> a').focus();
+                                }
+                            }
+                        } );
+
+                        // internal menu
+                        var menu = new Common.UI.Menu({
+                            maxHeight: 300,
+                            cls: 'internal-menu',
+                            items: arr
+                        });
+                        menu.on('item:click', function (menu, item, e) {
+                            me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
+                        });
+                        mnu.menu.items[0]._internalMenu = menu;
+                        return mnu;
+                    }
+                }
+            },
+
             fillFunctions: function () {
                 if (this.formulasGroups) {
                     this.setButtonMenu(this.btnFinancial, 'Financial');
@@ -337,41 +403,11 @@ define([
 
                     // more button
                     var me = this,
-                        morearr = [],
-                        formulaDialog = SSE.getController('FormulaDialog');
+                        morearr = [];
                     ['Cube', 'Database', 'Engineering',  'Information', 'Statistical'].forEach(function(name) {
-                        var group = me.formulasGroups.findWhere({name : name});
-                        if (group) {
-                            var functions = group.get('functions'),
-                                arr = [];
-                            functions && functions.forEach(function(item) {
-                                arr.push(new Common.UI.MenuItem({
-                                    caption: item.get('name'),
-                                    value: item.get('origin')
-                                }));
-                            });
-                            if (arr.length) {
-                                arr.push(new Common.UI.MenuItem({
-                                    caption: '--'
-                                }));
-                                arr.push(new Common.UI.MenuItem({
-                                    caption: me.txtAdditional,
-                                    value: 'more'
-                                }));
-                                var mnu = new Common.UI.MenuItem({
-                                    caption : formulaDialog['sCategory' + name] || name,
-                                    menu        : new Common.UI.Menu({
-                                        restoreHeight: 415,
-                                        menuAlign: 'tl-tr',
-                                        items: arr
-                                    })
-                                });
-                                mnu.menu.on('item:click', function (menu, item, e) {
-                                    me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
-                                });
-                                morearr.push(mnu);
-                            }
-                        }
+                        var mnu = me.setMenuItemMenu(name);
+                        mnu && morearr.push(mnu);
+
                     });
                     var btn = this.btnMore;
                     if (morearr.length) {
@@ -382,10 +418,21 @@ define([
                             });
                         } else {
                             btn.setMenu(new Common.UI.Menu({
-                                restoreHeight: 415,
                                 items: morearr
                             }));
                         }
+                        btn.menu.items.forEach(function(mnu){
+                            var menuContainer = mnu.menu.items[0].cmpEl.children(':first'),
+                                menu = mnu.menu.items[0]._internalMenu;
+                            menu.render(menuContainer);
+                            menu.cmpEl.css({
+                                display     : 'block',
+                                position    : 'relative',
+                                left        : 0,
+                                top         : 0
+                            });
+                            menu.cmpEl.attr({tabindex: "-1"});
+                        });
                     }
                     btn.setDisabled(morearr.length<1);
                 }
