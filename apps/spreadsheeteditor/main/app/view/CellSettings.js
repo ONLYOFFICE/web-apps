@@ -71,16 +71,23 @@ define([
             this._state = {
                 BackColor: undefined,
                 DisabledControls: true,
-                CellAngle: undefined
+                DisabledFillPanels: false,
+                CellAngle: undefined,
+                GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR
             };
             this.lockedControls = [];
             this._locked = true;
             this.isEditCell = false;
             this.BorderType = 1;
 
+            this.fillControls = [];
+
             this.render();
             this.createDelayedControls();
 
+            this.FillColorContainer = $('#cell-panel-color-fill');
+            this.FillPatternContainer = $('#cell-panel-pattern-fill');
+            this.FillGradientContainer = $('#cell-panel-gradient-fill');
         },
 
         onColorsBackSelect: function(picker, color) {
@@ -155,6 +162,137 @@ define([
         },
 
         createDelayedControls: function() {
+            var me = this;
+            this._arrFillSrc = [
+                {displayValue: this.textColor,          value: Asc.c_oAscFill.FILL_TYPE_SOLID},
+                {displayValue: this.textGradientFill,   value: Asc.c_oAscFill.FILL_TYPE_GRAD},
+                {displayValue: this.textPatternFill,    value: Asc.c_oAscFill.FILL_TYPE_PATT},
+                {displayValue: this.textNoFill,         value: Asc.c_oAscFill.FILL_TYPE_NOFILL}
+            ];
+
+            this.cmbFillSrc = new Common.UI.ComboBox({
+                el: $('#cell-combo-fill-src'),
+                cls: 'input-group-nr',
+                style: 'width: 100%;',
+                menuStyle: 'min-width: 100%;',
+                editable: false,
+                data: this._arrFillSrc
+            });
+            this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
+            this.fillControls.push(this.cmbFillSrc);
+            this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
+
+            this._arrGradType = [
+                {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
+                {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
+            ];
+
+            this.cmbGradType = new Common.UI.ComboBox({
+                el: $('#cell-combo-grad-type'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 90px;',
+                editable: false,
+                data: this._arrGradType
+            });
+            this.cmbGradType.setValue(this._arrGradType[0].value);
+            this.fillControls.push(this.cmbGradType);
+            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
+
+            this._viewDataLinear = [
+                { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
+                { offsetx: 50,  offsety: 0,   type:90,  subtype:4,  iconcls:'gradient-top'},
+                { offsetx: 100, offsety: 0,   type:135, subtype:5,  iconcls:'gradient-right-top'},
+                { offsetx: 0,   offsety: 50,  type:0,   subtype:6,  iconcls:'gradient-left', cls: 'item-gradient-separator', selected: true},
+                { offsetx: 100, offsety: 50,  type:180, subtype:1,  iconcls:'gradient-right'},
+                { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
+                { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
+                { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
+            ];
+
+            this._viewDataRadial = [
+                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
+            ];
+
+            this.btnDirection = new Common.UI.Button({
+                cls         : 'btn-large-dataview',
+                iconCls     : 'item-gradient gradient-left',
+                menu        : new Common.UI.Menu({
+                    style: 'min-width: 60px;',
+                    menuAlign: 'tr-br',
+                    items: [
+                        { template: _.template('<div id="id-cell-menu-direction" style="width: 175px; margin: 0 5px;"></div>') }
+                    ]
+                })
+            });
+            this.btnDirection.on('render:after', function(btn) {
+                me.mnuDirectionPicker = new Common.UI.DataView({
+                    el: $('#id-cell-menu-direction'),
+                    parentMenu: btn.menu,
+                    restoreHeight: 174,
+                    store: new Common.UI.DataViewStore(me._viewDataLinear),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-gradient" style="background-position: -<%= offsetx %>px -<%= offsety %>px;"></div>')
+                });
+            });
+            this.btnDirection.render($('#cell-button-direction'));
+            this.fillControls.push(this.btnDirection);
+            this.mnuDirectionPicker.on('item:click', _.bind(this.onSelectGradient, this, this.btnDirection));
+
+            this.cmbPattern = new Common.UI.ComboDataView({
+                itemWidth: 28,
+                itemHeight: 28,
+                menuMaxHeight: 300,
+                enableKeyEvents: true,
+                cls: 'combo-pattern'
+            });
+            this.cmbPattern.menuPicker.itemTemplate = this.cmbPattern.fieldPicker.itemTemplate = _.template([
+                '<div class="style" id="<%= id %>">',
+                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
+                'width="' + this.cmbPattern.itemWidth + '" height="' + this.cmbPattern.itemHeight + '" ',
+                'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
+                '</div>'
+            ].join(''));
+            this.cmbPattern.render($('#cell-combo-pattern'));
+            this.cmbPattern.openButton.menu.cmpEl.css({
+                'min-width': 178,
+                'max-width': 178
+            });
+            this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
+            this.cmbPattern.openButton.menu.on('show:after', function () {
+                me.cmbPattern.menuPicker.scroller.update({alwaysVisibleY: true});
+            });
+            this.fillControls.push(this.cmbPattern);
+
+            var global_hatch_menu_map = [
+                0,1,3,2,4,
+                53,5,6,7,8,
+                9,10,11,12,13,
+                14,15,16,17,18,
+                19,20,22,23,24,
+                25,27,28,29,30,
+                31,32,33,34,35,
+                36,37,38,39,40,
+                41,42,43,44,45,
+                46,49,50,51,52
+            ];
+
+            this.patternViewData = [];
+            for (var i=0; i<13; i++) {
+                for (var j=0; j<4; j++) {
+                    var num = i*4+j;
+                    this.patternViewData[num] = {offsetx: j*28, offsety: i*28, type: global_hatch_menu_map[num]};
+                }
+            }
+            this.patternViewData.splice(this.patternViewData.length-2, 2);
+
+            for ( var i=0; i<this.patternViewData.length; i++ ) {
+                this.patternViewData[i].id = Common.UI.getId();
+            }
+            this.cmbPattern.menuPicker.store.add(this.patternViewData);
+            if (this.cmbPattern.menuPicker.store.length > 0) {
+                this.cmbPattern.fillComboView(this.cmbPattern.menuPicker.store.at(0),true);
+                this.PatternFillType = this.patternViewData[0].type;
+            }
+
             var _arrBorderPosition = [
                 [Asc.c_oAscBorderOptions.Left,  'btn-borders-small btn-position-left',      'cell-button-border-left',        this.tipLeft],
                 [Asc.c_oAscBorderOptions.InnerV,'btn-borders-small btn-position-inner-vert','cell-button-border-inner-vert',  this.tipInnerVert],
@@ -323,10 +461,91 @@ define([
                  });
                  this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
                  this.btnBackColor.menu.items[1].on('click', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                 this.fillControls.push(this.btnBackColor);
+
+                 this.btnGradColor1 = new Common.UI.ColorButton({
+                     style: "width:45px;",
+                     menu        : new Common.UI.Menu({
+                         items: [
+                             { template: _.template('<div id="cell-gradient-color1-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<a id="cell-gradient-color1-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                         ]
+                     })
+                 });
+                 this.btnGradColor1.render( $('#cell-grad-btn-color-1'));
+                 this.btnGradColor1.setColor('000000');
+                 this.colorsGrad1 = new Common.UI.ThemeColorPalette({
+                     el: $('#cell-gradient-color1-menu'),
+                     value: '000000'
+                 });
+                 this.colorsGrad1.on('select', _.bind(this.onColorsGradientSelect, this));
+                 this.btnGradColor1.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad1, this.btnGradColor1));
+                 this.fillControls.push(this.btnGradColor1);
+
+                 this.btnGradColor2 = new Common.UI.ColorButton({
+                     style: "width:45px;",
+                     menu        : new Common.UI.Menu({
+                         items: [
+                             { template: _.template('<div id="cell-gradient-color2-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<a id="cell-gradient-color2-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                         ]
+                     })
+                 });
+                 this.btnGradColor2.render( $('#cell-grad-btn-color-2'));
+                 this.btnGradColor2.setColor('ffffff');
+                 this.colorsGrad2 = new Common.UI.ThemeColorPalette({
+                     el: $('#cell-gradient-color2-menu'),
+                     value: 'ffffff'
+                 });
+                 this.colorsGrad2.on('select', _.bind(this.onColorsGradientSelect, this));
+                 this.btnGradColor2.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad2, this.btnGradColor2));
+                 this.fillControls.push(this.btnGradColor2);
+
+                 this.btnFGColor = new Common.UI.ColorButton({
+                     style: "width:45px;",
+                     menu        : new Common.UI.Menu({
+                         items: [
+                             { template: _.template('<div id="cell-foreground-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<a id="cell-foreground-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                         ]
+                     })
+                 });
+                 this.btnFGColor.render( $('#cell-foreground-color-btn'));
+                 this.btnFGColor.setColor('000000');
+                 this.colorsFG = new Common.UI.ThemeColorPalette({
+                     el: $('#cell-foreground-color-menu'),
+                     value: '000000'
+                 });
+                 this.colorsFG.on('select', _.bind(this.onColorsFGSelect, this));
+                 this.btnFGColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
+                 this.fillControls.push(this.btnFGColor);
+
+                 this.btnBGColor = new Common.UI.ColorButton({
+                     style: "width:45px;",
+                     menu        : new Common.UI.Menu({
+                         items: [
+                             { template: _.template('<div id="cell-background-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<a id="cell-background-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                         ]
+                     })
+                 });
+                 this.btnBGColor.render( $('#cell-background-color-btn'));
+                 this.btnBGColor.setColor('ffffff');
+                 this.colorsBG = new Common.UI.ThemeColorPalette({
+                     el: $('#cell-background-color-menu'),
+                     value: 'ffffff'
+                 });
+                 this.colorsBG.on('select', _.bind(this.onColorsBGSelect, this));
+                 this.btnBGColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
+                 this.fillControls.push(this.btnBGColor);
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.btnBorderColor.setColor(this.borderColor.getColor());
+             this.colorsGrad1.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+             this.colorsGrad2.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+             this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+             this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         onApiEditCell: function(state) {
@@ -339,16 +558,107 @@ define([
             this._locked = locked;
         },
 
+        disableFillPanels: function(disable) {
+            if (this._state.DisabledFillPanels!==disable) {
+                this._state.DisabledFillPanels = disable;
+                _.each(this.fillControls, function(item) {
+                    item.setDisabled(disable);
+                });
+            }
+        },
+
         disableControls: function(disable) {
             if (this._initSettings) return;
             disable = disable || this.isEditCell;
-            
+
+            this.disableFillPanels(disable);
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
             }
+        },
+
+        onFillSrcSelect: function(combo, record) {
+            this.ShowHideElem(record.value);
+        },
+
+        ShowHideElem: function(value) {
+            this.FillColorContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_SOLID);
+            this.FillPatternContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_PATT);
+            this.FillGradientContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_GRAD);
+        },
+
+        onGradTypeSelect: function(combo, record) {
+            this.GradFillType = record.value;
+
+            if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                this.mnuDirectionPicker.store.reset(this._viewDataLinear);
+                this.mnuDirectionPicker.cmpEl.width(175);
+                this.mnuDirectionPicker.restoreHeight = 174;
+                var record = this.mnuDirectionPicker.store.findWhere({type: this.GradLinearDirectionType});
+                this.mnuDirectionPicker.selectRecord(record, true);
+                if (record)
+                    this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                else
+                    this.btnDirection.setIconCls('');
+            } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
+                this.mnuDirectionPicker.store.reset(this._viewDataRadial);
+                this.mnuDirectionPicker.cmpEl.width(60);
+                this.mnuDirectionPicker.restoreHeight = 58;
+                this.mnuDirectionPicker.selectByIndex(this.GradRadialDirectionIdx, true);
+                if (this.GradRadialDirectionIdx>=0)
+                    this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
+                else
+                    this.btnDirection.setIconCls('');
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onSelectGradient: function(btn, picker, itemView, record) {
+            if (this._noApply) return;
+
+            var rawData = {},
+                isPickerSelect = _.isFunction(record.toJSON);
+
+            if (isPickerSelect){
+                if (record.get('selected')) {
+                    rawData = record.toJSON();
+                } else {
+                    // record deselected
+                    return;
+                }
+            } else {
+                rawData = record;
+            }
+
+            this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
+            (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
+
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onColorsGradientSelect: function(picker, color) {
+            var pickerId = $(picker)[0].el.id;
+            if (pickerId === "cell-gradient-color1-menu") {
+                this.btnGradColor1.setColor(color);
+            } else if (pickerId === "cell-gradient-color2-menu") {
+                this.btnGradColor2.setColor(color);
+            }
+        },
+
+        onPatternSelect: function() {
+
+        },
+
+        onColorsFGSelect: function(picker, color) {
+            this.btnFGColor.setColor(color);
+        },
+
+        onColorsBGSelect: function(picker, color) {
+            this.btnBGColor.setColor(color);
         },
 
         textBorders:        'Border\'s Style',
@@ -369,7 +679,21 @@ define([
         tipDiagU:           'Set Diagonal Up Border',
         tipDiagD:           'Set Diagonal Down Border',
         textOrientation:    'Text Orientation',
-        textAngle:          'Angle'
+        textAngle:          'Angle',
+        textFill:           'Fill',
+        textNoFill:         'No Fill',
+        textGradientFill:   'Gradient Fill',
+        textPatternFill:    'Pattern',
+        textColor:          'Color Fill',
+        textStyle:          'Style',
+        textDirection:      'Direction',
+        textLinear:         'Linear',
+        textRadial:         'Radial',
+        textColor1:         'Color 1',
+        textColor2:         'Color 2',
+        textPattern:        'Pattern',
+        textForeground:     'Foreground color',
+        textBackground:     'Background color'
 
     }, SSE.Views.CellSettings || {}));
 });
