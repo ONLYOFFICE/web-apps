@@ -533,6 +533,7 @@ define([
 
             var $border = this.$window.find('.resize-border');
             this.$window.find('.resize-border.left, .resize-border.top').css({'cursor': 'default'});
+            $border.css({'background': 'none', 'border': 'none'});
             $border.removeClass('left');
             $border.removeClass('top');
 
