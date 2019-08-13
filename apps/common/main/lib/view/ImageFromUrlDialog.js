@@ -55,7 +55,7 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div class="input-row">',
-                        '<label>' + this.textUrl + '</label>',
+                        '<label>' + (this.options.title || this.textUrl) + '</label>',
                     '</div>',
                     '<div id="id-dlg-url" class="input-row"></div>',
                 '</div>',

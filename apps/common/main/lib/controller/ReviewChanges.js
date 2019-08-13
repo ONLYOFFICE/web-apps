@@ -74,7 +74,8 @@ define([
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
-                    'reviewchanges:view':       _.bind(this.onReviewViewClick, this),
+                    'reviewchange:view':        _.bind(this.onReviewViewClick, this),
+                    'reviewchange:compare':     _.bind(this.onCompareClick, this),
                     'lang:document':            _.bind(this.onDocLanguage, this),
                     'collaboration:coauthmode': _.bind(this.onCoAuthMode, this)
                 },
@@ -554,6 +555,53 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+        onCompareClick: function(item) {
+            if (this.api) {
+                if (item === 'file') {
+                    // if (this.api)
+                    //     this.api.asc_addDocument();
+                    Common.NotificationCenter.trigger('edit:complete', this.view);
+                } else if (item === 'url') {
+                    var me = this;
+                    (new Common.Views.ImageFromUrlDialog({
+                        title: me.textUrl,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    var checkUrl = value.replace(/ /g, '');
+                                    if (!_.isEmpty(checkUrl)) {
+                                        // me.api.AddDocumentUrl(checkUrl);
+                                    }
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.view);
+                            }
+                        }
+                    })).show();
+                } else if (item === 'storage') {
+                    // if (this.toolbar.mode.canRequestInsertImage) {
+                    //     Common.Gateway.requestInsertImage();
+                    // } else {
+                    //     (new Common.Views.SelectFileDlg({
+                    //         fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                    //     })).on('selectfile', function(obj, file){
+                    //         me.insertImage(file);
+                    //     }).show();
+                    // }
+                } else if (item === 'settings') {
+                    // show settings dialog
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        insertImage: function(data) {
+            if (data && data.url) {
+                this.toolbar.fireEvent('insertimage', this.toolbar);
+                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                Common.component.Analytics.trackEvent('ToolBar', 'Image');
+            }
+        },
+
         turnDisplayMode: function(mode) {
             if (this.api) {
                 if (mode === 'final')
@@ -797,6 +845,7 @@ define([
         textTableRowsDel: '<b>Table Rows Deleted<b/>',
         textParaMoveTo: '<b>Moved:</b>',
         textParaMoveFromUp: '<b>Moved Up:</b>',
-        textParaMoveFromDown: '<b>Moved Down:</b>'
+        textParaMoveFromDown: '<b>Moved Down:</b>',
+        textUrl: 'Paste a document URL'
     }, Common.Controllers.ReviewChanges || {}));
 });
