@@ -211,6 +211,7 @@ define([
                 me.appOptions.createUrl       = me.editorConfig.createUrl;
                 me.appOptions.lang            = me.editorConfig.lang;
                 me.appOptions.location        = (typeof (me.editorConfig.location) == 'string') ? me.editorConfig.location.toLowerCase() : '';
+                me.appOptions.region          = (typeof (me.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
                 me.appOptions.sharingSettingsUrl = me.editorConfig.sharingSettingsUrl;
                 me.appOptions.fileChoiceUrl   = me.editorConfig.fileChoiceUrl;
                 me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
@@ -226,7 +227,13 @@ define([
                 if (value!==null)
                     this.api.asc_setLocale(parseInt(value));
                 else {
-                    this.api.asc_setLocale((this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409);
+                    value = me.appOptions.region;
+                    value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
+                    if (value!==null)
+                        value = parseInt(value);
+                    else
+                        value = (this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.editorConfig.lang)) : 0x0409;
+                    this.api.asc_setLocale(value);
                 }
 
                if (me.appOptions.location == 'us' || me.appOptions.location == 'ca')
