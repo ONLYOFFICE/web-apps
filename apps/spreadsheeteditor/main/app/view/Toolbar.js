@@ -485,7 +485,7 @@ define([
                     iconCls     : 'btn-border-out',
                     icls        : 'btn-border-out',
                     borderId    : 'outer',
-                    borderswidth: 'thin',
+                    borderswidth: Asc.c_oAscBorderStyles.Thin,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     split       : true,
                     menu        : true
