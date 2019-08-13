@@ -263,26 +263,27 @@ define([
             this.fillControls.push(this.cmbPattern);
 
             var global_hatch_menu_map = [
-                0,1,3,2,4,
-                53,5,6,7,8,
-                9,10,11,12,13,
-                14,15,16,17,18,
-                19,20,22,23,24,
-                25,27,28,29,30,
-                31,32,33,34,35,
-                36,37,38,39,40,
-                41,42,43,44,45,
-                46,49,50,51,52
+                0,-1,-1,-1,-1,
+                -1,-1,-1,-1,8,
+                9,10,11,-1,-1,
+                -1,-1,-1,-1,-1,
+                -1,20,22,23,-1,
+                -1,27,28,29,30,
+                -1,-1,33,-1,35,
+                -1,-1,-1,-1,-1,
+                41,-1,43,-1,-1,
+                46,-1,-1,-1,-1
             ];
 
             this.patternViewData = [];
+            var idx = 0;
             for (var i=0; i<13; i++) {
                 for (var j=0; j<4; j++) {
                     var num = i*4+j;
-                    this.patternViewData[num] = {offsetx: j*28, offsety: i*28, type: global_hatch_menu_map[num]};
+                    if (global_hatch_menu_map[num]>-1)
+                        this.patternViewData[idx++] = {offsetx: j*28, offsety: i*28, type: global_hatch_menu_map[num]};
                 }
             }
-            this.patternViewData.splice(this.patternViewData.length-2, 2);
 
             for ( var i=0; i<this.patternViewData.length; i++ ) {
                 this.patternViewData[i].id = Common.UI.getId();
