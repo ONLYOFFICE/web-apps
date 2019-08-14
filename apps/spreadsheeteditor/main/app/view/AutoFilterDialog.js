@@ -475,12 +475,16 @@ define([
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
         initialize: function (options) {
-            var t = this, _options = {};
+            var t = this, _options = {}, width = undefined, height = undefined;
+            if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0];
+                height = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1];
+            }
 
             _.extend(_options, {
-                width           : 450,
-                height          : 265,
-                contentWidth    : 400,
+                width           : width || 450,
+                height          : height || 265,
+                contentWidth    : (width - 50) || 400,
                 header          : false,
                 cls             : 'filter-dlg',
                 contentTemplate : '',
@@ -489,8 +493,8 @@ define([
                 animate         : false,
                 items           : [],
                 resizable       : true,
-                minwidth           : 450,
-                minheight          : 265
+                minwidth        : 450,
+                minheight       : 265
             }, options);
 
             this.template   =   options.template || [
@@ -811,6 +815,11 @@ define([
             _.delay(function () {
                 $(document.body).on('mousedown', checkDocumentClick);
             }, 100, this);
+
+            if(Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                this.$window.find('.combo-values').css({'height': Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1] - 100 + 'px'});
+                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            }
         },
 
         show: function (x, y) {
@@ -1394,6 +1403,7 @@ define([
                 this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
                 this.curSize.height = size[1];
             }
+            Common.Utils.InternalSettings.set('sse-settings-size-filter-window', size);
         },
 
         okButtonText        : 'Ok',
