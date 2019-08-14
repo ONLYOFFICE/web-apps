@@ -817,7 +817,7 @@ define([
             }, 100, this);
 
             if(Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
-                this.$window.find('.combo-values').css({'height': Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1] - 100 + 'px'});
+                this.$window.find('.combo-values').css({'height': Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1] - 103 + 'px'});
                 this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
