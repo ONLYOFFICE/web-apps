@@ -409,6 +409,10 @@ define([
             },
 
             onAfterKeydownMenu: function(e) {
+                this.trigger('keydown:before', this, e);
+                if (e.isDefaultPrevented())
+                    return;
+
                 if (e.keyCode == Common.UI.Keys.RETURN) {
                     var li = $(e.target).closest('li');
                     if (li.length<=0) li = $(e.target).parent().find('li .dataview');
