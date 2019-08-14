@@ -385,20 +385,18 @@ define([
                             var internalMenu = menu._innerMenu;
                             internalMenu.scroller.update({alwaysVisibleY: true});
                             _.delay(function() {
-                                menu._innerMenu && menu._innerMenu.cmpEl.focus();
+                                menu._innerMenu && menu._innerMenu.items[0].cmpEl.find('> a').focus();
                             }, 10);
-                        }).on('keydown:before', function(menu, e) {
-                            if (e.keyCode == Common.UI.Keys.RETURN) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            } else if (e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.ESC) {
-                                var $parent = menu.cmpEl.parent();
-                                if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
-                                    $parent.removeClass('over');
-                                    $parent.find('> a').focus();
+                        }).on('keydown:before', _.bind(me.onBeforeKeyDown, this))
+                          .on('keydown:before', function(menu, e) {
+                                if (e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.ESC) {
+                                    var $parent = menu.cmpEl.parent();
+                                    if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
+                                        $parent.removeClass('over');
+                                        $parent.find('> a').focus();
+                                    }
                                 }
-                            }
-                        } );
+                        });
 
                         // internal menu
                         var menu = new Common.UI.Menu({
@@ -408,8 +406,9 @@ define([
                         });
                         menu.on('item:click', function (menu, item, e) {
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
-                        });
+                        }).on('keydown:before', _.bind(me.onBeforeKeyDown, this));
                         mnu.menu._innerMenu = menu;
+                        menu._outerMenu = mnu.menu;
                         return mnu;
                     }
                 }
