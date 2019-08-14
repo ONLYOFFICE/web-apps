@@ -360,6 +360,7 @@ define([
 
             onApiInitEditorStyles: function(styles){
                 window.styles_loaded = false;
+                _cellStyles = styles;
 
                 this.getView('EditCell').renderStyles(styles);
 
