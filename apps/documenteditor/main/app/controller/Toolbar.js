@@ -56,7 +56,8 @@ define([
     'documenteditor/main/app/controller/PageLayout',
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
-    'documenteditor/main/app/view/WatermarkSettingsDialog'
+    'documenteditor/main/app/view/WatermarkSettingsDialog',
+    'documenteditor/main/app/view/CompareSettingsDialog'
 ], function () {
     'use strict';
 

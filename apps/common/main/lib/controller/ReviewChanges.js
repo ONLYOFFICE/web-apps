@@ -96,7 +96,7 @@ define([
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
 
-            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false};
+            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null /*new AscCommon.CComparisonPr()*/};
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
@@ -559,7 +559,7 @@ define([
             if (this.api) {
                 if (item === 'file') {
                     // if (this.api)
-                    //     this.api.asc_addDocument();
+                    //     this.api.asc_addDocument(me._state.compareSettings);
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
                     var me = this;
@@ -570,7 +570,7 @@ define([
                                 if (me.api) {
                                     var checkUrl = value.replace(/ /g, '');
                                     if (!_.isEmpty(checkUrl)) {
-                                        // me.api.AddDocumentUrl(checkUrl);
+                                        // me.api.AddDocumentUrl(checkUrl, me._state.compareSettings);
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.view);
@@ -584,21 +584,29 @@ define([
                     //     (new Common.Views.SelectFileDlg({
                     //         fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
                     //     })).on('selectfile', function(obj, file){
-                    //         me.insertImage(file);
+                    //         me.selectFile(file, me._state.compareSettings);
                     //     }).show();
                     // }
                 } else if (item === 'settings') {
-                    // show settings dialog
+                    var me = this;
+                    (new DE.Views.CompareSettingsDialog({
+                        props: me._state.compareSettings,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me._state.compareSettings = value;
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        insertImage: function(data) {
+        selectFile: function(data) {
             if (data && data.url) {
-                this.toolbar.fireEvent('insertimage', this.toolbar);
-                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
-                Common.component.Analytics.trackEvent('ToolBar', 'Image');
+                // this.api.AddDocumentUrl(data.url, this._state.compareSettings, data.token);// for loading from storage
             }
         },
 
