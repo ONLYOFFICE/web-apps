@@ -107,8 +107,7 @@ define([
             this.radioWord = new Common.UI.RadioBox({
                 el: $('#compare-settings-radio-word'),
                 labelText: this.textWord,
-                name: 'asc-radio-compare-show',
-                checked: true
+                name: 'asc-radio-compare-show'
             });
 
             this.afterRender();
@@ -124,15 +123,15 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                // var val = props.get_ShowAt();
-                // val ? this.radioChar.setValue(true, true) : this.radioWord.setValue(true, true);
+                var value = props.getWords();
+                (value==false) ? this.radioChar.setValue(true, true) : this.radioWord.setValue(true, true);
             }
         },
 
         getSettings: function () {
-            // var props   = new AscCommon.CComparisonPr();
-            // props.put_ShowAt(this.radioChar.getValue());
-            // return props;
+            var props   = new AscCommonWord.ComparisonOptions();
+            props.putWords(this.radioWord.getValue());
+            return props;
         },
 
         onDlgBtnClick: function(event) {
@@ -140,6 +139,7 @@ define([
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
                 this.handler && this.handler.call(this, state, this.getSettings());
+                Common.localStorage.setItem("de-compare-char", this.radioChar.getValue());
             }
 
             this.close();

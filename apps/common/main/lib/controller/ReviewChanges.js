@@ -557,9 +557,13 @@ define([
 
         onCompareClick: function(item) {
             if (this.api) {
+                if (!this._state.compareSettings) {
+                    this._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                    this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
+                }
                 if (item === 'file') {
-                    // if (this.api)
-                    //     this.api.asc_addDocument(me._state.compareSettings);
+                    if (this.api)
+                        this.api.asc_CompareDocumentFile(this._state.compareSettings);
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
                     var me = this;
@@ -570,7 +574,7 @@ define([
                                 if (me.api) {
                                     var checkUrl = value.replace(/ /g, '');
                                     if (!_.isEmpty(checkUrl)) {
-                                        // me.api.AddDocumentUrl(checkUrl, me._state.compareSettings);
+                                        me.api.asc_CompareDocumentUrl(checkUrl, me._state.compareSettings);
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.view);
