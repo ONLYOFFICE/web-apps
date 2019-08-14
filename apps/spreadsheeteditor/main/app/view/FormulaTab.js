@@ -247,6 +247,40 @@ define([
                 }, this);
             },
 
+            focusInner: function(menu, e) {
+                if (e.keyCode == Common.UI.Keys.UP)
+                    menu.items[menu.items.length-1].cmpEl.find('> a').focus();
+                else
+                    menu.items[0].cmpEl.find('> a').focus();
+            },
+
+            focusOuter: function(menu, e) {
+                menu.items[2].cmpEl.find('> a').focus();
+            },
+
+            onBeforeKeyDown: function(menu, e) {
+                if (e.keyCode == Common.UI.Keys.RETURN) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var li = $(e.target).closest('li');
+                    (li.length>0) && li.click();
+                    Common.UI.Menu.Manager.hideAll();
+                } else if (e.namespace!=="after.bs.dropdown" && (e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.UP)) {
+                    var $items = $('> [role=menu] > li:not(.divider):not(.disabled):visible', menu.$el).find('> a');
+                    if (!$items.length) return;
+                    var index = $items.index($items.filter(':focus')),
+                        me = this;
+                    if (menu._outerMenu && (e.keyCode == Common.UI.Keys.UP && index==0 || e.keyCode == Common.UI.Keys.DOWN && index==$items.length - 1) ||
+                        menu._innerMenu && (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) && index!==-1) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        _.delay(function() {
+                            menu._outerMenu ? me.focusOuter(menu._outerMenu, e) : me.focusInner(menu._innerMenu, e);
+                        }, 10);
+                    }
+                }
+            },
+
             setButtonMenu: function(btn, name) {
                 var me = this,
                     arr = [],
@@ -263,7 +297,7 @@ define([
                 }
                 if (arr.length) {
                     if (btn.menu && btn.menu.rendered) {
-                        var menu = btn.menu.items[0]._internalMenu;
+                        var menu = btn.menu._innerMenu;
                         if (menu) {
                             menu.removeAll();
                             arr.forEach(function(item){
@@ -285,25 +319,19 @@ define([
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
                         });
                         btn.menu.on('show:after', function (menu, e) {
-                            var internalMenu = menu.items[0]._internalMenu;
+                            var internalMenu = menu._innerMenu;
                             internalMenu.scroller.update({alwaysVisibleY: true});
                             _.delay(function() {
-                                menu.items[0]._internalMenu && menu.items[0]._internalMenu.cmpEl.focus();
+                                menu._innerMenu && menu._innerMenu.cmpEl.focus();
                             }, 10);
-                        }).on('keydown:before', function(menu, e) {
-                            if (e.keyCode == Common.UI.Keys.RETURN) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }
-                        } );
+                        }).on('keydown:before', _.bind(me.onBeforeKeyDown, this));
 
-                        var menuContainer = btn.menu.items[0].cmpEl.children(':first');
                         var menu = new Common.UI.Menu({
                             maxHeight: 300,
                             cls: 'internal-menu',
                             items: arr
                         });
-                        menu.render(menuContainer);
+                        menu.render(btn.menu.items[0].cmpEl.children(':first'));
                         menu.cmpEl.css({
                             display     : 'block',
                             position    : 'relative',
@@ -313,8 +341,9 @@ define([
                         menu.cmpEl.attr({tabindex: "-1"});
                         menu.on('item:click', function (menu, item, e) {
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
-                        });
-                        btn.menu.items[0]._internalMenu = menu;
+                        }).on('keydown:before', _.bind(me.onBeforeKeyDown, this));
+                        btn.menu._innerMenu = menu;
+                        menu._outerMenu = btn.menu;
                     }
                 }
                 btn.setDisabled(arr.length<1);
@@ -353,10 +382,10 @@ define([
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
                         });
                         mnu.menu.on('show:after', function (menu, e) {
-                            var internalMenu = menu.items[0]._internalMenu;
+                            var internalMenu = menu._innerMenu;
                             internalMenu.scroller.update({alwaysVisibleY: true});
                             _.delay(function() {
-                                menu.items[0]._internalMenu && menu.items[0]._internalMenu.cmpEl.focus();
+                                menu._innerMenu && menu._innerMenu.cmpEl.focus();
                             }, 10);
                         }).on('keydown:before', function(menu, e) {
                             if (e.keyCode == Common.UI.Keys.RETURN) {
@@ -380,7 +409,7 @@ define([
                         menu.on('item:click', function (menu, item, e) {
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
                         });
-                        mnu.menu.items[0]._internalMenu = menu;
+                        mnu.menu._innerMenu = menu;
                         return mnu;
                     }
                 }
@@ -423,7 +452,7 @@ define([
                         }
                         btn.menu.items.forEach(function(mnu){
                             var menuContainer = mnu.menu.items[0].cmpEl.children(':first'),
-                                menu = mnu.menu.items[0]._internalMenu;
+                                menu = mnu.menu._innerMenu;
                             menu.render(menuContainer);
                             menu.cmpEl.css({
                                 display     : 'block',
