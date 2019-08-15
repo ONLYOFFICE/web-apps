@@ -2352,10 +2352,9 @@ define([
             if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.items.length>0) return;
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
-
             me.equationPickers = [];
             me.toolbar.btnInsertEquation.menu.removeAll();
-            
+
             for (var i = 0; i < equationsStore.length; ++i) {
                 var equationGroup = equationsStore.at(i);
 
@@ -2372,15 +2371,15 @@ define([
                 });
 
                 me.toolbar.btnInsertEquation.menu.addItem(menuItem);
-
-                var equationPicker = new Common.UI.DataView({
+                var equationPicker = new Common.UI.DataViewSimple({
                     el: $('#id-toolbar-menu-equationgroup' + i),
                     store: equationGroup.get('groupStore'),
                     parentMenu: menuItem.menu,
                     showLast: false,
                     itemTemplate: _.template('<div class="item-equation" '+
                         'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                        '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>">')
+                        '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                        '</div>')
                 });
                 if (equationGroup.get('groupHeight').length) {
 
@@ -2401,7 +2400,6 @@ define([
                         }
                     });
                 }
-
                 equationPicker.on('item:click', function(picker, item, record, e) {
                     if (me.api) {
                         if (record)

@@ -766,6 +766,444 @@ define([
         }
     });
 
+    Common.UI.DataViewSimple = Common.UI.BaseView.extend({
+        options : {
+            multiSelect: false,
+            handleSelect: true,
+            enableKeyEvents: true,
+            keyMoveDirection: 'both', // 'vertical', 'horizontal'
+            restoreHeight: 0,
+            emptyText: '',
+            allowScrollbar: true,
+            scrollAlwaysVisible: false,
+            useBSKeydown: false
+        },
+
+        template: _.template([
+            '<div class="dataview inner" style="<%= style %>">',
+            '<% _.each(items, function(item) { %>',
+                '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+            '<% }) %>',
+            '</div>'
+        ].join('')),
+
+        initialize : function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this, options);
+            var me = this;
+
+            me.template       = me.options.template       || me.template;
+            me.store          = me.options.store          || new Common.UI.DataViewStore();
+            me.itemTemplate   = me.options.itemTemplate   || null;
+            me.handleSelect   = me.options.handleSelect;
+            me.parentMenu     = me.options.parentMenu;
+            me.enableKeyEvents= me.options.enableKeyEvents;
+            me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
+            me.style          = me.options.style        || '';
+            me.emptyText      = me.options.emptyText    || '';
+            me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
+            me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            if (me.parentMenu)
+                me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
+            me.rendered       = false;
+            if (me.options.keyMoveDirection=='vertical')
+                me.moveKeys = [Common.UI.Keys.UP, Common.UI.Keys.DOWN];
+            else if (me.options.keyMoveDirection=='horizontal')
+                me.moveKeys = [Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
+            else
+                me.moveKeys = [Common.UI.Keys.UP, Common.UI.Keys.DOWN, Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
+            if (me.options.el)
+                me.render();
+        },
+
+        render: function (parentEl) {
+            var me = this;
+            this.trigger('render:before', this);
+
+            if (parentEl) {
+                this.setElement(parentEl, false);
+                this.cmpEl = $(this.template({
+                    items: me.store.toJSON(),
+                    itemTemplate: me.itemTemplate,
+                    style: me.style
+                }));
+
+                parentEl.html(this.cmpEl);
+            } else {
+                this.cmpEl = me.$el || $(this.el);
+                this.cmpEl.html(this.template({
+                    items: me.store.toJSON(),
+                    itemTemplate: me.itemTemplate,
+                    style: me.style
+                }));
+            }
+            var modalParents = this.cmpEl.closest('.asc-window');
+            if (modalParents.length < 1)
+                modalParents = this.cmpEl.closest('[id^="menu-container-"]'); // context menu
+            if (modalParents.length > 0) {
+                this.tipZIndex = parseInt(modalParents.css('z-index')) + 10;
+            }
+
+            if (!this.rendered) {
+                if (this.parentMenu) {
+                    this.cmpEl.closest('li').css('height', '100%');
+                    this.cmpEl.css('height', '100%');
+                    this.parentMenu.on('show:after', _.bind(this.alignPosition, this));
+                    this.parentMenu.on('show:after', _.bind(this.onAfterShowMenu, this));
+                } else if (this.store.length>0)
+                    this.onAfterShowMenu();
+
+                if (this.enableKeyEvents && this.parentMenu && this.handleSelect) {
+                    this.parentMenu.on('show:before', function(menu) { me.deselectAll(); });
+                    this.parentMenu.on('show:after', function(menu) {
+                        Common.NotificationCenter.trigger('dataview:focus');
+                        _.delay(function() {
+                            menu.cmpEl.find('.dataview').focus();
+                        }, 10);
+                    }).on('hide:after', function() {
+                        Common.NotificationCenter.trigger('dataview:blur');
+                    });
+                }
+                this.attachKeyEvents();
+                this.cmpEl.on( "click", "div.item", _.bind(me.onClickItem, me));
+            }
+            if (_.isUndefined(this.scroller) && this.allowScrollbar) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el).find('.inner').addBack().filter('.inner'),
+                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                    minScrollbarLength  : 40,
+                    wheelSpeed: 10,
+                    alwaysVisibleY: this.scrollAlwaysVisible
+                });
+            }
+
+            this.rendered = true;
+
+            this.cmpEl.on('click', function(e){
+                if (/dataview/.test(e.target.className)) return false;
+            });
+
+            this.trigger('render:after', this);
+            return this;
+        },
+
+        selectRecord: function(record, suspendEvents) {
+            if (!this.handleSelect)
+                return;
+
+            if (suspendEvents)
+                this.suspendEvents();
+
+            this.deselectAll(suspendEvents);
+
+            if (record) {
+                record.set({selected: true});
+                var idx = _.indexOf(this.store.models, record);
+                if (idx>=0 && this.dataViewItems.length>idx) {
+                    this.dataViewItems[idx].el.addClass('selected');
+                }
+            }
+
+            if (suspendEvents)
+                this.resumeEvents();
+            return record;
+        },
+
+        selectByIndex: function(index, suspendEvents) {
+            if (this.store.length > 0 && index > -1 && index < this.store.length) {
+                return this.selectRecord(this.store.at(index), suspendEvents);
+            }
+        },
+
+        deselectAll: function(suspendEvents) {
+            if (suspendEvents)
+                this.suspendEvents();
+
+            _.each(this.store.where({selected: true}), function(record){
+                record.set({selected: false});
+            });
+            this.cmpEl.find('.item.selected').removeClass('selected');
+
+            if (suspendEvents)
+                this.resumeEvents();
+        },
+
+        getSelectedRec: function() {
+            return this.store.findWhere({selected: true});
+        },
+
+        onResetItems: function() {
+            this.dataViewItems && _.each(this.dataViewItems, function(item) {
+                var tip = item.el.data('bs.tooltip');
+                if (tip) {
+                    if (tip.dontShow===undefined)
+                        tip.dontShow = true;
+                    (tip.tip()).remove();
+                }
+            }, this);
+            this.dataViewItems = null;
+
+            var template = _.template([
+                '<% _.each(items, function(item) { %>',
+                    '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                    '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                '<% }) %>'
+            ].join(''));
+            this.cmpEl && this.cmpEl.html(template({
+                items: this.store.toJSON(),
+                itemTemplate: this.itemTemplate,
+                style : this.style
+            }));
+
+            if (!_.isUndefined(this.scroller)) {
+                this.scroller.destroy();
+                delete this.scroller;
+            }
+
+            if (this.allowScrollbar) {
+                this.scroller = new Common.UI.Scroller({
+                    el: $(this.el).find('.inner').addBack().filter('.inner'),
+                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                    minScrollbarLength  : 40,
+                    wheelSpeed: 10,
+                    alwaysVisibleY: this.scrollAlwaysVisible
+                });
+            }
+
+            if (this.parentMenu && this.store.length>0)
+                this.onAfterShowMenu();
+            this.attachKeyEvents();
+            this._layoutParams = undefined;
+        },
+
+        setStore: function(store) {
+            if (store) {
+                this.store = store;
+                this.onResetItems();
+            }
+        },
+
+        onClickItem: function(e) {
+            if ( this.disabled ) return;
+
+            window._event = e;  //  for FireFox only
+
+            var index = $(e.currentTarget).closest('div.item').index(),
+                record = (index>=0) ? this.store.at(index) : null,
+                view = (index>=0) ? this.dataViewItems[index] : null;
+            if (!record || !view) return;
+
+            record.set({selected: true});
+            var tip = view.el.data('bs.tooltip');
+            if (tip) (tip.tip()).remove();
+
+            if (!this.isSuspendEvents) {
+                this.trigger('item:click', this, view.el, record, e);
+            }
+        },
+
+        onAfterShowMenu: function(e) {
+            if (!this.dataViewItems) {
+                var me = this;
+                this.dataViewItems = [];
+                _.each(this.cmpEl.find('div.item'), function(item, index) {
+                    var $item = $(item),
+                        rec = me.store.at(index);
+                    me.dataViewItems.push({el: $item});
+                    if (rec.get('tip')) {
+                        $item.tooltip({
+                            title       : rec.get('tip'),
+                            placement   : 'cursor',
+                            zIndex : me.tipZIndex
+                        });
+                    }
+                });
+            }
+        },
+
+        scrollToRecord: function (record) {
+            if (!record) return;
+            var innerEl = $(this.el).find('.inner'),
+                inner_top = innerEl.offset().top,
+                idx = _.indexOf(this.store.models, record),
+                div = (idx>=0 && this.dataViewItems.length>idx) ? this.dataViewItems[idx].el : innerEl.find('#' + record.get('id'));
+            if (div.length<=0) return;
+
+            var div_top = div.offset().top,
+                div_first = this.dataViewItems[0].el,
+                div_first_top = (div_first.length>0) ? div_first[0].offsetTop : 0;
+            if (div_top < inner_top + div_first_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
+                if (this.scroller && this.allowScrollbar) {
+                    this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);
+                } else {
+                    innerEl.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top);
+                }
+            }
+        },
+
+        onKeyDown: function (e, data) {
+            if ( this.disabled ) return;
+            if (data===undefined) data = e;
+            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+                data.preventDefault();
+                data.stopPropagation();
+                var rec = this.getSelectedRec();
+                if (data.keyCode==Common.UI.Keys.RETURN) {
+                    if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
+                        rec = this.selectedBeforeHideRec;
+                    this.trigger('item:click', this, this, rec, e);
+                    if (this.parentMenu)
+                        this.parentMenu.hide();
+                } else {
+                    var idx = _.indexOf(this.store.models, rec);
+                    if (idx<0) {
+                        if (data.keyCode==Common.UI.Keys.LEFT) {
+                            var target = $(e.target).closest('.dropdown-submenu.over');
+                            if (target.length>0) {
+                                target.removeClass('over');
+                                target.find('> a').focus();
+                            } else
+                                idx = 0;
+                        } else
+                            idx = 0;
+                    } else if (this.options.keyMoveDirection == 'both') {
+                        if (this._layoutParams === undefined)
+                            this.fillIndexesArray();
+                        var topIdx = this.dataViewItems[idx].topIdx,
+                            leftIdx = this.dataViewItems[idx].leftIdx;
+
+                        idx = undefined;
+                        if (data.keyCode==Common.UI.Keys.LEFT) {
+                            while (idx===undefined) {
+                                leftIdx--;
+                                if (leftIdx<0) {
+                                    var target = $(e.target).closest('.dropdown-submenu.over');
+                                    if (target.length>0) {
+                                        target.removeClass('over');
+                                        target.find('> a').focus();
+                                        break;
+                                    } else
+                                        leftIdx = this._layoutParams.columns-1;
+                                }
+                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                            }
+                        } else if (data.keyCode==Common.UI.Keys.RIGHT) {
+                            while (idx===undefined) {
+                                leftIdx++;
+                                if (leftIdx>this._layoutParams.columns-1) leftIdx = 0;
+                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                            }
+                        } else if (data.keyCode==Common.UI.Keys.UP) {
+                            while (idx===undefined) {
+                                topIdx--;
+                                if (topIdx<0) topIdx = this._layoutParams.rows-1;
+                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                            }
+                        } else {
+                            while (idx===undefined) {
+                                topIdx++;
+                                if (topIdx>this._layoutParams.rows-1) topIdx = 0;
+                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                            }
+                        }
+                    } else {
+                        idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
+                            ? Math.max(0, idx-1)
+                            : Math.min(this.store.length - 1, idx + 1) ;
+                    }
+
+                    if (idx !== undefined && idx>=0) rec = this.store.at(idx);
+                    if (rec) {
+                        this._fromKeyDown = true;
+                        this.selectRecord(rec);
+                        this._fromKeyDown = false;
+                        this.scrollToRecord(rec);
+                    }
+                }
+            } else {
+                this.trigger('item:keydown', this, rec, e);
+            }
+        },
+
+        attachKeyEvents: function() {
+            if (this.enableKeyEvents && this.handleSelect) {
+                var el = $(this.el).find('.inner').addBack().filter('.inner');
+                el.addClass('canfocused');
+                el.attr('tabindex', '0');
+                el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
+            }
+        },
+
+        setDisabled: function(disabled) {
+            this.disabled = disabled;
+            $(this.el).find('.inner').addBack().filter('.inner').toggleClass('disabled', disabled);
+        },
+
+        isDisabled: function() {
+            return this.disabled;
+        },
+
+        alignPosition: function() {
+            var menuRoot = (this.parentMenu.cmpEl.attr('role') === 'menu')
+                    ? this.parentMenu.cmpEl
+                    : this.parentMenu.cmpEl.find('[role=menu]'),
+                docH = Common.Utils.innerHeight()-10,
+                innerEl = $(this.el).find('.inner').addBack().filter('.inner'),
+                parent = innerEl.parent(),
+                margins =  parseInt(parent.css('margin-top')) + parseInt(parent.css('margin-bottom')) + parseInt(menuRoot.css('margin-top')),
+                paddings = parseInt(menuRoot.css('padding-top')) + parseInt(menuRoot.css('padding-bottom')),
+                menuH = menuRoot.outerHeight(),
+                top = parseInt(menuRoot.css('top')),
+                props = {minScrollbarLength  : 40};
+            this.scrollAlwaysVisible && (props.alwaysVisibleY = this.scrollAlwaysVisible);
+
+            if (top + menuH > docH ) {
+                innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
+                if (this.allowScrollbar) this.scroller.update(props);
+            } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
+                innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
+                if (this.allowScrollbar) this.scroller.update(props);
+            }
+        },
+
+        fillIndexesArray: function() {
+            if (this.dataViewItems.length<=0) return;
+
+            this._layoutParams = {
+                itemsIndexes:   [],
+                columns:        0,
+                rows:           0
+            };
+
+            var el = this.dataViewItems[0].el,
+                itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
+                offsetLeft = this.$el.offset().left,
+                offsetTop = el.offset().top,
+                prevtop = -1, topIdx = 0, leftIdx = 0;
+
+            for (var i=0; i<this.dataViewItems.length; i++) {
+                var item = this.dataViewItems[i];
+                var top = item.el.offset().top - offsetTop;
+                leftIdx = Math.floor((item.el.offset().left - offsetLeft)/itemW);
+                if (top>prevtop) {
+                    prevtop = top;
+                    this._layoutParams.itemsIndexes.push([]);
+                    topIdx = this._layoutParams.itemsIndexes.length-1;
+                }
+                this._layoutParams.itemsIndexes[topIdx][leftIdx] = i;
+                item.topIdx = topIdx;
+                item.leftIdx = leftIdx;
+                if (this._layoutParams.columns<leftIdx) this._layoutParams.columns = leftIdx;
+            }
+            this._layoutParams.rows = this._layoutParams.itemsIndexes.length;
+            this._layoutParams.columns++;
+        },
+
+        onResize: function() {
+            this._layoutParams = undefined;
+        }
+    });
+
     $(document).on('keydown.dataview', '[data-toggle=dropdown], [role=menu]',  function(e) {
         if (e.keyCode !== Common.UI.Keys.UP && e.keyCode !== Common.UI.Keys.DOWN && e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT && e.keyCode !== Common.UI.Keys.RETURN) return;
 
