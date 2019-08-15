@@ -367,7 +367,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
-                this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onMathTypes, this));
+                this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
                 this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
@@ -2412,6 +2412,16 @@ define([
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
+        },
+
+        onApiMathTypes: function(equation) {
+            this._equationTemp = equation;
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.onMathTypes(me._equationTemp);
+                me.toolbar.btnInsertEquation.menu.off('show:before', onShowBefore);
+            };
+            me.toolbar.btnInsertEquation.menu.on('show:before', onShowBefore);
         },
 
         onMathTypes: function(equation) {
