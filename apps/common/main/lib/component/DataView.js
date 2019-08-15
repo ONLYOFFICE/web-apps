@@ -768,13 +768,10 @@ define([
 
     Common.UI.DataViewSimple = Common.UI.BaseView.extend({
         options : {
-            multiSelect: false,
             handleSelect: true,
             enableKeyEvents: true,
             keyMoveDirection: 'both', // 'vertical', 'horizontal'
             restoreHeight: 0,
-            emptyText: '',
-            allowScrollbar: true,
             scrollAlwaysVisible: false,
             useBSKeydown: false
         },
@@ -800,8 +797,6 @@ define([
             me.enableKeyEvents= me.options.enableKeyEvents;
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.style          = me.options.style        || '';
-            me.emptyText      = me.options.emptyText    || '';
-            me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
@@ -819,7 +814,6 @@ define([
         render: function (parentEl) {
             var me = this;
             this.trigger('render:before', this);
-
             if (parentEl) {
                 this.setElement(parentEl, false);
                 this.cmpEl = $(this.template({
@@ -867,7 +861,7 @@ define([
                 this.attachKeyEvents();
                 this.cmpEl.on( "click", "div.item", _.bind(me.onClickItem, me));
             }
-            if (_.isUndefined(this.scroller) && this.allowScrollbar) {
+            if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
@@ -949,7 +943,7 @@ define([
                     '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                 '<% }) %>'
             ].join(''));
-            this.cmpEl && this.cmpEl.html(template({
+            this.cmpEl && this.cmpEl.find('.inner').html(template({
                 items: this.store.toJSON(),
                 itemTemplate: this.itemTemplate,
                 style : this.style
@@ -960,19 +954,16 @@ define([
                 delete this.scroller;
             }
 
-            if (this.allowScrollbar) {
-                this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.inner').addBack().filter('.inner'),
-                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
-                    wheelSpeed: 10,
-                    alwaysVisibleY: this.scrollAlwaysVisible
-                });
-            }
+            this.scroller = new Common.UI.Scroller({
+                el: $(this.el).find('.inner').addBack().filter('.inner'),
+                useKeyboard: this.enableKeyEvents && !this.handleSelect,
+                minScrollbarLength  : 40,
+                wheelSpeed: 10,
+                alwaysVisibleY: this.scrollAlwaysVisible
+            });
 
-            if (this.parentMenu && this.store.length>0)
+            if (!this.parentMenu && this.store.length>0)
                 this.onAfterShowMenu();
-            this.attachKeyEvents();
             this._layoutParams = undefined;
         },
 
@@ -1033,7 +1024,7 @@ define([
                 div_first = this.dataViewItems[0].el,
                 div_first_top = (div_first.length>0) ? div_first[0].offsetTop : 0;
             if (div_top < inner_top + div_first_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
-                if (this.scroller && this.allowScrollbar) {
+                if (this.scroller) {
                     this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);
                 } else {
                     innerEl.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top);
@@ -1159,10 +1150,10 @@ define([
 
             if (top + menuH > docH ) {
                 innerEl.css('max-height', (docH - top - paddings - margins) + 'px');
-                if (this.allowScrollbar) this.scroller.update(props);
+                this.scroller.update(props);
             } else if ( top + menuH < docH && innerEl.height() < this.options.restoreHeight ) {
                 innerEl.css('max-height', (Math.min(docH - top - paddings - margins, this.options.restoreHeight)) + 'px');
-                if (this.allowScrollbar) this.scroller.update(props);
+                this.scroller.update(props);
             }
         },
 
