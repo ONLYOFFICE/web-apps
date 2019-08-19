@@ -100,7 +100,8 @@ define([
                         csv: Asc.c_oAscFileType.CSV,
                         xltx: Asc.c_oAscFileType.XLTX,
                         ots: Asc.c_oAscFileType.OTS
-                    }
+                    },
+                        width   : $(window).width()
                 }));
 
                 return this;
@@ -130,7 +131,6 @@ define([
                         $layout.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layout.find('#settings-spreadsheet').hide();
-                        $layout.find('#settings-application').hide();
                     }
                     if (!canDownload) $layout.find('#settings-download').hide();
                     if (!canAbout) $layout.find('#settings-about').hide();
@@ -170,6 +170,9 @@ define([
                 this.showPage('#settings-application-view');
                 $('#language-formula').single('click', _.bind(this.showFormulaLanguage, this));
                 $('#regional-settings').single('click', _.bind(this.showRegionalSettings, this));
+                if (!isEdit) {
+                    $('.page[data-page=settings-application-view] .page-content > :not(.display-view)').hide();
+                }
             },
 
             showFormulaLanguage: function () {
@@ -201,15 +204,6 @@ define([
 
             showDocumentInfo: function() {
                 this.showPage('#settings-info-view');
-
-                var document = Common.SharedSettings.get('document') || {},
-                        info = document.info || {};
-
-                $('#settings-document-title').html(document.title ? document.title : this.unknownText);
-                $('#settings-document-autor').html(info.author ? info.author : this.unknownText);
-                $('#settings-document-date').html(info.created ? info.created : this.unknownText);
-
-                Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
             },
 
             showDownload: function () {
@@ -381,7 +375,20 @@ define([
             textFormulaLanguage: 'Formula Language',
             textExample: 'Example',
             textR1C1Style: 'R1C1 Reference Style',
-            textRegionalSettings: 'Regional Settings'
+            textRegionalSettings: 'Regional Settings',
+            textCommentingDisplay: 'Commenting Display',
+            textDisplayComments: 'Comments',
+            textDisplayResolvedComments: 'Resolved Comments',
+            textSubject: 'Subject',
+            textTitle: 'Title',
+            textComment: 'Comment',
+            textOwner: 'Owner',
+            textApplication : 'Application',
+            textCreated: 'Created',
+            textLastModified: 'Last Modified',
+            textLastModifiedBy: 'Last Modified By',
+            textUploaded: 'Uploaded',
+            textLocation: 'Location'
     }
     })(), SSE.Views.Settings || {}))
 });

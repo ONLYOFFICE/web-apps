@@ -90,7 +90,8 @@ define([
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
                     orthography: Common.SharedSettings.get('sailfish'),
-                    scope   : this
+                    scope   : this,
+                    width   : $(window).width()
                 }));
 
                 return this;
@@ -124,7 +125,6 @@ define([
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-document').hide();
-                        $layour.find('#settings-advanced').hide();
                         $layour.find('#color-schemes').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-orthography').hide();
@@ -287,7 +287,21 @@ define([
             textColorSchemes: 'Color Schemes',
             textNoCharacters: 'Nonprinting Characters',
             textHiddenTableBorders: 'Hidden Table Borders',
-            textCollaboration: 'Collaboration'
+            textCollaboration: 'Collaboration',
+            textCommentingDisplay: 'Commenting Display',
+            textDisplayComments: 'Comments',
+            textDisplayResolvedComments: 'Resolved Comments',
+            textSubject: 'Subject',
+            textTitle: 'Title',
+            textComment: 'Comment',
+            textOwner: 'Owner',
+            textApplication : 'Application',
+            textLocation: 'Location',
+            textUploaded: 'Uploaded',
+            textLastModified: 'Last Modified',
+            textLastModifiedBy: 'Last Modified By',
+            textCreated: 'Created'
+
 
     }
     })(), DE.Views.Settings || {}))

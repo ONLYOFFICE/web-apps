@@ -63,6 +63,7 @@ define([
                 'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
                 /** coauthoring end **/
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-spellcheck': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
@@ -141,6 +142,16 @@ define([
             this.btnPlugins.hide();
             this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
 
+            this.btnSpellcheck = new Common.UI.Button({
+                el: $('#left-btn-spellcheck'),
+                hint: this.tipSpellcheck,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'leftMenuGroup'
+            });
+            this.btnSpellcheck.hide();
+            this.btnSpellcheck.on('click',      _.bind(this.onBtnMenuClick, this));
+
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
 
@@ -210,6 +221,12 @@ define([
                         this.panelChat['hide']();
                }
             }
+            if (this.panelSpellcheck) {
+                if (this.btnSpellcheck.pressed) {
+                    this.panelSpellcheck.show();
+                } else
+                    this.panelSpellcheck['hide']();
+            }
             // if (this.mode.canPlugins && this.panelPlugins) {
             //     if (this.btnPlugins.pressed) {
             //         this.panelPlugins.show();
@@ -226,6 +243,9 @@ define([
             } else
             if (name == 'plugins' && !this.panelPlugins) {
                 this.panelPlugins = panel.render('#left-panel-plugins');
+            } else
+            if (name == 'spellcheck' && !this.panelSpellcheck) {
+                this.panelSpellcheck = panel.render('#left-panel-spellcheck');
             }
         },
 
@@ -263,6 +283,10 @@ define([
                 this.panelPlugins['hide']();
                 this.btnPlugins.toggle(false, true);
             }
+            if (this.panelSpellcheck) {
+                this.panelSpellcheck['hide']();
+                this.btnSpellcheck.toggle(false, true);
+            }
         },
 
         isOpened: function() {
@@ -282,6 +306,7 @@ define([
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
             this.btnPlugins.setDisabled(false);
+            this.btnSpellcheck.setDisabled(false);
         },
 
         showMenu: function(menu) {
@@ -356,6 +381,7 @@ define([
         tipSearch   : 'Search',
         tipPlugins  : 'Plugins',
         txtDeveloper: 'DEVELOPER MODE',
-        txtTrial: 'TRIAL MODE'
+        txtTrial: 'TRIAL MODE',
+        tipSpellcheck: 'Spell checking'
     }, SSE.Views.LeftMenu || {}));
 });

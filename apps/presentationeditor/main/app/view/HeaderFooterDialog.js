@@ -48,7 +48,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 360,
-            height: 340
+            height: 380
         },
 
         initialize : function(options) {
@@ -75,7 +75,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                         '<div class="separator horizontal"/>',
                         '<div class="footer center">',
                             '<button class="btn normal dlg-btn primary" result="all" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
-                            '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyText + '</button>',
+                            '<button class="btn normal dlg-btn" result="ok" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyText + '</button>',
                             '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
                         '</div>'
                     ].join('')
@@ -152,12 +152,27 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             });
             this.dateControls.push(this.cmbFormat);
 
-            this.chUpdate = new Common.UI.CheckBox({
-                el: $('#hf-dlg-chb-update'),
+            this.radioUpdate = new Common.UI.RadioBox({
+                el: $('#hf-dlg-radio-update'),
                 labelText: this.textUpdate,
-                value: 'checked'
+                name: 'asc-radio-header-update',
+                checked: true
+            }).on('change', _.bind(this.setDateTimeType, this, 'update'));
+            this.dateControls.push(this.radioUpdate);
+
+            this.radioFixed = new Common.UI.RadioBox({
+                el: $('#hf-dlg-radio-fixed'),
+                labelText: this.textFixed,
+                name: 'asc-radio-header-update'
+            }).on('change', _.bind(this.setDateTimeType, this, 'fixed'));
+            this.dateControls.push(this.radioFixed);
+
+            this.inputFixed = new Common.UI.InputField({
+                el: $('#hf-dlg-input-fixed'),
+                validateOnBlur: false,
+                style       : 'width: 100%;'
             });
-            this.dateControls.push(this.chUpdate);
+            this.dateControls.push(this.inputFixed);
 
             this.chNotTitle = new Common.UI.CheckBox({
                 el: $('#hf-dlg-chb-not-title'),
@@ -181,17 +196,22 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         setType: function(type, field, newValue) {
+            var me = this;
             newValue = (newValue=='checked');
             if (type == 'date') {
                 _.each(this.dateControls, function(item) {
                     item.setDisabled(!newValue);
                 });
+                newValue && this.setDateTimeType(this.radioFixed.getValue() ? 'fixed' : 'update', null, true);
                 this.props.put_ShowDateTime(newValue);
             } else if (type == 'slide') {
                 this.props.put_ShowSlideNum(newValue);
             } else if (type == 'footer') {
                 this.inputFooter.setDisabled(!newValue);
                 this.props.put_ShowFooter(newValue);
+                newValue && setTimeout(function(){
+                                me.inputFooter.cmpEl.find('input').focus();
+                            },50);
             }
             this.props.updateView();
         },
@@ -214,13 +234,26 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             this.cmbFormat.setValue(format ? format : arr[0].value);
         },
 
+        setDateTimeType: function(type, field, newValue) {
+            if (newValue) {
+                var me = this;
+                this.cmbLang.setDisabled(type == 'fixed');
+                this.cmbFormat.setDisabled(type == 'fixed');
+                this.inputFixed.setDisabled(type == 'update');
+                (type == 'fixed') && setTimeout(function(){
+                    me.inputFixed.cmpEl.find('input').focus();
+                },50);
+
+            }
+        },
+
         onSelectFormat: function(format) {
-            format = format || this.cmbFormat.getValue();
-            if (this.chUpdate.getValue()=='checked') {
+            if (this.radioUpdate.getValue()) {
+                format = format || this.cmbFormat.getValue();
                 this.props.get_DateTime().put_DateTime(format);
             } else {
                 this.props.get_DateTime().put_DateTime(null);
-                this.props.get_DateTime().put_CustomDateTime(format);
+                this.props.get_DateTime().put_CustomDateTime(this.inputFixed.getValue());
             }
         },
 
@@ -234,18 +267,20 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                     item.setDisabled(!val);
                 });
 
-                var format,
+                var format, fixed,
                     datetime = slideprops.get_DateTime(),
-                    item = this.cmbLang.store.findWhere({value: datetime.get_Lang() || this.lang});
+                    item = this.cmbLang.store.findWhere({value: datetime ? (datetime.get_Lang() || this.lang) : this.lang});
                 this._originalLang = item ? item.get('value') : 0x0409;
                 this.cmbLang.setValue(this._originalLang);
 
                 if (val) {
                     format = datetime.get_DateTime();
-                    this.chUpdate.setValue(!!format, true);
-                    !format && (format = datetime.get_CustomDateTime());
+                    !format ? this.radioFixed.setValue(true) : this.radioUpdate.setValue(true);
+                    !format && (fixed = datetime.get_CustomDateTime() || '');
+                    this.setDateTimeType(!format ? 'fixed' : 'update', null, true);
                 }
                 this.updateFormats(this.cmbLang.getValue(), format);
+                this.inputFixed.setValue((fixed!==undefined) ? fixed : this.cmbFormat.getRawValue());
 
                 val = slideprops.get_ShowSlideNum();
                 this.chSlide.setValue(val, true);
@@ -288,7 +323,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         onPrimary: function() {
-            this._handleInput('ok');
+            this._handleInput('all');
             return false;
         },
 
@@ -323,7 +358,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         textNotTitle: 'Don\'t show on title slide',
         textPreview: 'Preview',
         diffLanguage: 'You can’t use a date format in a different language than the slide master.\nTo change the master, click \'Apply to all\' instead of \'Apply\'',
-        notcriticalErrorTitle: 'Warning'
+        notcriticalErrorTitle: 'Warning',
+        textFixed: 'Fixed'
 
     }, PE.Views.HeaderFooterDialog || {}))
 });

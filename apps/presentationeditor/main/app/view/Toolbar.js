@@ -804,12 +804,12 @@ define([
 
                     me.listTheme.fieldPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px;"/>',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''));
                     me.listTheme.menuPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px;"/>',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''));
 
@@ -983,7 +983,7 @@ define([
                             me.fireEvent('insert:image', [item.value]);
                         })
                     );
-                    btn.menu.items[2].setVisible(config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    btn.menu.items[2].setVisible(config.canRequestInsertImage || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
                 });
 
                 me.btnsInsertText.forEach(function (btn) {
@@ -1678,7 +1678,7 @@ define([
             mniImageFromStorage: 'Image from Storage',
             txtSlideAlign: 'Align to Slide',
             txtObjectsAlign: 'Align Selected Objects',
-            tipEditHeader: 'Edit Header or Footer',
+            tipEditHeader: 'Edit header or footer',
             tipSlideNum: 'Insert slide number',
             tipDateTime: 'Insert current date and time',
             capBtnInsHeader: 'Header/Footer',

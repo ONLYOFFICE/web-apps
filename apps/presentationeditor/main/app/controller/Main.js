@@ -180,7 +180,6 @@ define([
                     this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
-                    Common.NotificationCenter.on('document:ready',                  _.bind(this.onDocumentReady, this));
 
                     this.isShowOpenDialog = false;
 
@@ -287,7 +286,7 @@ define([
                     });
                 }
 
-                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.defaultTitleText = '{{APP_TITLE_TEXT}}';
                 me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
                 me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
@@ -317,6 +316,8 @@ define([
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
                 this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
+                this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
+                this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -341,7 +342,7 @@ define([
                     this.permissions = $.extend(this.permissions, data.doc.permissions);
 
                     var _permissions = $.extend({}, data.doc.permissions),
-                        _options = $.extend({}, data.doc.options, {actions: this.editorConfig.actionLink || {}});
+                        _options = $.extend({}, data.doc.options, this.editorConfig.actionLink || {});
 
                     var _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
@@ -420,7 +421,7 @@ define([
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = Asc.c_oAscFileType.PPTX;
-                this.api.asc_DownloadAs(_format, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
             },
 
             onProcessMouse: function(data) {
@@ -790,12 +791,6 @@ define([
                 Common.Gateway.documentReady();
 
                 $('.doc-placeholder').remove();
-            },
-
-            onDocumentReady: function() {
-                if (this.editorConfig.actionLink && this.editorConfig.actionLink.action && this.editorConfig.actionLink.action.type == 'comment') {
-                    Common.NotificationCenter.trigger('comments:showaction', this.editorConfig.actionLink.action.data, false);
-                }
             },
 
             onLicenseChanged: function(params) {
@@ -1767,7 +1762,7 @@ define([
                 if (!this.appOptions.canPrint || this.isModalShowed) return;
                 
                 if (this.api)
-                    this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -1787,20 +1782,23 @@ define([
                     this.iframePrint.style.bottom = "0";
                     document.body.appendChild(this.iframePrint);
                     this.iframePrint.onload = function() {
+                        try {
                         me.iframePrint.contentWindow.focus();
                         me.iframePrint.contentWindow.print();
                         me.iframePrint.contentWindow.blur();
                         window.focus();
+                        } catch (e) {
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                        }
                     };
                 }
                 if (url) this.iframePrint.src = url;
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,

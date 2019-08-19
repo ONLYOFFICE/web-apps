@@ -215,7 +215,7 @@ define([
             case 'back': break;
             case 'save': this.api.asc_Save(); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
-            case 'print': this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); break;
+            case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
                 this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
@@ -247,13 +247,13 @@ define([
         },
 
         clickSaveAsFormat: function(menu, format) {
-            this.api.asc_DownloadAs(format);
+            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
             menu.hide();
         },
 
         clickSaveCopyAsFormat: function(menu, format, ext) {
             this.isFromFileDownloadAs = ext;
-            this.api.asc_DownloadAs(format, true);
+            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
             menu.hide();
         },
 
@@ -269,27 +269,31 @@ define([
                         defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
                 }
 
-                me._saveCopyDlg = new Common.Views.SaveAsDlg({
-                    saveFolderUrl: me.mode.saveAsUrl,
-                    saveFileUrl: url,
-                    defFileName: defFileName
-                });
-                me._saveCopyDlg.on('saveaserror', function(obj, err){
-                    var config = {
-                        closable: false,
-                        title: me.notcriticalErrorTitle,
-                        msg: err,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                    };
-                    Common.UI.alert(config);
-                }).on('close', function(obj){
-                    me._saveCopyDlg = undefined;
-                });
-                me._saveCopyDlg.show();
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        var config = {
+                            closable: false,
+                            title: me.notcriticalErrorTitle,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
             }
             this.isFromFileDownloadAs = false;
         },

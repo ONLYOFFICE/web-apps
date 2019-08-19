@@ -25,7 +25,7 @@
                             </a>
                         </li>
                         <% } %>
-                        <% if(phone) {%>
+                        <% if(width < 360) {%>
                         <li>
                             <div id="settings-collaboration" class="item-content" style="display: none;">
                                 <div class="item-media">
@@ -155,32 +155,122 @@
     <div class="pages">
         <div class="page" data-page="settings-info-view">
             <div class="page-content">
-                <div class="content-block-title"><%= scope.textDocTitle %></div>
-                <div class="list-block">
+                <div class="content-block-title display-spreadsheet-title"><%= scope.textDocTitle %></div>
+                <div class="list-block display-spreadsheet-title">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-title" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-spreadsheet-title" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textAuthor %></div>
-                <div class="list-block">
+                <div class="content-block-title display-owner"><%= scope.textOwner %></div>
+                <div class="list-block display-owner">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-autor" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-sse-owner" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textCreateDate %></div>
-                <div class="list-block">
+                <div class="content-block-title display-location"><%= scope.textLocation %></div>
+                <div class="list-block display-location">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-date" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-sse-location" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-uploaded"><%= scope.textUploaded %></div>
+                <div class="list-block display-uploaded">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-uploaded" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-title"><%= scope.textTitle %></div>
+                <div class="list-block display-title">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-title" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-subject"><%= scope.textSubject %></div>
+                <div class="list-block display-subject">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-subject" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-comment"><%= scope.textComment %></div>
+                <div class="list-block display-comment">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-comment" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-last-mode"><%= scope.textLastModified %></div>
+                <div class="list-block display-last-mode">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-last-mod" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-mode-by"><%= scope.textLastModifiedBy %></div>
+                <div class="list-block display-mode-by">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-mod-by" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-created-date"><%= scope.textCreated %></div>
+                <div class="list-block display-created-date">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-date" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-application"><%= scope.textApplication %></div>
+                <div class="list-block display-application">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-application" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-author"><%= scope.textAuthor %></div>
+                <div class="list-block display-author">
+                    <ul id="list-creator">
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-sse-author" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
@@ -430,7 +520,49 @@
                         </li>
                     </ul>
                 </div>
+                <div class="content-block-title"><%= scope.textRegionalSettings %></div>
                 <div class="list-block">
+                    <ul>
+                        <li class="media-item">
+                            <a id="regional-settings" class="item-link item-content" data-page="#regional-settings-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textCustom %></div>
+                                    </div>
+                                    <div class="item-subtitle"><%= scope.textExample + ": "%><span class="item-example"><%= scope.textCustomSize %></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-view"><%= scope.textCommentingDisplay %></div>
+                <div class="list-block display-view">
+                    <ul>
+                        <div id="settings-display-comments" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDisplayComments %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="settings-display-resolved" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDisplayResolvedComments %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <div class="list-block display-view">
                     <ul>
                         <li id="r1-c1-style">
                             <div class="item-content">
@@ -444,21 +576,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="content-block-title"><%= scope.textRegionalSettings %></div>
-                <div class="list-block">
-                    <ul>
-                        <li class="media-item">
-                            <a id="regional-settings" class="item-link item-content" data-page="#regional-settings-view">
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title"><%= scope.textCustom %></div>
-                                    </div>
-                                    <div class="item-subtitle"><%= scope.textExample + ": "%><span class="item-example"><%= scope.textCustomSize %></span></div>
-                                </div>
-                            </a>
                         </li>
                     </ul>
                 </div>

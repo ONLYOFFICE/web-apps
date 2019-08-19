@@ -151,7 +151,7 @@ require([
             'AddShape',
             'AddImage',
             'AddOther',
-            'Collaboration'
+            'Common.Controllers.Collaboration'
         ]
     });
 
@@ -222,7 +222,7 @@ require([
         'documenteditor/mobile/app/controller/add/AddShape',
         'documenteditor/mobile/app/controller/add/AddImage',
         'documenteditor/mobile/app/controller/add/AddOther',
-        'documenteditor/mobile/app/controller/Collaboration'
+        'common/mobile/lib/controller/Collaboration'
     ], function() {
         window.compareVersions = true;
         app.start();

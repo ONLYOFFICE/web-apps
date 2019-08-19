@@ -88,7 +88,9 @@ define([
         docPropsLock:   'doc-props-lock',
         printAreaLock:  'print-area-lock',
         namedRangeLock: 'named-range-lock',
-        multiselectCols:'is-multiselect-cols'
+        multiselectCols:'is-multiselect-cols',
+        headerLock: 'header-lock',
+        sheetLock: 'sheet-lock'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -483,7 +485,7 @@ define([
                     iconCls     : 'btn-border-out',
                     icls        : 'btn-border-out',
                     borderId    : 'outer',
-                    borderswidth: 'thin',
+                    borderswidth: Asc.c_oAscBorderStyles.Thin,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     split       : true,
                     menu        : true
@@ -1340,7 +1342,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-editheader',
                     caption: me.capBtnInsHeader,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.printAreaLock, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.headerLock, _set.lostConnect, _set.coAuth]
                 });
 
                 me.btnImgAlign = new Common.UI.Button({
@@ -1461,7 +1463,7 @@ define([
                         $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                     } else
                         this.btnPageMargins.menu.items[0].setVisible(false);
-                    this.btnInsertImage.menu.items[2].setVisible(mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    this.btnInsertImage.menu.items[2].setVisible(mode.canRequestInsertImage || mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
                 }
 
                 me.setTab('home');

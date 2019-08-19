@@ -198,6 +198,10 @@ define([
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
                     '<td class="right"><span id="fms-chb-align-guides" /></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.textCompatible %></label></td>',
+                    '<td class="right"><span id="fms-chb-compatible" /></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
                     '<td class="right"><span id="fms-chb-autosave" /></td>',
@@ -269,6 +273,11 @@ define([
             this.chSpell = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-spell-check'),
                 labelText: this.strSpellCheckMode
+            });
+
+            this.chCompatible = new Common.UI.CheckBox({
+                el: $('#fms-chb-compatible'),
+                labelText: this.textOldVersions
             });
 
             this.chAutosave = new Common.UI.CheckBox({
@@ -450,6 +459,7 @@ define([
 
             this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
             this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
+            this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
         },
 
         applySettings: function() {
@@ -471,6 +481,8 @@ define([
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("de-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
             Common.localStorage.save();
 
@@ -533,7 +545,9 @@ define([
         txtFitWidth: 'Fit to Width',
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
-        strResolvedComment: 'Turn on display of the resolved comments'
+        strResolvedComment: 'Turn on display of the resolved comments',
+        textCompatible: 'Compatibility',
+        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -715,12 +729,12 @@ define([
                     //     '<td class="right"><label id="id-info-edittime"></label></td>',
                     // '</tr>',
                     '<tr>',
-                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
-                        '<td class="right"><div id="id-info-subject"></div></td>',
-                    '</tr>',
-                    '<tr>',
                         '<td class="left"><label>' + this.txtTitle + '</label></td>',
                         '<td class="right"><div id="id-info-title"></div></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
+                        '<td class="right"><div id="id-info-subject"></div></td>',
                     '</tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtComment + '</label></td>',
@@ -908,6 +922,11 @@ define([
         },
 
         updateInfo: function(doc) {
+            if (!this.doc && doc && doc.info) {
+                doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+            }
+
             this.doc = doc;
             if (!this.rendered)
                 return;
@@ -919,12 +938,14 @@ define([
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
                 visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
-                if (doc.info.author)
-                    this.lblOwner.text(doc.info.author);
-                visible = this._ShowHideInfoItem(this.lblOwner, doc.info.author!==undefined && doc.info.author!==null) || visible;
-                if (doc.info.uploaded)
-                    this.lblUploaded.text(doc.info.uploaded.toLocaleString());
-                visible = this._ShowHideInfoItem(this.lblUploaded, doc.info.uploaded!==undefined && doc.info.uploaded!==null) || visible;
+                var value = doc.info.owner || doc.info.author;
+                if (value)
+                    this.lblOwner.text(value);
+                visible = this._ShowHideInfoItem(this.lblOwner, !!value) || visible;
+                value = doc.info.uploaded || doc.info.created;
+                if (value)
+                    this.lblUploaded.text(value);
+                visible = this._ShowHideInfoItem(this.lblUploaded, !!value) || visible;
             } else
                 this._ShowHideDocInfo(false);
             $('tr.divider.general', this.el)[visible?'show':'hide']();

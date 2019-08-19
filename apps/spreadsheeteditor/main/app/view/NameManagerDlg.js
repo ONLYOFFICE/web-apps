@@ -285,7 +285,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 xy = me.$window.offset(),
                 rec = this.rangeList.getSelectedRec(),
                 idx = _.indexOf(this.rangeList.store.models, rec),
-                oldname = (isEdit && rec.length>0) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true) : null;
+                oldname = (isEdit && rec) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true) : null;
 
             var win = new SSE.Views.NamedRangeEditDlg({
                 api: me.api,

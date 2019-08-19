@@ -200,7 +200,7 @@ define([
                         });
                     }).on('close', function () {
                         $overlay.off('removeClass');
-                        $overlay.removeClass('modal-overlay-visible')
+                        $overlay.removeClass('modal-overlay-visible');
                     });
                 }
 
@@ -244,12 +244,55 @@ define([
                     me.initFormulaLang();
                 } else if ('#regional-settings-view' == pageId) {
                     me.initRegSettings();
+                } else if ('#settings-info-view' == pageId) {
+                    me.initPageInfo();
                 } else {
                     var _userCount = SSE.getController('Main').returnUserCount();
                     if (_userCount > 0) {
                         $('#settings-collaboration').show();
                     }
                 }
+            },
+
+            initPageInfo: function() {
+                var document = Common.SharedSettings.get('document') || {},
+                    info = document.info || {};
+
+                document.title ? $('#settings-spreadsheet-title').html(document.title) : $('.display-spreadsheet-title').remove();
+                var value = info.owner || info.author;
+                value ? $('#settings-sse-owner').html(value) : $('.display-owner').remove();
+                value = info.uploaded || info.created;
+                value ? $('#settings-sse-uploaded').html(value) : $('.display-uploaded').remove();
+                info.folder ? $('#settings-sse-location').html(info.folder) : $('.display-location').remove();
+
+                var appProps = (this.api) ? this.api.asc_getAppProps() : null;
+                if (appProps) {
+                    var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                    appName ? $('#settings-sse-application').html(appName) : $('.display-application').remove();
+                }
+
+                var props = (this.api) ? this.api.asc_getCoreProps() : null;
+                if (props) {
+                    value = props.asc_getTitle();
+                    value ? $('#settings-sse-title').html(value) : $('.display-title').remove();
+                    value = props.asc_getSubject();
+                    value ? $('#settings-sse-subject').html(value) : $('.display-subject').remove();
+                    value = props.asc_getDescription();
+                    value ? $('#settings-sse-comment').html(value) : $('.display-comment').remove();
+                    value = props.asc_getModified();
+                    value ? $('#settings-sse-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                    value = props.asc_getLastModifiedBy();
+                    value ? $('#settings-sse-mod-by').html(value) : $('.display-mode-by').remove();
+                    value = props.asc_getCreated();
+                    value ? $('#settings-sse-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                    value = props.asc_getCreator();
+                    var templateCreator = "";
+                    value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                        templateCreator = templateCreator + "<li class='item-content'><div class='item-inner'><div class='item-title'>" + item + "</div></div></li>";
+                    });
+                    templateCreator ? $('#list-creator').html(templateCreator) : $('.display-author').remove();
+                }
+
             },
 
             initRegSettings: function() {
@@ -282,7 +325,7 @@ define([
             },
 
             onCollaboration: function() {
-                SSE.getController('Collaboration').showModal();
+                SSE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             initSpreadsheetSettings: function() {
@@ -549,6 +592,44 @@ define([
                 var $r1c1Style = $('.page[data-page=settings-application-view] #r1-c1-style input');
                 $r1c1Style.prop('checked',value);
                 $r1c1Style.single('change',    _.bind(me.clickR1C1Style, me));
+
+                //init Commenting Display
+                var displayComments = Common.localStorage.getBool("sse-settings-livecomment", true);
+                $('#settings-display-comments input:checkbox').attr('checked', displayComments);
+                $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
+                var displayResolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
+                if (!displayComments) {
+                    $("#settings-display-resolved").addClass("disabled");
+                    displayResolved = false;
+                }
+                $('#settings-display-resolved input:checkbox').attr('checked', displayResolved);
+                $('#settings-display-resolved input:checkbox').single('change',   _.bind(me.onChangeDisplayResolved, me));
+            },
+
+            onChangeDisplayComments: function(e) {
+                var displayComments = $(e.currentTarget).is(':checked');
+                if (!displayComments) {
+                    this.api.asc_hideComments();
+                    $("#settings-display-resolved input").prop( "checked", false );
+                    Common.localStorage.setBool("sse-settings-resolvedcomment", false);
+                    $("#settings-display-resolved").addClass("disabled");
+                } else {
+                    var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
+                    this.api.asc_showComments(resolved);
+                    $("#settings-display-resolved").removeClass("disabled");
+                }
+                Common.localStorage.setBool("sse-settings-livecomment", displayComments);
+            },
+
+            onChangeDisplayResolved: function(e) {
+                var displayComments = Common.localStorage.getBool("sse-settings-livecomment");
+                if (displayComments) {
+                    var resolved = $(e.currentTarget).is(':checked');
+                    if (this.api) {
+                        this.api.asc_showComments(resolved);
+                    }
+                    Common.localStorage.setBool("sse-settings-resolvedcomment", resolved);
+                }
             },
 
             clickR1C1Style: function(e) {
@@ -590,20 +671,24 @@ define([
                 var me = this,
                     format = $(e.currentTarget).data('format');
 
-                if (format) {
-                    if (format == Asc.c_oAscFileType.TXT) {
-                        uiApp.confirm(
-                            me.warnDownloadAs,
-                            me.notcriticalErrorTitle,
-                            function () {
-                                me.api.asc_DownloadAs(format);
-                            }
-                        );
-                    } else {
-                        me.api.asc_DownloadAs(format);
-                    }
+                me.hideModal();
 
-                    me.hideModal();
+                if (format) {
+                    if (format == Asc.c_oAscFileType.CSV) {
+                        setTimeout(function () {
+                            uiApp.confirm(
+                                me.warnDownloadAs,
+                                me.notcriticalErrorTitle,
+                                function () {
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                }
+                            );
+                        }, 50);
+                    } else {
+                        setTimeout(function () {
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                        }, 50);
+                    }
                 }
             },
 

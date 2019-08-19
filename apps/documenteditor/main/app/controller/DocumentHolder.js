@@ -46,6 +46,19 @@ var c_paragraphLinerule = {
     LINERULE_EXACT: 2
 };
 
+var c_paragraphSpecial = {
+    NONE_SPECIAL: 0,
+    FIRST_LINE: 1,
+    HANGING: 2
+};
+
+var c_paragraphTextAlignment = {
+    RIGHT: 0,
+    LEFT: 1,
+    CENTERED: 2,
+    JUSTIFIED: 3
+};
+
 var c_pageNumPosition = {
     PAGE_NUM_POSITION_TOP: 0x01,
     PAGE_NUM_POSITION_BOTTOM: 0x02,

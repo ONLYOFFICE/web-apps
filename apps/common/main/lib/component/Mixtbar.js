@@ -286,6 +286,7 @@ define([
                     if ( $tp.length ) {
                         $tp.addClass('active');
                     }
+                    this.fireEvent('tab:active', [tab]);
                 }
             },
 

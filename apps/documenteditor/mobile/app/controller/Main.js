@@ -155,6 +155,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(me.onCoAuthoringDisconnect, me));
                     Common.NotificationCenter.on('goback',                          _.bind(me.goBack, me));
+                    Common.NotificationCenter.on('download:advanced',               _.bind(me.onAdvancedOptions, me));
 
                     // Initialize descendants
                     _.each(me.getApplication().controllers, function(controller) {
@@ -186,7 +187,7 @@ define([
                     Common.Gateway.internalMessage('listenHardBack');
                 }
 
-                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.defaultTitleText = '{{APP_TITLE_TEXT}}';
                 me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
@@ -266,6 +267,10 @@ define([
 
                 if (data.doc) {
                     DE.getController('Toolbar').setDocumentTitle(data.doc.title);
+                    if (data.doc.info) {
+                        data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+                    }
                 }
             },
 
@@ -324,7 +329,7 @@ define([
                 if (type && typeof type[1] === 'string') {
                     this.api.asc_DownloadOrigin(true)
                 } else {
-                    this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
                 }
             },
 
@@ -518,7 +523,8 @@ define([
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
-                this.isLiveCommenting ? this.api.asc_showComments(true) : this.api.asc_hideComments();
+                var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                this.isLiveCommenting ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
@@ -1116,17 +1122,16 @@ define([
                Common.Utils.ThemeColor.setColors(colors, standart_colors);
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     var picker,
                         pages = [],
                         pagesName = [];
 
-                    _.each(advOptions.asc_getOptions().asc_getCodePages(), function(page) {
+                    _.each(advOptions.asc_getCodePages(), function(page) {
                         pages.push(page.asc_getCodePage());
                         pagesName.push(page.asc_getCodePageName());
                     });
@@ -1134,6 +1139,37 @@ define([
                     $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                    var buttons = [];
+                    if (mode === 2) {
+                        buttons.push({
+                            text: me.textCancel,
+                            onClick: function () {
+                                me._state.openDlg = null;
+                            }
+                        });
+                    }
+                    buttons.push({
+                        text: 'OK',
+                        bold: true,
+                        onClick: function() {
+                            var encoding = picker.value;
+
+                            if (me.api) {
+                                if (mode==2) {
+                                    formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding));
+                                    me.api.asc_DownloadAs(formatOptions);
+                                } else {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
+                                }
+
+                                if (!me._isDocReady) {
+                                    me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                }
+                            }
+                            me._state.openDlg = null;
+                        }
+                    });
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advTxtOptions,
@@ -1145,31 +1181,14 @@ define([
                             '</div>' +
                             '<div id="txt-encoding"></div>' +
                         '</div>',
-                        buttons: [
-                            {
-                                text: 'OK',
-                                bold: true,
-                                onClick: function() {
-                                    var encoding = picker.value;
-
-                                    if (me.api) {
-                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
-
-                                        if (!me._isDocReady) {
-                                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                                        }
-                                    }
-                                    me._state.openDlg = null;
-                                }
-                            }
-                        ]
+                        buttons: buttons
                     });
 
                     picker = uiApp.picker({
                         container: '#txt-encoding',
                         toolbar: false,
                         rotateEffect: true,
-                        value: [advOptions.asc_getOptions().asc_getRecommendedSettings().asc_getCodePage()],
+                        value: [advOptions.asc_getRecommendedSettings().asc_getCodePage()],
                         cols: [{
                             values: pages,
                             displayValues: pagesName

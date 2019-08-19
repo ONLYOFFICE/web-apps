@@ -186,7 +186,7 @@ define([
                 }
 
                 me.initNames();
-                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.defaultTitleText = '{{APP_TITLE_TEXT}}';
                 me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
                 me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
@@ -261,6 +261,10 @@ define([
 
                 if (data.doc) {
                     PE.getController('Toolbar').setDocumentTitle(data.doc.title);
+                    if (data.doc.info) {
+                        data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+                    }
                 }
             },
 
@@ -313,7 +317,7 @@ define([
                     return;
                 }
                 this._state.isFromGatewayDownloadAs = true;
-                this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
             },
 
             goBack: function(current) {
@@ -1093,11 +1097,10 @@ define([
                 this.isThumbnailsShow = isShow;
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
 
                 if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);

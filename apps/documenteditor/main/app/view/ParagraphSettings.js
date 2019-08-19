@@ -183,8 +183,9 @@ define([
 
         setApi: function(api) {
             this.api = api;
-            if (this.api)
+            if (this.api) {
                 this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
+            }
             return this;
         },
 

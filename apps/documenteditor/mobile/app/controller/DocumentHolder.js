@@ -149,14 +149,14 @@ define([
                         }
                     });
                 } else if ('review' == eventName) {
-                    var getCollaboration = DE.getController('Collaboration');
+                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
                     getCollaboration.showModal();
-                    getCollaboration.getView('Collaboration').showPage('#reviewing-settings-view', false);
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#reviewing-settings-view', false);
                 } else if('reviewchange' == eventName) {
-                    var getCollaboration = DE.getController('Collaboration');
+                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
                     getCollaboration.showModal();
-                    getCollaboration.getView('Collaboration').showPage('#reviewing-settings-view', false);
-                    getCollaboration.getView('Collaboration').showPage('#change-view', false);
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#reviewing-settings-view', false);
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#change-view', false);
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {

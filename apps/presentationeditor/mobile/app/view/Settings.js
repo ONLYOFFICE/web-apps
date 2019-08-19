@@ -91,7 +91,8 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android: Common.SharedSettings.get('android'),
                     phone: Common.SharedSettings.get('phone'),
-                    scope: this
+                    scope: this,
+                    width: $(window).width()
                 }));
 
                 return this;
@@ -168,13 +169,6 @@ define([
 
             showInfo: function () {
                 this.showPage('#settings-info-view');
-
-                var document = Common.SharedSettings.get('document') || {},
-                    info = document.info || {};
-
-                $('#settings-presentation-title').html(document.title ? document.title : this.unknownText);
-                $('#settings-presentation-autor').html(info.author ? info.author : this.unknownText);
-                $('#settings-presentation-date').html(info.created ? info.created : this.unknownText);
             },
 
             showDownload: function () {
@@ -248,7 +242,17 @@ define([
             textPoint: 'Point',
             textInch: 'Inch',
             textColorSchemes: 'Color Schemes',
-            textCollaboration: 'Collaboration'
+            textCollaboration: 'Collaboration',
+            textSubject: 'Subject',
+            textTitle: 'Title',
+            textComment: 'Comment',
+            textOwner: 'Owner',
+            textApplication : 'Application',
+            textCreated: 'Created',
+            textLastModified: 'Last Modified',
+            textLastModifiedBy: 'Last Modified By',
+            textUploaded: 'Uploaded',
+            textLocation: 'Location'
         }
     })(), PE.Views.Settings || {}))
 });

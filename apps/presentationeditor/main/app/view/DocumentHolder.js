@@ -1861,6 +1861,20 @@ define([
                 }
             });
 
+            var mnuPrintSelection = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', function(item){
+                if (me.api){
+                    var printopt = new Asc.asc_CAdjustPrint();
+                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    opts.asc_setAdvancedOptions(printopt);
+                    me.api.asc_Print(opts);
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+                }
+            });
+
             var menuSlidePaste = new Common.UI.MenuItem({
                 caption : me.textPaste,
                 value : 'paste'
@@ -1900,9 +1914,10 @@ define([
                     menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
-                    for (var i = 9; i < 13; i++) {
+                    for (var i = 9; i < 14; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
+                    mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
 
                     var selectedElements = me.api.getSelectedElements(),
                         locked           = false,
@@ -1930,6 +1945,7 @@ define([
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
                     mnuChangeTheme.setDisabled(me._state.themeLock || locked );
                     mnuSlideHide.setDisabled(lockedLayout || locked);
+                    mnuPrintSelection.setDisabled(me.slidesCount<1);
                 },
                 items: [
                     menuSlidePaste,
@@ -1963,6 +1979,7 @@ define([
                     menuSlideSettings,
                     {caption: '--'},
                     mnuSelectAll,
+                    mnuPrintSelection,
                     {caption: '--'},
                     mnuPreview
                 ]
@@ -2021,8 +2038,8 @@ define([
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([
-                        '<div class="style" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
+                        '<div class="style" id="<%= id %>"">',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''))
                 }).on('item:click', function(picker, item, record, e) {
@@ -2154,7 +2171,7 @@ define([
                 menu        : new Common.UI.MenuSimple({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    restoreHeight: 300,
+                    restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
                     search: true
@@ -2179,6 +2196,13 @@ define([
                 }
             });
 
+            var menuToDictionaryTable = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
+                me.fireEvent('editcomplete', me);
+            });
+
             var menuIgnoreSpellTableSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -2197,6 +2221,7 @@ define([
                         menuIgnoreSpellTableSeparator,
                         menuIgnoreSpellTable,
                         menuIgnoreAllSpellTable,
+                        menuToDictionaryTable,
                         { caption: '--' },
                         me.langTableMenu
                     ]
@@ -2222,7 +2247,7 @@ define([
                 menu        : new Common.UI.MenuSimple({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    restoreHeight: 300,
+                    restoreHeight: 285,
                     items   : [],
                     itemTemplate: langTemplate,
                     search: true
@@ -2240,6 +2265,13 @@ define([
                 caption     : me.ignoreAllSpellText
             }).on('click', function(item, e) {
                 me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuToDictionaryPara = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -2970,15 +3002,17 @@ define([
                     menuParaPaste.setDisabled(disabled);
 
                     // spellCheck
-                    me.menuSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuSpellcheckParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreAllSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    me.langParaMenu.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    me.menuSpellPara.setVisible(spell);
+                    menuSpellcheckParaSeparator.setVisible(spell);
+                    menuIgnoreSpellPara.setVisible(spell);
+                    menuIgnoreAllSpellPara.setVisible(spell);
+                    menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
+                    me.langParaMenu.setVisible(spell);
                     me.langParaMenu.setDisabled(disabled);
-                    menuIgnoreSpellParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuIgnoreSpellParaSeparator.setVisible(spell);
 
-                    if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
+                    if (spell && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(true);
                     } else {
                         me.menuSpellPara.setCaption(me.loadSpellText, true);
@@ -2993,9 +3027,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 11);
+                        eqlen = me.addEquationMenu(true, 12);
                     } else
-                        me.clearEquationMenu(true, 11);
+                        me.clearEquationMenu(true, 12);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
                 },
                 items: [
@@ -3004,6 +3038,7 @@ define([
                     menuSpellcheckParaSeparator,
                     menuIgnoreSpellPara,
                     menuIgnoreAllSpellPara,
+                    menuToDictionaryPara,
                     me.langParaMenu,
                     menuIgnoreSpellParaSeparator,
                     menuParaCut,
@@ -3093,6 +3128,7 @@ define([
                     menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() /** coauthoring begin **/|| menuAddCommentTable.isVisible()/** coauthoring end **/);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
                     menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
 
                     me.langTableMenu.setDisabled(disabled);
@@ -3536,7 +3572,9 @@ define([
         textRotate: 'Rotate',
         textCrop: 'Crop',
         textCropFill: 'Fill',
-        textCropFit: 'Fit'
+        textCropFit: 'Fit',
+        toDictionaryText: 'Add to Dictionary',
+        txtPrintSelection: 'Print Selection'
 
     }, PE.Views.DocumentHolder || {}));
 });

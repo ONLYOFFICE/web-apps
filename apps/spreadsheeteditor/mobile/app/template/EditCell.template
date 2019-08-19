@@ -423,9 +423,9 @@
                         <li>
                             <a id="edit-border-size" class="item-link smart-select" data-back-on-select="true">
                                 <select name="cell-border-size">
-                                    <option value="thin"><%= scope.textThin %></option>
-                                    <option value="medium"><%= scope.textMedium %></option>
-                                    <option value="thick"><%= scope.textThick %></option>
+                                    <option value="<%=  Asc.c_oAscBorderStyles.Thin %>"><%= scope.textThin %></option>
+                                    <option value="<%=  Asc.c_oAscBorderStyles.Medium %>"><%= scope.textMedium %></option>
+                                    <option value="<%=  Asc.c_oAscBorderStyles.Thick %>"><%= scope.textThick %></option>
                                 </select>
                                 <div class="item-content">
                                     <div class="item-inner">

@@ -91,7 +91,8 @@ define([
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
                     backTitle   : Common.SharedSettings.get('android') ? '' : me.textBack,
-                    scope       : me
+                    scope       : me,
+                    width       : $(window).width()
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
@@ -162,7 +163,7 @@ define([
 
             //Collaboration
             showCollaboration: function () {
-                PE.getController('Collaboration').showModal();
+                PE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             textBack: 'Back'

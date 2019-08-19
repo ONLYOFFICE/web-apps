@@ -49,12 +49,11 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
     DE.Views.WatermarkText = new(function() {
         var langs;
         var _get = function() {
-            if (langs)
-                return langs;
-
+            return langs;
+        };
+        var _load = function(callback) {
             langs = [];
-            try {
-                var langJson = Common.Utils.getConfigJson('resources/watermark/wm-text.json');
+            Common.Utils.loadConfig('resources/watermark/wm-text.json', function (langJson) {
                 for (var lang in langJson) {
                     var val = Common.util.LanguageInfo.getLocalLanguageCode(lang);
                     if (val) {
@@ -66,14 +65,12 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     if (a.shortname > b.shortname) return 1;
                     return 0;
                 });
-            }
-            catch (e) {
-            }
-
-            return langs;
+                callback && callback(langs);
+            });
         };
         return {
-            get: _get
+            get: _get,
+            load: _load
         };
     })();
 
@@ -114,7 +111,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.textControls = [];
             this.imageControls = [];
             this.fontName = 'Arial';
-            this.lang = 'en';
+            this.lang = {value: 'en', displayValue: 'English'};
+            this.text = '';
             this.isAutoColor = false;
             this.isImageLoaded = false;
 
@@ -209,6 +207,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 scrollAlwaysVisible: true,
                 data        : []
             }).on('selected', _.bind(this.onSelectLang, this));
+            this.cmbLang.setValue(Common.util.LanguageInfo.getLocalLanguageName(9)[1]);//en
             this.textControls.push(this.cmbLang);
 
             this.cmbText = new Common.UI.ComboBox({
@@ -422,18 +421,27 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         },
 
         loadLanguages: function() {
-            this.languages = DE.Views.WatermarkText.get();
-            var data = [];
-            this.languages && this.languages.forEach(function(item) {
-                data.push({displayValue: item.name, value: item.shortname, wmtext: item.text});
-            });
-            this.cmbLang.setData(data);
-            if (data.length) {
-                var item = this.cmbLang.store.findWhere({value: this.lang}) || this.cmbLang.store.at(0);
-                this.cmbLang.setValue(this.lang);
-                this.onSelectLang(this.cmbLang, item.toJSON());
-            } else
-                this.cmbLang.setDisabled(true);
+            var me = this;
+            var callback = function(languages) {
+                var data = [];
+                me.languages = languages;
+                me.languages && me.languages.forEach(function(item) {
+                    data.push({displayValue: item.name, value: item.shortname, wmtext: item.text});
+                });
+                if (data.length) {
+                    me.cmbLang.setData(data);
+                    me.cmbLang.setValue(me.lang.displayValue);
+                    me.loadWMText(me.lang.value);
+                    me.cmbLang.setDisabled(!me.radioText.getValue());
+                    me.text && me.cmbText.setValue(me.text);
+                } else
+                    me.cmbLang.setDisabled(true);
+            };
+            var languages = DE.Views.WatermarkText.get();
+            if (languages)
+                callback(languages);
+            else
+                DE.Views.WatermarkText.load(callback);
         },
 
         onSelectLang: function(combo, record) {
@@ -443,9 +451,11 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             record.wmtext.forEach(function(item) {
                 data.push({value: item});
             });
-            this.lang = record.value;
-            this.cmbText.setData(data);
-            this.cmbText.setValue(data[0].value);
+            this.lang = record;
+            if (data.length>0) {
+                this.cmbText.setData(data);
+                this.cmbText.setValue(data[0].value);
+            }
         },
 
         loadWMText: function(lang) {
@@ -463,8 +473,10 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             item && item.get('wmtext').forEach(function(item) {
                 data.push({value: item});
             });
-            this.cmbText.setData(data);
-            this.cmbText.setValue(data[0].value);
+            if (data.length>0) {
+                this.cmbText.setData(data);
+                this.cmbText.setValue(data[0].value);
+            }
         },
 
         insertFromUrl: function() {
@@ -504,7 +516,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     val = props.get_TextPr();
                     if (val) {
                         var lang = Common.util.LanguageInfo.getLocalLanguageName(val.get_Lang());
-                        this.lang = lang[0];
+                        this.lang = {value: lang[0], displayValue: lang[1]};
                         this.cmbLang.setValue(lang[1]);
                         this.loadWMText(lang[0]);
 
@@ -555,6 +567,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     }
                     val = props.get_Text();
                     val && this.cmbText.setValue(val);
+                    this.text = val || '';
                 }
                 this.disableControls(type);
             }
@@ -584,7 +597,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     val.put_Underline(this.btnUnderline.pressed);
                     val.put_Strikeout(this.btnStrikeout.pressed);
 
-                    val.put_Lang(parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.lang)));
+                    val.put_Lang(parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.lang.value)));
 
                     var color = new Asc.asc_CColor();
                     if (this.isAutoColor) {
@@ -610,7 +623,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             _.each(this.textControls, function(item) {
                 item.setDisabled(disable);
             });
-            this.cmbLang.setDisabled(disable || this.languages.length<1);
+            this.cmbLang.setDisabled(disable || !this.languages || this.languages.length<1);
             this.btnOk.setDisabled(type==Asc.c_oAscWatermarkType.Image && !this.isImageLoaded);
         },
 

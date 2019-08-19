@@ -80,7 +80,8 @@ define([
                 $el.prepend(me.template({
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
-                    backTitle   : Common.SharedSettings.get('android') ? '' : me.textBack
+                    backTitle   : Common.SharedSettings.get('android') ? '' : me.textBack,
+                    width       : $(window).width()
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
@@ -158,7 +159,7 @@ define([
 
             //Collaboration
             showCollaboration: function () {
-                SSE.getController('Collaboration').showModal();
+                SSE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             textBack: 'Back'

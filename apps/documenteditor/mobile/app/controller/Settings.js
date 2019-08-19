@@ -47,7 +47,7 @@ define([
     'underscore',
     'backbone',
     'documenteditor/mobile/app/view/Settings',
-    'documenteditor/mobile/app/controller/Collaboration'
+    'common/mobile/lib/controller/Collaboration'
 ], function (core, $, _, Backbone) {
     'use strict';
 
@@ -85,7 +85,8 @@ define([
             _isReviewOnly = false,
             _fileKey,
             templateInsert,
-            _metricText = Common.Utils.Metric.getCurrentMetricName();
+            _metricText = Common.Utils.Metric.getCurrentMetricName(),
+            _isEdit;
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -147,6 +148,7 @@ define([
                 _canReview = mode.canReview;
                 _isReviewOnly = mode.isReviewOnly;
                 _fileKey = mode.fileKey;
+                _isEdit = mode.isEdit;
             },
 
             initEvents: function () {
@@ -234,6 +236,16 @@ define([
                     $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
                     $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
+                    var displayComments = Common.localStorage.getBool("de-settings-livecomment", true);
+                    $('#settings-display-comments input:checkbox').attr('checked', displayComments);
+                    $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
+                    var displayResolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                    if (!displayComments) {
+                        $("#settings-display-resolved").addClass("disabled");
+                        displayResolved = false;
+                    }
+                    $('#settings-display-resolved input:checkbox').attr('checked', displayResolved);
+                    $('#settings-display-resolved input:checkbox').single('change',   _.bind(me.onChangeDisplayResolved, me));
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-advanced-view]', '.page[data-page=settings-advanced-view] .page-content');
                 } else if ('#color-schemes-view' == pageId) {
                     me.initPageColorSchemes();
@@ -249,7 +261,7 @@ define([
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
                     $('#settings-collaboration').single('click',                _.bind(me.clickCollaboration, me));
-                    var _stateDisplayMode = DE.getController('Collaboration').getDisplayMode();
+                    var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
                     if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                         $('#settings-document').addClass('disabled');
                     }
@@ -260,8 +272,34 @@ define([
                 }
             },
 
+            onChangeDisplayComments: function(e) {
+                var displayComments = $(e.currentTarget).is(':checked');
+                if (!displayComments) {
+                    this.api.asc_hideComments();
+                    $("#settings-display-resolved input").prop( "checked", false );
+                    Common.localStorage.setBool("de-settings-resolvedcomment", false);
+                    $("#settings-display-resolved").addClass("disabled");
+                } else {
+                    var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
+                    this.api.asc_showComments(resolved);
+                    $("#settings-display-resolved").removeClass("disabled");
+                }
+                Common.localStorage.setBool("de-settings-livecomment", displayComments);
+            },
+
+            onChangeDisplayResolved: function(e) {
+                var displayComments = Common.localStorage.getBool("de-settings-livecomment");
+                if (displayComments) {
+                    var resolved = $(e.currentTarget).is(':checked');
+                    if (this.api) {
+                        this.api.asc_showComments(resolved);
+                    }
+                    Common.localStorage.setBool("de-settings-resolvedcomment", resolved);
+                }
+            },
+
             clickCollaboration: function() {
-                DE.getController('Collaboration').showModal();
+                DE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             onNoCharacters: function(e) {
@@ -339,10 +377,13 @@ define([
                 var value = Common.localStorage.getItem('de-mobile-settings-unit');
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 $unitMeasurement.val([value]);
-                var _stateDisplayMode = DE.getController('Collaboration').getDisplayMode();
+                var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
                 if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
                     $('#settings-no-characters').addClass('disabled');
                     $('#settings-hidden-borders').addClass('disabled');
+                }
+                if (!_isEdit) {
+                    $('.page[data-page=settings-advanced-view] .page-content > :not(.display-view)').hide();
                 }
             },
 
@@ -374,9 +415,39 @@ define([
                     var document = Common.SharedSettings.get('document') || {},
                         info = document.info || {};
 
-                    $('#settings-document-title').html(document.title ? document.title : me.unknownText);
-                    $('#settings-document-autor').html(info.author ? info.author : me.unknownText);
-                    $('#settings-document-date').html(info.created ? info.created : me.unknownText);
+                    document.title ? $('#settings-document-title').html(document.title) : $('.display-document-title').remove();
+                    var value = info.owner || info.author;
+                    value ? $('#settings-document-owner').html(value) : $('.display-owner').remove();
+                    value = info.uploaded || info.created;
+                    value ? $('#settings-doc-uploaded').html(value) : $('.display-uploaded').remove();
+                    info.folder ? $('#settings-doc-location').html(info.folder) : $('.display-location').remove();
+
+                    var appProps = (this.api) ? this.api.asc_getAppProps() : null;
+                    if (appProps) {
+                        var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                        appName ? $('#settings-doc-application').html(appName) : $('.display-application').remove();
+                    }
+                    var props = (this.api) ? this.api.asc_getCoreProps() : null;
+                    if (props) {
+                        value = props.asc_getTitle();
+                        value ? $('#settings-doc-title').html(value) : $('.display-title').remove();
+                        value = props.asc_getSubject();
+                        value ? $('#settings-doc-subject').html(value) : $('.display-subject').remove();
+                        value = props.asc_getDescription();
+                        value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
+                        value = props.asc_getModified();
+                        value ? $('#settings-doc-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                        value = props.asc_getLastModifiedBy();
+                        value ? $('#settings-doc-mod-by').html(value) : $('.display-mode-by').remove();
+                        value = props.asc_getCreated();
+                        value ? $('#settings-doc-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                        value = props.asc_getCreator();
+                        var templateCreator = "";
+                        value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                            templateCreator = templateCreator + "<li class='item-content'><div class='item-inner'><div class='item-title'>" + item + "</div></div></li>";
+                        });
+                        templateCreator ? $('#list-creator').html(templateCreator) : $('.display-author').remove();
+                    }
                 }
             },
 
@@ -491,19 +562,22 @@ define([
                     format = $(e.currentTarget).data('format');
 
                 if (format) {
-                    if (format == Asc.c_oAscFileType.TXT) {
+                    if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                         _.defer(function () {
                             uiApp.confirm(
-                                me.warnDownloadAs,
+                                (format === Asc.c_oAscFileType.TXT) ? me.warnDownloadAs : me.warnDownloadAsRTF,
                                 me.notcriticalErrorTitle,
                                 function () {
-                                    me.api.asc_DownloadAs(format);
+                                    if (format == Asc.c_oAscFileType.TXT)
+                                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                    else
+                                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 }
                             );
                         });
                     } else {
                         _.defer(function () {
-                            me.api.asc_DownloadAs(format);
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                         });
                     }
 
@@ -676,7 +750,8 @@ define([
             unknownText: 'Unknown',
             txtLoading              : 'Loading...',
             notcriticalErrorTitle   : 'Warning',
-            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'
+            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
+            warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
         }
     })(), DE.Controllers.Settings || {}))
 });

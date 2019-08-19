@@ -369,9 +369,7 @@ define([
         tipDiagU:           'Set Diagonal Up Border',
         tipDiagD:           'Set Diagonal Down Border',
         textOrientation:    'Text Orientation',
-        textAngle:          'Angle',
-        textTextToColumn:   'Text to Columns',
-        textWizard: 'Text to Columns Wizard'
+        textAngle:          'Angle'
 
     }, SSE.Views.CellSettings || {}));
 });

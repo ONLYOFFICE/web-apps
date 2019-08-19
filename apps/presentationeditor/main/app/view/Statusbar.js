@@ -251,7 +251,7 @@ define([
                 this.langMenu = new Common.UI.MenuSimple({
                     cls: 'lang-menu',
                     style: 'margin-top:-5px;',
-                    restoreHeight: 300,
+                    restoreHeight: 285,
                     itemTemplate: _.template([
                         '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
                         '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
@@ -351,13 +351,13 @@ define([
                     $parent.find('#status-label-lang').text(info.displayValue);
 
                     this.langMenu.prevTip = info.value;
-
-                    var index = $parent.find('ul li a:contains("'+info.displayValue+'")').parent().index();
-                    if (index < 0) {
+                    var lang = _.find(this.langMenu.items, function(item) { return item.caption == info.displayValue; });
+                    if (lang) {
+                        this.langMenu.setChecked(this.langMenu.items.indexOf(lang), true);
+                    } else {
                         this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();
-                    } else
-                        this.langMenu.setChecked(index, true);
+                    }
                 }
             },
 

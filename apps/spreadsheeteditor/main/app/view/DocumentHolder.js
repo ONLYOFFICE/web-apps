@@ -922,6 +922,29 @@ define([
                 ]
             });
 
+            me.pmiCommonCut = new Common.UI.MenuItem({
+                caption     : me.txtCut,
+                value       : 'cut'
+            });
+
+            me.pmiCommonCopy = new Common.UI.MenuItem({
+                caption     : me.txtCopy,
+                value       : 'copy'
+            });
+
+            me.pmiCommonPaste = new Common.UI.MenuItem({
+                caption     : me.txtPaste,
+                value       : 'paste'
+            });
+
+            this.copyPasteMenu = new Common.UI.Menu({
+                items: [
+                    me.pmiCommonCut,
+                    me.pmiCommonCopy,
+                    me.pmiCommonPaste
+                ]
+            });
+
             this.entriesMenu = new Common.UI.Menu({
                 maxHeight: 200,
                 cyclic: false,
