@@ -1815,7 +1815,7 @@
   "SSE.Views.ParagraphSettingsAdvanced.strAllCaps": "All caps",
   "SSE.Views.ParagraphSettingsAdvanced.strDoubleStrike": "Double strikethrough",
   "SSE.Views.ParagraphSettingsAdvanced.strIndent": "Indents",
-  "SSE.Views.ParagraphSettingsAdvanced.strIndentsFirstLine": "First Line",
+  "del_SSE.Views.ParagraphSettingsAdvanced.strIndentsFirstLine": "First Line",
   "SSE.Views.ParagraphSettingsAdvanced.strIndentsLeftText": "Left",
   "SSE.Views.ParagraphSettingsAdvanced.strIndentsLineSpacing": "Line Spacing",
   "SSE.Views.ParagraphSettingsAdvanced.strIndentsRightText": "Right",

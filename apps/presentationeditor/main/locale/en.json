@@ -1325,7 +1325,7 @@
   "PE.Views.ParagraphSettingsAdvanced.strAllCaps": "All caps",
   "PE.Views.ParagraphSettingsAdvanced.strDoubleStrike": "Double strikethrough",
   "PE.Views.ParagraphSettingsAdvanced.strIndent": "Indents",
-  "PE.Views.ParagraphSettingsAdvanced.strIndentsFirstLine": "First Line",
+  "del_PE.Views.ParagraphSettingsAdvanced.strIndentsFirstLine": "First Line",
   "PE.Views.ParagraphSettingsAdvanced.strIndentsLeftText": "Left",
   "PE.Views.ParagraphSettingsAdvanced.strIndentsLineSpacing": "Line Spacing",
   "PE.Views.ParagraphSettingsAdvanced.strIndentsRightText": "Right",
