@@ -203,7 +203,7 @@
   "PE.Controllers.Main.uploadImageTextText": "Resim yükleniyor...",
   "PE.Controllers.Main.uploadImageTitleText": "Resim Yükleniyor",
   "PE.Controllers.Main.warnLicenseExp": "Lisansınızın süresi doldu.<br>Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
-  "PE.Controllers.Main.warnNoLicense": "ONLYOFFICE'ın açık kaynaklı bir sürümünü kullanıyorsunuz. Sürüm, belge sunucusuna eş zamanlı bağlantılar için sınırlamalar getiriyor (bir seferde 20 bağlantı).<br>Daha fazla bilgiye ihtiyacınız varsa, ticari bir lisans satın almayı düşünün lütfen.",
+  "PE.Controllers.Main.warnNoLicense": "%1'ın açık kaynaklı bir sürümünü kullanıyorsunuz. Sürüm, belge sunucusuna eş zamanlı bağlantılar için sınırlamalar getiriyor (bir seferde 20 bağlantı).<br>Daha fazla bilgiye ihtiyacınız varsa, ticari bir lisans satın almayı düşünün lütfen.",
   "PE.Controllers.Main.warnProcessRightsChange": "Dosyayı düzenleme hakkınız reddedildi.",
   "PE.Controllers.Search.textNoTextFound": "Metin Bulunamadı",
   "PE.Controllers.Settings.notcriticalErrorTitle": "Uyarı",

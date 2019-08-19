@@ -411,7 +411,7 @@
   "SSE.Controllers.Main.warnBrowserIE9": "Aplikácia má na IE9 slabé schopnosti. Použite IE10 alebo vyššie.",
   "SSE.Controllers.Main.warnBrowserZoom": "Súčasné nastavenie priblíženia nie je plne podporované prehliadačom. Obnovte štandardné priblíženie stlačením klávesov Ctrl+0.",
   "SSE.Controllers.Main.warnLicenseExp": "Vaša licencia vypršala.<br>Prosím, aktualizujte si svoju licenciu a obnovte stránku.",
-  "SSE.Controllers.Main.warnNoLicense": "Táto verzia aplikácie ONLYOFFICE Editors má určité obmedzenia pre súbežné pripojenia k dokumentovému serveru. <br> Ak potrebujete viac, zvážte aktualizáciu aktuálnej licencie alebo zakúpenie komerčnej.",
+  "SSE.Controllers.Main.warnNoLicense": "Táto verzia aplikácie %1 editors má určité obmedzenia pre súbežné pripojenia k dokumentovému serveru. <br> Ak potrebujete viac, zvážte aktualizáciu aktuálnej licencie alebo zakúpenie komerčnej.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Bolo vám zamietnuté právo upravovať súbor.",
   "SSE.Controllers.Print.strAllSheets": "Všetky listy",
   "SSE.Controllers.Print.textWarning": "Upozornenie",

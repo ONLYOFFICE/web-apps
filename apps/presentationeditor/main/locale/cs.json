@@ -277,7 +277,7 @@
   "PE.Controllers.Main.warnBrowserIE9": "Aplikace má slabou podporu v IE9. Použíjte IE10 nebo vyšší",
   "PE.Controllers.Main.warnBrowserZoom": "Aktuální přiblížení prohlížeče není plně podporováno. Obnovte prosím původní přiblížení stiknem CTRL+0.",
   "PE.Controllers.Main.warnLicenseExp": "Platnost vaší licence vypršela.<br>Prosím, aktualizujte vaší licenci a obnovte stránku.",
-  "PE.Controllers.Main.warnNoLicense": "Používáte verzi open source ONLYOFFICE. Verze má omezení pro souběžné připojení k dokumentovému serveru (20 připojení najednou).<br>Pokud budete potřebovat více, tak prosím zvažte koupi komerční licence.",
+  "PE.Controllers.Main.warnNoLicense": "Používáte verzi open source %1. Verze má omezení pro souběžné připojení k dokumentovému serveru (20 připojení najednou).<br>Pokud budete potřebovat více, tak prosím zvažte koupi komerční licence.",
   "PE.Controllers.Main.warnProcessRightsChange": "Bylo Vám odebráno právo upravovat tento soubor",
   "PE.Controllers.Statusbar.zoomText": "Přiblížení {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Písmo, které se chystáte uložit není dostupné na stávajícím zařízení.<br>Text bude zobrazen s jedním ze systémových písem, uložené písmo bude použito, jakmile bude dostupné.<br>Chcete pokračovat?",

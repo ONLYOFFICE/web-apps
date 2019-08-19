@@ -427,7 +427,7 @@
   "DE.Controllers.Main.warnBrowserIE9": "Aplikacja ma małe możliwości w IE9. Użyj przeglądarki IE10 lub nowszej.",
   "DE.Controllers.Main.warnBrowserZoom": "Aktualne ustawienie powiększenia przeglądarki nie jest w pełni obsługiwane. Zresetuj domyślny zoom, naciskając Ctrl + 0.",
   "DE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",
-  "DE.Controllers.Main.warnNoLicense": "Używasz wersji ONLYOFFICE w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
+  "DE.Controllers.Main.warnNoLicense": "Używasz wersji %1 w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
   "DE.Controllers.Main.warnProcessRightsChange": "Nie masz prawa edytować tego pliku.",
   "DE.Controllers.Navigation.txtBeginning": "Początek dokumentu",
   "DE.Controllers.Statusbar.textHasChanges": "Nowe zmiany zostały śledzone",

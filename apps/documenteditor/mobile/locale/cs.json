@@ -151,7 +151,7 @@
   "DE.Controllers.Main.uploadImageTitleText": "Nahrávání obrázku",
   "DE.Controllers.Main.waitText": "Čekejte prosím ...",
   "DE.Controllers.Main.warnLicenseExp": "Platnost vaší licence vypršela.<br>Prosím, aktualizujte vaší licenci a obnovte stránku.",
-  "DE.Controllers.Main.warnNoLicense": "Používáte verzi open source ONLYOFFICE. Verze má omezení pro souběžné připojení k dokumentovému serveru (20 připojení najednou).<br>Pokud budete potřebovat více, tak prosím zvažte koupi komerční licence.",
+  "DE.Controllers.Main.warnNoLicense": "Používáte verzi open source %1. Verze má omezení pro souběžné připojení k dokumentovému serveru (20 připojení najednou).<br>Pokud budete potřebovat více, tak prosím zvažte koupi komerční licence.",
   "DE.Controllers.Main.warnProcessRightsChange": "Bylo Vám odebráno právo upravovat tento soubor.",
   "DE.Controllers.Search.textNoTextFound": "Text nebyl nalezen",
   "DE.Controllers.Search.textReplaceAll": "Nahradit vše",
