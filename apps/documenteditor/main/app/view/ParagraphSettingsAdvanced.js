@@ -890,7 +890,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this.tabList.selectByIndex(0);
                 }
 
-                this.cmbOutlinelevel.setValue(props.get_OutlineLvl()!==undefined ? props.get_OutlineLvl() : -1);
+                this.cmbOutlinelevel.setValue((props.get_OutlineLvl() === undefined || props.get_OutlineLvl()===null) ? -1 : props.get_OutlineLvl());
 
                 this._noApply = false;
 
@@ -1428,7 +1428,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
         onOutlinelevelSelect: function(combo, record) {
             if (this._changedProps) {
-                this._changedProps.put_OutlineLvl(record.value>-1 ? record.value: undefined);
+                this._changedProps.put_OutlineLvl(record.value>-1 ? record.value: null);
             }
         },
 
