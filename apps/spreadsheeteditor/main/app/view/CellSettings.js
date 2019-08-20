@@ -87,7 +87,7 @@ define([
             this.BorderType = 1;
             this.GradLinearDirectionType = 0;
             this.GradRadialDirectionIdx = 0;
-            this.GradColors = ['000000','ffffff'];
+            this.GradColors = [];
 
             this.fillControls = [];
 
@@ -416,6 +416,8 @@ define([
                     this.CellColor = {Value: 0, Color: 'transparent'};
                     this.FGColor = {Value: 1, Color: '000000'};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
+                    this.GradColors[0] = {Value: 1, Color: '000000', Position: 0};
+                    this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
                 } else if (pattern !== null) {
                     if(pattern.asc_getType() === Asc.c_oAscPatternType.Solid) {
                         var color = pattern.asc_getFgColor();
@@ -425,8 +427,10 @@ define([
                             this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB())};
                         }
                         this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
-                        this.FGColor = this.GradColor1 = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color)};
-                        this.BGColor = this.GradColor2 = {Value: 1, Color: 'ffffff'};
+                        this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color)};
+                        this.BGColor = {Value: 1, Color: 'ffffff'};
+                        this.GradColors[0] = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color), Position: 0};
+                        this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
                     } else {
                         this.PatternFillType = pattern.asc_getType();
                         if (this._state.PatternFillType !== this.PatternFillType) {
@@ -458,8 +462,8 @@ define([
                         } else
                             this.BGColor = {Value: 1, Color: 'ffffff'};
                         this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color)};
-                        this.GradColor1 = this.FGColor;
-                        this.GradColor2 = {Value: 1, Color: 'ffffff'};
+                        this.GradColors[0] = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color), Position: 0};
+                        this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
                         this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     }
                 } else if (gradient !== null) {
@@ -490,25 +494,26 @@ define([
                         }
                     }
 
-                   /* var gradientColors = [];
+                    var gradientStops;
                     this.GradColors = [];
-                    //gradientColors = gradient.asc_getGradientColors();
-                    for(var color in gradientColors) {
-                        var clr = color.color,
+                    gradientStops = gradient.asc_getGradientStops();
+                    for(var color of gradientStops) {
+                        var clr = color.asc_getColor(),
+                            position = color.asc_getPosition(),
                             itemColor;
                         if (clr.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                            itemColor  = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(clr.getR(), clr.getG(), clr.getB()), effectValue: clr.asc_getValue() }};
+                            itemColor  = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(clr.getR(), clr.getG(), clr.getB()), effectValue: clr.asc_getValue() }, Position: position};
                         } else {
-                            itemColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(clr.getR(), clr.getG(), clr.getB())};
+                            itemColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(clr.getR(), clr.getG(), clr.getB()), Position: position};
                         }
                         this.GradColors.push(itemColor);
-                    }*/
-
-
+                    }
+                    this.GradColors = _.sortBy(this.GradColors, 'Position');
+                    
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
-                    this.FGColor = {Value: 1, Color: 'ffffff'}; // this.GradColors[0]
+                    this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.GradColors[0].Color)};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
-                    this.CellColor = {Value: 1, Color: 'ffffff'}; // this.GradColors[0]
+                    this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.GradColors[0].Color)};
                 }
 
                 if ( this._state.FillType !== this.OriginalFillType ) {
@@ -592,53 +597,61 @@ define([
                 }
 
                 // Gradient colors
-                /*type1 = typeof(this.GradColors[0].Color);
+                var gradColor1 = this.GradColors[0];
+                if (!gradColor1) {
+                    gradColor1 = {Value: 1, Color: '000000'};
+                }
+                type1 = typeof(gradColor1.Color);
                 type2 = typeof(this._state.GradColor1);
 
                 if ( (type1 !== type2) || (type1=='object' &&
-                    (this.GradColors[0].Color.effectValue!==this._state.GradColor1.effectValue || this._state.GradColor1.color.indexOf(this.GradColors[0].Color.color)<0)) ||
-                    (type1!='object' && this._state.GradColor1.indexOf(this.GradColors[0].Color)<0 )) {
+                    (gradColor1.Color.effectValue!==this._state.GradColor1.effectValue || this._state.GradColor1.color.indexOf(gradColor1.Color.color)<0)) ||
+                    (type1!='object' && this._state.GradColor1.indexOf(gradColor1.Color)<0 )) {
 
-                    this.btnGradColor1.setColor(this.GradColors[0].Color);
-                    if ( typeof(this.GradColors[0].Color) == 'object' ) {
+                    this.btnGradColor1.setColor(gradColor1.Color);
+                    if ( typeof(gradColor1.Color) == 'object' ) {
                         var isselected = false;
                         for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.GradColors[0].Color.effectValue ) {
-                                this.colorsGrad1.select(this.GradColors[0].Color,true);
+                            if ( Common.Utils.ThemeColor.ThemeValues[i] == gradColor1.Color.effectValue ) {
+                                this.colorsGrad1.select(gradColor1.Color,true);
                                 isselected = true;
                                 break;
                             }
                         }
                         if (!isselected) this.colorsGrad1.clearSelection();
                     } else
-                        this.colorsGrad1.select(this.GradColors[0].Color,true);
+                        this.colorsGrad1.select(gradColor1.Color,true);
 
-                    this._state.GradColor1 = this.GradColors[0].Color;
+                    this._state.GradColor1 = gradColor1.Color;
                 }
 
-                type1 = typeof(this.GradColors[1].Color);
+                var gradColor2 = this.GradColors[1];
+                if (!gradColor2) {
+                    gradColor2 = {Value: 1, Color: 'ffffff'};
+                }
+                type1 = typeof(gradColor2.Color);
                 type2 = typeof(this._state.GradColor2);
 
                 if ( (type1 !== type2) || (type1=='object' &&
-                    (this.GradColors[1].Color.effectValue!==this._state.GradColor2.effectValue || this._state.GradColor2.color.indexOf(this.GradColors[1].Color.color)<0)) ||
-                    (type1!='object' && this._state.GradColor2.indexOf(this.GradColors[1].Color)<0 )) {
+                    (gradColor2.Color.effectValue!==this._state.GradColor2.effectValue || this._state.GradColor2.color.indexOf(gradColor2.Color.color)<0)) ||
+                    (type1!='object' && this._state.GradColor2.indexOf(gradColor2.Color)<0 )) {
 
-                    this.btnGradColor1.setColor(this.GradColors[1].Color);
-                    if ( typeof(this.GradColors[1].Color) == 'object' ) {
+                    this.btnGradColor2.setColor(gradColor2.Color);
+                    if ( typeof(gradColor2.Color) == 'object' ) {
                         var isselected = false;
                         for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.GradColors[1].Color.effectValue ) {
-                                this.colorsGrad2.select(this.GradColors[1].Color,true);
+                            if ( Common.Utils.ThemeColor.ThemeValues[i] == gradColor2.Color.effectValue ) {
+                                this.colorsGrad2.select(gradColor2.Color,true);
                                 isselected = true;
                                 break;
                             }
                         }
                         if (!isselected) this.colorsGrad2.clearSelection();
                     } else
-                        this.colorsGrad2.select(this.GradColors[1].Color,true);
+                        this.colorsGrad2.select(gradColor2.Color,true);
 
-                    this._state.GradColor2 = this.GradColors[1].Color;
-                }*/
+                    this._state.GradColor2 = gradColor2.Color;
+                }
 
                 this._noApply = false;
             }
