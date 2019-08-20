@@ -119,8 +119,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             ];
 
             this._arrOutlinelevel = [{displayValue: this.textBodyText, value: -1}];
-            for (var i=1; i<10; i++) {
-                this._arrOutlinelevel.push({displayValue: this.textLevel + ' ' + i, value: i});
+            for (var i=0; i<9; i++) {
+                this._arrOutlinelevel.push({displayValue: this.textLevel + ' ' + (i+1), value: i});
             }
 
             this._arrTabAlign = [
@@ -301,7 +301,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 style: 'width: 174px;',
                 menuStyle   : 'min-width: 174px;'
             });
-            this.cmbOutlinelevel.setValue('');
+            this.cmbOutlinelevel.setValue(-1);
             this.cmbOutlinelevel.on('selected', _.bind(this.onOutlinelevelSelect, this));
 
             // Line & Page Breaks
@@ -890,6 +890,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this.tabList.selectByIndex(0);
                 }
 
+                this.cmbOutlinelevel.setValue(props.get_OutlineLvl()!==undefined ? props.get_OutlineLvl() : -1);
+
                 this._noApply = false;
 
                 this._changedProps = new Asc.asc_CParagraphProperty();
@@ -1425,7 +1427,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         onOutlinelevelSelect: function(combo, record) {
-
+            if (this._changedProps) {
+                this._changedProps.put_OutlineLvl(record.value>-1 ? record.value: undefined);
+            }
         },
 
         textTitle:      'Paragraph - Advanced Settings',
@@ -1497,7 +1501,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textFirstLine: 'First line',
         textHanging: 'Hanging',
         textJustified: 'Justified',
-        textBodyText: 'BodyText',
+        textBodyText: 'Basic Text',
         textLevel: 'Level',
         strIndentsOutlinelevel: 'Outline level',
         strIndent: 'Indents',
