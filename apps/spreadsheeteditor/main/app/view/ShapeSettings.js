@@ -96,7 +96,8 @@ define([
                 DisabledFillPanels: false,
                 DisabledControls: false,
                 HideShapeOnlySettings: false,
-                HideChangeTypeSettings: false
+                HideChangeTypeSettings: false,
+                isFromImage: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -741,7 +742,8 @@ define([
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
                 this.hideChangeTypeSettings(hidechangetype);
-                if (!hidechangetype) {
+                this._state.isFromImage = !!shapeprops.get_FromImage();
+                if (!hidechangetype && this.btnChangeShape.menu.items.length) {
                     this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage());
                     this.btnChangeShape.menu.items[1].setVisible(!shapeprops.get_FromImage());
                 }
@@ -1412,7 +1414,7 @@ define([
                 this.PatternFillType = this.patternViewData[0].type;
             }
 
-            this.fillAutoShapes();
+            this.onApiAutoShapes();
             this.UpdateThemeColors();
             this._initSettings = false;
         },
@@ -1481,6 +1483,15 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onApiAutoShapes: function() {
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.fillAutoShapes();
+                menu.off('show:before', onShowBefore);
+            };
+            me.btnChangeShape.menu.on('show:before', onShowBefore);
+        },
+
         fillAutoShapes: function() {
             var me = this,
                 shapesStore = this.application.getCollection('ShapeGroups'),
@@ -1494,7 +1505,7 @@ define([
                         store.shift();
                     }
                     var shapePicker = new Common.UI.DataViewSimple({
-                        el: $('#id-shape-menu-shapegroup' + (i+1)),
+                        el: $('#id-shape-menu-shapegroup' + (i+1), menu.items[i+1].$el),
                         store: store,
                         parentMenu: menu.items[i+1].menu,
                         itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
@@ -1510,6 +1521,7 @@ define([
                 }
                 menu.off('show:after', onShowAfter);
             };
+            me.btnChangeShape.menu.on('show:after', onShowAfter);
 
             for (var i=-1; i<count-1 && count>0; i++) {
                 var shapeGroup = shapesStore.at(i>-1 ? i : i+1);
@@ -1524,7 +1536,8 @@ define([
                 });
                 me.btnChangeShape.menu.addItem(menuItem);
             }
-            me.btnChangeShape.menu.on('show:after', onShowAfter);
+            me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage);
+            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage);
         },
 
         onBtnRotateClick: function(btn) {

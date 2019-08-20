@@ -1830,9 +1830,8 @@ define([
 
                 shapeStore.add(shapegrouparray);
                 setTimeout(function(){
-                    me.getApplication().getController('Toolbar').fillAutoShapes();
+                    me.getApplication().getController('Toolbar').onApiAutoShapes();
                 }, 50);
-
             },
 
             fillTextArt: function(shapes){

@@ -1477,7 +1477,7 @@ define([
                 }
             },
 
-            updateAutoshapeMenu: function (collection) {
+            updateAutoshapeMenu: function (menuShape, collection) {
                 var me = this;
                 var onShowAfter = function(menu) {
                     for (var i = 0; i < collection.length; i++) {
@@ -1495,24 +1495,22 @@ define([
                     }
                     menu.off('show:after', onShowAfter);
                 };
+                menuShape.on('show:after', onShowAfter);
 
-                me.btnsInsertShape.forEach(function (btn, index) {
-                    for (var i = 0; i < collection.size(); i++) {
-                        var group = collection.at(i);
+                for (var i = 0; i < collection.size(); i++) {
+                    var group = collection.at(i);
 
-                        var menuitem = new Common.UI.MenuItem({
-                            caption: group.get('groupName'),
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                items: [
-                                    {template: _.template('<div class="shapegroup-' + i + '" class="menu-shape" style="width: ' + (group.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>')}
-                                ]
-                            })
-                        });
-                        btn.menu.addItem(menuitem);
-                    }
-                    btn.menu.on('show:after', onShowAfter);
-                });
+                    var menuitem = new Common.UI.MenuItem({
+                        caption: group.get('groupName'),
+                        menu: new Common.UI.Menu({
+                            menuAlign: 'tl-tr',
+                            items: [
+                                {template: _.template('<div class="shapegroup-' + i + '" class="menu-shape" style="width: ' + (group.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>')}
+                            ]
+                        })
+                    });
+                    menuShape.addItem(menuitem);
+                }
             },
 
             updateAddSlideMenu: function(collection) {

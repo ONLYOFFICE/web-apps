@@ -1703,9 +1703,14 @@ define([
         },
 
         onResetAutoshapes: function () {
-            setTimeout(function () {
-                this.toolbar.updateAutoshapeMenu(PE.getCollection('ShapeGroups'));
-            }.bind(this), 0);
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.toolbar.updateAutoshapeMenu(menu, PE.getCollection('ShapeGroups'));
+                menu.off('show:before', onShowBefore);
+            };
+            me.toolbar.btnsInsertShape.forEach(function (btn, index) {
+                btn.menu.on('show:before', onShowBefore);
+            });
         },
 
         onResetTextArt: function (collection, opts) {

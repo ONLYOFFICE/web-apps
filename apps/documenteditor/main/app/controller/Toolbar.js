@@ -2313,6 +2313,15 @@ define([
             this._state.clrtext_asccolor = color;
         },
 
+        onApiAutoShapes: function() {
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.fillAutoShapes();
+                menu.off('show:before', onShowBefore);
+            };
+            me.toolbar.btnInsertShape.menu.on('show:before', onShowBefore);
+        },
+
         fillAutoShapes: function() {
             var me = this,
                 shapesStore = this.getApplication().getCollection('ShapeGroups');
@@ -2320,7 +2329,7 @@ define([
             var onShowAfter = function(menu) {
                 for (var i = 0; i < shapesStore.length; i++) {
                     var shapePicker = new Common.UI.DataViewSimple({
-                        el: $('#id-toolbar-menu-shapegroup' + i),
+                        el: $('#id-toolbar-menu-shapegroup' + i, menu.items[i].$el),
                         store: shapesStore.at(i).get('groupStore'),
                         parentMenu: menu.items[i].menu,
                         itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
@@ -2345,6 +2354,7 @@ define([
                 }
                 menu.off('show:after', onShowAfter);
             };
+            me.toolbar.btnInsertShape.menu.on('show:after', onShowAfter);
 
             for (var i = 0; i < shapesStore.length; i++) {
                 var shapeGroup = shapesStore.at(i);
@@ -2360,7 +2370,6 @@ define([
                 });
                 me.toolbar.btnInsertShape.menu.addItem(menuItem);
             }
-            me.toolbar.btnInsertShape.menu.on('show:after', onShowAfter);
         },
 
         fillEquations: function() {
@@ -2372,7 +2381,7 @@ define([
             var onShowAfter = function(menu) {
                 for (var i = 0; i < equationsStore.length; ++i) {
                     var equationPicker = new Common.UI.DataViewSimple({
-                        el: $('#id-toolbar-menu-equationgroup' + i),
+                        el: $('#id-toolbar-menu-equationgroup' + i, menu.items[i].$el),
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
