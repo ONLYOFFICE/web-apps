@@ -1318,15 +1318,14 @@ define([
                             mnuColorSchema.addItem({
                                 caption: '--'
                             });
-                        } else {
-                            mnuColorSchema.addItem({
-                                template: itemTemplate,
-                                cls: 'color-schemas-menu',
-                                colors: schemecolors,
-                                caption: (index < 21) ? (me.schemeNames[index] || schema.get_name()) : schema.get_name(),
-                                value: index
-                            });
                         }
+                        mnuColorSchema.addItem({
+                            template: itemTemplate,
+                            cls: 'color-schemas-menu',
+                            colors: schemecolors,
+                            caption: (index < 21) ? (me.schemeNames[index] || schema.get_name()) : schema.get_name(),
+                            value: index
+                        });
                     }, this);
                 }
             },

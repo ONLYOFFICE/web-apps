@@ -1951,15 +1951,14 @@ define([
                     this.mnuColorSchema.addItem({
                         caption : '--'
                     });
-                } else {
-                    this.mnuColorSchema.addItem({
-                        template: itemTemplate,
-                        cls     : 'color-schemas-menu',
-                        colors  : schemecolors,
-                        caption : (index < 21) ? (me.SchemeNames[index] || schema.get_name()) : schema.get_name(),
-                        value   : index
-                    });
                 }
+                this.mnuColorSchema.addItem({
+                    template: itemTemplate,
+                    cls     : 'color-schemas-menu',
+                    colors  : schemecolors,
+                    caption : (index < 21) ? (me.SchemeNames[index] || schema.get_name()) : schema.get_name(),
+                    value   : index
+                });
             }, this);
         },
 
