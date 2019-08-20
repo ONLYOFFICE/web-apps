@@ -2343,7 +2343,7 @@ define([
                         }
                     });
                 }
-                me.toolbar.btnInsertShape.menu.off('show:after', onShowAfter);
+                menu.off('show:after', onShowAfter);
             };
 
             for (var i = 0; i < shapesStore.length; i++) {
@@ -2400,7 +2400,7 @@ define([
                         }
                     });
                 }
-                me.toolbar.btnInsertEquation.menu.off('show:after', onShowAfter);
+                menu.off('show:after', onShowAfter);
             };
             me.toolbar.btnInsertEquation.menu.on('show:after', onShowAfter);
 

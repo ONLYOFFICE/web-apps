@@ -1467,9 +1467,34 @@ define([
 
         fillAutoShapes: function() {
             var me = this,
-                shapesStore = this.application.getCollection('ShapeGroups');
+                shapesStore = this.application.getCollection('ShapeGroups'),
+                count = shapesStore.length;
 
-            var count = shapesStore.length;
+            var onShowAfter = function(menu) {
+                for (var i=-1; i<count-1 && count>0; i++) {
+                    var store = shapesStore.at(i > -1 ? i : 0).get('groupStore');
+                    if (i<0) {
+                        store = store.clone();
+                        store.shift();
+                    }
+                    var shapePicker = new Common.UI.DataViewSimple({
+                        el: $('#id-shape-menu-shapegroup' + (i+1)),
+                        store: store,
+                        parentMenu: menu.items[i+1].menu,
+                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
+                    });
+                    shapePicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            me.api.ChangeShapeType(record.get('data').shapeType);
+                            me.fireEvent('editcomplete', me);
+                        }
+                        if (e.type !== 'click')
+                            me.btnChangeShape.menu.hide();
+                    });
+                }
+                menu.off('show:after', onShowAfter);
+            };
+
             for (var i=-1; i<count-1 && count>0; i++) {
                 var shapeGroup = shapesStore.at(i>-1 ? i : i+1);
                 var menuItem = new Common.UI.MenuItem({
@@ -1482,29 +1507,8 @@ define([
                     })
                 });
                 me.btnChangeShape.menu.addItem(menuItem);
-
-                var store = shapeGroup.get('groupStore');
-                if (i<0) {
-                    store = store.clone();
-                    store.shift();
-                }
-                var shapePicker = new Common.UI.DataView({
-                    el: $('#id-shape-menu-shapegroup' + (i+1)),
-                    store: store,
-                    parentMenu: menuItem.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                });
-
-                shapePicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        me.api.ChangeShapeType(record.get('data').shapeType);
-                        me.fireEvent('editcomplete', me);
-                    }
-                    if (e.type !== 'click')
-                        me.btnChangeShape.menu.hide();
-                });
             }
+            me.btnChangeShape.menu.on('show:after', onShowAfter);
         },
 
         UpdateThemeColors: function() {

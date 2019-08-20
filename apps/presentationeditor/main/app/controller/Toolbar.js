@@ -1759,7 +1759,7 @@ define([
                         }
                     });
                 }
-                me.toolbar.btnInsertEquation.menu.off('show:after', onShowAfter);
+                menu.off('show:after', onShowAfter);
             };
             me.toolbar.btnInsertEquation.menu.on('show:after', onShowAfter);
 

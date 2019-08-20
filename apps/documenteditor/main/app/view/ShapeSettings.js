@@ -1637,7 +1637,7 @@ define([
                             me.btnChangeShape.menu.hide();
                     });
                 }
-                me.btnChangeShape.menu.off('show:after', onShowAfter);
+                menu.off('show:after', onShowAfter);
             };
 
             for (var i=-1; i<count-1 && count>0; i++) {

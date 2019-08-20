@@ -1801,7 +1801,6 @@ define([
 
                 shapeStore.reset();
 
-                var groupscount = groupNames.length;
                 _.each(groupNames, function(groupName, index){
                     var store = new Backbone.Collection([], {
                         model: DE.Models.ShapeModel
