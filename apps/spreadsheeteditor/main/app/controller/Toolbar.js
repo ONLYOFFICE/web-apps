@@ -332,6 +332,7 @@ define([
                 toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
                 toolbar.btnDeleteCell.menu.on('item:click',                 _.bind(this.onCellDeleteMenu, this));
                 toolbar.btnColorSchemas.menu.on('item:click',               _.bind(this.onColorSchemaClick, this));
+                toolbar.btnColorSchemas.menu.on('show:after',               _.bind(this.onColorSchemaShow, this));
                 toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
                 toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
                 toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
@@ -1338,6 +1339,14 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onColorSchemaShow: function(menu) {
+            if (this.api) {
+                var value = this.api.asc_GetCurrentColorSchemeName();
+                var item = _.find(menu.items, function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll();
+            }
         },
 
         onComboBlur: function() {

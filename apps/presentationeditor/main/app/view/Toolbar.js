@@ -1324,7 +1324,9 @@ define([
                             cls: 'color-schemas-menu',
                             colors: schemecolors,
                             caption: (index < 21) ? (me.schemeNames[index] || schema.get_name()) : schema.get_name(),
-                            value: index
+                            value: index,
+                            checkable: true,
+                            toggleGroup: 'menuSchema'
                         });
                     }, this);
                 }
