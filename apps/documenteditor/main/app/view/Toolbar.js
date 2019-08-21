@@ -2098,12 +2098,13 @@ define([
                             caption: '--'
                         });
                     }
+                    var name = schema.get_name();
                     this.mnuColorSchema.addItem({
                         template: itemTemplate,
                         cls: 'color-schemas-menu',
                         colors: schemecolors,
-                        caption: (index < 21) ? (me.SchemeNames[index] || schema.get_name()) : schema.get_name(),
-                        value: index,
+                        caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                        value: name,
                         checkable: true,
                         toggleGroup: 'menuSchema'
                     });
