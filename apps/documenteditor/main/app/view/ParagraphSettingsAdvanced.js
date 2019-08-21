@@ -891,6 +891,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 }
 
                 this.cmbOutlinelevel.setValue((props.get_OutlineLvl() === undefined || props.get_OutlineLvl()===null) ? -1 : props.get_OutlineLvl());
+                this.cmbOutlinelevel.setDisabled(!!props.get_OutlineLvlStyle());
 
                 this._noApply = false;
 
