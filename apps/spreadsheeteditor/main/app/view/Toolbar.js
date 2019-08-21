@@ -1345,6 +1345,14 @@ define([
                     lock        : [_set.editCell, _set.selRangeEdit, _set.headerLock, _set.lostConnect, _set.coAuth]
                 });
 
+                me.btnScale = new Common.UI.Button({
+                    id: 'tlbtn-scale',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-editheader',
+                    caption: me.capBtnScale,
+                    lock: [_set.editCell, _set.selRangeEdit, _set.headerLock, _set.lostConnect, _set.coAuth]
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
@@ -1400,7 +1408,7 @@ define([
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnEditHeader
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnEditHeader, me.btnScale
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -1561,6 +1569,7 @@ define([
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
             _injectComponent('#slot-btn-editheader',    this.btnEditHeader);
+            _injectComponent('#slot-btn-scale',         this.btnScale);
 
             // replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                this.btnHorizontalAlign);
             // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
@@ -1634,6 +1643,7 @@ define([
             _updateHint(this.btnPageMargins, this.tipPageMargins);
             _updateHint(this.btnPrintArea, this.tipPrintArea);
             _updateHint(this.btnEditHeader, this.tipEditHeader);
+            _updateHint(this.btnScale, this.tipScale);
 
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
@@ -2356,6 +2366,8 @@ define([
         textTabData: 'Data',
         capInsertTable: 'Table',
         tipInsertTable: 'Insert table',
-        textTabFormula: 'Formula'
+        textTabFormula: 'Formula',
+        capBtnScale: 'Scale',
+        tipScale: 'Scale'
     }, SSE.Views.Toolbar || {}));
 });

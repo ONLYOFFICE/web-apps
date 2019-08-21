@@ -55,7 +55,8 @@ define([
     'spreadsheeteditor/main/app/view/NameManagerDlg',
     'spreadsheeteditor/main/app/view/FormatSettingsDialog',
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
-    'spreadsheeteditor/main/app/view/HeaderFooterDialog'
+    'spreadsheeteditor/main/app/view/HeaderFooterDialog',
+    'spreadsheeteditor/main/app/view/ScaleDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -366,6 +367,7 @@ define([
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
                 toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this));
+                toolbar.btnScale.on('click',                                _.bind(this.onScaleClick, this));
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
@@ -3348,6 +3350,19 @@ define([
             var win = new SSE.Views.HeaderFooterDialog({
                 api: me.api,
                 fontStore: me.fontStore,
+                handler: function(dlg, result) {
+                    Common.NotificationCenter.trigger('edit:complete');
+                }
+            });
+            win.show();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onScaleClick: function(btn) {
+            var me = this;
+            var win = new SSE.Views.ScaleDialog({
+                api: me.api,
                 handler: function(dlg, result) {
                     Common.NotificationCenter.trigger('edit:complete');
                 }
