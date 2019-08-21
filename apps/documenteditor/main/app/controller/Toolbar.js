@@ -2681,17 +2681,17 @@ define([
                 return;
             }
 
-            listStyles.menuPicker.store.reset([]); // remove all
-
+            var arr = [];
             var mainController = this.getApplication().getController('Main');
             _.each(styles.get_MergedStyles(), function(style){
-                listStyles.menuPicker.store.add({
+                arr.push({
                     imageUrl: style.asc_getImage(),
                     title   : style.get_Name(),
                     tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     id      : Common.UI.getId()
                 });
             });
+            listStyles.menuPicker.store.reset(arr); // remove all
 
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered){
                 var styleRec;
