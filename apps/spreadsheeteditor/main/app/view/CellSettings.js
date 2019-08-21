@@ -394,6 +394,7 @@ define([
         },
 
         ChangeSettings: function(props) {
+            var me = this;
             if (this._initSettings)
                 this.createDelayedElements();
 
@@ -497,7 +498,7 @@ define([
                     var gradientStops;
                     this.GradColors = [];
                     gradientStops = gradient.asc_getGradientStops();
-                    for(var color of gradientStops) {
+                    gradientStops.forEach(function (color) {
                         var clr = color.asc_getColor(),
                             position = color.asc_getPosition(),
                             itemColor;
@@ -506,8 +507,8 @@ define([
                         } else {
                             itemColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(clr.getR(), clr.getG(), clr.getB()), Position: position};
                         }
-                        this.GradColors.push(itemColor);
-                    }
+                        me.GradColors.push(itemColor);
+                    });
                     this.GradColors = _.sortBy(this.GradColors, 'Position');
                     
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
