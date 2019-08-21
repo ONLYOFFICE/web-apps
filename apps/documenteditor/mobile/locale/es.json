@@ -243,7 +243,7 @@
   "DE.Controllers.Main.warnLicenseExceeded": "Se ha excedido el número permitido de las conexiones simultáneas al servidor de documentos, y el documento se abrirá para sólo lectura.<br>Por favor, contacte con su administrador para recibir más información.",
   "DE.Controllers.Main.warnLicenseExp": "Su licencia ha expirado.<br>Por favor, actualice su licencia y después recargue la página.",
   "DE.Controllers.Main.warnLicenseUsersExceeded": "Se ha excedido el número permitido de los usuarios simultáneos, y el documento se abrirá para sólo lectura.<br>Por favor, contacte con su administrador para recibir más información.",
-  "DE.Controllers.Main.warnNoLicense": "Esta versión de los Editores de ONLYOFFICE tiene ciertas limitaciones para el número de conexiones simultáneas al servidor de documentos.<br>Si se requiere más, por favor, considere comprar una licencia comercial.",
+  "DE.Controllers.Main.warnNoLicense": "Esta versión de los editores de %1 tiene ciertas limitaciones para el número de conexiones simultáneas al servidor de documentos.<br>Si se requiere más, por favor, considere comprar una licencia comercial.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Esta versión de editores %1 tiene ciertas limitaciones para usuarios simultáneos.<br>Si necesita más, por favor, considere comprar una licencia comercial.",
   "DE.Controllers.Main.warnProcessRightsChange": "El derecho de edición del archivo es denegado.",
   "DE.Controllers.Search.textNoTextFound": "Texto no es encontrado",

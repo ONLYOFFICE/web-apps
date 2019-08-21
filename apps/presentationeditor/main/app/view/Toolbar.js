@@ -103,7 +103,7 @@ define([
                 me.synchTooltip = undefined;
                 me.needShowSynchTip = false;
 
-                me.schemeNames = [
+                me.SchemeNames = [
                     me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
                     me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
                     me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
@@ -1318,15 +1318,17 @@ define([
                             mnuColorSchema.addItem({
                                 caption: '--'
                             });
-                        } else {
-                            mnuColorSchema.addItem({
-                                template: itemTemplate,
-                                cls: 'color-schemas-menu',
-                                colors: schemecolors,
-                                caption: (index < 21) ? (me.schemeNames[index] || schema.get_name()) : schema.get_name(),
-                                value: index
-                            });
                         }
+                        var name = schema.get_name();
+                        mnuColorSchema.addItem({
+                            template: itemTemplate,
+                            cls: 'color-schemas-menu',
+                            colors: schemecolors,
+                            caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                            value: name,
+                            checkable: true,
+                            toggleGroup: 'menuSchema'
+                        });
                     }, this);
                 }
             },

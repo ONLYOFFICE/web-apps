@@ -360,7 +360,7 @@
   "DE.Controllers.Main.warnBrowserIE9": "Aplikace má slabou podporu v IE9. Použíjte IE10 nebo vyšší",
   "DE.Controllers.Main.warnBrowserZoom": "Aktuální přiblížení prohlížeče není plně podporováno. Obnovte prosím původní přiblížení stiknem CTRL+0.",
   "DE.Controllers.Main.warnLicenseExp": "Platnost vaší licence vypršela.<br>Prosím, aktualizujte vaší licenci a obnovte stránku.",
-  "DE.Controllers.Main.warnNoLicense": "Používáte verzi open source ONLYOFFICE. Verze má omezení pro souběžné připojení k dokumentovému serveru (20 připojení najednou).<br>Pokud budete potřebovat více, tak prosím zvažte koupi komerční licence.",
+  "DE.Controllers.Main.warnNoLicense": "Používáte verzi open source %1. Verze má omezení pro souběžné připojení k dokumentovému serveru (20 připojení najednou).<br>Pokud budete potřebovat více, tak prosím zvažte koupi komerční licence.",
   "DE.Controllers.Main.warnProcessRightsChange": "Bylo Vám odebráno právo upravovat tento soubor",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",
   "DE.Controllers.Statusbar.textTrackChanges": "The document is opened with the Track Changes mode enabled",

@@ -145,7 +145,7 @@
   "DE.Controllers.Main.uploadImageTextText": "Resim yükleniyor...",
   "DE.Controllers.Main.uploadImageTitleText": "Resim Yükleniyor",
   "DE.Controllers.Main.warnLicenseExp": "Lisansınızın süresi doldu. <br> Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
-  "DE.Controllers.Main.warnNoLicense": "ONLYOFFICE'ın açık kaynaklı bir sürümünü kullanıyorsunuz. Sürüm, doküman sunucusuna eş zamanlı bağlantılar için sınırlamalar getiriyor (bir seferde 20 bağlantı). <br> Daha fazla bilgiye ihtiyacınız varsa, ticari bir lisans satın almayı düşünün lütfen.",
+  "DE.Controllers.Main.warnNoLicense": "%1'ın açık kaynaklı bir sürümünü kullanıyorsunuz. Sürüm, doküman sunucusuna eş zamanlı bağlantılar için sınırlamalar getiriyor (bir seferde 20 bağlantı). <br> Daha fazla bilgiye ihtiyacınız varsa, ticari bir lisans satın almayı düşünün lütfen.",
   "DE.Controllers.Main.warnProcessRightsChange": "Dosyayı düzenleme hakkınız reddedildi",
   "DE.Controllers.Search.textNoTextFound": "Metin Bulunamadı",
   "DE.Controllers.Search.textReplaceAll": "Tümünü Değiştir",

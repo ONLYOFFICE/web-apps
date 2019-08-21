@@ -146,7 +146,7 @@
   "DE.Controllers.Main.uploadImageTitleText": "Carregando imagem",
   "DE.Controllers.Main.waitText": "Aguarde...",
   "DE.Controllers.Main.warnLicenseExp": "Sua licença expirou.<br>Atualize sua licença e atualize a página.",
-  "DE.Controllers.Main.warnNoLicense": "Você está usando uma versão de código aberto do ONLYOFFICE. A versão tem limitações para conexões simultâneas com servidor de documentos (20 conexões por vez).<br>Se você precisar de mais, considere a compra de uma licença comercial.",
+  "DE.Controllers.Main.warnNoLicense": "Você está usando uma versão de código aberto do %1. A versão tem limitações para conexões simultâneas com servidor de documentos (20 conexões por vez).<br>Se você precisar de mais, considere a compra de uma licença comercial.",
   "DE.Controllers.Main.warnProcessRightsChange": "Foi negado a você o direito de editar o arquivo.",
   "DE.Controllers.Search.textNoTextFound": "Texto não encontrado",
   "DE.Controllers.Search.textReplaceAll": "Substituir tudo",

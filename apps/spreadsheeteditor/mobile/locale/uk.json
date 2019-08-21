@@ -254,7 +254,7 @@
   "SSE.Controllers.Main.uploadImageTextText": "Завантаження зображення...",
   "SSE.Controllers.Main.uploadImageTitleText": "Завантаження зображення",
   "SSE.Controllers.Main.warnLicenseExp": "Термін дії вашої ліцензії минув. <br> Будь ласка, оновіть свою ліцензію та оновіть сторінку.",
-  "SSE.Controllers.Main.warnNoLicense": "Ви використовуєте відкриту версію ONLYOFFICE. Ця версія має обмеження для одночасного підключення до сервера документів (20 підключень за один раз). <br> Якщо вам потрібно більше, подумайте про придбання комерційної ліцензії.",
+  "SSE.Controllers.Main.warnNoLicense": "Ви використовуєте відкриту версію %1. Ця версія має обмеження для одночасного підключення до сервера документів (20 підключень за один раз). <br> Якщо вам потрібно більше, подумайте про придбання комерційної ліцензії.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Вам відмовлено у наданні права редагувати файл.",
   "SSE.Controllers.Search.textNoTextFound": "Текст не знайдено",
   "SSE.Controllers.Search.textReplaceAll": "Замінити усе",

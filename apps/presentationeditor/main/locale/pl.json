@@ -275,7 +275,7 @@
   "PE.Controllers.Main.warnBrowserIE9": "Aplikacja ma małe możliwości w IE9. Użyj przeglądarki IE10 lub nowszej.",
   "PE.Controllers.Main.warnBrowserZoom": "Aktualne ustawienie powiększenia przeglądarki nie jest w pełni obsługiwane. Zresetuj domyślny zoom, naciskając Ctrl + 0.",
   "PE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",
-  "PE.Controllers.Main.warnNoLicense": "Używasz wersji ONLYOFFICE w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
+  "PE.Controllers.Main.warnNoLicense": "Używasz wersji %1 w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
   "PE.Controllers.Main.warnProcessRightsChange": "Nie masz prawa edytować tego pliku.",
   "PE.Controllers.Statusbar.zoomText": "Powiększenie {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "Czcionka, którą zamierzasz zapisać, nie jest dostępna na bieżącym urządzeniu.<br>Styl tekstu zostanie wyświetlony przy użyciu jednej z czcionek systemowych, a zapisana czcionka będzie używana, jeśli będzie dostępna.<br>Czy chcesz kontynuować?",

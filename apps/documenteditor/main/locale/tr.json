@@ -395,7 +395,7 @@
   "DE.Controllers.Main.warnBrowserIE9": "Uygulama IE9'da düşük yeteneklere sahip. IE10 yada daha yükseğini kullanınız",
   "DE.Controllers.Main.warnBrowserZoom": "Tarayıcınızın mevcut zum ayarı tam olarak desteklenmiyor. Ctrl+0'a basarak varsayılan zumu sıfırlayınız.",
   "DE.Controllers.Main.warnLicenseExp": "Lisansınızın süresi doldu. <br> Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
-  "DE.Controllers.Main.warnNoLicense": "ONLYOFFICE'ın açık kaynaklı bir sürümünü kullanıyorsunuz. Sürüm, doküman sunucusuna eş zamanlı bağlantılar için sınırlamalar getiriyor (bir seferde 20 bağlantı). <br> Daha fazla bilgiye ihtiyacınız varsa, ticari bir lisans satın almayı düşünün lütfen.",
+  "DE.Controllers.Main.warnNoLicense": "%1'ın açık kaynaklı bir sürümünü kullanıyorsunuz. Sürüm, doküman sunucusuna eş zamanlı bağlantılar için sınırlamalar getiriyor (bir seferde 20 bağlantı). <br> Daha fazla bilgiye ihtiyacınız varsa, ticari bir lisans satın almayı düşünün lütfen.",
   "DE.Controllers.Main.warnProcessRightsChange": "Dosyayı düzenleme hakkınız reddedildi",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",
   "DE.Controllers.Statusbar.textTrackChanges": "The document is opened with the Track Changes mode enabled",

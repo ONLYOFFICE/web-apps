@@ -70,12 +70,12 @@
   "Common.Views.Collaboration.textEditUsers": "Users",
   "Common.Views.Collaboration.textFinal": "Final",
   "Common.Views.Collaboration.textMarkup": "Markup",
+  "Common.Views.Collaboration.textNoComments": "This document doesn't contain comments",
   "Common.Views.Collaboration.textOriginal": "Original",
   "Common.Views.Collaboration.textRejectAllChanges": "Reject All Changes",
   "Common.Views.Collaboration.textReview": "Track Changes",
   "Common.Views.Collaboration.textReviewing": "Review",
   "Common.Views.Collaboration.textСomments": "Сomments",
-  "Common.Views.Collaboration.textNoComments": "This document doesn't contain comments",
   "DE.Controllers.AddContainer.textImage": "Image",
   "DE.Controllers.AddContainer.textOther": "Other",
   "DE.Controllers.AddContainer.textShape": "Shape",
@@ -462,6 +462,7 @@
   "DE.Views.Settings.textBack": "Back",
   "DE.Views.Settings.textBottom": "Bottom",
   "DE.Views.Settings.textCentimeter": "Centimeter",
+  "DE.Views.Settings.textCollaboration": "Collaboration",
   "DE.Views.Settings.textColorSchemes": "Color Schemes",
   "DE.Views.Settings.textComment": "Comment",
   "DE.Views.Settings.textCommentingDisplay": "Commenting Display",
@@ -519,6 +520,5 @@
   "DE.Views.Settings.textVersion": "Version",
   "DE.Views.Settings.textWords": "Words",
   "DE.Views.Settings.unknownText": "Unknown",
-  "DE.Views.Settings.textCollaboration": "Collaboration",
   "DE.Views.Toolbar.textBack": "Back"
 }

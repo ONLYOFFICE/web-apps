@@ -215,7 +215,7 @@
   "PE.Controllers.Main.warnLicenseExp": "您的许可证已过期。<br>请更新您的许可证并刷新页面。",
   "PE.Controllers.Main.warnLicenseUsersExceeded": "并发用户数量已超出限制，文档打开后将仅供查看。<br>请联系您的账户管理员了解详情。",
   "PE.Controllers.Main.warnNoLicense": "该版本对文档服务器的并发连接有限制。<br>如果需要更多请考虑购买商业许可证。",
-  "PE.Controllers.Main.warnNoLicenseUsers": "此版本的 ONLYOFFICE 编辑软件对并发用户数量有一定的限制。<br>如果需要更多，请考虑购买商用许可证。",
+  "PE.Controllers.Main.warnNoLicenseUsers": "此版本的 %1 编辑软件对并发用户数量有一定的限制。<br>如果需要更多，请考虑购买商用许可证。",
   "PE.Controllers.Main.warnProcessRightsChange": "您被拒绝编辑文件的权限。",
   "PE.Controllers.Search.textNoTextFound": "文本没找到",
   "PE.Controllers.Search.textReplaceAll": "全部替换",

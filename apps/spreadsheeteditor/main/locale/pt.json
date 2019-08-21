@@ -389,7 +389,7 @@
   "SSE.Controllers.Main.warnBrowserIE9": "O aplicativo tem baixa capacidade no IE9. Usar IE10 ou superior",
   "SSE.Controllers.Main.warnBrowserZoom": "A configuração de zoom atual de seu navegador não é completamente suportada. Redefina para o zoom padrão pressionando Ctrl+0.",
   "SSE.Controllers.Main.warnLicenseExp": "Sua licença expirou.<br>Atualize sua licença e atualize a página.",
-  "SSE.Controllers.Main.warnNoLicense": "Você está usando uma versão de código aberto do ONLYOFFICE. A versão tem limitações para conexões simultâneas com servidor de documentos (20 conexões por vez).<br>Se você precisar de mais, considere a compra de uma licença comercial.",
+  "SSE.Controllers.Main.warnNoLicense": "Você está usando uma versão de código aberto do %1. A versão tem limitações para conexões simultâneas com servidor de documentos (20 conexões por vez).<br>Se você precisar de mais, considere a compra de uma licença comercial.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Foi negado a você o direito de editar o arquivo.",
   "SSE.Controllers.Print.strAllSheets": "Todas as folhas",
   "SSE.Controllers.Print.textWarning": "Aviso",

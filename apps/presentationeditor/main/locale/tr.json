@@ -301,7 +301,7 @@
   "PE.Controllers.Main.warnBrowserIE9": "Uygulama IE9'da düşük yeteneklere sahip. IE10 yada daha yükseğini kullanınız",
   "PE.Controllers.Main.warnBrowserZoom": "Tarayıcınızın mevcut zum ayarı tam olarak desteklenmiyor. Ctrl+0'a basarak varsayılan zumu sıfırlayınız.",
   "PE.Controllers.Main.warnLicenseExp": "Lisansınızın süresi doldu.<br>Lütfen lisansınızı güncelleyin ve sayfayı yenileyin.",
-  "PE.Controllers.Main.warnNoLicense": "ONLYOFFICE'ın açık kaynaklı bir sürümünü kullanıyorsunuz. Sürüm, belge sunucusuna eş zamanlı bağlantılar için sınırlamalar getiriyor (bir seferde 20 bağlantı).<br>Daha fazla bilgiye ihtiyacınız varsa, ticari bir lisans satın almayı düşünün lütfen.",
+  "PE.Controllers.Main.warnNoLicense": "%1'ın açık kaynaklı bir sürümünü kullanıyorsunuz. Sürüm, belge sunucusuna eş zamanlı bağlantılar için sınırlamalar getiriyor (bir seferde 20 bağlantı).<br>Daha fazla bilgiye ihtiyacınız varsa, ticari bir lisans satın almayı düşünün lütfen.",
   "PE.Controllers.Main.warnProcessRightsChange": "Dosyayı düzenleme hakkınız reddedildi",
   "PE.Controllers.Statusbar.zoomText": "Zum {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?",

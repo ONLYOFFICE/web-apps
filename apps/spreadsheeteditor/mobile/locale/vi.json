@@ -254,7 +254,7 @@
   "SSE.Controllers.Main.uploadImageTextText": "Đang tải lên hình ảnh...",
   "SSE.Controllers.Main.uploadImageTitleText": "Đang tải lên hình ảnh",
   "SSE.Controllers.Main.warnLicenseExp": "Giấy phép của bạn đã hết hạn.<br>Vui lòng cập nhật giấy phép và làm mới trang.",
-  "SSE.Controllers.Main.warnNoLicense": "Bạn đang sử dụng phiên bản nguồn mở của ONLYOFFICE. Phiên bản có giới hạn các kết nối đồng thời với server tài liệu (20 kết nối cùng một lúc).<br>Nếu bạn cần thêm, hãy cân nhắc mua giấy phép thương mại.",
+  "SSE.Controllers.Main.warnNoLicense": "Bạn đang sử dụng phiên bản nguồn mở của %1. Phiên bản có giới hạn các kết nối đồng thời với server tài liệu (20 kết nối cùng một lúc).<br>Nếu bạn cần thêm, hãy cân nhắc mua giấy phép thương mại.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Bạn đã bị từ chối quyền chỉnh sửa file này.",
   "SSE.Controllers.Search.textNoTextFound": "Không tìm thấy nội dung",
   "SSE.Controllers.Search.textReplaceAll": "Thay thế tất cả",
