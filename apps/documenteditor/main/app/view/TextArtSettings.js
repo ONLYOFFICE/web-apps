@@ -985,15 +985,17 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.fillTransform(this.api.asc_getPropertyEditorTextArts());
-            this._initSettings = false;
+            this.fillTextArt();
         },
 
         fillTextArt: function() {
+            if (this._initSettings) return;
+
             var me = this;
-            
             if (!this.cmbTextArt) {
                 this.cmbTextArt = new Common.UI.ComboDataView({
                     itemWidth: 50,
@@ -1132,7 +1134,6 @@ define([
                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
                 this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
             }
-
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

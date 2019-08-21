@@ -103,6 +103,7 @@ define([
             this.diagramEditor = null;
             this._isAddingShape = false;
             this.editMode = true;
+            this.binding = {};
 
             this.addListeners({
                 'Toolbar': {
@@ -2562,8 +2563,7 @@ define([
 
         fillTextArt: function() {
             if (!this.toolbar.btnInsertTextArt.rendered) return;
-            
-            var me = this;
+
             if (this.toolbar.mnuTextArtPicker) {
                 var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
                     count = this.toolbar.mnuTextArtPicker.store.length;
@@ -2575,31 +2575,36 @@ define([
                 } else {
                     this.toolbar.mnuTextArtPicker.store.reset(models);
                 }
-            } else {
-                this.toolbar.mnuTextArtPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insart'),
-                    store: this.getApplication().getCollection('Common.Collections.TextArt'),
-                    parentMenu: this.toolbar.btnInsertTextArt.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                });
+            } else if (!this.binding.onShowBeforeTextArt) {
+                var me = this;
+                me.binding.onShowBeforeTextArt = function(menu) {
+                    me.toolbar.mnuTextArtPicker = new Common.UI.DataView({
+                        el: $('#id-toolbar-menu-insart'),
+                        store: me.getApplication().getCollection('Common.Collections.TextArt'),
+                        parentMenu: menu,
+                        showLast: false,
+                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
+                    });
 
-                this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        if (record) {
-                            me.toolbar.fireEvent('inserttextart', me.toolbar);
-                            me.api.AddTextArt(record.get('data'));
+                    me.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            if (record) {
+                                me.toolbar.fireEvent('inserttextart', me.toolbar);
+                                me.api.AddTextArt(record.get('data'));
+                            }
+
+                            if (me.toolbar.btnInsertShape.pressed)
+                                me.toolbar.btnInsertShape.toggle(false, true);
+
+                            if (e.type !== 'click')
+                                me.toolbar.btnInsertTextArt.menu.hide();
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertTextArt);
+                            Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
                         }
-
-                        if (me.toolbar.btnInsertShape.pressed)
-                            me.toolbar.btnInsertShape.toggle(false, true);
-
-                         if (e.type !== 'click')
-                             me.toolbar.btnInsertTextArt.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertTextArt);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
-                    }
-                });
+                    });
+                    menu.off('show:before', me.binding.onShowBeforeTextArt);
+                };
+                me.toolbar.btnInsertTextArt.menu.on('show:before', me.binding.onShowBeforeTextArt);
             }
         },
 

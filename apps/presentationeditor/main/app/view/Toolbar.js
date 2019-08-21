@@ -113,6 +113,7 @@ define([
                 me._state = {
                     hasCollaborativeChanges: undefined
                 };
+                me.binding = {};
 
                 Common.NotificationCenter.on('app:ready', me.onAppReady.bind(this));
                 return this;
@@ -1461,21 +1462,25 @@ define([
                     } else {
                         btn.textartPicker.store.reset( collection.models );
                     }
-                } else {
-                    btn.textartPicker = new Common.UI.DataView({
-                        el: $('#view-insert-art', btn.menu.$el),
-                        store: collection,
-                        parentMenu: btn.menu,
-                        showLast: false,
-                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                    });
+                } else if (!this.binding.onShowBeforeTextArt) {
+                    me.binding.onShowBeforeTextArt = function(menu) {
+                        btn.textartPicker = new Common.UI.DataView({
+                            el: $('#view-insert-art', btn.menu.$el),
+                            store: collection,
+                            parentMenu: btn.menu,
+                            showLast: false,
+                            itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
+                        });
 
-                    btn.textartPicker.on('item:click', function(picker, item, record, e) {
-                        if (record)
-                            me.fireEvent('insert:textart', [record.get('data')]);
+                        btn.textartPicker.on('item:click', function(picker, item, record, e) {
+                            if (record)
+                                me.fireEvent('insert:textart', [record.get('data')]);
 
-                        if (e.type !== 'click') btn.menu.hide();
-                    });
+                            if (e.type !== 'click') btn.menu.hide();
+                        });
+                        menu.off('show:before', me.binding.onShowBeforeTextArt);
+                    };
+                    me.btnInsertTextArt.menu.on('show:before', me.binding.onShowBeforeTextArt);
                 }
             },
 

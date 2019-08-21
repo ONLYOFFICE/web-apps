@@ -1294,6 +1294,7 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             
             var global_hatch_menu_map = [
@@ -1327,8 +1328,8 @@ define([
                 this.PatternFillType = this.patternViewData[0].type;
             }
             this.UpdateThemeColors();
+            this.fillTextArt();
             this.fillTransform(this.api.asc_getPropertyEditorTextArts());
-            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {
@@ -1395,6 +1396,7 @@ define([
         },
 
         fillTextArt: function() {
+            if (this._initSettings) return;
             var me = this;
             if (!this.cmbTextArt) {
                 this.cmbTextArt = new Common.UI.ComboDataView({
