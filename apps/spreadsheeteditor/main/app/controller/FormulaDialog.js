@@ -335,7 +335,7 @@ define([
                             allFunctions.push(func);
                         }
 
-                        formulaGroup.set('functions', functions);
+                        formulaGroup.set('functions', _.sortBy(functions, function (model) {return model.get('name'); }));
                         store.push(formulaGroup);
                     }
 
