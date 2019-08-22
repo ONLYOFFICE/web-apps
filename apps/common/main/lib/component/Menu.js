@@ -1024,7 +1024,7 @@ define([
         },
 
         clearAll: function() {
-            this.cmpEl.find('li > a.checked').removeClass('checked');
+            this.cmpEl && this.cmpEl.find('li > a.checked').removeClass('checked');
             _.each(this.items, function(item){
                 item.checked = false;
             });
