@@ -2124,6 +2124,17 @@ define([
                 this.beforeShowDummyComment = true;
             },
 
+            DisableMailMerge: function() {
+                this.appOptions.mergeFolderUrl = "";
+                var toolbarController   = this.getApplication().getController('Toolbar');
+                toolbarController && toolbarController.DisableMailMerge();
+            },
+
+            DisableVersionHistory: function() {
+                this.editorConfig.canUseHistory = false;
+                this.appOptions.canUseHistory = false;
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
