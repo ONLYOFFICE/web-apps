@@ -1270,7 +1270,7 @@ define([
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
-                    Common.Utils.injectComponent($host.find(id), cmp);
+                    Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
