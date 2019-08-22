@@ -422,6 +422,9 @@ define([
             } else {
                 if (type == 'save') {
                     return this.miSave;
+                } else
+                if (type == 'rename') {
+                    return this.miRename;
                 }
             }
         },

@@ -148,7 +148,7 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({rows:this.formats}));
+            this.$el.html(this.template({rows:this.formats}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -566,7 +566,7 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template());
+            this.$el.html(this.template());
 
             this.viewRecentPicker = new Common.UI.DataView({
                 el: $('#id-recent-view'),
@@ -584,7 +584,7 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -646,14 +646,14 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({
+            this.$el.html(this.template({
                 scope: this,
                 docs: this.options[0].docs
             }));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -1348,7 +1348,7 @@ define([
 
         render: function() {
             var me = this;
-            $(this.el).html(this.template());
+            this.$el.html(this.template());
 
             this.viewHelpPicker = new Common.UI.DataView({
                 el: $('#id-help-contents'),
@@ -1488,7 +1488,7 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({scope: this}));
+            this.$el.html(this.template({scope: this}));
 
             var protection = DE.getController('Common.Controllers.Protection').getView();
 
