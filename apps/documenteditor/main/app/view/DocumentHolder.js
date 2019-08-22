@@ -1838,11 +1838,6 @@ define([
             }
         },
 
-        updateThemeColors: function() {
-            this.effectcolors   = Common.Utils.ThemeColor.getEffectColors();
-            this.standartcolors = Common.Utils.ThemeColor.getStandartColors();
-        },
-
         onCutCopyPaste: function(item, e) {
             var me = this;
             if (me.api) {

@@ -1482,6 +1482,7 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             
             var global_hatch_menu_map = [
@@ -1517,7 +1518,6 @@ define([
 
             this.onApiAutoShapes();
             this.UpdateThemeColors();
-            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {
@@ -1670,6 +1670,8 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
+
             if (!this.btnBackColor) {
                 // create color buttons
                 this.btnBackColor = new Common.UI.ColorButton({
@@ -1691,7 +1693,6 @@ define([
                 });
                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
                 this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
-
                 this.btnFGColor = new Common.UI.ColorButton({
                     style: "width:45px;",
                     menu        : new Common.UI.Menu({
@@ -1768,7 +1769,6 @@ define([
                 this.colorsBorder.on('select', _.bind(this.onColorsBorderSelect, this));
                 this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
             }
-            
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

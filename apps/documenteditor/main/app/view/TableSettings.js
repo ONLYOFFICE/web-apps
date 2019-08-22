@@ -431,10 +431,10 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         ChangeSettings: function(props) {
@@ -641,6 +641,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
              if (!this.btnBackColor) {
                 // create color buttons
                  this.btnBorderColor = new Common.UI.ColorButton({

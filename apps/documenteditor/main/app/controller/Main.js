@@ -1857,7 +1857,6 @@ define([
                 setTimeout(function(){
                     me.getApplication().getController('RightMenu').fillTextArt();
                 }, 50);
-
             },
 
             updateThemeColors: function() {
@@ -1865,10 +1864,6 @@ define([
                 setTimeout(function(){
                     me.getApplication().getController('RightMenu').UpdateThemeColors();
                 }, 50);
-                setTimeout(function(){
-                    me.getApplication().getController('DocumentHolder').getView().updateThemeColors();
-                }, 50);
-
                 setTimeout(function(){
                     me.getApplication().getController('Toolbar').updateThemeColors();
                 }, 50);

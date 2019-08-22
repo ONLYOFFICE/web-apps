@@ -393,9 +393,9 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.UpdateThemeColors();
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         openAdvancedSettings: function(e) {
