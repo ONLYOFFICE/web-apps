@@ -1477,6 +1477,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBackColor = new Common.UI.ColorButton({
                     style: "width:45px;",

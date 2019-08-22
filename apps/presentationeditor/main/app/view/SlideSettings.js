@@ -808,6 +808,7 @@ define([
         },
         
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             
             var global_hatch_menu_map = [
@@ -842,7 +843,6 @@ define([
             }
 
             this.UpdateThemeColors();
-            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {
@@ -1036,6 +1036,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBackColor = new Common.UI.ColorButton({
                     style: "width:45px;",
