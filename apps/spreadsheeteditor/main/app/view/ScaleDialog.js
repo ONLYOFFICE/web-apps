@@ -45,9 +45,9 @@ define([
 
     SSE.Views.ScaleDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 214,
+            width: 215,
             header: true,
-            style: 'min-width: 214px;',
+            style: 'min-width: 215px;',
             cls: 'modal-dlg'
         },
 
@@ -58,6 +58,22 @@ define([
 
             this.template = [
                 '<div class="box">',
+                '<table style="width: 100%;"><tbody>',
+                '<tr>',
+                '<td><label style="height: 22px;width: 45px;padding-top: 4px;margin-bottom: 8px;">' + this.textWidth + '</label></td>',
+                '<td><div id="scale-width" style="margin-bottom: 8px;"></div></td>',
+                '<td><label style="width: 45px;height: 22px;padding-top: 4px;margin-bottom: 8px;text-align: right;">' + this.textPages + '</label></td>',
+                '</tr>',
+                '<tr>',
+                '<td><label style="height: 22px;width: 45px;padding-top: 4px;margin-bottom: 8px;">' + this.textHeight + '</label></td>',
+                '<td><div id="scale-height" style="margin-bottom: 8px;"></div></td>',
+                '<td><label style="width: 45px;height: 22px;padding-top: 4px;margin-bottom: 8px;text-align: right;">' + this.textPages + '</label></td>',
+                '</tr>',
+                '<tr>',
+                '<td><label style="height: 22px;width: 45px;padding-top: 4px;">' + this.textScale + '</label></td>',
+                '<td><div id="scale" style=""></div></td>',
+                '</tr>',
+                '</tbody></table>',
                 '</div>',
                 '<div class="footer center">',
                 '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
@@ -73,10 +89,62 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
+            this.spnScaleWidth = new Common.UI.MetricSpinner({
+                el          : $('#scale-width'),
+                step        : 1,
+                width       : 80,
+                value       : 'Auto',
+                defaultUnit : '',
+                maxValue    : 32767,
+                minValue    : 1,
+                allowAuto   : true
+            });
+
+            this.spnScaleHeight = new Common.UI.MetricSpinner({
+                el          : $('#scale-height'),
+                step        : 1,
+                width       : 80,
+                value       : 'Auto',
+                defaultUnit : '',
+                maxValue    : 32767,
+                minValue    : 1,
+                allowAuto   : true
+            });
+
+            this.spnScale = new Common.UI.MetricSpinner({
+                el          : $('#scale'),
+                step        : 5,
+                width       : 80,
+                value       : '100 %',
+                defaultUnit : "%",
+                maxValue    : 400,
+                minValue    : 10
+            });
+
+            var $window = this.getChild();
+            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
         },
 
+        _handleInput: function(state) {
+            if (this.options.handler) {
+                this.options.handler.call(this, this, state);
+            }
+
+            this.close();
+        },
+
+        onBtnClick: function(event) {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        textTitle: 'Scale Settings',
         cancelButtonText: 'Cancel',
-        okButtonText:   'Ok'
+        okButtonText:   'Ok',
+        textWidth: 'Width',
+        textHeight: 'Height',
+        textPages: 'page(s)',
+        textScale: 'Scale'
+
     }, SSE.Views.ScaleDialog || {}))
 });
