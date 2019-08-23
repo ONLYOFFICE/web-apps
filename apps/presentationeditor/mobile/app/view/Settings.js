@@ -180,7 +180,15 @@ define([
             },
 
             showHelp: function () {
-                window.open('{{SUPPORT_URL}}', "_blank");
+                var url = '{{HELP_URL}}';
+                if (Common.SharedSettings.get('android')) {
+                    url+='mobile-applications/documents/android/index.aspx';
+                } else if (Common.SharedSettings.get('sailfish')) {
+                    url+='mobile-applications/documents/sailfish/index.aspx';
+                } else {
+                    url+='mobile-applications/documents/index.aspx';
+                }
+                window.open(url, "_blank");
                 PE.getController('Settings').hideModal();
             },
 
