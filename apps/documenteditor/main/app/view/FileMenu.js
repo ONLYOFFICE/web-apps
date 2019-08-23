@@ -150,6 +150,11 @@ define([
                 canFocused: false
             });
 
+            if ( !!this.options.miProtect ) {
+                this.miProtect.setDisabled(this.options.miProtect.isDisabled());
+                delete this.options.miProtect;
+            }
+
             this.miRecent = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-recent'),
                 action  : 'recent',
@@ -418,6 +423,9 @@ define([
                 } else
                 if (type == 'rename') {
                     return this.options.miRename ? this.options.miRename : (this.options.miRename = new Common.UI.MenuItem({}));
+                } else
+                if (type == 'protect') {
+                    return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
                 }
             } else {
                 if (type == 'save') {
@@ -425,6 +433,9 @@ define([
                 } else
                 if (type == 'rename') {
                     return this.miRename;
+                 }else
+                if (type == 'protect') {
+                    return this.miProtect;
                 }
             }
         },
