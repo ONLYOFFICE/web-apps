@@ -91,6 +91,31 @@ define([
             this.mergeMailData = undefined;
 
             this.render();
+        },
+
+        render: function () {
+            this.$el.html(this.template({
+                scope: this
+            }));
+        },
+
+        setApi: function(api) {
+            this.api = api;
+            if (this.api) {
+                this.api.asc_registerCallback('asc_onPreviewMailMergeResult',    _.bind(this.onPreviewMailMergeResult, this));
+                this.api.asc_registerCallback('asc_onEndPreviewMailMergeResult', _.bind(this.onEndPreviewMailMergeResult, this));
+                this.api.asc_registerCallback('asc_onStartMailMerge',            _.bind(this.onStartMailMerge, this));
+                this.api.asc_registerCallback('asc_onSaveMailMerge',             _.bind(this.onSaveMailMerge, this));
+                this.api.asc_registerCallback('asc_onEndAction',                 _.bind(this.onLongActionEnd, this));
+                Common.Gateway.on('setemailaddresses',                           _.bind(this.onSetEmailAddresses, this));
+                Common.Gateway.on('processmailmerge',                            _.bind(this.onProcessMailMerge, this));
+            }
+            return this;
+        },
+
+        createDelayedControls: function() {
+            var me = this,
+                _set = DE.enumLockMM;
 
             this.btnInsField = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
@@ -133,32 +158,7 @@ define([
                 }
             });
             this.emptyDBControls.push(this.txtFieldNum);
-        },
 
-        render: function () {
-            this.$el.html(this.template({
-                scope: this
-            }));
-        },
-
-        setApi: function(api) {
-            this.api = api;
-            if (this.api) {
-                this.api.asc_registerCallback('asc_onPreviewMailMergeResult',    _.bind(this.onPreviewMailMergeResult, this));
-                this.api.asc_registerCallback('asc_onEndPreviewMailMergeResult', _.bind(this.onEndPreviewMailMergeResult, this));
-                this.api.asc_registerCallback('asc_onStartMailMerge',            _.bind(this.onStartMailMerge, this));
-                this.api.asc_registerCallback('asc_onSaveMailMerge',             _.bind(this.onSaveMailMerge, this));
-                this.api.asc_registerCallback('asc_onEndAction',                 _.bind(this.onLongActionEnd, this));
-                Common.Gateway.on('setemailaddresses',                           _.bind(this.onSetEmailAddresses, this));
-                Common.Gateway.on('processmailmerge',                            _.bind(this.onProcessMailMerge, this));
-            }
-            return this;
-        },
-
-        createDelayedControls: function() {
-            var me = this,
-                _set = DE.enumLockMM;
-            
             this.btnEditData = new Common.UI.Button({
                 el: me.$el.find('#mmerge-button-edit-data'),
                 lock: [_set.preview, _set.lostConnect]
@@ -760,8 +760,8 @@ define([
         },
 
         onStartMailMerge: function() {
-            this.btnInsField.menu.removeAll();
-            this.txtFieldNum.setValue(1);
+            this.btnInsField && this.btnInsField.menu.removeAll();
+            this.txtFieldNum && this.txtFieldNum.setValue(1);
             this.ChangeSettings({
                 recipientsCount: this.api.asc_GetReceptionsCount(),
                 fieldsList: this.api.asc_GetMailMergeFieldsNameList()
