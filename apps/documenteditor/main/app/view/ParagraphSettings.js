@@ -91,10 +91,16 @@ define([
                 {displayValue: this.textAuto,   defaultValue: 1, value: c_paragraphLinerule.LINERULE_AUTO, minValue: 0.5,    step: 0.01, defaultUnit: ''},
                 {displayValue: this.textExact,  defaultValue: 5, value: c_paragraphLinerule.LINERULE_EXACT, minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
             ];
+        },
+
+        render: function () {
+            var $markup = $(this.template({
+                scope: this
+            }));
 
             // Short Size
             this.cmbLineRule = new Common.UI.ComboBox({
-                el: $('#paragraph-combo-line-rule'),
+                el: $markup.findById('#paragraph-combo-line-rule'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 85px;',
                 editable: false,
@@ -105,7 +111,7 @@ define([
             this.lockedControls.push(this.cmbLineRule);
 
             this.numLineHeight = new Common.UI.MetricSpinner({
-                el: $('#paragraph-spin-line-height'),
+                el: $markup.findById('#paragraph-spin-line-height'),
                 step: .01,
                 width: 85,
                 value: '',
@@ -117,7 +123,7 @@ define([
             this.lockedControls.push(this.numLineHeight);
 
             this.numSpacingBefore = new Common.UI.MetricSpinner({
-                el: $('#paragraph-spin-spacing-before'),
+                el: $markup.findById('#paragraph-spin-spacing-before'),
                 step: .1,
                 width: 85,
                 value: '',
@@ -132,7 +138,7 @@ define([
             this.lockedControls.push(this.numSpacingBefore);
 
             this.numSpacingAfter = new Common.UI.MetricSpinner({
-                el: $('#paragraph-spin-spacing-after'),
+                el: $markup.findById('#paragraph-spin-spacing-after'),
                 step: .1,
                 width: 85,
                 value: '',
@@ -147,7 +153,7 @@ define([
             this.lockedControls.push(this.numSpacingAfter);
 
             this.chAddInterval = new Common.UI.CheckBox({
-                el: $('#paragraph-checkbox-add-interval'),
+                el: $markup.findById('#paragraph-checkbox-add-interval'),
                 labelText: this.strSomeParagraphSpace,
                 disabled: this._locked
             });
@@ -158,27 +164,25 @@ define([
                 disabled: this._locked,
                 menu        : true
             });
-            this.btnColor.render( $('#paragraph-color-btn'));
+            this.btnColor.render($markup.findById('#paragraph-color-btn'));
             this.lockedControls.push(this.btnColor);
 
-            this.numLineHeight.on('change', _.bind(this.onNumLineHeightChange, this));
-            this.numSpacingBefore.on('change', _.bind(this.onNumSpacingBeforeChange, this));
-            this.numSpacingAfter.on('change', _.bind(this.onNumSpacingAfterChange, this));
-            this.chAddInterval.on('change', _.bind(this.onAddIntervalChange, this));
-            this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
-            this.cmbLineRule.on('hide:after', _.bind(this.onHideMenus, this));
-            $(this.el).on('click', '#paragraph-advanced-link', _.bind(this.openAdvancedSettings, this));
-            this.TextOnlySettings = $('.text-only');
-        },
+            this.numLineHeight.on('change', this.onNumLineHeightChange.bind(this));
+            this.numSpacingBefore.on('change', this.onNumSpacingBeforeChange.bind(this));
+            this.numSpacingAfter.on('change', this.onNumSpacingAfterChange.bind(this));
+            this.chAddInterval.on('change', this.onAddIntervalChange.bind(this));
+            this.cmbLineRule.on('selected', this.onLineRuleSelect.bind(this));
+            this.cmbLineRule.on('hide:after', this.onHideMenus.bind(this));
 
-        render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-                scope: this
-            }));
-
-            this.linkAdvanced = $('#paragraph-advanced-link');
+            this.linkAdvanced = $markup.findById('#paragraph-advanced-link');
             this.linkAdvanced.toggleClass('disabled', this._locked);
+
+            this.$el.on('click', '#paragraph-advanced-link', this.openAdvancedSettings.bind(this));
+            this.$el.html($markup);
+
+            this.TextOnlySettings = $('.text-only', this.$el);
+
+            this.rendered = true;
         },
 
         setApi: function(api) {

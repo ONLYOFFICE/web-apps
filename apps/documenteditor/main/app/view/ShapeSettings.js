@@ -127,6 +127,13 @@ define([
             this.fillControls = [];
 
             this.render();
+        },
+
+        render: function () {
+            var el = this.$el || $(this.el);
+            el.html(this.template({
+                scope: this
+            }));
 
             this.FillColorContainer = $('#shape-panel-color-fill');
             this.FillImageContainer = $('#shape-panel-image-fill');
@@ -135,13 +142,6 @@ define([
             this.TransparencyContainer = $('#shape-panel-transparent-fill');
             this.ShapeOnlySettings = $('.shape-only');
             this.CanChangeType = $('.change-type');
-        },
-
-        render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-                scope: this
-            }));
         },
 
         setApi: function(api) {

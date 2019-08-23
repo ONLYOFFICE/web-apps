@@ -106,17 +106,17 @@ define([
             this.BorderType = Asc.c_oDashType.solid;
 
             this.render();
+        },
+
+        render: function () {
+            var el = this.$el || $(this.el);
+            el.html(this.template({
+                scope: this
+            }));
 
             this.FillColorContainer = $('#textart-panel-color-fill');
             this.FillGradientContainer = $('#textart-panel-gradient-fill');
             this.TransparencyContainer = $('#textart-panel-transparent-fill');
-        },
-
-        render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-                scope: this
-            }));
         },
 
         setApi: function(api) {

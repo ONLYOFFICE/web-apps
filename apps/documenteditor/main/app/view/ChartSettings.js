@@ -84,16 +84,16 @@ define([
             this._originalProps = null;
 
             this.render();
-
-            this.labelWidth = $(this.el).find('#chart-label-width');
-            this.labelHeight = $(this.el).find('#chart-label-height');
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 scope: this
             }));
+
+            this.labelWidth = el.find('#chart-label-width');
+            this.labelHeight = el.find('#chart-label-height');
         },
 
         setApi: function(api) {
