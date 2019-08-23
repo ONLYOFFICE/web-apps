@@ -1873,6 +1873,7 @@
   "DE.Views.StyleTitleDialog.textTitle": "Название",
   "DE.Views.StyleTitleDialog.txtEmpty": "Это поле необходимо заполнить",
   "DE.Views.StyleTitleDialog.txtNotEmpty": "Поле не может быть пустым",
+  "DE.Views.StyleTitleDialog.txtSameAs": "Такой же, как создаваемый стиль",
   "DE.Views.TableFormulaDialog.cancelButtonText": "Отмена",
   "DE.Views.TableFormulaDialog.okButtonText": "ОК",
   "DE.Views.TableFormulaDialog.textBookmark": "Вставить закладку",

@@ -1873,6 +1873,7 @@
   "DE.Views.StyleTitleDialog.textTitle": "Title",
   "DE.Views.StyleTitleDialog.txtEmpty": "This field is required",
   "DE.Views.StyleTitleDialog.txtNotEmpty": "Field must not be empty",
+  "DE.Views.StyleTitleDialog.txtSameAs": "Same as created new style",
   "DE.Views.TableFormulaDialog.cancelButtonText": "Cancel",
   "DE.Views.TableFormulaDialog.okButtonText": "OK",
   "DE.Views.TableFormulaDialog.textBookmark": "Paste Bookmark",
