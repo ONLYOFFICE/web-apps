@@ -554,6 +554,9 @@ define([
 
             onShowHelp: function () {
                 var url = '{{HELP_URL}}';
+                if (url.charAt(url.length-1) !== '/') {
+                    url += '/';
+                }
                 if (Common.SharedSettings.get('android')) {
                     url+='mobile-applications/documents/android/index.aspx';
                 } else if (Common.SharedSettings.get('sailfish')) {
