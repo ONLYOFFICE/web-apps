@@ -2367,7 +2367,7 @@ define([
         capInsertTable: 'Table',
         tipInsertTable: 'Insert table',
         textTabFormula: 'Formula',
-        capBtnScale: 'Scale',
-        tipScale: 'Scale'
+        capBtnScale: 'Scale to Fit',
+        tipScale: 'Scale to Fit'
     }, SSE.Views.Toolbar || {}));
 });
