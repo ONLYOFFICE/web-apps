@@ -604,6 +604,22 @@ define([
                 me.applyLicense();
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+
+                if (!me.appOptions.canReview) {
+                    var canViewReview = me.api.asc_HaveRevisionsChanges(true);
+                    if (canViewReview) {
+                        var viewReviewMode = Common.localStorage.getItem("de-view-review-mode");
+                        viewReviewMode = viewReviewMode || 'Original';
+                        if (viewReviewMode === 'Original')
+                            me.api.asc_BeginViewModeInReview(false);
+                        else if (viewReviewMode === 'Final')
+                            me.api.asc_BeginViewModeInReview(true);
+                        else
+                            me.api.asc_EndViewModeInReview();
+                    }
+                    DE.getController('Common.Controllers.Collaboration').setCanViewReview(canViewReview);
+                }
+
                 Common.Gateway.documentReady();
             },
 

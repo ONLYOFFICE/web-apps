@@ -60,6 +60,7 @@ define([
             editUsers = [],
             editor = !!window.DE ? 'DE' : !!window.PE ? 'PE' : 'SSE',
             displayMode = "Markup",
+            canViewReview,
             arrChangeReview = [],
             dateChange = [],
             _fileKey;
@@ -208,11 +209,8 @@ define([
                     me.initComments();
                     Common.Utils.addScrollIfNeed('.page[data-page=comments-view]', '.page[data-page=comments-view] .page-content');
                 } else {
-                    if(editor === 'DE' && !this.appConfig.canReview) {
-                        this.canViewReview = me.api.asc_HaveRevisionsChanges(true);
-                        if (!this.canViewReview) {
-                            $('#reviewing-settings').hide();
-                        }
+                    if(editor === 'DE' && !this.appConfig.canReview && !canViewReview) {
+                        $('#reviewing-settings').hide();
                     }
                 }
             },
@@ -317,9 +315,14 @@ define([
             },
 
             initDisplayMode: function() {
-                var me = this;
+                var me = this,
+                    value;
                 $('input:radio').single('change', _.bind(me.onReviewViewClick, me));
-                var value = displayMode;
+                if (me.appConfig.canReview) {
+                    value = displayMode;
+                } else if (canViewReview) {
+                    value = Common.localStorage.getItem("de-view-review-mode") || 'Original';
+                }
                 if (value == null || value === "Markup") {
                     $('input[value="Markup"]').attr('checked', true);
                 } else if (value === 'Final') {
@@ -333,9 +336,14 @@ define([
                 return displayMode;
             },
 
+            setCanViewReview: function(config) {
+                canViewReview = config;
+            },
+
             onReviewViewClick: function(event) {
                 var value = $(event.currentTarget).val();
                 this.turnDisplayMode(value);
+                !this.appConfig.canReview && Common.localStorage.setItem("de-view-review-mode", value);
             },
 
             turnDisplayMode: function(value) {
