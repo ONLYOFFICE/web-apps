@@ -604,6 +604,19 @@ define([
                 me.applyLicense();
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+
+                if (!me.appOptions.canReview) {
+                    var canViewReview = me.appOptions.isEdit || me.api.asc_HaveRevisionsChanges(true);
+                    DE.getController('Common.Controllers.Collaboration').setCanViewReview(canViewReview);
+                    if (canViewReview) {
+                        var viewReviewMode = Common.localStorage.getItem("de-view-review-mode");
+                        if (viewReviewMode===null)
+                            viewReviewMode = me.appOptions.customization && /^(original|final|markup)$/i.test(me.appOptions.customization.reviewDisplay) ? me.appOptions.customization.reviewDisplay.toLocaleLowerCase() : 'original';
+                        viewReviewMode = me.appOptions.isEdit ? 'markup' : viewReviewMode;
+                        DE.getController('Common.Controllers.Collaboration').turnDisplayMode(viewReviewMode);
+                    }
+                }
+
                 Common.Gateway.documentReady();
             },
 

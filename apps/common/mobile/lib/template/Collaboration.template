@@ -150,7 +150,7 @@
                     <ul>
                         <li>
                             <label class="label-radio item-content">
-                                <input type="radio" name="doc-orientation" value="Markup">
+                                <input type="radio" name="doc-orientation" value="markup">
                                 <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textMarkup %></div>
@@ -159,7 +159,7 @@
                         </li>
                         <li>
                             <label class="label-radio item-content">
-                                <input type="radio" name="doc-orientation" value="Final">
+                                <input type="radio" name="doc-orientation" value="final">
                                 <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textFinal %></div>
@@ -168,7 +168,7 @@
                         </li>
                         <li>
                             <label class="label-radio item-content">
-                                <input type="radio" name="doc-orientation" value="Original">
+                                <input type="radio" name="doc-orientation" value="original">
                                 <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
                                 <div class="item-inner">
                                     <div class="item-title"><%= scope.textOriginal %></div>

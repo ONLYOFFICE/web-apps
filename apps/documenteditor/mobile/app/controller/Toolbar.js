@@ -153,7 +153,7 @@ define([
             },
 
             setDisplayMode: function(displayMode) {
-                stateDisplayMode = displayMode == "Final" || displayMode == "Original" ? true : false;
+                stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
                 var selected = this.api.getSelectedElements();
                 this.onApiFocusObject(selected);
             },

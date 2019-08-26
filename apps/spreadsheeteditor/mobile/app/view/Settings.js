@@ -101,7 +101,14 @@ define([
                         xltx: Asc.c_oAscFileType.XLTX,
                         ots: Asc.c_oAscFileType.OTS
                     },
-                        width   : $(window).width()
+                        width   : $(window).width(),
+                    prodversion: '{{PRODUCT_VERSION}}',
+                    publishername: '{{PUBLISHER_NAME}}',
+                    publisheraddr: '{{PUBLISHER_ADDRESS}}',
+                    publisherurl: '{{PUBLISHER_URL}}',
+                    printed_url: ("{{PUBLISHER_URL}}").replace(/https?:\/{2}/, "").replace(/\/$/,""),
+                    supportemail: '{{SUPPORT_EMAIL}}',
+                    phonenum: '{{PUBLISHER_PHONE}}'
                 }));
 
                 return this;
