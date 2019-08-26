@@ -59,7 +59,7 @@ define([
             _userId,
             editUsers = [],
             editor = !!window.DE ? 'DE' : !!window.PE ? 'PE' : 'SSE',
-            displayMode = "Markup",
+            displayMode = "markup",
             canViewReview,
             arrChangeReview = [],
             dateChange = [],
@@ -274,7 +274,7 @@ define([
                 $('#settings-review input:checkbox').single('change', _.bind(me.onTrackChanges, me));
                 $('#settings-accept-all').single('click', _.bind(me.onAcceptAllClick, me));
                 $('#settings-reject-all').single('click', _.bind(me.onRejectAllClick, me));
-                if(this.appConfig.isReviewOnly || displayMode == "Final" || displayMode == "Original" ) {
+                if(this.appConfig.isReviewOnly || displayMode == "final" || displayMode == "original" ) {
                     $('#settings-accept-all').addClass('disabled');
                     $('#settings-reject-all').addClass('disabled');
                     $('#settings-review').addClass('disabled');
@@ -315,20 +315,15 @@ define([
             },
 
             initDisplayMode: function() {
-                var me = this,
-                    value;
+                var me = this;
                 $('input:radio').single('change', _.bind(me.onReviewViewClick, me));
-                if (me.appConfig.canReview) {
-                    value = displayMode;
-                } else if (canViewReview) {
-                    value = Common.localStorage.getItem("de-view-review-mode") || 'Original';
-                }
-                if (value == null || value === "Markup") {
-                    $('input[value="Markup"]').attr('checked', true);
-                } else if (value === 'Final') {
-                    $('input[value="Final"]').attr('checked', true);
-                } else if (value === 'Original') {
-                    $('input[value="Original"]').attr('checked', true);
+                var value = displayMode;
+                if (value == null || value === "markup") {
+                    $('input[value="markup"]').attr('checked', true);
+                } else if (value === 'final') {
+                    $('input[value="final"]').attr('checked', true);
+                } else if (value === 'original') {
+                    $('input[value="original"]').attr('checked', true);
                 }
             },
 
@@ -346,19 +341,19 @@ define([
                 !this.appConfig.canReview && Common.localStorage.setItem("de-view-review-mode", value);
             },
 
-            turnDisplayMode: function(value) {
-                displayMode = value;
+            turnDisplayMode: function(value, suppressEvent) {
+                displayMode = value.toLocaleLowerCase();
                 if (this.api) {
-                    if (value === 'Final')
+                    if (displayMode === 'final')
                         this.api.asc_BeginViewModeInReview(true);
 
-                    else if (value === 'Original')
+                    else if (displayMode === 'original')
                         this.api.asc_BeginViewModeInReview(false);
                     else
                         this.api.asc_EndViewModeInReview();
                 }
-                this.initReviewingSettingsView();
-                DE.getController('Toolbar').setDisplayMode(value);
+                !suppressEvent && this.initReviewingSettingsView();
+                DE.getController('Toolbar').setDisplayMode(displayMode);
             },
 
 
@@ -394,7 +389,7 @@ define([
                         $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
                     }
                 }
-                if(displayMode == "Final" || displayMode == "Original") {
+                if(displayMode == "final" || displayMode == "original") {
                     $('#btn-accept-change').addClass('disabled');
                     $('#btn-reject-change').addClass('disabled');
                     $('#btn-prev-change').addClass('disabled');
