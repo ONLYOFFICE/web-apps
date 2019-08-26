@@ -146,7 +146,8 @@ define([
                 cls         : 'input-group-nr',
                 scroller    : {
                     suppressScrollX: true
-                }
+                },
+                search: true
             });
 
             this.btnToDictionary = new Common.UI.Button({
