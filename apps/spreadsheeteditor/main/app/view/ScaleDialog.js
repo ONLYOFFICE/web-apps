@@ -56,6 +56,11 @@ define([
                 title: this.textTitle
             }, options || {});
 
+            this._state = {
+                width: 'Auto',
+                height: 'Auto'
+            };
+
             this.template = [
                 '<div class="box">',
                 '<table style="width: 100%;"><tbody>',
@@ -99,6 +104,10 @@ define([
                 minValue    : 1,
                 allowAuto   : true
             });
+            this.spnScaleWidth.on('change', _.bind(function (field) {
+                this._state.width = field.getValue();
+                this.setDisabledScale();
+            }, this));
 
             this.spnScaleHeight = new Common.UI.MetricSpinner({
                 el          : $('#scale-height'),
@@ -110,6 +119,10 @@ define([
                 minValue    : 1,
                 allowAuto   : true
             });
+            this.spnScaleHeight.on('change', _.bind(function (field) {
+                this._state.height = field.getValue();
+                this.setDisabledScale();
+            }, this));
 
             this.spnScale = new Common.UI.MetricSpinner({
                 el          : $('#scale'),
@@ -136,6 +149,15 @@ define([
 
         onBtnClick: function(event) {
             this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        setDisabledScale: function() {
+            if (this._state.height !== 'Auto' || this._state.width !== 'Auto') {
+                this.spnScale.setValue('100 %');
+                this.spnScale.setDisabled(true);
+            } else {
+                this.spnScale.setDisabled(false);
+            }
         },
 
         textTitle: 'Scale Settings',
