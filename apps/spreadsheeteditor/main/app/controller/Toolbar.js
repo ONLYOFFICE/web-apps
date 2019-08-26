@@ -332,6 +332,7 @@ define([
                 toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
                 toolbar.btnDeleteCell.menu.on('item:click',                 _.bind(this.onCellDeleteMenu, this));
                 toolbar.btnColorSchemas.menu.on('item:click',               _.bind(this.onColorSchemaClick, this));
+                toolbar.btnColorSchemas.menu.on('show:after',               _.bind(this.onColorSchemaShow, this));
                 toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
                 toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
                 toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
@@ -1338,6 +1339,14 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onColorSchemaShow: function(menu) {
+            if (this.api) {
+                var value = this.api.asc_GetCurrentColorSchemeName();
+                var item = _.find(menu.items, function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll();
+            }
         },
 
         onComboBlur: function() {
@@ -3184,7 +3193,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = SSE.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', this.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock]);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', this.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock, _set.editCell]);
 
                 if ( this.btnsComment.length ) {
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();
@@ -3219,7 +3228,6 @@ define([
             if (this.api && state) {
                 this._state.pgsize = [0, 0];
                 this.api.asc_changeDocSize(item.value[0], item.value[1], this.api.asc_getActiveWorksheetIndex());
-                Common.NotificationCenter.trigger('page:settings');
                 Common.component.Analytics.trackEvent('ToolBar', 'Page Size');
             }
 
@@ -3231,7 +3239,6 @@ define([
                 this._state.pgmargins = undefined;
                 if (item.value !== 'advanced') {
                     this.api.asc_changePageMargins(item.value[1], item.value[3], item.value[0], item.value[2], this.api.asc_getActiveWorksheetIndex());
-                    Common.NotificationCenter.trigger('page:settings');
                 } else {
                     var win, props,
                         me = this;
@@ -3250,7 +3257,6 @@ define([
                                 Common.localStorage.setItem("sse-pgmargins-right", props.asc_getRight());
 
                                 me.api.asc_changePageMargins( props.asc_getLeft(), props.asc_getRight(), props.asc_getTop(), props.asc_getBottom(), me.api.asc_getActiveWorksheetIndex());
-                                Common.NotificationCenter.trigger('page:settings');
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         }
@@ -3269,7 +3275,6 @@ define([
             this._state.pgorient = undefined;
             if (this.api && item.checked) {
                 this.api.asc_changePageOrient(item.value==Asc.c_oAscPageOrientation.PagePortrait, this.api.asc_getActiveWorksheetIndex());
-                Common.NotificationCenter.trigger('page:settings');
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

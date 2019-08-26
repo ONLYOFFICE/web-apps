@@ -209,7 +209,10 @@ define([
                     Common.Utils.addScrollIfNeed('.page[data-page=comments-view]', '.page[data-page=comments-view] .page-content');
                 } else {
                     if(editor === 'DE' && !this.appConfig.canReview) {
-                        $('#reviewing-settings').hide();
+                        this.canViewReview = me.api.asc_HaveRevisionsChanges(true);
+                        if (!this.canViewReview) {
+                            $('#reviewing-settings').hide();
+                        }
                     }
                 }
             },
@@ -281,6 +284,11 @@ define([
                     $('#settings-accept-all').removeClass('disabled');
                     $('#settings-reject-all').removeClass('disabled');
                     $('#settings-review').removeClass('disabled');
+                }
+                if (!this.appConfig.canReview) {
+                    $('#settings-review').hide();
+                    $('#settings-accept-all').hide();
+                    $('#settings-reject-all').hide();
                 }
             },
 
@@ -383,6 +391,10 @@ define([
                     $('#btn-reject-change').addClass('disabled');
                     $('#btn-prev-change').addClass('disabled');
                     $('#btn-next-change').addClass('disabled');
+                }
+                if (!this.appConfig.canReview) {
+                    $('#btn-accept-change').addClass('disabled');
+                    $('#btn-reject-change').addClass('disabled');
                 }
             },
 

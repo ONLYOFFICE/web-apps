@@ -134,8 +134,14 @@ define([
                         'Table': this.txtTable,
                         'Print_Area': this.txtPrintArea,
                         'Confidential': this.txtConfidential,
-                        'Prepared by': this.txtPreparedBy,
-                        'Page': this.txtPage
+                        'Prepared by ': this.txtPreparedBy + ' ',
+                        'Page': this.txtPage,
+                        'Page %1 of %2': this.txtPageOf,
+                        'Pages': this.txtPages,
+                        'Date': this.txtDate,
+                        'Time': this.txtTime,
+                        'Tab': this.txtTab,
+                        'File': this.txtFile
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -312,6 +318,7 @@ define([
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
+                this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
                 this.appOptions.canAutosave     = false;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
@@ -337,7 +344,13 @@ define([
                 if (value!==null)
                     this.api.asc_setLocale(parseInt(value));
                 else {
-                    this.api.asc_setLocale((this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409);
+                    value = this.appOptions.region;
+                    value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
+                    if (value!==null)
+                        value = parseInt(value);
+                    else
+                        value = (this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409;
+                    this.api.asc_setLocale(value);
                 }
 
                 value = Common.localStorage.getBool("sse-settings-r1c1");
@@ -1832,7 +1845,10 @@ define([
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
                 if (window.styles_loaded && !this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram) {
                     this.updateThemeColors();
-                    this.fillTextArt(this.api.asc_getTextArtPreviews());
+                    var me = this;
+                    setTimeout(function(){
+                        me.fillTextArt(me.api.asc_getTextArtPreviews());
+                    }, 1);
                 }
             },
 
@@ -2410,7 +2426,13 @@ define([
             errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.',
             txtConfidential: 'Confidential',
             txtPreparedBy: 'Prepared by',
-            txtPage: 'Page'
+            txtPage: 'Page',
+            txtPageOf: 'Page %1 of %2',
+            txtPages: 'Pages',
+            txtDate: 'Date',
+            txtTime: 'Time',
+            txtTab: 'Tab',
+            txtFile: 'File'
         }
     })(), SSE.Controllers.Main || {}))
 });

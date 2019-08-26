@@ -2174,7 +2174,7 @@ define([
                 menu        : new Common.UI.Menu({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    restoreHeight: 300,
+                    restoreHeight: 285,
                     items   : [],
                     search: true
                 })
@@ -2249,7 +2249,7 @@ define([
                 menu        : new Common.UI.Menu({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    restoreHeight: 300,
+                    restoreHeight: 285,
                     items   : [],
                     search: true
                 })

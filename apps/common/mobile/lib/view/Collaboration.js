@@ -147,41 +147,51 @@ define([
             },
 
             renderComments: function (comments) {
-                var $listComments = $('#comments-list'),
-                    items = [];
-
-                _.each(comments, function (comment) {
-                    var itemTemplate = [
-                        '<li class="comment item-content">',
-                        '<div class="item-inner">',
-                        '<p class="user-name"><%= item.username %></p>',
-                        '<p class="comment-date"><%= item.date %></p>',
-                        '<% if(item.quote) {%>',
-                        '<p class="comment-quote" data-id="<%= item.uid %>"><%= item.quote %></p>',
-                        '<% } %>',
-                        '<p class="comment-text"><%= item.comment %></p>',
-                        '<% if(replys > 0) {%>',
-                        '<ul class="list-reply">',
-                        '<% _.each(item.replys, function (reply) { %>',
-                        '<li class="reply-item">',
-                        '<p class="user-name"><%= reply.username %></p>',
-                        '<p class="reply-date"><%= reply.date %></p>',
-                        '<p class="reply-text"><%= reply.reply %></p>',
-                        '</li>',
-                        '<% }); %>',
-                        '</ul>',
-                        '<% } %>',
-                        '</div>',
-                        '</li>'
-                    ].join('');
-                    items.push(_.template(itemTemplate)({
-                        android: Framework7.prototype.device.android,
-                        item: comment,
-                        replys: comment.replys.length
-                    }));
-                });
-
-                $listComments.html(items);
+                var $pageComments = $('.page-comments .page-content');
+                if (!comments) {
+                    if ($('.comment').length > 0) {
+                        $('.comment').remove();
+                    }
+                    var template = '<div id="no-comments" style="text-align: center; margin-top: 35px;">' + this.textNoComments + '</div>';
+                    $pageComments.append(_.template(template));
+                } else {
+                    if ($('#no-comments').length > 0) {
+                        $('#no-comments').remove();
+                    }
+                    var $listComments = $('#comments-list'),
+                        items = [];
+                    _.each(comments, function (comment) {
+                        var itemTemplate = [
+                            '<li class="comment item-content">',
+                            '<div class="item-inner">',
+                            '<p class="user-name"><%= item.username %></p>',
+                            '<p class="comment-date"><%= item.date %></p>',
+                            '<% if(item.quote) {%>',
+                            '<p class="comment-quote" data-id="<%= item.uid %>"><%= item.quote %></p>',
+                            '<% } %>',
+                            '<p class="comment-text"><%= item.comment %></p>',
+                            '<% if(replys > 0) {%>',
+                            '<ul class="list-reply">',
+                            '<% _.each(item.replys, function (reply) { %>',
+                            '<li class="reply-item">',
+                            '<p class="user-name"><%= reply.username %></p>',
+                            '<p class="reply-date"><%= reply.date %></p>',
+                            '<p class="reply-text"><%= reply.reply %></p>',
+                            '</li>',
+                            '<% }); %>',
+                            '</ul>',
+                            '<% } %>',
+                            '</div>',
+                            '</li>'
+                        ].join('');
+                        items.push(_.template(itemTemplate)({
+                            android: Framework7.prototype.device.android,
+                            item: comment,
+                            replys: comment.replys.length,
+                        }));
+                    });
+                    $listComments.html(items);
+                }
             },
 
 
@@ -198,8 +208,8 @@ define([
             textFinal: 'Final',
             textOriginal: 'Original',
             textChange: 'Review Change',
-            textEditUsers: 'Users'
-
+            textEditUsers: 'Users',
+            textNoComments: "This document doesn\'t contain comments"
         }
     })(), Common.Views.Collaboration || {}))
 });

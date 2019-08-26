@@ -341,7 +341,7 @@
   "DE.Controllers.Main.errorAccessDeny": "Usted no tiene permisos para realizar la acción que está intentando hacer.<br> Por favor, contacte con el Administrador del Servidor de Documentos.",
   "DE.Controllers.Main.errorBadImageUrl": "URL de imagen es incorrecto",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Se ha perdido la conexión con servidor. El documento no puede ser editado ahora.",
-  "DE.Controllers.Main.errorConnectToServer": "No se consiguió guardar el documento. Por favor, compruebe los ajustes de la conexión o póngase en contacto con su administrador.<br>Al hacer clic en el botón 'OK' se le solicitará que descargue el documento.<br><br>Encuentre más información acerca de conexión de Servidor de Documentos <a href=\"%1\" target=\"_blank\">aquí</a>",
+  "DE.Controllers.Main.errorConnectToServer": "No se consiguió guardar el documento. Por favor, compruebe los ajustes de conexión o póngase en contacto con su administrador.<br>Al hacer clic en el botón 'OK' se le solicitará que descargue el documento.<br><br>Encuentre más información acerca de la conexión de Servidor de Documentos <a href=\"%1\" target=\"_blank\">aquí</a>",
   "DE.Controllers.Main.errorDatabaseConnection": "Error externo.<br>Error de conexión de base de datos. Por favor póngase en contacto con soporte si el error se mantiene.",
   "DE.Controllers.Main.errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
   "DE.Controllers.Main.errorDataRange": "Rango de datos incorrecto.",

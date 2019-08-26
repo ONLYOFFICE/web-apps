@@ -1882,7 +1882,10 @@ define([
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
                 if (window.styles_loaded) {
                     this.updateThemeColors();
-                    this.fillTextArt(this.api.asc_getTextArtPreviews());
+                    var me = this;
+                    setTimeout(function(){
+                        me.fillTextArt(me.api.asc_getTextArtPreviews());
+                    }, 1);
                 }
             },
 
@@ -2119,6 +2122,17 @@ define([
 
             onShowDummyComment: function() {
                 this.beforeShowDummyComment = true;
+            },
+
+            DisableMailMerge: function() {
+                this.appOptions.mergeFolderUrl = "";
+                var toolbarController   = this.getApplication().getController('Toolbar');
+                toolbarController && toolbarController.DisableMailMerge();
+            },
+
+            DisableVersionHistory: function() {
+                this.editorConfig.canUseHistory = false;
+                this.appOptions.canUseHistory = false;
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

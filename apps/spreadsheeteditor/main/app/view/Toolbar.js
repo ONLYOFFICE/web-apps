@@ -485,7 +485,7 @@ define([
                     iconCls     : 'btn-border-out',
                     icls        : 'btn-border-out',
                     borderId    : 'outer',
-                    borderswidth: 'thin',
+                    borderswidth: Asc.c_oAscBorderStyles.Thin,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     split       : true,
                     menu        : true
@@ -1951,15 +1951,17 @@ define([
                     this.mnuColorSchema.addItem({
                         caption : '--'
                     });
-                } else {
-                    this.mnuColorSchema.addItem({
-                        template: itemTemplate,
-                        cls     : 'color-schemas-menu',
-                        colors  : schemecolors,
-                        caption : (index < 21) ? (me.SchemeNames[index] || schema.get_name()) : schema.get_name(),
-                        value   : index
-                    });
                 }
+                var name = schema.get_name();
+                this.mnuColorSchema.addItem({
+                    template: itemTemplate,
+                    cls     : 'color-schemas-menu',
+                    colors  : schemecolors,
+                    caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                    value: name,
+                    checkable: true,
+                    toggleGroup: 'menuSchema'
+                });
             }, this);
         },
 

@@ -310,6 +310,7 @@ define([
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
+            toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
             toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
@@ -1591,6 +1592,14 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onColorSchemaShow: function(menu) {
+            if (this.api) {
+                var value = this.api.asc_GetCurrentColorSchemeName();
+                var item = _.find(menu.items, function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll();
+            }
+        },
+
         onDropCapSelect: function(menu, item) {
             if (_.isUndefined(item.value))
                 return;
@@ -2606,12 +2615,17 @@ define([
             this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
             this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
             this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
-            if (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients)
+            if (!this._state.mmdisable && (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients))
                 this.toolbar.btnMailRecepients.setDisabled(false);
             this._state.activated = true;
 
             var props = this.api.asc_GetSectionProps();
             this.onApiPageSize(props.get_W(), props.get_H());
+        },
+
+        DisableMailMerge: function() {
+            this._state.mmdisable = true;
+            this.toolbar && this.toolbar.btnMailRecepients && this.toolbar.btnMailRecepients.setDisabled(true);
         },
 
         updateThemeColors: function() {
@@ -2672,17 +2686,17 @@ define([
                 return;
             }
 
-            listStyles.menuPicker.store.reset([]); // remove all
-
+            var arr = [];
             var mainController = this.getApplication().getController('Main');
             _.each(styles.get_MergedStyles(), function(style){
-                listStyles.menuPicker.store.add({
+                arr.push({
                     imageUrl: style.asc_getImage(),
                     title   : style.get_Name(),
                     tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     id      : Common.UI.getId()
                 });
             });
+            listStyles.menuPicker.store.reset(arr); // remove all
 
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered){
                 var styleRec;

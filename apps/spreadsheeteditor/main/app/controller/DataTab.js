@@ -63,7 +63,8 @@ define([
                     'data:ungroup': this.onUngroup,
                     'data:tocolumns': this.onTextToColumn,
                     'data:show': this.onShowClick,
-                    'data:hide': this.onHideClick
+                    'data:hide': this.onHideClick,
+                    'data:groupsettings': this.onGroupSettings
                 }
             });
 
@@ -140,23 +141,40 @@ define([
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
 
-        onGroup: function(btn) {
-            var me = this,
-                val = me.api.asc_checkAddGroup();
-            if (val===null) {
-                (new SSE.Views.GroupDialog({
-                    title: me.view.capBtnGroup,
-                    props: 'rows',
-                    handler: function (dlg, result) {
-                        if (result=='ok') {
-                            me.api.asc_group(dlg.getSettings());
+        onGroup: function(type, checked) {
+            if (type=='rows') {
+                (this.api.asc_checkAddGroup()!==undefined) && this.api.asc_group(true)
+            } else if (type=='columns') {
+                (this.api.asc_checkAddGroup()!==undefined) && this.api.asc_group(false)
+            } else if (type=='below') {
+                this.api.asc_setGroupSummary(checked, false);
+            } else if (type=='right') {
+                this.api.asc_setGroupSummary(checked, true);
+            } else {
+                var me = this,
+                    val = me.api.asc_checkAddGroup();
+                if (val===null) {
+                    (new SSE.Views.GroupDialog({
+                        title: me.view.capBtnGroup,
+                        props: 'rows',
+                        handler: function (dlg, result) {
+                            if (result=='ok') {
+                                me.api.asc_group(dlg.getSettings());
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    }
-                })).show();
-            } else if (val!==undefined) //undefined - error, true - rows, false - columns
-                me.api.asc_group(val);
-            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    })).show();
+                } else if (val!==undefined) //undefined - error, true - rows, false - columns
+                    me.api.asc_group(val);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onGroupSettings: function(menu) {
+            var value = this.api.asc_getGroupSummaryBelow();
+            menu.items[3].setChecked(!!value, true);
+            value = this.api.asc_getGroupSummaryRight();
+            menu.items[4].setChecked(!!value, true);
         },
 
         onTextToColumn: function() {

@@ -231,7 +231,7 @@ define([
                 this.langMenu = new Common.UI.Menu({
                     cls: 'lang-menu',
                     style: 'margin-top:-5px;',
-                    restoreHeight: 300,
+                    restoreHeight: 285,
                     itemTemplate: _.template([
                         '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value.value %>">',
                             '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',

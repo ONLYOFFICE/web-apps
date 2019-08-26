@@ -200,7 +200,7 @@ define([
                 var $view = $('.settings');
                 var disabled = text == 'locked';
 
-                disabled && (text = ' ');
+                disabled && (text = this.textSelectedRange);
                 $view.find('#add-link-display input').prop('disabled', disabled).val(text);
                 $view.find('#add-link-display .label').toggleClass('disabled', disabled);
             },
@@ -261,7 +261,8 @@ define([
             textInternalLink: 'Internal Data Range',
             textSheet: 'Sheet',
             textRange: 'Range',
-            textRequired: 'Required'
+            textRequired: 'Required',
+            textSelectedRange: 'Selected Range'
         }
     })(), SSE.Views.AddLink || {}))
 });
