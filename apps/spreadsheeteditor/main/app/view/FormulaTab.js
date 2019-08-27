@@ -249,9 +249,9 @@ define([
                         items: [
                             {caption: me.textEntireWorkbook, value: Asc.c_oAscCalculateType.All},
                             {caption: me.textCurrentSheet, value: Asc.c_oAscCalculateType.ActiveSheet},
-                            {caption: '--'},
-                            {caption: me.textAutomatic, value: '', toggleGroup: 'menuCoauthMode', checkable: true, checked: true},
-                            {caption: me.textManual, value: '', toggleGroup: 'menuCoauthMode', checkable: true, checked: false}
+                            //{caption: '--'},
+                            //{caption: me.textAutomatic, value: '', toggleGroup: 'menuCoauthMode', checkable: true, checked: true},
+                            //{caption: me.textManual, value: '', toggleGroup: 'menuCoauthMode', checkable: true, checked: false}
                         ]
                     });
                     me.btnCalculate.setMenu(_menu);
