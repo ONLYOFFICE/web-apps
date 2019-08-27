@@ -57,6 +57,12 @@ define([
             me.btnFormula.on('click', function(){
                 me.fireEvent('function:apply', [{name: 'more', origin: 'more'}]);
             });
+            me.btnCalculate.on('click', function () {
+                me.fireEvent('function:calculate', [{name: 'calculate', type: Asc.c_oAscCalculateType.All}]);
+            });
+            me.btnCalculate.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('function:calculate', [{name: item.caption, type: item.value}]);
+            });
         }
         return {
             options: {},
@@ -214,6 +220,18 @@ define([
                 Common.Utils.injectComponent($host.find('#slot-btn-more'), this.btnMore);
                 this.lockedControls.push(this.btnMore);
 
+                this.btnCalculate = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-cell-group',
+                    caption: this.txtCalculate,
+                    split: true,
+                    menu: true,
+                    disabled: true,
+                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-calculate'), this.btnCalculate);
+                this.lockedControls.push(this.btnCalculate);
+
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 
@@ -226,6 +244,17 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
+                    me.btnCalculate.updateHint([me.tipCalculateTheEntireWorkbook, me.tipCalculate]);
+                    var _menu = new Common.UI.Menu({
+                        items: [
+                            {caption: me.textEntireWorkbook, value: Asc.c_oAscCalculateType.All},
+                            {caption: me.textCurrentSheet, value: Asc.c_oAscCalculateType.ActiveSheet},
+                            {caption: '--'},
+                            {caption: me.textAutomatic, value: '', toggleGroup: 'menuCoauthMode', checkable: true, checked: true},
+                            {caption: me.textManual, value: '', toggleGroup: 'menuCoauthMode', checkable: true, checked: false}
+                        ]
+                    });
+                    me.btnCalculate.setMenu(_menu);
                     setEvents.call(me);
                 });
             },
@@ -480,7 +509,14 @@ define([
             txtAdditional: 'Additional',
             txtFormula: 'Function',
             txtFormulaTip: 'Insert function',
-            txtMore: 'More functions'
+            txtMore: 'More functions',
+            txtCalculate: 'Calculate',
+            tipCalculate: 'Calculate',
+            textEntireWorkbook: 'Entire Workbook',
+            textCurrentSheet: 'Current Sheet',
+            textAutomatic: 'Automatic',
+            textManual: 'Manual',
+            tipCalculateTheEntireWorkbook: 'Calculate the entire workbook'
         }
     }()), SSE.Views.FormulaTab || {}));
 });
