@@ -224,7 +224,7 @@ define([
             if ( !!this.api ) {
                 this.panels['info'].setApi(this.api);
                 if ( this.panels['protect'] )
-                    this.panels['protect'].setApi(api);
+                    this.panels['protect'].setApi(this.api);
             }
 
             return this;
@@ -297,7 +297,7 @@ define([
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
                     $('a',this.miNew.$el).text(this.btnCreateNewCaption + '...');
-                    !this.panels['new'] && (this.panels['new'] = ((new PE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates})).render()));
+                    !this.panels['new'] && (this.panels['new'] = (new PE.Views.FileMenuPanels.CreateNew({menu: this, docs: this.mode.templates})).render());
                 }
             }
 
