@@ -670,13 +670,13 @@ define([
                     }
                 });
             } else if (config.canViewReview) {
-                config.canViewReview = me.api.asc_HaveRevisionsChanges(true); // check revisions from all users
+                config.canViewReview = (config.isEdit || me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
                 if (config.canViewReview) {
                     var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode");
                     if (val===null)
                         val = me.appConfig.customization && /^(original|final|markup)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'original';
-                    me.turnDisplayMode(config.isRestrictedEdit ? 'markup' : val); // load display mode only in viewer
-                    me.view.turnDisplayMode(config.isRestrictedEdit ? 'markup' : val);
+                    me.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val); // load display mode only in viewer
+                    me.view.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val);
                 }
             }
 

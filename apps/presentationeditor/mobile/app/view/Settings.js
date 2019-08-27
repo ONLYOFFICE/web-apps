@@ -92,7 +92,14 @@ define([
                     android: Common.SharedSettings.get('android'),
                     phone: Common.SharedSettings.get('phone'),
                     scope: this,
-                    width: $(window).width()
+                    width: $(window).width(),
+                    prodversion: '{{PRODUCT_VERSION}}',
+                    publishername: '{{PUBLISHER_NAME}}',
+                    publisheraddr: '{{PUBLISHER_ADDRESS}}',
+                    publisherurl: '{{PUBLISHER_URL}}',
+                    printed_url: ("{{PUBLISHER_URL}}").replace(/https?:\/{2}/, "").replace(/\/$/,""),
+                    supportemail: '{{SUPPORT_EMAIL}}',
+                    phonenum: '{{PUBLISHER_PHONE}}'
                 }));
 
                 return this;
@@ -180,7 +187,18 @@ define([
             },
 
             showHelp: function () {
-                window.open('{{SUPPORT_URL}}', "_blank");
+                var url = '{{HELP_URL}}';
+                if (url.charAt(url.length-1) !== '/') {
+                    url += '/';
+                }
+                if (Common.SharedSettings.get('sailfish')) {
+                    url+='mobile-applications/documents/sailfish/index.aspx';
+                } else if (Common.SharedSettings.get('android')) {
+                    url+='mobile-applications/documents/android/index.aspx';
+                } else {
+                    url+='mobile-applications/documents/index.aspx';
+                }
+                window.open(url, "_blank");
                 PE.getController('Settings').hideModal();
             },
 

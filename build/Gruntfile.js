@@ -43,6 +43,9 @@ module.exports = function(grunt) {
                 }, {
                     from: /\{\{APP_TITLE_TEXT\}\}/g,
                     to: process.env['APP_TITLE_TEXT'] || 'ONLYOFFICE'
+                }, {
+                    from: /\{\{HELP_URL\}\}/g,
+                    to: process.env['HELP_URL'] || 'https://helpcenter.onlyoffice.com'
                 }];
 
     var helpreplacements = [
