@@ -223,7 +223,7 @@ define([
                 this.btnCalculate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-cell-group',
-                    caption: this.txtCalculate,
+                    caption: this.txtCalculation,
                     split: true,
                     menu: true,
                     disabled: true,
@@ -247,11 +247,11 @@ define([
                     me.btnCalculate.updateHint([me.tipCalculateTheEntireWorkbook + Common.Utils.String.platformKey('F9'), me.tipCalculate]);
                     var _menu = new Common.UI.Menu({
                         items: [
-                            {caption: me.textEntireWorkbook, value: Asc.c_oAscCalculateType.All},
-                            {caption: me.textCurrentSheet, value: Asc.c_oAscCalculateType.ActiveSheet},
+                            {caption: me.textCalculateWorkbook, value: Asc.c_oAscCalculateType.All},
+                            {caption: me.textCalculateCurrentSheet, value: Asc.c_oAscCalculateType.ActiveSheet},
                             //{caption: '--'},
-                            //{caption: me.textAutomatic, value: '', toggleGroup: 'menuCoauthMode', checkable: true, checked: true},
-                            //{caption: me.textManual, value: '', toggleGroup: 'menuCoauthMode', checkable: true, checked: false}
+                            //{caption: me.textAutomatic, value: '', toggleGroup: 'menuCalcMode', checkable: true, checked: true},
+                            //{caption: me.textManual, value: '', toggleGroup: 'menuCalcMode', checkable: true, checked: false}
                         ]
                     });
                     me.btnCalculate.setMenu(_menu);
@@ -510,10 +510,10 @@ define([
             txtFormula: 'Function',
             txtFormulaTip: 'Insert function',
             txtMore: 'More functions',
-            txtCalculate: 'Calculate',
+            txtCalculation: 'Calculation',
             tipCalculate: 'Calculate',
-            textEntireWorkbook: 'Entire Workbook',
-            textCurrentSheet: 'Current Sheet',
+            textCalculateWorkbook: 'Calculate workbook',
+            textCalculateCurrentSheet: 'Calculate current sheet',
             textAutomatic: 'Automatic',
             textManual: 'Manual',
             tipCalculateTheEntireWorkbook: 'Calculate the entire workbook'
