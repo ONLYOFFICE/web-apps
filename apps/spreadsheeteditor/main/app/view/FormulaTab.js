@@ -58,10 +58,10 @@ define([
                 me.fireEvent('function:apply', [{name: 'more', origin: 'more'}]);
             });
             me.btnCalculate.on('click', function () {
-                me.fireEvent('function:calculate', [{name: 'calculate', type: Asc.c_oAscCalculateType.All}]);
+                me.fireEvent('function:calculate', [{type: Asc.c_oAscCalculateType.All}]);
             });
             me.btnCalculate.menu.on('item:click', function (menu, item, e) {
-                me.fireEvent('function:calculate', [{name: item.caption, type: item.value}]);
+                me.fireEvent('function:calculate', [{type: item.value}]);
             });
         }
         return {
@@ -227,7 +227,7 @@ define([
                     split: true,
                     menu: true,
                     disabled: true,
-                    lock: [_set.editCell, _set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-calculate'), this.btnCalculate);
                 this.lockedControls.push(this.btnCalculate);
