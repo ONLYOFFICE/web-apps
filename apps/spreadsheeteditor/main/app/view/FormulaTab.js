@@ -244,7 +244,7 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.btnCalculate.updateHint([me.tipCalculateTheEntireWorkbook, me.tipCalculate]);
+                    me.btnCalculate.updateHint([me.tipCalculateTheEntireWorkbook + Common.Utils.String.platformKey('F9'), me.tipCalculate]);
                     var _menu = new Common.UI.Menu({
                         items: [
                             {caption: me.textEntireWorkbook, value: Asc.c_oAscCalculateType.All},
