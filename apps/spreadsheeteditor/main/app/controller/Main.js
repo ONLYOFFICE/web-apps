@@ -1399,6 +1399,10 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                        config.msg = this.errorFileSizeExceed;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2432,7 +2436,8 @@ define([
             txtDate: 'Date',
             txtTime: 'Time',
             txtTab: 'Tab',
-            txtFile: 'File'
+            txtFile: 'File',
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
         }
     })(), SSE.Controllers.Main || {}))
 });
