@@ -146,12 +146,20 @@ define([
             this._setDefaults();
         },
 
-        onBtnClick: function(event) {
-            var state = event.currentTarget.attributes['result'].value;
+        _handleInput: function(state) {
             if (this.options.handler) {
                 this.options.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
             }
             this.close();
+        },
+
+        onBtnClick: function(event) {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         setDisabledScale: function() {
