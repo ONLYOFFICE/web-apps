@@ -3364,6 +3364,11 @@ define([
             var win = new SSE.Views.ScaleDialog({
                 api: me.api,
                 handler: function(dlg, result) {
+                    if (dlg == 'ok') {
+                        if (me.api && result) {
+                            me.api.asc_SetPrintScale(result.width, result.height, result.scale);
+                        }
+                    }
                     Common.NotificationCenter.trigger('edit:complete');
                 }
             });

@@ -88,6 +88,8 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
 
+            this.api = this.options.api;
+
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
 
@@ -137,18 +139,19 @@ define([
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            this.afterRender();
         },
 
-        _handleInput: function(state) {
-            if (this.options.handler) {
-                this.options.handler.call(this, this, state);
-            }
-
-            this.close();
+        afterRender: function() {
+            this._setDefaults();
         },
 
         onBtnClick: function(event) {
-            this._handleInput(event.currentTarget.attributes['result'].value);
+            var state = event.currentTarget.attributes['result'].value;
+            if (this.options.handler) {
+                this.options.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
+            }
+            this.close();
         },
 
         setDisabledScale: function() {
@@ -158,6 +161,32 @@ define([
             } else {
                 this.spnScale.setDisabled(false);
             }
+        },
+
+        _setDefaults: function (props) {
+            if (this.api) {
+                var pageSetup = this.api.asc_getPageOptions().asc_getPageSetup(),
+                    width = pageSetup.asc_getFitToWidth(),
+                    height = pageSetup.asc_getFitToHeight(),
+                    scale = pageSetup.asc_getScale();
+                this._state.width = (width !== null && width !== undefined) ? width : 'Auto';
+                this._state.height = (height !== null && height !== undefined) ? height : 'Auto';
+                this.spnScaleWidth.setValue(this._state.width);
+                this.spnScaleHeight.setValue(this._state.height);
+                this.spnScale.setValue((scale !== null && scale !== undefined) ? scale : '100 %');
+
+                this.setDisabledScale();
+            }
+        },
+
+        getSettings: function () {
+            var width = this.spnScaleWidth.getValue(),
+                height = this.spnScaleHeight.getValue();
+            var props = {};
+            props.width = (width !== 'Auto') ? width : null;
+            props.height = (height !== 'Auto') ? height : null;
+            props.scale = !this.spnScale.disabled ? this.spnScale.getNumberValue() : null;
+            return props;
         },
 
         textTitle: 'Scale Settings',
