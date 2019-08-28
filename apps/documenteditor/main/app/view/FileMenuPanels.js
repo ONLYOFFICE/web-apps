@@ -776,6 +776,7 @@ define([
             this.menu = options.menu;
             this.coreProps = null;
             this.authors = [];
+            this._locked = false;
         },
 
         render: function() {
@@ -1009,7 +1010,9 @@ define([
                     me.trAuthor.before(div);
                     me.authors.push(item);
                 });
+                this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
             }
+            this.SetDisabled();
         },
 
         _ShowHideInfoItem: function(el, visible) {
@@ -1048,6 +1051,10 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
+            this.inputAuthor.setVisible(mode.isEdit);
+            this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
+            this.SetDisabled();
             return this;
         },
 
@@ -1095,12 +1102,18 @@ define([
         },
 
         onLockCore: function(lock) {
-            this.inputTitle.setDisabled(lock);
-            this.inputSubject.setDisabled(lock);
-            this.inputComment.setDisabled(lock);
-            this.inputAuthor.setDisabled(lock);
-            this.tblAuthor.find('.close').toggleClass('disabled', lock);
-            !lock && this.updateFileInfo();
+            this._locked = lock;
+            this.updateFileInfo();
+        },
+
+        SetDisabled: function() {
+            var disable = !this.mode.isEdit || this._locked;
+            this.inputTitle.setDisabled(disable);
+            this.inputSubject.setDisabled(disable);
+            this.inputComment.setDisabled(disable);
+            this.inputAuthor.setDisabled(disable);
+            this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
+            this.tblAuthor.toggleClass('disabled', disable);
         },
 
         txtPlacement: 'Location',
