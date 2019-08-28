@@ -222,7 +222,7 @@ define([
 
                 this.btnCalculate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-cell-group',
+                    iconCls: 'btn-calculation',
                     caption: this.txtCalculation,
                     split: true,
                     menu: true,
