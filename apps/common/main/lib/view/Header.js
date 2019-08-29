@@ -74,7 +74,7 @@ define([
 
         var templateRightBox = '<section>' +
                             '<section id="box-doc-name">' +
-                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
+                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                             '</section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
@@ -116,7 +116,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator"></div>' +
-                                '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
+                                '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                                 '<label id="title-user-name" style="pointer-events: none;"></label>' +
                             '</section>';
 

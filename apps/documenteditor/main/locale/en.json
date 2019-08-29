@@ -665,6 +665,7 @@
   "DE.Controllers.Main.warnNoLicense": "This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnNoLicenseUsers": "This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "DE.Controllers.Main.errorFileSizeExceed": "The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.",
   "DE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "DE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",
