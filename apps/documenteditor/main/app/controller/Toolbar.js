@@ -109,7 +109,8 @@ define([
                 'Toolbar': {
                     'insert:break'      : this.onClickPageBreak,
                     'change:compact'    : this.onClickChangeCompact,
-                    'home:open'         : this.onHomeOpen
+                    'home:open'         : this.onHomeOpen,
+                    'add:chart'         : this.onSelectChart
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -313,7 +314,6 @@ define([
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
             toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
-            toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
@@ -1839,11 +1839,8 @@ define([
             }
         },
 
-        onSelectChart: function(picker, item, record) {
-            if (!record) return;
-
+        onSelectChart: function(type) {
             var me      = this,
-                type    = record.get('type'),
                 chart = false;
 
             var selectedElements = me.api.getSelectedElements();
