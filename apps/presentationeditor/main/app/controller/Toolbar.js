@@ -125,6 +125,7 @@ define([
                     'insert:textart'    : this.onInsertTextart.bind(this),
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'add:slide'         : this.onAddSlide.bind(this),
+                    'change:slide'      : this.onChangeSlide.bind(this),
                     'change:compact'    : this.onClickChangeCompact
                 },
                 'FileMenu': {
@@ -255,8 +256,6 @@ define([
              * UI Events
              */
 
-            if (toolbar.mnuChangeSlidePicker)
-                toolbar.mnuChangeSlidePicker.on('item:click',           _.bind(this.onChangeSlide, this));
             toolbar.btnPreview.on('click',                              _.bind(this.onPreviewBtnClick, this));
             toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
@@ -722,8 +721,12 @@ define([
                 this.toolbar.lockToolbar(PE.enumLock.inEquation, in_equation, {array: [me.toolbar.btnSuperscript, me.toolbar.btnSubscript]});
             }
 
-            if (this.toolbar.mnuChangeSlidePicker)
-                this.toolbar.mnuChangeSlidePicker.options.layout_index = layout_index;
+            if (this.toolbar.btnChangeSlide) {
+                if (this.toolbar.btnChangeSlide.mnuSlidePicker)
+                    this.toolbar.btnChangeSlide.mnuSlidePicker.options.layout_index = layout_index;
+                else
+                    this.toolbar.btnChangeSlide.mnuSlidePicker = {options: {layout_index: layout_index}};
+            }
         },
 
         onApiStyleChange: function(v) {
@@ -816,19 +819,17 @@ define([
         },
 
         onAddSlide: function(type) {
-            var me = this;
             if ( this.api) {
                 this.api.AddSlide(type);
 
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Slide');
             }
         },
 
-        onChangeSlide: function(picker, item, record) {
+        onChangeSlide: function(type) {
             if (this.api) {
-                if (record)
-                    this.api.ChangeLayout(record.get('data').idx);
+                this.api.ChangeLayout(type);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Change Layout');

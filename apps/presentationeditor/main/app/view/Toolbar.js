@@ -1188,46 +1188,6 @@ define([
                     maxColumns: 10
                 });
 
-                var createDataPicker = function (btn) {
-                    me.mnuChangeSlidePicker = new Common.UI.DataView({
-                        el: $('#id-toolbar-menu-changeslide'),
-                        parentMenu: me.btnChangeSlide.menu,
-                        restoreHeight: 300,
-                        restoreWidth: 302,
-                        style: 'max-height: 300px;',
-                        store: PE.getCollection('SlideLayouts'),
-                        itemTemplate: _.template([
-                            '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                            '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
-                            '<div class="title"><%= title %></div> ',
-                            '</div>'
-                        ].join(''))
-                    });
-                    if (me.btnChangeSlide.menu) {
-                        me.btnChangeSlide.menu.on('show:after', function () {
-                            me.onSlidePickerShowAfter(me.mnuChangeSlidePicker);
-                            me.mnuChangeSlidePicker.scroller.update({alwaysVisibleY: true});
-
-                            var record = me.mnuChangeSlidePicker.store.findLayoutByIndex(me.mnuChangeSlidePicker.options.layout_index);
-                            if (record) {
-                                me.mnuChangeSlidePicker.selectRecord(record, true);
-                                me.mnuChangeSlidePicker.scrollToRecord(record);
-                            }
-                        });
-                    }
-                    me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
-                };
-                // btnChangeSlide isn't in compact toolbar mode -> may be rendered after createDelayedElements
-                if (this.btnChangeSlide.rendered)
-                    createDataPicker(this.btnChangeSlide);
-                else
-                    this.btnChangeSlide.on('render:after', createDataPicker);
-
-                this.listenTo(PE.getCollection('SlideLayouts'), 'reset', function () {
-                    if (me.mnuChangeSlidePicker)
-                        me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
-                });
-
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
 
@@ -1421,7 +1381,6 @@ define([
 
             onSlidePickerShowAfter: function (picker) {
                 if (!picker._needRecalcSlideLayout) return;
-
                 if (picker.cmpEl && picker.dataViewItems.length > 0) {
                     var dataViewItems = picker.dataViewItems,
                         el = $(dataViewItems[0].el),
@@ -1522,14 +1481,14 @@ define([
 
             updateAddSlideMenu: function(collection) {
                 if (collection.size()<1) return;
-
                 var me = this;
-                me.btnsAddSlide.forEach(function (btn, index) {
-                    if ( !btn.mnuAddSlidePicker ) {
-                        btn.mnuAddSlidePicker = new Common.UI.DataView({
-                            el: $('#id-toolbar-menu-addslide-' + index),
-                            parentMenu: btn.menu,
-                            showLast: false,
+                if (!me.binding.onShowBeforeAddSlide) {
+                    me.binding.onShowBeforeAddSlide = function(menu) {
+                        var change = (this.iconCls == 'btn-changeslide');
+                        var picker = new Common.UI.DataView({
+                            el: $('.menu-layouts', menu.$el),
+                            parentMenu: menu,
+                            showLast: change,
                             restoreHeight: 300,
                             restoreWidth: 302,
                             style: 'max-height: 300px;',
@@ -1541,21 +1500,38 @@ define([
                                 '</div>'
                             ].join(''))
                         });
-                        btn.mnuAddSlidePicker.on('item:click', function (picker, item, record, e) {
+                        picker.on('item:click', function (picker, item, record, e) {
                             if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
                             if (record)
-                                me.fireEvent('add:slide', [record.get('data').idx]);
+                                me.fireEvent(change ? 'change:slide' : 'add:slide', [record.get('data').idx]);
                         });
-                        if (btn.menu) {
-                            btn.menu.on('show:after', function () {
-                                me.onSlidePickerShowAfter(btn.mnuAddSlidePicker);
-                                btn.mnuAddSlidePicker.scroller.update({alwaysVisibleY: true});
-                                btn.mnuAddSlidePicker.scroller.scrollTop(0);
+                        if (menu) {
+                            menu.on('show:after', function () {
+                                me.onSlidePickerShowAfter(picker);
+                                picker.scroller.update({alwaysVisibleY: true});
+                                if (change) {
+                                    var record = picker.store.findLayoutByIndex(picker.options.layout_index);
+                                    if (record) {
+                                        picker.selectRecord(record, true);
+                                        picker.scrollToRecord(record);
+                                    }
+                                } else
+                                    picker.scroller.scrollTop(0);
                             });
                         }
-                    }
-                    btn.mnuAddSlidePicker._needRecalcSlideLayout = true;
-                });
+                        menu.off('show:before', me.binding.onShowBeforeAddSlide);
+                        if (change && this.mnuSlidePicker)
+                            picker.options.layout_index = this.mnuSlidePicker.options.layout_index;
+                        this.mnuSlidePicker = picker;
+                    };
+                    me.btnsAddSlide.concat(me.btnChangeSlide).forEach(function (btn, index) {
+                        btn.menu.on('show:before', me.binding.onShowBeforeAddSlide, btn);
+                    });
+                } else {
+                    me.btnsAddSlide.concat(me.btnChangeSlide).forEach(function (btn, index) {
+                        btn.mnuSlidePicker && (btn.mnuSlidePicker._needRecalcSlideLayout = true);
+                    });
+                }
             },
 
             textBold: 'Bold',
