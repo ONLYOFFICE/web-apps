@@ -716,7 +716,6 @@ define([
                     data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
-                self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
                     arr.push({
@@ -726,7 +725,7 @@ define([
                         tip    : template.asc_getDisplayName()
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.add(arr);
+                self.cmbTableTemplate.menuPicker.store.reset(arr);
             }
         },
 

@@ -1631,8 +1631,7 @@ define([
                     });
                 });
 
-                store.reset();
-                store.add(templates);
+                store.reset(templates);
             }
 
             this.fillTableTemplates();
