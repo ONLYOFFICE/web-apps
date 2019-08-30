@@ -75,6 +75,7 @@ define([
             this.shapeprops = null;
             this._sendUndoPoint = true;
             this._sliderChanged = false;
+            this._texturearray = null;
 
             this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
 
@@ -1328,6 +1329,7 @@ define([
                 this.PatternFillType = this.patternViewData[0].type;
             }
             this.UpdateThemeColors();
+            this.onInitStandartTextures();
             this.fillTextArt();
             this.fillTransform(this.api.asc_getPropertyEditorTextArts());
         },
@@ -1335,43 +1337,51 @@ define([
         onInitStandartTextures: function(texture) {
             var me = this;
             if (texture && texture.length>0){
-                if (!this.btnTexture) {
-                    this.btnTexture = new Common.UI.ComboBox({
-                        el: $('#textart-combo-fill-texture'),
-                        template: _.template([
-                            '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                                '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
-                                '<div style="display: table-cell;"></div>',
-                                '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
-                            '</div>'
-                        ].join(''))
-                    });
-                    this.textureMenu = new Common.UI.Menu({
-                        items: [
-                            { template: _.template('<div id="id-textart-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
-                        ]
-                    });
-                    this.textureMenu.render($('#textart-combo-fill-texture'));
-                    this.lockedControls.push(this.btnTexture);
-                }
-                var texturearray = [];
+                me._texturearray = [];
                 _.each(texture, function(item){
-                    texturearray.push({
+                    me._texturearray.push({
                         imageUrl: item.get_image(),
                         name   : me.textureNames[item.get_id()],
                         type    : item.get_id(),
+//                        allowSelected : false,
                         selected: false
                     });
                 });
-                var mnuTexturePicker = new Common.UI.DataView({
-                    el: $('#id-textart-menu-texture'),
-                    restoreHeight: 174,
-                    parentMenu: me.textureMenu,
-                    showLast: false,
-                    store: new Common.UI.DataViewStore(texturearray),
-                    itemTemplate: _.template('<div><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+            }
+
+            if (!me._texturearray || me._texturearray.length<1) return;
+            if (!this._initSettings && !this.btnTexture) {
+                this.btnTexture = new Common.UI.ComboBox({
+                    el: $('#textart-combo-fill-texture'),
+                    template: _.template([
+                        '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
+                            '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                            '<div style="display: table-cell;"></div>',
+                            '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '</div>'
+                    ].join(''))
                 });
-                mnuTexturePicker.on('item:click', _.bind(this.onSelectTexture, this));
+                this.textureMenu = new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-textart-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
+                    ]
+                });
+                this.textureMenu.render($('#textart-combo-fill-texture'));
+                this.lockedControls.push(this.btnTexture);
+
+                var onShowBefore = function(menu) {
+                    var mnuTexturePicker = new Common.UI.DataView({
+                        el: $('#id-textart-menu-texture'),
+                        restoreHeight: 174,
+                        parentMenu: menu,
+                        showLast: false,
+                        store: new Common.UI.DataViewStore(me._texturearray || []),
+                        itemTemplate: _.template('<div><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    });
+                    mnuTexturePicker.on('item:click', _.bind(me.onSelectTexture, me));
+                    menu.off('show:before', onShowBefore);
+                };
+                this.textureMenu.on('show:before', onShowBefore);
             }
         },
 
