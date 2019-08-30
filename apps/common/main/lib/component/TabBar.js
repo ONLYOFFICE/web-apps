@@ -69,12 +69,20 @@ define([
     };
 
     StateManager.prototype.attach = function (tab) {
-        tab.changeState = $.proxy(function () {
-            this.trigger('tab:change', tab);
-            this.bar.$el.find('ul > li.active').removeClass('active');
-            tab.activate();
+        tab.changeState = $.proxy(function (select) {
+            if (select) {
+                tab.toggleClass('selected');
+            } else {
+                if (!tab.isSelected()) {
+                    this.bar.$el.find('ul > li.selected').removeClass('selected');
+                    tab.addClass('selected');
+                }
+                this.trigger('tab:change', tab);
+                this.bar.$el.find('ul > li.active').removeClass('active');
+                tab.activate();
 
-            this.bar.trigger('tab:changed', this.bar, this.bar.tabs.indexOf(tab), tab);
+                this.bar.trigger('tab:changed', this.bar, this.bar.tabs.indexOf(tab), tab);
+            }
         }, this);
 
         var dragHelper = new (function() {
@@ -283,10 +291,22 @@ define([
         });
 
         tab.$el.on({
-            click: $.proxy(function () {
+            click: $.proxy(function (event) {
                 if (!tab.disabled && !tab.$el.hasClass('active')) {
                     if (tab.control == 'manual') {
                         this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
+                    } else if (event.ctrlKey || event.metaKey) {
+                        tab.changeState(true);
+                    } else if (event.shiftKey) {
+                        this.bar.$el.find('ul > li.selected').removeClass('selected');
+                        var $active = this.bar.$el.find('ul > li.active'),
+                            indexAct = $active.index(),
+                            indexCur = tab.sheetindex;
+                        var startIndex = (indexCur > indexAct) ? indexAct : indexCur,
+                            endIndex = (indexCur > indexAct) ? indexCur : indexAct;
+                        for(var i = startIndex; i <= endIndex; i++) {
+                            this.bar.tabs[i].changeState(true);
+                        }
                     } else {
                         tab.changeState();
                     }

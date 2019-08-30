@@ -82,6 +82,10 @@ define([
                 this.$el.addClass('active');
         },
 
+        isSelected: function() {
+            return this.$el.hasClass('selected');
+        },
+
         deactivate: function(){
             this.$el.removeClass('active');
         },
@@ -108,6 +112,11 @@ define([
         removeClass: function(cls) {
             if (cls.length && this.$el.hasClass(cls))
                 this.$el.removeClass(cls);
+        },
+
+        toggleClass: function(cls) {
+            if (cls.length)
+                this.$el.toggleClass(cls);
         },
 
         hasClass: function(cls) {
