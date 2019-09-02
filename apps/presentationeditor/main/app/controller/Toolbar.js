@@ -126,7 +126,8 @@ define([
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'add:slide'         : this.onAddSlide.bind(this),
                     'change:slide'      : this.onChangeSlide.bind(this),
-                    'change:compact'    : this.onClickChangeCompact
+                    'change:compact'    : this.onClickChangeCompact,
+                    'add:chart'         : this.onSelectChart
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -308,7 +309,6 @@ define([
             toolbar.btnColorSchemas.menu.on('item:click',               _.bind(this.onColorSchemaClick, this));
             toolbar.btnColorSchemas.menu.on('show:after',               _.bind(this.onColorSchemaShow, this));
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
-            toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
             toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this, 'header'));
@@ -1585,11 +1585,8 @@ define([
             }
         },
 
-        onSelectChart: function(picker, item, record) {
-            if (!record) return;
-
+        onSelectChart: function(type) {
             var me      = this,
-                type    = record.get('type'),
                 chart = false;
 
             var selectedElements = me.api.getSelectedElements();

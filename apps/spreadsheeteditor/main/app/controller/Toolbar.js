@@ -70,7 +70,8 @@ define([
 
             this.addListeners({
                 'Toolbar': {
-                    'change:compact': this.onClickChangeCompact.bind(me)
+                    'change:compact': this.onClickChangeCompact.bind(me),
+                    'add:chart'     : this.onSelectChart
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -315,7 +316,6 @@ define([
                 toolbar.btnInsertTable.on('click',                          _.bind(this.onBtnInsertTableClick, this));
                 toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
                 toolbar.btnInsertHyperlink.on('click',                      _.bind(this.onHyperlink, this));
-                toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
@@ -975,31 +975,30 @@ define([
             }
         },
 
-        onSelectChart: function(picker, item, record, e) {
-            if (!this.editMode || !record) return;
+        onSelectChart: function(group, type) {
+            if (!this.editMode) return;
             var me = this,
                 info = me.api.asc_getCellInfo(),
-                type = info.asc_getFlags().asc_getSelectionType(),
-                group = record.get('group'),
+                seltype = info.asc_getFlags().asc_getSelectionType(),
                 isSpark = (group == 'menu-chart-group-sparkcolumn' || group == 'menu-chart-group-sparkline' || group == 'menu-chart-group-sparkwin');
 
-            if (type!=Asc.c_oAscSelectionType.RangeImage && me.api) {
+            if (seltype!=Asc.c_oAscSelectionType.RangeImage && me.api) {
                 var win, props;
-                if (isSpark && (type==Asc.c_oAscSelectionType.RangeCells || type==Asc.c_oAscSelectionType.RangeCol ||
-                                type==Asc.c_oAscSelectionType.RangeRow || type==Asc.c_oAscSelectionType.RangeMax)) {
+                if (isSpark && (seltype==Asc.c_oAscSelectionType.RangeCells || seltype==Asc.c_oAscSelectionType.RangeCol ||
+                    seltype==Asc.c_oAscSelectionType.RangeRow || seltype==Asc.c_oAscSelectionType.RangeMax)) {
                     var sparkLineInfo = info.asc_getSparklineInfo();
                     if (!!sparkLineInfo) {
                         var props = new Asc.sparklineGroup();
-                        props.asc_setType(record.get('type'));
+                        props.asc_setType(type);
                         this.api.asc_setSparklineGroup(sparkLineInfo.asc_getId(), props);
                     } else {
                         // add sparkline
                     }
                 } else if (!isSpark) {
-                    var ischartedit = ( type == Asc.c_oAscSelectionType.RangeChart || type == Asc.c_oAscSelectionType.RangeChartText);
+                    var ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText);
                     props = me.api.asc_getChartObject(true); // don't lock chart object
                     if (props) {
-                        (ischartedit) ? props.changeType(record.get('type')) : props.putType(record.get('type'));
+                        (ischartedit) ? props.changeType(type) : props.putType(type);
                         var range = props.getRange(),
                             isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType());
                         if (isvalid == Asc.c_oAscError.ID.No) {
@@ -1017,8 +1016,6 @@ define([
                     }
                 }
             }
-            if (e.type !== 'click')
-                me.toolbar.btnInsertChart.menu.hide();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
