@@ -40,7 +40,7 @@
 
 define([
     'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox'
+    'common/main/lib/component/MetricSpinner'
 ], function () { 'use strict';
 
     SSE.Views.ScaleDialog = Common.UI.Window.extend(_.extend({
@@ -57,8 +57,8 @@ define([
             }, options || {});
 
             this._state = {
-                width: 'Auto',
-                height: 'Auto'
+                width: null,
+                height: null
             };
 
             this.template = [
@@ -100,14 +100,14 @@ define([
                 el          : $('#scale-width'),
                 step        : 1,
                 width       : 80,
-                value       : 'Auto',
+                value       : '',
                 defaultUnit : '',
                 maxValue    : 32767,
                 minValue    : 1,
                 allowAuto   : true
             });
             this.spnScaleWidth.on('change', _.bind(function (field) {
-                this._state.width = field.getValue();
+                this._state.width = field.getNumberValue();
                 this.setDisabledScale();
             }, this));
 
@@ -115,14 +115,14 @@ define([
                 el          : $('#scale-height'),
                 step        : 1,
                 width       : 80,
-                value       : 'Auto',
+                value       : '',
                 defaultUnit : '',
                 maxValue    : 32767,
                 minValue    : 1,
                 allowAuto   : true
             });
             this.spnScaleHeight.on('change', _.bind(function (field) {
-                this._state.height = field.getValue();
+                this._state.height = field.getNumberValue();
                 this.setDisabledScale();
             }, this));
 
@@ -130,10 +130,10 @@ define([
                 el          : $('#scale'),
                 step        : 5,
                 width       : 80,
-                value       : '100 %',
                 defaultUnit : "%",
                 maxValue    : 400,
-                minValue    : 10
+                minValue    : 10,
+                defaultValue: '100 %'
             });
 
             var $window = this.getChild();
@@ -163,37 +163,35 @@ define([
         },
 
         setDisabledScale: function() {
-            if (this._state.height !== 'Auto' || this._state.width !== 'Auto') {
-                this.spnScale.setValue('100 %');
-                this.spnScale.setDisabled(true);
-            } else {
+            if ((this._state.height === -1 || this._state.height === null) && (this._state.width === -1 || this._state.width === null)) {
                 this.spnScale.setDisabled(false);
+            } else {
+                this.spnScale.setDisabled(true);
             }
         },
 
-        _setDefaults: function (props) {
+        _setDefaults: function () {
             if (this.api) {
                 var pageSetup = this.api.asc_getPageOptions().asc_getPageSetup(),
                     width = pageSetup.asc_getFitToWidth(),
                     height = pageSetup.asc_getFitToHeight(),
                     scale = pageSetup.asc_getScale();
-                this._state.width = (width !== null && width !== undefined) ? width : 'Auto';
-                this._state.height = (height !== null && height !== undefined) ? height : 'Auto';
-                this.spnScaleWidth.setValue(this._state.width);
-                this.spnScaleHeight.setValue(this._state.height);
-                this.spnScale.setValue((scale !== null && scale !== undefined) ? scale : '100 %');
+                this.spnScaleWidth.setValue((width !== null && width !== 0) ? width : -1, true);
+                this.spnScaleHeight.setValue((height !== null && height !== 0) ? height : -1, true);
+                this.spnScale.setValue((scale !== null) ? scale : '', true);
+
+                this._state.width = (width !== null && width !== 0) ? width : null;
+                this._state.height = (height !== null && height !== 0) ? height : null;
 
                 this.setDisabledScale();
             }
         },
 
         getSettings: function () {
-            var width = this.spnScaleWidth.getValue(),
-                height = this.spnScaleHeight.getValue();
             var props = {};
-            props.width = (width !== 'Auto') ? width : null;
-            props.height = (height !== 'Auto') ? height : null;
-            props.scale = !this.spnScale.disabled ? this.spnScale.getNumberValue() : null;
+            props.width = (this._state.width === null) ? null : ((this._state.width === -1) ? 0 : this._state.width);
+            props.height = (this._state.height === null) ? null : ((this._state.height === -1) ? 0 : this._state.height);
+            props.scale = this.spnScale.getNumberValue();
             return props;
         },
 
