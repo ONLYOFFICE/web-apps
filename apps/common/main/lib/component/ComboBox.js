@@ -194,6 +194,18 @@ define([
                         var modalParents = el.closest('.asc-window');
                         if (modalParents.length > 0) {
                             el.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                            var onModalClose = function(dlg) {
+                                if (modalParents[0] !== dlg.$window[0]) return;
+                                var tip = el.data('bs.tooltip');
+                                if (tip) {
+                                    if (tip.dontShow===undefined)
+                                        tip.dontShow = true;
+
+                                    tip.hide();
+                                }
+                                Common.NotificationCenter.off({'modal:close': onModalClose});
+                            };
+                            Common.NotificationCenter.on({'modal:close': onModalClose});
                         }
 
                         el.find('.dropdown-menu').on('mouseenter', function(){ // hide tooltip when mouse is over menu
