@@ -292,10 +292,8 @@ define([
 
         tab.$el.on({
             click: $.proxy(function (event) {
-                if (!tab.disabled && !tab.$el.hasClass('active')) {
-                    if (tab.control == 'manual') {
-                        this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
-                    } else if (event.ctrlKey || event.metaKey) {
+                if (!tab.disabled) {
+                    if (event.ctrlKey || event.metaKey) {
                         tab.changeState(true);
                     } else if (event.shiftKey) {
                         this.bar.$el.find('ul > li.selected').removeClass('selected');
@@ -304,11 +302,15 @@ define([
                             indexCur = tab.sheetindex;
                         var startIndex = (indexCur > indexAct) ? indexAct : indexCur,
                             endIndex = (indexCur > indexAct) ? indexCur : indexAct;
-                        for(var i = startIndex; i <= endIndex; i++) {
+                        for (var i = startIndex; i <= endIndex; i++) {
                             this.bar.tabs[i].changeState(true);
                         }
-                    } else {
-                        tab.changeState();
+                    } else if (!tab.$el.hasClass('active')) {
+                        if (tab.control == 'manual') {
+                            this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
+                        } else {
+                            tab.changeState();
+                        }
                     }
                 }
                 !tab.disabled && Common.NotificationCenter.trigger('edit:complete', this.bar);

@@ -51,7 +51,7 @@ define([
         this.active     = false;
         this.label      = 'Tab';
         this.cls        = '';
-        this.template   = _.template(['<li class="<% if(active){ %>active<% } %> <% if(cls.length){%><%= cls %><%}%>" data-label="<%= label %>">',
+        this.template   = _.template(['<li class="<% if(active){ %>active selected<% } %> <% if(cls.length){%><%= cls %><%}%>" data-label="<%= label %>">',
                                             '<a><%- label %></a>',
                                         '</li>'].join(''));
 
