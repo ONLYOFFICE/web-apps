@@ -128,7 +128,7 @@ define([
 
             this.spnScale = new Common.UI.MetricSpinner({
                 el          : $('#scale'),
-                step        : 5,
+                step        : 1,
                 width       : 80,
                 defaultUnit : "%",
                 maxValue    : 400,
