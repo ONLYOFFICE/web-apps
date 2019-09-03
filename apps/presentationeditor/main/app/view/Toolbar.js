@@ -1152,14 +1152,14 @@ define([
                     var collection = PE.getCollection('Common.Collections.TextArt');
                     if (collection.length<1)
                         PE.getController('Main').fillTextArt(me.api.asc_getTextArtPreviews());
-                    me.btnInsertTextArt.textartPicker = new Common.UI.DataView({
+                    var picker = new Common.UI.DataView({
                         el: $('#view-insert-art', menu.$el),
                         store: collection,
                         parentMenu: menu,
                         showLast: false,
                         itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                     });
-                    me.btnInsertTextArt.textartPicker.on('item:click', function (picker, item, record, e) {
+                    picker.on('item:click', function (picker, item, record, e) {
                         if (record)
                             me.fireEvent('insert:textart', [record.get('data')]);
                         if (e.type !== 'click') menu.hide();
