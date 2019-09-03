@@ -247,20 +247,54 @@ define([
 
         onTabMenu: function(obj, item, e) {
             var me = this;
-            switch (item.value){
-            case 'ins':
-                setTimeout(function(){
-                    me.api.asc_insertWorksheet(me.createSheetName());
-                }, 1);
-                break;
-            case 'del':     this.deleteWorksheet(); break;
-            case 'ren':     this.renameWorksheet(); break;
-            case 'copy':    this.moveWorksheet(false); break;
-            case 'move':    this.moveWorksheet(true); break;
-            case 'hide':
-                setTimeout(function(){
-                    me.hideWorksheet(true);}, 1);
-                break;
+            var selectTabs = this.statusbar.tabbar.selectTabs;
+            if (selectTabs.length > 1) {
+                switch (item.value) {
+                    case 'ins':
+                        setTimeout(function () {
+                            //me.api.asc_insertWorksheets();
+                        }, 1);
+                        break;
+                    case 'del':
+                        this.deleteWorksheets();
+                        break;
+                    case 'copy':
+                        this.moveWorksheets(false);
+                        break;
+                    case 'move':
+                        this.moveWorksheets(true);
+                        break;
+                    case 'hide':
+                        setTimeout(function () {
+                            me.hideWorksheets(selectTabs);
+                        }, 1,);
+                        break;
+                }
+            } else {
+                switch (item.value) {
+                    case 'ins':
+                        setTimeout(function () {
+                            me.api.asc_insertWorksheet(me.createSheetName());
+                        }, 1);
+                        break;
+                    case 'del':
+                        this.deleteWorksheet();
+                        break;
+                    case 'ren':
+                        this.renameWorksheet();
+                        break;
+                    case 'copy':
+                        this.moveWorksheet(false);
+                        break;
+                    case 'move':
+                        this.moveWorksheet(true);
+                        break;
+                    case 'hide':
+                        setTimeout(function () {
+                            me.hideWorksheet(true);
+                        }, 1);
+                        break;
+                }
             }
         },
 
@@ -297,6 +331,10 @@ define([
             return name;
         },
 
+        deleteWorksheets: function() {
+
+        },
+
         deleteWorksheet: function() {
             var me = this;
 
@@ -314,6 +352,19 @@ define([
                         }
                     }
                 });
+            }
+        },
+
+        hideWorksheets: function(selectTabs) {
+            var me = this;
+            if (selectTabs) {
+                if (selectTabs.length === me.statusbar.tabbar.tabs.length) {
+                    Common.UI.warning({msg: me.errorLastSheet});
+                } else {
+                    me.statusbar.tabbar.selectTabs.forEach(function (item) {
+                        //me.hideWorksheet(true, item.sheetindex);
+                    });
+                }
             }
         },
 
@@ -374,6 +425,10 @@ define([
                 }
                 win.show(left, top);
             }
+        },
+
+        moveWorksheets: function() {
+
         },
 
         moveWorksheet: function(cut, silent, index, destPos) {

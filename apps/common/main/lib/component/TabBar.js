@@ -72,10 +72,18 @@ define([
         tab.changeState = $.proxy(function (select) {
             if (select) {
                 tab.toggleClass('selected');
+                var selectTab = _.find(this.bar.selectTabs, function (item) {return item.sheetindex === tab.sheetindex;});
+                if (selectTab) {
+                    this.bar.selectTabs = _.without(this.bar.selectTabs, selectTab);
+                } else {
+                    this.bar.selectTabs.push(tab);
+                }
             } else {
                 if (!tab.isSelected()) {
                     this.bar.$el.find('ul > li.selected').removeClass('selected');
                     tab.addClass('selected');
+                    this.bar.selectTabs.length = 0;
+                    this.bar.selectTabs.push(tab);
                 }
                 this.trigger('tab:change', tab);
                 this.bar.$el.find('ul > li.active').removeClass('active');
@@ -297,9 +305,10 @@ define([
                         tab.changeState(true);
                     } else if (event.shiftKey) {
                         this.bar.$el.find('ul > li.selected').removeClass('selected');
+                        this.bar.selectTabs.length = 0;
                         var $active = this.bar.$el.find('ul > li.active'),
                             indexAct = $active.index(),
-                            indexCur = tab.sheetindex;
+                            indexCur = this.bar.tabs.indexOf(tab);
                         var startIndex = (indexCur > indexAct) ? indexAct : indexCur,
                             endIndex = (indexCur > indexAct) ? indexCur : indexAct;
                         for (var i = startIndex; i <= endIndex; i++) {
@@ -319,7 +328,11 @@ define([
                 this.trigger('tab:dblclick', this, this.tabs.indexOf(tab), tab);
             }, this.bar),
             contextmenu: $.proxy(function () {
-                this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab);
+                if (this.selectTabs.length > 1) {
+                    this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
+                } else {
+                    this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab);
+                }
             }, this.bar),
             mousedown: $.proxy(function (e) {
                 if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
@@ -344,6 +357,7 @@ define([
 
         tabs: [],
         template: _.template('<ul class="nav nav-tabs <%= placement %>" />'),
+        selectTabs: [],
 
         initialize : function (options) {
             _.extend(this.config, options);
@@ -419,6 +433,10 @@ define([
                                 me.$bar.append(tab.render().$el);
                                 me.tabs.push(tab);
                                 me.manager.attach(tab);
+                                if (tab.isActive()) {
+                                    me.selectTabs.length = 0;
+                                    me.selectTabs.push(tab);
+                                }
                             }
                         } else {
                             for (i = tabs.length; i-- > 0 ; ) {
@@ -430,6 +448,11 @@ define([
                                 } else {
                                     me.$bar.find('li:nth-child(' + index + ')').before(tab.render().$el);
                                     me.tabs.splice(index, 0, tab);
+                                }
+
+                                if (tab.isActive()) {
+                                    me.selectTabs.length = 0;
+                                    me.selectTabs.push(tab);
                                 }
 
                                 me.manager.attach(tab);

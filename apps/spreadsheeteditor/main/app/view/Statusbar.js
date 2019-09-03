@@ -409,7 +409,7 @@ define([
                 // Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false); //  hide popover
             },
 
-            onTabMenu: function (o, index, tab) {
+            onTabMenu: function (o, index, tab, select) {
                 if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                     !this.mode.isDisconnected ) {
