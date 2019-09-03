@@ -35,28 +35,8 @@ if (Common === undefined) {
 }
 
 Common.Locale = new(function() {
+    "use strict";
     var l10n = {};
-
-    var _createXMLHTTPObject = function() {
-        var xmlhttp;
-        if (typeof XMLHttpRequest != 'undefined') {
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            try {
-                xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-            }
-            catch (e) {
-                try {
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                catch (E) {
-                    xmlhttp = false;
-                }
-            }
-        }
-
-        return xmlhttp;
-    };
 
     var _applyLocalization = function() {
         try {
@@ -98,25 +78,40 @@ Common.Locale = new(function() {
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     };
 
-    try {
-        var langParam = _getUrlParameterByName('lang');
-        var xhrObj = _createXMLHTTPObject();
-        if (xhrObj && langParam) {
-            var lang = langParam.split(/[\-\_]/)[0];
-            xhrObj.open('GET', 'locale/' + lang + '.json', false);
-            xhrObj.send('');
-            l10n = eval("(" + xhrObj.responseText + ")");
-        }
-    }
-    catch (e) {
-        try {
-            xhrObj.open('GET', 'locale/en.json', false);
-            xhrObj.send('');
-            l10n = eval("(" + xhrObj.responseText + ")");
-        }
-        catch (e) {
-        }
-    }
+    var _requireLang = function () {
+        var lang = (_getUrlParameterByName('lang') || 'en').split(/[\-_]/)[0];
+        fetch('locale/' + lang + '.json')
+            .then(function(response) {
+                if (!response.ok) {
+                    if (lang != 'en')
+                        /* load default lang if fetch failed */
+                        return fetch('locale/en.json');
+
+                    throw new Error('server error');
+                }
+                return response.json();
+            }).then(function(response) {
+                if ( response.then )
+                    return response.json();
+                else {
+                    l10n = response;
+                    /* to break promises chain */
+                    throw new Error('loaded');
+                }
+            }).then(function(json) {
+                if ( !!json ) l10n = json;
+            }).catch(function(e) {
+                if ( e.message == 'loaded' ) {
+
+                } else
+                    console.log('fetch error: ' + e);
+            });
+    };
+
+    if ( !window.fetch ) {
+        /* use fetch polifill if native method isn't supported */
+        require(['../vendor/fetch/fetch.umd'], _requireLang);
+    } else _requireLang();
 
     return {
         apply: _applyLocalization,

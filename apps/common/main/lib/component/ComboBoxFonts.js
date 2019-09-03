@@ -56,7 +56,7 @@ define([
             thumbContext    = thumbCanvas.getContext('2d'),
             thumbPath       = '../../../../sdkjs/common/Images/fonts_thumbnail.png',
             thumbPath2x     = '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png',
-            listItemHeight  = 36;
+            listItemHeight  = 26;
 
         if (typeof window['AscDesktopEditor'] === 'object') {
             thumbPath       = window['AscDesktopEditor'].getFontsSprite();
@@ -76,7 +76,7 @@ define([
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>">',
-                            '<a class="font-item" tabindex="-1" type="menuitem" style="vertical-align:middle; margin: 0 0 0 -10px; height:<%=scope.getListItemHeight()%>px;"/>',
+                            '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"/>',
                         '</li>',
                     '<% }); %>',
                     '</ul>',
@@ -93,9 +93,12 @@ define([
                     }
                 }));
 
-                this.recent = _.isNumber(options.recent) ? options.recent : 3;
+                this.recent = _.isNumber(options.recent) ? options.recent : 5;
 
-                Common.NotificationCenter.on('fonts:change',    _.bind(this.onApiChangeFont, this));
+                var filter = Common.localStorage.getKeysFilter();
+                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+                // Common.NotificationCenter.on('fonts:change',    _.bind(this.onApiChangeFont, this));
                 Common.NotificationCenter.on('fonts:load',      _.bind(this.fillFonts, this));
             },
 
@@ -114,8 +117,6 @@ define([
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
                 this._input.on('focus',     _.bind(function() {this.inFormControl = true;}, this));
                 this._input.on('blur',      _.bind(function() {this.inFormControl = false;}, this));
-
-                this._modalParents = this.cmpEl.closest('.asc-window');
 
                 return this;
             },
@@ -322,6 +323,13 @@ define([
                     if (me.recent > 0) {
                         me.store.on('add', me.onInsertItem, me);
                         me.store.on('remove', me.onRemoveItem, me);
+
+                        Common.Utils.InternalSettings.set(me.appPrefix + "-settings-recent-fonts", Common.localStorage.getItem(me.appPrefix + "-settings-recent-fonts"));
+                        var arr = Common.Utils.InternalSettings.get(me.appPrefix + "-settings-recent-fonts");
+                        arr = arr ? arr.split(';') : [];
+                        arr.reverse().forEach(function(item) {
+                            item && me.addItemToRecent(me.store.findWhere({name: item}), true);
+                        });
                     }
                 });
             },
@@ -339,8 +347,6 @@ define([
                 var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName());
 
                 if (this.getRawValue() !== name) {
-                    if (this._modalParents.length > 0) return;
-
                     var record = this.store.findWhere({
                         name: name
                     });
@@ -364,17 +370,17 @@ define([
             },
 
             itemClicked: function (e) {
+                Common.UI.ComboBox.prototype.itemClicked.apply(this, arguments);
+
                 var el = $(e.target).closest('li');
                 var record = this.store.findWhere({id: el.attr('id')});
                 this.addItemToRecent(record);
-
-                Common.UI.ComboBox.prototype.itemClicked.apply(this, arguments);
             },
 
             onInsertItem: function(item) {
                 $(this.el).find('ul').prepend(_.template([
                     '<li id="<%= item.id %>">',
-                        '<a class="font-item" tabindex="-1" type="menuitem" style="vertical-align:middle; margin: 0 0 0 -10px; height:<%=scope.getListItemHeight()%>px;"/>',
+                        '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"/>',
                     '</li>'
                 ].join(''))({
                     item: item.attributes,
@@ -387,6 +393,10 @@ define([
             },
 
             onBeforeShowMenu: function(e) {
+                if (this.store.length<1) {
+                    e.preventDefault();
+                    return;
+                }
                 Common.UI.ComboBox.prototype.onBeforeShowMenu.apply(this, arguments);
 
                 if (!this.getSelectedRecord() && !!this.getRawValue()) {
@@ -419,19 +429,29 @@ define([
                 Common.UI.ComboBox.prototype.onAfterHideMenu.apply(this, arguments);
             },
 
-            addItemToRecent: function(record) {
+            addItemToRecent: function(record, silent) {
                 if (this.recent<1) return;
 
-                if (record.get('type') != FONT_TYPE_RECENT &&
-                    !this.store.findWhere({name: record.get('name'),type:FONT_TYPE_RECENT})) {
-                    var fonts = this.store.where({type:FONT_TYPE_RECENT});
-                    if (!(fonts.length < this.recent)) {
-                        this.store.remove(fonts[this.recent - 1]);
-                    }
+                var font = this.store.findWhere({name: record.get('name'),type:FONT_TYPE_RECENT});
+                font && this.store.remove(font);
 
-                    var new_record = record.clone();
-                    new_record.set({'type': FONT_TYPE_RECENT, 'id': Common.UI.getId(), cloneid: record.id});
-                    this.store.add(new_record, {at:0});
+                var fonts = this.store.where({type:FONT_TYPE_RECENT});
+                if (!(fonts.length < this.recent)) {
+                    this.store.remove(fonts[this.recent - 1]);
+                }
+
+                var new_record = record.clone();
+                new_record.set({'type': FONT_TYPE_RECENT, 'id': Common.UI.getId(), cloneid: record.id});
+                this.store.add(new_record, {at:0});
+
+                if (!silent) {
+                    var arr = [];
+                    this.store.where({type:FONT_TYPE_RECENT}).forEach(function(item){
+                        arr.push(item.get('name'));
+                    });
+                    arr = arr.join(';');
+                    Common.localStorage.setItem(this.appPrefix + "-settings-recent-fonts", arr);
+                    Common.Utils.InternalSettings.set(this.appPrefix + "-settings-recent-fonts", arr);
                 }
             },
 

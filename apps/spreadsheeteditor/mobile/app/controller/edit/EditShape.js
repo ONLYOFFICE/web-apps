@@ -182,7 +182,7 @@ define([
                 var borderSize = me._mm2pt(shapeProperties.get_stroke().get_width()),
                     borderType = shapeProperties.get_stroke().get_type();
                 $('#edit-shape-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
-                $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
+                $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
 
                 $('#edit-shape-bordersize input').single('change touchend', _.buffered(me.onBorderSize, 100, me));
                 $('#edit-shape-bordersize input').single('input',           _.bind(me.onBorderSizeChanging, me));
@@ -301,7 +301,7 @@ define([
 
             onBorderSizeChanging: function (e) {
                 var $target = $(e.currentTarget);
-                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
             },
 
             onOpacity: function (e) {

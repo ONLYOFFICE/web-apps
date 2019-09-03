@@ -155,6 +155,19 @@ define([
                     me.fireEvent('searchbar:render', me);
                     me.fireEvent('searchbar:show', me);
 
+                    if(Common.SharedSettings.get('search-highlight-res') === undefined) {
+                        Common.SharedSettings.set('search-highlight-res', true);
+                    }
+                    if (Common.SharedSettings.get('search-highlight-res')) {
+                        this.fireEvent('search:highlight', [this, true]);
+                    }
+                    if(Common.SharedSettings.get('search-by') === undefined) {
+                        Common.SharedSettings.set('search-by', 'rows');
+                    }
+                    if(Common.SharedSettings.get('look-in') === undefined) {
+                        Common.SharedSettings.set('look-in', 'formulas');
+                    }
+
                     searchBar = $$('.searchbar.document');
 
                     _.defer(function() {
@@ -188,6 +201,8 @@ define([
                         uiApp.hideNavbar(searchBar);
                     }, 10);
                 }
+
+                this.fireEvent('search:highlight', [this, false]);
             },
 
             textFind: 'Find',
@@ -199,7 +214,14 @@ define([
             textMatchCell: 'Match Cell',
             textSearchIn: 'Search In',
             textWorkbook: 'Workbook',
-            textSheet: 'Sheet'
+            textSheet: 'Sheet',
+            textHighlightRes: 'Highlight results',
+            textByColumns: 'By columns',
+            textByRows: 'By rows',
+            textSearchBy: 'Search',
+            textLookIn: 'Look In',
+            textFormulas: 'Formulas',
+            textValues: 'Values'
         }
     })(), SSE.Views.Search || {}))
 });

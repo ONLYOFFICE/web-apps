@@ -45,6 +45,9 @@ define([
 
     Common.Controllers.Plugins = Backbone.Controller.extend(_.extend({
         models: [],
+        appOptions: {},
+        configPlugins: {autostart:[]},// {config: 'from editor config', plugins: 'loaded plugins', UIplugins: 'loaded customization plugins', autostart: 'autostart guids'}
+        serverPlugins: {autostart:[]},// {config: 'from editor config', plugins: 'loaded plugins', autostart: 'autostart guids'}
         collections: [
             'Common.Collections.Plugins'
         ],
@@ -95,7 +98,54 @@ define([
 
 
             this._moveOffset = {x:0, y:0};
-            this.autostart = null;
+            this.autostart = [];
+
+            Common.Gateway.on('init', this.loadConfig.bind(this));
+            Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+        },
+
+        loadConfig: function(data) {
+            var me = this;
+            me.configPlugins.config = data.config.plugins;
+            me.editor = !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
+        },
+
+        loadPlugins: function() {
+            if (this.configPlugins.config) {
+                this.getPlugins(this.configPlugins.config.pluginsData)
+                    .then(function(loaded)
+                    {
+                        me.configPlugins.plugins = loaded;
+                        me.mergePlugins();
+                    })
+                    .catch(function(err)
+                    {
+                        me.configPlugins.plugins = false;
+                    });
+            } else
+                this.configPlugins.plugins = false;
+
+            var server_plugins_url = '../../../../plugins.json',
+                me = this;
+            Common.Utils.loadConfig(server_plugins_url, function (obj) {
+                if ( obj != 'error' ) {
+                    me.serverPlugins.config = obj;
+                    me.getPlugins(me.serverPlugins.config.pluginsData)
+                        .then(function(loaded)
+                        {
+                            me.serverPlugins.plugins = loaded;
+                            me.mergePlugins();
+                        })
+                        .catch(function(err)
+                        {
+                            me.serverPlugins.plugins = false;
+                        });
+                } else
+                    me.serverPlugins.plugins = false;
+            });
+        },
+
+        onAppShowed: function (config) {
         },
 
         setApi: function(api) {
@@ -106,14 +156,18 @@ define([
             this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
             this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
             this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
+            this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
+            this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
 
+            this.loadPlugins();
             return this;
         },
 
         setMode: function(mode) {
-            if (mode.canPlugins) {
-                this.updatePluginsList();
-            }
+            this.appOptions = mode;
+            this.customPluginsComplete = !this.appOptions.canBrandingExt;
+            if (this.appOptions.canBrandingExt)
+                this.getAppCustomPlugins(this.configPlugins);
             return this;
         },
 
@@ -138,7 +192,7 @@ define([
             });
         },
 
-        updatePluginsList: function() {
+        refreshPluginsList: function() {
             var me = this;
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
                 arr = [];
@@ -147,6 +201,7 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
+
                 var variations = item.get('variations'),
                     variationsArr = [];
                 variations.forEach(function(itemVar){
@@ -168,8 +223,10 @@ define([
                     variation.set_Size(itemVar.get('size'));
                     variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
                     variation.set_Events(itemVar.get('events'));
+
                     variationsArr.push(variation);
                 });
+
                 plugin.set_Variations(variationsArr);
                 item.set('pluginObj', plugin);
                 arr.push(plugin);
@@ -193,6 +250,7 @@ define([
 
         onResetPlugins: function (collection) {
             var me = this;
+            me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
                 me.$toolbarPanelPlugins.empty();
 
@@ -217,6 +275,8 @@ define([
                     rank = new_rank;
                 });
                 _group.appendTo(me.$toolbarPanelPlugins);
+            } else {
+                console.error('toolbar panel isnot created');
             }
         },
 
@@ -357,7 +417,7 @@ define([
             else if (this.panelPlugins.iframePlugin)
                 this.panelPlugins.closeInsideMode();
             this.panelPlugins.closedPluginMode(plugin.get_Guid());
-            this.runAutoStartPlugins(this.autostart);
+            this.runAutoStartPlugins();
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
@@ -396,13 +456,229 @@ define([
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
 
-        runAutoStartPlugins: function(autostart) {
-            if (autostart && autostart.length>0) {
-                var guid = autostart.shift();
-                this.autostart = autostart;
-                this.api.asc_pluginRun(guid, 0, '');
-            }
-        }
+        onPluginsInit: function(pluginsdata) {
+            !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
+            this.parsePlugins(pluginsdata)
+        },
 
+        runAutoStartPlugins: function() {
+            if (this.autostart && this.autostart.length > 0) {
+                this.api.asc_pluginRun(this.autostart.shift(), 0, '');
+            }
+        },
+
+        resetPluginsList: function() {
+            this.getApplication().getCollection('Common.Collections.Plugins').reset();
+        },
+
+        applyUICustomization: function () {
+            var me = this;
+            return new Promise(function(resolve, reject) {
+                var timer_sl = setInterval(function() {
+                    if ( me.customPluginsComplete ) {
+                        clearInterval(timer_sl);
+                        try {
+                            me.configPlugins.UIplugins && me.configPlugins.UIplugins.forEach(function (c) {
+                                if ( c.code ) eval(c.code);
+                            });
+                        } catch (e) {}
+                        resolve();
+                    }
+                }, 10);
+            });
+        },
+
+        parsePlugins: function(pluginsdata, uiCustomize) {
+            var me = this;
+            var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
+                isEdit = me.appOptions.isEdit,
+                editor = me.editor;
+            if ( pluginsdata instanceof Array ) {
+                var arr = [], arrUI = [],
+                    lang = me.appOptions.lang.split(/[\-_]/)[0];
+                pluginsdata.forEach(function(item){
+                    if ( arr.some(function(i) {
+                                return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
+                            }
+                        ) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
+                    {
+                        return;
+                    }
+
+                    var variationsArr = [],
+                        pluginVisible = false;
+                    item.variations.forEach(function(itemVar){
+                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !itemVar.isSystem;
+                        if ( visible ) pluginVisible = true;
+
+                        if (item.isUICustomizer ) {
+                            visible && arrUI.push({
+                                url: item.baseUrl + itemVar.url
+                            });
+                        } else {
+                            var model = new Common.Models.PluginVariation(itemVar);
+                            var description = itemVar.description;
+                            if (typeof itemVar.descriptionLocale == 'object')
+                                description = itemVar.descriptionLocale[lang] || itemVar.descriptionLocale['en'] || description || '';
+
+                            _.each(itemVar.buttons, function(b, index){
+                                if (typeof b.textLocale == 'object')
+                                    b.text = b.textLocale[lang] || b.textLocale['en'] || b.text || '';
+                                b.visible = (isEdit || b.isViewer !== false);
+                            });
+
+                            model.set({
+                                description: description,
+                                index: variationsArr.length,
+                                url: itemVar.url,
+                                icons: itemVar.icons,
+                                buttons: itemVar.buttons,
+                                visible: visible
+                            });
+
+                            variationsArr.push(model);
+                        }
+                    });
+
+                    if (variationsArr.length > 0 && !item.isUICustomizer) {
+                        var name = item.name;
+                        if (typeof item.nameLocale == 'object')
+                            name = item.nameLocale[lang] || item.nameLocale['en'] || name || '';
+
+                        arr.push(new Common.Models.Plugin({
+                            name : name,
+                            guid: item.guid,
+                            baseUrl : item.baseUrl,
+                            variations: variationsArr,
+                            currentVariation: 0,
+                            visible: pluginVisible,
+                            groupName: (item.group) ? item.group.name : '',
+                            groupRank: (item.group) ? item.group.rank : 0
+                        }));
+                    }
+                });
+
+                if ( uiCustomize!==false )  // from ui customizer in editor config or desktop event
+                    me.configPlugins.UIplugins = arrUI;
+
+                if ( !uiCustomize && pluginStore)
+                {
+                    arr = pluginStore.models.concat(arr);
+                    arr.sort(function(a, b){
+                        var rank_a = a.get('groupRank'),
+                            rank_b = b.get('groupRank');
+                        if (rank_a < rank_b)
+                            return (rank_a==0) ? 1 : -1;
+                        if (rank_a > rank_b)
+                            return (rank_b==0) ? -1 : 1;
+                        return 0;
+                    });
+                    pluginStore.reset(arr);
+                    this.appOptions.canPlugins = !pluginStore.isEmpty();
+                }
+            }
+            else if (!uiCustomize){
+                this.appOptions.canPlugins = false;
+            }
+
+            if (!uiCustomize)
+                this.getApplication().getController('LeftMenu').enablePlugins();
+
+            if (this.appOptions.canPlugins) {
+                this.refreshPluginsList();
+                this.runAutoStartPlugins();
+            }
+        },
+
+        getPlugins: function(pluginsData, fetchFunction) {
+            if (!pluginsData || pluginsData.length<1)
+                return Promise.resolve([]);
+
+            fetchFunction = fetchFunction || function (url) {
+                    return fetch(url)
+                        .then(function(response) {
+                            if ( response.ok ) return response.json();
+                            else return Promise.reject(url);
+                        }).then(function(json) {
+                            json.baseUrl = url.substring(0, url.lastIndexOf("config.json"));
+                            return json;
+                        });
+                };
+
+            var loaded = [];
+            return pluginsData.map(fetchFunction).reduce(function (previousPromise, currentPromise) {
+                return previousPromise
+                    .then(function()
+                    {
+                        return currentPromise;
+                    })
+                    .then(function(item)
+                    {
+                        loaded.push(item);
+                        return Promise.resolve(item);
+                    })
+                    .catch(function(item)
+                    {
+                        return Promise.resolve(item);
+                    });
+
+            }, Promise.resolve())
+                .then(function ()
+                {
+                    return Promise.resolve(loaded);
+                });
+        },
+
+        mergePlugins: function() {
+            if (this.serverPlugins.plugins !== undefined && this.configPlugins.plugins !== undefined) { // undefined - plugins are loading
+                var autostart = [],
+                    arr = [],
+                    plugins = this.configPlugins,
+                    warn = false;
+                if (plugins.plugins && plugins.plugins.length>0) {
+                    arr = plugins.plugins;
+                    var val = plugins.config.autostart || plugins.config.autoStartGuid;
+                    if (typeof (val) == 'string')
+                        val = [val];
+                    warn = !!plugins.config.autoStartGuid;
+                    autostart = val || [];
+                }
+                plugins = this.serverPlugins;
+                if (plugins.plugins && plugins.plugins.length>0) {
+                    arr = arr.concat(plugins.plugins);
+                    var val = plugins.config.autostart || plugins.config.autoStartGuid;
+                    if (typeof (val) == 'string')
+                        val = [val];
+                    (warn || plugins.config.autoStartGuid) && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+                    autostart = autostart.concat(val || []);
+                }
+                this.autostart = autostart;
+                this.parsePlugins(arr, false);
+            }
+        },
+
+        getAppCustomPlugins: function (plugins) {
+            var me = this,
+                funcComplete = function() {me.customPluginsComplete = true;};
+            if ( plugins.config ) {
+                this.getPlugins(plugins.config.UIpluginsData)
+                    .then(function(loaded)
+                    {
+                        me.parsePlugins(loaded, true);
+                        me.getPlugins(plugins.UIplugins, function(item) {
+                            return fetch(item.url)
+                                .then(function(response) {
+                                    if ( response.ok ) return response.text();
+                                    else return Promise.reject();
+                                })
+                                .then(function(text) {
+                                    item.code = text;
+                                    return text;
+                                });
+                        }).then(funcComplete, funcComplete);
+                    }, funcComplete);
+            } else
+                funcComplete();
+        }
     }, Common.Controllers.Plugins || {}));
 });

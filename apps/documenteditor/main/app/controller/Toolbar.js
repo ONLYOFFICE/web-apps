@@ -55,7 +55,8 @@ define([
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/controller/PageLayout',
     'documenteditor/main/app/view/CustomColumnsDialog',
-    'documenteditor/main/app/view/ControlSettingsDialog'
+    'documenteditor/main/app/view/ControlSettingsDialog',
+    'documenteditor/main/app/view/WatermarkSettingsDialog'
 ], function () {
     'use strict';
 
@@ -151,7 +152,7 @@ define([
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
 
-                        _main.api.asc_DownloadAs(_format);
+                        _main.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format));
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
@@ -304,10 +305,12 @@ define([
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
+            toolbar.btnWatermark.menu.on('item:click',                  _.bind(this.onWatermarkSelect, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
+            toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
             toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
@@ -321,6 +324,8 @@ define([
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
+            Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
@@ -371,6 +376,7 @@ define([
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
+                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -398,6 +404,10 @@ define([
 
         onContextMenu: function() {
             this.toolbar.collapse();
+        },
+
+        onApiChangeFont: function(font) {
+            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
@@ -818,6 +828,8 @@ define([
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
 
+            toolbar.btnWatermark.setDisabled(header_locked);
+
             this._state.in_equation = in_equation;
         },
 
@@ -957,7 +969,7 @@ define([
 
         onPrint: function(e) {
             if (this.api)
-                this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
@@ -1418,13 +1430,23 @@ define([
                     }
                 })).show();
             } else if (item.value === 'storage') {
-                (new Common.Views.SelectFileDlg({
-                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                })).on('selectfile', function(obj, file){
-                    me.toolbar.fireEvent('insertimage', me.toolbar);
-                    me.api.AddImageUrl(file.url, undefined, true);// for loading from storage
-                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                }).show();
+                if (this.toolbar.mode.canRequestInsertImage) {
+                    Common.Gateway.requestInsertImage();
+                } else {
+                    (new Common.Views.SelectFileDlg({
+                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                    })).on('selectfile', function(obj, file){
+                        me.insertImage(file);
+                    }).show();
+                }
+            }
+        },
+
+        insertImage: function(data) {
+            if (data && data.url) {
+                this.toolbar.fireEvent('insertimage', this.toolbar);
+                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
@@ -1568,6 +1590,14 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onColorSchemaShow: function(menu) {
+            if (this.api) {
+                var value = this.api.asc_GetCurrentColorSchemeName();
+                var item = _.find(menu.items, function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll();
+            }
         },
 
         onDropCapSelect: function(menu, item) {
@@ -1898,6 +1928,41 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Blank Page');
+        },
+
+        onWatermarkSelect: function(menu, item) {
+            if (this.api) {
+                if (item.value == 'remove')
+                    this.api.asc_WatermarkRemove();
+                else {
+                    var me = this;
+                    if (_.isUndefined(me.fontstore)) {
+                        me.fontstore = new Common.Collections.Fonts();
+                        var fonts = me.toolbar.cmbFontName.store.toJSON();
+                        var arr = [];
+                        _.each(fonts, function(font, index){
+                            if (!font.cloneid) {
+                                arr.push(_.clone(font));
+                            }
+                        });
+                        me.fontstore.add(arr);
+                    }
+
+                    (new DE.Views.WatermarkSettingsDialog({
+                        props: me.api.asc_GetWatermarkProps(),
+                        api: me.api,
+                        fontStore: me.fontstore,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me.api.asc_SetWatermarkProps(value);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
+                }
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Edit ' + item.value);
+            }
         },
 
         onListStyleSelect: function(combo, record) {
@@ -2281,7 +2346,7 @@ define([
                     store: shapeGroup.get('groupStore'),
                     parentMenu: menuItem.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
                 });
 
                 shapePicker.on('item:click', function(picker, item, record, e) {
@@ -2550,12 +2615,17 @@ define([
             this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
             this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
             this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
-            if (this.toolbar.mode.fileChoiceUrl)
+            if (!this._state.mmdisable && (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients))
                 this.toolbar.btnMailRecepients.setDisabled(false);
             this._state.activated = true;
 
             var props = this.api.asc_GetSectionProps();
             this.onApiPageSize(props.get_W(), props.get_H());
+        },
+
+        DisableMailMerge: function() {
+            this._state.mmdisable = true;
+            this.toolbar && this.toolbar.btnMailRecepients && this.toolbar.btnMailRecepients.setDisabled(true);
         },
 
         updateThemeColors: function() {
@@ -2616,17 +2686,17 @@ define([
                 return;
             }
 
-            listStyles.menuPicker.store.reset([]); // remove all
-
+            var arr = [];
             var mainController = this.getApplication().getController('Main');
             _.each(styles.get_MergedStyles(), function(style){
-                listStyles.menuPicker.store.add({
+                arr.push({
                     imageUrl: style.asc_getImage(),
                     title   : style.get_Name(),
                     tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     id      : Common.UI.getId()
                 });
             });
+            listStyles.menuPicker.store.reset(arr); // remove all
 
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered){
                 var styleRec;
@@ -2748,22 +2818,28 @@ define([
         onSelectRecepientsClick: function() {
             if (this._mailMergeDlg) return;
 
-            var me = this;
-            me._mailMergeDlg = new Common.Views.SelectFileDlg({
-                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
-                        });
-            me._mailMergeDlg.on('selectfile', function(obj, recepients){
-                me.api.asc_StartMailMerge(recepients);
-                if (!me.mergeEditor)
-                    me.mergeEditor = me.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
-                if (me.mergeEditor)
-                    me.mergeEditor.setEditMode(false);
+            if (this.toolbar.mode.canRequestMailMergeRecipients) {
+                Common.Gateway.requestMailMergeRecipients();
+            } else {
+                var me = this;
+                me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
+                });
+                me._mailMergeDlg.on('selectfile', function(obj, recepients){
+                    me.setMailMergeRecipients(recepients);
+                }).on('close', function(obj){
+                    me._mailMergeDlg = undefined;
+                });
+                me._mailMergeDlg.show();
+            }
+        },
 
-            }).on('close', function(obj){
-                me._mailMergeDlg = undefined;
-            });
-
-            me._mailMergeDlg.show();
+        setMailMergeRecipients: function(recepients) {
+            this.api.asc_StartMailMerge(recepients);
+            if (!this.mergeEditor)
+                this.mergeEditor = this.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
+            if (this.mergeEditor)
+                this.mergeEditor.setEditMode(false);
         },
 
         createDelayedElements: function() {
@@ -2827,22 +2903,7 @@ define([
             me.appOptions = config;
 
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = createButtonSet();
-                var slots = me.toolbar.$el.find('.slot-comment');
-                slots.each(function(index, el) {
-                    var _cls = 'btn-toolbar';
-                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                    var button = new Common.UI.Button({
-                        id: 'tlbtn-addcomment-' + index,
-                        cls: _cls,
-                        iconCls: 'btn-menu-comments',
-                        caption: me.toolbar.capBtnComment
-                    }).render( slots.eq(index) );
-
-                    me.btnsComment.add(button);
-                });
-
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', this.toolbar.capBtnComment);
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
                     this.btnsComment.forEach(function (btn) {

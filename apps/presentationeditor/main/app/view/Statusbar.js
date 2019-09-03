@@ -247,42 +247,19 @@ define([
                 });
                 this.btnPreview.render($('#slot-status-btn-preview'));
 
-                this.btnDocLanguage = new Common.UI.Button({
-                    el: $('#btn-doc-lang',this.el),
-                    hint: this.tipSetDocLang,
-                    hintAnchor: 'top',
-                    disabled: true
-                });
-
-                this.btnSetSpelling = new Common.UI.Button({
-                    el: $('#btn-doc-spell',this.el),
-                    enableToggle: true,
-                    hint: this.tipSetSpelling,
-                    hintAnchor: 'top'
-                });
-
                 var panelLang = $('.cnt-lang',this.el);
                 this.langMenu = new Common.UI.Menu({
                     cls: 'lang-menu',
                     style: 'margin-top:-5px;',
-                    maxHeight: 300,
-                    restoreHeight: 300,
+                    restoreHeight: 285,
                     itemTemplate: _.template([
                         '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value.value %>">',
                             '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                             '<%= caption %>',
                         '</a>'
                     ].join('')),
-                    menuAlign: 'bl-tl'
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
+                    menuAlign: 'bl-tl',
+                    search: true
                 });
 
                 this.btnLanguage = new Common.UI.Button({
@@ -365,7 +342,6 @@ define([
 
                 if (this.langMenu.items.length>0) {
                     this.btnLanguage.setDisabled(false || this._state.no_paragraph);
-                    this.btnDocLanguage.setDisabled(!!this.mode.isDisconnected);
                 }
             },
 
@@ -375,20 +351,19 @@ define([
                     $parent.find('#status-label-lang').text(info.displayValue);
 
                     this.langMenu.prevTip = info.value;
-
-                    var index = $parent.find('ul li a:contains("'+info.displayValue+'")').parent().index();
-                    if (index < 0) {
+                    var lang = _.find(this.langMenu.items, function(item) { return item.caption == info.displayValue; });
+                    if (lang)
+                        lang.setChecked(true);
+                    else {
                         this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();
-                    } else
-                        this.langMenu.items[index].setChecked(true);
+                    }
                 }
             },
 
             SetDisabled: function(disable) {
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs || this._state.no_paragraph);
-                this.btnDocLanguage.setDisabled(disable || !langs);
                 this.mode.isEdit = !disable;
             },
 
@@ -425,8 +400,6 @@ define([
             tipPreview      : 'Start Slideshow',
             tipAccessRights : 'Manage document access rights',
             tipSetLang      : 'Set Text Language',
-            tipSetDocLang   : 'Set Document Language',
-            tipSetSpelling  : 'Spell checking',
             textShowBegin: 'Show from Beginning',
             textShowCurrent: 'Show from Current slide',
             textShowPresenterView: 'Show presenter view'

@@ -249,6 +249,7 @@
                     this.txtSearch.addClass('clear');
                     this.btnOptions.hide();
                 }
+                this.menuLookin && this.menuLookin.menu.items[1].setDisabled(false);
 
                 this.setHeight(170);
             } else {
@@ -261,6 +262,7 @@
                     $inputs.eq(1).hide();
                     this.$window.find('.btn[result=replace]').hide();
                     this.$window.find('.btn[result=replaceall]').hide();
+                    this.menuLookin && this.menuLookin.menu.items[1].setDisabled(false);
                     this.setHeight(200);
                 } else {
                     $inputs.eq(2).show();
@@ -268,6 +270,10 @@
                     $inputs.eq(1).show();
                     this.$window.find('.btn[result=replace]').show();
                     this.$window.find('.btn[result=replaceall]').show();
+                    if (this.menuLookin) {
+                        this.menuLookin.menu.items[0].setChecked(true);
+                        this.menuLookin.menu.items[1].setDisabled(true);
+                    }
                     this.setHeight(230);
                 }
             }
@@ -293,8 +299,8 @@
         getSettings: function() {
             return {
                 textsearch: this.txtSearch.val(),
-                casesensitive: this.miMatchCase.checked,
-                wholewords: this.miMatchWord.checked };
+                matchcase: this.miMatchCase.checked,
+                matchword: this.miMatchWord.checked };
         },
 
         textTitle           : 'Search & Replace',

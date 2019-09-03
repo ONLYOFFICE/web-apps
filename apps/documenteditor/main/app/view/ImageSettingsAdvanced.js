@@ -1294,13 +1294,14 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                 var shapeprops = props.get_ShapeProperties();
                 var chartprops = props.get_ChartProperties();
+                var pluginGuid = props.asc_getPluginGuid();
 
                 this.btnOriginalSize.setVisible(!(shapeprops || chartprops));
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
                 this.btnsCategory[5].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Shapes
                 this.btnsCategory[6].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Margins
                 this.btnsCategory[3].setDisabled(props.get_FromGroup()); // Wrapping
-                this.btnsCategory[2].setVisible(!chartprops); // Rotation
+                this.btnsCategory[2].setVisible(!chartprops && (pluginGuid === null || pluginGuid === undefined)); // Rotation
 
                 if (shapeprops) {
                     this._objectType = Asc.c_oAscTypeSelectElement.Shape;

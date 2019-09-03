@@ -339,14 +339,14 @@ define([
 
             switch (this.type) {
                 case Common.Utils.importTextType.CSV:
-                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar), _.bind(this.previewCallback, this));
+                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar), _.bind(this.previewCallback, this));
                     break;
                 case Common.Utils.importTextType.TXT:
-                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTXTAdvancedOptions(encoding), _.bind(this.previewCallback, this));
+                    this.api.asc_decodeBuffer(this.preview, new Asc.asc_CTextOptions(encoding), _.bind(this.previewCallback, this));
                     break;
                 case Common.Utils.importTextType.Paste:
                 case Common.Utils.importTextType.Columns:
-                    this.api.asc_TextImport(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar), _.bind(this.previewCallback, this), this.type == Common.Utils.importTextType.Paste);
+                    this.api.asc_TextImport(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar), _.bind(this.previewCallback, this), this.type == Common.Utils.importTextType.Paste);
                     break;
             }
         },
@@ -426,6 +426,7 @@ define([
 
         onCmbDelimiterSelect: function(combo, record){
             this.inputDelimiter.setVisible(record.value == -1);
+            (record.value == -1) && this.inputDelimiter.cmpEl.find('input').focus();
             if (this.preview)
                 this.updatePreview();
         },

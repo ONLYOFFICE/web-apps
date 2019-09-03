@@ -780,7 +780,7 @@ define([
             };
 
             this.addWordVariants = function(isParagraph) {
-                if (!me.textMenu) return;
+                if (!me.textMenu || !me.textMenu.isVisible() && !me.tableMenu.isVisible()) return;
 
                 if (_.isUndefined(isParagraph)) {
                     isParagraph = me.textMenu.isVisible();
@@ -1871,6 +1871,18 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
+        onPrintSelection: function(item){
+            if (this.api){
+                var printopt = new Asc.asc_CAdjustPrint();
+                printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                opts.asc_setAdvancedOptions(printopt);
+                this.api.asc_Print(opts);
+                this.fireEvent('editcomplete', this);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+            }
+        },
+
         onControlsSelect: function(item, e) {
             var me = this;
             var props = this.api.asc_GetContentControlProperties();
@@ -2351,6 +2363,10 @@ define([
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuImgPrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
             var menuSignatureEditSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 }).on('click', _.bind(me.onSignatureClick, me));
             var menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 }).on('click', _.bind(me.onSignatureClick, me));
             var menuEditSignSeparator = new Common.UI.MenuItem({ caption: '--' });
@@ -2481,7 +2497,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[16].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[17].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2506,6 +2522,8 @@ define([
                     menuImgCopy.setDisabled(!cancopy);
                     menuImgCut.setDisabled(islocked || !cancopy);
                     menuImgPaste.setDisabled(islocked);
+                    menuImgPrint.setVisible(me.mode.canPrint);
+                    menuImgPrint.setDisabled(!cancopy);
 
                     var signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         isInSign = !!signGuid;
@@ -2522,6 +2540,7 @@ define([
                     menuImgCut,
                     menuImgCopy,
                     menuImgPaste,
+                    menuImgPrint,
                     { caption: '--' },
                     menuSignatureEditSign,
                     menuSignatureEditSetup,
@@ -2711,6 +2730,7 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
+                    restoreHeight: true,
                     items   : [
                     ]
                 })
@@ -2721,19 +2741,9 @@ define([
                 menu        : new Common.UI.Menu({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
-                    restoreHeight: 300,
-                    items   : [
-                    ]
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
+                    restoreHeight: 285,
+                    items   : [],
+                    search: true
                 })
             });
 
@@ -2755,6 +2765,13 @@ define([
                 }
             });
 
+            var menuToDictionaryTable = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
+                me.fireEvent('editcomplete', me);
+            });
+
             var menuIgnoreSpellTableSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -2773,6 +2790,7 @@ define([
                         menuIgnoreSpellTableSeparator,
                         menuIgnoreSpellTable,
                         menuIgnoreAllSpellTable,
+                        menuToDictionaryTable,
                         { caption: '--' },
                         me.langTableMenu
                     ]
@@ -2793,6 +2811,11 @@ define([
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
+
+            var menuTablePrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
 
             var menuEquationSeparatorInTable = new Common.UI.MenuItem({
                 caption     : '--'
@@ -2899,7 +2922,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 7; i < 24; i++) {
+                    for (var i = 8; i < 25; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -2914,8 +2937,8 @@ define([
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
 
                     var disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
-                    me.tableMenu.items[10].setDisabled(disabled);
                     me.tableMenu.items[11].setDisabled(disabled);
+                    me.tableMenu.items[12].setDisabled(disabled);
 
                     if (me.api) {
                         mnuTableMerge.setDisabled(disabled || !me.api.CheckBeforeMergeCells());
@@ -2933,6 +2956,8 @@ define([
                     menuTableCopy.setDisabled(!cancopy);
                     menuTableCut.setDisabled(disabled || !cancopy);
                     menuTablePaste.setDisabled(disabled);
+                    menuTablePrint.setVisible(me.mode.canPrint);
+                    menuTablePrint.setDisabled(!cancopy);
 
                     // bullets & numbering
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -2996,6 +3021,7 @@ define([
                     menuParagraphAdvancedInTable.setDisabled(disabled);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
                     menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     
                     me.langTableMenu.setDisabled(disabled);
@@ -3015,9 +3041,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(false, 6);
+                        eqlen = me.addEquationMenu(false, 7);
                     } else
-                        me.clearEquationMenu(false, 6);
+                        me.clearEquationMenu(false, 7);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
 
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
@@ -3045,6 +3071,7 @@ define([
                     menuTableCut,
                     menuTableCopy,
                     menuTablePaste,
+                    menuTablePrint,
                     { caption: '--' },
                     menuEquationSeparatorInTable,
                     menuTableRefreshField,
@@ -3345,9 +3372,8 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
-                    style   : 'max-height: 300px;',
-                    items: [
-                    ]
+                    restoreHeight: true,
+                    items: []
                 })
             });
 
@@ -3356,19 +3382,9 @@ define([
                 menu        : new Common.UI.Menu({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
-                    restoreHeight: 300,
-                    items   : [
-                    ]
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
+                    restoreHeight: 285,
+                    items   : [],
+                    search: true
                 })
             });
 
@@ -3383,6 +3399,13 @@ define([
                 caption     : me.ignoreAllSpellText
             }).on('click', function(item, e) {
                 me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuToDictionaryPara = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -3408,6 +3431,10 @@ define([
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
+
+            var menuParaPrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
 
             var menuEquationSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -3571,17 +3598,21 @@ define([
                     menuParaCopy.setDisabled(!cancopy);
                     menuParaCut.setDisabled(disabled || !cancopy);
                     menuParaPaste.setDisabled(disabled);
+                    menuParaPrint.setVisible(me.mode.canPrint);
+                    menuParaPrint.setDisabled(!cancopy);
 
                     // spellCheck
-                    me.menuSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuSpellcheckParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreAllSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    me.langParaMenu.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    me.menuSpellPara.setVisible(spell);
+                    menuSpellcheckParaSeparator.setVisible(spell);
+                    menuIgnoreSpellPara.setVisible(spell);
+                    menuIgnoreAllSpellPara.setVisible(spell);
+                    menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
+                    me.langParaMenu.setVisible(spell);
                     me.langParaMenu.setDisabled(disabled);
-                    menuIgnoreSpellParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuIgnoreSpellParaSeparator.setVisible(spell);
 
-                    if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
+                    if (spell && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(true);
                     } else {
                         me.menuSpellPara.setCaption(me.loadSpellText, true);
@@ -3596,9 +3627,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 11);
+                        eqlen = me.addEquationMenu(true, 13);
                     } else
-                        me.clearEquationMenu(true, 11);
+                        me.clearEquationMenu(true, 13);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
 
                     menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
@@ -3655,11 +3686,13 @@ define([
                     menuSpellcheckParaSeparator,
                     menuIgnoreSpellPara,
                     menuIgnoreAllSpellPara,
+                    menuToDictionaryPara,
                     me.langParaMenu,
                     menuIgnoreSpellParaSeparator,
                     menuParaCut,
                     menuParaCopy,
                     menuParaPaste,
+                    menuParaPrint,
                     { caption: '--' },
                     menuEquationSeparator,
                     menuParaRemoveControl,
@@ -4075,7 +4108,9 @@ define([
         textCrop: 'Crop',
         textCropFill: 'Fill',
         textCropFit: 'Fit',
-        textFollow: 'Follow move'
+        textFollow: 'Follow move',
+        toDictionaryText: 'Add to Dictionary',
+        txtPrintSelection: 'Print Selection'
 
     }, DE.Views.DocumentHolder || {}));
 });

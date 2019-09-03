@@ -165,7 +165,7 @@
              15%    { background: #f4f4f4; top:0; opacity:1; }
              20%    { background: #f4f4f4; top:0; opacity:0; }
              25%    { background: #f4f4f4; top:0; opacity:0; }
-             45%    { background: #EFEFEF; top:0; opacity:0,2; }
+             45%    { background: #EFEFEF; top:0; opacity:0.2; }
             100%    { top:100px; background: #55bce6; }
         }
 
@@ -176,7 +176,7 @@
              15%    { background: #f4f4f4; top:0; opacity:1; }
              20%    { background: #f4f4f4; top:0; opacity:0; }
              25%    { background: #f4f4f4; top:0; opacity:0; }
-             45%    { background: #EFEFEF; top:0; opacity:0,2; }
+             45%    { background: #EFEFEF; top:0; opacity:0.2; }
             100%    { top:100px; background: #55bce6; }
         }
     </style>
@@ -249,6 +249,18 @@
           else if ( lang == 'ru') loading = 'Загрузка...';
           else if ( lang == 'sl') loading = 'Nalaganje...';
           else if ( lang == 'tr') loading = 'Yükleniyor...';
+          else if ( lang == 'bg') loading = 'Зареждане...';
+          else if ( lang == 'cs') loading = 'Nahrávám...';
+          else if ( lang == 'hu') loading = 'Betöltés...';
+          else if ( lang == 'ja') loading = '読み込み中...';
+          else if ( lang == 'ko') loading = '로드 중...';
+          else if ( lang == 'lv') loading = 'Ieladēšana ...';
+          else if ( lang == 'nl') loading = 'Laden...';
+          else if ( lang == 'pl') loading = 'Ładowanie...';
+          else if ( lang == 'sk') loading = 'Nahrávam...';
+          else if ( lang == 'uk') loading = 'Завантаження...';
+          else if ( lang == 'vi') loading = 'Đang tải...';
+          else if ( lang == 'zh') loading = '加载中...';
 
           document.write(
               '<div id="loading-mask" class="loadmask">' +
@@ -333,6 +345,7 @@
       </script>
 
       <!--application-->
+      <script type="text/javascript" src="../../common/locale.js"></script>
       <script type="text/javascript" src="../../common/Gateway.js"></script>
       <script type="text/javascript" src="../../common/Analytics.js"></script>
       <script type="text/javascript" src="../../common/embed/lib/util/utils.js"></script>

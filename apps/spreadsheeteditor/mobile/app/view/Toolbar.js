@@ -63,7 +63,8 @@ define([
                 "click #toolbar-edit"       : "showEdition",
                 "click #toolbar-add"        : "showInserts",
                 "click #toolbar-settings"   : "showSettings",
-                "click #toolbar-edit-document": "editDocument"
+                "click #toolbar-edit-document": "editDocument",
+                "click #toolbar-collaboration" : "showCollaboration"
             },
 
             // Set innerHTML and get the references to the DOM elements
@@ -79,7 +80,8 @@ define([
                 $el.prepend(me.template({
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
-                    backTitle   : Common.SharedSettings.get('android') ? '' : me.textBack
+                    backTitle   : Common.SharedSettings.get('android') ? '' : me.textBack,
+                    width       : $(window).width()
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
@@ -153,6 +155,11 @@ define([
 
             editDocument: function () {
                 Common.Gateway.requestEditRights();
+            },
+
+            //Collaboration
+            showCollaboration: function () {
+                SSE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             textBack: 'Back'

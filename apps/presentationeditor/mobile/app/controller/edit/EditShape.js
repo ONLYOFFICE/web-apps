@@ -157,7 +157,7 @@ define([
                 var borderSize = _shapeObject.get_stroke().get_width() * 72.0 / 25.4,
                     borderType = _shapeObject.get_stroke().get_type();
                 $('#edit-shape-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
-                $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
+                $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
 
                 // Init style opacity
                 $('#edit-shape-effect input').val([_shapeObject.get_fill().asc_getTransparent() ? _shapeObject.get_fill().asc_getTransparent() / 2.55 : 100]);
@@ -306,7 +306,7 @@ define([
 
             onBorderSizeChanging: function (e) {
                 var $target = $(e.currentTarget);
-                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
             },
 
             onOpacity: function (e) {

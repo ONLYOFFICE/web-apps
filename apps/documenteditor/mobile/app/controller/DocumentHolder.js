@@ -58,7 +58,7 @@ define([
             _fastCoAuthTips = [],
             _actionSheets = [],
             _isEdit = false,
-            _canAcceptChanges = false,
+            _canReview = false,
             _inRevisionChange = false,
             _menuPos = [],
             _timer = 0;
@@ -100,7 +100,7 @@ define([
 
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
-                _canAcceptChanges = mode.canReview && !mode.isReviewOnly;
+                _canReview = mode.canReview;
             },
 
             // When our application is ready, lets get started
@@ -123,8 +123,15 @@ define([
                     me.api.Copy();
                 } else if ('paste' == eventName) {
                     me.api.Paste();
+                } else if ('merge' == eventName) {
+                    me.api.MergeCells();
+                } else if ('split' == eventName) {
+                    _view.hideMenu();
+                    me.showSplitModal();
                 } else if ('delete' == eventName) {
                     me.api.asc_Remove();
+                } else if('deletetable' == eventName) {
+                    me.api.remTable();
                 } else if ('edit' == eventName) {
                     _view.hideMenu();
 
@@ -141,26 +148,15 @@ define([
                             return true;
                         }
                     });
-                } else if ('accept' == eventName) {
-                    me.api.asc_GetNextRevisionsChange();
-                    me.api.asc_AcceptChanges();
-                } else if ('acceptall' == eventName) {
-                    me.api.asc_AcceptAllChanges();
-                } else if ('reject' == eventName) {
-                    me.api.asc_GetNextRevisionsChange();
-                    me.api.asc_RejectChanges();
-                } else if ('rejectall' == eventName) {
-                    me.api.asc_RejectAllChanges();
                 } else if ('review' == eventName) {
-                    if (Common.SharedSettings.get('phone')) {
-                        _actionSheets = me._initReviewMenu();
-                        me.onContextMenuClick(view, 'showActionSheet');
-                    } else {
-                        _.delay(function () {
-                            _view.showMenu(me._initReviewMenu(), _menuPos[0] || 0, _menuPos[1] || 0);
-                            _timer = (new Date).getTime();
-                        }, 100);
-                    }
+                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
+                    getCollaboration.showModal();
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#reviewing-settings-view', false);
+                } else if('reviewchange' == eventName) {
+                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
+                    getCollaboration.showModal();
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#reviewing-settings-view', false);
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#change-view', false);
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
@@ -180,6 +176,55 @@ define([
                 }
 
                 _view.hideMenu();
+            },
+
+            showSplitModal: function() {
+                var me = this,
+                    picker;
+                uiApp.modal({
+                    title   : me.menuSplit,
+                    text: '',
+                    afterText:
+                        '<div class="content-block">' +
+                        '<div class="row no-gutter" style="text-align: center;">' +
+                        '<div class="col-50 size-columns">' + me.textColumns + '</div>' +
+                        '<div class="col-50 size-rows">' + me.textRows + '</div>' +
+                        '</div>' +
+                        '<div id="picker-split-size"></div>' +
+                        '</div>',
+                    buttons: [
+                        {
+                            text: me.textCancel
+                        },
+                        {
+                            text: 'OK',
+                            bold: true,
+                            onClick: function () {
+                                var size = picker.value;
+                                if (me.api) {
+                                    me.api.SplitCell(parseInt(size[0]), parseInt(size[1]));
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                picker = uiApp.picker({
+                    container: '#picker-split-size',
+                    toolbar: false,
+                    rotateEffect: true,
+                    value: [3, 3],
+                    cols: [{
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    }, {
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    }]
+                });
+
             },
 
             // API Handlers
@@ -334,15 +379,17 @@ define([
 
             _initMenu: function (stack) {
                 var me = this,
-                    menuItems = [],
+                    arrItems = [],
+                    arrItemsIcon = [],
                     canCopy = me.api.can_CopyCut();
 
                 _actionSheets = [];
 
                 if (canCopy) {
-                    menuItems.push({
+                    arrItemsIcon.push({
                         caption: me.menuCopy,
-                        event: 'copy'
+                        event: 'copy',
+                        icon: 'icon-copy'
                     });
                 }
 
@@ -351,15 +398,25 @@ define([
                     isImage = false,
                     isChart = false,
                     isShape = false,
-                    isLink = false;
+                    isLink = false,
+                    lockedText = false,
+                    lockedTable = false,
+                    lockedImage = false,
+                    lockedHeader = false;
 
                 _.each(stack, function (item) {
                     var objectType = item.get_ObjectType(),
                         objectValue = item.get_ObjectValue();
 
+                    if (objectType == Asc.c_oAscTypeSelectElement.Header) {
+                        lockedHeader = objectValue.get_Locked();
+                    }
+
                     if (objectType == Asc.c_oAscTypeSelectElement.Text) {
                         isText = true;
+                        lockedText = objectValue.get_Locked();
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
+                        lockedImage = objectValue.get_Locked();
                         if (objectValue && objectValue.get_ChartProperties()) {
                             isChart = true;
                         } else if (objectType && objectValue.get_ShapeProperties()) {
@@ -369,105 +426,114 @@ define([
                         }
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
                         isTable = true;
+                        lockedTable = objectValue.get_Locked();
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
                         isLink = true;
                     }
                 });
 
                 if (stack.length > 0) {
-                    var topObject = _.find(stack.reverse(), function(obj){ return obj.get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck; }),
-                        topObjectValue = topObject.get_ObjectValue(),
-                        objectLocked = _.isFunction(topObjectValue.get_Locked) ? topObjectValue.get_Locked() : false;
 
                     var swapItems = function(items, indexBefore, indexAfter) {
                         items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
                     };
 
-                    if (!objectLocked && _isEdit && !me.isDisconnected) {
-                        if (canCopy) {
-                            menuItems.push({
+                    if (_isEdit && !me.isDisconnected) {
+                        if (!lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy) {
+                            arrItemsIcon.push({
                                 caption: me.menuCut,
-                                event: 'cut'
+                                event: 'cut',
+                                icon: 'icon-cut'
                             });
 
                             // Swap 'Copy' and 'Cut'
-                            swapItems(menuItems, 0, 1);
+                            swapItems(arrItemsIcon, 0, 1);
                         }
 
-                        menuItems.push({
-                            caption: me.menuPaste,
-                            event: 'paste'
-                        });
+                        if (!lockedText && !lockedTable && !lockedImage && !lockedHeader) {
+                            arrItemsIcon.push({
+                                caption: me.menuPaste,
+                                event: 'paste',
+                                icon: 'icon-paste'
+                            });
+                        }
 
-                        menuItems.push({
-                            caption: me.menuDelete,
-                            event: 'delete'
-                        });
+                        if(isTable && me.api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
+                            arrItems.push({
+                                caption: me.menuMerge,
+                                event: 'merge'
+                            });
+                        }
 
-                        menuItems.push({
-                            caption: me.menuEdit,
-                            event: 'edit'
-                        });
+                        if(isTable && me.api.CheckBeforeSplitCells() && !lockedTable && !lockedHeader) {
+                            arrItems.push({
+                                caption: me.menuSplit,
+                                event: 'split'
+                            });
+                        }
 
-                        if (!_.isEmpty(me.api.can_AddHyperlink())) {
-                            menuItems.push({
+                        if(!lockedText && !lockedTable && !lockedImage && !lockedHeader) {
+                            arrItems.push({
+                                caption: me.menuDelete,
+                                event: 'delete'
+                            });
+                        }
+
+                        if(isTable && !lockedTable && !lockedText && !lockedHeader) {
+                            arrItems.push({
+                                caption: me.menuDeleteTable,
+                                event: 'deletetable'
+                            });
+                        }
+
+                        if(!lockedText && !lockedTable && !lockedImage && !lockedHeader){
+                            arrItems.push({
+                                caption: me.menuEdit,
+                                event: 'edit'
+                            });
+                        }
+
+                        if (!_.isEmpty(me.api.can_AddHyperlink()) && !lockedHeader) {
+                            arrItems.push({
                                 caption: me.menuAddLink,
                                 event: 'addlink'
                             });
                         }
 
-                        if (_canAcceptChanges && _inRevisionChange) {
-                            menuItems.push({
-                                caption: me.menuReview,
-                                event: 'review'
-                            });
+                        if (_canReview) {
+                            if (_inRevisionChange) {
+                                arrItems.push({
+                                    caption: me.menuReviewChange,
+                                    event: 'reviewchange'
+                                });
+                            } else {
+                                arrItems.push({
+                                    caption: me.menuReview,
+                                    event: 'review'
+                                });
+                            }
                         }
                     }
                 }
 
                 if (isLink) {
-                    menuItems.push({
+                    arrItems.push({
                         caption: me.menuOpenLink,
                         event: 'openlink'
                     });
                 }
 
-                if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
-                    _actionSheets = menuItems.slice(3);
+                if (Common.SharedSettings.get('phone') && arrItems.length > 2) {
+                    _actionSheets = arrItems.slice(2);
 
-                    menuItems = menuItems.slice(0, 3);
-                    menuItems.push({
+                    arrItems = arrItems.slice(0, 2);
+                    arrItems.push({
                         caption: me.menuMore,
                         event: 'showActionSheet'
                     });
                 }
 
-                return menuItems;
-            },
-
-            _initReviewMenu: function (stack) {
-                var me = this,
-                    menuItems = [];
-
-                menuItems.push({
-                    caption: me.menuAccept,
-                    event: 'accept'
-                });
-
-                menuItems.push({
-                    caption: me.menuReject,
-                    event: 'reject'
-                });
-
-                menuItems.push({
-                    caption: me.menuAcceptAll,
-                    event: 'acceptall'
-                });
-
-                menuItems.push({
-                    caption: me.menuRejectAll,
-                    event: 'rejectall'
-                });
+                var menuItems = {itemsIcon: arrItemsIcon, items: arrItems};
 
                 return menuItems;
             },
@@ -477,6 +543,9 @@ define([
             },
 
             textGuest: 'Guest',
+            textCancel: 'Cancel',
+            textColumns: 'Columns',
+            textRows: 'Rows',
             menuCut: 'Cut',
             menuCopy: 'Copy',
             menuPaste: 'Paste',
@@ -487,10 +556,10 @@ define([
             menuMore: 'More',
             sheetCancel: 'Cancel',
             menuReview: 'Review',
-            menuAccept: 'Accept',
-            menuAcceptAll: 'Accept All',
-            menuReject: 'Reject',
-            menuRejectAll: 'Reject All'
+            menuMerge: 'Merge Cells',
+            menuSplit: 'Split Cell',
+            menuDeleteTable: 'Delete Table',
+            menuReviewChange: 'Review Change'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

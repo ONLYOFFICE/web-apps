@@ -284,8 +284,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             var me = this,
                 xy = me.$window.offset(),
                 rec = this.rangeList.getSelectedRec(),
-                idx = _.indexOf(this.rangeList.store.models, rec[0]),
-                oldname = (isEdit && rec.length>0) ? new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable'), undefined, undefined, undefined, true) : null;
+                idx = _.indexOf(this.rangeList.store.models, rec),
+                oldname = (isEdit && rec) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true) : null;
 
             var win = new SSE.Views.NamedRangeEditDlg({
                 api: me.api,
@@ -317,9 +317,9 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
 
         onDeleteRange: function () {
             var rec = this.rangeList.getSelectedRec();
-            if (rec.length>0) {
-                this.currentNamedRange = _.indexOf(this.rangeList.store.models, rec[0]);
-                this.api.asc_delDefinedNames(new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable'), undefined, undefined, undefined, true));
+            if (rec) {
+                this.currentNamedRange = _.indexOf(this.rangeList.store.models, rec);
+                this.api.asc_delDefinedNames(new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true));
             }
         },
 

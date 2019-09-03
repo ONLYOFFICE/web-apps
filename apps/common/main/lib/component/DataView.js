@@ -151,7 +151,7 @@ define([
 
             var tip = el.data('bs.tooltip');
             if (tip) {
-                if (tip.dontShow===undefined)
+                if (tip.dontShow===undefined && el.is(':hover'))
                     tip.dontShow = true;
             }
 
@@ -389,17 +389,7 @@ define([
         },
 
         getSelectedRec: function() {
-            if (this.multiSelect) {
-
-                var items = [];
-                _.each(this.store.where({selected: true}), function(rec){
-                    items.push(rec);
-                });
-
-                return items;
-            }
-
-            return this.store.where({selected: true});
+            return (this.multiSelect) ? this.store.where({selected: true}) : this.store.findWhere({selected: true});
         },
 
         onAddItem: function(record, store, opts) {
@@ -601,7 +591,7 @@ define([
             if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
                 data.preventDefault();
                 data.stopPropagation();
-                var rec = this.getSelectedRec()[0];
+                var rec = this.getSelectedRec();
                 if (this.lastSelectedRec===null)
                     this.lastSelectedRec = rec;
                 if (data.keyCode==Common.UI.Keys.RETURN) {
@@ -699,8 +689,7 @@ define([
                 this.scrollToRecord(this.lastSelectedRec);
                 this.lastSelectedRec = null;
             } else {
-                var rec = this.getSelectedRec()[0];
-                if (rec) this.scrollToRecord(rec);
+                this.scrollToRecord(this.getSelectedRec());
             }
         },
 

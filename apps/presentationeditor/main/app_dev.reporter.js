@@ -96,6 +96,10 @@ require([
         using      : 'reporter'
     });
 
+    var setDocumentTitle = function(title) {
+        (title) && (window.document.title += (' - ' + title));
+    };
+
     function load_document(data) {
         var docInfo = {};
 
@@ -109,7 +113,7 @@ require([
             docInfo.put_Options(data.options);
             docInfo.put_Token(data.token);
             docInfo.put_Permissions(data.permissions || {});
-            window.document.title = 'Presenter View' + (data.title ? (' - ' + data.title) : '');
+            setDocumentTitle(data.title);
         }
 
         api.preloadReporter(data);

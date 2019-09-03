@@ -153,6 +153,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(me.onCoAuthoringDisconnect, me));
                     Common.NotificationCenter.on('goback',                          _.bind(me.goBack, me));
+                    Common.NotificationCenter.on('download:advanced',               _.bind(me.onAdvancedOptions, me));
 
                     // Initialize descendants
                     _.each(me.getApplication().controllers, function(controller) {
@@ -184,7 +185,7 @@ define([
                     Common.Gateway.internalMessage('listenHardBack');
                 }
 
-                me.defaultTitleText = me.defaultTitleText || '{{APP_TITLE_TEXT}}';
+                me.defaultTitleText = '{{APP_TITLE_TEXT}}';
                 me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
                 me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
                 me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
@@ -264,6 +265,10 @@ define([
 
                 if (data.doc) {
                     DE.getController('Toolbar').setDocumentTitle(data.doc.title);
+                    if (data.doc.info) {
+                        data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+                    }
                 }
             },
 
@@ -322,7 +327,7 @@ define([
                 if (type && typeof type[1] === 'string') {
                     this.api.asc_DownloadOrigin(true)
                 } else {
-                    this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
                 }
             },
 
@@ -516,7 +521,8 @@ define([
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
-                this.isLiveCommenting ? this.api.asc_showComments(true) : this.api.asc_hideComments();
+                var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                this.isLiveCommenting ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
@@ -540,6 +546,12 @@ define([
                 me.updateWindowTitle(true);
 
                 me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
+
+                value = Common.localStorage.getItem("de-mobile-no-characters");
+                me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
+
+                value = Common.localStorage.getItem("de-mobile-hidden-borders");
+                me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -592,6 +604,19 @@ define([
                 me.applyLicense();
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+
+                if (!me.appOptions.canReview) {
+                    var canViewReview = me.appOptions.isEdit || me.api.asc_HaveRevisionsChanges(true);
+                    DE.getController('Common.Controllers.Collaboration').setCanViewReview(canViewReview);
+                    if (canViewReview) {
+                        var viewReviewMode = Common.localStorage.getItem("de-view-review-mode");
+                        if (viewReviewMode===null)
+                            viewReviewMode = me.appOptions.customization && /^(original|final|markup)$/i.test(me.appOptions.customization.reviewDisplay) ? me.appOptions.customization.reviewDisplay.toLocaleLowerCase() : 'original';
+                        viewReviewMode = me.appOptions.isEdit ? 'markup' : viewReviewMode;
+                        DE.getController('Common.Controllers.Collaboration').turnDisplayMode(viewReviewMode);
+                    }
+                }
+
                 Common.Gateway.documentReady();
             },
 
@@ -755,25 +780,25 @@ define([
                 if (me.api) {
                     me.api.asc_registerCallback('asc_onSendThemeColors', _.bind(me.onSendThemeColors, me));
                     me.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(me.onDownloadUrl, me));
+                    me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
+                    me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                 }
             },
 
             applyModeEditorElements: function() {
                 if (this.appOptions.isEdit) {
                     var me = this;
-//
-//                    var value = Common.localStorage.getItem('de-settings-unit');
-//                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
-//                    Common.Utils.Metric.setCurrentMetric(value);
-//                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+
+                   var value = Common.localStorage.getItem('de-mobile-settings-unit');
+                   value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
-                    me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
-                    me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -787,6 +812,10 @@ define([
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
                 }
+            },
+
+            returnUserCount: function() {
+                return this._state.usersCount;
             },
 
             onExternalMessage: function(msg) {
@@ -1102,17 +1131,16 @@ define([
                Common.Utils.ThemeColor.setColors(colors, standart_colors);
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     var picker,
                         pages = [],
                         pagesName = [];
 
-                    _.each(advOptions.asc_getOptions().asc_getCodePages(), function(page) {
+                    _.each(advOptions.asc_getCodePages(), function(page) {
                         pages.push(page.asc_getCodePage());
                         pagesName.push(page.asc_getCodePageName());
                     });
@@ -1120,6 +1148,37 @@ define([
                     $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                    var buttons = [];
+                    if (mode === 2) {
+                        buttons.push({
+                            text: me.textCancel,
+                            onClick: function () {
+                                me._state.openDlg = null;
+                            }
+                        });
+                    }
+                    buttons.push({
+                        text: 'OK',
+                        bold: true,
+                        onClick: function() {
+                            var encoding = picker.value;
+
+                            if (me.api) {
+                                if (mode==2) {
+                                    formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding));
+                                    me.api.asc_DownloadAs(formatOptions);
+                                } else {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
+                                }
+
+                                if (!me._isDocReady) {
+                                    me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                }
+                            }
+                            me._state.openDlg = null;
+                        }
+                    });
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advTxtOptions,
@@ -1131,31 +1190,14 @@ define([
                             '</div>' +
                             '<div id="txt-encoding"></div>' +
                         '</div>',
-                        buttons: [
-                            {
-                                text: 'OK',
-                                bold: true,
-                                onClick: function() {
-                                    var encoding = picker.value;
-
-                                    if (me.api) {
-                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
-
-                                        if (!me._isDocReady) {
-                                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                                        }
-                                    }
-                                    me._state.openDlg = null;
-                                }
-                            }
-                        ]
+                        buttons: buttons
                     });
 
                     picker = uiApp.picker({
                         container: '#txt-encoding',
                         toolbar: false,
                         rotateEffect: true,
-                        value: [advOptions.asc_getOptions().asc_getRecommendedSettings().asc_getCodePage()],
+                        value: [advOptions.asc_getRecommendedSettings().asc_getCodePage()],
                         cols: [{
                             values: pages,
                             displayValues: pagesName

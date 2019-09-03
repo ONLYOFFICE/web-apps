@@ -23,9 +23,11 @@
                 key: 'key',
                 vkey: 'vkey',
                 info: {
-                    author: 'author name',
+                    author: 'author name', // must be deprecated, use owner instead
+                    owner: 'owner name',
                     folder: 'path to document',
-                    created: '<creation date>',
+                    created: '<creation date>', // must be deprecated, use uploaded instead
+                    uploaded: '<uploaded date>',
                     sharingSettings: [
                         {
                             user: 'user name',
@@ -63,6 +65,7 @@
                 saveAsUrl: 'folder for saving files'
                 licenseUrl: <url for license>,
                 customerId: <customer id>,
+                region: <regional settings> // can be 'en-us' or lang code
 
                 user: {
                     id: 'user id',
@@ -129,7 +132,6 @@
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
-                    url: '../../../../sdkjs-plugins/',
                     pluginsData: [
                         "helloworld/config.json",
                         "chess/config.json",
@@ -139,7 +141,6 @@
                 }
             },
             events: {
-                'onReady': <application ready callback>, // deprecated
                 'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onDocumentStateChange': <document state changed callback>
@@ -174,7 +175,6 @@
                 }
             },
             events: {
-                'onReady': <application ready callback>, // deprecated
                 'onAppReady': <application ready callback>,
                 'onBack': <back to folder callback>,
                 'onError': <error callback>,
@@ -199,11 +199,13 @@
         _config.editorConfig.canRequestClose = _config.events && !!_config.events.onRequestClose;
         _config.editorConfig.canRename = _config.events && !!_config.events.onRequestRename;
         _config.editorConfig.canMakeActionLink = _config.events && !!_config.events.onMakeActionLink;
+        _config.editorConfig.canRequestUsers = _config.events && !!_config.events.onRequestUsers;
+        _config.editorConfig.canRequestSendNotify = _config.events && !!_config.events.onRequestSendNotify;
         _config.editorConfig.mergeFolderUrl = _config.editorConfig.mergeFolderUrl || _config.editorConfig.saveAsUrl;
+        _config.editorConfig.canRequestSaveAs = _config.events && !!_config.events.onRequestSaveAs;
+        _config.editorConfig.canRequestInsertImage = _config.events && !!_config.events.onRequestInsertImage;
+        _config.editorConfig.canRequestMailMergeRecipients = _config.events && !!_config.events.onRequestMailMergeRecipients;
         _config.frameEditorId = placeholderId;
-
-        _config.events && !!_config.events.onReady && console.log("Obsolete: The onReady event is deprecated. Please use onAppReady instead.");
-        _config.events && (_config.events.onAppReady = _config.events.onAppReady || _config.events.onReady);
 
         var onMouseUp = function (evt) {
             _processMouse(evt);
@@ -537,6 +539,41 @@
             });
         };
 
+        var _setUsers = function(data) {
+            _sendCommand({
+                command: 'setUsers',
+                data: data
+            });
+        };
+
+        var _showSharingSettings = function(data) {
+            _sendCommand({
+                command: 'showSharingSettings',
+                data: data
+            });
+        };
+
+        var _setSharingSettings = function(data) {
+            _sendCommand({
+                command: 'setSharingSettings',
+                data: data
+            });
+        };
+
+        var _insertImage = function(data) {
+            _sendCommand({
+                command: 'insertImage',
+                data: data
+            });
+        };
+
+        var _setMailMergeRecipients = function(data) {
+            _sendCommand({
+                command: 'setMailMergeRecipients',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -576,7 +613,12 @@
             serviceCommand      : _serviceCommand,
             attachMouseEvents   : _attachMouseEvents,
             detachMouseEvents   : _detachMouseEvents,
-            destroyEditor       : _destroyEditor
+            destroyEditor       : _destroyEditor,
+            setUsers            : _setUsers,
+            showSharingSettings : _showSharingSettings,
+            setSharingSettings  : _setSharingSettings,
+            insertImage         : _insertImage,
+            setMailMergeRecipients: _setMailMergeRecipients
         }
     };
 

@@ -16,6 +16,15 @@
         }
     }
 
+    &.internal-menu {
+        border: none;
+        border-radius: 0;
+        .box-shadow(none);
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
     li {
         & > a {
             padding: 5px 20px;
@@ -58,49 +67,6 @@
             margin: -3px 5px 0 -15px;
             .background-ximage('@{app-image-path}/popupmenu-btns.png', '@{app-image-path}/popupmenu-btns@2x.png', 66px);
             background-repeat: no-repeat;
-        }
-    }
-
-    .menu-scroll {
-        position: absolute;
-        background-color: @dropdown-bg;
-        height: 16px;
-        width: 100%;
-        cursor: pointer;
-
-        &.top {
-            top: 0;
-
-            &::before {
-                content: '';
-                position: absolute;
-                left: 48%;
-                top: 7px;
-                border-top: none;
-                border-bottom: 3px solid;
-                border-right: 3px solid transparent;
-                border-left: 3px solid transparent;
-            }
-        }
-
-        &.bottom {
-            bottom: 0;
-
-            &::before {
-                content: '';
-                position: absolute;
-                left: 48%;
-                top: 7px;
-                border-bottom: none;
-                border-top: 3px solid;
-                border-right: 3px solid transparent;
-                border-left: 3px solid transparent;
-            }
-        }
-
-        &.disabled {
-            opacity: 0.3;
-            cursor: default;
         }
     }
 }

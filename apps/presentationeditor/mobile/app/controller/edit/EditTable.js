@@ -167,6 +167,7 @@ define([
             initSettings: function (pageId) {
                 var me = this;
 
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
                 if (_tableObject) {
                     if (pageId == "#edit-table-style" || pageId == '#edit-table-border-color-view') {
                         me._initStyleView();
@@ -268,7 +269,7 @@ define([
                 // }
 
                 $('#edit-table-bordersize input').val([borderSizeTransform.indexSizeByValue(_cellBorderWidth)]);
-                $('#edit-table-bordersize .item-after').text(borderSizeTransform.sizeByValue(_cellBorderWidth) + ' ' + _metricText);
+                $('#edit-table-bordersize .item-after').text(borderSizeTransform.sizeByValue(_cellBorderWidth) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
 
                 var borderPalette = me.getView('EditTable').paletteBorderColor;
 
@@ -464,7 +465,7 @@ define([
 
             onBorderSizeChanging: function (e) {
                 var $target = $(e.currentTarget);
-                $('#edit-table-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+                $('#edit-table-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
             },
 
             onReorder: function (e) {
@@ -554,8 +555,8 @@ define([
 
                 _.each(templates, function(template){
                     styles.push({
-                        imageUrl    : template.get_Image(),
-                        templateId  : template.get_Id()
+                        imageUrl    : template.asc_getImage(),
+                        templateId  : template.asc_getId()
                     });
                 });
 

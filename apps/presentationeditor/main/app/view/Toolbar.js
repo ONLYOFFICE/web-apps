@@ -103,7 +103,7 @@ define([
                 me.synchTooltip = undefined;
                 me.needShowSynchTip = false;
 
-                me.schemeNames = [
+                me.SchemeNames = [
                     me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
                     me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
                     me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
@@ -571,6 +571,33 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnInsertTextArt);
 
+                    me.btnEditHeader = new Common.UI.Button({
+                        id: 'id-toolbar-btn-editheader',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-editheader',
+                        caption: me.capBtnInsHeader,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnEditHeader);
+
+                    me.btnInsDateTime = new Common.UI.Button({
+                        id: 'id-toolbar-btn-datetime',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-datetime',
+                        caption: me.capBtnDateTime,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnInsDateTime);
+
+                    me.btnInsSlideNum = new Common.UI.Button({
+                        id: 'id-toolbar-btn-slidenum',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-pagenum',
+                        caption: me.capBtnSlideNum,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnInsSlideNum);
+
                     me.btnColorSchemas = new Common.UI.Button({
                         id: 'id-toolbar-btn-colorschemas',
                         cls: 'btn-toolbar',
@@ -578,15 +605,7 @@ define([
                         lock: [_set.themeLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [],
-                            maxHeight: 560,
-                            restoreHeight: 560
-                        }).on('show:before', function (mnu) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40,
-                                alwaysVisibleY: true
-                            });
+                            restoreHeight: true
                         })
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
@@ -785,12 +804,12 @@ define([
 
                     me.listTheme.fieldPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px;"/>',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''));
                     me.listTheme.menuPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px;"/>',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''));
 
@@ -826,44 +845,7 @@ define([
             },
 
             lockToolbar: function (causes, lock, opts) {
-                !opts && (opts = {});
-
-                var controls = opts.array || this.lockControls;
-                opts.merge && (controls = _.union(this.lockControls, controls));
-
-                function doLock(cmp, cause) {
-                    if (_.contains(cmp.options.lock, cause)) {
-                        var index = cmp.keepState.indexOf(cause);
-                        if (lock) {
-                            if (index < 0) {
-                                cmp.keepState.push(cause);
-                            }
-                        } else {
-                            if (!(index < 0)) {
-                                cmp.keepState.splice(index, 1);
-                            }
-                        }
-                    }
-                }
-
-                _.each(controls, function (item) {
-                    if (_.isFunction(item.setDisabled)) {
-                        !item.keepState && (item.keepState = []);
-                        if (opts.clear && opts.clear.length > 0 && item.keepState.length > 0) {
-                            item.keepState = _.difference(item.keepState, opts.clear);
-                        }
-
-                        _.isArray(causes) ? _.each(causes, function (c) {
-                                doLock(item, c)
-                            }) : doLock(item, causes);
-
-                        if (!(item.keepState.length > 0)) {
-                            item.isDisabled() && item.setDisabled(false);
-                        } else {
-                            !item.isDisabled() && item.setDisabled(true);
-                        }
-                    }
-                });
+                Common.Utils.lockControls(causes, lock, opts, this.lockControls);
             },
 
             render: function (mode) {
@@ -923,11 +905,7 @@ define([
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length) {
-                        cmp.rendered ?
-                            $slot.append(cmp.$el) : cmp.render($slot);
-                    }
+                    Common.Utils.injectComponent($host.find(id), cmp);
                 };
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
@@ -966,79 +944,24 @@ define([
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-slidesize', this.btnSlideSize);
                 _injectComponent('#slot-field-styles', this.listTheme);
+                _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
+                _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
 
-                function _injectBtns(opts) {
-                    var array = createButtonSet();
-                    var $slots = $host.find(opts.slot);
-                    var id = opts.btnconfig.id;
-                    $slots.each(function(index, el) {
-                        if ( !!id ) opts.btnconfig.id = id + index;
+                this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'btn-insertimage', this.capInsertImage,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true);
+                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'btn-text', this.capInsertText,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, false, true);
+                this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'btn-insertshape', this.capInsertShape,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, true);
+                this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'btn-addslide', this.capAddSlide,
+                    [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart], true, true);
 
-                        var button = new Common.UI.Button(opts.btnconfig);
-                        button.render( $slots.eq(index) );
-
-                        array.add(button);
-                    });
-
-                    return array;
-                }
-
-                var me = this;
-                me.btnsInsertImage = _injectBtns({
-                    slot: '.slot-insertimg',
-                    btnconfig: {
-                        id          : 'tlbtn-insertimage-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-insertimage',
-                        caption     : me.capInsertImage,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        menu        : true
-                    }
-                });
-
-                me.btnsInsertText = _injectBtns({
-                    slot: '.slot-instext',
-                    btnconfig: {
-                        id          : 'tlbtn-inserttext-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-text',
-                        caption     : me.capInsertText,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        enableToggle: true
-                    }
-                });
-
-                me.btnsInsertShape = _injectBtns({
-                    slot: '.slot-insertshape',
-                    btnconfig: {
-                        id          : 'tlbtn-insertshape-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-insertshape',
-                        caption     : me.capInsertShape,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        enableToggle: true,
-                        menu        : true
-                    }
-                });
-
-                me.btnsAddSlide = _injectBtns({
-                    slot: '.slot-addslide',
-                    btnconfig: {
-                        id          : 'tlbtn-addslide-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-addslide',
-                        split       : true,
-                        caption     : me.capAddSlide,
-                        lock        : [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart],
-                        menu        : true
-                    }
-                });
-
-                var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape, me.btnsAddSlide);
+                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide);
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
 
-                Array.prototype.push.apply(me.slideOnlyControls, created);
-                Array.prototype.push.apply(me.lockControls, created);
+                Array.prototype.push.apply(this.slideOnlyControls, created);
+                Array.prototype.push.apply(this.lockControls, created);
 
                 return $host;
             },
@@ -1060,7 +983,7 @@ define([
                             me.fireEvent('insert:image', [item.value]);
                         })
                     );
-                    btn.menu.items[2].setVisible(config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    btn.menu.items[2].setVisible(config.canRequestInsertImage || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
                 });
 
                 me.btnsInsertText.forEach(function (btn) {
@@ -1131,6 +1054,9 @@ define([
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);
+                this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnInsDateTime.updateHint(this.tipDateTime);
+                this.btnInsSlideNum.updateHint(this.tipSlideNum);
 
                 // set menus
 
@@ -1266,6 +1192,7 @@ define([
                         el: $('#id-toolbar-menu-changeslide'),
                         parentMenu: me.btnChangeSlide.menu,
                         restoreHeight: 300,
+                        restoreWidth: 302,
                         style: 'max-height: 300px;',
                         store: PE.getCollection('SlideLayouts'),
                         itemTemplate: _.template([
@@ -1348,16 +1275,6 @@ define([
                     this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
 
                 this.mode = mode;
-                if (!mode.nativeApp) {
-                    var nativeBtnGroup = $('.toolbar-group-native');
-
-                    if (nativeBtnGroup) {
-                        nativeBtnGroup.hide();
-                    }
-                }
-
-                if (mode.isDesktopApp)
-                    $('.toolbar-group-native').hide();
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -1373,14 +1290,7 @@ define([
 
                     if (mnuColorSchema == null) {
                         mnuColorSchema = new Common.UI.Menu({
-                            maxHeight: 560,
-                            restoreHeight: 560
-                        }).on('render:after', function (mnu) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40
-                            });
+                            restoreHeight: true
                         });
                     }
                     mnuColorSchema.items = [];
@@ -1408,15 +1318,17 @@ define([
                             mnuColorSchema.addItem({
                                 caption: '--'
                             });
-                        } else {
-                            mnuColorSchema.addItem({
-                                template: itemTemplate,
-                                cls: 'color-schemas-menu',
-                                colors: schemecolors,
-                                caption: (index < 21) ? (me.schemeNames[index] || schema.get_name()) : schema.get_name(),
-                                value: index
-                            });
                         }
+                        var name = schema.get_name();
+                        mnuColorSchema.addItem({
+                            template: itemTemplate,
+                            cls: 'color-schemas-menu',
+                            colors: schemecolors,
+                            caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                            value: name,
+                            checkable: true,
+                            toggleGroup: 'menuSchema'
+                        });
                     }, this);
                 }
             },
@@ -1513,8 +1425,10 @@ define([
                     var dataViewItems = picker.dataViewItems,
                         el = $(dataViewItems[0].el),
                         itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
-                        columnCount = Math.floor(picker.cmpEl.width() / itemW),
+                        columnCount = Math.floor(picker.options.restoreWidth / itemW + 0.5) || 1, // try to use restore width
                         col = 0, maxHeight = 0;
+
+                    picker.cmpEl.width(itemW * columnCount + 11);
 
                     for (var i = 0; i < dataViewItems.length; i++) {
                         var div = $(dataViewItems[i].el).find('.title'),
@@ -1588,7 +1502,7 @@ define([
                             store: group.get('groupStore'),
                             parentMenu: menuitem.menu,
                             showLast: false,
-                            itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                            itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
                         })).on('item:click', function (picker, item, record, e) {
                             if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
                             if (record)
@@ -1609,6 +1523,7 @@ define([
                             parentMenu: btn.menu,
                             showLast: false,
                             restoreHeight: 300,
+                            restoreWidth: 302,
                             style: 'max-height: 300px;',
                             store: PE.getCollection('SlideLayouts'),
                             itemTemplate: _.template([
@@ -1764,7 +1679,13 @@ define([
             textTabProtect: 'Protection',
             mniImageFromStorage: 'Image from Storage',
             txtSlideAlign: 'Align to Slide',
-            txtObjectsAlign: 'Align Selected Objects'
+            txtObjectsAlign: 'Align Selected Objects',
+            tipEditHeader: 'Edit header or footer',
+            tipSlideNum: 'Insert slide number',
+            tipDateTime: 'Insert current date and time',
+            capBtnInsHeader: 'Header/Footer',
+            capBtnSlideNum: 'Slide Number',
+            capBtnDateTime: 'Date & Time'
         }
     }()), PE.Views.Toolbar || {}));
 });

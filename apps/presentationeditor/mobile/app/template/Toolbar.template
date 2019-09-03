@@ -45,6 +45,11 @@
                 <i class="icon icon-search"></i>
             </a>
             <% } %>
+            <% if (width >= 390) { %>
+            <a href="#" id="toolbar-collaboration" class="link icon-only disabled" style="display: none;">
+                <i class="icon icon-collaboration"></i>
+            </a>
+            <% } %>
             <a href="#" id="toolbar-settings" class="link icon-only">
                 <i class="icon icon-settings"></i>
             </a>

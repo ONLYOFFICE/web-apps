@@ -202,6 +202,12 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
+
+            if (this.mode.isEdit) {
+                this.leftMenu.btnSpellcheck.show();
+                this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
+            }
+
             this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
@@ -264,7 +270,7 @@ define([
                     buttons: ['ok', 'cancel'],
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
-                            this.api.asc_DownloadAs(format);
+                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
                             menu.hide();
                         }
                     }, this)
@@ -273,7 +279,7 @@ define([
                 menu.hide();
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
             } else {
-                this.api.asc_DownloadAs(format);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                 menu.hide();
             }
         },
@@ -287,7 +293,7 @@ define([
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
                             this.isFromFileDownloadAs = ext;
-                            this.api.asc_DownloadAs(format, true);
+                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
                             menu.hide();
                         }
                     }, this)
@@ -298,7 +304,7 @@ define([
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format, true);
             } else {
                 this.isFromFileDownloadAs = ext;
-                this.api.asc_DownloadAs(format, true);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                 menu.hide();
             }
         },
@@ -315,27 +321,31 @@ define([
                         defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
                 }
 
-                me._saveCopyDlg = new Common.Views.SaveAsDlg({
-                    saveFolderUrl: me.mode.saveAsUrl,
-                    saveFileUrl: url,
-                    defFileName: defFileName
-                });
-                me._saveCopyDlg.on('saveaserror', function(obj, err){
-                    var config = {
-                        closable: false,
-                        title: me.textWarning,
-                        msg: err,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                    };
-                    Common.UI.alert(config);
-                }).on('close', function(obj){
-                    me._saveCopyDlg = undefined;
-                });
-                me._saveCopyDlg.show();
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        var config = {
+                            closable: false,
+                            title: me.textWarning,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
             }
             this.isFromFileDownloadAs = false;
         },
@@ -376,11 +386,6 @@ define([
                 this.api.asc_setAutoSaveGap(value);
             }
 
-            value = Common.localStorage.getItem("sse-settings-func-locale");
-            Common.Utils.InternalSettings.set("sse-settings-func-locale", value);
-            if (value) value = SSE.Views.FormulaLang.get(value);
-            if (value!==null) this.api.asc_setLocalization(value);
-
             value = Common.localStorage.getItem("sse-settings-reg-settings");
             if (value!==null) this.api.asc_setLocale(parseInt(value));
 
@@ -390,13 +395,10 @@ define([
         },
 
         onCreateNew: function(menu, type) {
-            if (this.mode.nativeApp === true) {
-                this.api.asc_openNewDocument(type == 'blank' ? '' : type);
-            } else {
+            if ( !Common.Controllers.Desktop.process('create:new') ) {
                 var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
                 if (newDocumentPage) newDocumentPage.focus();
             }
-
             if (menu) {
                 menu.hide();
             }
@@ -650,6 +652,7 @@ define([
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
+            this.leftMenu.btnSpellcheck.setDisabled(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
             if ( this.dlgSearch ) {
@@ -848,6 +851,7 @@ define([
 
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
             this.leftMenu.btnSearch.setDisabled(isRangeSelection);
+            this.leftMenu.btnSpellcheck.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isRangeSelection);
                 this.leftMenu.panelPlugins.disableControls(isRangeSelection);
@@ -859,6 +863,7 @@ define([
 
             this.leftMenu.btnAbout.setDisabled(isEditFormula);
             this.leftMenu.btnSearch.setDisabled(isEditFormula);
+            this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
                 this.leftMenu.panelPlugins.disableControls(isEditFormula);

@@ -51,6 +51,8 @@ define([
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
+    'presentationeditor/main/app/view/DateTimeDialog',
+    'presentationeditor/main/app/view/HeaderFooterDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
     'presentationeditor/main/app/view/SlideshowSettings'
@@ -159,7 +161,7 @@ define([
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
 
-                        _main.api.asc_DownloadAs(_format);
+                        _main.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format));
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
@@ -305,10 +307,15 @@ define([
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
             toolbar.btnColorSchemas.menu.on('item:click',               _.bind(this.onColorSchemaClick, this));
+            toolbar.btnColorSchemas.menu.on('show:after',               _.bind(this.onColorSchemaShow, this));
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
             toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this, 'header'));
+            toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
+            toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
+            Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
             this.onSetupCopyStyleButton();
         },
@@ -324,6 +331,7 @@ define([
             this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
             this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
             this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
+            Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
 
             this.api.asc_registerCallback('asc_onCanUndo',              _.bind(this.onApiCanRevert, this, 'undo'));
             this.api.asc_registerCallback('asc_onCanRedo',              _.bind(this.onApiCanRevert, this, 'redo'));
@@ -356,6 +364,7 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
             this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
             this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+            this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -378,6 +387,10 @@ define([
 
         onContextMenu: function() {
             this.toolbar.collapse();
+        },
+
+        onApiChangeFont: function(font) {
+            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
@@ -614,7 +627,7 @@ define([
                     this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart,
                     this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign,
-                    this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme
+                    this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ]});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides,
                     { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt) });
@@ -669,13 +682,14 @@ define([
 
             if (paragraph_locked!==undefined && this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
-                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls.concat(me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum)});
             }
 
             if (this._state.no_paragraph !== no_paragraph) {
                 if (this._state.activated) this._state.no_paragraph = no_paragraph;
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: me.toolbar.paragraphControls});
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: [me.toolbar.btnCopyStyle]});
+                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, !no_paragraph && this._state.prcontrolsdisable, {array: [me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum]});
             }
 
             if (this._state.no_text !== no_text) {
@@ -881,7 +895,7 @@ define([
         
         onPrint: function(e) {
             if (this.api)
-                this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
@@ -1378,13 +1392,23 @@ define([
                     }
                 })).show();
             } else if (opts === 'storage') {
-                (new Common.Views.SelectFileDlg({
-                    fileChoiceUrl: me.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                })).on('selectfile', function(obj, file){
-                    me.toolbar.fireEvent('insertimage', me.toolbar);
-                    me.api.AddImageUrl(file.url, undefined, true);// for loading from storage;
-                    Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                }).show();
+                if (this.toolbar.mode.canRequestInsertImage) {
+                    Common.Gateway.requestInsertImage();
+                } else {
+                    (new Common.Views.SelectFileDlg({
+                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                    })).on('selectfile', function(obj, file){
+                        me.insertImage(file);
+                    }).show();
+                }
+            }
+        },
+
+        insertImage: function(data) {
+            if (data && data.url) {
+                this.toolbar.fireEvent('insertimage', this.toolbar);
+                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
@@ -1438,6 +1462,52 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
         },
 
+        onEditHeaderClick: function(type, e) {
+            var selectedElements = this.api.getSelectedElements(),
+                in_text = false;
+
+            for (var i=0; i < selectedElements.length; i++) {
+                if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                    in_text = true;
+                    break;
+                }
+            }
+            if (in_text && type=='slidenum') {
+                this.api.asc_addSlideNumber();
+            } else if (in_text && type=='datetime') {
+                //insert date time
+                var me = this;
+                (new PE.Views.DateTimeDialog({
+                    api: this.api,
+                    lang: this._state.lang,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_addDateTime(value);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            } else {
+                //edit header/footer
+                var me = this;
+                (new PE.Views.HeaderFooterDialog({
+                    api: this.api,
+                    lang: this.api.asc_getDefaultLanguage(),
+                    props: this.api.asc_getHeaderFooterProperties(),
+                    handler: function(result, value) {
+                        if (result == 'ok' || result == 'all') {
+                            if (me.api) {
+                                me.api.asc_setHeaderFooterProperties(value, result == 'all');
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            }
+        },
+
         onClearStyleClick: function(btn, e) {
             if (this.api)
                 this.api.ClearFormating();
@@ -1460,6 +1530,14 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onColorSchemaShow: function(menu) {
+            if (this.api) {
+                var value = this.api.asc_GetCurrentColorSchemeName();
+                var item = _.find(menu.items, function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll();
+            }
         },
 
         onSlideSize: function(menu, item) {
@@ -1904,24 +1982,42 @@ define([
             var themeStore = this.getCollection('SlideThemes'),
                 mainController = this.getApplication().getController('Main');
             if (themeStore) {
-                var arr = [];
-                _.each(defaultThemes.concat(docThemes), function(theme) {
-                    arr.push(new Common.UI.DataViewModel({
-                        imageUrl: theme.get_Image(),
+                var arr1 = [], arr2 = [];
+                _.each(defaultThemes, function(theme, index) {
+                    var tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                    arr1.push(new Common.UI.DataViewModel({
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
-                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name(),
-                        itemWidth   : 85,
-                        itemHeight  : 38
+                        tip     : tip,
+                        offsety     : index * 38
                     }));
-                    me.toolbar.listTheme.menuPicker.store.add({
-                        imageUrl: theme.get_Image(),
+                    arr2.push({
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
-                        tip     : mainController.translationTable[theme.get_Name()] || theme.get_Name()
+                        tip     : tip,
+                        offsety     : index * 38
                     });
                 });
-                themeStore.reset(arr);
+                _.each(docThemes, function(theme) {
+                    var image = theme.get_Image(),
+                        tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                    arr1.push(new Common.UI.DataViewModel({
+                        imageUrl: image,
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index(),
+                        tip     : tip,
+                        offsety     : 0
+                    }));
+                    arr2.push({
+                        imageUrl: image,
+                        uid     : Common.UI.getId(),
+                        themeId : theme.get_Index(),
+                        tip     : tip,
+                        offsety     : 0
+                    });
+                });
+                themeStore.reset(arr1);
+                me.toolbar.listTheme.menuPicker.store.reset(arr2);
             }
 
             if (me.toolbar.listTheme.menuPicker.store.length > 0 &&  me.toolbar.listTheme.rendered){
@@ -2047,21 +2143,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = PE.enumLock;
-                var slots = me.toolbar.$el.find('.slot-comment');
-                slots.each(function(index, el) {
-                    var _cls = 'btn-toolbar';
-                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                    var button = new Common.UI.Button({
-                        id: 'tlbtn-addcomment-' + index,
-                        cls: _cls,
-                        iconCls: 'btn-menu-comments',
-                        lock: [_set.lostConnect, _set.noSlides],
-                        caption: me.toolbar.capBtnComment
-                    }).render( slots.eq(index) );
-
-                    me.btnsComment.push(button);
-                });
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides]);
 
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
@@ -2085,6 +2167,10 @@ define([
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
             }
+        },
+
+        onTextLanguage: function(langId) {
+            this._state.lang = langId;
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

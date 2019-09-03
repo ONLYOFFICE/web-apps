@@ -125,6 +125,12 @@ define([
                     if ( opts == 'preloader:hide' ) {
                         app.execCommand('editor:onready', '');
                         return true;
+                    } else
+                    if ( opts == 'create:new' ) {
+                        if (config.createUrl == 'desktop://create.new') {
+                            app.LocalFileCreate(!!window.SSE ? 2 : !!window.PE ? 1 : 0);
+                            return true;
+                        }
                     }
                 }
 

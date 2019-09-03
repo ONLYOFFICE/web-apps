@@ -71,6 +71,18 @@
             vertical-align: middle;
         }
     }
+    &.checked {
+        &:before {
+            display: none !important;
+        }
+        &, &:hover, &:focus {
+            background-color: @primary;
+            color: @dropdown-link-active-color;
+            span.color {
+                border-color: rgba(255,255,255,0.7);
+            }
+        }
+    }
 }
 
 // menu zoom
@@ -227,75 +239,55 @@
 }
 
 @toolbar-icon-size: 20px;
-.toolbar-btn-icon(btn-changeslide,      7, @toolbar-icon-size);
-.toolbar-btn-icon(btn-preview,          8, @toolbar-icon-size);
-.toolbar-btn-icon(btn-print,            9, @toolbar-icon-size);
-.toolbar-btn-icon(btn-save,             10, @toolbar-icon-size);
-.toolbar-btn-icon(btn-synch,            11, @toolbar-icon-size);
-.toolbar-btn-icon(btn-copy,             12, @toolbar-icon-size);
-.toolbar-btn-icon(btn-decfont,          12, @toolbar-icon-size);
-.toolbar-btn-icon(btn-paste,            13, @toolbar-icon-size);
-.toolbar-btn-icon(btn-bold,             14, @toolbar-icon-size);
-.toolbar-btn-icon(btn-italic,           15, @toolbar-icon-size);
-.toolbar-btn-icon(btn-underline,        16, @toolbar-icon-size);
-.toolbar-btn-icon(btn-strikeout,        17, @toolbar-icon-size);
-.toolbar-btn-icon(btn-fontcolor,        18, @toolbar-icon-size);
-.toolbar-btn-icon(btn-superscript,      19, @toolbar-icon-size);
-.toolbar-btn-icon(btn-subscript,        20, @toolbar-icon-size);
-.toolbar-btn-icon(btn-undo,             21, @toolbar-icon-size);
-.toolbar-btn-icon(btn-redo,             22, @toolbar-icon-size);
-.toolbar-btn-icon(btn-clearstyle,       23, @toolbar-icon-size);
-.toolbar-btn-icon(btn-copystyle,        24, @toolbar-icon-size);
-.toolbar-btn-icon(btn-setmarkers,       25, @toolbar-icon-size);
-.toolbar-btn-icon(btn-numbering,        26, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-center,     27, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-just,       28, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-left,       29, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-right,      30, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-top,        31, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-middle,     32, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-bottom,     33, @toolbar-icon-size);
-.toolbar-btn-icon(btn-decoffset,        34, @toolbar-icon-size);
-.toolbar-btn-icon(btn-incoffset,        35, @toolbar-icon-size);
-.toolbar-btn-icon(btn-linespace,        36, @toolbar-icon-size);
-.toolbar-btn-icon(btn-arrange-shape,    37, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-shape,      38, @toolbar-icon-size);
+.button-normal-icon(btn-changeslide,      7, @toolbar-icon-size);
+.button-normal-icon(btn-preview,          8, @toolbar-icon-size);
+.button-normal-icon(btn-print,            9, @toolbar-icon-size);
+.button-normal-icon(btn-save,             10, @toolbar-icon-size);
+.button-normal-icon(btn-synch,            11, @toolbar-icon-size);
+.button-normal-icon(btn-copy,             12, @toolbar-icon-size);
+.button-normal-icon(btn-decfont,          12, @toolbar-icon-size);
+.button-normal-icon(btn-paste,            13, @toolbar-icon-size);
+.button-normal-icon(btn-bold,             14, @toolbar-icon-size);
+.button-normal-icon(btn-italic,           15, @toolbar-icon-size);
+.button-normal-icon(btn-underline,        16, @toolbar-icon-size);
+.button-normal-icon(btn-strikeout,        17, @toolbar-icon-size);
+.button-normal-icon(btn-fontcolor,        18, @toolbar-icon-size);
+.button-normal-icon(btn-superscript,      19, @toolbar-icon-size);
+.button-normal-icon(btn-subscript,        20, @toolbar-icon-size);
+.button-normal-icon(btn-undo,             21, @toolbar-icon-size);
+.button-normal-icon(btn-redo,             22, @toolbar-icon-size);
+.button-normal-icon(btn-clearstyle,       23, @toolbar-icon-size);
+.button-normal-icon(btn-copystyle,        24, @toolbar-icon-size);
+.button-normal-icon(btn-setmarkers,       25, @toolbar-icon-size);
+.button-normal-icon(btn-numbering,        26, @toolbar-icon-size);
+.button-normal-icon(btn-align-center,     27, @toolbar-icon-size);
+.button-normal-icon(btn-align-just,       28, @toolbar-icon-size);
+.button-normal-icon(btn-align-left,       29, @toolbar-icon-size);
+.button-normal-icon(btn-align-right,      30, @toolbar-icon-size);
+.button-normal-icon(btn-align-top,        31, @toolbar-icon-size);
+.button-normal-icon(btn-align-middle,     32, @toolbar-icon-size);
+.button-normal-icon(btn-align-bottom,     33, @toolbar-icon-size);
+.button-normal-icon(btn-decoffset,        34, @toolbar-icon-size);
+.button-normal-icon(btn-incoffset,        35, @toolbar-icon-size);
+.button-normal-icon(btn-linespace,        36, @toolbar-icon-size);
+.button-normal-icon(btn-arrange-shape,    37, @toolbar-icon-size);
+.button-normal-icon(btn-align-shape,      38, @toolbar-icon-size);
 
-//.toolbar-btn-icon(btn-insertshape,      39, @toolbar-icon-size);
-//.button-normal-icon(btn-insertshape,      39, @toolbar-icon-size);
+.button-normal-icon(btn-colorschemas,     45, @toolbar-icon-size);
+.button-normal-icon(btn-slidesize,        46, @toolbar-icon-size);
+.button-normal-icon(btn-hidebars,         47, @toolbar-icon-size);
+.button-normal-icon(btn-settings,         48, @toolbar-icon-size);
+.button-normal-icon(btn-zoomin,           61, @toolbar-icon-size);
+.button-normal-icon(btn-zoomout,          60, @toolbar-icon-size);
+.button-normal-icon(btn-save-coauth,      69, @toolbar-icon-size);
 
-//.toolbar-btn-icon(btn-inserttext,       40, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-inserthyperlink,  41, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-inserttable,      42, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-insertimage,      43, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-insertchart,      44, @toolbar-icon-size);
-.toolbar-btn-icon(btn-colorschemas,     45, @toolbar-icon-size);
-.toolbar-btn-icon(btn-slidesize,        46, @toolbar-icon-size);
-.toolbar-btn-icon(btn-hidebars,         47, @toolbar-icon-size);
-.toolbar-btn-icon(btn-settings,         48, @toolbar-icon-size);
-.toolbar-btn-icon(btn-zoomin,           61, @toolbar-icon-size);
-.toolbar-btn-icon(btn-zoomout,          60, @toolbar-icon-size);
-.toolbar-btn-icon(btn-save-coauth,      69, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-insertequation,   74, @toolbar-icon-size);
+.button-normal-icon(rotate-90,      79, @toolbar-icon-size);
+.button-normal-icon(rotate-270,     80, @toolbar-icon-size);
+.button-normal-icon(flip-hor,       81, @toolbar-icon-size);
+.button-normal-icon(flip-vert,      82, @toolbar-icon-size);
 
-.toolbar-btn-icon(rotate-90,      79, @toolbar-icon-size);
-.toolbar-btn-icon(rotate-270,     80, @toolbar-icon-size);
-.toolbar-btn-icon(flip-hor,       81, @toolbar-icon-size);
-.toolbar-btn-icon(flip-vert,      82, @toolbar-icon-size);
-
-// add slide
-//.btn-toolbar .btn-addslide {background-position: 0 -120px;}
-//.btn-toolbar.active   > .btn-addslide,
-//.btn-toolbar:active   > .btn-addslide {background-position: -20px -120px;}
-//.btn-toolbar.disabled:not(.active) > .btn-addslide {background-position: -40px -120px;}
-//.btn-toolbar.disabled > .btn-addslide {background-position: -20px -120px; opacity: 0.6;}
-
-//.btn-toolbar.large .btn-addslide {background-position: 0px -5px;}
-////.btn-group.open .btn-toolbar.large > .btn-addslide,
-//.btn-toolbar.large.active   > .btn-addslide,
-//.btn-toolbar.large:active   > .btn-addslide {background-position: 0px -45px;}
-//.btn-toolbar.large.disabled:not(.active) > .btn-addslide {background-position: 0px -85px;}
-//.btn-toolbar.large.disabled > .btn-addslide {background-position: 0px -45px; opacity: 0.6;}
+.button-normal-icon(btn-ic-doclang,    75, @toolbar-icon-size);
+.button-normal-icon(btn-ic-docspell,    76, @toolbar-icon-size);
 
 @menu-icon-size: 22px;
 .menu-btn-icon(mnu-align-center,         0, @menu-icon-size);
@@ -352,4 +344,11 @@
     z-index: @zindex-dropdown - 20;
     background-color: @gray-light;
     border: 1px solid @gray;
+}
+
+.item-theme {
+    width: 85px;
+    height: 38px;
+    .background-ximage('../../../../../../sdkjs/common/Images/themes_thumbnail.png', '../../../../../../sdkjs/common/Images/themes_thumbnail@2x.png', 85px);
+    background-size: cover
 }

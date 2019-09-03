@@ -88,6 +88,9 @@ define([
 
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
+                if (_isEdit) {
+                    this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiFilterOptions, this));
+                }
             },
 
             // When our application is ready, lets get started
@@ -152,6 +155,9 @@ define([
                         me.api.asc_getUrlType(url) > 0 && openLink(url);
                     }
                     break;
+                case 'freezePanes':
+                    me.api.asc_freezePane();
+                    break;
                 }
 
                 if ('showActionSheet' == event && _actionSheets.length > 0) {
@@ -203,9 +209,10 @@ define([
             // Internal
 
             _initMenu: function (cellinfo) {
-                var me = this;
-
-                _actionSheets = [];
+                var me = this,
+                    _actionSheets = [],
+                    arrItems = [],
+                    arrItemsIcon = [];
 
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
@@ -234,38 +241,43 @@ define([
                 }
 
                 if ( iscelllocked || this.api.isCellEdited ) {
-                    menuItems = [{
+                    arrItemsIcon = [{
                             caption: me.menuCopy,
-                            event: 'copy'
+                            event: 'copy',
+                            icon: 'icon-copy'
                         }];
 
                 } else {
-                    var menuItems = [{
+                    var arrItemsIcon = [{
                             caption: me.menuCut,
-                            event: 'cut'
+                            event: 'cut',
+                            icon: 'icon-cut'
                         },{
                             caption: me.menuCopy,
-                            event: 'copy'
+                            event: 'copy',
+                            icon: 'icon-copy'
                         },{
                             caption: me.menuPaste,
-                            event: 'paste'
-                        },{
-                            caption: me.menuDelete,
-                            event: 'del'
+                            event: 'paste',
+                            icon: 'icon-paste'
                         }];
+                    arrItems.push({
+                        caption: me.menuDelete,
+                        event: 'del'
+                    });
 
                         // isTableLocked       = cellinfo.asc_getLockedTable()===true;
 
                     if (isimagemenu || isshapemenu || ischartmenu ||
                                 istextshapemenu || istextchartmenu )
                     {
-                        menuItems.push({
+                        arrItems.push({
                             caption: me.menuEdit,
                             event: 'edit'
                         });
                     } else {
                         if ( iscolmenu || isrowmenu) {
-                            menuItems.push({
+                            arrItems.push({
                                     caption: me.menuHide,
                                     event: 'hide'
                                 },{
@@ -275,24 +287,24 @@ define([
                         } else
                         if ( iscellmenu ) {
                             !iscelllocked &&
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuCell,
                                 event: 'edit'
                             });
 
                             (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuMerge,
                                 event: 'merge'
                             });
 
                             (cellinfo.asc_getFlags().asc_getMerge() ==  Asc.c_oAscMergeOptions.Merge) &&
-                            menuItems.push({
+                            arrItems.push({
                                 caption: me.menuUnmerge,
                                 event: 'unmerge'
                             });
 
-                            menuItems.push(
+                            arrItems.push(
                                 cellinfo.asc_getFlags().asc_getWrapText() ?
                                     {
                                         caption: me.menuUnwrap,
@@ -306,7 +318,7 @@ define([
                             if ( cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
                                 cellinfo.asc_getHyperlink().asc_getType() == Asc.c_oAscHyperlinkType.WebLink )
                             {
-                                menuItems.push({
+                                arrItems.push({
                                     caption: me.menuOpenLink,
                                     event: 'openlink'
                                 });
@@ -314,24 +326,34 @@ define([
                             if ( !cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
                                 !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText() )
                             {
-                                menuItems.push({
+                                arrItems.push({
                                     caption: me.menuAddLink,
                                     event: 'addlink'
                                 });
                             }
                         }
+
+                        arrItems.push({
+                            caption: this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? me.menuUnfreezePanes : me.menuFreezePanes,
+                            event: 'freezePanes'
+                        });
+
                     }
                 }
 
-                if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
-                    _actionSheets = menuItems.slice(3);
 
-                    menuItems = menuItems.slice(0, 3);
-                    menuItems.push({
+
+                if (Common.SharedSettings.get('phone') && arrItems.length > 2) {
+                    _actionSheets = arrItems.slice(2);
+
+                    arrItems = arrItems.slice(0, 2);
+                    arrItems.push({
                         caption: me.menuMore,
                         event: 'showActionSheet'
                     });
                 }
+
+                var menuItems = {itemsIcon: arrItemsIcon, items: arrItems};
 
                 return menuItems;
             },
@@ -339,6 +361,16 @@ define([
             onCoAuthoringDisconnect: function() {
                 this.isDisconnected = true;
             },
+
+            onApiFilterOptions: function(config) {
+                if(_isEdit) {
+                    var rect = config.asc_getCellCoord(),
+                        posX = rect.asc_getX() + rect.asc_getWidth() - 9,
+                        posY = rect.asc_getY() + rect.asc_getHeight() - 9;
+                    SSE.getController('FilterOptions').showModal(posX,posY);
+                }
+            },
+
 
             warnMergeLostData: 'Operation can destroy data in the selected cells.<br>Continue?',
             menuCopy:       'Copy',
@@ -356,7 +388,9 @@ define([
             menuEdit:       'Edit',
             menuCell:       'Cell',
             menuMore:       'More',
-            sheetCancel:    'Cancel'
+            sheetCancel:    'Cancel',
+            menuFreezePanes: 'Freeze Panes',
+            menuUnfreezePanes: 'Unfreeze Panes'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

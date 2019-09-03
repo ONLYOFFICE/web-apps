@@ -443,7 +443,7 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec()[0],true);
+                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
                         else
                             this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
                     }
@@ -681,16 +681,17 @@ define([
             if (count>0 && count==Templates.length) {
                 var data = self.cmbTableTemplate.menuPicker.store.models;
                 _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.get_Image());
+                    data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
                 self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
                     arr.push({
-                        imageUrl: template.get_Image(),
+                        imageUrl: template.asc_getImage(),
                         id     : Common.UI.getId(),
-                        templateId: template.get_Id()
+                        templateId: template.asc_getId(),
+                        tip    : template.asc_getDisplayName()
                     });
                 });
                 self.cmbTableTemplate.menuPicker.store.add(arr);

@@ -72,6 +72,8 @@ define([
                         'page:show' : this.onPageShow
                     }
                 });
+                this.toCustomFormat;
+                this.fromCustomFormat;
             },
 
             setApi: function (api) {
@@ -107,10 +109,122 @@ define([
                             $('#add-link-display input').val(_.isString(text) ? text : '');
                         });
                     }
+                } else if (pageId == '#addother-insert-footnote') {
+                    me.initInsertFootnote();
                 }
             },
 
             // Handlers
+
+            initInsertFootnote: function () {
+                var me = this,
+                    dataFormatFootnote = [
+                        { text: '1, 2, 3,...', value: Asc.c_oAscNumberingFormat.Decimal },
+                        { text: 'a, b, c,...', value: Asc.c_oAscNumberingFormat.LowerLetter },
+                        { text: 'A, B, C,...', value: Asc.c_oAscNumberingFormat.UpperLetter },
+                        { text: 'i, ii, iii,...', value: Asc.c_oAscNumberingFormat.LowerRoman },
+                        { text: 'I, II, III,...', value: Asc.c_oAscNumberingFormat.UpperRoman }
+                    ],
+                    dataPosFootnote = [
+                        {value: Asc.c_oAscFootnotePos.PageBottom, displayValue: this.textBottomOfPage },
+                        {value: Asc.c_oAscFootnotePos.BeneathText, displayValue: this.textBelowText }
+                    ],
+                    props = me.api.asc_GetFootnoteProps(),
+                    propsFormat = props.get_NumFormat(),
+                    propsPos = props.get_Pos();
+
+                me.onFormatFootnoteChange(propsFormat);
+
+                var view = me.getView('AddOther');
+                view.renderNumFormat(dataFormatFootnote, propsFormat);
+                view.renderFootnotePos(dataPosFootnote, propsPos);
+
+                $('#start-at-footnote .button').single('click', _.bind(me.onStartAt, me));
+                $('.page[data-page=addother-insert-footnote] input:radio[name=doc-footnote-format]').single('change', _.bind(me.onFormatFootnoteChange, me));
+                $('#footnote-insert').single('click', _.bind(this.onClickInsertFootnote, this));
+            },
+
+            onClickInsertFootnote: function() {
+                var me = this,
+                    format = $('input[name="doc-footnote-format"]:checked').data('value'),
+                    start = $('#start-at-footnote .item-after label').text(),
+                    position = $('input[name="doc-footnote-pos"]:checked').data('value'),
+                    props   = new Asc.CAscFootnotePr();
+                var startTo10;
+                if (me.fromCustomFormat) {
+                    startTo10 =  parseInt(me.fromCustomFormat(start));
+                } else {
+                    startTo10 = me.api.asc_GetFootnoteProps().get_NumStart();
+                }
+                props.put_Pos(position);
+                props.put_NumFormat(format);
+                props.put_NumStart(startTo10);
+                props.put_NumRestart(Asc.c_oAscFootnoteRestart.Continuous);
+                if (me.api) {
+                    me.api.asc_SetFootnoteProps(props, false);
+                    setTimeout(function() {
+                        me.api.asc_AddFootnote();
+                    }, 1);
+                    DE.getController('AddContainer').hideModal();
+                }
+            },
+
+            onFormatFootnoteChange: function(e) {
+                var me = this;
+                var value = e.currentTarget ? $(e.currentTarget).data('value') : e;
+                var startAt = $('#start-at-footnote .item-after label'),
+                    currValue;
+                    if(e.currentTarget) {
+                        currValue = me.fromCustomFormat(startAt.text());
+                    } else {
+                        currValue = me.api.asc_GetFootnoteProps().get_NumStart();
+                    }
+                switch (value) {
+                    case Asc.c_oAscNumberingFormat.UpperRoman: // I, II, III, ...
+                        me.toCustomFormat = me._10toRome;
+                        me.fromCustomFormat = me._Rometo10;
+                        break;
+                    case Asc.c_oAscNumberingFormat.LowerRoman: // i, ii, iii, ...
+                        me.toCustomFormat = function(value) { return me._10toRome(value).toLocaleLowerCase(); };
+                        me.fromCustomFormat = function(value) { return me._Rometo10(value.toLocaleUpperCase()); };
+                        break;
+                    case Asc.c_oAscNumberingFormat.UpperLetter: // A, B, C, ...
+                        me.toCustomFormat = me._10toS;
+                        me.fromCustomFormat = me._Sto10;
+                        break;
+                    case Asc.c_oAscNumberingFormat.LowerLetter: // a, b, c, ...
+                        me.toCustomFormat = function(value) { return me._10toS(value).toLocaleLowerCase(); };
+                        me.fromCustomFormat = function(value) { return me._Sto10(value.toLocaleUpperCase()); };
+                        break;
+                    default: // 1, 2, 3, ...
+                        me.toCustomFormat = function(value) { return value; };
+                        me.fromCustomFormat = function(value) { return value; };
+                        break;
+                }
+                    var newValue = me.toCustomFormat(currValue);
+                        startAt.text(newValue);
+            },
+
+            onStartAt: function(e) {
+                var $button = $(e.currentTarget),
+                    value = $('#start-at-footnote .item-after label').text(),
+                    intValue,
+                    step = 1,
+                    maxValue = 16383,
+                    me = this;
+                if(me.fromCustomFormat) {
+                    intValue = parseInt(me.fromCustomFormat(value));
+                } else {
+                    intValue = me.api.asc_GetFootnoteProps().get_NumStart();
+                }
+                if ($button.hasClass('decrement')) {
+                    intValue = Math.max(1, intValue - step);
+                } else {
+                    intValue = Math.min(maxValue, intValue + step);
+                }
+                var newValue = me.toCustomFormat(intValue);
+                $('#start-at-footnote .item-after label').text(newValue);
+            },
 
             onInsertLink: function (e) {
                 var me      = this,
@@ -208,7 +322,102 @@ define([
                 DE.getController('AddContainer').hideModal();
             },
 
-            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
+            _10toS: function(value) {
+                value = parseInt(value);
+                var n = Math.ceil(value / 26),
+                    code = String.fromCharCode((value-1) % 26 + "A".charCodeAt(0)) ,
+                    result = '';
+
+                for (var i=0; i<n; i++ ) {
+                    result += code;
+                }
+                return result;
+            },
+
+            _Sto10: function(str) {
+                if ( str.length<1 || (new RegExp('[^' + str.charAt(0) + ']')).test(str) || !/[A-Z]/.test(str)) return 1;
+
+                var n = str.length-1,
+                    result = str.charCodeAt(0) - "A".charCodeAt(0) + 1;
+                result += 26*n;
+
+                return result;
+            },
+
+            _10toRome: function(value) {
+                value = parseInt(value);
+                var result = '',
+                    digits = [
+                        ['M',  1000],
+                        ['CM', 900],
+                        ['D',  500],
+                        ['CD', 400],
+                        ['C',  100],
+                        ['XC', 90],
+                        ['L',  50],
+                        ['XL', 40],
+                        ['X',  10],
+                        ['IX', 9],
+                        ['V',  5],
+                        ['IV', 4],
+                        ['I',  1]
+                    ];
+
+                var val = digits[0][1],
+                    div = Math.floor(value / val),
+                    n = 0;
+
+                for (var i=0; i<div; i++)
+                    result += digits[n][0];
+                value -= div * val;
+                n++;
+
+                while (value>0) {
+                    val = digits[n][1];
+                    div = value - val;
+                    if (div>=0) {
+                        result += digits[n][0];
+                        value = div;
+                    } else
+                        n++;
+                }
+
+                return result;
+            },
+
+            _Rometo10: function(str) {
+                if ( !/[IVXLCDM]/.test(str) || str.length<1 ) return 1;
+
+                var digits = {
+                    'I': 1,
+                    'V': 5,
+                    'X': 10,
+                    'L': 50,
+                    'C': 100,
+                    'D': 500,
+                    'M': 1000
+                };
+
+                var n = str.length-1,
+                    result = digits[str.charAt(n)],
+                    prev = result;
+
+                for (var i=n-1; i>=0; i-- ) {
+                    var val = digits[str.charAt(i)];
+                    if (val<prev) {
+                        if (prev/val>10) return 1;
+                        val *= -1;
+                    }
+
+                    result += val;
+                }
+
+                return result;
+            },
+
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
+            textBottomOfPage: 'Bottom Of Page',
+            textBelowText: 'Below Text'
 
         }
     })(), DE.Controllers.AddOther || {}))

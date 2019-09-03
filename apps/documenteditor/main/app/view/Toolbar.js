@@ -827,6 +827,7 @@ define([
                         iconCls: 'btn-pagesize',
                         caption: me.capBtnPageSize,
                         menu: new Common.UI.Menu({
+                            restoreHeight: true,
                             items: [
                                 {
                                     caption: 'US Letter',
@@ -961,17 +962,7 @@ define([
                         iconCls: 'btn-colorschemas',
                         menu: new Common.UI.Menu({
                             items: [],
-                            maxHeight: 560,
-                            restoreHeight: 560
-                        }).on('show:before', function (mnu) {
-                            if (!this.scroller) {
-                                this.scroller = new Common.UI.Scroller({
-                                    el: $(this.el).find('.dropdown-menu '),
-                                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                    minScrollbarLength: 40,
-                                    alwaysVisibleY: true
-                                });
-                            }
+                            restoreHeight: true
                         })
                     });
                     this.toolbarControls.push(this.btnColorSchemas);
@@ -1015,8 +1006,28 @@ define([
                         caption: me.capImgWrapping,
                         menu: true
                     });
+
+                    me.btnWatermark = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-watermark',
+                        caption: me.capBtnWatermark,
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar',
+                            items: [
+                                {
+                                    caption: this.textEditWatermark,
+                                    value: 'edit'
+                                },
+                                {
+                                    caption: this.textRemWatermark,
+                                    value: 'remove'
+                                }
+                            ]
+                        })
+                    });
+
                     me.toolbarControls.push(me.btnImgAlign,
-                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping);
+                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark);
 
                     //
                     // Menus
@@ -1259,11 +1270,7 @@ define([
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length) {
-                        cmp.rendered ?
-                            $slot.append(cmp.$el) : cmp.render($slot);
-                    }
+                    Common.Utils.injectComponent($host.find(id), cmp);
                 };
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
@@ -1322,31 +1329,10 @@ define([
                 _injectComponent('#slot-img-movefrwd', this.btnImgForward);
                 _injectComponent('#slot-img-movebkwd', this.btnImgBackward);
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
+                _injectComponent('#slot-btn-watermark', this.btnWatermark);
 
-                +function injectBreakButtons() {
-                    var me = this;
-
-                    me.btnsPageBreak = createButtonSet();
-
-                    var $slots = $host.find('.btn-slot.btn-pagebreak');
-                    $slots.each(function(index, el) {
-                        var _cls = 'btn-toolbar';
-                        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                        var button = new Common.UI.Button({
-                            cls: _cls,
-                            iconCls: 'btn-pagebreak',
-                            caption: me.capBtnInsPagebreak,
-                            split: true,
-                            menu: true
-                        }).render( $slots.eq(index) );
-
-                        me.btnsPageBreak.add(button);
-                    });
-                    me.btnsPageBreak.setDisabled(true);
-
-                    Array.prototype.push.apply(me.paragraphControls, me.btnsPageBreak);
-                }.call(this);
+                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true);
+                Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
 
                 return $host;
             },
@@ -1545,6 +1531,8 @@ define([
                             }
                         ]
                     }));
+
+                    me.btnWatermark.updateHint(me.tipWatermark);
                 });
             },
 
@@ -2067,7 +2055,7 @@ define([
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
                 this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
                 this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
-                this.mnuInsertImage.items[2].setVisible(this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -2081,14 +2069,7 @@ define([
 
                 if (this.mnuColorSchema == null) {
                     this.mnuColorSchema = new Common.UI.Menu({
-                        maxHeight: 560,
-                        restoreHeight: 560
-                    }).on('show:before', function (mnu) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 40
-                        });
+                        restoreHeight: true
                     });
                 }
                 this.mnuColorSchema.items = [];
@@ -2116,15 +2097,17 @@ define([
                         this.mnuColorSchema.addItem({
                             caption: '--'
                         });
-                    } else {
-                        this.mnuColorSchema.addItem({
-                            template: itemTemplate,
-                            cls: 'color-schemas-menu',
-                            colors: schemecolors,
-                            caption: (index < 21) ? (me.SchemeNames[index] || schema.get_name()) : schema.get_name(),
-                            value: index
-                        });
                     }
+                    var name = schema.get_name();
+                    this.mnuColorSchema.addItem({
+                        template: itemTemplate,
+                        cls: 'color-schemas-menu',
+                        colors: schemecolors,
+                        caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                        value: name,
+                        checkable: true,
+                        toggleGroup: 'menuSchema'
+                    });
                 }, this);
             },
 
@@ -2297,7 +2280,7 @@ define([
             textTitleError: 'Error',
             textInsertPageNumber: 'Insert page number',
             textToCurrent: 'To Current Position',
-            tipEditHeader: 'Edit Document Header or Footer',
+            tipEditHeader: 'Edit header or footer',
             mniEditHeader: 'Edit Document Header',
             mniEditFooter: 'Edit Document Footer',
             mniHiddenChars: 'Nonprinting Characters',
@@ -2396,7 +2379,7 @@ define([
             capBtnInsTextart: 'Text Art',
             capBtnInsDropcap: 'Drop Cap',
             capBtnInsEquation: 'Equation',
-            capBtnInsHeader: 'Headers/Footers',
+            capBtnInsHeader: 'Header/Footer',
             capBtnColumns: 'Columns',
             capBtnPageOrient: 'Orientation',
             capBtnMargins: 'Margins',
@@ -2432,7 +2415,11 @@ define([
             txtDistribVert: 'Distribute Vertically',
             txtPageAlign: 'Align to Page',
             txtMarginAlign: 'Align to Margin',
-            txtObjectsAlign: 'Align Selected Objects'
+            txtObjectsAlign: 'Align Selected Objects',
+            capBtnWatermark: 'Watermark',
+            textEditWatermark: 'Custom Watermark',
+            textRemWatermark: 'Remove Watermark',
+            tipWatermark: 'Edit watermark'
         }
     })(), DE.Views.Toolbar || {}));
 });

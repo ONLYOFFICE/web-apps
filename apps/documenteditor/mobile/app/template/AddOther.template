@@ -62,6 +62,18 @@
                     </div>
                 </a>
             </li>
+            <li>
+                <a id="add-other-footnote" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-footnote"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textFootnote %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
@@ -255,6 +267,60 @@
                         </a>
                     </li>
                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page Insert Footnote view -->
+<div id="addother-insert-footnote">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textInsertFootnote %></div>
+        </div>
+    </div>
+    <div class="page" data-page="addother-insert-footnote">
+        <div class="page-content">
+            <div class="content-block-title"><%= scope.textFormat %></div>
+            <div id="list-format-footnote" class="list-block">
+                <ul>
+                </ul>
+            </div>
+            <div id="start-at-footnote" class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textStartFrom %></div>
+                                <div class="item-after splitter">
+                                    <% if (!android) { %><label><%= scope.textAuto %></label><% } %>
+                                    <p class="buttons-row">
+                                        <span class="button decrement no-ripple"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <% if (android) { %><label><%= scope.textAuto %></label><% } %>
+                                        <span class="button increment no-ripple"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title"><%= scope.textLocation %></div>
+            <div id="position-footnote" class="list-block">
+                <ul>
+                </ul>
+            </div>
+            <div class="list-block" id="footnote-insert">
+                <% if (android) { %>
+                <a href="#" class="button button-fill button-raised" style="margin: 20px 16px;"><%= scope.textInsertFootnote %></a>
+                <% } else { %>
+                <ul>
+                    <li>
+                        <a href="#" class="list-button item-link"><%= scope.textInsertFootnote %></a>
+                    </li>
+                </ul>
+                <% } %>
             </div>
         </div>
     </div>

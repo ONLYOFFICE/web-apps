@@ -87,7 +87,10 @@ define([
         cantGroupUngroup: 'cant-group-ungroup',
         docPropsLock:   'doc-props-lock',
         printAreaLock:  'print-area-lock',
-        namedRangeLock: 'named-range-lock'
+        namedRangeLock: 'named-range-lock',
+        multiselectCols:'is-multiselect-cols',
+        headerLock: 'header-lock',
+        sheetLock: 'sheet-lock'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -150,42 +153,7 @@ define([
         },
 
         lockToolbar: function(causes, lock, opts) {
-            !opts && (opts = {});
-
-            var controls = opts.array || this.lockControls;
-            opts.merge && (controls = _.union(this.lockControls,controls));
-
-            function doLock(cmp, cause) {
-                if ( cmp && _.contains(cmp.options.lock, cause) ) {
-                    var index = cmp.keepState.indexOf(cause);
-                    if (lock) {
-                        if (index < 0) {
-                            cmp.keepState.push(cause);
-                        }
-                    } else {
-                        if (!(index < 0)) {
-                            cmp.keepState.splice(index, 1);
-                        }
-                    }
-                }
-            }
-
-            _.each(controls, function(item) {
-                if (item && _.isFunction(item.setDisabled)) {
-                    !item.keepState && (item.keepState = []);
-                    if (opts.clear && opts.clear.length > 0 && item.keepState.length > 0) {
-                        item.keepState = _.difference(item.keepState, opts.clear);
-                    }
-
-                    _.isArray(causes) ? _.each(causes, function(c) {doLock(item, c)}) : doLock(item, causes);
-
-                    if (!(item.keepState.length > 0)) {
-                        item.isDisabled() && item.setDisabled(false);
-                    } else {
-                        !item.isDisabled() && item.setDisabled(true);
-                    }
-                }
-            });
+            Common.Utils.lockControls(causes, lock, opts, this.lockControls);
         },
 
         applyLayout: function (config) {
@@ -346,7 +314,9 @@ define([
                         { caption: me.textTabFile, action: 'file', extcls: 'canedit', haspanel:false},
                         { caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                         { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
-                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'}
+                        {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
+                        {caption: me.textTabFormula, action: 'formula', extcls: 'canedit'},
+                        {caption: me.textTabData, action: 'data', extcls: 'canedit'}
                     ]}
                 );
 
@@ -515,7 +485,7 @@ define([
                     iconCls     : 'btn-border-out',
                     icls        : 'btn-border-out',
                     borderId    : 'outer',
-                    borderswidth: 'thin',
+                    borderswidth: Asc.c_oAscBorderStyles.Thin,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     split       : true,
                     menu        : true
@@ -749,35 +719,6 @@ define([
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'})
                 });
 
-                me.btnSortDown = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-sort-down',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-sort-down',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
-                });
-
-                me.btnSortUp = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-sort-up',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-sort-up',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
-                });
-
-                me.btnSetAutofilter = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-setautofilter',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-autofilter',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
-                    enableToggle: true
-                });
-
-                me.btnClearAutofilter = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-clearfilter',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-clear-filter',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot]
-                });
-
                 me.btnTableTemplate = new Common.UI.Button({
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
@@ -788,6 +729,14 @@ define([
                             { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
                         ]
                     })
+                });
+
+                me.btnInsertTable = new Common.UI.Button({
+                    id          : 'tlbtn-inserttable',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'btn-inserttable',
+                    caption     : me.capInsertTable,
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.ruleMerge, _set.editPivot]
                 });
 
                 me.listStyles = new Common.UI.ComboDataView({
@@ -886,6 +835,10 @@ define([
                             {
                                 caption : me.txtYen,
                                 value   : 0x0411 // ¥ ja-JP
+                            },{caption: '--'},
+                            {
+                                caption : me.textMoreFormats,
+                                value   : -1
                             }
                         ]
                     })
@@ -1059,17 +1012,7 @@ define([
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [],
-                        maxHeight   : 560,
-                        restoreHeight: 560
-                    }).on('show:before', function(mnu) {
-                        if ( !this.scroller ) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength  : 40,
-                                alwaysVisibleY: true
-                            });
-                        }
+                        restoreHeight: true
                     })
                 });
 
@@ -1160,52 +1103,6 @@ define([
                                 toggleGroup : 'valignGroup',
                                 value       : Asc.c_oAscVAlign.Bottom
                             }
-                        ]
-                    })
-                });
-
-                me.btnAutofilter = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-autofilter',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-autofilter',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
-                    menu        : new Common.UI.Menu({
-                        items : [
-                            me.mnuitemSortAZ = new Common.UI.MenuItem({
-                                caption : me.txtSortAZ,
-                                iconCls : 'mnu-sort-asc',
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter],
-                                value   : Asc.c_oAscSortOptions.Ascending
-                            }),
-                            me.mnuitemSortZA = new Common.UI.MenuItem({
-                                caption : me.txtSortZA,
-                                iconCls : 'mnu-sort-desc',
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter, _set.cantModifyFilter],
-                                value   : Asc.c_oAscSortOptions.Descending
-                            }),
-                            me.mnuitemAutoFilter = new Common.UI.MenuItem({
-                                caption : me.txtFilter,
-                                iconCls : 'mnu-filter-add',
-                                checkable: true,
-                                lock    : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleFilter],
-                                value   : 'set-filter'
-                            }),
-                            me.mnuitemClearFilter = new Common.UI.MenuItem({
-                                caption : me.txtClearFilter,
-                                iconCls : 'mnu-filter-clear',
-                                lock    : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.coAuth, _set.ruleDelFilter],
-                                value   : 'clear-filter'
-                            })
-                            /*,{
-                             caption : me.txtTableTemplate,
-                             iconCls : 'mnu-filter-clear',
-                             menu        : new Common.UI.Menu({
-                             menuAlign: 'tl-tr',
-                             items: [
-                             { template: _.template('<div id="id-toolbar-short-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
-                             ]
-                             })
-                             } */
                         ]
                     })
                 });
@@ -1301,6 +1198,7 @@ define([
                     caption: me.capBtnPageSize,
                     lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
+                        restoreHeight: true,
                         items: [
                             {
                                 caption: 'US Letter',
@@ -1439,6 +1337,14 @@ define([
                     })
                 });
 
+                me.btnEditHeader = new Common.UI.Button({
+                    id: 'tlbtn-editheader',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-editheader',
+                    caption: me.capBtnInsHeader,
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.headerLock, _set.lostConnect, _set.coAuth]
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
@@ -1486,15 +1392,15 @@ define([
                     me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
-                    me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor,
+                    me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnColorSchemas,
-                    me.btnAutofilter, me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
+                    me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnEditHeader
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -1557,7 +1463,7 @@ define([
                         $(mnu.el).html(mnu.template({id: Common.UI.getId(), caption : mnu.caption, options : mnu.options}));
                     } else
                         this.btnPageMargins.menu.items[0].setVisible(false);
-                    this.btnInsertImage.menu.items[2].setVisible(mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    this.btnInsertImage.menu.items[2].setVisible(mode.canRequestInsertImage || mode.fileChoiceUrl && mode.fileChoiceUrl.indexOf("{documentType}")>-1);
                 }
 
                 me.setTab('home');
@@ -1587,13 +1493,7 @@ define([
         rendererComponents: function(html) {
             var $host = $(html);
             var _injectComponent = function (id, cmp) {
-                if ( cmp ) {
-                    var $slot = $host.find(id);
-                    if ( $slot.length ) {
-                        cmp.rendered ?
-                            $slot.append(cmp.$el) : cmp.render($slot);
-                    }
-                }
+                Common.Utils.injectComponent($host.find(id), cmp);
             };
 
             _injectComponent('#slot-field-fontname',     this.cmbFontName);
@@ -1625,6 +1525,7 @@ define([
             _injectComponent('#slot-btn-wrap',           this.btnWrap);
             _injectComponent('#slot-btn-text-orient',    this.btnTextOrient);
             _injectComponent('#slot-btn-insimage',       this.btnInsertImage);
+            _injectComponent('#slot-btn-instable',       this.btnInsertTable);
             _injectComponent('#slot-btn-inshyperlink',   this.btnInsertHyperlink);
             _injectComponent('#slot-btn-insshape',       this.btnInsertShape);
             _injectComponent('#slot-btn-instext',        this.btnInsertText);
@@ -1659,10 +1560,10 @@ define([
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
+            _injectComponent('#slot-btn-editheader',    this.btnEditHeader);
 
             // replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                this.btnHorizontalAlign);
             // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
-            // replacePlacholder('#id-toolbar-short-placeholder-btn-filter',                this.btnAutofilter);
 
             return $host;
         },
@@ -1701,6 +1602,7 @@ define([
             _updateHint(this.btnAlignBottom, this.tipAlignBottom);
             _updateHint(this.btnWrap, this.tipWrap);
             _updateHint(this.btnTextOrient, this.tipTextOrientation);
+            _updateHint(this.btnInsertTable, this.tipInsertTable);
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
             _updateHint(this.btnInsertText, this.tipInsertText);
@@ -1727,11 +1629,11 @@ define([
             _updateHint(this.btnColorSchemas, this.tipColorSchemas);
             _updateHint(this.btnHorizontalAlign, this.tipHAligh);
             _updateHint(this.btnVerticalAlign, this.tipVAligh);
-            _updateHint(this.btnAutofilter, this.tipAutofilter);
             _updateHint(this.btnPageOrient, this.tipPageOrient);
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
             _updateHint(this.btnPrintArea, this.tipPrintArea);
+            _updateHint(this.btnEditHeader, this.tipEditHeader);
 
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
@@ -2019,14 +1921,8 @@ define([
             }
 
             if (this.mnuColorSchema == null) {
-                this.mnuColorSchema = new Common.UI.Menu({maxHeight   : 560,
-                    restoreHeight: 560
-                }).on('show:before', function(mnu) {
-                        this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40
-                    });
+                this.mnuColorSchema = new Common.UI.Menu({
+                    restoreHeight: true
                 });
             }
 
@@ -2055,15 +1951,17 @@ define([
                     this.mnuColorSchema.addItem({
                         caption : '--'
                     });
-                } else {
-                    this.mnuColorSchema.addItem({
-                        template: itemTemplate,
-                        cls     : 'color-schemas-menu',
-                        colors  : schemecolors,
-                        caption : (index < 21) ? (me.SchemeNames[index] || schema.get_name()) : schema.get_name(),
-                        value   : index
-                    });
                 }
+                var name = schema.get_name();
+                this.mnuColorSchema.addItem({
+                    template: itemTemplate,
+                    cls     : 'color-schemas-menu',
+                    colors  : schemecolors,
+                    caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                    value: name,
+                    checkable: true,
+                    toggleGroup: 'menuSchema'
+                });
             }, this);
         },
 
@@ -2453,6 +2351,12 @@ define([
         textSetPrintArea: 'Set Print Area',
         textClearPrintArea: 'Clear Print Area',
         textAddPrintArea: 'Add to Print Area',
-        tipPrintArea: 'Print Area'
+        tipPrintArea: 'Print Area',
+        capBtnInsHeader: 'Header/Footer',
+        tipEditHeader: 'Edit header or footer',
+        textTabData: 'Data',
+        capInsertTable: 'Table',
+        tipInsertTable: 'Insert table',
+        textTabFormula: 'Formula'
     }, SSE.Views.Toolbar || {}));
 });

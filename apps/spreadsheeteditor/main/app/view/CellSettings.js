@@ -71,13 +71,11 @@ define([
             this._state = {
                 BackColor: undefined,
                 DisabledControls: true,
-                CellAngle: undefined,
-                CSVOptions: new Asc.asc_CCSVAdvancedOptions(0, 4, '')
+                CellAngle: undefined
             };
             this.lockedControls = [];
             this._locked = true;
             this.isEditCell = false;
-            this.isMultiSelect = false;
             this.BorderType = 1;
 
             this.render();
@@ -141,32 +139,6 @@ define([
             this.api && this.api.asc_setCellAngle(field.getNumberValue());
         },
 
-        onTextToColumn: function() {
-            this.api.asc_TextImport(this._state.CSVOptions, _.bind(this.onTextToColumnCallback, this), false);
-        },
-
-        onTextToColumnCallback: function(data) {
-            if (!data || !data.length) return;
-
-            var me = this;
-            (new Common.Views.OpenDialog({
-                title: me.textWizard,
-                closable: true,
-                type: Common.Utils.importTextType.Columns,
-                preview: true,
-                previewData: data,
-                settings: this._state.CSVOptions,
-                api: me.api,
-                handler: function (result, encoding, delimiter, delimiterChar) {
-                    if (result == 'ok') {
-                        if (me && me.api) {
-                            me.api.asc_TextToColumns(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
-                        }
-                    }
-                }
-            })).show();
-        },
-
         render: function () {
             var el = $(this.el);
             el.html(this.template({
@@ -178,7 +150,6 @@ define([
             this.api = o;
             if (o) {
                 this.api.asc_registerCallback('asc_onEditCell', this.onApiEditCell.bind(this));
-                this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onApiSelectionChanged, this));
             }
             return this;
         },
@@ -267,13 +238,6 @@ define([
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
-
-            this.btnTextToColumn = new Common.UI.Button({
-                el: $('#cell-btn-text-to-column'),
-                disabled: this._locked
-            });
-            this.btnTextToColumn.on('click', _.bind(this.onTextToColumn, this));
-            this.lockedControls.push(this.btnTextToColumn);
         },
 
         createDelayedElements: function() {
@@ -371,10 +335,6 @@ define([
                 this.disableControls(this._locked);
         },
 
-        onApiSelectionChanged: function(info) {
-            this.isMultiSelect = info.asc_getFlags().asc_getMultiselect() || info.asc_getSelectedColsCount()>1;
-        },
-
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -389,7 +349,6 @@ define([
                     item.setDisabled(disable);
                 });
             }
-            this.btnTextToColumn.setDisabled(disable || this.isMultiSelect);
         },
 
         textBorders:        'Border\'s Style',
@@ -410,9 +369,7 @@ define([
         tipDiagU:           'Set Diagonal Up Border',
         tipDiagD:           'Set Diagonal Down Border',
         textOrientation:    'Text Orientation',
-        textAngle:          'Angle',
-        textTextToColumn:   'Text to Columns',
-        textWizard: 'Text to Columns Wizard'
+        textAngle:          'Angle'
 
     }, SSE.Views.CellSettings || {}));
 });

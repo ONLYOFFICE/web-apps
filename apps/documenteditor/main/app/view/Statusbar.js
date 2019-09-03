@@ -231,24 +231,15 @@ define([
                 this.langMenu = new Common.UI.Menu({
                     cls: 'lang-menu',
                     style: 'margin-top:-5px;',
-                    maxHeight: 300,
-                    restoreHeight: 300,
+                    restoreHeight: 285,
                     itemTemplate: _.template([
                         '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value.value %>">',
                             '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
                             '<%= caption %>',
                         '</a>'
                     ].join('')),
-                    menuAlign: 'bl-tl'
-                }).on('show:before', function (mnu) {
-                    if (!this.scroller) {
-                        this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
-                            useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                            minScrollbarLength: 30,
-                            alwaysVisibleY: true
-                        });
-                    }
+                    menuAlign: 'bl-tl',
+                    search: true
                 });
 
                 this.zoomMenu = new Common.UI.Menu({
@@ -373,12 +364,13 @@ define([
 
                     this.langMenu.prevTip = info.value;
 
-                    var index = $parent.find('ul li a:contains("'+info.displayValue+'")').parent().index();
-                    if (index < 0) {
+                    var lang = _.find(this.langMenu.items, function(item) { return item.caption == info.displayValue; });
+                    if (lang)
+                        lang.setChecked(true);
+                    else {
                         this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();
-                    } else
-                        this.langMenu.items[index].setChecked(true);
+                    }
                 }
             },
 

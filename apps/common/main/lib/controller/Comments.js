@@ -252,6 +252,7 @@ define([
                 ascComment.asc_putUserId(comment.get('userid'));
                 ascComment.asc_putUserName(comment.get('username'));
                 ascComment.asc_putSolved(!comment.get('resolved'));
+                ascComment.asc_putGuid(comment.get('guid'));
 
                 if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                     ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -344,6 +345,7 @@ define([
                     ascComment.asc_putUserId(t.currentUserId);
                     ascComment.asc_putUserName(t.currentUserName);
                     ascComment.asc_putSolved(comment.get('resolved'));
+                    ascComment.asc_putGuid(comment.get('guid'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -400,6 +402,7 @@ define([
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
+                    ascComment.asc_putGuid(comment.get('guid'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -462,6 +465,7 @@ define([
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
+                    ascComment.asc_putGuid(comment.get('guid'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -495,6 +499,7 @@ define([
                         ascComment.asc_addReply(addReply);
 
                         me.api.asc_changeComment(id, ascComment);
+                        me.mode && me.mode.canRequestUsers && me.view.pickEMail(ascComment.asc_getGuid(), replyVal);
 
                         return true;
                     }
@@ -519,6 +524,7 @@ define([
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
+                    ascComment.asc_putGuid(comment.get('guid'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -1125,7 +1131,9 @@ define([
             if (_.isUndefined(this.popover)) {
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     commentsStore : this.popoverComments,
-                    renderTo : this.sdkViewName
+                    renderTo : this.sdkViewName,
+                    canRequestUsers: (this.mode) ? this.mode.canRequestUsers : undefined,
+                    canRequestSendNotify: (this.mode) ? this.mode.canRequestSendNotify : undefined
                 });
                 this.popover.setCommentsStore(this.popoverComments);
             }
@@ -1190,6 +1198,7 @@ define([
                 groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
             var comment = new Common.Models.Comment({
                 uid                 : id,
+                guid                : data.asc_getGuid(),
                 userid              : data.asc_getUserId(),
                 username            : data.asc_getUserName(),
                 usercolor           : (user) ? user.get('color') : null,
@@ -1345,7 +1354,7 @@ define([
 
                     this.api.asc_addComment(comment);
                     this.view.showEditContainer(false);
-
+                    this.mode && this.mode.canRequestUsers && this.view.pickEMail(comment.asc_getGuid(), commentVal);
                     if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                         this.api.asc_SetDocumentPlaceChangedEnabled(false);
                     }

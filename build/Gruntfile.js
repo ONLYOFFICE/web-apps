@@ -43,6 +43,9 @@ module.exports = function(grunt) {
                 }, {
                     from: /\{\{APP_TITLE_TEXT\}\}/g,
                     to: process.env['APP_TITLE_TEXT'] || 'ONLYOFFICE'
+                }, {
+                    from: /\{\{HELP_URL\}\}/g,
+                    to: process.env['HELP_URL'] || 'https://helpcenter.onlyoffice.com'
                 }];
 
     var helpreplacements = [
@@ -161,6 +164,7 @@ module.exports = function(grunt) {
     doRegisterTask('zeroclipboard');
     doRegisterTask('bootstrap');
     doRegisterTask('iscroll');
+    doRegisterTask('fetch');
     doRegisterTask('jszip');
     doRegisterTask('jsziputils');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
@@ -288,6 +292,11 @@ module.exports = function(grunt) {
                 options: {
                     plugins: [{
                         cleanupIDs: false
+                    },
+                    {
+                        convertPathData: {
+                            floatPrecision: 4
+                        }
                     }]
                 },
                 dist: {
@@ -462,6 +471,9 @@ module.exports = function(grunt) {
             },
 
             copy: {
+                localization: {
+                    files: packageFile['embed']['copy']['localization']
+                },
                 'index-page': {
                     files: packageFile['embed']['copy']['index-page']
                 },
@@ -494,6 +506,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
     grunt.registerTask('deploy-underscore',             ['underscore-init', 'clean', 'copy']);
     grunt.registerTask('deploy-iscroll',                ['iscroll-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-fetch',                  ['fetch-init', 'clean', 'copy']);
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jszip',                  ['jszip-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);

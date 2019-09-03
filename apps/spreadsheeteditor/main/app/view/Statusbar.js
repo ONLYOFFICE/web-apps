@@ -201,13 +201,6 @@ define([
                 var menuHiddenItems = new Common.UI.Menu({
                     maxHeight: 260,
                     menuAlign: 'tl-tr'
-                }).on('render:after', function(mnu) {
-                    this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40,
-                        alwaysVisibleY: true
-                    });
                 }).on('show:after', function () {
                     this.scroller.update({alwaysVisibleY: true});
                 });
@@ -745,7 +738,7 @@ define([
 
                 if (this.options.handler) {
                     this.options.handler.call(this,
-                        event.currentTarget.attributes['result'].value, active[0].get('inindex'));
+                        event.currentTarget.attributes['result'].value, active.get('inindex'));
                 }
 
                 this.close();
@@ -753,7 +746,7 @@ define([
 
             onPrimary: function() {
                 if (this.options.handler) {
-                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec()[0].get('inindex'));
+                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec().get('inindex'));
                 }
 
                 this.close();

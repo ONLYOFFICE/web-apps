@@ -90,6 +90,7 @@ Common.Utils = _.extend(new(function() {
         hostnameRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+\.)+[\wа-яё\-]{2,}(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
         localRe = /^(((https?)|(ftps?)):\/\/)([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+)(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
         emailStrongRe = /(mailto:)?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
+        emailAddStrongRe = /(mailto:|\s[@]|\s[+])?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
         ipStrongRe = /(((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/ig,
         hostnameStrongRe = /((((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)|(([\-\wа-яё]*:?[\-\wа-яё]*@)?www\.))((([\-\wа-яё]+\.)+[\wа-яё\-]{2,}|([\-\wа-яё]+))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/ig,
         documentSettingsType = {
@@ -207,6 +208,7 @@ Common.Utils = _.extend(new(function() {
         hostnameRe: hostnameRe,
         localRe: localRe,
         emailStrongRe: emailStrongRe,
+        emailAddStrongRe: emailAddStrongRe,
         ipStrongRe: ipStrongRe,
         hostnameStrongRe: hostnameStrongRe,
         documentSettingsType: documentSettingsType,
@@ -542,6 +544,8 @@ Common.Utils.String = new (function() {
     return {
         format: function(format) {
             var args = _.toArray(arguments).slice(1);
+            if (args.length && typeof args[0] == 'object')
+                args = args[0];
             return format.replace(/\{(\d+)\}/g, function(s, i) {
                 return args[i];
             });
@@ -684,16 +688,7 @@ Common.Utils.applyCustomizationPlugins = function(plugins) {
 Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
-    if (_.isEmpty(_user.name)) {
-        _.isEmpty(_user.firstname) && _.isEmpty(_user.lastname) && (_user.firstname = defname);
-        if (_.isEmpty(_user.firstname))
-            _user.fullname = _user.lastname;
-        else if (_.isEmpty(_user.lastname))
-            _user.fullname = _user.firstname;
-        else
-            _user.fullname = /^ru/.test(lang) ? _user.lastname + ' ' + _user.firstname :  _user.firstname + ' ' + _user.lastname;
-    } else
-        _user.fullname = _user.name;
+    _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
     return _user;
 };
 
@@ -734,21 +729,18 @@ Common.Utils.getConfigJson = function (url) {
     return null;
 };
 
-Common.Utils.getConfigJson = function (url) {
-    if ( url ) {
-        try {
-            var xhrObj = Common.Utils.createXhr();
-            if ( xhrObj ) {
-                xhrObj.open('GET', url, false);
-                xhrObj.send('');
+Common.Utils.loadConfig = function(url, callback) {
+    "use strict";
 
-                return JSON.parse(xhrObj.responseText);
-            }
-        } catch (e) {}
-    }
-
-    return null;
-}
+    fetch(url)
+        .then(function(response){
+            if ( response.ok )
+                return response.json();
+            else return 'error';
+        }).then(function(json){
+            callback(json);
+        });
+};
 
 Common.Utils.asyncCall = function (callback, scope, args) {
     (new Promise(function (resolve, reject) {
@@ -783,6 +775,76 @@ Common.Utils.InternalSettings = new(function() {
         set: _set
     }
 });
+
+Common.Utils.lockControls = function(causes, lock, opts, defControls) {
+    !opts && (opts = {});
+
+    var controls = opts.array || defControls;
+    opts.merge && (controls = _.union(defControls,controls));
+
+    function doLock(cmp, cause) {
+        if ( cmp && _.contains(cmp.options.lock, cause) ) {
+            var index = cmp.keepState.indexOf(cause);
+            if (lock) {
+                if (index < 0) {
+                    cmp.keepState.push(cause);
+                }
+            } else {
+                if (!(index < 0)) {
+                    cmp.keepState.splice(index, 1);
+                }
+            }
+        }
+    }
+
+    _.each(controls, function(item) {
+        if (item && _.isFunction(item.setDisabled)) {
+            !item.keepState && (item.keepState = []);
+            if (opts.clear && opts.clear.length > 0 && item.keepState.length > 0) {
+                item.keepState = _.difference(item.keepState, opts.clear);
+            }
+
+            _.isArray(causes) ? _.each(causes, function(c) {doLock(item, c)}) : doLock(item, causes);
+
+            if (!(item.keepState.length > 0)) {
+                item.isDisabled() && item.setDisabled(false);
+            } else {
+                !item.isDisabled() && item.setDisabled(true);
+            }
+        }
+    });
+};
+
+Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split, menu, toggle) {
+    var btnsArr = createButtonSet();
+    btnsArr.setDisabled(true);
+    id = id || ("id-toolbar-" + iconCls);
+    $slots.each(function(index, el) {
+        var _cls = 'btn-toolbar';
+        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
+
+        var button = new Common.UI.Button({
+            id: id + index,
+            cls: _cls,
+            iconCls: iconCls,
+            caption: caption,
+            split: split || false,
+            menu: menu || false,
+            enableToggle: toggle || false,
+            lock: lock,
+            disabled: true
+        }).render( $slots.eq(index) );
+
+        btnsArr.add(button);
+    });
+    return btnsArr;
+};
+
+Common.Utils.injectComponent = function ($slot, cmp) {
+    if (cmp && $slot.length) {
+        cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
+    }
+};
 
 Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
 Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);

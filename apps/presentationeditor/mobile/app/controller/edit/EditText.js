@@ -170,6 +170,8 @@ define([
             initSettings: function (pageId) {
                 var me = this;
 
+                metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
+
                 me.api && me.api.UpdateInterfaceState(); // TODO: refactor me
 
                 if (_paragraphObject) {

@@ -19,7 +19,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 100;
+            z-index: 1001;
         }
 
         .loader-page {
@@ -160,7 +160,7 @@
              15%    { background: #f4f4f4; top:0; opacity:1; }
              20%    { background: #f4f4f4; top:0; opacity:0; }
              25%    { background: #f4f4f4; top:0; opacity:0; }
-             45%    { background: #EFEFEF; top:0; opacity:0,2; }
+             45%    { background: #EFEFEF; top:0; opacity:0.2; }
             100%    { top:100px; background: #55bce6; }
         }
 
@@ -171,7 +171,7 @@
              15%    { background: #f4f4f4; top:0; opacity:1; }
              20%    { background: #f4f4f4; top:0; opacity:0; }
              25%    { background: #fff; top:0; opacity:0; }
-             45%    { background: #EFEFEF; top:0; opacity:0,2; }
+             45%    { background: #EFEFEF; top:0; opacity:0.2; }
             100%    { top:100px; background: #55bce6; }
         }
     </style>
@@ -243,6 +243,18 @@
         else if ( lang == 'ru') loading = 'Загрузка...';
         else if ( lang == 'sl') loading = 'Nalaganje...';
         else if ( lang == 'tr') loading = 'Yükleniyor...';
+        else if ( lang == 'bg') loading = 'Зареждане...';
+        else if ( lang == 'cs') loading = 'Nahrávám...';
+        else if ( lang == 'hu') loading = 'Betöltés...';
+        else if ( lang == 'ja') loading = '読み込み中...';
+        else if ( lang == 'ko') loading = '로드 중...';
+        else if ( lang == 'lv') loading = 'Ieladēšana ...';
+        else if ( lang == 'nl') loading = 'Laden...';
+        else if ( lang == 'pl') loading = 'Ładowanie...';
+        else if ( lang == 'sk') loading = 'Nahrávam...';
+        else if ( lang == 'uk') loading = 'Завантаження...';
+        else if ( lang == 'vi') loading = 'Đang tải...';
+        else if ( lang == 'zh') loading = '加载中...';
 
         if ( !stopLoading )
             document.write(
@@ -270,6 +282,7 @@
 
     <script src="../../../vendor/svg-injector/svg-injector.min.js"></script>
     <img class="inline-svg" src="../../common/main/resources/img/header/buttons.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/toolbar/shapetypes.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/docx.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/dotx.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/pdf.svg">

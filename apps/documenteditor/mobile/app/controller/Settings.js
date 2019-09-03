@@ -46,7 +46,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'documenteditor/mobile/app/view/Settings'
+    'documenteditor/mobile/app/view/Settings',
+    'common/mobile/lib/controller/Collaboration'
 ], function (core, $, _, Backbone) {
     'use strict';
 
@@ -82,7 +83,10 @@ define([
             _licInfo,
             _canReview = false,
             _isReviewOnly = false,
-            _fileKey;
+            _fileKey,
+            templateInsert,
+            _metricText = Common.Utils.Metric.getCurrentMetricName(),
+            _isEdit;
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -114,7 +118,7 @@ define([
                     }
                 });
 
-                uiApp.onPageAfterBack('settings-document-view', function (page) {
+                uiApp.onPageAfterBack('margin-view', function (page) {
                     me.applyPageMarginsIfNeed()
                 });
             },
@@ -130,6 +134,7 @@ define([
                 me.api.asc_registerCallback('asc_onDocumentName',       _.bind(me.onApiDocumentName, me));
                 me.api.asc_registerCallback('asc_onDocSize',            _.bind(me.onApiPageSize, me));
                 me.api.asc_registerCallback('asc_onPageOrient',         _.bind(me.onApiPageOrient, me));
+                me.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(me.onSendThemeColorSchemes, me));
             },
 
             onLaunch: function () {
@@ -143,6 +148,7 @@ define([
                 _canReview = mode.canReview;
                 _isReviewOnly = mode.isReviewOnly;
                 _fileKey = mode.fileKey;
+                _isEdit = mode.isEdit;
             },
 
             initEvents: function () {
@@ -221,34 +227,100 @@ define([
                     // About
                     me.setLicInfo(_licInfo);
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
+                } else if ('#settings-advanced-view' == pageId) {
+                    me.initPageAdvancedSettings();
+                    $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
+                    $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
+                    $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
+                    $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
+                    $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
+                    $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
+                    $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
+                    var displayComments = Common.localStorage.getBool("de-settings-livecomment", true);
+                    $('#settings-display-comments input:checkbox').attr('checked', displayComments);
+                    $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
+                    var displayResolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                    if (!displayComments) {
+                        $("#settings-display-resolved").addClass("disabled");
+                        displayResolved = false;
+                    }
+                    $('#settings-display-resolved input:checkbox').attr('checked', displayResolved);
+                    $('#settings-display-resolved input:checkbox').single('change',   _.bind(me.onChangeDisplayResolved, me));
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-advanced-view]', '.page[data-page=settings-advanced-view] .page-content');
+                } else if ('#color-schemes-view' == pageId) {
+                    me.initPageColorSchemes();
+                    Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
+                } else if ('#margins-view' == pageId) {
+                    me.initPageMargin();
+                    Common.Utils.addScrollIfNeed('.page[data-page=margin-view]', '.page[data-page=margin-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
-                    $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
-                    $('#settings-review input:checkbox').attr('checked', _isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
-                    $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
-                    $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
-                    $('#settings-review input:checkbox').single('change',       _.bind(me.onTrackChanges, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
+                    $('#settings-collaboration').single('click',                _.bind(me.clickCollaboration, me));
+                    var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
+                    if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
+                        $('#settings-document').addClass('disabled');
+                    }
+                    var _userCount = DE.getController('Main').returnUserCount();
+                    if (_userCount > 0) {
+                        $('#settings-collaboration').show();
+                    }
                 }
             },
 
-            initPageDocumentSettings: function () {
+            onChangeDisplayComments: function(e) {
+                var displayComments = $(e.currentTarget).is(':checked');
+                if (!displayComments) {
+                    this.api.asc_hideComments();
+                    $("#settings-display-resolved input").prop( "checked", false );
+                    Common.localStorage.setBool("de-settings-resolvedcomment", false);
+                    $("#settings-display-resolved").addClass("disabled");
+                } else {
+                    var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
+                    this.api.asc_showComments(resolved);
+                    $("#settings-display-resolved").removeClass("disabled");
+                }
+                Common.localStorage.setBool("de-settings-livecomment", displayComments);
+            },
+
+            onChangeDisplayResolved: function(e) {
+                var displayComments = Common.localStorage.getBool("de-settings-livecomment");
+                if (displayComments) {
+                    var resolved = $(e.currentTarget).is(':checked');
+                    if (this.api) {
+                        this.api.asc_showComments(resolved);
+                    }
+                    Common.localStorage.setBool("de-settings-resolvedcomment", resolved);
+                }
+            },
+
+            clickCollaboration: function() {
+                DE.getController('Common.Controllers.Collaboration').showModal();
+            },
+
+            onNoCharacters: function(e) {
+                var me = this;
+                var $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("de-mobile-no-characters", state);
+                me.api.put_ShowParaMarks(state);
+            },
+
+            onShowTableEmptyLine: function(e) {
                 var me = this,
-                    $pageOrientation = $('.page[data-page=settings-document-view] input:radio[name=doc-orientation]'),
-                    $pageSize = $('#settings-document-format'),
-                    txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm);
+                    $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("de-mobile-hidden-borders", state);
+                me.api.put_ShowTableEmptyLine(state);
+            },
 
-                // Init orientation
-                $pageOrientation.val([_isPortrait]);
-                $pageOrientation.single('change', _.bind(me.onOrientationChange, me));
-
-                // Init format
-                $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
-                $pageSize.find('.item-subtitle').text(_pageSizes[_pageSizesIndex]['subtitle']);
+            initPageMargin: function() {
+                var me = this;
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
 
                 // Init page margins
                 me.localSectionProps = me.api.asc_GetSectionProps();
@@ -257,15 +329,81 @@ define([
                     me.maxMarginsH = me.localSectionProps.get_H() - 26;
                     me.maxMarginsW = me.localSectionProps.get_W() - 127;
 
-                    $('#document-margin-top .item-after label').text(mm2Cm(me.localSectionProps.get_TopMargin()) + ' ' + txtCm);
-                    $('#document-margin-bottom .item-after label').text(mm2Cm(me.localSectionProps.get_BottomMargin()) + ' ' + txtCm);
-                    $('#document-margin-left .item-after label').text(mm2Cm(me.localSectionProps.get_LeftMargin()) + ' ' + txtCm);
-                    $('#document-margin-right .item-after label').text(mm2Cm(me.localSectionProps.get_RightMargin()) + ' ' + txtCm);
+                    var top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin()).toFixed(2)),
+                        bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin()).toFixed(2)),
+                        left = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_LeftMargin()).toFixed(2)),
+                        right = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_RightMargin()).toFixed(2));
+
+                    $('#document-margin-top .item-after label').text(top + ' ' + _metricText);
+                    $('#document-margin-bottom .item-after label').text(bottom + ' ' + _metricText);
+                    $('#document-margin-left .item-after label').text(left + ' ' + _metricText);
+                    $('#document-margin-right .item-after label').text(right + ' ' + _metricText);
                 }
 
                 _.each(["top", "left", "bottom", "right"], function(align) {
                     $(Common.Utils.String.format('#document-margin-{0} .button', align)).single('click', _.bind(me.onPageMarginsChange, me, align));
                 })
+            },
+
+            initPageColorSchemes: function() {
+                $('#color-schemes-content').html(templateInsert);
+                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+            },
+
+            onSendThemeColorSchemes: function (schemas) {
+                templateInsert = "";
+                _.each(schemas, function (schema, index) {
+                    var colors = schema.get_colors();//schema.colors;
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    for (var j = 2; j < 7; j++) {
+                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
+                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
+                    }
+                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                }, this);
+            },
+
+            onColorSchemaClick: function(event) {
+                if (this.api) {
+                    var ind = $(event.currentTarget).children('input').val();
+                    this.api.ChangeColorScheme(ind);
+                }
+            },
+
+            initPageAdvancedSettings: function() {
+                var me = this,
+                    $unitMeasurement = $('.page[data-page=settings-advanced-view] input:radio[name=unit-of-measurement]');
+                $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
+                var value = Common.localStorage.getItem('de-mobile-settings-unit');
+                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                $unitMeasurement.val([value]);
+                var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
+                if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
+                    $('#settings-no-characters').addClass('disabled');
+                    $('#settings-hidden-borders').addClass('disabled');
+                }
+                if (!_isEdit) {
+                    $('.page[data-page=settings-advanced-view] .page-content > :not(.display-view)').hide();
+                }
+            },
+
+            initPageDocumentSettings: function () {
+                var me = this,
+                    $pageOrientation = $('.page[data-page=settings-document-view] input:radio[name=doc-orientation]'),
+                    $pageSize = $('#settings-document-format');
+
+                // Init orientation
+                $pageOrientation.val([_isPortrait]);
+                $pageOrientation.single('change', _.bind(me.onOrientationChange, me));
+
+                // Init format
+                $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
+                var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
+                    sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
+
+                var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
+                $pageSize.find('.item-subtitle').text(pageSizeTxt);
             },
 
             initPageInfo: function () {
@@ -277,9 +415,39 @@ define([
                     var document = Common.SharedSettings.get('document') || {},
                         info = document.info || {};
 
-                    $('#settings-document-title').html(document.title ? document.title : me.unknownText);
-                    $('#settings-document-autor').html(info.author ? info.author : me.unknownText);
-                    $('#settings-document-date').html(info.created ? info.created : me.unknownText);
+                    document.title ? $('#settings-document-title').html(document.title) : $('.display-document-title').remove();
+                    var value = info.owner || info.author;
+                    value ? $('#settings-document-owner').html(value) : $('.display-owner').remove();
+                    value = info.uploaded || info.created;
+                    value ? $('#settings-doc-uploaded').html(value) : $('.display-uploaded').remove();
+                    info.folder ? $('#settings-doc-location').html(info.folder) : $('.display-location').remove();
+
+                    var appProps = (this.api) ? this.api.asc_getAppProps() : null;
+                    if (appProps) {
+                        var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                        appName ? $('#settings-doc-application').html(appName) : $('.display-application').remove();
+                    }
+                    var props = (this.api) ? this.api.asc_getCoreProps() : null;
+                    if (props) {
+                        value = props.asc_getTitle();
+                        value ? $('#settings-doc-title').html(value) : $('.display-title').remove();
+                        value = props.asc_getSubject();
+                        value ? $('#settings-doc-subject').html(value) : $('.display-subject').remove();
+                        value = props.asc_getDescription();
+                        value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
+                        value = props.asc_getModified();
+                        value ? $('#settings-doc-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                        value = props.asc_getLastModifiedBy();
+                        value ? $('#settings-doc-mod-by').html(value) : $('.display-mode-by').remove();
+                        value = props.asc_getCreated();
+                        value ? $('#settings-doc-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                        value = props.asc_getCreator();
+                        var templateCreator = "";
+                        value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                            templateCreator = templateCreator + "<li class='item-content'><div class='item-inner'><div class='item-title'>" + item + "</div></div></li>";
+                        });
+                        templateCreator ? $('#list-creator').html(templateCreator) : $('.display-author').remove();
+                    }
                 }
             },
 
@@ -384,19 +552,19 @@ define([
                 this.api && this.api.asc_pluginRun("asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}", 0);
             },
 
-            onTrackChanges: function(e) {
-                var $checkbox = $(e.currentTarget),
-                    state = $checkbox.is(':checked');
-                if ( _isReviewOnly ) {
-                    $checkbox.attr('checked', true);
-                } else if ( _canReview ) {
-                    this.api.asc_SetTrackRevisions(state);
-                    Common.localStorage.setItem("de-mobile-track-changes-" + (_fileKey || ''), state ? 1 : 0);
-                }
-            },
-
             onShowHelp: function () {
-                window.open('{{SUPPORT_URL}}', "_blank");
+                var url = '{{HELP_URL}}';
+                if (url.charAt(url.length-1) !== '/') {
+                    url += '/';
+                }
+                if (Common.SharedSettings.get('sailfish')) {
+                    url+='mobile-applications/documents/sailfish/index.aspx';
+                } else if (Common.SharedSettings.get('android')) {
+                    url+='mobile-applications/documents/android/index.aspx';
+                } else {
+                    url+='mobile-applications/documents/index.aspx';
+                }
+                window.open(url, "_blank");
                 this.hideModal();
             },
 
@@ -405,19 +573,22 @@ define([
                     format = $(e.currentTarget).data('format');
 
                 if (format) {
-                    if (format == Asc.c_oAscFileType.TXT) {
+                    if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                         _.defer(function () {
                             uiApp.confirm(
-                                me.warnDownloadAs,
+                                (format === Asc.c_oAscFileType.TXT) ? me.warnDownloadAs : me.warnDownloadAsRTF,
                                 me.notcriticalErrorTitle,
                                 function () {
-                                    me.api.asc_DownloadAs(format);
+                                    if (format == Asc.c_oAscFileType.TXT)
+                                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                    else
+                                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 }
                             );
                         });
                     } else {
                         _.defer(function () {
-                            me.api.asc_DownloadAs(format);
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                         });
                     }
 
@@ -462,12 +633,27 @@ define([
                 }, 300);
             },
 
+            unitMeasurementChange: function (e) {
+                var value = $(e.currentTarget).val();
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.localStorage.setItem("de-mobile-settings-unit", value);
+                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+
+            },
+
             onPageMarginsChange: function (align, e) {
                 var me = this,
                     $button = $(e.currentTarget),
-                    step = 1, // mm
+                    step,
                     txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
                     marginValue = null;
+                if(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.1;
+                }
+                step = Common.Utils.Metric.fnRecalcToMM(step);
 
                 switch (align) {
                     case 'left': marginValue = me.localSectionProps.get_LeftMargin(); break;
@@ -489,7 +675,8 @@ define([
                     case 'bottom': me.localSectionProps.put_BottomMargin(marginValue); break;
                 }
 
-                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(mm2Cm(marginValue) + ' ' + txtCm);
+                var valueCurrentMetric = parseFloat(Common.Utils.Metric.fnRecalcFromMM(marginValue).toFixed(2));
+                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(valueCurrentMetric + ' ' + _metricText);
 
                 me.applyPageMarginsIfNeed()
             },
@@ -574,7 +761,8 @@ define([
             unknownText: 'Unknown',
             txtLoading              : 'Loading...',
             notcriticalErrorTitle   : 'Warning',
-            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'
+            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
+            warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
         }
     })(), DE.Controllers.Settings || {}))
 });

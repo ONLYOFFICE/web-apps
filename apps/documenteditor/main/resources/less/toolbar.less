@@ -84,6 +84,18 @@
             vertical-align: middle;
         }
     }
+    &.checked {
+        &:before {
+            display: none !important;
+        }
+        &, &:hover, &:focus {
+            background-color: @primary;
+            color: @dropdown-link-active-color;
+            span.color {
+                border-color: rgba(255,255,255,0.7);
+            }
+        }
+    }
 }
 // page number position
 .menu-pageposition {

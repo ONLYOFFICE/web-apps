@@ -188,10 +188,6 @@ define([
                 $('.settings .sortdown').single('click', function (e) {me.fireEvent('insert:sort',['down']);});
                 $('.settings .sortup').single('click', function (e) {me.fireEvent('insert:sort',['up']);});
 
-                // temporary hidden
-                // TODO: make filter's options menu
-                $('.settings #other-chb-insfilter').parents('.list-block').hide();
-
                 $('.settings #other-chb-insfilter input:checkbox').single('change', function (e) {
                     var $checkbox = $(e.currentTarget);
                     me.fireEvent('insert:filter', [$checkbox.is(':checked')]);

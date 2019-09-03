@@ -138,6 +138,7 @@ require([
         nameSpace: 'PE',
         autoCreate: false,
         controllers : [
+            'Common.Controllers.Plugins',
             'Editor',
             'Toolbar',
             'Search',
@@ -158,7 +159,8 @@ require([
             'AddShape',
             'AddImage',
             'AddLink',
-            'AddSlide'
+            'AddSlide',
+            'Common.Controllers.Collaboration'
         ]
     });
 
@@ -179,7 +181,7 @@ require([
     //Store Framework7 initialized instance for easy access
     window.uiApp = new Framework7({
         // Default title for modals
-        modalTitle: '{{MOBILE_MODAL_TITLE}}',
+        modalTitle: '{{APP_TITLE_TEXT}}',
 
         // If it is webapp, we can enable hash navigation:
 //        pushState: false,
@@ -205,6 +207,7 @@ require([
     require([
         'common/main/lib/util/LocalStorage',
         'common/main/lib/util/utils',
+        'common/mobile/lib/controller/Plugins',
         'presentationeditor/mobile/app/controller/Editor',
         'presentationeditor/mobile/app/controller/Toolbar',
         'presentationeditor/mobile/app/controller/Search',
@@ -225,7 +228,8 @@ require([
         'presentationeditor/mobile/app/controller/add/AddShape',
         'presentationeditor/mobile/app/controller/add/AddImage',
         'presentationeditor/mobile/app/controller/add/AddLink',
-        'presentationeditor/mobile/app/controller/add/AddSlide'
+        'presentationeditor/mobile/app/controller/add/AddSlide',
+        'common/mobile/lib/controller/Collaboration'
     ], function() {
         app.start();
     });

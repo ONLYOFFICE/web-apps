@@ -33,8 +33,8 @@
                 <div class="caret up img-commonctrl" />
             </div>
         </div>
-        <button id="btn-doc-lang" type="button" class="btn small btn-toolbar el-edit"><i class="icon"></i></button>
-        <button id="btn-doc-spell" type="button" class="btn small btn-toolbar el-edit"><i class="icon"></i></button>
+        <span id="btn-doc-lang" class="el-edit"></span>
+        <span id="btn-doc-spell" class="el-edit"></span>
         <div class="separator short el-edit"></div>
         <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar"><i class="icon"></i></button>
         <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar"><i class="icon"></i></button>

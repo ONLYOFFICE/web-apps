@@ -63,7 +63,8 @@ define([
                 "click #toolbar-edit"       : "showEdition",
                 "click #toolbar-add"        : "showInserts",
                 "click #toolbar-settings"   : "showSettings",
-                "click #toolbar-edit-document": "editDocument"
+                "click #toolbar-edit-document": "editDocument",
+                "click #toolbar-collaboration" : "showCollaboration"
             },
 
             // Set innerHTML and get the references to the DOM elements
@@ -89,7 +90,8 @@ define([
                     android     : Common.SharedSettings.get('android'),
                     phone       : Common.SharedSettings.get('phone'),
                     backTitle   : Common.SharedSettings.get('android') ? '' : me.textBack,
-                    scope       : me
+                    scope       : me,
+                    width       : $(window).width()
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
@@ -148,6 +150,11 @@ define([
             // Settings
             showSettings: function () {
                 DE.getController('Settings').showModal();
+            },
+
+            //Collaboration
+            showCollaboration: function () {
+                DE.getController('Common.Controllers.Collaboration').showModal();
             },
 
             editDocument: function () {

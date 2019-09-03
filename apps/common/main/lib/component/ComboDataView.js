@@ -245,11 +245,7 @@ define([
                 var picker = this.menuPicker;
                 if (picker) {
                     var record = picker.getSelectedRec();
-
-                    if (record) {
-                        record = record[0];
-                        this.fillComboView(record || picker.store.at(0), !!record, true);
-                    }
+                    this.fillComboView(record || picker.store.at(0), !!record, true);
 
                     picker.onResize();
                 }
@@ -311,7 +307,7 @@ define([
         },
 
         onAfterHideMenu: function(e, isFromInputControl) {
-            this.menuPicker.selectedBeforeHideRec = this.menuPicker.getSelectedRec()[0]; // for DataView - onKeyDown - Return key
+            this.menuPicker.selectedBeforeHideRec = this.menuPicker.getSelectedRec(); // for DataView - onKeyDown - Return key
             (this.showLast) ? this.menuPicker.showLastSelected() : this.menuPicker.deselectAll();
             this.trigger('hide:after', this, e, isFromInputControl);
         },
@@ -387,10 +383,7 @@ define([
                 var picker = this.menuPicker;
                 if (picker) {
                     var record = picker.getSelectedRec();
-                    if (record) {
-                        record = record[0];
-                        this.fillComboView(record || picker.store.at(0), false);
-                    }
+                    this.fillComboView(record || picker.store.at(0), false);
                 }
             }
         },
@@ -421,19 +414,17 @@ define([
                             }
                         }
 
-                        me.fieldPicker.store.reset([]); // remove all
+                        var indexRec = store.indexOf(record);
+                        if (indexRec < 0)
+                            return;
 
-                        var indexRec = store.indexOf(record),
-                            countRec = store.length,
+                        var countRec = store.length,
                             maxViewCount = Math.floor(Math.max(fieldPickerEl.width(), me.minWidth) / (me.itemWidth + (me.itemMarginLeft || 0) + (me.itemMarginRight || 0) + (me.itemPaddingLeft || 0) + (me.itemPaddingRight || 0) +
                                                                                                 (me.itemBorderLeft || 0) + (me.itemBorderRight || 0))),
                             newStyles = [];
 
                         if (fieldPickerEl.height() / me.itemHeight > 2)
                             maxViewCount *= Math.floor(fieldPickerEl.height() / me.itemHeight);
-
-                        if (indexRec < 0)
-                            return;
 
                         indexRec = Math.floor(indexRec / maxViewCount) * maxViewCount;
                         if (countRec - indexRec < maxViewCount)
@@ -442,7 +433,7 @@ define([
                             newStyles.push(store.at(index));
                         }
 
-                        me.fieldPicker.store.add(newStyles);
+                        me.fieldPicker.store.reset(newStyles);
                     }
 
                     if (forceSelect) {

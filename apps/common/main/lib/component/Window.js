@@ -164,7 +164,7 @@ define([
                                     '<% if (closable!==false) %>' +
                                         '<div class="tool close img-commonctrl"></div>' +
                                     '<% %>' +
-                                    '<span class="title"><%= title %></span> ' +
+                                    '<div class="title"><%= title %></div> ' +
                                 '</div>' +
                             '<% } %>' +
                             '<div class="body"><%= tpl %></div>' +
@@ -639,7 +639,10 @@ define([
             show: function(x,y) {
                 if (this.initConfig.modal) {
                     var mask = _getMask();
-                    if (this.options.animate !== false) {
+                    if (this.options.animate === false || this.options.animate && this.options.animate.mask === false) { // animate.mask = false -> don't animate mask
+                        mask.attr('counter', parseInt(mask.attr('counter'))+1);
+                        mask.show();
+                    } else {
                         var opacity = mask.css('opacity');
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
@@ -648,9 +651,6 @@ define([
                         setTimeout(function () {
                             mask.css(_getTransformation(opacity));
                         }, 1);
-                    } else {
-                        mask.attr('counter', parseInt(mask.attr('counter'))+1);
-                        mask.show();
                     }
 
                     Common.NotificationCenter.trigger('modal:show', this);

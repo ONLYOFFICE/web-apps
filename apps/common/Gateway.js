@@ -98,6 +98,26 @@ if (Common === undefined) {
 
             'resetFocus': function(data) {
                 $me.trigger('resetfocus', data);
+            },
+
+            'setUsers': function(data) {
+                $me.trigger('setusers', data);
+            },
+
+            'showSharingSettings': function(data) {
+                $me.trigger('showsharingsettings', data);
+            },
+
+            'setSharingSettings': function(data) {
+                $me.trigger('setsharingsettings', data);
+            },
+
+            'insertImage': function(data) {
+                $me.trigger('insertimage', data);
+            },
+
+            'setMailMergeRecipients': function(data) {
+                $me.trigger('setmailmergerecipients', data);
             }
         };
 
@@ -238,6 +258,16 @@ if (Common === undefined) {
                 });
             },
 
+            requestSaveAs: function(url, title) {
+                _postMessage({
+                    event: 'onRequestSaveAs',
+                    data: {
+                        url: url,
+                        title: title
+                    }
+                });
+            },
+
             collaborativeChanges: function() {
                 _postMessage({event: 'onCollaborativeChanges'});
             },
@@ -260,6 +290,22 @@ if (Common === undefined) {
 
             requestMakeActionLink: function (config) {
                 _postMessage({event:'onMakeActionLink', data: config})
+            },
+
+            requestUsers:  function () {
+                _postMessage({event:'onRequestUsers'})
+            },
+
+            requestSendNotify:  function (emails) {
+                _postMessage({event:'onRequestSendNotify', data: emails})
+            },
+
+            requestInsertImage:  function () {
+                _postMessage({event:'onRequestInsertImage'})
+            },
+
+            requestMailMergeRecipients:  function () {
+                _postMessage({event:'onRequestMailMergeRecipients'})
             },
 
             on: function(event, handler){

@@ -10,7 +10,7 @@
         <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(comment)%></div>
     <% } else { %>
         <div class="inner-edit-ct">
-            <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false"><%=comment%></textarea>
+            <textarea class="msg-reply user-select" maxlength="maxCommLength" spellcheck="false" <% if (!!dummy) { %> placeholder="textMention"<% } %>><%=comment%></textarea>
             <% if (hideAddReply) { %>
                 <button class="btn normal dlg-btn primary btn-inner-edit" id="id-comments-change-popover">textAdd</button>
             <% } else { %>

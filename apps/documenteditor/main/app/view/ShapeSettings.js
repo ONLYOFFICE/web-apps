@@ -182,6 +182,9 @@ define([
                             fill.get_fill().put_linear_scale(true);
                         }
                         if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
+                            this.GradColor.values = [0, 100];
+                            this.GradColor.colors = [this.GradColor.colors[0], this.GradColor.colors[this.GradColor.colors.length - 1]];
+                            this.GradColor.currentIdx = 0;
                             var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]).get_color().get_hex(),
                                 HexColor1 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1]).get_color().get_hex();
 
@@ -486,14 +489,22 @@ define([
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
-                fill.get_fill().put_colors([Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]), Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1])]);
+                var arr = [];
+                this.GradColor.colors.forEach(function(item){
+                    arr.push(Common.Utils.ThemeColor.getRgbColor(item));
+                });
+                fill.get_fill().put_colors(arr);
 
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                         fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
                         fill.get_fill().put_linear_scale(true);
                     }
-                    fill.get_fill().put_positions([this.GradColor.values[0]*1000, this.GradColor.values[1]*1000]);
+                    arr = [];
+                    this.GradColor.values.forEach(function(item){
+                        arr.push(item*1000);
+                    });
+                    fill.get_fill().put_positions(arr);
                 }
                 props.put_fill(fill);
                 this.imgprops.put_ShapeProperties(props);
@@ -531,14 +542,22 @@ define([
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
-                fill.get_fill().put_positions([this.GradColor.values[0]*1000, this.GradColor.values[1]*1000]);
+                var arr = [];
+                this.GradColor.values.forEach(function(item){
+                    arr.push(item*1000);
+                });
+                fill.get_fill().put_positions(arr);
 
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                         fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
                         fill.get_fill().put_linear_scale(true);
                     }
-                    fill.get_fill().put_colors([Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]), Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1])]);
+                    arr = [];
+                    this.GradColor.colors.forEach(function(item){
+                        arr.push(Common.Utils.ThemeColor.getRgbColor(item));
+                    });
+                    fill.get_fill().put_colors(arr);
                 }
                 props.put_fill(fill);
                 this.imgprops.put_ShapeProperties(props);
@@ -826,7 +845,7 @@ define([
                     this.FGColor = (this.ShapeColor.Color!=='transparent') ? {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.ShapeColor.Color)} : {Value: 1, Color: '000000'};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
                     this.GradColor.colors[0] = (this.ShapeColor.Color!=='transparent') ? Common.Utils.ThemeColor.colorValue2EffectId(this.ShapeColor.Color) : '000000';
-                    this.GradColor.colors[1] = 'ffffff';
+                    this.GradColor.colors[this.GradColor.colors.length-1] = 'ffffff';
                 }  else if (fill_type==Asc.c_oAscFill.FILL_TYPE_BLIP) {
                     fill = fill.get_fill();
                     this.BlipFillType = fill.get_type(); // null - не совпадают у нескольких фигур
@@ -874,7 +893,7 @@ define([
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     this.ShapeColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color)};
                     this.GradColor.colors[0] = Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color);
-                    this.GradColor.colors[1] = 'ffffff';
+                    this.GradColor.colors[this.GradColor.colors.length-1] = 'ffffff';
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     fill = fill.get_fill();
                     var gradfilltype = fill.get_grad_type();  // null - не совпадают у нескольких фигур
@@ -905,49 +924,37 @@ define([
                         }
                     }
 
-                    var colors = fill.get_colors();
-                    if (colors && colors.length>0) {
-                        color = colors[0];
+                    var me = this;
+                    var colors = fill.get_colors(),
+                        positions = fill.get_positions(),
+                        length = colors.length;
+                    this.sldrGradient.setThumbs(length);
+                    if (this.GradColor.colors.length>length) {
+                        this.GradColor.colors.splice(length, this.GradColor.colors.length - length);
+                        this.GradColor.values.splice(length, this.GradColor.colors.length - length);
+                        this.GradColor.currentIdx = 0;
+                    }
+                    colors && colors.forEach(function(color, index) {
                         if (color) {
                             if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.GradColor.colors[0] = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
-                                Common.Utils.ThemeColor.colorValue2EffectId(this.GradColor.colors[0]);
+                                me.GradColor.colors[index] = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
+                                Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index]);
                             } else {
-                                this.GradColor.colors[0] = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                                me.GradColor.colors[index] = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                             }
                         } else
-                            this.GradColor.colors[0] = '000000';
+                            me.GradColor.colors[index] = '000000';
 
-                        color = colors[1];
-                        if (color) {
-                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.GradColor.colors[1] = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
-                                Common.Utils.ThemeColor.colorValue2EffectId(this.GradColor.colors[1]);
-                            } else {
-                                this.GradColor.colors[1] = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                            }
-                        } else
-                            this.GradColor.colors[1] = 'ffffff';
-
-                    }
-                    var positions = fill.get_positions();
-                    if (positions && positions.length>0) {
-                        var position = positions[0];
+                        var position = positions[index];
                         if (position!==null)       {
                             position = position/1000;
-                            this.GradColor.values[0] = position;
+                            me.GradColor.values[index] = position;
                         }
-
-                        position = positions[1];
-                        if (position!==null)       {
-                            position = position/1000;
-                            this.GradColor.values[1] = position;
-                        }
+                    });
+                    for (var index=0; index<length; index++) {
+                        me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
+                        me.sldrGradient.setValue(index, me.GradColor.values[index]);
                     }
-                    this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(this.GradColor.colors[0]) == 'object') ? this.GradColor.colors[0].color : this.GradColor.colors[0]), 0);
-                    this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(this.GradColor.colors[1]) == 'object') ? this.GradColor.colors[1].color : this.GradColor.colors[1]), 1);
-                    this.sldrGradient.setValue(0, this.GradColor.values[0]);
-                    this.sldrGradient.setValue(1, this.GradColor.values[1]);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1148,6 +1155,8 @@ define([
 
                     this._state.GradColor = color;
                 }
+
+                this.chShadow.setValue(!!shapeprops.asc_getShadow(), true);
 
                 this._noApply = false;
             }
@@ -1459,6 +1468,13 @@ define([
             this.btnChangeShape.render( $('#shape-btn-change')) ;
             this.lockedControls.push(this.btnChangeShape);
 
+            this.chShadow = new Common.UI.CheckBox({
+                el: $('#shape-checkbox-shadow'),
+                labelText: this.strShadow
+            });
+            this.chShadow.on('change', _.bind(this.onCheckShadow, this));
+            this.lockedControls.push(this.chShadow);
+
             this.linkAdvanced = $('#shape-advanced-link');
             $(this.el).on('click', '#shape-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
@@ -1541,7 +1557,7 @@ define([
                     parentMenu: me.textureMenu,
                     showLast: false,
                     store: new Common.UI.DataViewStore(texturearray),
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                 });
                 mnuTexturePicker.on('item:click', _.bind(this.onSelectTexture, this));
             }
@@ -1584,6 +1600,16 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onCheckShadow: function(field, newValue, oldValue, eOpts) {
+            if (this.api)   {
+                var props = new Asc.asc_CShapeProperty();
+                props.asc_putShadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
+                this.imgprops.put_ShapeProperties(props);
+                this.api.ImgApply(this.imgprops);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
         fillAutoShapes: function() {
             var me = this,
                 shapesStore = this.application.getCollection('ShapeGroups');
@@ -1612,7 +1638,7 @@ define([
                     store: store,
                     parentMenu: menuItem.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
                 });
 
                 shapePicker.on('item:click', function(picker, item, record, e) {
@@ -1844,9 +1870,10 @@ define([
         textRotation: 'Rotation',
         textRotate90: 'Rotate 90°',
         textFlip: 'Flip',
-        textHint270: 'Rotate Left 90°',
-        textHint90: 'Rotate Right 90°',
+        textHint270: 'Rotate 90° Counterclockwise',
+        textHint90: 'Rotate 90° Clockwise',
         textHintFlipV: 'Flip Vertically',
-        textHintFlipH: 'Flip Horizontally'
+        textHintFlipH: 'Flip Horizontally',
+        strShadow: 'Show shadow'
     }, DE.Views.ShapeSettings || {}));
 });

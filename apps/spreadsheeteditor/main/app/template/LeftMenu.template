@@ -6,6 +6,7 @@
         <button id="left-btn-chat" class="btn btn-category" content-target="left-panel-chat"><i class="icon img-toolbarmenu btn-menu-chat">&nbsp;</i></button>
         <!-- /** coauthoring end **/ -->
         <button id="left-btn-plugins" class="btn btn-category" content-target=""><i class="icon img-toolbarmenu btn-menu-plugin">&nbsp;</i></button>
+        <button id="left-btn-spellcheck" class="btn btn-category" content-target=""><i class="icon img-toolbarmenu btn-ic-docspell">&nbsp;</i></button>
         <button id="left-btn-support" class="btn btn-category" content-target=""><i class="icon img-toolbarmenu btn-menu-support">&nbsp;</i></button>
         <button id="left-btn-about" class="btn btn-category" content-target=""><i class="icon img-toolbarmenu btn-menu-about">&nbsp;</i></button>
     </div>
@@ -13,6 +14,7 @@
         <!-- /** coauthoring begin **/ -->
         <div id="left-panel-comments" class="" style="display: none;" />
         <div id="left-panel-chat" class="" style="display: none;" />
+        <div id="left-panel-spellcheck" class="" style="display: none; height: 100%;" />
         <!-- /** coauthoring end **/ -->
         <div id="left-panel-plugins" class="" style="display: none; height: 100%; position: relative;" />
     </div>

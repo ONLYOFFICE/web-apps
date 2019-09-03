@@ -80,6 +80,7 @@ define([
                 $('#settings-help').single('click', _.bind(me.showHelp, me));
                 $('#settings-about').single('click', _.bind(me.showAbout, me));
                 $('#settings-presentation-setup').single('click', _.bind(me.showSetup, me));
+                $('#settings-application').single('click', _.bind(me.showSetApp, me));
 
                 Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.initControls();
@@ -90,7 +91,15 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android: Common.SharedSettings.get('android'),
                     phone: Common.SharedSettings.get('phone'),
-                    scope: this
+                    scope: this,
+                    width: $(window).width(),
+                    prodversion: '{{PRODUCT_VERSION}}',
+                    publishername: '{{PUBLISHER_NAME}}',
+                    publisheraddr: '{{PUBLISHER_ADDRESS}}',
+                    publisherurl: '{{PUBLISHER_URL}}',
+                    printed_url: ("{{PUBLISHER_URL}}").replace(/https?:\/{2}/, "").replace(/\/$/,""),
+                    supportemail: '{{SUPPORT_EMAIL}}',
+                    phonenum: '{{PUBLISHER_PHONE}}'
                 }));
 
                 return this;
@@ -120,6 +129,7 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
+                        $layour.find('#settings-application').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
@@ -160,15 +170,12 @@ define([
                 }
             },
 
+            showColorSchemes: function () {
+                this.showPage('#color-schemes-view');
+            },
+
             showInfo: function () {
                 this.showPage('#settings-info-view');
-
-                var document = Common.SharedSettings.get('document') || {},
-                    info = document.info || {};
-
-                $('#settings-presentation-title').html(document.title ? document.title : this.unknownText);
-                $('#settings-presentation-autor').html(info.author ? info.author : this.unknownText);
-                $('#settings-presentation-date').html(info.created ? info.created : this.unknownText);
             },
 
             showDownload: function () {
@@ -180,7 +187,18 @@ define([
             },
 
             showHelp: function () {
-                window.open('{{SUPPORT_URL}}', "_blank");
+                var url = '{{HELP_URL}}';
+                if (url.charAt(url.length-1) !== '/') {
+                    url += '/';
+                }
+                if (Common.SharedSettings.get('sailfish')) {
+                    url+='mobile-applications/documents/sailfish/index.aspx';
+                } else if (Common.SharedSettings.get('android')) {
+                    url+='mobile-applications/documents/android/index.aspx';
+                } else {
+                    url+='mobile-applications/documents/index.aspx';
+                }
+                window.open(url, "_blank");
                 PE.getController('Settings').hideModal();
             },
 
@@ -190,6 +208,11 @@ define([
 
             showSetup: function () {
                 this.showPage('#settings-setup-view');
+                $('#color-schemes').single('click', _.bind(this.showColorSchemes, this));
+            },
+
+            showSetApp: function () {
+                this.showPage('#settings-application-view');
             },
 
             loadDocument: function (data) {
@@ -209,6 +232,7 @@ define([
             textDone: 'Done',
             textEditPresent: 'Edit Presentation',
             textPresentSetup: 'Presentation Setup',
+            textPresentSettings: 'Presentation Settings',
             textDownload: 'Download',
             textPresentInfo: 'Presentation Info',
             textHelp: 'Help',
@@ -229,7 +253,24 @@ define([
             textPoweredBy: 'Powered by',
             textFindAndReplace: 'Find and Replace',
             textSpellcheck: 'Spell Checking',
-            textPrint: 'Print'
+            textPrint: 'Print',
+            textApplicationSettings: 'Application Settings',
+            textUnitOfMeasurement: 'Unit of Measurement',
+            textCentimeter: 'Centimeter',
+            textPoint: 'Point',
+            textInch: 'Inch',
+            textColorSchemes: 'Color Schemes',
+            textCollaboration: 'Collaboration',
+            textSubject: 'Subject',
+            textTitle: 'Title',
+            textComment: 'Comment',
+            textOwner: 'Owner',
+            textApplication : 'Application',
+            textCreated: 'Created',
+            textLastModified: 'Last Modified',
+            textLastModifiedBy: 'Last Modified By',
+            textUploaded: 'Uploaded',
+            textLocation: 'Location'
         }
     })(), PE.Views.Settings || {}))
 });

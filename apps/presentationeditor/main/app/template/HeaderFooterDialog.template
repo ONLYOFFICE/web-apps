@@ -1,0 +1,47 @@
+<table cols="1">
+    <tr><td class="padding-small">
+        <div id="hf-dlg-chb-datetime"></div>
+    </td></tr>
+    <tr><td class="padding-large">
+        <table id="hf-dlg-tbl-datetime" cols="2" style="margin-left: 22px;">
+            <tr>
+                <td colspan="2" style="padding-bottom: 4px;">
+                    <div id="hf-dlg-radio-update"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" style="padding-left: 22px;">
+                    <label  style="display:block;" class="input-label"><%= scope.textFormat %></label>
+                    <div id="hf-dlg-combo-format" style="width: 100%;"></div>
+                </td>
+                <td class="padding-small" style="padding-left: 5px;">
+                    <label  style="display:block;" class="input-label"><%= scope.textLang %></label>
+                    <div id="hf-dlg-combo-lang" style="width: 100%;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-bottom: 4px;">
+                    <div id="hf-dlg-radio-fixed"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="hf-dlg-input-fixed" class="input-row" style="margin-left: 22px;"></div>
+                </td>
+            </tr>
+        </table>
+    </td></tr>
+    <tr><td class="padding-large">
+        <div id="hf-dlg-chb-slide"></div>
+    </td></tr>
+    <tr><td class="padding-small">
+        <div id="hf-dlg-chb-text"></div>
+    </td></tr>
+    <tr><td class="padding-large">
+        <div id="hf-dlg-text" class="input-row" style="margin-left: 22px;"></div>
+    </td></tr>
+    <tr><td class="padding-small"></td></tr>
+    <tr><td class="padding-small">
+        <div id="hf-dlg-chb-not-title"></div>
+    </td></tr>
+</table>

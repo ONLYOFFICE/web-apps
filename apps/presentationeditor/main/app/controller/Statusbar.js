@@ -58,9 +58,6 @@ define([
         initialize: function() {
             var me = this;
             this.addListeners({
-                'FileMenu': {
-                    'settings:apply': _.bind(this.applySettings, this)
-                },
                 'Statusbar': {
                     'langchanged': this.onLangMenu
                 },
@@ -83,8 +80,7 @@ define([
         events: function() {
             return {
                 'click #btn-zoom-down': _.bind(this.zoomDocument,this,'down'),
-                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up'),
-                'click #btn-doc-lang':_.bind(this.onBtnLanguage,this)
+                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up')
             };
         },
 
@@ -101,7 +97,19 @@ define([
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
             this.statusbar.btnPreview.on('click', _.bind(this.onPreviewBtnClick, this));
             this.statusbar.btnPreview.menu.on('item:click', _.bind(this.onPreviewItemClick, this));
-            this.statusbar.btnSetSpelling.on('click', _.bind(this.onBtnSpelling, this));
+
+            var me = this;
+            Common.NotificationCenter.on('app:face', function (cfg) {
+                if ( cfg.isEdit ) {
+                    var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
+                    me.btnSpelling = review.getButton('spelling', 'statusbar');
+                    me.btnSpelling.render( me.statusbar.$el.find('#btn-doc-spell') );
+                    me.btnDocLang = review.getButton('doclang', 'statusbar');
+                    me.btnDocLang.render( me.statusbar.$el.find('#btn-doc-lang') );
+                } else {
+                    me.statusbar.$el.find('.el-edit, .el-review').hide();
+                }
+            });
         },
 
         setApi: function(api) {
@@ -204,37 +212,11 @@ define([
         },
 
         createDelayedElements: function() {
-            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("pe-settings-spellcheck", true), true);
             this.statusbar.$el.css('z-index', '');
-        },
-
-        onBtnLanguage: function() {
-            var me = this;
-            (new Common.Views.LanguageDialog({
-                languages: me.langs,
-                current: me.api.asc_getDefaultLanguage(),
-                handler: function(result, value) {
-                    if (result=='ok') {
-                        var record = _.findWhere(me.langs, {'value':value});
-                        record && me.api.asc_setDefaultLanguage(record.code);
-                    }
-                }
-            })).show();
         },
 
         onLangMenu: function(obj, langid, title) {
             this.api.put_TextPrLang(langid);
-        },
-
-        onBtnSpelling: function(d, b, e) {
-            Common.localStorage.setItem("pe-settings-spellcheck", d.pressed ? 1 : 0);
-            Common.Utils.InternalSettings.set("pe-settings-spellcheck", d.pressed);
-            this.api.asc_setSpellCheck(d.pressed);
-            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-        },
-
-        applySettings: function(menu) {
-            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("pe-settings-spellcheck", true), true);
         },
 
         zoomText        : 'Zoom {0}%'

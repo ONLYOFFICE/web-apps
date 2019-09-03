@@ -1,0 +1,23 @@
+{
+  "common.view.modals.txtCopy": "Skopírovať do schránky",
+  "common.view.modals.txtHeight": "Výška",
+  "common.view.modals.txtWidth": "Šírka",
+  "SSE.ApplicationController.convertationTimeoutText": "Prekročený čas konverzie.",
+  "SSE.ApplicationController.criticalErrorTitle": "Chyba",
+  "SSE.ApplicationController.downloadErrorText": "Sťahovanie zlyhalo.",
+  "SSE.ApplicationController.downloadTextText": "Sťahovanie dokumentu...",
+  "SSE.ApplicationController.errorAccessDeny": "Pokúšate sa vykonať akciu, na ktorú nemáte práva.<br>Prosím, kontaktujte svojho správcu dokumentového servera.",
+  "SSE.ApplicationController.errorDefaultMessage": "Kód chyby: %1",
+  "SSE.ApplicationController.errorFilePassProtect": "Dokument je chránený heslom a nie je možné ho otvoriť.",
+  "SSE.ApplicationController.errorUserDrop": "K súboru nie je možné práve teraz získať prístup.",
+  "SSE.ApplicationController.notcriticalErrorTitle": "Upozornenie",
+  "SSE.ApplicationController.textLoadingDocument": "Načítavanie dokumentu",
+  "SSE.ApplicationController.textOf": "z",
+  "SSE.ApplicationController.txtClose": "Zatvoriť",
+  "SSE.ApplicationController.unknownErrorText": "Neznáma chyba.",
+  "SSE.ApplicationController.unsupportedBrowserErrorText": "Váš prehliadač nie je podporovaný.",
+  "SSE.ApplicationController.waitText": "Prosím čakajte...",
+  "SSE.ApplicationView.txtDownload": "Stiahnuť",
+  "SSE.ApplicationView.txtFullScreen": "Celá obrazovka",
+  "SSE.ApplicationView.txtShare": "Zdieľať"
+}

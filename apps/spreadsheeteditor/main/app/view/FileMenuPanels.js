@@ -218,9 +218,7 @@ define([
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
             var item = this.viewSettingsPicker.getSelectedRec();
-            if (item[0]) {
-                item[0].get('panel').show();
-            }
+            item && item.get('panel').show();
         },
 
         setMode: function(mode) {
@@ -1050,40 +1048,176 @@ define([
             this.template = _.template([
                 '<table class="main">',
                     '<tr>',
-                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
-                        '<td class="right"><label id="id-info-title">-</label></td>',
-                    '</tr>',
-                    '<tr class="author">',
-                        '<td class="left"><label>' + this.txtAuthor + '</label></td>',
-                        '<td class="right"><span class="userLink" id="id-info-author">-</span></td>',
-                    '</tr>',
-                    '<tr class="placement">',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
                     '</tr>',
-                    '<tr class="appname">',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtOwner + '</label></td>',
+                        '<td class="right"><label id="id-info-owner">-</label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtUploaded + '</label></td>',
+                        '<td class="right"><label id="id-info-uploaded">-</label></td>',
+                    '</tr>',
+                    '<tr class="divider general"></tr>',
+                    '<tr class="divider general"></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
+                        '<td class="right"><div id="id-info-title"></div></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
+                        '<td class="right"><div id="id-info-subject"></div></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtComment + '</label></td>',
+                        '<td class="right"><div id="id-info-comment"></div></td>',
+                    '</tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-by"></label></td>',
+                    '</tr>',
+                    '<tr class="divider modify">',
+                    '<tr class="divider modify">',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtCreated + '</label></td>',
+                        '<td class="right"><label id="id-info-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
                         '<td class="left"><label>' + this.txtAppName + '</label></td>',
-                        '<td class="right"><label id="id-info-appname">-</label></td>',
+                        '<td class="right"><label id="id-info-appname"></label></td>',
                     '</tr>',
-                    '<tr class="date">',
-                        '<td class="left"><label>' + this.txtDate + '</label></td>',
-                        '<td class="right"><label id="id-info-date">-</label></td>',
+                    '<tr>',
+                        '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
+                        '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
+                            '<table>',
+                                '<tr>',
+                                    '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
+                                '</tr>',
+                            '</table>',
+                        '</div></td>',
                     '</tr>',
-                    '<tr class="divider date"></tr>',
                 '</table>'
             ].join(''));
 
             this.menu = options.menu;
+            this.coreProps = null;
+            this.authors = [];
+            this._locked = false;
         },
 
         render: function() {
             $(this.el).html(this.template());
 
-            this.lblTitle = $('#id-info-title');
+            var me = this;
+
+            // server info
             this.lblPlacement = $('#id-info-placement');
+            this.lblOwner = $('#id-info-owner');
+            this.lblUploaded = $('#id-info-uploaded');
+
+            // edited info
+            var keyDownBefore = function(input, e){
+                if (e.keyCode === Common.UI.Keys.ESC) {
+                    var newVal = input._input.val(),
+                        oldVal = input.getValue();
+                    if (newVal !== oldVal) {
+                        input.setValue(oldVal);
+                        e.stopPropagation();
+                    }
+                }
+            };
+
+            this.inputTitle = new Common.UI.InputField({
+                el          : $('#id-info-title'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue) {
+                if (newValue !== oldValue && me.coreProps && me.api) {
+                    me.coreProps.asc_putTitle(me.inputTitle.getValue());
+                    me.api.asc_setCoreProps(me.coreProps);
+                }
+            }).on('keydown:before', keyDownBefore);
+            this.inputSubject = new Common.UI.InputField({
+                el          : $('#id-info-subject'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue) {
+                if (newValue !== oldValue && me.coreProps && me.api) {
+                    me.coreProps.asc_putSubject(me.inputSubject.getValue());
+                    me.api.asc_setCoreProps(me.coreProps);
+                }
+            }).on('keydown:before', keyDownBefore);
+            this.inputComment = new Common.UI.InputField({
+                el          : $('#id-info-comment'),
+                style       : 'width: 200px;',
+                placeHolder : this.txtAddText,
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue) {
+                if (newValue !== oldValue && me.coreProps && me.api) {
+                    me.coreProps.asc_putDescription(me.inputComment.getValue());
+                    me.api.asc_setCoreProps(me.coreProps);
+                }
+            }).on('keydown:before', keyDownBefore);
+
+            // modify info
+            this.lblModifyDate = $('#id-info-modify-date');
+            this.lblModifyBy = $('#id-info-modify-by');
+
+            // creation info
             this.lblDate = $('#id-info-date');
-            this.lblAuthor = $('#id-info-author');
             this.lblApplication = $('#id-info-appname');
+            this.tblAuthor = $('#id-info-author table');
+            this.trAuthor = $('#id-info-add-author').closest('tr');
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="close img-commonctrl"></div></td></tr>';
+
+            this.tblAuthor.on('click', function(e) {
+                var btn = $(e.target);
+                if (btn.hasClass('close') && !btn.hasClass('disabled')) {
+                    var el = btn.closest('tr'),
+                        idx = me.tblAuthor.find('tr').index(el);
+                    el.remove();
+                    me.authors.splice(idx, 1);
+                    if (me.coreProps && me.api) {
+                        me.coreProps.asc_putCreator(me.authors.join(';'));
+                        me.api.asc_setCoreProps(me.coreProps);
+                    }
+                }
+            });
+
+            this.inputAuthor = new Common.UI.InputField({
+                el          : $('#id-info-add-author'),
+                style       : 'width: 200px;',
+                validateOnBlur: false,
+                placeHolder: this.txtAddAuthor
+            }).on('changed:after', function(input, newValue, oldValue) {
+                if (newValue == oldValue) return;
+
+                var val = newValue.trim();
+                if (!!val && val !== oldValue.trim()) {
+                    val.split(/\s*[,;]\s*/).forEach(function(item){
+                        var str = item.trim();
+                        if (str) {
+                            var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
+                            me.trAuthor.before(div);
+                            me.authors.push(item);
+                        }
+                    });
+                    me.inputAuthor.setValue('');
+                    if (me.coreProps && me.api) {
+                        me.coreProps.asc_putCreator(me.authors.join(';'));
+                        me.api.asc_setCoreProps(me.coreProps);
+                    }
+                }
+            }).on('keydown:before', keyDownBefore);
 
             this.rendered = true;
 
@@ -1101,6 +1235,8 @@ define([
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+
+            this.updateFileInfo();
         },
 
         hide: function() {
@@ -1108,58 +1244,154 @@ define([
         },
 
         updateInfo: function(doc) {
+            if (!this.doc && doc && doc.info) {
+                doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+            }
+
             this.doc = doc;
             if (!this.rendered)
                 return;
 
+            var visible = false;
             doc = doc || {};
-            this.lblTitle.text((doc.title) ? doc.title : '-');
-
             if (doc.info) {
-                if (doc.info.author)
-                    this.lblAuthor.text(doc.info.author);
-                this._ShowHideInfoItem('author', doc.info.author!==undefined && doc.info.author!==null);
-                if (doc.info.created )
-                    this.lblDate.text( doc.info.created );
-                this._ShowHideInfoItem('date', doc.info.created!==undefined && doc.info.created!==null);
+                // server info
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
-                this._ShowHideInfoItem('placement', doc.info.folder!==undefined && doc.info.folder!==null);
+                visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
+                var value = doc.info.owner || doc.info.author;
+                if (value)
+                    this.lblOwner.text(value);
+                visible = this._ShowHideInfoItem(this.lblOwner, !!value) || visible;
+                value = doc.info.uploaded || doc.info.created;
+                if (value)
+                    this.lblUploaded.text(value);
+                visible = this._ShowHideInfoItem(this.lblUploaded, !!value) || visible;
             } else
                 this._ShowHideDocInfo(false);
+            $('tr.divider.general', this.el)[visible?'show':'hide']();
+
             var appname = (this.api) ? this.api.asc_getAppProps() : null;
             if (appname) {
                 appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
                 this.lblApplication.text(appname);
             }
-            this._ShowHideInfoItem('appname', !!appname);
+            this._ShowHideInfoItem(this.lblApplication, !!appname);
+
+            this.coreProps = (this.api) ? this.api.asc_getCoreProps() : null;
+            if (this.coreProps) {
+                var value = this.coreProps.asc_getCreated();
+                if (value)
+                    this.lblDate.text(value.toLocaleString());
+                this._ShowHideInfoItem(this.lblDate, !!value);
+            }
         },
 
-        _ShowHideInfoItem: function(cls, visible) {
-            $('tr.'+cls, this.el)[visible?'show':'hide']();
+        updateFileInfo: function() {
+            if (!this.rendered)
+                return;
+
+            var me = this,
+                props = (this.api) ? this.api.asc_getCoreProps() : null,
+                value;
+
+            this.coreProps = props;
+            // var app = (this.api) ? this.api.asc_getAppProps() : null;
+            // if (app) {
+            //     value = app.asc_getTotalTime();
+            //     if (value)
+            //         this.lblEditTime.text(value + ' ' + this.txtMinutes);
+            // }
+            // this._ShowHideInfoItem(this.lblEditTime, !!value);
+
+            if (props) {
+                var visible = false;
+                value = props.asc_getModified();
+                if (value)
+                    this.lblModifyDate.text(value.toLocaleString());
+                visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
+                value = props.asc_getLastModifiedBy();
+                if (value)
+                    this.lblModifyBy.text(value);
+                visible = this._ShowHideInfoItem(this.lblModifyBy, !!value) || visible;
+                $('tr.divider.modify', this.el)[visible?'show':'hide']();
+
+                value = props.asc_getTitle();
+                this.inputTitle.setValue(value || '');
+                value = props.asc_getSubject();
+                this.inputSubject.setValue(value || '');
+                value = props.asc_getDescription();
+                this.inputComment.setValue(value || '');
+
+                this.tblAuthor.find('tr:not(:last-of-type)').remove();
+                this.authors = [];
+                value = props.asc_getCreator();//"123\"\"\"\<\>,456";
+                value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                    var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(item)));
+                    me.trAuthor.before(div);
+                    me.authors.push(item);
+                });
+                this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
+            }
+            this.SetDisabled();
+        },
+
+        _ShowHideInfoItem: function(el, visible) {
+            el.closest('tr')[visible?'show':'hide']();
+            return visible;
         },
 
         _ShowHideDocInfo: function(visible) {
-            this._ShowHideInfoItem('date', visible);
-            this._ShowHideInfoItem('placement', visible);
-            this._ShowHideInfoItem('author', visible);
+            this._ShowHideInfoItem(this.lblPlacement, visible);
+            this._ShowHideInfoItem(this.lblOwner, visible);
+            this._ShowHideInfoItem(this.lblUploaded, visible);
         },
 
         setMode: function(mode) {
+            this.mode = mode;
+            this.inputAuthor.setVisible(mode.isEdit);
+            this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
+            this.SetDisabled();
             return this;
         },
 
         setApi: function(o) {
             this.api = o;
+            this.api.asc_registerCallback('asc_onLockCore',  _.bind(this.onLockCore, this));
             this.updateInfo(this.doc);
             return this;
         },
 
-        txtTitle: 'Document Title',
+        onLockCore: function(lock) {
+            this._locked = lock;
+            this.updateFileInfo();
+        },
+
+        SetDisabled: function() {
+            var disable = !this.mode.isEdit || this._locked;
+            this.inputTitle.setDisabled(disable);
+            this.inputSubject.setDisabled(disable);
+            this.inputComment.setDisabled(disable);
+            this.inputAuthor.setDisabled(disable);
+            this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
+            this.tblAuthor.toggleClass('disabled', disable);
+        },
+
+        txtPlacement: 'Location',
+        txtOwner: 'Owner',
+        txtUploaded: 'Uploaded',
+        txtAppName: 'Application',
+        txtTitle: 'Title',
+        txtSubject: 'Subject',
+        txtComment: 'Comment',
+        txtModifyDate: 'Last Modified',
+        txtModifyBy: 'Last Modified By',
+        txtCreated: 'Created',
         txtAuthor: 'Author',
-        txtPlacement: 'Placement',
-        txtDate: 'Creation Date',
-        txtAppName: 'Application'
+        txtAddAuthor: 'Add Author',
+        txtAddText: 'Add Text',
+        txtMinutes: 'min'
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
@@ -1256,25 +1488,36 @@ define([
 
         setMode: function(mode) {
             this.sharingSettingsUrl = mode.sharingSettingsUrl;
+            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
+            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
             return this;
         },
 
         changeAccessRights: function(btn,event,opts) {
-            if (this._docAccessDlg) return;
+            if (this._docAccessDlg || this._readonlyRights) return;
 
             var me = this;
             me._docAccessDlg = new Common.Views.DocumentAccessDialog({
                 settingsurl: this.sharingSettingsUrl
             });
             me._docAccessDlg.on('accessrights', function(obj, rights){
-                me.doc.info.sharingSettings = rights;
-                me._ShowHideInfoItem('rights', me.doc.info.sharingSettings!==undefined && me.doc.info.sharingSettings!==null && me.doc.info.sharingSettings.length>0);
-                me.cntRights.html(me.templateRights({users: me.doc.info.sharingSettings}));
+                me.updateSharingSettings(rights);
             }).on('close', function(obj){
                 me._docAccessDlg = undefined;
             });
 
             me._docAccessDlg.show();
+        },
+
+        setSharingSettings: function(data) {
+            data && this.updateSharingSettings(data.sharingSettings);
+        },
+
+        updateSharingSettings: function(rights) {
+            this.doc.info.sharingSettings = rights;
+            this._ShowHideInfoItem('rights', this.doc.info.sharingSettings!==undefined && this.doc.info.sharingSettings!==null && this.doc.info.sharingSettings.length>0);
+            this.cntRights.html(this.templateRights({users: this.doc.info.sharingSettings}));
+            Common.NotificationCenter.trigger('mentions:clearusers', this);
         },
 
         onLostEditRights: function() {

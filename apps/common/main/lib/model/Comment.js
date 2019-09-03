@@ -53,6 +53,7 @@ define([
     Common.Models.Comment = Backbone.Model.extend({
         defaults: {
             uid                 : 0,                        //  asc
+            guid                : '',
             userid              : 0,
             username            : 'Guest',
             usercolor           : null,

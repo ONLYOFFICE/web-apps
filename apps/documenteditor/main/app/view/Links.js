@@ -115,44 +115,17 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
 
-                this.btnsContents = [];
-                this.btnsNotes = [];
                 this.btnsPrevNote = [];
                 this.btnsNextNote = [];
-                this.btnsHyperlink = [];
                 this.paragraphControls = [];
 
                 var me = this,
                     $host = me.toolbar.$el;
-                var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length)
-                        cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
-                };
 
-                var _injectComponents = function ($slots, iconCls, split, menu, caption, btnsArr) {
-                    $slots.each(function(index, el) {
-                        var _cls = 'btn-toolbar';
-                        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                        var button = new Common.UI.Button({
-                            id: "id-toolbar-" + iconCls + index,
-                            cls: _cls,
-                            iconCls: iconCls,
-                            caption: caption,
-                            split: split,
-                            menu: menu,
-                            disabled: true
-                        }).render( $slots.eq(index) );
-
-                        btnsArr.push(button);
-                        me.paragraphControls.push(button);
-                    });
-                };
-
-                _injectComponents($host.find('.btn-slot.btn-contents'), 'btn-contents', true, true, me.capBtnInsContents, me.btnsContents);
-                _injectComponents($host.find('.btn-slot.slot-notes'), 'btn-notes', true, true, me.capBtnInsFootnote, me.btnsNotes);
-                _injectComponents($host.find('.btn-slot.slot-inshyperlink'), 'btn-inserthyperlink', false, false, me.capBtnInsLink, me.btnsHyperlink);
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'btn-contents', me.capBtnInsContents, undefined, true, true );
+                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'btn-notes', me.capBtnInsFootnote, undefined, true, true);
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'btn-inserthyperlink', me.capBtnInsLink);
+                Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -162,7 +135,7 @@ define([
                     menu: true,
                     disabled: true
                 });
-                _injectComponent('#slot-btn-contents-update', this.btnContentsUpdate);
+                Common.Utils.injectComponent($host.find('#slot-btn-contents-update'), this.btnContentsUpdate);
                 this.paragraphControls.push(this.btnContentsUpdate);
 
                 this.btnBookmarks = new Common.UI.Button({
@@ -171,7 +144,7 @@ define([
                     caption: this.capBtnBookmarks,
                     disabled: true
                 });
-                _injectComponent('#slot-btn-bookmarks', this.btnBookmarks);
+                Common.Utils.injectComponent($host.find('#slot-btn-bookmarks'), this.btnBookmarks);
                 this.paragraphControls.push(this.btnBookmarks);
 
                 this._state = {disabled: false};
@@ -258,7 +231,7 @@ define([
                             el: $('#id-menu-goto-footnote-prev-'+index),
                             cls: 'btn-toolbar'
                         }));
-                        me.btnsNextNote.push(me.mnuGotoFootNext = new Common.UI.Button({
+                        me.btnsNextNote.push(new Common.UI.Button({
                             el: $('#id-menu-goto-footnote-next-'+index),
                             cls: 'btn-toolbar'
                         }));

@@ -150,7 +150,7 @@ define([
 
                         if (this._isChartStylesChanged) {
                             if (rec)
-                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec()[0],true);
+                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
                             else
                                 this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
                         }
@@ -415,16 +415,16 @@ define([
                     if (count>0 && count==styles.length) {
                         var data = stylesStore.models;
                         _.each(styles, function(style, index){
-                            data[index].set('imageUrl', style.asc_getImageUrl());
+                            data[index].set('imageUrl', style.asc_getImage());
                         });
                     } else {
                         var stylearray = [],
                             selectedIdx = -1;
                         _.each(styles, function(item, index){
                             stylearray.push({
-                                imageUrl: item.asc_getImageUrl(),
-                                data    : item.asc_getStyle(),
-                                tip     : me.textStyle + ' ' + item.asc_getStyle()
+                                imageUrl: item.asc_getImage(),
+                                data    : item.asc_getName(),
+                                tip     : me.textStyle + ' ' + item.asc_getName()
                             });
                         });
                         stylesStore.reset(stylearray, {silent: false});

@@ -76,12 +76,12 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-sortdesc"></span>
-                        <span class="btn-slot" id="slot-btn-sortasc"></span>
+                        <span class="btn-slot split slot-sortdesc"></span>
+                        <span class="btn-slot slot-sortasc"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-setfilter"></span>
-                        <span class="btn-slot" id="slot-btn-clear-filter"></span>
+                        <span class="btn-slot split slot-btn-setfilter"></span>
+                        <span class="btn-slot slot-btn-clear-filter"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -120,6 +120,10 @@
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-instable"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insimage"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
@@ -142,6 +146,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-printarea"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -150,6 +155,52 @@
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
                 </div>
+            </section>
+            <section class="panel" data-tab="formula">
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-additional-formula"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-autosum"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-recent"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-financial"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-logical"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-text"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-lookup"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-math"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-more"></span>
+                </div>
+            </section>
+            <section class="panel" data-tab="data">
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot split slot-sortdesc"></span>
+                        <span class="btn-slot slot-sortasc"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split slot-btn-setfilter"></span>
+                        <span class="btn-slot slot-btn-clear-filter"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-text-column"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-group"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-ungroup"></span>
+                </div>
+                <!--<div class="group">-->
+                    <!--<div class="elset">-->
+                        <!--<span class="btn-slot" id="slot-btn-show-details" style="width:auto;"></span>-->
+                    <!--</div>-->
+                    <!--<div class="elset">-->
+                        <!--<span class="btn-slot" id="slot-btn-hide-details" style="width:auto;"></span>-->
+                    <!--</div>-->
+                <!--</div>-->
             </section>
         </section>
     </section>

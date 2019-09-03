@@ -63,6 +63,19 @@ var c_tableBorder = {
     BORDER_OUTER_TABLE: 13 // table border and outer cell borders
 };
 
+var c_paragraphTextAlignment = {
+    RIGHT: 0,
+    LEFT: 1,
+    CENTERED: 2,
+    JUSTIFIED: 3
+};
+
+var c_paragraphSpecial = {
+    NONE_SPECIAL: 0,
+    FIRST_LINE: 1,
+    HANGING: 2
+};
+
 define([
     'core',
     'presentationeditor/main/app/view/DocumentHolder'

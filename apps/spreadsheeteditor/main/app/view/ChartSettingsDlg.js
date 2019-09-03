@@ -1433,7 +1433,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             if (this.isChart) {
                 var rec = this.mnuChartTypePicker.getSelectedRec(),
-                    type = (rec && rec.length>0) ? rec[0].get('type') : this.currentChartType;
+                    type = (rec) ? rec.get('type') : this.currentChartType;
 
                 this.chartSettings.putType(type);
 
@@ -1492,7 +1492,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 var isvalid;
                 if (!_.isEmpty(this.txtDataRange.getValue())) {
                     var rec = this.mnuChartTypePicker.getSelectedRec(),
-                        type = (rec && rec.length>0) ? rec[0].get('type') : this.currentChartType;
+                        type = (rec) ? rec.get('type') : this.currentChartType;
 
                     isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, type);
                     if (isvalid == Asc.c_oAscError.ID.No)

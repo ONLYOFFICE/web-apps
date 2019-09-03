@@ -1,7 +1,6 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Opozorilo",
   "Common.Controllers.Chat.textEnterMessage": "Svoje sporočilo vnesite tu",
-  "Common.Controllers.Chat.textUserLimit": "You are using ONLYOFFICE Free Edition.<br>Only two users can co-edit the document simultaneously.<br>Want more? Consider buying ONLYOFFICE Enterprise Edition.<br><a href=\"http://www.onlyoffice.com/free-edition.aspx\" target=\"_blank\">Read more</a>",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimno",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zapri",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objekt je onemogočen, saj ga ureja drug uporabnik.",
@@ -94,7 +93,6 @@
   "PE.Controllers.Main.convertationTimeoutText": "Pretvorbena prekinitev presežena.",
   "PE.Controllers.Main.criticalErrorExtText": "Pritisnite \"OK\" za vrnitev na seznam dokumentov.",
   "PE.Controllers.Main.criticalErrorTitle": "Napaka",
-  "PE.Controllers.Main.defaultTitleText": "ONLYOFFICE Urejevalnik predstavitev",
   "PE.Controllers.Main.downloadErrorText": "Prenos ni uspel.",
   "PE.Controllers.Main.downloadTextText": "Prenašanje predstavitve...",
   "PE.Controllers.Main.downloadTitleText": "Prenašanje predstavitve",
@@ -327,7 +325,6 @@
   "PE.Views.FileMenuPanels.CreateNew.noTemplatesText": "Ni predlog",
   "PE.Views.FileMenuPanels.DocumentInfo.txtAuthor": "Avtor",
   "PE.Views.FileMenuPanels.DocumentInfo.txtBtnAccessRights": "Spremeni pravice dostopa",
-  "PE.Views.FileMenuPanels.DocumentInfo.txtDate": "Datum nastanka",
   "PE.Views.FileMenuPanels.DocumentInfo.txtPlacement": "Lokacija",
   "PE.Views.FileMenuPanels.DocumentInfo.txtRights": "Osebe, ki imajo pravice",
   "PE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Naslov predstavitve",

@@ -1,0 +1,21 @@
+{
+  "common.view.modals.txtCopy": "Kopiraj v odložišče",
+  "common.view.modals.txtHeight": "Višina",
+  "common.view.modals.txtWidth": "Širina",
+  "SSE.ApplicationController.convertationErrorText": "Pretvorba ni uspela.",
+  "SSE.ApplicationController.convertationTimeoutText": "Pretvorbena prekinitev presežena.",
+  "SSE.ApplicationController.criticalErrorTitle": "Napaka",
+  "SSE.ApplicationController.downloadErrorText": "Prenos ni uspel.",
+  "SSE.ApplicationController.downloadTextText": "Prenašanje razpredelnice...",
+  "SSE.ApplicationController.errorDefaultMessage": "Koda napake: %1",
+  "SSE.ApplicationController.errorFilePassProtect": "Dokument je zaščiten z geslom in ga ni mogoče odpreti.",
+  "SSE.ApplicationController.errorUserDrop": "Do datoteke v tem trenutku ni možno dostopati.",
+  "SSE.ApplicationController.notcriticalErrorTitle": "Opozorilo",
+  "SSE.ApplicationController.textLoadingDocument": "Nalaganje razpredelnice",
+  "SSE.ApplicationController.textOf": "od",
+  "SSE.ApplicationController.txtClose": "Zapri",
+  "SSE.ApplicationController.unknownErrorText": "Neznana napaka.",
+  "SSE.ApplicationController.unsupportedBrowserErrorText": "Vaš brskalnik ni podprt.",
+  "SSE.ApplicationView.txtDownload": "Prenesi",
+  "SSE.ApplicationView.txtShare": "Deli"
+}

@@ -237,7 +237,7 @@ define([
                 if ( isopts ) close_menu = false;
                 else this.clickSaveCopyAsFormat(undefined);
                 break;
-            case 'print': this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); break;
+            case 'print': this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); break;
             case 'exit': Common.NotificationCenter.trigger('goback'); break;
             case 'edit':
                 this.getApplication().getController('Statusbar').setStatusCaption(this.requestEditRightsText);
@@ -302,13 +302,39 @@ define([
                         buttons: ['ok', 'cancel'],
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
-                                this.api.asc_DownloadAs(format);
+                                if (format == Asc.c_oAscFileType.TXT)
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                else
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 menu.hide();
                             }
                         }, this)
                     });
+                } else if (format == Asc.c_oAscFileType.DOCX) {
+                    if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
+                        Common.UI.warning({
+                            closable: false,
+                            width: 600,
+                            title: this.notcriticalErrorTitle,
+                            msg: this.txtCompatible,
+                            buttons: ['ok', 'cancel'],
+                            dontshow: true,
+                            callback: _.bind(function(btn, dontshow){
+                                if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
+                                if (btn == 'ok') {
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                                    menu.hide();
+                                }
+                            }, this)
+                        });
+                    } else {
+                        var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX);
+                        opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
+                        this.api.asc_DownloadAs(opts);
+                        menu.hide();
+                    }
                 } else {
-                    this.api.asc_DownloadAs(format);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                     menu.hide();
                 }
             } else
@@ -326,14 +352,42 @@ define([
                         callback: _.bind(function(btn){
                             if (btn == 'ok') {
                                 this.isFromFileDownloadAs = ext;
-                                this.api.asc_DownloadAs(format, true);
+                                if (format == Asc.c_oAscFileType.TXT)
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                                else
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                                 menu.hide();
                             }
                         }, this)
                     });
+                } else if (format == Asc.c_oAscFileType.DOCX) {
+                    if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
+                        Common.UI.warning({
+                            closable: false,
+                            width: 600,
+                            title: this.notcriticalErrorTitle,
+                            msg: this.txtCompatible,
+                            buttons: ['ok', 'cancel'],
+                            dontshow: true,
+                            callback: _.bind(function(btn, dontshow){
+                                if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
+                                if (btn == 'ok') {
+                                    this.isFromFileDownloadAs = ext;
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
+                                    menu.hide();
+                                }
+                            }, this)
+                        });
+                    } else {
+                        this.isFromFileDownloadAs = ext;
+                        var opts = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+                        opts.asc_setCompatible(!!Common.Utils.InternalSettings.get("de-settings-compatible"));
+                        this.api.asc_DownloadAs(opts);
+                        menu.hide();
+                    }
                 } else {
                     this.isFromFileDownloadAs = ext;
-                    this.api.asc_DownloadAs(format, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
                     menu.hide();
                 }
             } else {
@@ -354,27 +408,31 @@ define([
                         defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
                 }
 
-                me._saveCopyDlg = new Common.Views.SaveAsDlg({
-                    saveFolderUrl: me.mode.saveAsUrl,
-                    saveFileUrl: url,
-                    defFileName: defFileName
-                });
-                me._saveCopyDlg.on('saveaserror', function(obj, err){
-                    var config = {
-                        closable: false,
-                        title: me.notcriticalErrorTitle,
-                        msg: err,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            Common.NotificationCenter.trigger('edit:complete', me);
-                        }
-                    };
-                    Common.UI.alert(config);
-                }).on('close', function(obj){
-                    me._saveCopyDlg = undefined;
-                });
-                me._saveCopyDlg.show();
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        var config = {
+                            closable: false,
+                            title: me.notcriticalErrorTitle,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
             }
             this.isFromFileDownloadAs = false;
         },
@@ -436,8 +494,10 @@ define([
         },
 
         onCreateNew: function(menu, type) {
-            var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
-            if (newDocumentPage) newDocumentPage.focus();
+            if ( !Common.Controllers.Desktop.process('create:new') ) {
+                var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
+                if (newDocumentPage) newDocumentPage.focus();
+            }
 
             if (menu) {
                 menu.hide();
@@ -820,6 +880,8 @@ define([
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
         warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
         warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
-        txtUntitled: 'Untitled'
+        txtUntitled: 'Untitled',
+        txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.'
+
     }, DE.Controllers.LeftMenu || {}));
 });

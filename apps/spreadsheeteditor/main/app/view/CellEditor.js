@@ -62,14 +62,6 @@ define([
                         { caption: this.textManager, value: 'manager' },
                         { caption: '--' }
                     ]
-                }).on('render:after', function(mnu) {
-                        this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40
-                    });
-                }).on('show:after', function () {
-                    this.scroller.update({alwaysVisibleY: true});
                 })
             });
             this.btnNamedRanges.render($('#ce-cell-name-menu'));

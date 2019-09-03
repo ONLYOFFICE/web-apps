@@ -85,12 +85,13 @@ define([
                 menuStyle   : '',
                 displayField: 'displayValue',
                 valueField  : 'value',
+                search      : false,
                 scrollAlwaysVisible: false
             },
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control">',
+                    '<input type="text" class="form-control" spellcheck="false">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
@@ -119,6 +120,7 @@ define([
                 this.store          = me.options.store || new Common.UI.ComboBoxStore();
                 this.displayField   = me.options.displayField;
                 this.valueField     = me.options.valueField;
+                this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 me.rendered         = me.options.rendered || false;
 
@@ -295,12 +297,14 @@ define([
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {
                         $list.scrollTop($list.scrollTop() + itemTop + itemHeight - (listHeight/2));
                     }
+                    setTimeout(function(){$selected.find('a').focus();}, 1);
                 }
 
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
                 this.trigger('show:after', this, e);
+                this._search = {};
             },
 
             onBeforeHideMenu: function(e) {
@@ -332,6 +336,57 @@ define([
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                     return false;
+                }  else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
+                    var me = this;
+                    clearTimeout(this._search.timer);
+                    this._search.timer = setTimeout(function () { me._search = {}; }, 1000);
+
+                    (!this._search.text) && (this._search.text = '');
+                    (!this._search.char) && (this._search.char = e.key);
+                    (this._search.char !== e.key) && (this._search.full = true);
+                    this._search.text += e.key;
+                    if (this._search.index===undefined) {
+                        var $items = this.cmpEl.find('ul > li').find('> a');
+                        this._search.index = $items.index($items.filter(':focus'));
+                    }
+                    this.selectCandidate();
+                }
+            },
+
+            selectCandidate: function() {
+                var index = this._search.index || 0,
+                    re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                    itemCandidate, idxCandidate;
+
+                for (var i=0; i<this.store.length; i++) {
+                    var item = this.store.at(i);
+                    if (re.test(item.get(this.displayField))) {
+                        if (!itemCandidate) {
+                            itemCandidate = item;
+                            idxCandidate = i;
+                        }
+                        if (this._search.full && i==index || i>index) {
+                            itemCandidate = item;
+                            idxCandidate = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (itemCandidate) {
+                    this._search.index = idxCandidate;
+                    var item = $('#' + itemCandidate.get('id') + ' a', $(this.el));
+                    if (this.scroller) {
+                        this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+                        var $list = $(this.el).find('ul');
+                        var itemTop = item.position().top,
+                            itemHeight = item.height(),
+                            listHeight = $list.height();
+                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                            $list.scrollTop($list.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        }
+                    }
+                    item.focus();
                 }
             },
 

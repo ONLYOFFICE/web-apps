@@ -145,6 +145,12 @@
                     "cwd": "../apps/documenteditor/main/locale/",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/locale/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/main/resources/watermark",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/documenteditor/main/resources/watermark"
                 }
             ],
             "help": [
@@ -368,6 +374,7 @@
         },
         "js": {
             "src": [
+                "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
                 "../apps/common/embed/lib/util/utils.js",
@@ -386,6 +393,14 @@
             }
         },
         "copy": {
+            "localization": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/embed/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/documenteditor/embed/locale/"
+                }
+            ],
             "index-page": {
                 "../deploy/web-apps/apps/documenteditor/embed/index.html": "../apps/documenteditor/embed/index.html.deploy"
             },

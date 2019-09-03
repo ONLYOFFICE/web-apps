@@ -301,7 +301,7 @@
 
 .style-off-tabs {
     .toolbar {
-        @underscore_height: 2px;
+        @underscore_height: 3px;
 
         .tabs, .extra {
             background-color: transparent;
@@ -329,6 +329,7 @@
 
                 &.active {
                     background-color: transparent;
+                    font-weight: bold;
 
                     &:after {
                         opacity: 1;
@@ -343,6 +344,17 @@
 
                 > a {
                     color: @gray-deep;
+
+                    &::after {
+                        display:block;
+                        content:attr(data-title);
+                        font-weight:bold;
+                        height:1px;
+                        color:transparent;
+                        overflow:hidden;
+                        visibility:hidden;
+                        margin-bottom:-1px;
+                    }
                 }
             }
         }
@@ -502,3 +514,64 @@
 .button-normal-icon(~'x-huge .btn-bookmarks', 56, @toolbar-big-icon-size);
 .button-normal-icon(btn-blankpage,         57, @toolbar-big-icon-size);
 .button-normal-icon(btn-print-area,         58, @toolbar-big-icon-size);
+.button-normal-icon(btn-cell-group,         59, @toolbar-big-icon-size);
+.button-normal-icon(btn-cell-ungroup,       60, @toolbar-big-icon-size);
+.button-normal-icon(btn-to-columns,         61, @toolbar-big-icon-size);
+.button-normal-icon(btn-watermark,          63, @toolbar-big-icon-size);
+.button-normal-icon(btn-color-schema,       64, @toolbar-big-icon-size);
+.button-normal-icon(btn-ins-formula,        65, @toolbar-big-icon-size);
+.button-normal-icon(btn-autosumm,           66, @toolbar-big-icon-size);
+.button-normal-icon(btn-recent,             67, @toolbar-big-icon-size);
+.button-normal-icon(btn-finance,            68, @toolbar-big-icon-size);
+.button-normal-icon(btn-logic,              69, @toolbar-big-icon-size);
+.button-normal-icon(btn-func-text,          70, @toolbar-big-icon-size);
+.button-normal-icon(btn-datetime,           71, @toolbar-big-icon-size);
+.button-normal-icon(btn-lookup,             72, @toolbar-big-icon-size);
+.button-normal-icon(btn-func-math,          73, @toolbar-big-icon-size);
+.button-normal-icon(btn-more,               74, @toolbar-big-icon-size);
+.button-normal-icon(btn-pagenum,            75, @toolbar-big-icon-size);
+
+[applang=ru] {
+    .btn-toolbar {
+        &:not(.x-huge) {
+            .icon:not(svg) {
+                &.btn-bold, &.btn-italic, &.btn-strikeout, &.btn-underline, &.btn-ic-docspell, &.btn-sort-down, &.btn-sort-up, &.btn-currency-style {
+                    .background-ximage('@{common-image-path}/controls/toolbar-menu-ru.png', '@{common-image-path}/controls/toolbar-menu-ru@2x.png', 60px);
+                }
+            }
+        }
+    }
+
+    .img-toolbarmenu.btn-ic-docspell {
+        .background-ximage('@{common-image-path}/controls/toolbar-menu-ru.png', '@{common-image-path}/controls/toolbar-menu-ru@2x.png', 60px);
+    }
+
+    .button-normal-icon(btn-notes,            77, @toolbar-big-icon-size);
+    .button-normal-icon(btn-controls,         78, @toolbar-big-icon-size);
+
+    .button-normal-icon(btn-bold,             0, @toolbar-icon-size);
+    .button-normal-icon(btn-italic,           1, @toolbar-icon-size);
+    .button-normal-icon(btn-strikeout,        2, @toolbar-icon-size);
+    .button-normal-icon(btn-underline,        3, @toolbar-icon-size);
+    .button-normal-icon(btn-ic-docspell,      4, @toolbar-icon-size);
+    .button-normal-icon(btn-sort-down,        5, @toolbar-icon-size);
+    .button-normal-icon(btn-sort-up,          6, @toolbar-icon-size);
+    .button-normal-icon(btn-currency-style,   7, @toolbar-icon-size);
+}
+
+
+.item-shape {
+    .icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    svg.icon {
+        display: inline-block;
+        vertical-align: middle;
+        fill: #444444;
+    }
+
+    width: 20px;
+    height: 20px;
+}

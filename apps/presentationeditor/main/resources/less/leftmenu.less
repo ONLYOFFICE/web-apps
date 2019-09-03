@@ -7,28 +7,21 @@
 
         .tool-menu-btns {
             border-right: 1px solid @gray-dark;
-
-            .toolbar-btn-icon(btn-menu-file,        49, @toolbar-icon-size);
-            .toolbar-btn-icon(btn-menu-search,      50, @toolbar-icon-size);
-            .toolbar-btn-icon(btn-menu-thumbs,      51, @toolbar-icon-size);
-            .toolbar-btn-icon(btn-menu-comments,    52, @toolbar-icon-size);
-            .toolbar-btn-icon(btn-menu-chat,        53, @toolbar-icon-size);
-            .toolbar-btn-icon(btn-menu-about,       55, @toolbar-icon-size);
-            .toolbar-btn-icon(btn-menu-support,     68, @toolbar-icon-size);
-            .toolbar-btn-icon(btn-menu-plugin,      73, @toolbar-icon-size);
-
-            button.notify .btn-menu-chat,
-            button.notify.over > .btn-menu-chat {background-position: -0*@toolbar-icon-size -54*@toolbar-icon-size;}
-            button.notify:active   > .btn-menu-chat {background-position: -1*@toolbar-icon-size -54*@toolbar-icon-size;}
-            button.notify.disabled > .btn-menu-chat {background-position: -2*@toolbar-icon-size -54*@toolbar-icon-size;}
-
-            button.notify .btn-menu-comments,
-            button.notify.over > .btn-menu-comments {background-position: -0*@toolbar-icon-size -70*@toolbar-icon-size;}
-            button.notify:active   > .btn-menu-comments {background-position: -1*@toolbar-icon-size -70*@toolbar-icon-size;}
-            button.notify.disabled > .btn-menu-comments {background-position: -2*@toolbar-icon-size -70*@toolbar-icon-size;}
         }
     }
 }
+
+button.notify .btn-menu-chat {background-position: -0*@toolbar-icon-size -54*@toolbar-icon-size;}
+button.notify .btn-menu-comments {background-position: -0*@toolbar-icon-size -70*@toolbar-icon-size;}
+
+.button-normal-icon(btn-menu-file,        49, @toolbar-icon-size);
+.button-normal-icon(btn-menu-search,      50, @toolbar-icon-size);
+.button-normal-icon(btn-menu-thumbs,      51, @toolbar-icon-size);
+.button-normal-icon(btn-menu-comments,    52, @toolbar-icon-size);
+.button-normal-icon(btn-menu-chat,        53, @toolbar-icon-size);
+.button-normal-icon(btn-menu-about,       55, @toolbar-icon-size);
+.button-normal-icon(btn-menu-support,     68, @toolbar-icon-size);
+.button-normal-icon(btn-menu-plugin,      73, @toolbar-icon-size);
 
 #left-menu {
     &+.layout-resizer {
@@ -432,6 +425,27 @@
 
             label, span {
                 font-size: 12px;
+            }
+
+            .close {
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 5px;
+
+                background-position: @but-close-offset-x @but-close-offset-y;
+
+                &.over,
+                &:hover {
+                    background-position: @but-close-offset-x @but-close-offset-y - 16px;
+                }
+
+                &.disabled {
+                    background-position: @but-close-offset-x @but-close-offset-y - 32px;
+                    cursor: default;
+                }
             }
         }
 

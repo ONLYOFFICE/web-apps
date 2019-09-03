@@ -446,9 +446,11 @@ Common.util.LanguageInfo = new(function() {
         },
 
         getLocalLanguageCode: function(name) {
-            for (var code in localLanguageName) {
-                if (localLanguageName[code][0].toLowerCase()===name.toLowerCase())
-                    return code;
+            if (name) {
+                for (var code in localLanguageName) {
+                    if (localLanguageName[code][0].toLowerCase()===name.toLowerCase())
+                        return code;
+                }
             }
             return null;
         },

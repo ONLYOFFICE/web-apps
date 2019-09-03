@@ -59,6 +59,18 @@
             vertical-align: middle;
         }
     }
+    &.checked {
+        &:before {
+            display: none !important;
+        }
+        &, &:hover, &:focus {
+            background-color: @primary;
+            color: @dropdown-link-active-color;
+            span.color {
+                border-color: rgba(255,255,255,0.7);
+            }
+        }
+    }
 }
 
 // menu zoom
@@ -85,82 +97,81 @@
 .toolbar-btn-icon(btn-fontcolor,         0, @toolbar-icon-size);
 .toolbar-btn-icon(btn-valign-top,        1, @toolbar-icon-size);
 //
-.toolbar-btn-icon(btn-bold,              3, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-all,        4, @toolbar-icon-size);
-.toolbar-btn-icon(btn-clearstyle,        5, @toolbar-icon-size);
-.toolbar-btn-icon(btn-incdecimal,        6, @toolbar-icon-size);
-.toolbar-btn-icon(btn-decdecimal,        7, @toolbar-icon-size);
-.toolbar-btn-icon(btn-italic,            8, @toolbar-icon-size);
-.toolbar-btn-icon(btn-fillparag,         9, @toolbar-icon-size);
-.toolbar-btn-icon(btn-merge,            10, @toolbar-icon-size);
-.toolbar-btn-icon(btn-print,            11, @toolbar-icon-size);
-.toolbar-btn-icon(btn-redo,             12, @toolbar-icon-size);
-.toolbar-btn-icon(btn-save,             13, @toolbar-icon-size);
-.toolbar-btn-icon(btn-sort-down,        14, @toolbar-icon-size);
-.toolbar-btn-icon(btn-formula,          15, @toolbar-icon-size);
-.toolbar-btn-icon(btn-undo,             16, @toolbar-icon-size);
-.toolbar-btn-icon(btn-wrap,             17, @toolbar-icon-size);
-.toolbar-btn-icon(btn-underline,        18, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-left,       21, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-center,     19, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-right,      22, @toolbar-icon-size);
-.toolbar-btn-icon(btn-align-just,       20, @toolbar-icon-size);
-.toolbar-btn-icon(btn-valign-middle,    23, @toolbar-icon-size);
-.toolbar-btn-icon(btn-valign-bottom,    24, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-out,       25, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-top,       26, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-bottom,    27, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-left,      28, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-right,     29, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-no,        30, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-center,    31, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-hmiddle,   32, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-vmiddle,   33, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-insertimage,      34, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-inserthyperlink,  35, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-insertchart,      36, @toolbar-icon-size);
-.toolbar-btn-icon(btn-copy,             37, @toolbar-icon-size);
-.toolbar-btn-icon(btn-paste,            38, @toolbar-icon-size);
-.toolbar-btn-icon(btn-synch,            39, @toolbar-icon-size);
-.toolbar-btn-icon(btn-autofilter,       40, @toolbar-icon-size);
-.toolbar-btn-icon(btn-colorschemas,     41, @toolbar-icon-size);
-.toolbar-btn-icon(btn-newdocument,      42, @toolbar-icon-size);
-.toolbar-btn-icon(btn-opendocument,     43, @toolbar-icon-size);
-.toolbar-btn-icon(btn-incfont,          44, @toolbar-icon-size);
-.toolbar-btn-icon(btn-decfont,          45, @toolbar-icon-size);
-.toolbar-btn-icon(btn-text-orient,      46, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-insertshape,      47, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-text,             48, @toolbar-icon-size);
-.toolbar-btn-icon(btn-sort-up,          49, @toolbar-icon-size);
-.toolbar-btn-icon(btn-clear-filter,     50, @toolbar-icon-size);
-.toolbar-btn-icon(btn-percent-style,    51, @toolbar-icon-size);
-.toolbar-btn-icon(btn-currency-style,   52, @toolbar-icon-size);
-.toolbar-btn-icon(btn-addcell,          53, @toolbar-icon-size);
-.toolbar-btn-icon(btn-delcell,          54, @toolbar-icon-size);
-.toolbar-btn-icon(btn-ttempl,           80, @toolbar-icon-size);
+.button-normal-icon(btn-bold,              3, @toolbar-icon-size);
+.button-normal-icon(btn-border-all,        4, @toolbar-icon-size);
+.button-normal-icon(btn-clearstyle,        5, @toolbar-icon-size);
+.button-normal-icon(btn-incdecimal,        6, @toolbar-icon-size);
+.button-normal-icon(btn-decdecimal,        7, @toolbar-icon-size);
+.button-normal-icon(btn-italic,            8, @toolbar-icon-size);
+.button-normal-icon(btn-fillparag,         9, @toolbar-icon-size);
+.button-normal-icon(btn-merge,            10, @toolbar-icon-size);
+.button-normal-icon(btn-print,            11, @toolbar-icon-size);
+.button-normal-icon(btn-redo,             12, @toolbar-icon-size);
+.button-normal-icon(btn-save,             13, @toolbar-icon-size);
+.button-normal-icon(btn-sort-down,        14, @toolbar-icon-size);
+.button-normal-icon(btn-formula,          15, @toolbar-icon-size);
+.button-normal-icon(btn-undo,             16, @toolbar-icon-size);
+.button-normal-icon(btn-wrap,             17, @toolbar-icon-size);
+.button-normal-icon(btn-underline,        18, @toolbar-icon-size);
+.button-normal-icon(btn-align-left,       21, @toolbar-icon-size);
+.button-normal-icon(btn-align-center,     19, @toolbar-icon-size);
+.button-normal-icon(btn-align-right,      22, @toolbar-icon-size);
+.button-normal-icon(btn-align-just,       20, @toolbar-icon-size);
+.button-normal-icon(btn-valign-middle,    23, @toolbar-icon-size);
+.button-normal-icon(btn-valign-bottom,    24, @toolbar-icon-size);
+.button-normal-icon(btn-border-out,       25, @toolbar-icon-size);
+.button-normal-icon(btn-border-top,       26, @toolbar-icon-size);
+.button-normal-icon(btn-border-bottom,    27, @toolbar-icon-size);
+.button-normal-icon(btn-border-left,      28, @toolbar-icon-size);
+.button-normal-icon(btn-border-right,     29, @toolbar-icon-size);
+.button-normal-icon(btn-border-no,        30, @toolbar-icon-size);
+.button-normal-icon(btn-border-center,    31, @toolbar-icon-size);
+.button-normal-icon(btn-border-hmiddle,   32, @toolbar-icon-size);
+.button-normal-icon(btn-border-vmiddle,   33, @toolbar-icon-size);
+.button-normal-icon(btn-copy,             37, @toolbar-icon-size);
+.button-normal-icon(btn-paste,            38, @toolbar-icon-size);
+.button-normal-icon(btn-synch,            39, @toolbar-icon-size);
+.button-normal-icon(btn-autofilter,       40, @toolbar-icon-size);
+.button-normal-icon(btn-colorschemas,     41, @toolbar-icon-size);
+.button-normal-icon(btn-newdocument,      42, @toolbar-icon-size);
+.button-normal-icon(btn-opendocument,     43, @toolbar-icon-size);
+.button-normal-icon(btn-incfont,          44, @toolbar-icon-size);
+.button-normal-icon(btn-decfont,          45, @toolbar-icon-size);
+.button-normal-icon(btn-text-orient,      46, @toolbar-icon-size);
+.button-normal-icon(btn-sort-up,          49, @toolbar-icon-size);
+.button-normal-icon(btn-clear-filter,     50, @toolbar-icon-size);
+.button-normal-icon(btn-percent-style,    51, @toolbar-icon-size);
+.button-normal-icon(btn-currency-style,   52, @toolbar-icon-size);
+.button-normal-icon(btn-addcell,          53, @toolbar-icon-size);
+.button-normal-icon(btn-delcell,          54, @toolbar-icon-size);
+.button-normal-icon(btn-ttempl,           80, @toolbar-icon-size);
 //
-.toolbar-btn-icon(btn-showmode,         56, @toolbar-icon-size);
-.toolbar-btn-icon(btn-settings,         57, @toolbar-icon-size);
+.button-normal-icon(btn-showmode,         56, @toolbar-icon-size);
+.button-normal-icon(btn-settings,         57, @toolbar-icon-size);
 //
-.toolbar-btn-icon(btn-search,           62, @toolbar-icon-size);
-.toolbar-btn-icon(btn-zoomin,           67, @toolbar-icon-size);
-.toolbar-btn-icon(btn-zoomout,          68, @toolbar-icon-size);
-.toolbar-btn-icon(btn-copystyle,        73, @toolbar-icon-size);
-.toolbar-btn-icon(btn-save-coauth,      76, @toolbar-icon-size);
+.button-normal-icon(btn-search,           62, @toolbar-icon-size);
+.button-normal-icon(btn-zoomin,           67, @toolbar-icon-size);
+.button-normal-icon(btn-zoomout,          68, @toolbar-icon-size);
+.button-normal-icon(btn-copystyle,        73, @toolbar-icon-size);
+.button-normal-icon(btn-save-coauth,      76, @toolbar-icon-size);
 
-.toolbar-btn-icon(btn-border-diagup,    42, @toolbar-icon-size);
-.toolbar-btn-icon(btn-border-diagdown,  43, @toolbar-icon-size);
+.button-normal-icon(btn-border-diagup,    42, @toolbar-icon-size);
+.button-normal-icon(btn-border-diagdown,  43, @toolbar-icon-size);
 
-.toolbar-btn-icon(btn-named-range,      77, @toolbar-icon-size);
-//.toolbar-btn-icon(btn-insertequation,   82, @toolbar-icon-size);
-.toolbar-btn-icon(btn-strikeout,        84, @toolbar-icon-size);
-.toolbar-btn-icon(btn-subscript,        85, @toolbar-icon-size);
-.toolbar-btn-icon(btn-superscript,      86, @toolbar-icon-size);
+.button-normal-icon(btn-spellcheck-next,    70, @toolbar-icon-size);
+.button-normal-icon(btn-spellcheck-preview, 72, @toolbar-icon-size);
 
-.toolbar-btn-icon(rotate-90,      89, @toolbar-icon-size);
-.toolbar-btn-icon(rotate-270,     90, @toolbar-icon-size);
-.toolbar-btn-icon(flip-hor,       91, @toolbar-icon-size);
-.toolbar-btn-icon(flip-vert,      92, @toolbar-icon-size);
+.button-normal-icon(btn-named-range,      77, @toolbar-icon-size);
+.button-normal-icon(btn-strikeout,        84, @toolbar-icon-size);
+.button-normal-icon(btn-subscript,        85, @toolbar-icon-size);
+.button-normal-icon(btn-superscript,      86, @toolbar-icon-size);
+
+.button-normal-icon(rotate-90,      89, @toolbar-icon-size);
+.button-normal-icon(rotate-270,     90, @toolbar-icon-size);
+.button-normal-icon(flip-hor,       91, @toolbar-icon-size);
+.button-normal-icon(flip-vert,      92, @toolbar-icon-size);
+.button-normal-icon(btn-show-details,      73, @toolbar-icon-size);
+.button-normal-icon(btn-hide-details,      73, @toolbar-icon-size);
 
 @menu-icon-size: 22px;
 .menu-btn-icon(mnu-align-center,         0, @menu-icon-size);

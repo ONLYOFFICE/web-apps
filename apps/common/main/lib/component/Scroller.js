@@ -165,7 +165,12 @@ define([
                     $(this.el).find('.ps-scrollbar-y-rail').removeClass('always-visible-y');
                     $(this.el).find('.ps-scrollbar-y').addClass('always-visible-y');
                 }
+            },
+
+            isVisible: function() {
+                return $(this.el).find('.ps-scrollbar-y-rail').is(':visible');
             }
+
         }), {
             isMouseCapture: function() {
                 return mouseCapture

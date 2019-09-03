@@ -85,7 +85,7 @@ define([
         this.cmbLanguage = new Common.UI.ComboBox({
             el: $window.find('#id-document-language'),
             cls: 'input-group-nr',
-            menuStyle: 'min-width: 318px; max-height: 300px;',
+            menuStyle: 'min-width: 318px; max-height: 285px;',
             editable: false,
             template: _.template([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
@@ -104,7 +104,8 @@ define([
                     '</ul>',
                 '</span>'
             ].join('')),
-            data: this.options.languages
+            data: this.options.languages,
+            search: true
         });
 
         if (this.cmbLanguage.scroller) this.cmbLanguage.scroller.update({alwaysVisibleY: true});
@@ -130,8 +131,8 @@ define([
     },
 
     onLangSelect: function(cmb, rec, e) {
-        cmb.$el.find('.input-icon').toggleClass('spellcheck-lang', rec.spellcheck);
-        cmb._input.css('padding-left', rec.spellcheck ? 25 : 3);
+        cmb.$el.find('.input-icon').toggleClass('spellcheck-lang', rec && rec.spellcheck);
+        cmb._input.css('padding-left', rec && rec.spellcheck ? 25 : 3);
     },
 
     onPrimary: function() {

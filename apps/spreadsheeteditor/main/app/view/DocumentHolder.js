@@ -922,17 +922,33 @@ define([
                 ]
             });
 
+            me.pmiCommonCut = new Common.UI.MenuItem({
+                caption     : me.txtCut,
+                value       : 'cut'
+            });
+
+            me.pmiCommonCopy = new Common.UI.MenuItem({
+                caption     : me.txtCopy,
+                value       : 'copy'
+            });
+
+            me.pmiCommonPaste = new Common.UI.MenuItem({
+                caption     : me.txtPaste,
+                value       : 'paste'
+            });
+
+            this.copyPasteMenu = new Common.UI.Menu({
+                items: [
+                    me.pmiCommonCut,
+                    me.pmiCommonCopy,
+                    me.pmiCommonPaste
+                ]
+            });
+
             this.entriesMenu = new Common.UI.Menu({
                 maxHeight: 200,
                 cyclic: false,
                 items: []
-            }).on('render:after', function(mnu) {
-                this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.dropdown-menu '),
-                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
-                    alwaysVisibleY: true
-                });
             }).on('show:after', function () {
                 this.scroller.update({alwaysVisibleY: true});
             });
@@ -943,12 +959,6 @@ define([
                 items: []
             }).on('render:after', function(mnu) {
                 mnu.cmpEl.removeAttr('oo_editor_input').attr('oo_editor_keyboard', true);
-                this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.dropdown-menu '),
-                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
-                    alwaysVisibleY: true
-                });
             });
 
             me.fireEvent('createdelayedelements', [me]);

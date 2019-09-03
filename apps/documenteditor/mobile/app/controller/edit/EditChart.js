@@ -171,7 +171,7 @@ define([
 
             initSettings: function (pageId) {
                 var me = this;
-
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
                 if (_chartObject) {
                     if (pageId == '#edit-chart-wrap') {
                         me._initWrapView();
@@ -222,6 +222,7 @@ define([
                     paletteFillColor = me.getView('EditChart').paletteFillColor,
                     paletteBorderColor = me.getView('EditChart').paletteBorderColor;
 
+
                 // Style
 
                 var type = chartProperties.getType();
@@ -232,7 +233,7 @@ define([
                 var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4;
                 var borderType = shapeProperties.get_stroke().get_type();
                 $('#edit-chart-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
-                $('#edit-chart-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
+                $('#edit-chart-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
 
                 paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));
                 paletteBorderColor && paletteBorderColor.on('select',   _.bind(me.onBorderColor, me));
@@ -426,6 +427,7 @@ define([
                     properties = new Asc.asc_CImgProperty(),
                     paddings = new Asc.asc_CPaddings();
 
+
                 $('.chart-wrap .distance .item-after').text(value + ' ' + _metricText);
 
                 value = Common.Utils.Metric.fnRecalcToMM(parseInt(value));
@@ -475,7 +477,7 @@ define([
 
             onBorderSizeChanging: function (e) {
                 var $target = $(e.currentTarget);
-                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
             },
 
             onFillColor: function(palette, color) {

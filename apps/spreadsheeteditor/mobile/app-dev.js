@@ -112,6 +112,7 @@ require([
         nameSpace: 'SSE',
         autoCreate: false,
         controllers : [
+            'Common.Controllers.Plugins',
             'Editor',
             'Toolbar',
             'Search',
@@ -133,6 +134,8 @@ require([
             ,'AddShape'
             ,'AddOther'
             ,'AddLink'
+            ,'FilterOptions'
+            ,'Common.Controllers.Collaboration'
         ]
     });
 
@@ -182,6 +185,7 @@ require([
     require([
         'common/main/lib/util/LocalStorage',
         'common/main/lib/util/utils',
+        'common/mobile/lib/controller/Plugins',
         'spreadsheeteditor/mobile/app/controller/Editor',
         'spreadsheeteditor/mobile/app/controller/Toolbar',
         'spreadsheeteditor/mobile/app/controller/Search',
@@ -203,6 +207,8 @@ require([
         ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
         ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
         ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
+        ,'spreadsheeteditor/mobile/app/controller/FilterOptions'
+        ,'common/mobile/lib/controller/Collaboration'
     ], function() {
         window.compareVersions = true;
         app.start();

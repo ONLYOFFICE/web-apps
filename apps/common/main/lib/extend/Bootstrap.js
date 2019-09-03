@@ -41,8 +41,8 @@
 function onDropDownKeyDown(e) {
     var $this       = $(this),
         $parent     = $this.parent(),
-        beforeEvent = jQuery.Event('keydown.before.bs.dropdown'),
-        afterEvent  = jQuery.Event('keydown.after.bs.dropdown');
+        beforeEvent = jQuery.Event('keydown.before.bs.dropdown', {keyCode: e.keyCode}),
+        afterEvent  = jQuery.Event('keydown.after.bs.dropdown', {keyCode: e.keyCode});
 
     $parent.trigger(beforeEvent);
 
@@ -111,17 +111,9 @@ function patchDropDownKeyDown(e) {
                  var mnu = $('> [role=menu]', li),
                     $subitems = mnu.find('> li:not(.divider):not(.disabled):visible > a'),
                     $dataviews = mnu.find('> li:not(.divider):not(.disabled):visible .dataview'),
-                    focusIdx = 0;
-                 if (mnu.find('> .menu-scroll').length>0) {
-                    var offset = mnu.scrollTop();
-                    for (var i=0; i<$subitems.length; i++) {
-                        if ($subitems[i].offsetTop > offset) {
-                            focusIdx = i; break;
-                        }
-                    }
-                }
-                if ($subitems.length>0 && $dataviews.length<1)
-                    $subitems.eq(focusIdx).focus();
+                    $internal_menu = mnu.find('> li:not(.divider):not(.disabled):visible ul.internal-menu');
+                if ($subitems.length>0 && $dataviews.length<1 && $internal_menu.length<1)
+                    ($subitems.index($subitems.filter(':focus'))<0) && $subitems.eq(0).focus();
             }, 250);
         }
     } else if (e.keyCode == 37) {     // left

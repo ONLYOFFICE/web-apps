@@ -40,6 +40,24 @@
  *
  */
 
+var c_paragraphLinerule = {
+    LINERULE_AUTO: 1,
+    LINERULE_EXACT: 2
+};
+
+var c_paragraphTextAlignment = {
+    RIGHT: 0,
+    LEFT: 1,
+    CENTERED: 2,
+    JUSTIFIED: 3
+};
+
+var c_paragraphSpecial = {
+    NONE_SPECIAL: 0,
+    FIRST_LINE: 1,
+    HANGING: 2
+};
+
 define([
     'core',
     'common/main/lib/util/utils',
@@ -77,7 +95,8 @@ define([
                     ttHeight: 20
                 },
                 filter: {ttHeight: 40},
-                func_arg: {}
+                func_arg: {},
+                input_msg: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -159,6 +178,9 @@ define([
                 view.pmiTextCut.on('click',                         _.bind(me.onCopyPaste, me));
                 view.pmiTextCopy.on('click',                        _.bind(me.onCopyPaste, me));
                 view.pmiTextPaste.on('click',                       _.bind(me.onCopyPaste, me));
+                view.pmiCommonCut.on('click',                       _.bind(me.onCopyPaste, me));
+                view.pmiCommonCopy.on('click',                      _.bind(me.onCopyPaste, me));
+                view.pmiCommonPaste.on('click',                     _.bind(me.onCopyPaste, me));
                 view.pmiInsertEntire.on('click',                    _.bind(me.onInsertEntire, me));
                 view.pmiDeleteEntire.on('click',                    _.bind(me.onDeleteEntire, me));
                 view.pmiInsertCells.menu.on('item:click',           _.bind(me.onInsertCells, me));
@@ -286,6 +308,7 @@ define([
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
                 this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
+                this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
             }
             return this;
         },
@@ -1514,7 +1537,10 @@ define([
                 case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
             }
 
-            if (isimagemenu || isshapemenu || ischartmenu) {
+            if (this.api.asc_getHeaderFooterMode()) {
+                if (!documentHolder.copyPasteMenu || !showMenu && !documentHolder.copyPasteMenu.isVisible()) return;
+                if (showMenu) this.showPopupMenu(documentHolder.copyPasteMenu, {}, event);
+            } else if (isimagemenu || isshapemenu || ischartmenu) {
                 if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = false;
@@ -1948,7 +1974,7 @@ define([
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.funcMenu,
                     menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
-                    funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
+                    funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
 
                 for (var i = 0; i < menu.items.length; i++) {
                     var tip = menu.items[i].cmpEl.data('bs.tooltip');
@@ -2074,7 +2100,7 @@ define([
                     this.documentHolder.cmpEl.append(functip.parentEl);
                 }
 
-                var funcdesc = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
 
                 if (functip.ref && functip.ref.isVisible()) {
@@ -2121,6 +2147,63 @@ define([
                     functip.ref = undefined;
                     functip.text = '';
                     functip.isHidden = true;
+                }
+            }
+        },
+
+        onInputMessage: function(title, message) {
+            var inputtip = this.tooltips.input_msg;
+
+            if (message) {
+                if (!inputtip.parentEl) {
+                    inputtip.parentEl = $('<div id="tip-container-inputtip" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(inputtip.parentEl);
+                }
+
+                var hint = title ? ('<b>' + (title || '') + '</b><br>') : '';
+                hint += (message || '');
+
+                if (inputtip.ref && inputtip.ref.isVisible()) {
+                    if (inputtip.text != hint) {
+                        inputtip.ref.hide();
+                        inputtip.ref = undefined;
+                        inputtip.text = '';
+                        inputtip.isHidden = true;
+                    }
+                }
+
+                if (!inputtip.ref || !inputtip.ref.isVisible()) {
+                    inputtip.text = hint;
+                    inputtip.ref = new Common.UI.Tooltip({
+                        owner   : inputtip.parentEl,
+                        html    : true,
+                        title   : hint
+                    });
+
+                    inputtip.ref.show([-10000, -10000]);
+                    inputtip.isHidden = false;
+                }
+
+                var pos = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    ],
+                    coord  = this.api.asc_getActiveCellCoord(),
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputtip.ref.getBSTip().$tip.height() - 5];
+                var tipwidth = inputtip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+
+                inputtip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            } else {
+                if (!inputtip.isHidden && inputtip.ref) {
+                    inputtip.ref.hide();
+                    inputtip.ref = undefined;
+                    inputtip.text = '';
+                    inputtip.isHidden = true;
                 }
             }
         },
@@ -2198,7 +2281,7 @@ define([
                                         if (me && me.api) {
                                             var props = new Asc.SpecialPasteProps();
                                             props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
-                                            props.asc_setAdvancedOptions(new Asc.asc_CCSVAdvancedOptions(encoding, delimiter, delimiterChar));
+                                            props.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
                                             me.api.asc_SpecialPaste(props);
                                         }
                                         me._state.lastSpecPasteChecked = item;
