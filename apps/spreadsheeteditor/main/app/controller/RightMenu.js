@@ -299,10 +299,6 @@ define([
             this.rightmenu.imageSettings.updateMetricUnit();
         },
 
-        fillTextArt:  function() {
-            this.rightmenu.textartSettings.fillTextArt();
-        },
-
         createDelayedElements: function() {
             var me = this;
             if (this.api) {

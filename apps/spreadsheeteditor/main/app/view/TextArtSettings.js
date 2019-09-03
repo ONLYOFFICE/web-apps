@@ -124,6 +124,10 @@ define([
             this.FillPatternContainer = $('#textart-panel-pattern-fill');
             this.FillGradientContainer = $('#textart-panel-gradient-fill');
             this.TransparencyContainer = $('#textart-panel-transparent-fill');
+
+            SSE.getCollection('Common.Collections.TextArt').bind({
+                reset: this.fillTextArt.bind(this)
+            });
         },
 
         render: function () {
@@ -1436,6 +1440,10 @@ define([
 
             var models = this.application.getCollection('Common.Collections.TextArt').models,
                 count = this.cmbTextArt.menuPicker.store.length;
+            if (models.length<1) {
+                SSE.getController('Main').fillTextArt(this.api.asc_getTextArtPreviews());
+                return;
+            }
             if (count>0 && count==models.length) {
                 var data = this.cmbTextArt.menuPicker.store.models;
                 _.each(models, function(template, index){

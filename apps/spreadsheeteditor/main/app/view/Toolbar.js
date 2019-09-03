@@ -1836,6 +1836,28 @@ define([
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
             }
 
+            if (this.btnInsertTextArt) {
+                var onShowBeforeTextArt = function (menu) {
+                    var collection = SSE.getCollection('Common.Collections.TextArt');
+                    if (collection.length<1)
+                        SSE.getController('Main').fillTextArt(me.api.asc_getTextArtPreviews());
+                    var picker = new Common.UI.DataView({
+                        el: $('#id-toolbar-menu-insart'),
+                        store: collection,
+                        parentMenu: menu,
+                        showLast: false,
+                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('insert:textart', [record.get('data')]);
+                        if (e.type !== 'click') menu.hide();
+                    });
+                    menu.off('show:before', onShowBeforeTextArt);
+                };
+                this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
+            }
+
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
                 this.updateMetricUnit();
         },

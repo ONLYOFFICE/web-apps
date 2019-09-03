@@ -766,7 +766,6 @@ define([
                                 if (shapes)
                                     me.fillAutoShapes(shapes[0], shapes[1]);
 
-                                me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
                                 toolbarController.activateControls();
                             }
@@ -1800,10 +1799,13 @@ define([
             },
 
             fillTextArt: function(shapes){
-                if (_.isEmpty(shapes)) return;
-
-                var me = this, arr = [],
+                var arr = [],
                     artStore = this.getCollection('Common.Collections.TextArt');
+
+                if (!shapes && artStore.length>0) {// shapes == undefined when update textart collection (from asc_onSendThemeColors)
+                    shapes = this.api.asc_getTextArtPreviews();
+                }
+                if (_.isEmpty(shapes)) return;
 
                 _.each(shapes, function(shape, index){
                     arr.push({
@@ -1814,15 +1816,6 @@ define([
                     });
                 });
                 artStore.reset(arr);
-
-                setTimeout(function(){
-                    me.getApplication().getController('Toolbar').fillTextArt();
-                }, 50);
-
-                setTimeout(function(){
-                    me.getApplication().getController('RightMenu').fillTextArt();
-                }, 50);
-
             },
             
             updateThemeColors: function() {
@@ -1846,7 +1839,7 @@ define([
                     this.updateThemeColors();
                     var me = this;
                     setTimeout(function(){
-                        me.fillTextArt(me.api.asc_getTextArtPreviews());
+                        me.fillTextArt();
                     }, 1);
                 }
             },
