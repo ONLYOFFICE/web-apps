@@ -234,10 +234,6 @@ define([
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
             Common.NotificationCenter.on('app:face', me.onAppShowed.bind(me));
 
-            PE.getCollection('Common.Collections.TextArt').bind({
-                reset: me.onResetTextArt.bind(this)
-            });
-
             PE.getCollection('ShapeGroups').bind({
                 reset: me.onResetAutoshapes.bind(this)
             });
@@ -1718,14 +1714,6 @@ define([
             me.toolbar.btnsInsertShape.forEach(function (btn, index) {
                 btn.menu.on('show:before', onShowBefore);
             });
-        },
-
-        onResetTextArt: function (collection, opts) {
-            (new Promise(function (resolve, reject) {
-                resolve();
-            })).then(function () {
-                this.toolbar.updateTextartMenu(collection);
-            }.bind(this));
         },
 
         onResetSlides: function () {

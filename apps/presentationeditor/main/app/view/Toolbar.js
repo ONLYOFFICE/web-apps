@@ -1148,6 +1148,26 @@ define([
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
 
+                var onShowBeforeTextArt = function (menu) {
+                    var collection = PE.getCollection('Common.Collections.TextArt');
+                    if (collection.length<1)
+                        PE.getController('Main').fillTextArt(me.api.asc_getTextArtPreviews());
+                    me.btnInsertTextArt.textartPicker = new Common.UI.DataView({
+                        el: $('#view-insert-art', menu.$el),
+                        store: collection,
+                        parentMenu: menu,
+                        showLast: false,
+                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
+                    });
+                    me.btnInsertTextArt.textartPicker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('insert:textart', [record.get('data')]);
+                        if (e.type !== 'click') menu.hide();
+                    });
+                    menu.off('show:before', onShowBeforeTextArt);
+                };
+                this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
+
                 // set dataviews
 
                 var _conf = this.mnuMarkersPicker.conf;
@@ -1417,40 +1437,6 @@ define([
                         }
                     }
                     picker._needRecalcSlideLayout = false;
-                }
-            },
-
-            updateTextartMenu: function (collection) {
-                var me = this;
-
-                var btn = me.btnInsertTextArt;
-                if ( btn.textartPicker ) {
-                    if ( btn.textartPicker.store.size() == collection.size() ) {
-                        btn.textartPicker.store.each(function (model, index) {
-                            model.set('imageUrl', collection.at(index).get('imageUrl'));
-                        });
-                    } else {
-                        btn.textartPicker.store.reset( collection.models );
-                    }
-                } else if (!this.binding.onShowBeforeTextArt) {
-                    me.binding.onShowBeforeTextArt = function(menu) {
-                        btn.textartPicker = new Common.UI.DataView({
-                            el: $('#view-insert-art', btn.menu.$el),
-                            store: collection,
-                            parentMenu: btn.menu,
-                            showLast: false,
-                            itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                        });
-
-                        btn.textartPicker.on('item:click', function(picker, item, record, e) {
-                            if (record)
-                                me.fireEvent('insert:textart', [record.get('data')]);
-
-                            if (e.type !== 'click') btn.menu.hide();
-                        });
-                        menu.off('show:before', me.binding.onShowBeforeTextArt);
-                    };
-                    me.btnInsertTextArt.menu.on('show:before', me.binding.onShowBeforeTextArt);
                 }
             },
 

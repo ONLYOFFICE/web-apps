@@ -278,10 +278,6 @@ define([
             this.rightmenu.tableSettings.updateMetricUnit();
         },
 
-        fillTextArt:  function() {
-            this.rightmenu.textartSettings.fillTextArt();
-        },
-
         createDelayedElements: function() {
             if (this.editMode && this.api) {
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
