@@ -110,7 +110,8 @@ define([
                     'insert:break'      : this.onClickPageBreak,
                     'change:compact'    : this.onClickChangeCompact,
                     'home:open'         : this.onHomeOpen,
-                    'add:chart'         : this.onSelectChart
+                    'add:chart'         : this.onSelectChart,
+                    'insert:textart'    : this.onInsertTextart
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -1880,6 +1881,19 @@ define([
             }
         },
 
+        onInsertTextart: function (data) {
+            if (this.api) {
+                this.toolbar.fireEvent('inserttextart', this.toolbar);
+                this.api.AddTextArt(data);
+
+                if (this.toolbar.btnInsertShape.pressed)
+                    this.toolbar.btnInsertShape.toggle(false, true);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertTextArt);
+                Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
+            }
+        },
+
         onInsertPageNumberClick: function(picker, item, record) {
             if (this.api)
                 this.api.put_PageNum(record.get('data').type, record.get('data').subtype);
@@ -2555,53 +2569,6 @@ define([
                     equationsStore.add(equationgrouparray);
                     this.fillEquations();
                 }
-            }
-        },
-
-        fillTextArt: function() {
-            if (!this.toolbar.btnInsertTextArt.rendered) return;
-
-            if (this.toolbar.mnuTextArtPicker) {
-                var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
-                    count = this.toolbar.mnuTextArtPicker.store.length;
-                if (count>0 && count==models.length) {
-                    var data = this.toolbar.mnuTextArtPicker.store.models;
-                    _.each(models, function(template, index){
-                        data[index].set('imageUrl', template.get('imageUrl'));
-                    });
-                } else {
-                    this.toolbar.mnuTextArtPicker.store.reset(models);
-                }
-            } else if (!this.binding.onShowBeforeTextArt) {
-                var me = this;
-                me.binding.onShowBeforeTextArt = function(menu) {
-                    me.toolbar.mnuTextArtPicker = new Common.UI.DataView({
-                        el: $('#id-toolbar-menu-insart'),
-                        store: me.getApplication().getCollection('Common.Collections.TextArt'),
-                        parentMenu: menu,
-                        showLast: false,
-                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                    });
-
-                    me.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
-                        if (me.api) {
-                            if (record) {
-                                me.toolbar.fireEvent('inserttextart', me.toolbar);
-                                me.api.AddTextArt(record.get('data'));
-                            }
-
-                            if (me.toolbar.btnInsertShape.pressed)
-                                me.toolbar.btnInsertShape.toggle(false, true);
-
-                            if (e.type !== 'click')
-                                me.toolbar.btnInsertTextArt.menu.hide();
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertTextArt);
-                            Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
-                        }
-                    });
-                    menu.off('show:before', me.binding.onShowBeforeTextArt);
-                };
-                me.toolbar.btnInsertTextArt.menu.on('show:before', me.binding.onShowBeforeTextArt);
             }
         },
 

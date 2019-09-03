@@ -105,6 +105,10 @@ define([
             this.BorderSize = 0;
             this.BorderType = Asc.c_oDashType.solid;
 
+            DE.getCollection('Common.Collections.TextArt').bind({
+                reset: this.fillTextArt.bind(this)
+            });
+
             this.render();
         },
 
@@ -1019,6 +1023,10 @@ define([
 
             var models = this.application.getCollection('Common.Collections.TextArt').models,
                 count = this.cmbTextArt.menuPicker.store.length;
+            if (models.length<1) {
+                DE.getController('Main').fillTextArt(this.api.asc_getTextArtPreviews());
+                return;
+            }
             if (count>0 && count==models.length) {
                 var data = this.cmbTextArt.menuPicker.store.models;
                 _.each(models, function(template, index){

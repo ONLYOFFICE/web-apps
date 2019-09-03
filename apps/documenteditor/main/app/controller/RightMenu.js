@@ -251,10 +251,6 @@ define([
             this.rightmenu.textartSettings.UpdateThemeColors();
         },
 
-        fillTextArt:  function() {
-            this.rightmenu.textartSettings.fillTextArt();
-        },
-
         updateMetricUnit: function() {
             this.rightmenu.headerSettings.updateMetricUnit();
             this.rightmenu.paragraphSettings.updateMetricUnit();
