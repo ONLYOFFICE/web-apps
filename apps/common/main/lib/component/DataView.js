@@ -893,7 +893,7 @@ define([
             if (record) {
                 record.set({selected: true});
                 var idx = _.indexOf(this.store.models, record);
-                if (idx>=0 && this.dataViewItems.length>idx) {
+                if (idx>=0 && this.dataViewItems && this.dataViewItems.length>idx) {
                     this.dataViewItems[idx].el.addClass('selected');
                 }
             }
