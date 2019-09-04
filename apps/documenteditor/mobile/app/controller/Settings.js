@@ -229,7 +229,7 @@ define([
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
                 } else if ('#settings-advanced-view' == pageId) {
                     me.initPageAdvancedSettings();
-                    $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
+                    $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("de-mobile-spellcheck"));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
                     $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
                     $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
@@ -543,6 +543,7 @@ define([
                 var $checkbox = $(e.currentTarget),
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("de-mobile-spellcheck", state ? 1 : 0);
+                Common.Utils.InternalSettings.set("de-mobile-spellcheck", state);
                 this.api && this.api.asc_setSpellCheck(state);
             },
 
