@@ -138,7 +138,7 @@ define([
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
-                panel.cmbPaperSize.setValue('Custom (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
                                                          parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
 
             var fitwidth = opt.asc_getFitToWidth(),
