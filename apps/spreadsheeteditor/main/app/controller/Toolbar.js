@@ -365,7 +365,10 @@ define([
                 toolbar.btnImgAlign.menu.on('item:click',                   _.bind(this.onImgAlignSelect, this));
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
-                toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this));
+                toolbar.btnsEditHeader.forEach(function(button) {
+                    button.on('click', _.bind(me.onEditHeaderClick, me));
+                });
+
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
@@ -2344,7 +2347,7 @@ define([
             toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()),
                                 { array: this.btnsComment });
 
-            toolbar.lockToolbar(SSE.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: [this.toolbar.btnEditHeader]});
+            toolbar.lockToolbar(SSE.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {

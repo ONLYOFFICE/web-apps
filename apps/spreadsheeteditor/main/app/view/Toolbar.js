@@ -1337,14 +1337,6 @@ define([
                     })
                 });
 
-                me.btnEditHeader = new Common.UI.Button({
-                    id: 'tlbtn-editheader',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-editheader',
-                    caption: me.capBtnInsHeader,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.headerLock, _set.lostConnect, _set.coAuth]
-                });
-
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
@@ -1400,7 +1392,7 @@ define([
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnEditHeader
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -1560,7 +1552,10 @@ define([
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
-            _injectComponent('#slot-btn-editheader',    this.btnEditHeader);
+
+            this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'btn-editheader', this.capBtnInsHeader,
+                                [SSE.enumLock.editCell, SSE.enumLock.selRangeEdit, SSE.enumLock.headerLock, SSE.enumLock.lostConnect, SSE.enumLock.coAuth]);
+            Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
 
             // replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                this.btnHorizontalAlign);
             // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
@@ -1633,7 +1628,9 @@ define([
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
             _updateHint(this.btnPrintArea, this.tipPrintArea);
-            _updateHint(this.btnEditHeader, this.tipEditHeader);
+            this.btnsEditHeader.forEach(function (btn) {
+                _updateHint(btn, me.tipEditHeader);
+            });
 
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
