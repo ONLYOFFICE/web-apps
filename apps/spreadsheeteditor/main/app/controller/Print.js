@@ -342,8 +342,7 @@ define([
         registerControlEvents: function(panel) {
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
-            panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel));
-            panel.menuLayout && panel.menuLayout.on('item:click', _.bind(this.onCustomScale, this, panel));
+            panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel, 'scale'));
             panel.spnMarginTop.on('change', _.bind(this.propertyChange, this, panel));
             panel.spnMarginBottom.on('change', _.bind(this.propertyChange, this, panel));
             panel.spnMarginLeft.on('change', _.bind(this.propertyChange, this, panel));
@@ -352,9 +351,44 @@ define([
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
         },
 
-        propertyChange: function(panel) {
-            if (this._changedProps) {
-                this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+        propertyChange: function(panel, scale, combo, record) {
+            if (scale === 'scale' && record.value === 4) {
+                var me = this;
+                var win = new SSE.Views.ScaleDialog({
+                    api: me.api,
+                    handler: function(dlg, result) {
+                        if (dlg == 'ok') {
+                            if (me.api && result) {
+                                me.fitWidth = result.width;
+                                me.fitHeight = result.height;
+                                me.fitScale = result.scale;
+                                me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
+                                if (me._changedProps) {
+                                    me._changedProps[panel.cmbSheet.getValue()] = me.getPageOptions(panel);
+                                }
+                            }
+                        } else {
+                            var props;
+                            if (me._changedProps.length > 0) {
+                                props = me._changedProps[panel.cmbSheet.getValue()];
+                            } else {
+                                props = new Asc.asc_CPageOptions();
+                            }
+                            var opt = props.asc_getPageSetup(),
+                                fitwidth = opt.asc_getFitToWidth(),
+                                fitheight = opt.asc_getFitToHeight(),
+                                fitscale = opt.asc_getScale();
+                            me.setScaling(panel, fitwidth, fitheight, fitscale);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+                win.show();
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else {
+                if (this._changedProps) {
+                    this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+                }
             }
         },
 
@@ -362,39 +396,12 @@ define([
             return this.adjPrintParams;
         },
 
-        onCustomScale: function(panel) {
-            var me = this;
-            var win = new SSE.Views.ScaleDialog({
-                api: me.api,
-                handler: function(dlg, result) {
-                    if (dlg == 'ok') {
-                        if (me.api && result) {
-                            me.fitWidth = result.width;
-                            me.fitHeight = result.height;
-                            me.fitScale = result.scale;
-                            me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
-                            me.propertyChange(panel);
-                        }
-                    }
-                    Common.NotificationCenter.trigger('edit:complete');
-                }
-            });
-            win.show();
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        },
-
         setScaling: function (panel, width, height, scale) {
-            var me = this;
-            if (!width && !height && scale === 100) panel.cmbLayout.setValue(0);
-            else if (width === 1 && height === 1) panel.cmbLayout.setValue(1);
-            else if (width === 1 && !height) panel.cmbLayout.setValue(2);
-            else if (!width && height === 1) panel.cmbLayout.setValue(3);
-            else {
-                if (!panel.cmbLayout.store.findWhere({value: 4})) {
-                    panel.cmbLayout.store.add({value: 4, displayValue: me.txtCustom});
-                }
-                panel.cmbLayout.setValue(4);
-            }
+            if (!width && !height && scale === 100) panel.cmbLayout.setValue(0, true);
+            else if (width === 1 && height === 1) panel.cmbLayout.setValue(1, true);
+            else if (width === 1 && !height) panel.cmbLayout.setValue(2, true);
+            else if (!width && height === 1) panel.cmbLayout.setValue(3, true);
+            else panel.cmbLayout.setValue(4, true);
         },
 
         warnCheckMargings:      'Margins are incorrect',

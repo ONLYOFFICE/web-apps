@@ -1938,6 +1938,7 @@
   "SSE.Views.PrintSettings.textShowHeadings": "Show Rows and Columns Headings",
   "SSE.Views.PrintSettings.textTitle": "Print Settings",
   "SSE.Views.PrintSettings.textTitlePDF": "PDF Settings",
+  "SSE.Views.PrintSettings.textCustomOptions": "Custom Options",
   "SSE.Views.RightMenu.txtCellSettings": "Cell settings",
   "SSE.Views.RightMenu.txtChartSettings": "Chart settings",
   "SSE.Views.RightMenu.txtImageSettings": "Image settings",
