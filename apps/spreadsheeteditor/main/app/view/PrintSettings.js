@@ -216,6 +216,12 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     { value: 3, displayValue: this.textFitRows }
                 ]
             });
+            this.menuLayout = new Common.UI.Menu({
+                items: [
+                    { template: _.template('<a>' + this.textCustom + '</a>') }
+                ]
+            });
+            this.menuLayout.render($('#printadv-dlg-combo-layout'));
 
             this.btnHide = new Common.UI.Button({
                 el: $('#printadv-dlg-btn-hide')
@@ -322,7 +328,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         strShow:                'Show',
         btnDownload:            'Save & Download',
         textRange:              'Range',
-        textIgnore:             'Ignore Print Area'
+        textIgnore:             'Ignore Print Area',
+        textCustom:             'Custom'
 
     }, SSE.Views.PrintSettings || {}));
 });

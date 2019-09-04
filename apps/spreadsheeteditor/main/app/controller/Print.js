@@ -142,11 +142,9 @@ define([
                                                          parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
 
             var fitwidth = opt.asc_getFitToWidth(),
-                fitheight = opt.asc_getFitToHeight();
-            if (!fitwidth && !fitheight) panel.cmbLayout.setValue(0);
-            else if (fitwidth && fitheight) panel.cmbLayout.setValue(1);
-            else if (fitwidth && !fitheight) panel.cmbLayout.setValue(2);
-            else panel.cmbLayout.setValue(3);
+                fitheight = opt.asc_getFitToHeight(),
+                fitscale = opt.asc_getScale();
+            this.setScaling(panel, fitwidth, fitheight, fitscale);
 
             item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
@@ -194,9 +192,14 @@ define([
             opt.asc_setHeight(pageh? parseFloat(pageh[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : undefined));
 
             var value = panel.cmbLayout.getValue();
-            opt.asc_setFitToWidth(value==1 || value==2);
-            opt.asc_setFitToHeight(value==1 || value==3);
-
+            if (value !== 4) {
+                opt.asc_setFitToWidth((value==1 || value==2) ? 1 : 0);
+                opt.asc_setFitToHeight((value==1 || value==3) ? 1 : 0);
+            } else {
+                opt.asc_setFitToWidth(this.fitWidth);
+                opt.asc_setFitToHeight(this.fitHeight);
+                opt.asc_setScale(this.fitScale);
+            }
             props.asc_setPageSetup(opt);
 
             opt = new Asc.asc_CPageMargins();
@@ -340,6 +343,7 @@ define([
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel));
+            panel.menuLayout && panel.menuLayout.on('item:click', _.bind(this.onCustomScale, this, panel));
             panel.spnMarginTop.on('change', _.bind(this.propertyChange, this, panel));
             panel.spnMarginBottom.on('change', _.bind(this.propertyChange, this, panel));
             panel.spnMarginLeft.on('change', _.bind(this.propertyChange, this, panel));
@@ -356,6 +360,41 @@ define([
 
         getPrintParams: function() {
             return this.adjPrintParams;
+        },
+
+        onCustomScale: function(panel) {
+            var me = this;
+            var win = new SSE.Views.ScaleDialog({
+                api: me.api,
+                handler: function(dlg, result) {
+                    if (dlg == 'ok') {
+                        if (me.api && result) {
+                            me.fitWidth = result.width;
+                            me.fitHeight = result.height;
+                            me.fitScale = result.scale;
+                            me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
+                            me.propertyChange(panel);
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete');
+                }
+            });
+            win.show();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        setScaling: function (panel, width, height, scale) {
+            var me = this;
+            if (!width && !height && scale === 100) panel.cmbLayout.setValue(0);
+            else if (width === 1 && height === 1) panel.cmbLayout.setValue(1);
+            else if (width === 1 && !height) panel.cmbLayout.setValue(2);
+            else if (!width && height === 1) panel.cmbLayout.setValue(3);
+            else {
+                if (!panel.cmbLayout.store.findWhere({value: 4})) {
+                    panel.cmbLayout.store.add({value: 4, displayValue: me.txtCustom});
+                }
+                panel.cmbLayout.setValue(4);
+            }
         },
 
         warnCheckMargings:      'Margins are incorrect',
