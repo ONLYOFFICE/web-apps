@@ -54,7 +54,8 @@ define([
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
-    'documenteditor/main/app/view/NumberingValueDialog'
+    'documenteditor/main/app/view/NumberingValueDialog',
+    'documenteditor/main/app/view/CellsRemoveDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -1929,6 +1930,24 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onCellsRemove: function() {
+            var me = this;
+            (new DE.Views.CellsRemoveDialog({
+                handler: function (result, value) {
+                    if (result == 'ok') {
+                        if (value == 'row')
+                            me.api.remRow();
+                        else if (value == 'col')
+                            me.api.remColumn();
+                        else
+                            me.api.asc_RemoveTableCells();
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+            this.fireEvent('editcomplete', this);
+        },
+
         createDelayedElementsViewer: function() {
             var me = this;
 
@@ -3165,6 +3184,11 @@ define([
                                 }).on('click', function(item) {
                                     if (me.api)
                                         me.api.remTable();
+                                }),
+                                new Common.UI.MenuItem({
+                                    caption: me.textCells
+                                }).on('click', function(item) {
+                                    me.onCellsRemove();
                                 })
                             ]
                         })
@@ -4110,7 +4134,8 @@ define([
         textCropFit: 'Fit',
         textFollow: 'Follow move',
         toDictionaryText: 'Add to Dictionary',
-        txtPrintSelection: 'Print Selection'
+        txtPrintSelection: 'Print Selection',
+        textCells: 'Cells'
 
     }, DE.Views.DocumentHolder || {}));
 });
