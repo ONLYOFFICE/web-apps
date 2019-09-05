@@ -887,9 +887,9 @@ define([
             if (this.api && !this._noApply) {
                 var gradient = new Asc.asc_CGradientFill();
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                    //gradient.asc_putDegree(this.GradLinearDirectionType);
-                    //gradient.asc_putLinearScale(true);
+                    gradient.asc_setDegree(this.GradLinearDirectionType);
                 }
+                gradient.asc_setType(this.GradFillType);
                 //this.propsFill.asc_putGradientFill(gradient);
                 //this.api.asc_setGraphicObjectProps(this.propsFill);
             }
@@ -920,8 +920,7 @@ define([
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     var gradient = new Asc.asc_CGradientFill();
-                    //gradient.asc_putDegree(rawData.type);
-                    //gradient.asc_putLinearScale(true);
+                    gradient.asc_setDegree(rawData.type);
 
                     //this.propsFill.asc_putGradientFill(gradient);
                     //this.api.asc_setGraphicObjectProps(this.propsFill);
@@ -935,17 +934,17 @@ define([
             var pickerId = $(picker)[0].el.id;
             if (pickerId === "cell-gradient-color1-menu") {
                 this.btnGradColor1.setColor(color);
-                this.GradColors[0] = color;
+                this.GradColors[0].Color = color;
             } else if (pickerId === "cell-gradient-color2-menu") {
                 this.btnGradColor2.setColor(color);
-                this.GradColors[1] = color;
+                this.GradColors[1].Color = color;
             }
 
             if (this.api && !this._noApply) {
                 var gradient = new Asc.asc_CGradientFill();
                 var arr = [];
                 this.GradColors.forEach(function(item){
-                    arr.push(Common.Utils.ThemeColor.getRgbColor(item));
+                    arr.push(Common.Utils.ThemeColor.getRgbColor(item.Color));
                 });
                 //gradient.asc_putColors(arr);
                 //this.propsFill.asc_putGradientFill(gradient);
@@ -958,7 +957,7 @@ define([
             if (this.api && !this._noApply) {
                 this.PatternFillType = record.get('type');
                 var pattern = new Asc.asc_CPatternFill();
-                //pattern.asc_putPatternType(this.PatternFillType);
+                pattern.asc_setType(this.PatternFillType);
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     //fill.asc_getFill().asc_putColorFg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                     //fill.asc_getFill().asc_putColorBg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
@@ -974,10 +973,10 @@ define([
             this.FGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
                 var pattern = new Asc.asc_CPatternFill();
-                //pattern.asc_putType(Asc.c_oAscFill.FILL_TYPE_PATT);
+                pattern.asc_setType(Asc.c_oAscFill.FILL_TYPE_PATT);
                 //pattern.asc_putColorFg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
-                    //pattern.asc_putPatternType(this.PatternFillType);
+                    pattern.asc_setType(this.PatternFillType);
                     //pattern.asc_putColorBg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 }
                 //this.propsFill.asc_putPatternFill(pattern);
@@ -991,9 +990,9 @@ define([
             this.BGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
                 var pattern = new Asc.asc_CPatternFill();
-                //pattern.asc_putType(Asc.c_oAscFill.FILL_TYPE_PATT);
+                pattern.asc_setType(Asc.c_oAscFill.FILL_TYPE_PATT);
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
-                    //pattern.asc_putPatternType(this.PatternFillType);
+                    pattern.asc_setType(this.PatternFillType);
                     //pattern.asc_putColorFg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                 }
                 //pattern.asc_putColorBg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
