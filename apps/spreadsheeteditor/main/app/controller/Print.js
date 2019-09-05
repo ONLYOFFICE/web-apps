@@ -193,8 +193,11 @@ define([
 
             var value = panel.cmbLayout.getValue();
             if (value !== 4) {
-                opt.asc_setFitToWidth((value==1 || value==2) ? 1 : 0);
-                opt.asc_setFitToHeight((value==1 || value==3) ? 1 : 0);
+                var fitToWidth = (value==1 || value==2) ? 1 : 0,
+                    fitToHeight = (value==1 || value==3) ? 1 : 0;
+                opt.asc_setFitToWidth(fitToWidth);
+                opt.asc_setFitToHeight(fitToHeight);
+                !fitToWidth && !fitToHeight && opt.asc_setScale(100);
             } else {
                 opt.asc_setFitToWidth(this.fitWidth);
                 opt.asc_setFitToHeight(this.fitHeight);
@@ -353,9 +356,11 @@ define([
 
         propertyChange: function(panel, scale, combo, record) {
             if (scale === 'scale' && record.value === 4) {
-                var me = this;
+                var me = this,
+                    props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue());
                 var win = new SSE.Views.ScaleDialog({
                     api: me.api,
+                    props: props,
                     handler: function(dlg, result) {
                         if (dlg == 'ok') {
                             if (me.api && result) {
@@ -368,12 +373,6 @@ define([
                                 }
                             }
                         } else {
-                            var props;
-                            if (me._changedProps.length > 0) {
-                                props = me._changedProps[panel.cmbSheet.getValue()];
-                            } else {
-                                props = new Asc.asc_CPageOptions();
-                            }
                             var opt = props.asc_getPageSetup(),
                                 fitwidth = opt.asc_getFitToWidth(),
                                 fitheight = opt.asc_getFitToHeight(),

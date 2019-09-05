@@ -361,7 +361,8 @@ define([
                     { value: 0, displayValue: this.textActualSize },
                     { value: 1, displayValue: this.textFitPage },
                     { value: 2, displayValue: this.textFitCols },
-                    { value: 3, displayValue: this.textFitRows }
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 4, displayValue: this.textCustomOptions}
                 ]
             });
 
@@ -489,7 +490,8 @@ define([
         textActualSize:         'Actual Size',
         textFitPage:            'Fit Sheet on One Page',
         textFitCols:            'Fit All Columns on One Page',
-        textFitRows:            'Fit All Rows on One Page'
+        textFitRows:            'Fit All Rows on One Page',
+        textCustomOptions:      'Custom Options'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({

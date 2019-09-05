@@ -3363,6 +3363,7 @@ define([
             var me = this;
             var win = new SSE.Views.ScaleDialog({
                 api: me.api,
+                props: null,
                 handler: function(dlg, result) {
                     if (dlg == 'ok') {
                         if (me.api && result) {

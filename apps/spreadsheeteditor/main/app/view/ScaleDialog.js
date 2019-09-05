@@ -89,6 +89,7 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
 
             this.api = this.options.api;
+            this._originalProps = this.options.props;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -143,7 +144,7 @@ define([
         },
 
         afterRender: function() {
-            this._setDefaults();
+            this._setDefaults(this._originalProps);
         },
 
         _handleInput: function(state) {
@@ -170,9 +171,10 @@ define([
             }
         },
 
-        _setDefaults: function () {
+        _setDefaults: function (props) {
             if (this.api) {
-                var pageSetup = this.api.asc_getPageOptions().asc_getPageSetup(),
+                var pageProps = props ? props : this.api.asc_getPageOptions();
+                var pageSetup = pageProps.asc_getPageSetup(),
                     width = pageSetup.asc_getFitToWidth(),
                     height = pageSetup.asc_getFitToHeight(),
                     scale = pageSetup.asc_getScale();

@@ -1750,6 +1750,7 @@
   "SSE.Views.MainSettingsPrint.textPrintGrid": "Print Gridlines",
   "SSE.Views.MainSettingsPrint.textPrintHeadings": "Print Row and Column Headings",
   "SSE.Views.MainSettingsPrint.textSettings": "Settings for",
+  "SSE.Views.MainSettingsPrint.textCustomOptions": "Custom Options",
   "SSE.Views.NamedRangeEditDlg.cancelButtonText": "Cancel",
   "SSE.Views.NamedRangeEditDlg.errorCreateDefName": "The existing named ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.",
   "SSE.Views.NamedRangeEditDlg.namePlaceholder": "Defined name",
