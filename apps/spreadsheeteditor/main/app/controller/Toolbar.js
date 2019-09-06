@@ -1823,14 +1823,14 @@ define([
 
         onApiLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==true && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient]});
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale]});
                 this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==false && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient]});
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale]});
                 this._state.lock_doc = false;
             }
         },

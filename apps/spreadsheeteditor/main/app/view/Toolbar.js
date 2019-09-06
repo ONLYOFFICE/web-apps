@@ -1350,7 +1350,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-editheader',
                     caption: me.capBtnScale,
-                    lock: [_set.editCell, _set.selRangeEdit, _set.headerLock, _set.lostConnect, _set.coAuth]
+                    lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth]
                 });
 
                 me.btnImgAlign = new Common.UI.Button({
