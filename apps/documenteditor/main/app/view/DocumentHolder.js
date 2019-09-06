@@ -55,7 +55,8 @@ define([
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsRemoveDialog'
+    'documenteditor/main/app/view/CellsRemoveDialog',
+    'documenteditor/main/app/view/CellsAddDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -1948,6 +1949,23 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onCellsAdd: function() {
+            var me = this;
+            (new DE.Views.CellsAddDialog({
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        if (settings.row) {
+                            settings.before ? me.api.addRowAbove(settings.count) : me.api.addRowBelow(settings.count);
+                        } else {
+                            settings.before ? me.api.addColumnLeft(settings.count) : me.api.addColumnRight(settings.count);
+                        }
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+            this.fireEvent('editcomplete', this);
+        },
+
         createDelayedElementsViewer: function() {
             var me = this;
 
@@ -3157,6 +3175,11 @@ define([
                                 }).on('click', function(item) {
                                     if (me.api)
                                         me.api.addRowBelow();
+                                }),
+                                new Common.UI.MenuItem({
+                                    caption: me.textSeveral
+                                }).on('click', function(item) {
+                                    me.onCellsAdd();
                                 })
                             ]
                         })
@@ -4135,7 +4158,8 @@ define([
         textFollow: 'Follow move',
         toDictionaryText: 'Add to Dictionary',
         txtPrintSelection: 'Print Selection',
-        textCells: 'Cells'
+        textCells: 'Cells',
+        textSeveral: 'Several Rows/Columns'
 
     }, DE.Views.DocumentHolder || {}));
 });
