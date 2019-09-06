@@ -820,7 +820,22 @@ define([
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     if (!this._noApply) {
                         var gradient = new Asc.asc_CGradientFill();
-                        //TO DO
+                        gradient.asc_setType(this.GradFillType);
+                        if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                            gradient.asc_setDegree(this.GradLinearDirectionType);
+                        }
+                        if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
+                            var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColors[0].Color).get_color().get_hex();
+
+                            if (HexColor0 === 'ffffff' && HexColor1 === 'ffffff') {
+                                HexColor0 = {color: '4f81bd', effectId: 24};    // color accent1
+                            } else {
+                                HexColor0 = this.GradColors[0].Color;
+                            }
+                            //gradient.asc_setColors(Common.Utils.ThemeColor.getRgbColor(HexColor0), Common.Utils.ThemeColor.getRgbColor(this.GradColors[1].Color;));
+                        }
+                        //this.propsFill.asc_putGradientFill(gradient);
+                        //this.api.asc_setGraphicObjectProps(this.propsFill);
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
