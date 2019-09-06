@@ -315,6 +315,10 @@ define([
                             this.bar.tabs[i].changeState(true);
                         }
                     } else if (!tab.$el.hasClass('active')) {
+                        if (this.bar.tabs.length === this.bar.selectTabs.length) {
+                            this.bar.$el.find('ul > li.selected').removeClass('selected');
+                            this.bar.selectTabs.length = 0;
+                        }
                         if (tab.control == 'manual') {
                             this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
                         } else {
@@ -328,11 +332,7 @@ define([
                 this.trigger('tab:dblclick', this, this.tabs.indexOf(tab), tab);
             }, this.bar),
             contextmenu: $.proxy(function () {
-                if (this.selectTabs.length > 1) {
-                    this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
-                } else {
-                    this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab);
-                }
+                this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
             }, this.bar),
             mousedown: $.proxy(function (e) {
                 if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
@@ -505,6 +505,27 @@ define([
             }
 
             this.checkInvisible();
+        },
+
+        setSelectAll: function(isSelect) {
+            var me = this;
+            me.selectTabs.length = 0;
+            if (isSelect) {
+                me.tabs.forEach(function(tab){
+                    if (!tab.isSelected()) {
+                        tab.addClass('selected');
+                    }
+                    me.selectTabs.push(tab);
+                });
+            } else {
+                me.tabs.forEach(function(tab){
+                    if (tab.isActive()) {
+                        me.selectTabs.push(tab);
+                    } else if (tab.isSelected()) {
+                        tab.removeClass('selected');
+                    }
+                });
+            }
         },
 
         getActive: function(iselem) {

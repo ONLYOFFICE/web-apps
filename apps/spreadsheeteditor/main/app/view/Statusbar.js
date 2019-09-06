@@ -241,7 +241,10 @@ define([
                         {
                             caption: this.itemTabColor,
                             menu: menuColorItems
-                        }
+                        },
+                        { caption: '--' },
+                        {caption: this.selectAllSheets,  value: 'selectall'},
+                        {caption: this.ungroupSheets,  value: 'noselect'}
                     ]
                 }).on('render:after', function(btn) {
                         var colorVal = $('<div class="btn-color-value-line"></div>');
@@ -432,6 +435,15 @@ define([
                         this.tabMenu.items[6].setDisabled(isdoclocked);
                         this.tabMenu.items[7].setDisabled(issheetlocked);
 
+                        if (select.length === 1) {
+                            this.tabMenu.items[10].hide();
+                        } else {
+                            this.tabMenu.items[10].show();
+                        }
+
+                        this.tabMenu.items[9].setDisabled(issheetlocked);
+                        this.tabMenu.items[10].setDisabled(issheetlocked);
+
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
 
@@ -473,6 +485,11 @@ define([
             onTabMenuClick: function (o, item) {
                 if (item && this.api) {
                     this.enableKeyEvents = (item.value === 'ins' || item.value === 'hide');
+                    if (item.value === 'selectall') {
+                        this.tabbar.setSelectAll(true);
+                    } else if (item.value === 'noselect') {
+                        this.tabbar.setSelectAll(false);
+                    }
                 }
             },
 
@@ -544,7 +561,9 @@ define([
             textMin             : 'MIN',
             textMax             : 'MAX',
             filteredRecordsText : '{0} of {1} records filtered',
-            filteredText        : 'Filter mode'
+            filteredText        : 'Filter mode',
+            selectAllSheets     : 'Select All Sheets',
+            ungroupSheets       : 'Ungroup Sheets'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({

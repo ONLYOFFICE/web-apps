@@ -248,29 +248,6 @@ define([
         onTabMenu: function(obj, item, e) {
             var me = this;
             var selectTabs = this.statusbar.tabbar.selectTabs;
-            if (selectTabs.length > 1) {
-                switch (item.value) {
-                    case 'ins':
-                        setTimeout(function () {
-                            //me.api.asc_insertWorksheets();
-                        }, 1);
-                        break;
-                    case 'del':
-                        this.deleteWorksheets();
-                        break;
-                    case 'copy':
-                        this.moveWorksheets(false);
-                        break;
-                    case 'move':
-                        this.moveWorksheets(true);
-                        break;
-                    case 'hide':
-                        setTimeout(function () {
-                            me.hideWorksheets(selectTabs);
-                        }, 1,);
-                        break;
-                }
-            } else {
                 switch (item.value) {
                     case 'ins':
                         setTimeout(function () {
@@ -295,7 +272,6 @@ define([
                         }, 1);
                         break;
                 }
-            }
         },
 
         createSheetName: function() {
@@ -329,10 +305,6 @@ define([
             }
 
             return name;
-        },
-
-        deleteWorksheets: function() {
-
         },
 
         deleteWorksheet: function() {
@@ -425,10 +397,6 @@ define([
                 }
                 win.show(left, top);
             }
-        },
-
-        moveWorksheets: function() {
-
         },
 
         moveWorksheet: function(cut, silent, index, destPos) {
