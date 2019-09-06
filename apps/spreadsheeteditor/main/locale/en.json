@@ -1533,6 +1533,7 @@
   "SSE.Views.FileMenuPanels.DocumentInfo.txtSubject": "Subject",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Title",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtUploaded": "Uploaded",
+  "SSE.Views.FileMenuPanels.DocumentInfo.okButtonText": "Apply",
   "SSE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "SSE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.okButtonText": "Apply",

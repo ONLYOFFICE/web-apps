@@ -1386,6 +1386,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtTitle": "Title",
   "DE.Views.FileMenuPanels.DocumentInfo.txtUploaded": "Uploaded",
   "DE.Views.FileMenuPanels.DocumentInfo.txtWords": "Words",
+  "DE.Views.FileMenuPanels.DocumentInfo.okButtonText": "Apply",
   "DE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "DE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",
   "DE.Views.FileMenuPanels.ProtectDoc.notcriticalErrorTitle": "Warning",
