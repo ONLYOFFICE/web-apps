@@ -41,7 +41,7 @@
 
 define([
     'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner'
+    'common/main/lib/component/RadioBox'
 ], function () { 'use strict';
 
     DE.Views.CellsRemoveDialog = Common.UI.Window.extend(_.extend({
