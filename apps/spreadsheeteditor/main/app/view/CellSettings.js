@@ -420,7 +420,7 @@ define([
                     this.GradColors[0] = {Value: 1, Color: '000000', Position: 0};
                     this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
                 } else if (pattern !== null) {
-                    if(pattern.asc_getType() === Asc.c_oAscPatternType.Solid) {
+                    if(pattern.asc_getType() === -1) {
                         var color = pattern.asc_getFgColor();
                         if (color.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB()), effectValue: color.get_value() }};
@@ -811,7 +811,7 @@ define([
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                     if (!this._noApply) {
                         var pattern = new Asc.asc_CPatternFill();
-                        //pattern.asc_putColor(Common.Utils.ThemeColor.getRgbColor((this.CellColor.Color=='transparent') ? {color: '4f81bd', effectId: 24} : this.CellColor.Color));
+                        pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor((this.CellColor.Color=='transparent') ? {color: '4f81bd', effectId: 24} : this.CellColor.Color));
                         //this.propsFill.asc_putPatternFill(pattern);
                         //this.api.asc_setGraphicObjectProps(this.propsFill);
                     }
@@ -825,14 +825,19 @@ define([
                             gradient.asc_setDegree(this.GradLinearDirectionType);
                         }
                         if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
-                            var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColors[0].Color).get_color().get_hex();
+                            var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColors[0].Color).get_color().get_hex(),
+                                HexColor1 = Common.Utils.ThemeColor.getRgbColor(this.GradColors[1].Color).get_color().get_hex();
 
                             if (HexColor0 === 'ffffff' && HexColor1 === 'ffffff') {
-                                HexColor0 = {color: '4f81bd', effectId: 24};    // color accent1
-                            } else {
-                                HexColor0 = this.GradColors[0].Color;
+                                this.GradColors[0].Color = {color: '4f81bd', effectId: 24};    // color accent1
                             }
-                            //gradient.asc_setColors(Common.Utils.ThemeColor.getRgbColor(HexColor0), Common.Utils.ThemeColor.getRgbColor(this.GradColors[1].Color;));
+
+                            this.GradColors.forEach(function (item) {
+                                var gradientStop = new Asc.asc_CGradientStop();
+                                gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
+                                gradientStop.asc_setPosition(item.Position);
+                                gradient.asc_addGradientStop(gradientStop);
+                            });
                         }
                         //this.propsFill.asc_putGradientFill(gradient);
                         //this.api.asc_setGraphicObjectProps(this.propsFill);
@@ -851,8 +856,8 @@ define([
                         } else {
                             fHexColor = this.FGColor.Color;
                         }
-                        //pattern.asc_putColorFg(Common.Utils.ThemeColor.getRgbColor(fHexColor));
-                        //pattern.asc_putColorBg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
+                        pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(fHexColor));
+                        pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                         //this.propsFill.asc_putPatternFill(pattern);
                         //this.api.asc_setGraphicObjectProps(this.propsFill);
                     }
@@ -946,7 +951,7 @@ define([
         },
 
         onColorsGradientSelect: function(picker, color) {
-            var pickerId = $(picker)[0].el.id;
+            var pickerId = picker.el.id;
             if (pickerId === "cell-gradient-color1-menu") {
                 this.btnGradColor1.setColor(color);
                 this.GradColors[0].Color = color;
@@ -957,11 +962,19 @@ define([
 
             if (this.api && !this._noApply) {
                 var gradient = new Asc.asc_CGradientFill();
-                var arr = [];
-                this.GradColors.forEach(function(item){
-                    arr.push(Common.Utils.ThemeColor.getRgbColor(item.Color));
+                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
+                    gradient.asc_setType(this.GradFillType);
+                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                        gradient.asc_setDegree(this.GradLinearDirectionType);
+                    }
+                }
+                this.GradColors.forEach(function (item) {
+                    var gradientStop = new Asc.asc_CGradientStop();
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
+                    gradientStop.asc_setPosition(item.Position);
+                    gradient.asc_addGradientStop(gradientStop);
                 });
-                //gradient.asc_putColors(arr);
+
                 //this.propsFill.asc_putGradientFill(gradient);
                 //this.api.asc_setGraphicObjectProps(this.propsFill);
             }
@@ -974,8 +987,8 @@ define([
                 var pattern = new Asc.asc_CPatternFill();
                 pattern.asc_setType(this.PatternFillType);
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
-                    //fill.asc_getFill().asc_putColorFg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
-                    //fill.asc_getFill().asc_putColorBg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
+                    pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
+                    pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 }
                 //this.propsFill.asc_putPatternFill(pattern);
                 //this.api.asc_setGraphicObjectProps(this.propsFill);
@@ -989,10 +1002,10 @@ define([
             if (this.api && !this._noApply) {
                 var pattern = new Asc.asc_CPatternFill();
                 pattern.asc_setType(Asc.c_oAscFill.FILL_TYPE_PATT);
-                //pattern.asc_putColorFg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
+                pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     pattern.asc_setType(this.PatternFillType);
-                    //pattern.asc_putColorBg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
+                    pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 }
                 //this.propsFill.asc_putPatternFill(pattern);
                 //this.api.asc_setGraphicObjectProps(this.propsFill);
@@ -1006,11 +1019,11 @@ define([
             if (this.api && !this._noApply) {
                 var pattern = new Asc.asc_CPatternFill();
                 pattern.asc_setType(Asc.c_oAscFill.FILL_TYPE_PATT);
+                pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     pattern.asc_setType(this.PatternFillType);
-                    //pattern.asc_putColorFg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
+                    pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                 }
-                //pattern.asc_putColorBg(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 //this.propsFill.asc_putPatternFill(pattern);
                 //this.api.asc_setGraphicObjectProps(this.propsFill);
             }
