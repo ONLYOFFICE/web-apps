@@ -190,9 +190,6 @@ define([
             if (this.storageName)
                 Common.localStorage.setItem(this.storageName, this.getActiveCategory());
             Common.UI.Window.prototype.close.call(this, suppressevent);
-        },
-
-        cancelButtonText: 'Cancel',
-        okButtonText    : 'Ok'
+        }
     }, Common.Views.AdvancedSettingsWindow || {}));
 });

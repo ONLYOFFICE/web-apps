@@ -276,7 +276,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
         capAnd              : "And",
         capCondition1       : "equals",
         capCondition10      : "does not end with",
@@ -461,8 +460,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
-        okButtonText        : 'OK',
         txtTitle            : "Top 10 AutoFilter",
         textType            : 'Show',
         txtTop              : 'Top',
@@ -1406,13 +1403,11 @@ define([
             Common.Utils.InternalSettings.set('sse-settings-size-filter-window', size);
         },
 
-        okButtonText        : 'Ok',
         btnCustomFilter     : 'Custom Filter',
         textSelectAll       : 'Select All',
         txtTitle            : 'Filter',
         warnNoSelected      : 'You must choose at least one value',
         textWarning         : 'Warning',
-        cancelButtonText    : 'Cancel',
         textEmptyItem       : '{Blanks}',
         txtEmpty            : 'Enter cell\'s filter',
         txtSortLow2High     : 'Sort Lowest to Highest',

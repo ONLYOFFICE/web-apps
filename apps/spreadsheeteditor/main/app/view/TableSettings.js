@@ -548,8 +548,6 @@ define([
         deleteRowText           : 'Delete Row',
         deleteColumnText        : 'Delete Column',
         deleteTableText         : 'Delete Table',
-        textOK                  : 'OK',
-        textCancel              : 'Cancel',
         textTemplate            : 'Select From Template',
         textRows                : 'Rows',
         textColumns             : 'Columns',

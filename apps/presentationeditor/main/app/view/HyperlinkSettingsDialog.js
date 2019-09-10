@@ -387,8 +387,6 @@ define([
         txtEmpty:           'This field is required',
         txtNotUrl:          'This field should be a URL in the format \"http://www.example.com\"',
         strPlaceInDocument: 'Select a Place in This Document',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         txtNext:            'Next Slide',
         txtPrev:            'Previous Slide',
         txtFirst:           'First Slide',

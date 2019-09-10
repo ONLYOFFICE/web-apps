@@ -321,8 +321,6 @@ define([
 
         txtTitleNew: 'New Name',
         txtTitleEdit: 'Edit Name',
-        cancelButtonText : 'Cancel',
-        okButtonText : 'Ok',
         textSelectData: 'Select Data',
         textName: 'Name',
         textScope: 'Scope',

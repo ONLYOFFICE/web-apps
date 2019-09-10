@@ -138,8 +138,6 @@ define([
         txtColumns: 'Number of Columns',
         txtRows: 'Number of Rows',
         textInvalidRowsCols: 'You need to specify valid rows and columns count.',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         txtMinText: 'The minimum value for this field is {0}',
         txtMaxText: 'The maximum value for this field is {0}'
     }, Common.Views.InsertTableDialog || {}))

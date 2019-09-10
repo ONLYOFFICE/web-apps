@@ -120,8 +120,6 @@ define([
             return false;
         },
 
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textTitle: 'Delete Cells',
         textLeft: 'Shift cells left',
         textRow: 'Delete entire row',

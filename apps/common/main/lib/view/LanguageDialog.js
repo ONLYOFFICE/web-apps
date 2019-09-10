@@ -69,7 +69,7 @@ define([
     initialize : function(options) {
         _.extend(this.options, options || {}, {
             label: this.labelSelect,
-            btns: {ok: this.btnOk, cancel: this.btnCancel}
+            btns: {ok: this.okButtonText, cancel: this.cancelButtonText}
         });
         this.options.tpl = _.template(this.template)(this.options);
 
@@ -144,8 +144,6 @@ define([
         return false;
     },
 
-    labelSelect     : 'Select document language',
-    btnCancel       : 'Cancel',
-    btnOk           : 'Ok'
+    labelSelect     : 'Select document language'
     }, Common.Views.LanguageDialog || {}))
 });

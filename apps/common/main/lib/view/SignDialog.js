@@ -342,8 +342,6 @@ define([
         textCertificate:    'Certificate',
         textValid:          'Valid from %1 to %2',
         textChange:         'Change',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         textInputName:      'Input signer name',
         textUseImage:       'or click \'Select Image\' to use a picture as signature',
         textSelectImage:    'Select Image',

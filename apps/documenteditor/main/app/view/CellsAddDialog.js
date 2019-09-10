@@ -152,8 +152,6 @@ define([
             return false;
         },
 
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textTitle: 'Insert Several',
         textLeft: 'To the left',
         textRight: 'To the right',

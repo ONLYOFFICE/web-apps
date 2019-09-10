@@ -375,8 +375,6 @@ define([
             }
         },
 
-        cancelButtonText:               'Cancel',
-        okButtonText:                   'Ok',
         textGroupDescription:           'Select Function Group',
         textListDescription:            'Select Function',
         sDescription:                   'Description',

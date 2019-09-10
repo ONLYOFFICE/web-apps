@@ -171,8 +171,6 @@ define([
         textTitle: 'Columns',
         textSpacing: 'Spacing between columns',
         textColumns: 'Number of columns',
-        textSeparator: 'Column divider',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok'
+        textSeparator: 'Column divider'
     }, DE.Views.CustomColumnsDialog || {}))
 });

@@ -249,8 +249,6 @@ define([
         textSlideSize:      'Slide Size',
         textWidth:          'Width',
         textHeight:         'Height',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         txtStandard:        'Standard (4:3)',
         txtWidescreen1:     'Widescreen (16:9)',
         txtWidescreen2:     'Widescreen (16:10)',

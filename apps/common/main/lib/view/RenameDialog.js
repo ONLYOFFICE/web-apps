@@ -128,8 +128,6 @@ define([
         },
 
         textName        : 'File name',
-        cancelButtonText: 'Cancel',
-        okButtonText    : 'Ok',
         txtInvalidName  : 'The file name cannot contain any of the following characters: '
     }, Common.Views.RenameDialog || {}));
 });

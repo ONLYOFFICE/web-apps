@@ -408,7 +408,6 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         
         txtTitle: 'Name Manager',
         closeButtonText : 'Close',
-        okButtonText : 'Ok',
         textDataRange: 'Data Range',
         textNew: 'New',
         textEdit: 'Edit',

@@ -346,7 +346,6 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         textTitle: 'Header/Footer Settings',
-        cancelButtonText: 'Cancel',
         applyAllText: 'Apply to all',
         applyText: 'Apply',
         textLang: 'Language',

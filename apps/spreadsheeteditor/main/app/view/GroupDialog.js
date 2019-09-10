@@ -111,8 +111,6 @@ define([
             return false;
         },
 
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textRows: 'Rows',
         textColumns: 'Columns'
     }, SSE.Views.GroupDialog || {}))

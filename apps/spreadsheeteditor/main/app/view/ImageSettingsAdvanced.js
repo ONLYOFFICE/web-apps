@@ -163,8 +163,6 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
         },
 
         textTitle:      'Image - Advanced Settings',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',

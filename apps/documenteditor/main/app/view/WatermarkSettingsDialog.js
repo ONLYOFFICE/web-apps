@@ -667,8 +667,6 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         textLayout: 'Layout',
         textDiagonal: 'Diagonal',
         textHor: 'Horizontal',
-        cancelButtonText: 'Cancel',
-        okButtonText: 'Ok',
         textColor: 'Text color',
         textNewColor: 'Add New Custom Color',
         textLanguage: 'Language'

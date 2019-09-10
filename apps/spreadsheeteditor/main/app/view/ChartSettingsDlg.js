@@ -1651,7 +1651,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textYAxisTitle:     'Y Axis Title',
         txtEmpty:           'This field is required',
         textInvalidRange:   'ERROR! Invalid cells range',
-        cancelButtonText:   'Cancel',
         textTypeStyle: 'Chart Type, Style &<br/>Data Range',
         textChartElementsLegend: 'Chart Elements &<br/>Chart Legend',
         textLayout: 'Layout',

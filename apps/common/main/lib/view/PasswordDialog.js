@@ -154,8 +154,6 @@ define([
             this.close();
         },
 
-        okButtonText       : "OK",
-        cancelButtonText   : "Cancel",
         txtTitle           : "Set Password",
         txtPassword        : "Password",
         txtDescription     : "A Password is required to open this document",

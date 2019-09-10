@@ -214,7 +214,6 @@ define([
 
         txtTitle    : 'Title',
         txtFormat   : 'Create table',
-        textCancel  : 'Cancel',
         txtEmpty    : 'This field is required',
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorAutoFilterDataRange: 'The operation could not be done for the selected range of cells.<br>Select a uniform data range inside or outside the table and try again.',

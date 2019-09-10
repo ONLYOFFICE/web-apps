@@ -649,8 +649,6 @@ define([
         textRadioStyles: 'Selected styles',
         textStyle: 'Style',
         textLevel: 'Level',
-        cancelButtonText: 'Cancel',
-        okButtonText: 'Ok',
         txtCurrent: 'Current',
         txtSimple: 'Simple',
         txtStandard: 'Standard',

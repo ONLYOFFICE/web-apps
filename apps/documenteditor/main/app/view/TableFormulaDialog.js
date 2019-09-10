@@ -240,8 +240,6 @@ define([
         textFormat: 'Number Format',
         textBookmark: 'Paste Bookmark',
         textInsertFunction: 'Paste Function',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         textTitle:          'Formula Settings'
     }, DE.Views.TableFormulaDialog || {}))
 });

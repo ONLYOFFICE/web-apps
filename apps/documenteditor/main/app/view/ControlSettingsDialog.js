@@ -349,8 +349,6 @@ define([
         txtLockDelete: 'Content control cannot be deleted',
         txtLockEdit: 'Contents cannot be edited',
         textLock: 'Locking',
-        cancelButtonText: 'Cancel',
-        okButtonText: 'Ok',
         textShowAs: 'Show as',
         textColor: 'Color',
         textBox: 'Bounding box',

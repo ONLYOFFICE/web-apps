@@ -435,8 +435,6 @@ define([
             this.updatePreview();
         },
 
-        okButtonText       : "OK",
-        cancelButtonText   : "Cancel",
         txtDelimiter       : "Delimiter",
         txtEncoding        : "Encoding ",
         txtSpace           : "Space",

@@ -223,8 +223,6 @@ define([
         textTitle: 'Page Size',
         textWidth: 'Width',
         textHeight: 'Height',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         textPreset: 'Preset',
         txtCustom: 'Custom'
     }, DE.Views.PageSizeDialog || {}))

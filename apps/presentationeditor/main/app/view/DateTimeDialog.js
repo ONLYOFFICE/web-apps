@@ -244,8 +244,6 @@ define([
         },
 
         //
-        cancelButtonText: 'Cancel',
-        okButtonText: 'OK',
         txtTitle: 'Date & Time',
         textLang: 'Language',
         textFormat: 'Formats',

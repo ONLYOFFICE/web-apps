@@ -123,8 +123,6 @@ define([
         },
 
         textUrl         : 'Paste an image URL:',
-        cancelButtonText: 'Cancel',
-        okButtonText    : 'Ok',
         txtEmpty        : 'This field is required',
         txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"'
     }, Common.Views.ImageFromUrlDialog || {}));

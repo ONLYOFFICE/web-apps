@@ -202,8 +202,6 @@ define([
         textTop: 'Top',
         textLeft: 'Left',
         textBottom: 'Bottom',
-        textRight: 'Right',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok'
+        textRight: 'Right'
     }, SSE.Views.PageMarginsDialog || {}))
 });

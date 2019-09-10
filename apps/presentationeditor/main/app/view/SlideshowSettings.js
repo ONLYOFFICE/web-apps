@@ -114,8 +114,6 @@ define([
         },
 
         textTitle:     'Show Settings',
-        textLoop:      'Loop continuously until \'Esc\' is pressed',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok'
+        textLoop:      'Loop continuously until \'Esc\' is pressed'
     }, PE.Views.SlideshowSettings || {}))
 });

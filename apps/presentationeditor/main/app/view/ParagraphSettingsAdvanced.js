@@ -776,8 +776,6 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         strIndentsRightText:    'Right',
         strParagraphIndents:    'Indents & Spacing',
         strParagraphFont:   'Font',
-        cancelButtonText:       'Cancel',
-        okButtonText:           'Ok',
         textEffects: 'Effects',
         textCharacterSpacing: 'Character Spacing',
         strDoubleStrike: 'Double strikethrough',

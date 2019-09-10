@@ -3364,7 +3364,6 @@ define([
         warnMergeLostData   : 'Operation can destroy data in the selected cells.<br>Continue?',
         textWarning         : 'Warning',
         textFontSizeErr     : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 409',
-        textCancel          : 'Cancel',
         confirmAddFontName  : 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         textSymbols                                : 'Symbols',
         textFraction                               : 'Fraction',

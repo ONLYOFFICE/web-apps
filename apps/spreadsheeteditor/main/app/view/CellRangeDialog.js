@@ -170,7 +170,6 @@ define([
         },
 
         txtTitle   : 'Select Data Range',
-        textCancel  : 'Cancel',
         txtEmpty    : 'This field is required',
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',

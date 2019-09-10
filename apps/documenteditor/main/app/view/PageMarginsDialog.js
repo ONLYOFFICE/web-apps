@@ -222,8 +222,6 @@ define([
         textLeft: 'Left',
         textBottom: 'Bottom',
         textRight: 'Right',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
         txtMarginsH: 'Top and bottom margins are too high for a given page height'

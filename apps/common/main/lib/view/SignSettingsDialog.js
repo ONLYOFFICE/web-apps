@@ -200,8 +200,6 @@ define([
         textInfoTitle:      'Signer Title',
         textInfoEmail:      'E-mail',
         textInstructions:   'Instructions for Signer',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         txtEmpty:           'This field is required',
         textAllowComment:   'Allow signer to add comment in the signature dialog',
         textShowDate:       'Show sign date in signature line',

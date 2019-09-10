@@ -264,8 +264,6 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         textAttachPdf:      'Attach as PDF',
         subjectPlaceholder: 'Theme',
         filePlaceholder:    'PDF',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Send',
         textWarning:        'Warning!',
         textWarningMsg:     'Please note that mailing cannot be stopped once your click the \'Send\' button.'
 

@@ -1015,8 +1015,6 @@ define([
             }
         },
 
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         tipFontName: 'Font',
         tipFontSize: 'Font size',
         textBold:    'Bold',

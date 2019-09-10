@@ -137,8 +137,6 @@ define([
             return false;
         },
 
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         txtMinText: 'The minimum value for this field is {0}',
         txtMaxText: 'The maximum value for this field is {0}'
     }, SSE.Views.SetValueDialog || {}))

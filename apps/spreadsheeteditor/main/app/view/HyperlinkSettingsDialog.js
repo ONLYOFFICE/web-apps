@@ -314,7 +314,6 @@ define([
         txtEmpty:           'This field is required',
         textInvalidRange:   'ERROR! Invalid cells range',
         txtNotUrl:          'This field should be a URL in the format \"http://www.example.com\"',
-        cancelButtonText:   'Cancel',
         textDefault:        'Selected range'
     }, SSE.Views.HyperlinkSettingsDialog || {}))
 });

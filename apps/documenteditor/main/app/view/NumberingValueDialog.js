@@ -253,9 +253,7 @@ define([
             }
 
             return result;
-        },
+        }
 
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok'
     }, DE.Views.NumberingValueDialog || {}))
 });

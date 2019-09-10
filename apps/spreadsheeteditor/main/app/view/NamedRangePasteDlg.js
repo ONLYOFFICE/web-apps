@@ -171,8 +171,6 @@ define([
         },
 
         txtTitle: 'Paste Name',
-        cancelButtonText : 'Cancel',
-        okButtonText : 'Ok',
         textNames: 'Named Ranges'
     }, SSE.Views.NamedRangePasteDlg || {}));
 });

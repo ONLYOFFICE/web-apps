@@ -111,7 +111,7 @@ define([
                     '<div class="separator horizontal"/>',
                     '<div class="footer center">',
                         '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.textOk + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textCancel + '</button>',
+                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
                     '</div>'
                 ].join('')
             }, options);
@@ -275,8 +275,6 @@ define([
         },
 
         textTitle: 'Value Field Settings',
-        textCancel: 'Cancel',
-        textOk: 'OK',
         txtSourceName: 'Source name: ',
         txtCustomName: 'Custom name',
         txtSummarize: 'Summarize value field by',

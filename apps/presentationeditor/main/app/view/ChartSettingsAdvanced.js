@@ -127,8 +127,6 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
         },
 
         textTitle:      'Chart - Advanced Settings',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',
