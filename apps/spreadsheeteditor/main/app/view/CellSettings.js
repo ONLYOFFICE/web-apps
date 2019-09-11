@@ -409,19 +409,19 @@ define([
                     this.spnAngle.setValue((value !== null) ? value : '', true);
                     this._state.CellAngle=value;
                 }
-                var fill = props.asc_getFill2(),
-                    pattern = fill.asc_getPatternFill(),
-                    gradient = fill.asc_getGradientFill();
-                if (pattern === null && gradient === null) {
+                this.fill = props.asc_getFill2();
+                this.pattern = this.fill.asc_getPatternFill();
+                this.gradient = this.fill.asc_getGradientFill();
+                if (this.pattern === null && this.gradient === null) {
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     this.CellColor = {Value: 0, Color: 'transparent'};
                     this.FGColor = {Value: 1, Color: '000000'};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
                     this.GradColors[0] = {Value: 1, Color: '000000', Position: 0};
                     this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
-                } else if (pattern !== null) {
-                    if(pattern.asc_getType() === -1) {
-                        var color = pattern.asc_getFgColor();
+                } else if (this.pattern !== null) {
+                    if(this.pattern.asc_getType() === -1) {
+                        var color = this.pattern.asc_getFgColor();
                         if (color.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB()), effectValue: color.get_value() }};
                         } else {
@@ -433,7 +433,7 @@ define([
                         this.GradColors[0] = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color), Position: 0};
                         this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
                     } else {
-                        this.PatternFillType = pattern.asc_getType();
+                        this.PatternFillType = this.pattern.asc_getType();
                         if (this._state.PatternFillType !== this.PatternFillType) {
                             this.cmbPattern.suspendEvents();
                             var rec = this.cmbPattern.menuPicker.store.findWhere({
@@ -443,7 +443,7 @@ define([
                             this.cmbPattern.resumeEvents();
                             this._state.PatternFillType = this.PatternFillType;
                         }
-                        var color = pattern.asc_getFgColor();
+                        var color = this.pattern.asc_getFgColor();
                         if (color) {
                             if (color.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.FGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB()), effectValue: color.asc_getValue() }};
@@ -453,7 +453,7 @@ define([
                         } else
                             this.FGColor = {Value: 1, Color: '000000'};
 
-                        color = pattern.asc_getBgColor();
+                        color = this.pattern.asc_getBgColor();
                         if (color) {
                             if (color.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                                 this.BGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB()), effectValue: color.asc_getValue() }};
@@ -467,8 +467,8 @@ define([
                         this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
                         this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     }
-                } else if (gradient !== null) {
-                    var gradFillType = gradient.asc_getType();
+                } else if (this.gradient !== null) {
+                    var gradFillType = this.gradient.asc_getType();
                     if (this._state.GradFillType !== gradFillType || this.GradFillType !== gradFillType) {
                         this.GradFillType = gradFillType;
                         rec = undefined;
@@ -483,7 +483,7 @@ define([
                         this._state.GradFillType = this.GradFillType;
                     }
                     if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                        var value = gradient.asc_getDegree();
+                        var value = this.gradient.asc_getDegree();
                         if (Math.abs(this.GradLinearDirectionType-value)>0.001) {
                             this.GradLinearDirectionType=value;
                             var record = this.mnuDirectionPicker.store.findWhere({type: value});
@@ -496,8 +496,8 @@ define([
                     }
 
                     var gradientStops;
-                    this.GradColors = [];
-                    gradientStops = gradient.asc_getGradientStops();
+                    this.GradColors.length = 0;
+                    gradientStops = this.gradient.asc_getGradientStops();
                     gradientStops.forEach(function (color) {
                         var clr = color.asc_getColor(),
                             position = color.asc_getPosition(),
@@ -805,24 +805,28 @@ define([
         },
 
         onFillSrcSelect: function(combo, record) {
+            var me = this;
             this.ShowHideElem(record.value);
             switch (record.value){
                 case Asc.c_oAscFill.FILL_TYPE_SOLID:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                     if (!this._noApply) {
-                        var pattern = new Asc.asc_CPatternFill();
-                        pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor((this.CellColor.Color=='transparent') ? {color: '4f81bd', effectId: 24} : this.CellColor.Color));
-                        //this.propsFill.asc_putPatternFill(pattern);
-                        //this.api.asc_setGraphicObjectProps(this.propsFill);
+                        if (this.pattern == null)
+                            this.pattern = new Asc.asc_CPatternFill();
+                        this.pattern.asc_setType(-1);
+                        this.pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor((this.CellColor.Color=='transparent') ? {color: '4f81bd', effectId: 24} : this.CellColor.Color));
+                        this.fill.asc_setPatternFill(this.pattern);
+                        this.api.asc_setCellFill(this.fill);
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_GRAD:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     if (!this._noApply) {
-                        var gradient = new Asc.asc_CGradientFill();
-                        gradient.asc_setType(this.GradFillType);
+                        if (this.gradient == null)
+                            this.gradient = new Asc.asc_CGradientFill();
+                        this.gradient.asc_setType(this.GradFillType);
                         if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                            gradient.asc_setDegree(this.GradLinearDirectionType);
+                            this.gradient.asc_setDegree(this.GradLinearDirectionType);
                         }
                         if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
                             var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColors[0].Color).get_color().get_hex(),
@@ -836,18 +840,16 @@ define([
                                 var gradientStop = new Asc.asc_CGradientStop();
                                 gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
                                 gradientStop.asc_setPosition(item.Position);
-                                gradient.asc_addGradientStop(gradientStop);
+                                me.gradient.asc_addGradientStop(gradientStop);
                             });
                         }
-                        //this.propsFill.asc_putGradientFill(gradient);
-                        //this.api.asc_setGraphicObjectProps(this.propsFill);
+                        this.fill.asc_setGradientFill(this.gradient);
+                        this.api.asc_setCellFill(this.fill);
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     if (!this._noApply) {
-                        var pattern = new Asc.asc_CPatternFill();
-
                         var fHexColor = Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color).get_color().get_hex();
                         var bHexColor = Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color).get_color().get_hex();
 
@@ -856,18 +858,21 @@ define([
                         } else {
                             fHexColor = this.FGColor.Color;
                         }
-                        pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(fHexColor));
-                        pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
-                        //this.propsFill.asc_putPatternFill(pattern);
-                        //this.api.asc_setGraphicObjectProps(this.propsFill);
+                        if (this.pattern == null)
+                            this.pattern = new Asc.asc_CPatternFill();
+                        this.pattern.asc_setType(this.PatternFillType);
+                        this.pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(fHexColor));
+                        this.pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
+                        this.fill.asc_setPatternFill(this.pattern);
+                        this.api.asc_setCellFill(this.fill);
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_NOFILL:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     if (!this._noApply) {
-                        //this.propsFill.asc_putPatternFill(null);
-                        //this.propsFill.asc_putGradientFill(null);
-                        //this.api.asc_setGraphicObjectProps(this.propsFill);
+                        this.fill.asc_setPatternFill(null);
+                        this.fill.asc_setGradientFill(null);
+                        this.api.asc_setCellFill(this.fill);
                     }
                     break;
             }
@@ -905,19 +910,31 @@ define([
             }
 
             if (this.api && !this._noApply) {
-                var gradient = new Asc.asc_CGradientFill();
-                if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                    gradient.asc_setDegree(this.GradLinearDirectionType);
+                if (this.gradient == null) {
+                    this.gradient = new Asc.asc_CGradientFill();
+                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                        this.gradient.asc_setDegree(this.GradLinearDirectionType);
+                    }
+                    this.GradColors.forEach(function (item) {
+                        var gradientStop = new Asc.asc_CGradientStop();
+                        gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
+                        gradientStop.asc_setPosition(item.Position);
+                        me.gradient.asc_addGradientStop(gradientStop);
+                    });
                 }
-                gradient.asc_setType(this.GradFillType);
-                //this.propsFill.asc_putGradientFill(gradient);
-                //this.api.asc_setGraphicObjectProps(this.propsFill);
+                if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    this.gradient.asc_setDegree(this.GradLinearDirectionType);
+                }
+                this.gradient.asc_setType(this.GradFillType);
+                this.fill.asc_setGradientFill(this.gradient);
+                this.api.asc_setCellFill(this.fill);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onSelectGradient: function(btn, picker, itemView, record) {
+            var me = this;
             if (this._noApply) return;
 
             var rawData = {},
@@ -939,11 +956,19 @@ define([
 
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                    var gradient = new Asc.asc_CGradientFill();
-                    gradient.asc_setDegree(rawData.type);
-
-                    //this.propsFill.asc_putGradientFill(gradient);
-                    //this.api.asc_setGraphicObjectProps(this.propsFill);
+                    if (this.gradient == null) {
+                        this.gradient = new Asc.asc_CGradientFill();
+                        this.gradient.asc_setType(this.GradFillType);
+                        this.GradColors.forEach(function (item) {
+                            var gradientStop = new Asc.asc_CGradientStop();
+                            gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
+                            gradientStop.asc_setPosition(item.Position);
+                            me.gradient.asc_addGradientStop(gradientStop);
+                        });
+                    }
+                    this.gradient.asc_setDegree(rawData.type);
+                    this.fill.asc_setGradientFill(this.gradient);
+                    this.api.asc_setCellFill(this.fill);
                 }
             }
 
@@ -951,7 +976,8 @@ define([
         },
 
         onColorsGradientSelect: function(picker, color) {
-            var pickerId = picker.el.id;
+            var me = this,
+                pickerId = picker.el.id;
             if (pickerId === "cell-gradient-color1-menu") {
                 this.btnGradColor1.setColor(color);
                 this.GradColors[0].Color = color;
@@ -961,22 +987,22 @@ define([
             }
 
             if (this.api && !this._noApply) {
-                var gradient = new Asc.asc_CGradientFill();
-                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
-                    gradient.asc_setType(this.GradFillType);
+                if (this.gradient == null) {
+                    this.gradient = new Asc.asc_CGradientFill();
+                    this.gradient.asc_setType(this.GradFillType);
                     if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                        gradient.asc_setDegree(this.GradLinearDirectionType);
+                        this.gradient.asc_setDegree(this.GradLinearDirectionType);
                     }
                 }
                 this.GradColors.forEach(function (item) {
                     var gradientStop = new Asc.asc_CGradientStop();
                     gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
                     gradientStop.asc_setPosition(item.Position);
-                    gradient.asc_addGradientStop(gradientStop);
+                    me.gradient.asc_addGradientStop(gradientStop);
                 });
 
-                //this.propsFill.asc_putGradientFill(gradient);
-                //this.api.asc_setGraphicObjectProps(this.propsFill);
+                this.fill.asc_setGradientFill(this.gradient);
+                this.api.asc_setCellFill(this.fill);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -984,14 +1010,14 @@ define([
         onPatternSelect: function(combo, record) {
             if (this.api && !this._noApply) {
                 this.PatternFillType = record.get('type');
-                var pattern = new Asc.asc_CPatternFill();
-                pattern.asc_setType(this.PatternFillType);
-                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
-                    pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
-                    pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
+                if (this.pattern == null) {
+                    this.pattern = new Asc.asc_CPatternFill();
+                    this.pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
+                    this.pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 }
-                //this.propsFill.asc_putPatternFill(pattern);
-                //this.api.asc_setGraphicObjectProps(this.propsFill);
+                this.pattern.asc_setType(this.PatternFillType);
+                this.fill.asc_setPatternFill(this.pattern);
+                this.api.asc_setCellFill(this.fill);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -1000,15 +1026,14 @@ define([
             this.btnFGColor.setColor(color);
             this.FGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
-                var pattern = new Asc.asc_CPatternFill();
-                pattern.asc_setType(Asc.c_oAscFill.FILL_TYPE_PATT);
-                pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
-                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
-                    pattern.asc_setType(this.PatternFillType);
-                    pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
+                if (this.pattern == null) {
+                    this.pattern = new Asc.asc_CPatternFill();
+                    this.pattern.asc_setType(this.PatternFillType);
+                    this.pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
                 }
-                //this.propsFill.asc_putPatternFill(pattern);
-                //this.api.asc_setGraphicObjectProps(this.propsFill);
+                this.pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
+                this.fill.asc_setPatternFill(this.pattern);
+                this.api.asc_setCellFill(this.fill);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -1017,15 +1042,14 @@ define([
             this.btnBGColor.setColor(color);
             this.BGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
-                var pattern = new Asc.asc_CPatternFill();
-                pattern.asc_setType(Asc.c_oAscFill.FILL_TYPE_PATT);
-                pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
-                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
-                    pattern.asc_setType(this.PatternFillType);
-                    pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
+                if (this.pattern == null) {
+                    this.pattern = new Asc.asc_CPatternFill();
+                    this.pattern.asc_setFgColor(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
+                    this.pattern.asc_setType(this.PatternFillType);
                 }
-                //this.propsFill.asc_putPatternFill(pattern);
-                //this.api.asc_setGraphicObjectProps(this.propsFill);
+                this.pattern.asc_setBgColor(Common.Utils.ThemeColor.getRgbColor(this.BGColor.Color));
+                this.fill.asc_setPatternFill(this.pattern);
+                this.api.asc_setCellFill(this.fill);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
