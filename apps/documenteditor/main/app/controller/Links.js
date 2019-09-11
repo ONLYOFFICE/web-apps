@@ -45,7 +45,8 @@ define([
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/TableOfContentsSettings',
-    'documenteditor/main/app/view/BookmarksDialog'
+    'documenteditor/main/app/view/BookmarksDialog',
+    'documenteditor/main/app/view/CaptionDialog'
 ], function () {
     'use strict';
 
@@ -66,7 +67,8 @@ define([
                     'links:update': this.onTableContentsUpdate,
                     'links:notes': this.onNotesClick,
                     'links:hyperlink': this.onHyperlinkClick,
-                    'links:bookmarks': this.onBookmarksClick
+                    'links:bookmarks': this.onBookmarksClick,
+                    'links:caption': this.onCaptionClick
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -326,6 +328,19 @@ define([
                 props: me.api.asc_GetBookmarksManager(),
                 handler: function (result, settings) {
                     if (settings) {
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
+        onCaptionClick: function(btn) {
+            var me = this;
+            (new DE.Views.CaptionDialog({
+                api: me.api,
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        me.api.asc_AddObjectCaption(settings);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
