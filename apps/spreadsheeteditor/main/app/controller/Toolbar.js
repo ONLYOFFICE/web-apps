@@ -831,6 +831,7 @@ define([
         },
 
         onInsertImageMenu: function(menu, item, e) {
+            var me = this;
             if (item.value === 'file') {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
 
@@ -840,8 +841,6 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             } else if (item.value === 'url') {
-                var me = this;
-
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
