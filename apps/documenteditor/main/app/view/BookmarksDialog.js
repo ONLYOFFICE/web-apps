@@ -51,7 +51,8 @@ define([
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 360
+            height: 360,
+            buttons: null
         },
 
         initialize : function(options) {

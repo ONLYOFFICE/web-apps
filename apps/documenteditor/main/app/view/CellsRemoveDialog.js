@@ -49,7 +49,8 @@ define([
             width: 214,
             header: true,
             style: 'min-width: 214px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -62,9 +63,6 @@ define([
                     '<div id="table-radio-cells-left" style="padding-bottom: 8px;"></div>',
                     '<div id="table-radio-cells-row" style="padding-bottom: 8px;"></div>',
                     '<div id="table-radio-cells-col" style="padding-bottom: 8px;"></div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 

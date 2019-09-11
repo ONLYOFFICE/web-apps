@@ -51,25 +51,22 @@ define([
     options: {
         header: false,
         width: 350,
-        cls: 'modal-dlg'
+        cls: 'modal-dlg',
+        buttons: ['ok', 'cancel'],
+        footerCls: 'right'
     },
 
     template:   '<div class="box">' +
-    '<div class="input-row">' +
-    '<label><%= label %></label>' +
-    '</div>' +
-    '<div class="input-row" id="id-document-language">' +
-    '</div>' +
-    '</div>' +
-    '<div class="footer right">' +
-    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;"><%= btns.ok %></button>'+
-    '<button class="btn normal dlg-btn" result="cancel"><%= btns.cancel %></button>'+
-    '</div>',
+        '<div class="input-row">' +
+        '<label><%= label %></label>' +
+        '</div>' +
+        '<div class="input-row" id="id-document-language">' +
+        '</div>' +
+        '</div>',
 
     initialize : function(options) {
         _.extend(this.options, options || {}, {
-            label: this.labelSelect,
-            btns: {ok: this.okButtonText, cancel: this.cancelButtonText}
+            label: this.labelSelect
         });
         this.options.tpl = _.template(this.template)(this.options);
 

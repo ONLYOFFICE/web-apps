@@ -86,7 +86,7 @@ define([
                     '<div id="id-dlg-sign-settings-date"></div>',
                 '</div>',
                 '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok">' + this.okButtonText + '</button>',
                     '<% if (type == "edit") { %>',
                     '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                     '<% } %>',

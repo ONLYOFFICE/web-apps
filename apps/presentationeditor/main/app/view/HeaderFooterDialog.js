@@ -48,7 +48,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 360,
-            height: 380
+            height: 380,
+            buttons: null
         },
 
         initialize : function(options) {
@@ -74,8 +75,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                         '</div>',
                         '<div class="separator horizontal"/>',
                         '<div class="footer center">',
-                            '<button class="btn normal dlg-btn primary" result="all" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
-                            '<button class="btn normal dlg-btn" result="ok" style="margin-right: 10px;width: auto; min-width: 86px;">' + me.applyText + '</button>',
+                            '<button class="btn normal dlg-btn primary" result="all" style="width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
+                            '<button class="btn normal dlg-btn" result="ok" style="width: auto; min-width: 86px;">' + me.applyText + '</button>',
                             '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
                         '</div>'
                     ].join('')

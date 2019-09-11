@@ -368,7 +368,7 @@ define([
                     '<div class="separator horizontal"/>',
                     '<div class="footer" style="text-align: center;">',
                         '<% for(var bt in buttons) { %>',
-                            '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>" style="margin-right: 10px;"><%= buttons[bt].text %></button>',
+                            '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>',
                         '<% } %>',
                     '</div>',
                 '<% } %>'

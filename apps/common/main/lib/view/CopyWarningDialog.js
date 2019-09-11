@@ -50,12 +50,14 @@ define([
         options: {
             width   : 500,
             height  : 325,
-            cls     : 'modal-dlg copy-warning'
+            cls     : 'modal-dlg copy-warning',
+            buttons: ['ok']
         },
 
         initialize : function(options) {
             _.extend(this.options, {
-                title: this.textTitle
+                title: this.textTitle,
+                buttons: ['ok']
             }, options || {});
 
             this.template = [
@@ -77,10 +79,7 @@ define([
                     '</div>',
                     '<div id="copy-warning-checkbox" style="margin-top: 20px; text-align: left;"></div>',
                 '</div>',
-                '<div class="separator horizontal"/>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary">' + this.okButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"/>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);

@@ -57,11 +57,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"/>'
                 ].join('')
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);

@@ -51,7 +51,8 @@ define([
                 cls: 'advanced-settings-dlg',
                 toggleGroup: 'advanced-settings-group',
                 contentTemplate: '',
-                items: []
+                items: [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template = options.template || [
@@ -64,11 +65,7 @@ define([
                     '<div class="separator"/>',
                     '<div class="content-panel" >' + _options.contentTemplate + '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"/>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);

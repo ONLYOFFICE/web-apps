@@ -46,7 +46,9 @@ define([
         options: {
             width: 330,
             header: false,
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
         initialize : function(options) {
@@ -58,10 +60,6 @@ define([
                         '<label>' + this.textUrl + '</label>',
                     '</div>',
                     '<div id="id-dlg-url" class="input-row"></div>',
-                '</div>',
-                '<div class="footer right">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 

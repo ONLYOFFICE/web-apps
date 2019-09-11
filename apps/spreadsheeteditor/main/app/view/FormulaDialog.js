@@ -62,7 +62,8 @@ define([
                 cls             : 'formula-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : []
+                items           : [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template   =   options.template || [
@@ -78,12 +79,7 @@ define([
 
                     '</div>',
                 '</div>',
-
-                '<div class="separator horizontal"/>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + t.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + t.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"/>'
             ].join('');
 
             this.api            =   options.api;

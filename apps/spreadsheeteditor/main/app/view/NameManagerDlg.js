@@ -53,7 +53,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         options: {
             alias: 'NameManagerDlg',
             contentWidth: 510,
-            height: 353
+            height: 353,
+            buttons: null
         },
 
         initialize: function (options) {

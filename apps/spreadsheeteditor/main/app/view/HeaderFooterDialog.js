@@ -51,7 +51,8 @@ define([
             width: 647,
             style: 'min-width: 350px;',
             cls: 'modal-dlg enable-key-events',
-            animate: {mask: false}
+            animate: {mask: false},
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -156,10 +157,6 @@ define([
                             '</div>',
                         '</div>',
                     '</div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
