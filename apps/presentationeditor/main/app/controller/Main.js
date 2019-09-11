@@ -207,9 +207,11 @@ define([
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
-                        if (!me.isModalShowed && !me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible()) {
+                        if (!me.isModalShowed) {
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
+                            if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
+                                return;
                             if (!e.relatedTarget ||
                                 !/area_id/.test(e.target.id)
                                 && !(e.target.localName == 'input' && $(e.target).parent().find(e.relatedTarget).length>0) /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
