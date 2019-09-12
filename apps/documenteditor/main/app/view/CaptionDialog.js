@@ -48,7 +48,7 @@ define([
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 351,
-            height: 330
+            height: 350
         },
 
         initialize : function(options) {
@@ -81,6 +81,11 @@ define([
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: bottom;">',
                                             '<button type="button" result="add" class="btn btn-text-default" id="caption-btn-delete">', me.textDelete,'</button>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr>',
+                                        '<td colspan="4" class="padding-small">',
+                                            '<div id="caption-checkbox-exclude"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -124,7 +129,7 @@ define([
                 ].join('')
             }, options);
 
-            this.api        = options.api;
+            this.isObject   = options.isObject;
             this.handler    = options.handler;
             this.props      = options.props;
 
@@ -146,6 +151,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 75px;',
                 editable: false,
+                disabled: !this.isObject,
                 data: [
                     { displayValue: this.textBefore,   value: 1 },
                     { displayValue: this.textAfter,   value: 0 }
@@ -162,14 +168,13 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-captions", arr);
             }
             arr = arr ? arr.split(';') : [];
-            arr = _.map(arr, function(str){ return { displayValue: str, value: 1 }; });
+            arr = _.map(arr, function(str){ return { displayValue: str, value: str, type: 1 }; });
 
-            // 0, -1 - not removable
-            this.arrLabel = [{ displayValue: this.textNone,      value: -1 }].concat(arr)
-                   .concat([{ displayValue: this.textEquation,  value: 0 },
-                            { displayValue: this.textFigure,    value: 0 },
-                            { displayValue: this.textTable,     value: 0 }
-                        ]);
+            // 0 - not removable
+            this.arrLabel = arr.concat([{ displayValue: this.textEquation,  value: this.textEquation, type: 0 },
+                                        { displayValue: this.textFigure,    value: this.textFigure, type: 0 },
+                                        { displayValue: this.textTable,     value: this.textTable, type: 0 }
+                                        ]);
 
             this.cmbLabel = new Common.UI.ComboBox({
                 el: $('#caption-combo-label'),
@@ -179,12 +184,10 @@ define([
                 data: this.arrLabel
             });
             this.cmbLabel.on('selected', function(combo, record) {
-                me.props.put_ExcludeLabel(record.value==-1);
-                if (record.value>=0)
-                    me.props.put_Label(record.displayValue);
+                me.props.put_Label(record.value);
                 me.props.updateName();
                 me.txtCaption.setValue(me.props.get_Name());
-                var custom = (record.value==1);
+                var custom = (record.type==1);
                 me.btnAdd.setDisabled(true);
                 me.btnDelete.setDisabled(!custom);
             });
@@ -201,6 +204,16 @@ define([
                 disabled: true
             });
             this.btnDelete.on('click', function() {
+            });
+
+            this.chExclude = new Common.UI.CheckBox({
+                el: $('#caption-checkbox-exclude'),
+                labelText: this.textExclude
+            });
+            this.chExclude.on('change', function(field, newValue, oldValue) {
+                me.props.put_ExcludeLabel(newValue=='checked');
+                me.props.updateName();
+                me.txtCaption.setValue(me.props.get_Name());
             });
 
             this.cmbNumbering = new Common.UI.ComboBox({
@@ -300,13 +313,10 @@ define([
         _setDefaults: function (props) {
             this.props = new Asc.CAscCaptionProperties();
             this.props.put_Before(!!this.cmbPosition.getValue());
-            var value = this.cmbLabel.getValue();
-            this.props.put_ExcludeLabel(value==-1);
-            if (value>=0)
-                this.props.put_Label(this.cmbLabel.getDisplayValue(this.cmbLabel.getSelectedRecord()));
-            this.btnDelete.setDisabled(value!=1);
-
-            this.props.put_ExcludeLabel = prot["put_ExcludeLabel"] = function(v){this.ExcludeLabel = v;};
+            this.props.put_Label(this.cmbLabel.getValue());
+            var value = this.cmbLabel.getSelectedRecord();
+            this.btnDelete.setDisabled(!value || value.type==0);
+            this.props.put_ExcludeLabel(this.chExclude.getValue()=='checked');
             this.props.put_Format(this.cmbNumbering.getValue());
             this.props.put_IncludeChapterNumber(this.chChapter.getValue()=='checked');
             this.props.put_HeadingLvl(this.cmbChapter.getValue());
@@ -351,10 +361,10 @@ define([
         textColon: 'colon',
         textLongDash: 'long dash',
         textDash: 'dash',
-        textNone: 'None',
         textEquation: 'Equation',
         textFigure: 'Figure',
-        textTable: 'Table'
+        textTable: 'Table',
+        textExclude: 'Exclude label from caption'
 
     }, DE.Views.CaptionDialog || {}))
 });

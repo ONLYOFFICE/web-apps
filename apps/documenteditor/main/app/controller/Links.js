@@ -78,7 +78,8 @@ define([
         },
         onLaunch: function () {
             this._state = {
-                prcontrolsdisable:undefined
+                prcontrolsdisable:undefined,
+                in_object: false
             };
             Common.Gateway.on('setactionlink', function (url) {
                 console.log('url with actions: ' + url);
@@ -127,7 +128,8 @@ define([
                 header_locked = false,
                 in_header = false,
                 in_equation = false,
-                in_image = false;
+                in_image = false,
+                in_table = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -142,10 +144,12 @@ define([
                     in_image = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Table) {
+                    in_table = true;
                 }
             }
-
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
+            this._state.in_object = in_image || in_table || in_equation;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
@@ -337,7 +341,7 @@ define([
         onCaptionClick: function(btn) {
             var me = this;
             (new DE.Views.CaptionDialog({
-                api: me.api,
+                isObject: this._state.in_object,
                 handler: function (result, settings) {
                     if (result == 'ok') {
                         me.api.asc_AddObjectCaption(settings);
