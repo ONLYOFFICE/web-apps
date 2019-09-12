@@ -162,6 +162,10 @@
                 {
                     "src": "../apps/presentationeditor/main/index.html.deploy",
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/index.html"
+                },
+                {
+                    "src": "../apps/presentationeditor/main/index_loader.html.deploy",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/index_loader.html"
                 }
             ]
         },
@@ -398,10 +402,10 @@
         "copy": {
             "localization": [
                 {
-                  "expand": true,
-                  "cwd": "../apps/presentationeditor/embed/locale/",
-                  "src": "*",
-                  "dest": "../deploy/web-apps/apps/presentationeditor/embed/locale/"
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/embed/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/embed/locale/"
                 }
             ],
             "index-page": {

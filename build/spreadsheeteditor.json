@@ -176,6 +176,10 @@
                 {
                     "src": "../apps/spreadsheeteditor/main/index.html.deploy",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/index.html"
+                },
+                {
+                    "src": "../apps/spreadsheeteditor/main/index_loader.html.deploy",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/index_loader.html"
                 }
             ]
         },

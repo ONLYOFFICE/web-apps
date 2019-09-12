@@ -168,6 +168,10 @@
                 {
                     "src": "../apps/documenteditor/main/index.html.deploy",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/index.html"
+                },
+                {
+                  "src": "../apps/documenteditor/main/index_loader.html.deploy",
+                  "dest": "../deploy/web-apps/apps/documenteditor/main/index_loader.html"
                 }
             ]
         },
