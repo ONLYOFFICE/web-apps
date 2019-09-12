@@ -1345,13 +1345,62 @@ define([
                     lock        : [_set.editCell, _set.selRangeEdit, _set.headerLock, _set.lostConnect, _set.coAuth]
                 });
 
+                me.mnuCustomScale = new Common.UI.MenuItem({
+                    template: _.template([
+                        '<div class="checkable" style="padding: 5px 20px; font-weight: normal;line-height: 1.42857143;color: #444444;font-size: 11px;height: 32px;">',
+                        '<label class="title" style="">' + me.textScale + '</label>',
+                        '<div id="spn-scale-settings" style="float: right;"></div>',
+                        '</div>'
+                    ].join('')),
+                    stopPropagation: true,
+                    value: 4,
+                    toggleGroup: 'menuScale',
+                    checkable: true
+                });
+
                 me.btnScale = new Common.UI.Button({
                     id: 'tlbtn-scale',
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-editheader',
                     caption: me.capBtnScale,
-                    lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth]
+                    lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {
+                                caption: me.textActualSize,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 0
+                            },
+                            {
+                                caption: me.textFitSheetOnOnePage,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 1
+                            },
+                            {
+                                caption: me.textFitAllColumnsOnOnePage,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 2
+                            },
+                            {
+                                caption: me.textFitAllRowsOnOnePage,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 3
+                            },
+                            me.mnuCustomScale,
+                            {caption: '--'},
+                            {   caption: me.textScaleCustom,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 5
+                            }
+                        ]})
                 });
+                me.mnuScale = me.btnScale.menu;
+                me.mnuScale.on('show:after', _.bind(me.onAfterShowMenuScale, me));
 
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -1420,6 +1469,28 @@ define([
                 this.on('render:after', _.bind(this.onToolbarAfterRender, this));
             }
             return this;
+        },
+
+        onAfterShowMenuScale: function () {
+            var me = this;
+            if (!this.spnScale) {
+                this.spnScale = new Common.UI.MetricSpinner({
+                    el: $('#spn-scale-settings'),
+                    step: 1,
+                    width: 80,
+                    defaultUnit: "%",
+                    maxValue: 400,
+                    minValue: 10,
+                    defaultValue: '100 %'
+                });
+                if (this.api) {
+                    var scale = this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale();
+                    this.spnScale.setValue(scale);
+                }
+                this.spnScale.on('change', _.bind(function(field){
+                    me.fireEvent('change:scalespn', [field.getNumberValue()]);
+                }, this));
+            }
         },
 
         render: function (mode) {
@@ -2368,6 +2439,12 @@ define([
         tipInsertTable: 'Insert table',
         textTabFormula: 'Formula',
         capBtnScale: 'Scale to Fit',
-        tipScale: 'Scale to Fit'
+        tipScale: 'Scale to Fit',
+        textActualSize: 'Actual Size',
+        textFitSheetOnOnePage: 'Fit sheet on One Page',
+        textFitAllColumnsOnOnePage: 'Fit All Columns on One Page',
+        textFitAllRowsOnOnePage: 'Fit All Rows on One Page',
+        textScaleCustom: 'Custom',
+        textScale: 'Scale'
     }, SSE.Views.Toolbar || {}));
 });

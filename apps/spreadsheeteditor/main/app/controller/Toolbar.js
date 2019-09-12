@@ -71,7 +71,8 @@ define([
 
             this.addListeners({
                 'Toolbar': {
-                    'change:compact': this.onClickChangeCompact.bind(me)
+                    'change:compact': this.onClickChangeCompact.bind(me),
+                    'change:scalespn': this.onClickChangeScaleInMenu.bind(me)
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -358,6 +359,7 @@ define([
                 toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
                 toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
                 toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
+                toolbar.mnuScale.on('item:click',                           _.bind(this.onScaleClick, this));
                 toolbar.btnPrintArea.menu.on('item:click',                  _.bind(this.onPrintAreaClick, this));
                 toolbar.btnPrintArea.menu.on('show:after',                  _.bind(this.onPrintAreaMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
@@ -367,7 +369,6 @@ define([
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
                 toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this));
-                toolbar.btnScale.on('click',                                _.bind(this.onScaleClick, this));
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
@@ -1759,6 +1760,7 @@ define([
             this.onApiPageOrient(opt.asc_getOrientation());
             this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
             this.onApiPageMargins(props.asc_getPageMargins());
+            this.onChangeScaleSettings(opt.asc_getFitToWidth(),opt.asc_getFitToHeight(),opt.asc_getScale());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
@@ -1818,6 +1820,39 @@ define([
             if (this._state.pgorient !== orient) {
                 this.toolbar.btnPageOrient.menu.items[orient == Asc.c_oAscPageOrientation.PagePortrait ? 0 : 1].setChecked(true);
                 this._state.pgorient = orient;
+            }
+        },
+
+        onChangeScaleSettings: function(width, height, scale) {
+            var me = this;
+            if (this.toolbar.btnScale.menu) {
+                this.toolbar.btnScale.menu.clearAll();
+                if (width !== undefined) {
+                    if ((width === 0 || width === null) && (height === 0 || height === null) && scale === 100) {
+                        this._state.scale = 0;
+                    } else if (width === 1 && height === 1) {
+                        this._state.scale = 1;
+                    } else if (width === 1 && (height === 0 || height === null)) {
+                        this._state.scale = 2;
+                    } else if ((width === 0 || width === null) && height === 1) {
+                        this._state.scale = 3;
+                    } else if ((width === 0 || width === null) && (height === 0 || height === null)) {
+                        this._state.scale = 4;
+                    } else {
+                        this._state.scale = 5;
+                    }
+                    if (this.toolbar.spnScale) {
+                        this.toolbar.spnScale.setValue(scale);
+                    }
+                } else if (scale === undefined) {
+                    this.toolbar.spnScale.setValue(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
+                }
+                _.each(this.toolbar.btnScale.menu.items, function(item){
+                    if (item.value === me._state.scale) {
+                        item.setChecked(true);
+                        return false;
+                    }
+                }, this);
             }
         },
 
@@ -3359,21 +3394,54 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onScaleClick: function(btn) {
+        onClickChangeScaleInMenu: function(scale) {
+            if (this.api) {
+                this.api.asc_SetPrintScale(0, 0, scale);
+                this.onChangeScaleSettings(0, 0, scale);
+            }
+        },
+
+        onScaleClick: function(menu, item, state) {
             var me = this;
-            var win = new SSE.Views.ScaleDialog({
-                api: me.api,
-                props: null,
-                handler: function(dlg, result) {
-                    if (dlg == 'ok') {
-                        if (me.api && result) {
-                            me.api.asc_SetPrintScale(result.width, result.height, result.scale);
-                        }
-                    }
-                    Common.NotificationCenter.trigger('edit:complete');
+            if (me.api) {
+                switch (item.value) {
+                    case 0:
+                        me.api.asc_SetPrintScale(0, 0, 100);
+                        me._state.scale = 0;
+                        break;
+                    case 1:
+                        me.api.asc_SetPrintScale(1, 1, 100);
+                        me._state.scale = 1;
+                        break;
+                    case 2:
+                        me.api.asc_SetPrintScale(1, 0, 100);
+                        me._state.scale = 2;
+                        break;
+                    case 3:
+                        me.api.asc_SetPrintScale(0, 1, 100);
+                        me._state.scale = 3;
+                        break;
+                    case 5:
+                        var win = new SSE.Views.ScaleDialog({
+                            api: me.api,
+                            props: null,
+                            handler: function(dlg, result) {
+                                if (dlg == 'ok') {
+                                    if (me.api && result) {
+                                        me.api.asc_SetPrintScale(result.width, result.height, result.scale);
+                                        me.onChangeScaleSettings(result.width, result.height, result.scale);
+                                    }
+                                    me._state.scale = 5;
+                                } else {
+                                    me.onChangeScaleSettings();
+                                }
+                                Common.NotificationCenter.trigger('edit:complete');
+                            }
+                        });
+                        win.show();
+                        break;
                 }
-            });
-            win.show();
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
