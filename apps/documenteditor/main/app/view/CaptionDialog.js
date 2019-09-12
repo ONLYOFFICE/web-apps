@@ -147,19 +147,48 @@ define([
                 menuStyle: 'min-width: 75px;',
                 editable: false,
                 data: [
-                    { displayValue: this.textBefore,   value: Asc.c_oAscFootnotePos.PageBottom },
-                    { displayValue: this.textAfter,   value: Asc.c_oAscFootnotePos.BeneathText }
+                    { displayValue: this.textBefore,   value: 1 },
+                    { displayValue: this.textAfter,   value: 0 }
                 ]
             });
-            this.cmbPosition.setValue(Asc.c_oAscFootnotePos.PageBottom);
+            this.cmbPosition.setValue(0);
+            this.cmbPosition.on('selected', function(combo, record) {
+                me.props.put_Before(!!record.value);
+            });
+
+            var arr = Common.Utils.InternalSettings.get("de-settings-captions");
+            if (arr==null || arr==undefined) {
+                arr = Common.localStorage.getItem("de-settings-captions") || '';
+                Common.Utils.InternalSettings.set("de-settings-captions", arr);
+            }
+            arr = arr ? arr.split(';') : [];
+            arr = _.map(arr, function(str){ return { displayValue: str, value: 1 }; });
+
+            // 0, -1 - not removable
+            this.arrLabel = [{ displayValue: this.textNone,      value: -1 }].concat(arr)
+                   .concat([{ displayValue: this.textEquation,  value: 0 },
+                            { displayValue: this.textFigure,    value: 0 },
+                            { displayValue: this.textTable,     value: 0 }
+                        ]);
 
             this.cmbLabel = new Common.UI.ComboBox({
                 el: $('#caption-combo-label'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 150px;',
+                menuStyle: 'min-width: 160px;max-height:135px;',
                 editable: true,
-                data: []
+                data: this.arrLabel
             });
+            this.cmbLabel.on('selected', function(combo, record) {
+                me.props.put_ExcludeLabel(record.value==-1);
+                if (record.value>=0)
+                    me.props.put_Label(record.displayValue);
+                me.props.updateName();
+                me.txtCaption.setValue(me.props.get_Name());
+                var custom = (record.value==1);
+                me.btnAdd.setDisabled(true);
+                me.btnDelete.setDisabled(!custom);
+            });
+            this.cmbLabel.selectRecord(this.cmbLabel.store.at(this.arrLabel.length-1));
 
             this.btnAdd = new Common.UI.Button({
                 el: $('#caption-btn-add'),
@@ -171,12 +200,13 @@ define([
                 el: $('#caption-btn-delete'),
                 disabled: true
             });
-            // this.btnDelete.on('click', _.bind(this.deleteLabel, this));
+            this.btnDelete.on('click', function() {
+            });
 
             this.cmbNumbering = new Common.UI.ComboBox({
                 el: $('#caption-combo-numbering'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 150px;',
+                menuStyle: 'min-width: 160px;',
                 editable: false,
                 data: [
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal, maskExp: /[0-9]/, defValue: 1 },
@@ -187,44 +217,64 @@ define([
                 ]
             });
             this.cmbNumbering.setValue(Asc.c_oAscNumberingFormat.Decimal);
-            // this.cmbNumbering.on('selected', _.bind(this.onFormatSelect, this));
+            this.cmbNumbering.on('selected', function(combo, record) {
+                me.props.put_Format(record.value);
+                me.props.updateName();
+                me.txtCaption.setValue(me.props.get_Name());
+            });
 
             this.chChapter = new Common.UI.CheckBox({
                 el: $('#caption-checkbox-chapter'),
                 labelText: this.textChapterInc
             });
             this.chChapter.on('change', function(field, newValue, oldValue) {
+                me.props.put_IncludeChapterNumber(newValue=='checked');
+                me.props.updateName();
+                me.txtCaption.setValue(me.props.get_Name());
                 me.cmbChapter.setDisabled(newValue!=='checked');
                 me.cmbSeparator.setDisabled(newValue!=='checked');
             });
 
+            var _main = DE.getController('Main');
+            this._arrLevel = [];
+            for (var i=0; i<9; i++) {
+                this._arrLevel.push({displayValue: _main['txtStyle_Heading_' + (i+1)], value: i});
+            }
             this.cmbChapter = new Common.UI.ComboBox({
                 el: $('#caption-combo-chapter'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 150px;',
+                menuStyle: 'min-width: 160px;max-height:135px;',
                 editable: false,
                 disabled: true,
-                data: []
+                data: this._arrLevel
             });
-            // this.cmbChapter.setValue(0);
-            // this.cmbChapter.on('selected', _.bind(this.onFormatSelect, this));
+            this.cmbChapter.setValue(0);
+            this.cmbChapter.on('selected', function(combo, record) {
+                me.props.put_HeadingLvl(record.value);
+                me.props.updateName();
+                me.txtCaption.setValue(me.props.get_Name());
+            });
 
             this.cmbSeparator = new Common.UI.ComboBox({
                 el: $('#caption-combo-separator'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 150px;',
+                menuStyle: 'min-width: 160px;',
                 editable: false,
                 disabled: true,
                 data: [
-                    { displayValue: '-   (' + this.textHyphen + ')',      value: Asc.c_oAscTabLeader.Hyphen },
-                    { displayValue: '.   (' + this.textPeriod + ')',      value: Asc.c_oAscTabLeader.Dot },
-                    { displayValue: ':   (' + this.textColon + ')',       value: Asc.c_oAscTabLeader.Hyphen },
-                    { displayValue: '--  (' + this.textLongDash + ')',   value: Asc.c_oAscTabLeader.Hyphen },
-                    { displayValue: '--  (' + this.textDash + ')',       value: Asc.c_oAscTabLeader.Hyphen }
+                    { displayValue: '-     (' + this.textHyphen + ')',      value: '-' },
+                    { displayValue: '.     (' + this.textPeriod + ')',      value: '.' },
+                    { displayValue: ':     (' + this.textColon + ')',       value: ':' },
+                    { displayValue: '—  (' + this.textLongDash + ')',   value: '—' },
+                    { displayValue: '–    (' + this.textDash + ')',       value: '–' }
                 ]
             });
-            // this.cmbSeparator.setValue(Asc.c_oAscNumberingFormat.Decimal);
-            // this.cmbSeparator.on('selected', _.bind(this.onFormatSelect, this));
+            this.cmbSeparator.setValue('-');
+            this.cmbSeparator.on('selected', function(combo, record) {
+                me.props.put_Separator(record.value);
+                me.props.updateName();
+                me.txtCaption.setValue(me.props.get_Name());
+            });
 
             this.lblExample = this.$window.find('#caption-label-example');
 
@@ -239,13 +289,34 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
         },
 
+        close: function() {
+            var val = _.pluck(_.where(this.arrLabel, {value: 1}), 'displayValue').join(';');
+            Common.localStorage.setItem("de-settings-captions", val);
+            Common.Utils.InternalSettings.set("de-settings-captions", val);
+
+            Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
+        },
+
         _setDefaults: function (props) {
-            if (props) {
-            }
+            this.props = new Asc.CAscCaptionProperties();
+            this.props.put_Before(!!this.cmbPosition.getValue());
+            var value = this.cmbLabel.getValue();
+            this.props.put_ExcludeLabel(value==-1);
+            if (value>=0)
+                this.props.put_Label(this.cmbLabel.getDisplayValue(this.cmbLabel.getSelectedRecord()));
+            this.btnDelete.setDisabled(value!=1);
+
+            this.props.put_ExcludeLabel = prot["put_ExcludeLabel"] = function(v){this.ExcludeLabel = v;};
+            this.props.put_Format(this.cmbNumbering.getValue());
+            this.props.put_IncludeChapterNumber(this.chChapter.getValue()=='checked');
+            this.props.put_HeadingLvl(this.cmbChapter.getValue());
+            this.props.put_Separator(this.cmbSeparator.getValue());
+            this.props.updateName();
+            this.txtCaption.setValue(this.props.get_Name());
         },
 
         getSettings: function () {
-            return {};
+            return this.props ;
         },
 
         onDlgBtnClick: function(event) {
@@ -278,8 +349,12 @@ define([
         textHyphen: 'hyphen',
         textPeriod: 'period',
         textColon: 'colon',
-        textLongDash: 'em-dash',
-        textDash: 'en-dash'
+        textLongDash: 'long dash',
+        textDash: 'dash',
+        textNone: 'None',
+        textEquation: 'Equation',
+        textFigure: 'Figure',
+        textTable: 'Table'
 
     }, DE.Views.CaptionDialog || {}))
 });

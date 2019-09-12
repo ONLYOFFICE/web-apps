@@ -153,7 +153,7 @@ define([
 
                 this.btnCaption = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-bookmarks',
+                    iconCls: 'btn-caption',
                     caption: this.capBtnCaption,
                     disabled: true
                 });
