@@ -835,13 +835,14 @@ define([
                             if (HexColor0 === 'ffffff' && HexColor1 === 'ffffff') {
                                 this.GradColors[0].Color = {color: '4f81bd', effectId: 24};    // color accent1
                             }
-
+                            var arrGradStop = [];
                             this.GradColors.forEach(function (item) {
                                 var gradientStop = new Asc.asc_CGradientStop();
                                 gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
                                 gradientStop.asc_setPosition(item.Position);
-                                me.gradient.asc_addGradientStop(gradientStop);
+                                arrGradStop.push(gradientStop);
                             });
+                            this.gradient.asc_putGradientStops(arrGradStop);
                         }
                         this.fill.asc_setGradientFill(this.gradient);
                         this.api.asc_setCellFill(this.fill);
@@ -915,12 +916,14 @@ define([
                     if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                         this.gradient.asc_setDegree(this.GradLinearDirectionType);
                     }
+                    var arrGradStop = [];
                     this.GradColors.forEach(function (item) {
                         var gradientStop = new Asc.asc_CGradientStop();
                         gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
                         gradientStop.asc_setPosition(item.Position);
-                        me.gradient.asc_addGradientStop(gradientStop);
+                        arrGradStop.push(gradientStop);
                     });
+                    this.gradient.asc_putGradientStops(arrGradStop);
                 }
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     this.gradient.asc_setDegree(this.GradLinearDirectionType);
@@ -959,12 +962,14 @@ define([
                     if (this.gradient == null) {
                         this.gradient = new Asc.asc_CGradientFill();
                         this.gradient.asc_setType(this.GradFillType);
+                        var arrGradStop = [];
                         this.GradColors.forEach(function (item) {
                             var gradientStop = new Asc.asc_CGradientStop();
                             gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
                             gradientStop.asc_setPosition(item.Position);
-                            me.gradient.asc_addGradientStop(gradientStop);
+                            arrGradStop.push(gradientStop);
                         });
+                        this.gradient.asc_putGradientStops(arrGradStop);
                     }
                     this.gradient.asc_setDegree(rawData.type);
                     this.fill.asc_setGradientFill(this.gradient);
@@ -994,12 +999,14 @@ define([
                         this.gradient.asc_setDegree(this.GradLinearDirectionType);
                     }
                 }
+                var arrGradStop = [];
                 this.GradColors.forEach(function (item) {
                     var gradientStop = new Asc.asc_CGradientStop();
                     gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
                     gradientStop.asc_setPosition(item.Position);
-                    me.gradient.asc_addGradientStop(gradientStop);
+                    arrGradStop.push(gradientStop);
                 });
+                this.gradient.asc_putGradientStops(arrGradStop);
 
                 this.fill.asc_setGradientFill(this.gradient);
                 this.api.asc_setCellFill(this.fill);
