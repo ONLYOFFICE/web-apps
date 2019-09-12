@@ -152,8 +152,6 @@ define([
 //                    viewport.applicationUI.setVisible(true);
                 }
 
-                $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
-
                 var value = Common.localStorage.getItem("sse-settings-fontrender");
                 if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
@@ -358,6 +356,9 @@ define([
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                if (!this.editorConfig.customization || !(this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
 
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 Common.Controllers.Desktop.init(this.appOptions);
@@ -869,7 +870,7 @@ define([
                             }
                         });
                     }
-                } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
+                } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
