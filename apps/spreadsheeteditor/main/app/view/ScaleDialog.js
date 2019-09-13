@@ -63,19 +63,19 @@ define([
 
             this.template = [
                 '<div class="box">',
-                '<div id="radio-fit-to" style="margin-bottom: 8px;"></div>',
+                '<div id="radio-fit-to" style="margin-bottom: 4px;"></div>',
                 '<div style="padding-left: 22px;">',
                     '<div>',
                         '<label style="height: 22px;width: 45px;padding-top: 4px;display: inline-block;margin-bottom: 4px;">' + this.textWidth + '</label>',
                         '<div id="scale-width" style="display: inline-block;margin-bottom: 4px;"></div>',
                     '</div>',
                     '<div>',
-                        '<label style="height: 22px;width: 45px;padding-top: 4px;display: inline-block;margin-bottom: 10px;">' + this.textHeight + '</label>',
-                        '<div id="scale-height" style="display: inline-block;margin-bottom: 10px;"></div>',
+                        '<label style="height: 22px;width: 45px;padding-top: 4px;display: inline-block;margin-bottom: 16px;">' + this.textHeight + '</label>',
+                        '<div id="scale-height" style="display: inline-block;margin-bottom: 16px;"></div>',
                     '</div>',
                 '</div>',
-                '<div id="radio-scale-to" style="margin-bottom: 8px;"></div>',
-                '<div id="scale" style="padding-left: 22px;"></div>',
+                '<div id="radio-scale-to" style="margin-bottom: 6px;"></div>',
+                '<div id="scale" style="padding-left: 22px; margin-bottom: 6px;"></div>',
                 '</div>',
                 '<div class="footer center">',
                 '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
@@ -269,11 +269,17 @@ define([
         },
 
         onChangeComboScale: function(type, combo, record, e) {
-            var me = this;
-            var value = parseInt(record.value),
-                textPage = me.getTextPages(value);
-            var expr = new RegExp('^\\s*(\\d*)\\s*(' + textPage + ')?\\s*$');
-            if (!(expr.exec(record.value)) || value < 1 || value > 32767) {
+            var me = this,
+                textPage,
+                value = record.value.toLowerCase();
+            var exprAuto = new RegExp('^\\s*(' + me.textAuto.toLowerCase() + ')\\s*$');
+            if (exprAuto.exec(value)) {
+                value = 0;
+            } else {
+                value = parseInt(value);
+                !isNaN(value) && (textPage = me.getTextPages(value));
+            }
+            if (isNaN(value) || value < 0 || value > 32767) {
                 Common.UI.error({
                     msg: me.textError,
                     callback: function() {
@@ -310,7 +316,7 @@ define([
         okButtonText:   'Ok',
         textWidth: 'Width',
         textHeight: 'Height',
-        textAuto: 'Automatic',
+        textAuto: 'Auto',
         textOnePage: 'page',
         textFewPages: 'pages',
         textManyPages: 'pages',

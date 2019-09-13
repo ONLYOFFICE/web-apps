@@ -2439,7 +2439,7 @@
   "SSE.Views.ScaleDialog.okButtonText": "Ok",
   "SSE.Views.ScaleDialog.textWidth": "Width",
   "SSE.Views.ScaleDialog.textHeight": "Height",
-  "SSE.Views.ScaleDialog.textAuto": "Automatic",
+  "SSE.Views.ScaleDialog.textAuto": "Auto",
   "SSE.Views.ScaleDialog.textOnePage": "page",
   "SSE.Views.ScaleDialog.textFewPages": "pages",
   "SSE.Views.ScaleDialog.textManyPages": "pages",
