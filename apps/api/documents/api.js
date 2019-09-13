@@ -761,7 +761,10 @@
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
-                if (config.editorConfig.customization.logo.image) params += "&headerlogo=" + config.editorConfig.customization.logo.image;
+                if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
+                    params += "&headerlogo=" + config.editorConfig.customization.logo.imageEmbedded;
+                else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
+                    params += "&headerlogo=" + config.editorConfig.customization.logo.image;
             }
         }
 
