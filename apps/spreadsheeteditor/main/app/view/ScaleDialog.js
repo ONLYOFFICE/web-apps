@@ -63,22 +63,19 @@ define([
 
             this.template = [
                 '<div class="box">',
-                '<table style="width: 100%;"><tbody>',
-                '<tr>',
-                '<td><label style="height: 22px;width: 45px;padding-top: 4px;margin-bottom: 8px;">' + this.textWidth + '</label></td>',
-                '<td><div id="scale-width" style="margin-bottom: 8px;"></div></td>',
-                '<td><label style="width: 45px;height: 22px;padding-top: 4px;margin-bottom: 8px;text-align: right;">' + this.textPages + '</label></td>',
-                '</tr>',
-                '<tr>',
-                '<td><label style="height: 22px;width: 45px;padding-top: 4px;margin-bottom: 8px;">' + this.textHeight + '</label></td>',
-                '<td><div id="scale-height" style="margin-bottom: 8px;"></div></td>',
-                '<td><label style="width: 45px;height: 22px;padding-top: 4px;margin-bottom: 8px;text-align: right;">' + this.textPages + '</label></td>',
-                '</tr>',
-                '<tr>',
-                '<td><label style="height: 22px;width: 45px;padding-top: 4px;">' + this.textScale + '</label></td>',
-                '<td><div id="scale" style=""></div></td>',
-                '</tr>',
-                '</tbody></table>',
+                '<div id="radio-fit-to" style="margin-bottom: 8px;"></div>',
+                '<div style="padding-left: 22px;">',
+                    '<div>',
+                        '<label style="height: 22px;width: 45px;padding-top: 4px;display: inline-block;margin-bottom: 4px;">' + this.textWidth + '</label>',
+                        '<div id="scale-width" style="display: inline-block;margin-bottom: 4px;"></div>',
+                    '</div>',
+                    '<div>',
+                        '<label style="height: 22px;width: 45px;padding-top: 4px;display: inline-block;margin-bottom: 10px;">' + this.textHeight + '</label>',
+                        '<div id="scale-height" style="display: inline-block;margin-bottom: 10px;"></div>',
+                    '</div>',
+                '</div>',
+                '<div id="radio-scale-to" style="margin-bottom: 8px;"></div>',
+                '<div id="scale" style="padding-left: 22px;"></div>',
                 '</div>',
                 '<div class="footer center">',
                 '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
@@ -91,51 +88,90 @@ define([
             this.api = this.options.api;
             this._originalProps = this.options.props;
 
+            this.arrDataScale = [
+                {displayValue: this.textAuto, value: 0},
+                {displayValue: '1 ' + this.textOnePage, value: 1},
+                {displayValue: '2 ' + this.textFewPages, value: 2},
+                {displayValue: '3 ' + this.textFewPages, value: 3},
+                {displayValue: '4 ' + this.textFewPages, value: 4},
+                {displayValue: '5 ' + this.textManyPages, value: 5},
+                {displayValue: '6 ' + this.textManyPages, value: 6},
+                {displayValue: '7 ' + this.textManyPages, value: 7},
+                {displayValue: '8 ' + this.textManyPages, value: 8},
+                {displayValue: '9 ' + this.textManyPages, value: 9}
+            ];
+
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
-            this.spnScaleWidth = new Common.UI.MetricSpinner({
-                el          : $('#scale-width'),
-                step        : 1,
-                width       : 80,
-                value       : '',
-                defaultUnit : '',
-                maxValue    : 32767,
-                minValue    : 1,
-                allowAuto   : true
+            this.radioFitTo = new Common.UI.RadioBox({
+                el: $('#radio-fit-to'),
+                labelText: this.textFitTo,
+                name: 'asc-radio-scale'
             });
-            this.spnScaleWidth.on('change', _.bind(function (field) {
-                this._state.width = field.getNumberValue();
-                this.setDisabledScale();
-            }, this));
+            this.radioFitTo.on('change', _.bind(this.onRadioScale, this, 'fitto'));
 
-            this.spnScaleHeight = new Common.UI.MetricSpinner({
-                el          : $('#scale-height'),
-                step        : 1,
-                width       : 80,
-                value       : '',
-                defaultUnit : '',
-                maxValue    : 32767,
-                minValue    : 1,
-                allowAuto   : true
+            this.radioScaleTo = new Common.UI.RadioBox({
+                el: $('#radio-scale-to'),
+                labelText: this.textScaleTo,
+                name: 'asc-radio-scale'
             });
-            this.spnScaleHeight.on('change', _.bind(function (field) {
-                this._state.height = field.getNumberValue();
-                this.setDisabledScale();
-            }, this));
+            this.radioScaleTo.on('change', _.bind(this.onRadioScale, this, 'scaleto'));
+
+            this.cmbScaleWidth = new Common.UI.ComboBox({
+                el: $('#scale-width'),
+                cls: 'input-group-nr',
+                style: 'width: 90px;',
+                menuStyle   : 'min-width: 90px;',
+                editable: true,
+                data: this.arrDataScale,
+                scrollAlwaysVisible: true
+            }).on('selected', _.bind(function (field) {
+                this._state.width = field.getValue();
+                if ((this._state.width === 0 || this._state.width === null) && (this._state.height === 0 || this._state.height === null)) {
+                    this.radioScaleTo.setValue(true, true);
+                } else {
+                    this.radioFitTo.setValue(true, true);
+                }
+                }, this))
+                .on('changed:before', _.bind(this.onChangeComboScale, this, 'width'));
+
+            this.cmbScaleHeight = new Common.UI.ComboBox({
+                el: $('#scale-height'),
+                cls: 'input-group-nr',
+                style: 'width: 90px;',
+                menuStyle   : 'min-width: 90px;',
+                editable: true,
+                data: this.arrDataScale,
+                scrollAlwaysVisible: true
+            }).on('selected', _.bind(function (field) {
+                this._state.height = field.getValue();
+                if ((this._state.width === 0 || this._state.width === null) && (this._state.height === 0 || this._state.height === null)) {
+                    this.radioScaleTo.setValue(true, true);
+                } else {
+                    this.radioFitTo.setValue(true, true);
+                }
+                }, this))
+                .on('changed:before', _.bind(this.onChangeComboScale, this, 'height'));
 
             this.spnScale = new Common.UI.MetricSpinner({
                 el          : $('#scale'),
                 step        : 1,
-                width       : 80,
+                width       : 75,
                 defaultUnit : "%",
                 maxValue    : 400,
                 minValue    : 10,
                 defaultValue: '100 %'
-            });
+            }).on('change', _.bind(function (field) {
+                this.radioScaleTo.setValue(true, true);
+                this.cmbScaleHeight.setValue(0,true);
+                this.cmbScaleWidth.setValue(0,true);
+                this._state.width = 0;
+                this._state.height = 0;
+            }, this));
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -163,11 +199,17 @@ define([
             return false;
         },
 
-        setDisabledScale: function() {
-            if ((this._state.height === -1 || this._state.height === null) && (this._state.width === -1 || this._state.width === null)) {
-                this.spnScale.setDisabled(false);
+        onRadioScale: function(type, field, newValue) {
+            if (type === 'scaleto') {
+                this.cmbScaleHeight.setValue(0,true);
+                this._state.height = 0;
+                this.cmbScaleWidth.setValue(0,true);
+                this._state.width = 0;
             } else {
-                this.spnScale.setDisabled(true);
+                this.cmbScaleHeight.setValue(0,true);
+                this._state.height = 0;
+                this.cmbScaleWidth.setValue(1,true);
+                this._state.width = 1;
             }
         },
 
@@ -178,23 +220,89 @@ define([
                     width = pageSetup.asc_getFitToWidth(),
                     height = pageSetup.asc_getFitToHeight(),
                     scale = pageSetup.asc_getScale();
-                this.spnScaleWidth.setValue((width !== null && width !== 0) ? width : -1, true);
-                this.spnScaleHeight.setValue((height !== null && height !== 0) ? height : -1, true);
-                this.spnScale.setValue((scale !== null) ? scale : '', true);
-
                 this._state.width = (width !== null && width !== 0) ? width : null;
                 this._state.height = (height !== null && height !== 0) ? height : null;
 
-                this.setDisabledScale();
+                width = (width !== null) ? width : 0;
+                height = (height !== null) ? height : 0;
+
+                if (width === 0 && height === 0) {
+                    this.radioScaleTo.setValue(true,true);
+                } else {
+                    this.radioFitTo.setValue(true,true);
+                }
+
+                if (_.findWhere(this.arrDataScale, {value: width})) {
+                    this.cmbScaleWidth.setValue(width);
+                } else {
+                    this.cmbScaleWidth.setRawValue(width.toString() + ' ' + this.getTextPages(width));
+                }
+                if (_.findWhere(this.arrDataScale, {value: height})) {
+                    this.cmbScaleHeight.setValue(height);
+                } else {
+                    this.cmbScaleHeight.setRawValue(height.toString() + ' ' + this.getTextPages(height));
+                }
+
+                this.spnScale.setValue((scale !== null) ? scale : '', true);
             }
         },
 
         getSettings: function () {
             var props = {};
-            props.width = (this._state.width === null) ? null : ((this._state.width === -1) ? 0 : this._state.width);
-            props.height = (this._state.height === null) ? null : ((this._state.height === -1) ? 0 : this._state.height);
+            props.width = (this._state.width === null) ? null : this._state.width;
+            props.height = (this._state.height === null) ? null : this._state.height;
             props.scale = this.spnScale.getNumberValue();
             return props;
+        },
+
+        getTextPages: function (val) {
+            var lastNum = val % 10,
+                textPage;
+            if (lastNum > 0 && lastNum < 1.001) {
+                textPage = this.textOnePage;
+            } else if (lastNum > 0 && lastNum < 4.001) {
+                textPage = this.textFewPages;
+            } else {
+                textPage = this.textManyPages;
+            }
+            return textPage;
+        },
+
+        onChangeComboScale: function(type, combo, record, e) {
+            var me = this;
+            var value = parseInt(record.value),
+                textPage = me.getTextPages(value);
+            var expr = new RegExp('^\\s*(\\d*)\\s*(' + textPage + ')?\\s*$');
+            if (!(expr.exec(record.value)) || value < 1 || value > 32767) {
+                Common.UI.error({
+                    msg: me.textError,
+                    callback: function() {
+                        _.defer(function(btn) {
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        })
+                    }
+                });
+                value = (type === 'width') ? me._state.width : me._state.height;
+                textPage = me.getTextPages(value);
+            }
+            if (value === null) value = 0;
+            if (type === 'width') {
+                if (_.findWhere(me.arrDataScale, {value: value})) {
+                    me.cmbScaleWidth.setValue(value);
+                } else {
+                    me.cmbScaleWidth.setValue('');
+                    me.cmbScaleWidth.setRawValue(value.toString() + ' ' + textPage);
+                }
+                me._state.width = value;
+            } else if (type === 'height') {
+                if (_.findWhere(me.arrDataScale, {value: value})) {
+                    me.cmbScaleHeight.setValue(value);
+                } else {
+                    me.cmbScaleHeight.setValue('');
+                    me.cmbScaleHeight.setRawValue(value.toString() + ' ' + textPage);
+                }
+                me._state.height = value;
+            }
         },
 
         textTitle: 'Scale Settings',
@@ -202,8 +310,13 @@ define([
         okButtonText:   'Ok',
         textWidth: 'Width',
         textHeight: 'Height',
-        textPages: 'page(s)',
-        textScale: 'Scale'
+        textAuto: 'Automatic',
+        textOnePage: 'page',
+        textFewPages: 'pages',
+        textManyPages: 'pages',
+        textError: 'The entered value is incorrect.',
+        textScaleTo: 'Scale To',
+        textFitTo: 'Fit To'
 
     }, SSE.Views.ScaleDialog || {}))
 });

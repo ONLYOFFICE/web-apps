@@ -2439,6 +2439,11 @@
   "SSE.Views.ScaleDialog.okButtonText": "Ok",
   "SSE.Views.ScaleDialog.textWidth": "Width",
   "SSE.Views.ScaleDialog.textHeight": "Height",
-  "SSE.Views.ScaleDialog.textPages": "page(s)",
-  "SSE.Views.ScaleDialog.textScale": "Scale"
+  "SSE.Views.ScaleDialog.textAuto": "Automatic",
+  "SSE.Views.ScaleDialog.textOnePage": "page",
+  "SSE.Views.ScaleDialog.textFewPages": "pages",
+  "SSE.Views.ScaleDialog.textManyPages": "pages",
+  "SSE.Views.ScaleDialog.textError": "The entered value is incorrect.",
+  "SSE.Views.ScaleDialog.textScaleTo": "Scale To",
+  "SSE.Views.ScaleDialog.textFitTo": "Fit To"
 }
