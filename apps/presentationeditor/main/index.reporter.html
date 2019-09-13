@@ -23,11 +23,6 @@
             z-index: 10000;
         }
 
-        .loadmask {
-            width: 100%;
-            height: 100%;
-        }
-
         .loadmask > .brendpanel {
             width: 100%;
             height: 56px;
@@ -37,19 +32,6 @@
         .loadmask > .brendpanel > div {
             display: flex;
             align-items: center;
-        }
-
-        .loadmask > .brendpanel .loading-logo {
-            padding: 0 24px 0 12px;
-            max-width: 200px;
-            height: 20px;
-        }
-
-        .loadmask > .brendpanel .loading-logo > img {
-            display: inline-block;
-            max-width: 100px;
-            max-height: 20px;
-            opacity: 0;
         }
 
         .loadmask > .brendpanel .spacer {
@@ -191,8 +173,7 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-            presenter = 'Presenter View',
-            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+            presenter = 'Presenter View';
 
         window.frameEditorId = params["frameEditorId"];
 
@@ -217,18 +198,11 @@
     </style>
 </head>
 <body>
-    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo.png"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line"></div></div></div></div></div></div>
-    <div id="viewport"></div>
+    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line"></div></div></div></div></div></div>
 
     <script>
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
-        } else {
-            var elem = document.querySelector('.loading-logo img');
-            if (elem) {
-                logo && (elem.setAttribute('src', logo));
-                elem.style.opacity = 1;
-            }
         }
     </script>
 
