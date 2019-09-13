@@ -125,7 +125,6 @@ define([
                     'translate': translate
                 });
 
-                $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
 
                 // Localization uiApp params
                 uiApp.params.modalButtonOk = me.textOK;
@@ -240,6 +239,9 @@ define([
 
                if (me.appOptions.location == 'us' || me.appOptions.location == 'ca')
                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
             },
 
             loadDocument: function(data) {

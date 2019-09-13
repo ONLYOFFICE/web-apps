@@ -342,7 +342,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html.deploy"
+                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html.deploy",
+                "../deploy/web-apps/apps/presentationeditor/mobile/index_loader.html": "../apps/presentationeditor/mobile/index_loader.html.deploy"
             },
             "localization": [
                 {

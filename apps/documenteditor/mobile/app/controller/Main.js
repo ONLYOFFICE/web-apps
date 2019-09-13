@@ -122,8 +122,6 @@ define([
                     'translate': translate
                 });
 
-                $('#editor_sdk').append('<div class="doc-placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>');
-
                 // Localization uiApp params
                 uiApp.params.modalButtonOk = me.textOK;
                 uiApp.params.modalButtonCancel = me.textCancel;
@@ -221,6 +219,9 @@ define([
 
                 if (me.editorConfig.lang)
                     me.api.asc_setLocale(me.editorConfig.lang);
+
+                if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>');
 
 //                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
 //                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
