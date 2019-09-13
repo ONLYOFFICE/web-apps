@@ -72,7 +72,8 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'change:compact': this.onClickChangeCompact.bind(me),
-                    'change:scalespn': this.onClickChangeScaleInMenu.bind(me)
+                    'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
+                    'click:customscale': this.onScaleClick.bind(me)
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -1841,11 +1842,9 @@ define([
                     } else {
                         this._state.scale = 5;
                     }
-                    if (this.toolbar.spnScale) {
-                        this.toolbar.spnScale.setValue(scale);
-                    }
+                    this.toolbar.setValueCustomScale(scale);
                 } else if (scale === undefined) {
-                    this.toolbar.spnScale.setValue(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
+                    this.toolbar.setValueCustomScale(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
                 }
                 _.each(this.toolbar.btnScale.menu.items, function(item){
                     if (item.value === me._state.scale) {
@@ -3394,52 +3393,76 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onClickChangeScaleInMenu: function(scale) {
+        onClickChangeScaleInMenu: function(type, curScale) {
             if (this.api) {
+                var scale;
+                if (type === 'up') {
+                    if (curScale % 5 > 0.001) {
+                        scale = Math.ceil(curScale / 5) * 5;
+                    } else {
+                        scale = curScale + 5;
+                    }
+                } else {
+                    if (curScale % 5 > 0.001) {
+                        scale = Math.floor(curScale / 5) * 5;
+                    } else {
+                        scale = curScale - 5;
+                    }
+                }
+                if (scale > 400) {
+                    scale = 400;
+                } else if (scale < 10) {
+                    scale = 10;
+                }
                 this.api.asc_SetPrintScale(0, 0, scale);
                 this.onChangeScaleSettings(0, 0, scale);
             }
         },
 
-        onScaleClick: function(menu, item, state) {
+        onScaleClick: function(menu, item, event, scale) {
             var me = this;
             if (me.api) {
-                switch (item.value) {
-                    case 0:
-                        me.api.asc_SetPrintScale(0, 0, 100);
-                        me._state.scale = 0;
-                        break;
-                    case 1:
-                        me.api.asc_SetPrintScale(1, 1, 100);
-                        me._state.scale = 1;
-                        break;
-                    case 2:
-                        me.api.asc_SetPrintScale(1, 0, 100);
-                        me._state.scale = 2;
-                        break;
-                    case 3:
-                        me.api.asc_SetPrintScale(0, 1, 100);
-                        me._state.scale = 3;
-                        break;
-                    case 5:
-                        var win = new SSE.Views.ScaleDialog({
-                            api: me.api,
-                            props: null,
-                            handler: function(dlg, result) {
-                                if (dlg == 'ok') {
-                                    if (me.api && result) {
-                                        me.api.asc_SetPrintScale(result.width, result.height, result.scale);
-                                        me.onChangeScaleSettings(result.width, result.height, result.scale);
+                if (scale !== undefined) {
+                    me.api.asc_SetPrintScale(0, 0, scale);
+                    me._state.scale = 4;
+                } else {
+                    switch (item.value) {
+                        case 0:
+                            me.api.asc_SetPrintScale(0, 0, 100);
+                            me._state.scale = 0;
+                            break;
+                        case 1:
+                            me.api.asc_SetPrintScale(1, 1, 100);
+                            me._state.scale = 1;
+                            break;
+                        case 2:
+                            me.api.asc_SetPrintScale(1, 0, 100);
+                            me._state.scale = 2;
+                            break;
+                        case 3:
+                            me.api.asc_SetPrintScale(0, 1, 100);
+                            me._state.scale = 3;
+                            break;
+                        case 5:
+                            var win = new SSE.Views.ScaleDialog({
+                                api: me.api,
+                                props: null,
+                                handler: function (dlg, result) {
+                                    if (dlg == 'ok') {
+                                        if (me.api && result) {
+                                            me.api.asc_SetPrintScale(result.width, result.height, result.scale);
+                                            me.onChangeScaleSettings(result.width, result.height, result.scale);
+                                        }
+                                        me._state.scale = 5;
+                                    } else {
+                                        me.onChangeScaleSettings();
                                     }
-                                    me._state.scale = 5;
-                                } else {
-                                    me.onChangeScaleSettings();
+                                    Common.NotificationCenter.trigger('edit:complete');
                                 }
-                                Common.NotificationCenter.trigger('edit:complete');
-                            }
-                        });
-                        win.show();
-                        break;
+                            });
+                            win.show();
+                            break;
+                    }
                 }
             }
 
