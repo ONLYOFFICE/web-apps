@@ -1353,7 +1353,7 @@ define([
                         '<% } %>', '>',
                         '<label class="title" style="padding-top: 3px;">' + me.textScale + '</label>',
                         '<button id="custom-scale-up" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon btn-zoomin">&nbsp;</i></button>',
-                        '<label id="value-custom-scale" style="float:right;padding: 3px 3px;"></label>',
+                        '<label id="value-custom-scale" style="float:right;padding: 3px 3px;min-width: 40px; text-align: center;"></label>',
                         '<button id="custom-scale-down" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon btn-zoomout">&nbsp;</i></button>',
                         '</div>'
                     ].join('')),
@@ -1366,7 +1366,7 @@ define([
                 me.btnScale = new Common.UI.Button({
                     id: 'tlbtn-scale',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-editheader',
+                    iconCls: 'btn-scale',
                     caption: me.capBtnScale,
                     lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
