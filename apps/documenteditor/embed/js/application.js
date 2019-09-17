@@ -31,7 +31,8 @@
  *
 */
 +function ($) {
-    Common.Locale.apply();
-    DE.ApplicationView.create();
-    DE.ApplicationController.create();
+    Common.Locale.apply(function() {
+        DE.ApplicationView.create();
+        DE.ApplicationController.create();
+    });
 }();
