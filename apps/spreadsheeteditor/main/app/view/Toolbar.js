@@ -1337,6 +1337,68 @@ define([
                     })
                 });
 
+                me.mnuCustomScale = new Common.UI.MenuItem({
+                    template: _.template([
+                        '<div class="checkable custom-scale" style="padding: 5px 20px;font-weight: normal;line-height: 1.42857143;color: #444444;font-size: 11px;height: 32px;"',
+                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                        'data-stopPropagation="true"',
+                        '<% } %>', '>',
+                        '<label class="title" style="padding-top: 3px;">' + me.textScale + '</label>',
+                        '<button id="custom-scale-up" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon btn-zoomin">&nbsp;</i></button>',
+                        '<label id="value-custom-scale" style="float:right;padding: 3px 3px;min-width: 40px; text-align: center;"></label>',
+                        '<button id="custom-scale-down" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon btn-zoomout">&nbsp;</i></button>',
+                        '</div>'
+                    ].join('')),
+                    stopPropagation: true,
+                    toggleGroup: 'menuScale',
+                    checkable: true,
+                    value: 4
+                });
+
+                me.btnScale = new Common.UI.Button({
+                    id: 'tlbtn-scale',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-scale',
+                    caption: me.capBtnScale,
+                    lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {
+                                caption: me.textActualSize,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 0
+                            },
+                            {
+                                caption: me.textFitSheetOnOnePage,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 1
+                            },
+                            {
+                                caption: me.textFitAllColumnsOnOnePage,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 2
+                            },
+                            {
+                                caption: me.textFitAllRowsOnOnePage,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 3
+                            },
+                            me.mnuCustomScale,
+                            {caption: '--'},
+                            {   caption: me.textScaleCustom,
+                                checkable: true,
+                                toggleGroup: 'menuScale',
+                                value: 5
+                            }
+                        ]})
+                });
+                me.mnuScale = me.btnScale.menu;
+                me.mnuScale.on('show:after', _.bind(me.onAfterShowMenuScale, me));
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-img-align',
@@ -1392,7 +1454,7 @@ define([
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -1404,6 +1466,43 @@ define([
                 this.on('render:after', _.bind(this.onToolbarAfterRender, this));
             }
             return this;
+        },
+
+        onAfterShowMenuScale: function () {
+            var me = this;
+            if (me.api) {
+                var scale = me.api.asc_getPageOptions().asc_getPageSetup().asc_getScale();
+                $('#value-custom-scale', me.mnuCustomScale.$el).html(scale + '%');
+                me.valueCustomScale = scale;
+            }
+            if (!me.itemCustomScale) {
+                me.itemCustomScale = $('.custom-scale', me.mnuCustomScale.$el).on('click', _.bind(function () {
+                    me.fireEvent('click:customscale', [undefined, undefined, undefined, me.valueCustomScale], this);
+                }, this));
+            }
+            if (!me.btnCustomScaleUp) {
+                me.btnCustomScaleUp = new Common.UI.Button({
+                    el: $('#custom-scale-up', me.mnuCustomScale.$el),
+                    cls: 'btn-toolbar'
+                }).on('click', _.bind(function () {
+                    me.fireEvent('change:scalespn', ['up', me.valueCustomScale], this);
+                }, this));
+            }
+            if (!me.btnCustomScaleDown) {
+                me.btnCustomScaleDown = new Common.UI.Button({
+                    el: $('#custom-scale-down', me.mnuCustomScale.$el),
+                    cls: 'btn-toolbar'
+                }).on('click', _.bind(function () {
+                    me.fireEvent('change:scalespn', ['down', me.valueCustomScale], this);
+                }, this));
+            }
+        },
+
+        setValueCustomScale: function(val) {
+            if (this.api && val !== null && val !== undefined) {
+                $('#value-custom-scale', this.mnuCustomScale.$el).html(val + '%');
+                this.valueCustomScale = val;
+            }
         },
 
         render: function (mode) {
@@ -1552,7 +1651,7 @@ define([
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
-
+            _injectComponent('#slot-btn-scale',         this.btnScale);
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'btn-editheader', this.capBtnInsHeader,
                                 [SSE.enumLock.editCell, SSE.enumLock.selRangeEdit, SSE.enumLock.headerLock, SSE.enumLock.lostConnect, SSE.enumLock.coAuth]);
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
@@ -1628,6 +1727,7 @@ define([
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
             _updateHint(this.btnPrintArea, this.tipPrintArea);
+            _updateHint(this.btnScale, this.tipScale);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -2354,6 +2454,14 @@ define([
         textTabData: 'Data',
         capInsertTable: 'Table',
         tipInsertTable: 'Insert table',
-        textTabFormula: 'Formula'
+        textTabFormula: 'Formula',
+        capBtnScale: 'Scale to Fit',
+        tipScale: 'Scale to Fit',
+        textActualSize: 'Actual Size',
+        textFitSheetOnOnePage: 'Fit sheet on One Page',
+        textFitAllColumnsOnOnePage: 'Fit All Columns on One Page',
+        textFitAllRowsOnOnePage: 'Fit All Rows on One Page',
+        textScaleCustom: 'Custom',
+        textScale: 'Scale'
     }, SSE.Views.Toolbar || {}));
 });

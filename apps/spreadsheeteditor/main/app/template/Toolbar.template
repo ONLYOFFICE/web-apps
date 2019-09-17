@@ -151,6 +151,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-printarea"></span>
                     <span class="btn-slot text x-huge slot-editheader"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-scale"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
