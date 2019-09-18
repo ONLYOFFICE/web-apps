@@ -156,7 +156,7 @@ define([
 
             onPageShow: function(view, pageId) {
                 var me = this;
-                $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("pe-mobile-spellcheck", false));
+                $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("pe-mobile-spellcheck"));
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
                 $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
@@ -357,6 +357,7 @@ define([
                 var $checkbox = $(e.currentTarget),
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("pe-mobile-spellcheck", state ? 1 : 0);
+                Common.Utils.InternalSettings.set("pe-mobile-spellcheck", state);
                 this.api && this.api.asc_setSpellCheck(state);
             },
 

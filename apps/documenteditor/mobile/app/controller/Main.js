@@ -538,7 +538,8 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                value = Common.localStorage.getBool("de-mobile-spellcheck", false);
+                value = Common.localStorage.getBool("de-mobile-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
+                Common.Utils.InternalSettings.set("de-mobile-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
@@ -607,6 +608,19 @@ define([
                 me.applyLicense();
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+
+                if (!me.appOptions.canReview) {
+                    var canViewReview = me.appOptions.isEdit || me.api.asc_HaveRevisionsChanges(true);
+                    DE.getController('Common.Controllers.Collaboration').setCanViewReview(canViewReview);
+                    if (canViewReview) {
+                        var viewReviewMode = Common.localStorage.getItem("de-view-review-mode");
+                        if (viewReviewMode===null)
+                            viewReviewMode = me.appOptions.customization && /^(original|final|markup)$/i.test(me.appOptions.customization.reviewDisplay) ? me.appOptions.customization.reviewDisplay.toLocaleLowerCase() : 'original';
+                        viewReviewMode = me.appOptions.isEdit ? 'markup' : viewReviewMode;
+                        DE.getController('Common.Controllers.Collaboration').turnDisplayMode(viewReviewMode);
+                    }
+                }
+
                 Common.Gateway.documentReady();
 
                 $('.doc-placeholder').remove();
@@ -951,6 +965,10 @@ define([
 
                     case Asc.c_oAscError.ID.EditingError:
                         config.msg = this.errorEditingDownloadas;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                        config.msg = this.errorFileSizeExceed;
                         break;
 
                     default:
@@ -1437,7 +1455,8 @@ define([
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
             textPaidFeature: 'Paid feature',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
-            waitText: 'Please, wait...'
+            waitText: 'Please, wait...',
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
         }
     })(), DE.Controllers.Main || {}))
 });

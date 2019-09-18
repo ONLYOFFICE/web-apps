@@ -1963,6 +1963,7 @@ define([
                     (new DE.Views.WatermarkSettingsDialog({
                         props: me.api.asc_GetWatermarkProps(),
                         api: me.api,
+                        lang: me.mode.lang,
                         fontStore: me.fontstore,
                         handler: function(result, value) {
                             if (result == 'ok') {

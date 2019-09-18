@@ -55,7 +55,8 @@ define([
     'spreadsheeteditor/main/app/view/NameManagerDlg',
     'spreadsheeteditor/main/app/view/FormatSettingsDialog',
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
-    'spreadsheeteditor/main/app/view/HeaderFooterDialog'
+    'spreadsheeteditor/main/app/view/HeaderFooterDialog',
+    'spreadsheeteditor/main/app/view/ScaleDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -72,7 +73,9 @@ define([
                 'Toolbar': {
                     'change:compact': this.onClickChangeCompact.bind(me),
                     'add:chart'     : this.onSelectChart,
-                    'insert:textart': this.onInsertTextart
+                    'insert:textart': this.onInsertTextart,
+                    'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
+                    'click:customscale': this.onScaleClick.bind(me)
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -359,6 +362,7 @@ define([
                 toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
                 toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
                 toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
+                toolbar.mnuScale.on('item:click',                           _.bind(this.onScaleClick, this));
                 toolbar.btnPrintArea.menu.on('item:click',                  _.bind(this.onPrintAreaClick, this));
                 toolbar.btnPrintArea.menu.on('show:after',                  _.bind(this.onPrintAreaMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
@@ -367,7 +371,10 @@ define([
                 toolbar.btnImgAlign.menu.on('item:click',                   _.bind(this.onImgAlignSelect, this));
                 toolbar.btnImgForward.on('click',                           this.onImgArrangeSelect.bind(this, 'forward'));
                 toolbar.btnImgBackward.on('click',                          this.onImgArrangeSelect.bind(this, 'backward'));
-                toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this));
+                toolbar.btnsEditHeader.forEach(function(button) {
+                    button.on('click', _.bind(me.onEditHeaderClick, me));
+                });
+
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
@@ -833,6 +840,7 @@ define([
         },
 
         onInsertImageMenu: function(menu, item, e) {
+            var me = this;
             if (item.value === 'file') {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
 
@@ -842,8 +850,6 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             } else if (item.value === 'url') {
-                var me = this;
-
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1768,6 +1774,7 @@ define([
             this.onApiPageOrient(opt.asc_getOrientation());
             this.onApiPageSize(opt.asc_getWidth(), opt.asc_getHeight());
             this.onApiPageMargins(props.asc_getPageMargins());
+            this.onChangeScaleSettings(opt.asc_getFitToWidth(),opt.asc_getFitToHeight(),opt.asc_getScale());
 
             this.api.asc_isLayoutLocked(currentSheet) ? this.onApiLockDocumentProps(currentSheet) : this.onApiUnLockDocumentProps(currentSheet);
             this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(currentSheet), {array: [this.toolbar.btnPrintArea]});
@@ -1830,16 +1837,47 @@ define([
             }
         },
 
+        onChangeScaleSettings: function(width, height, scale) {
+            var me = this;
+            if (this.toolbar.btnScale.menu) {
+                this.toolbar.btnScale.menu.clearAll();
+                if (width !== undefined) {
+                    if ((width === 0 || width === null) && (height === 0 || height === null) && scale === 100) {
+                        this._state.scale = 0;
+                    } else if (width === 1 && height === 1) {
+                        this._state.scale = 1;
+                    } else if (width === 1 && (height === 0 || height === null)) {
+                        this._state.scale = 2;
+                    } else if ((width === 0 || width === null) && height === 1) {
+                        this._state.scale = 3;
+                    } else if ((width === 0 || width === null) && (height === 0 || height === null)) {
+                        this._state.scale = 4;
+                    } else {
+                        this._state.scale = 5;
+                    }
+                    this.toolbar.setValueCustomScale(scale);
+                } else if (scale === undefined) {
+                    this.toolbar.setValueCustomScale(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
+                }
+                _.each(this.toolbar.btnScale.menu.items, function(item){
+                    if (item.value === me._state.scale) {
+                        item.setChecked(true);
+                        return false;
+                    }
+                }, this);
+            }
+        },
+
         onApiLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==true && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient]});
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale]});
                 this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==false && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient]});
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale]});
                 this._state.lock_doc = false;
             }
         },
@@ -2355,7 +2393,7 @@ define([
             toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()),
                                 { array: this.btnsComment });
 
-            toolbar.lockToolbar(SSE.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: [this.toolbar.btnEditHeader]});
+            toolbar.lockToolbar(SSE.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
@@ -3317,6 +3355,81 @@ define([
                 }
             });
             win.show();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onClickChangeScaleInMenu: function(type, curScale) {
+            if (this.api) {
+                var scale;
+                if (type === 'up') {
+                    if (curScale % 5 > 0.001) {
+                        scale = Math.ceil(curScale / 5) * 5;
+                    } else {
+                        scale = curScale + 5;
+                    }
+                } else {
+                    if (curScale % 5 > 0.001) {
+                        scale = Math.floor(curScale / 5) * 5;
+                    } else {
+                        scale = curScale - 5;
+                    }
+                }
+                if (scale > 400) {
+                    scale = 400;
+                } else if (scale < 10) {
+                    scale = 10;
+                }
+                this.onChangeScaleSettings(0, 0, scale);
+            }
+        },
+
+        onScaleClick: function(menu, item, event, scale) {
+            var me = this;
+            if (me.api) {
+                if (scale !== undefined) {
+                    me.api.asc_SetPrintScale(0, 0, scale);
+                    me._state.scale = 4;
+                } else {
+                    switch (item.value) {
+                        case 0:
+                            me.api.asc_SetPrintScale(0, 0, 100);
+                            me._state.scale = 0;
+                            break;
+                        case 1:
+                            me.api.asc_SetPrintScale(1, 1, 100);
+                            me._state.scale = 1;
+                            break;
+                        case 2:
+                            me.api.asc_SetPrintScale(1, 0, 100);
+                            me._state.scale = 2;
+                            break;
+                        case 3:
+                            me.api.asc_SetPrintScale(0, 1, 100);
+                            me._state.scale = 3;
+                            break;
+                        case 5:
+                            var win = new SSE.Views.ScaleDialog({
+                                api: me.api,
+                                props: null,
+                                handler: function (dlg, result) {
+                                    if (dlg == 'ok') {
+                                        if (me.api && result) {
+                                            me.api.asc_SetPrintScale(result.width, result.height, result.scale);
+                                            me.onChangeScaleSettings(result.width, result.height, result.scale);
+                                        }
+                                        me._state.scale = 5;
+                                    } else {
+                                        me.onChangeScaleSettings();
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete');
+                                }
+                            });
+                            win.show();
+                            break;
+                    }
+                }
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },

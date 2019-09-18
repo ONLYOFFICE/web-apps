@@ -71,7 +71,7 @@ define([
         disabled    : false,
         rendered    : false,
 
-        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="img-commonctrl"><%= labelText %></label>'),
+        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="img-commonctrl"><span><%= labelText %></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -100,6 +100,7 @@ define([
             }));
 
             this.$radio = el.find('input[type=button]');
+            this.$label = el.find('label');
             this.rendered = true;
 
             return this;
@@ -144,6 +145,10 @@ define([
 
         getValue: function() {
             return this.$radio.hasClass('checked');
+        },
+
+        setCaption: function(text) {
+            this.$label.find('span').text(text);
         }
     });
 });

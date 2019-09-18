@@ -103,6 +103,7 @@ define([
             if (this.api) {
                 this.api.asc_nextWord();
             }
+            Common.NotificationCenter.trigger('edit:complete', this, {restorefocus:true});
         },
 
         onDictionary: function() {
@@ -172,6 +173,7 @@ define([
                 this.api.asc_setDefaultLanguage(lang);
                 Common.localStorage.setItem("sse-spellcheck-locale", this.panelSpellcheck.cmbDictionaryLanguage.getValue());
             }
+            Common.NotificationCenter.trigger('edit:complete', this, {restorefocus:true});
         },
 
         onClickChange: function (btn, e) {
@@ -179,6 +181,7 @@ define([
                 var rec = this.panelSpellcheck.suggestionList.getSelectedRec();
                 rec && this.api.asc_replaceMisspelledWord(rec.get('value'), this._currentSpellObj);
             }
+            Common.NotificationCenter.trigger('edit:complete', this, {restorefocus:true});
         },
 
         onClickChangeMenu: function (menu, item) {
@@ -190,12 +193,14 @@ define([
                     rec && this.api.asc_replaceMisspelledWord(rec.get('value'), this._currentSpellObj, true);
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this, {restorefocus:true});
         },
 
         onClickIgnore: function () {
             if (this.api) {
                 this.api.asc_ignoreMisspelledWord(this._currentSpellObj, false)
             }
+            Common.NotificationCenter.trigger('edit:complete', this, {restorefocus:true});
         },
 
         onClickIgnoreMenu: function (menu, item) {
@@ -206,6 +211,7 @@ define([
                     this.api.asc_ignoreMisspelledWord(this._currentSpellObj, true);
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this, {restorefocus:true});
         },
 
         onSpellCheckVariantsFound: function (property) {

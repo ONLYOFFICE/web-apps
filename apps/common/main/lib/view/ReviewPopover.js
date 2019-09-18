@@ -1118,7 +1118,7 @@ define([
                             return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
                         });
                     }
-                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;"><div><%= caption %></div><div style="color: #909090;"><%= options.value %></div></a>'),
+                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;"><div><%= Common.Utils.String.htmlEncode(caption) %></div><div style="color: #909090;"><%= Common.Utils.String.htmlEncode(options.value) %></div></a>'),
                         divider = false;
                     _.each(users, function(menuItem, index) {
                         if (divider && !menuItem.hasAccess) {

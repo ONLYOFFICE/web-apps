@@ -213,7 +213,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     { value: 0, displayValue: this.textActualSize },
                     { value: 1, displayValue: this.textFitPage },
                     { value: 2, displayValue: this.textFitCols },
-                    { value: 3, displayValue: this.textFitRows }
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 4, displayValue: this.textCustomOptions}
                 ]
             });
 
@@ -322,7 +323,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         strShow:                'Show',
         btnDownload:            'Save & Download',
         textRange:              'Range',
-        textIgnore:             'Ignore Print Area'
+        textIgnore:             'Ignore Print Area',
+        textCustomOptions:      'Custom Options'
 
     }, SSE.Views.PrintSettings || {}));
 });

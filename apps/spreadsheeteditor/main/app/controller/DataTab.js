@@ -56,18 +56,6 @@ define([
         sdkViewName : '#id_main',
 
         initialize: function () {
-
-            this.addListeners({
-                'DataTab': {
-                    'data:group': this.onGroup,
-                    'data:ungroup': this.onUngroup,
-                    'data:tocolumns': this.onTextToColumn,
-                    'data:show': this.onShowClick,
-                    'data:hide': this.onHideClick,
-                    'data:groupsettings': this.onGroupSettings
-                }
-            });
-
             this._state = {
                 CSVOptions: new Asc.asc_CTextOptions(0, 4, '')
             };
@@ -90,6 +78,19 @@ define([
             this.toolbar = config.toolbar;
             this.view = this.createView('DataTab', {
                 toolbar: this.toolbar.toolbar
+            });
+            this.addListeners({
+                'DataTab': {
+                    'data:group': this.onGroup,
+                    'data:ungroup': this.onUngroup,
+                    'data:tocolumns': this.onTextToColumn,
+                    'data:show': this.onShowClick,
+                    'data:hide': this.onHideClick,
+                    'data:groupsettings': this.onGroupSettings
+                },
+                'Statusbar': {
+                    'sheet:changed': this.onApiSheetChanged
+                }
             });
         },
 
@@ -215,6 +216,13 @@ define([
             if (index == this.api.asc_getActiveWorksheetIndex()) {
                 Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.btnGroup, this.view.btnUngroup]});
             }
+        },
+
+        onApiSheetChanged: function() {
+            if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
+
+            var currentSheet = this.api.asc_getActiveWorksheetIndex();
+            this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
         },
 
         textWizard: 'Text to Columns Wizard'

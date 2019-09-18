@@ -137,6 +137,10 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge slot-editheader"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                 </div>
             </section>
@@ -146,7 +150,8 @@
                     <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-printarea"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
+                    <span class="btn-slot text x-huge slot-editheader"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-scale"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -171,6 +176,10 @@
                     <span class="btn-slot text x-huge" id="slot-btn-lookup"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-math"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-more"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
                 </div>
             </section>
             <section class="panel" data-tab="data">

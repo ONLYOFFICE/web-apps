@@ -406,6 +406,10 @@ SSE.ApplicationController = new(function(){
                 message = me.errorUserDrop;
                 break;
 
+            case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                message = me.errorFileSizeExceed;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -417,7 +421,7 @@ SSE.ApplicationController = new(function(){
             Common.Gateway.reportError(id, message);
 
             $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').text(message);
+            $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
@@ -426,7 +430,7 @@ SSE.ApplicationController = new(function(){
             Common.Gateway.reportWarning(id, message);
 
             $('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').text(message);
+            $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 $('#id-critical-error-dialog').modal('hide');
             });
@@ -571,6 +575,7 @@ SSE.ApplicationController = new(function(){
         downloadTextText: 'Downloading spreadsheet...',
         waitText: 'Please, wait...',
         textLoadingDocument: 'Loading spreadsheet',
-        txtClose: 'Close'
+        txtClose: 'Close',
+        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
     }
 })();

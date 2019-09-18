@@ -360,7 +360,8 @@ define([
                     { value: 0, displayValue: this.textActualSize },
                     { value: 1, displayValue: this.textFitPage },
                     { value: 2, displayValue: this.textFitCols },
-                    { value: 3, displayValue: this.textFitRows }
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 4, displayValue: this.textCustomOptions}
                 ]
             });
 
@@ -491,7 +492,8 @@ define([
         textActualSize:         'Actual Size',
         textFitPage:            'Fit Sheet on One Page',
         textFitCols:            'Fit All Columns on One Page',
-        textFitRows:            'Fit All Rows on One Page'
+        textFitRows:            'Fit All Rows on One Page',
+        textCustomOptions:      'Custom Options'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
@@ -1108,12 +1110,18 @@ define([
                             '</table>',
                         '</div></td>',
                     '</tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr>',
+                        '<td class="left"></td>',
+                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                    '</tr>',
                 '</table>'
             ].join(''));
 
             this.menu = options.menu;
             this.coreProps = null;
             this.authors = [];
+            this._locked = false;
         },
 
         render: function(node) {
@@ -1142,33 +1150,18 @@ define([
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue) {
-                if (newValue !== oldValue && me.coreProps && me.api) {
-                    me.coreProps.asc_putTitle(me.inputTitle.getValue());
-                    me.api.asc_setCoreProps(me.coreProps);
-                }
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue) {
-                if (newValue !== oldValue && me.coreProps && me.api) {
-                    me.coreProps.asc_putSubject(me.inputSubject.getValue());
-                    me.api.asc_setCoreProps(me.coreProps);
-                }
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue) {
-                if (newValue !== oldValue && me.coreProps && me.api) {
-                    me.coreProps.asc_putDescription(me.inputComment.getValue());
-                    me.api.asc_setCoreProps(me.coreProps);
-                }
             }).on('keydown:before', keyDownBefore);
 
             // modify info
@@ -1189,10 +1182,6 @@ define([
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
-                    if (me.coreProps && me.api) {
-                        me.coreProps.asc_putCreator(me.authors.join(';'));
-                        me.api.asc_setCoreProps(me.coreProps);
-                    }
                 }
             });
 
@@ -1201,26 +1190,30 @@ define([
                 style       : 'width: 200px;',
                 validateOnBlur: false,
                 placeHolder: this.txtAddAuthor
-            }).on('changed:after', function(input, newValue, oldValue) {
+            }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 
                 var val = newValue.trim();
                 if (!!val && val !== oldValue.trim()) {
+                    var isFromApply = e && e.relatedTarget && (e.relatedTarget.id == 'fminfo-btn-apply');
                     val.split(/\s*[,;]\s*/).forEach(function(item){
                         var str = item.trim();
                         if (str) {
-                            var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
-                            me.trAuthor.before(div);
                             me.authors.push(item);
+                            if (!isFromApply) {
+                                var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
+                                me.trAuthor.before(div);
+                            }
                         }
                     });
-                    me.inputAuthor.setValue('');
-                    if (me.coreProps && me.api) {
-                        me.coreProps.asc_putCreator(me.authors.join(';'));
-                        me.api.asc_setCoreProps(me.coreProps);
-                    }
+                    !isFromApply && me.inputAuthor.setValue('');
                 }
             }).on('keydown:before', keyDownBefore);
+
+            this.btnApply = new Common.UI.Button({
+                el: '#fminfo-btn-apply'
+            });
+            this.btnApply.on('click', _.bind(this.applySettings, this));
 
             this.rendered = true;
 
@@ -1328,6 +1321,7 @@ define([
                 value = props.asc_getDescription();
                 this.inputComment.setValue(value || '');
 
+                this.inputAuthor.setValue('');
                 this.tblAuthor.find('tr:not(:last-of-type)').remove();
                 this.authors = [];
                 value = props.asc_getCreator();//"123\"\"\"\<\>,456";
@@ -1336,7 +1330,9 @@ define([
                     me.trAuthor.before(div);
                     me.authors.push(item);
                 });
+                this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
             }
+            this.SetDisabled();
         },
 
         _ShowHideInfoItem: function(el, visible) {
@@ -1351,6 +1347,11 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
+            this.inputAuthor.setVisible(mode.isEdit);
+            this.btnApply.setVisible(mode.isEdit);
+            this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
+            this.SetDisabled();
             return this;
         },
 
@@ -1362,12 +1363,30 @@ define([
         },
 
         onLockCore: function(lock) {
-            this.inputTitle.setDisabled(lock);
-            this.inputSubject.setDisabled(lock);
-            this.inputComment.setDisabled(lock);
-            this.inputAuthor.setDisabled(lock);
-            this.tblAuthor.find('.close').toggleClass('disabled', lock);
-            !lock && this.updateFileInfo();
+            this._locked = lock;
+            this.updateFileInfo();
+        },
+
+        SetDisabled: function() {
+            var disable = !this.mode.isEdit || this._locked;
+            this.inputTitle.setDisabled(disable);
+            this.inputSubject.setDisabled(disable);
+            this.inputComment.setDisabled(disable);
+            this.inputAuthor.setDisabled(disable);
+            this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
+            this.tblAuthor.toggleClass('disabled', disable);
+            this.btnApply.setDisabled(this._locked);
+        },
+
+        applySettings: function() {
+            if (this.coreProps && this.api) {
+                this.coreProps.asc_putTitle(this.inputTitle.getValue());
+                this.coreProps.asc_putSubject(this.inputSubject.getValue());
+                this.coreProps.asc_putDescription(this.inputComment.getValue());
+                this.coreProps.asc_putCreator(this.authors.join(';'));
+                this.api.asc_setCoreProps(this.coreProps);
+            }
+            this.menu.hide();
         },
 
         txtPlacement: 'Location',
@@ -1383,7 +1402,8 @@ define([
         txtAuthor: 'Author',
         txtAddAuthor: 'Add Author',
         txtAddText: 'Add Text',
-        txtMinutes: 'min'
+        txtMinutes: 'min',
+        okButtonText: 'Apply'
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
