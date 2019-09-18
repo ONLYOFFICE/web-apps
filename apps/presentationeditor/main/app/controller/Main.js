@@ -1311,7 +1311,7 @@ define([
                 if (this._state.isDocModified !== isModified || force) {
                     var title = this.defaultTitleText;
 
-                    if (!_.isEmpty(appHeader.getDocumentCaption()))
+                    if (appHeader && !_.isEmpty(appHeader.getDocumentCaption()))
                         title = appHeader.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {

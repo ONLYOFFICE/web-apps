@@ -393,7 +393,7 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
 
-                    this.headerView.setDocumentCaption(data.doc.title);
+                    this.headerView && this.headerView.setDocumentCaption(data.doc.title);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
@@ -1494,29 +1494,30 @@ define([
 
             updateWindowTitle: function(change, force) {
                 if (this._state.isDocModified !== change || force) {
-                    var title = this.defaultTitleText;
+                    if (this.headerView) {
+                        var title = this.defaultTitleText;
 
-                    if (!_.isEmpty(this.headerView.getDocumentCaption()))
-                        title = this.headerView.getDocumentCaption() + ' - ' + title;
+                        if (!_.isEmpty(this.headerView.getDocumentCaption()))
+                            title = this.headerView.getDocumentCaption() + ' - ' + title;
 
-                    if (change) {
-                        clearTimeout(this._state.timerCaption);
-                        if (!_.isUndefined(title)) {
-                            title = '* ' + title;
-                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), true);
+                        if (change) {
+                            clearTimeout(this._state.timerCaption);
+                            if (!_.isUndefined(title)) {
+                                title = '* ' + title;
+                                this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), true);
+                            }
+                        } else {
+                            if (this._state.fastCoauth && this._state.usersCount>1) {
+                                var me = this;
+                                this._state.timerCaption = setTimeout(function () {
+                                    me.headerView.setDocumentCaption(me.headerView.getDocumentCaption(), false);
+                                }, 500);
+                            } else
+                                this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), false);
                         }
-                    } else {
-                        if (this._state.fastCoauth && this._state.usersCount>1) {
-                            var me = this;
-                            this._state.timerCaption = setTimeout(function () {
-                                me.headerView.setDocumentCaption(me.headerView.getDocumentCaption(), false);
-                            }, 500);
-                        } else
-                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), false);
+                        if (window.document.title != title)
+                            window.document.title = title;
                     }
-
-                    if (window.document.title != title)
-                        window.document.title = title;
 
                     Common.Gateway.setDocumentModified(change);
 
