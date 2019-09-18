@@ -36,27 +36,34 @@ if (Common === undefined) {
 
 Common.Locale = new(function() {
     "use strict";
-    var l10n = {};
+    var l10n = null;
+    var loadcallback,
+        apply = false;
 
-    var _applyLocalization = function() {
+    var _applyLocalization = function(callback) {
         try {
-            for (var prop in l10n) {
-                var p = prop.split('.');
-                if (p && p.length > 2) {
+            callback && (loadcallback = callback);
+            if (l10n) {
+                for (var prop in l10n) {
+                    var p = prop.split('.');
+                    if (p && p.length > 2) {
 
-                    var obj = window;
-                    for (var i = 0; i < p.length - 1; ++i) {
-                        if (obj[p[i]] === undefined) {
-                            obj[p[i]] = new Object();
+                        var obj = window;
+                        for (var i = 0; i < p.length - 1; ++i) {
+                            if (obj[p[i]] === undefined) {
+                                obj[p[i]] = new Object();
+                            }
+                            obj = obj[p[i]];
                         }
-                        obj = obj[p[i]];
-                    }
 
-                    if (obj) {
-                        obj[p[p.length - 1]] = l10n[prop];
+                        if (obj) {
+                            obj[p[p.length - 1]] = l10n[prop];
+                        }
                     }
                 }
-            }
+                loadcallback && loadcallback();
+            } else
+                apply = true;
         }
         catch (e) {
         }
@@ -64,7 +71,7 @@ Common.Locale = new(function() {
 
     var _get = function(prop, scope) {
         var res = '';
-        if (scope && scope.name) {
+        if (l10n && scope && scope.name) {
             res = l10n[scope.name + '.' + prop];
         }
 
@@ -99,10 +106,12 @@ Common.Locale = new(function() {
                     throw new Error('loaded');
                 }
             }).then(function(json) {
-                if ( !!json ) l10n = json;
+                l10n = json || {};
+                apply && _applyLocalization();
             }).catch(function(e) {
+                l10n = l10n || {};
+                apply && _applyLocalization();
                 if ( e.message == 'loaded' ) {
-
                 } else
                     console.log('fetch error: ' + e);
             });
@@ -110,7 +119,13 @@ Common.Locale = new(function() {
 
     if ( !window.fetch ) {
         /* use fetch polifill if native method isn't supported */
-        require(['../vendor/fetch/fetch.umd'], _requireLang);
+        var polyfills = ['../vendor/fetch/fetch.umd'];
+        if ( !window.Promise ) {
+            require(['../vendor/es6-promise/es6-promise.auto.min.js'],
+                function () {
+                    require(polyfills, _requireLang);
+                });
+        } else require(polyfills, _requireLang);
     } else _requireLang();
 
     return {

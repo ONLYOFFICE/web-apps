@@ -166,8 +166,6 @@ require([
         ]
     });
 
-    Common.Locale.apply();
-
     var device = Framework7.prototype.device;
     var loadPlatformCss = function (filename, opt){
         var fileref = document.createElement('link');
@@ -209,33 +207,35 @@ require([
     //Load platform styles
     loadPlatformCss('resources/css/app-' + (device.android ? 'material' : 'ios') + '.css');
 
-    require([
-        'common/main/lib/util/LocalStorage',
-        'common/main/lib/util/utils',
-        'common/mobile/lib/controller/Plugins',
-        'documenteditor/mobile/app/controller/Editor',
-        'documenteditor/mobile/app/controller/Toolbar',
-        'documenteditor/mobile/app/controller/Search',
-        'documenteditor/mobile/app/controller/Main',
-        'documenteditor/mobile/app/controller/DocumentHolder',
-        'documenteditor/mobile/app/controller/Settings',
-        'documenteditor/mobile/app/controller/edit/EditContainer',
-        'documenteditor/mobile/app/controller/edit/EditText',
-        'documenteditor/mobile/app/controller/edit/EditParagraph',
-        'documenteditor/mobile/app/controller/edit/EditHeader',
-        'documenteditor/mobile/app/controller/edit/EditTable',
-        'documenteditor/mobile/app/controller/edit/EditImage',
-        'documenteditor/mobile/app/controller/edit/EditShape',
-        'documenteditor/mobile/app/controller/edit/EditChart',
-        'documenteditor/mobile/app/controller/edit/EditHyperlink',
-        'documenteditor/mobile/app/controller/add/AddContainer',
-        'documenteditor/mobile/app/controller/add/AddTable',
-        'documenteditor/mobile/app/controller/add/AddShape',
-        'documenteditor/mobile/app/controller/add/AddImage',
-        'documenteditor/mobile/app/controller/add/AddOther',
-        'common/mobile/lib/controller/Collaboration'
-    ], function() {
-        app.start();
+    Common.Locale.apply(function() {
+        require([
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/util/utils',
+            'common/mobile/lib/controller/Plugins',
+            'documenteditor/mobile/app/controller/Editor',
+            'documenteditor/mobile/app/controller/Toolbar',
+            'documenteditor/mobile/app/controller/Search',
+            'documenteditor/mobile/app/controller/Main',
+            'documenteditor/mobile/app/controller/DocumentHolder',
+            'documenteditor/mobile/app/controller/Settings',
+            'documenteditor/mobile/app/controller/edit/EditContainer',
+            'documenteditor/mobile/app/controller/edit/EditText',
+            'documenteditor/mobile/app/controller/edit/EditParagraph',
+            'documenteditor/mobile/app/controller/edit/EditHeader',
+            'documenteditor/mobile/app/controller/edit/EditTable',
+            'documenteditor/mobile/app/controller/edit/EditImage',
+            'documenteditor/mobile/app/controller/edit/EditShape',
+            'documenteditor/mobile/app/controller/edit/EditChart',
+            'documenteditor/mobile/app/controller/edit/EditHyperlink',
+            'documenteditor/mobile/app/controller/add/AddContainer',
+            'documenteditor/mobile/app/controller/add/AddTable',
+            'documenteditor/mobile/app/controller/add/AddShape',
+            'documenteditor/mobile/app/controller/add/AddImage',
+            'documenteditor/mobile/app/controller/add/AddOther',
+            'common/mobile/lib/controller/Collaboration'
+        ], function() {
+            app.start();
+        });
     });
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {
