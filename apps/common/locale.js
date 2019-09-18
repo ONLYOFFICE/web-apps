@@ -42,10 +42,8 @@ Common.Locale = new(function() {
 
     var _applyLocalization = function(callback) {
         try {
-            console.log('_applyLocalization');
             callback && (loadcallback = callback);
             if (l10n) {
-                console.log('_apply ok');
                 for (var prop in l10n) {
                     var p = prop.split('.');
                     if (p && p.length > 2) {
@@ -114,7 +112,6 @@ Common.Locale = new(function() {
                 l10n = l10n || {};
                 apply && _applyLocalization();
                 if ( e.message == 'loaded' ) {
-                    console.log('loaded');
                 } else
                     console.log('fetch error: ' + e);
             });
@@ -124,7 +121,7 @@ Common.Locale = new(function() {
         /* use fetch polifill if native method isn't supported */
         var polyfills = ['../vendor/fetch/fetch.umd'];
         if ( !window.Promise ) {
-            require(['//cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js'],
+            require(['../vendor/es6-promise/es6-promise.auto.min.js'],
                 function () {
                     require(polyfills, _requireLang);
                 });
