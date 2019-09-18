@@ -129,15 +129,9 @@ define([
                 editable: true,
                 data: this.arrDataScale,
                 scrollAlwaysVisible: true
-            }).on('selected', _.bind(function (field) {
-                this._state.width = field.getValue();
-                if ((this._state.width === 0 || this._state.width === null) && (this._state.height === 0 || this._state.height === null)) {
-                    this.radioScaleTo.setValue(true, true);
-                } else {
-                    this.radioFitTo.setValue(true, true);
-                }
-                }, this))
-                .on('changed:before', _.bind(this.onChangeComboScale, this, 'width'));
+            }).on('selected', _.bind(this.changeWidthHeight, this, 'width'))
+              .on('changed:after', _.bind(this.changeWidthHeight, this, 'width'))
+              .on('changed:before', _.bind(this.onChangeComboScale, this, 'width'));
 
             this.cmbScaleHeight = new Common.UI.ComboBox({
                 el: $('#scale-height'),
@@ -147,15 +141,9 @@ define([
                 editable: true,
                 data: this.arrDataScale,
                 scrollAlwaysVisible: true
-            }).on('selected', _.bind(function (field) {
-                this._state.height = field.getValue();
-                if ((this._state.width === 0 || this._state.width === null) && (this._state.height === 0 || this._state.height === null)) {
-                    this.radioScaleTo.setValue(true, true);
-                } else {
-                    this.radioFitTo.setValue(true, true);
-                }
-                }, this))
-                .on('changed:before', _.bind(this.onChangeComboScale, this, 'height'));
+            }).on('selected', _.bind(this.changeWidthHeight, this, 'height'))
+              .on('changed:after', _.bind(this.changeWidthHeight, this, 'height'))
+              .on('changed:before', _.bind(this.onChangeComboScale, this, 'height'));
 
             this.spnScale = new Common.UI.MetricSpinner({
                 el          : $('#scale'),
@@ -197,6 +185,26 @@ define([
         onPrimary: function() {
             this._handleInput('ok');
             return false;
+        },
+
+        changeWidthHeight: function (type, field) {
+            var value = field.getValue();
+            if (typeof(value) === 'string') {
+                value = parseInt(value);
+                if (isNaN(value)) {
+                    value = 0;
+                }
+            }
+            if (type === 'width') {
+                this._state.width = value;
+            } else {
+                this._state.height = value;
+            }
+            if ((this._state.width === 0 || this._state.width === null) && (this._state.height === 0 || this._state.height === null)) {
+                this.radioScaleTo.setValue(true, true);
+            } else {
+                this.radioFitTo.setValue(true, true);
+            }
         },
 
         onRadioScale: function(type, field, newValue) {
