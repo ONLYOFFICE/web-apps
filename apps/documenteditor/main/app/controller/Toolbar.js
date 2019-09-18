@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/CompareSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
-    'documenteditor/main/app/view/DateTimeDialog'
+    'documenteditor/main/app/view/DateTimeDialog',
+    'documenteditor/main/app/view/LineNumbersDialog'
 ], function () {
     'use strict';
 
@@ -334,6 +335,7 @@ define([
             toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
@@ -1672,6 +1674,33 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onLineNumbersSelect: function(menu, item) {
+            switch (item.value) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    var win,
+                        me = this;
+                    win = new DE.Views.LineNumbersDialog({
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        }
+                    });
+                    win.show();
+                    break;
+            }
         },
 
         onColorSchemaClick: function(menu, item) {
