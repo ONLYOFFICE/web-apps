@@ -268,7 +268,6 @@ define([
 
         _setDefaults: function (props) {
             this.refreshBookmarks();
-            this.bookmarksList.scrollToRecord(this.bookmarksList.selectByIndex(0));
             this.btnGetLink.setVisible(this.appOptions.canMakeActionLink);
         },
 
