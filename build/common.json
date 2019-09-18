@@ -205,6 +205,17 @@
             }
         }
     },
+    "es6-promise": {
+        "clean": [
+            "../deploy/web-apps/vendor/es6-promise"
+        ],
+        "copy": {
+            "script": {
+                "src": "../vendor/es6-promise/es6-promise.auto.min.js",
+                "dest": "../deploy/web-apps/vendor/es6-promise/es6-promise.auto.min.js"
+            }
+        }
+    },
     "requirejs": {
         "clean": [
             "../deploy/web-apps/vendor/requirejs"
@@ -229,7 +240,8 @@
             "deploy-iscroll",
             "deploy-fetch",
             "deploy-jszip",
-            "deploy-jsziputils"
+            "deploy-jsziputils",
+            "deploy-es6-promise"
         ]
     }
 }

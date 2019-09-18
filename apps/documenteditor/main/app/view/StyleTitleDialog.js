@@ -105,7 +105,7 @@ define([
             this.cmbNextStyle = new Common.UI.ComboBox({
                 el          : $('#id-dlg-style-next-par'),
                 style       : 'width: 100%;',
-                menuStyle   : 'width: 100%; max-height: 290px;',
+                menuStyle   : 'width: 100%; max-height: 210px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : this.options.formats,

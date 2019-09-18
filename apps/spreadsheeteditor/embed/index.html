@@ -190,7 +190,7 @@
 
       <!-- debug begin -->
       <script type="text/javascript">var less=less||{};less.env='development';</script>
-      <script src="../../../vendor/less/dist/less-1.5.1.js" type="text/javascript"></script>
+      <script src="../../../vendor/less/dist/less-2.7.1.js" type="text/javascript"></script>
       <!-- debug end -->
 
       <script>
@@ -336,6 +336,13 @@
       <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
       <script type="text/javascript" src="../../../vendor/jszip/jszip.min.js"></script>
       <script type="text/javascript" src="../../../vendor/jszip-utils/jszip-utils.min.js"></script>
+
+      <script src="../../../vendor/requirejs/require.js"></script>
+      <script>
+          require.config({
+              baseUrl: '../../'
+          });
+      </script>
 
       <script type="text/javascript" src="../sdk_dev_scripts.js"></script>
       <script>

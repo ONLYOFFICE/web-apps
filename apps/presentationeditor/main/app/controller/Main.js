@@ -207,9 +207,11 @@ define([
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
-                        if (!me.isModalShowed && !me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible()) {
+                        if (!me.isModalShowed) {
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
+                            if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
+                                return;
                             if (!e.relatedTarget ||
                                 !/area_id/.test(e.target.id)
                                 && !(e.target.localName == 'input' && $(e.target).parent().find(e.relatedTarget).length>0) /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
@@ -473,7 +475,7 @@ define([
                 var action = {id: id, type: type};
                 this.stackLongActions.pop(action);
 
-                appHeader.setDocumentCaption(this.api.asc_getDocumentName());
+                appHeader && appHeader.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(true);
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
@@ -1313,7 +1315,7 @@ define([
                 if (this._state.isDocModified !== isModified || force) {
                     var title = this.defaultTitleText;
 
-                    if (!_.isEmpty(appHeader.getDocumentCaption()))
+                    if (appHeader && !_.isEmpty(appHeader.getDocumentCaption()))
                         title = appHeader.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {

@@ -139,8 +139,6 @@ require([
         ]
     });
 
-    Common.Locale.apply();
-
     var device = Framework7.prototype.device;
     var loadPlatformCss = function (filename, opt){
         var fileref = document.createElement('link');
@@ -182,36 +180,38 @@ require([
     //Load platform styles
     loadPlatformCss('resources/css/app-' + (device.android ? 'material' : 'ios') + '.css');
 
-    require([
-        'common/main/lib/util/LocalStorage',
-        'common/main/lib/util/utils',
-        'common/mobile/lib/controller/Plugins',
-        'spreadsheeteditor/mobile/app/controller/Editor',
-        'spreadsheeteditor/mobile/app/controller/Toolbar',
-        'spreadsheeteditor/mobile/app/controller/Search',
-        'spreadsheeteditor/mobile/app/controller/Main',
-        'spreadsheeteditor/mobile/app/controller/DocumentHolder'
-        ,'spreadsheeteditor/mobile/app/controller/CellEditor'
-        ,'spreadsheeteditor/mobile/app/controller/Statusbar'
-        ,'spreadsheeteditor/mobile/app/controller/Settings'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditCell'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditText'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditImage'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditShape'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditChart'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditHyperlink'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddContainer'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddChart'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddFunction'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
-        ,'spreadsheeteditor/mobile/app/controller/FilterOptions'
-        ,'common/mobile/lib/controller/Collaboration'
-    ], function() {
-        window.compareVersions = true;
-        app.start();
+    Common.Locale.apply(function(){
+        require([
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/util/utils',
+            'common/mobile/lib/controller/Plugins',
+            'spreadsheeteditor/mobile/app/controller/Editor',
+            'spreadsheeteditor/mobile/app/controller/Toolbar',
+            'spreadsheeteditor/mobile/app/controller/Search',
+            'spreadsheeteditor/mobile/app/controller/Main',
+            'spreadsheeteditor/mobile/app/controller/DocumentHolder'
+            ,'spreadsheeteditor/mobile/app/controller/CellEditor'
+            ,'spreadsheeteditor/mobile/app/controller/Statusbar'
+            ,'spreadsheeteditor/mobile/app/controller/Settings'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditCell'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditText'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditImage'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditShape'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditChart'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditHyperlink'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddContainer'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddChart'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddFunction'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
+            ,'spreadsheeteditor/mobile/app/controller/FilterOptions'
+            ,'common/mobile/lib/controller/Collaboration'
+        ], function() {
+            window.compareVersions = true;
+            app.start();
+        });
     });
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {
