@@ -1446,8 +1446,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textBorderColor:        'Border Color',
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
-        cancelButtonText:       'Cancel',
-        okButtonText:           'Ok',
         txtNoBorders:           'No borders',
         textNewColor:           'Add New Custom Color',
         textEffects: 'Effects',

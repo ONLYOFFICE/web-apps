@@ -823,8 +823,6 @@ define([
         textSelectBorders       : 'Select borders that you want to change',
         textAdvanced            : 'Show advanced settings',
         txtNoBorders            : 'No borders',
-        textOK                  : 'OK',
-        textCancel              : 'Cancel',
         textNewColor            : 'Add New Custom Color',
         textTemplate            : 'Select From Template',
         textRows                : 'Rows',

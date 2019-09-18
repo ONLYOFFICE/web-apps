@@ -740,8 +740,6 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         textFlat:       'Flat',
         textBevel:      'Bevel',
         textTitle:      'Shape - Advanced Settings',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         txtNone:        'None',
         textWeightArrows: 'Weights & Arrows',
         textArrows:     'Arrows',

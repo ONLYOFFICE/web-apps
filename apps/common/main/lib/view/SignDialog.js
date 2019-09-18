@@ -53,7 +53,8 @@ define([
         options: {
             width: 370,
             style: 'min-width: 350px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -106,10 +107,6 @@ define([
                         '</tr>',
                         '<tr><td><div id="id-dlg-sign-certificate" class="hidden" style="max-width: 212px;overflow: hidden;"></td></tr>',
                     '</table>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -342,8 +339,6 @@ define([
         textCertificate:    'Certificate',
         textValid:          'Valid from %1 to %2',
         textChange:         'Change',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         textInputName:      'Input signer name',
         textUseImage:       'or click \'Select Image\' to use a picture as signature',
         textSelectImage:    'Select Image',

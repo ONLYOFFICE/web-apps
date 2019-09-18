@@ -51,7 +51,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 475
+            height: 475,
+            buttons: null
         },
 
         initialize : function(options) {
@@ -73,8 +74,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     '</div>',
                     '<div class="separator horizontal"/>',
                     '<div class="footer justify">',
-                        '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="margin-right: 55px; width: 100px;">' + this.textHideDetails + '</button>',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
+                        '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="width: 100px;">' + this.textHideDetails + '</button>',
+                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-left: 55px;  width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
                         '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
                     '</div>'
                 ].join('')
@@ -313,7 +314,6 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textFitCols:            'Fit All Columns on One Page',
         textFitRows:            'Fit All Rows on One Page',
         textShowDetails:        'Show Details',
-        cancelButtonText:       'Cancel',
         textHideDetails:        'Hide Details',
         textPageScaling:        'Scaling',
         textSettings:           'Sheet Settings',

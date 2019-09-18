@@ -48,7 +48,8 @@ define([
             width: 215,
             header: true,
             style: 'min-width: 215px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -76,10 +77,6 @@ define([
                 '</div>',
                 '<div id="radio-scale-to" style="margin-bottom: 6px;"></div>',
                 '<div id="scale" style="padding-left: 22px; margin-bottom: 6px;"></div>',
-                '</div>',
-                '<div class="footer center">',
-                '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -320,8 +317,6 @@ define([
         },
 
         textTitle: 'Scale Settings',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textWidth: 'Width',
         textHeight: 'Height',
         textAuto: 'Auto',

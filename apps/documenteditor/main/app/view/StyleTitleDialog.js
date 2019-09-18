@@ -47,7 +47,9 @@ define([
             width: 350,
             height: 200,
             style: 'min-width: 230px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
             initialize : function(options) {
@@ -62,11 +64,6 @@ define([
 
                         '<label class="input-row" style="margin-bottom: -5px; margin-top: 5px;">' + this.textNextStyle + '</label>',
                         '<div id="id-dlg-style-next-par" class="input-group-nr" style="margin-bottom: 5px;" ></div>',
-                    '</div>',
-
-                    '<div class="footer right">',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                     '</div>'
                 ].join('');
 

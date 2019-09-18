@@ -61,7 +61,7 @@ define([
                 '</div>',
                 '<div class="separator horizontal"/>',
                 '<div class="footer" style="text-align: center;">',
-                    '<button id="id-btn-diagram-editor-apply" class="btn normal dlg-btn primary custom" result="ok" style="margin-right: 10px;">' + this.textSave + '</button>',
+                    '<button id="id-btn-diagram-editor-apply" class="btn normal dlg-btn primary custom" result="ok">' + this.textSave + '</button>',
                     '<button id="id-btn-diagram-editor-cancel" class="btn normal dlg-btn" result="cancel">' + this.textClose + '</button>',
                 '</div>'
             ].join('');

@@ -1126,7 +1126,7 @@ define([
 
         render: function(node) {
             var me = this;
-            var $markup = $(me.template());
+            var $markup = $(me.template({scope: me}));
 
             // server info
             this.lblPlacement = $markup.findById('#id-info-placement');

@@ -787,8 +787,6 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
         textWidth:      'Width',
         textHeight:     'Height',
         textKeepRatio: 'Constant Proportions',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textTitle:      'Shape - Advanced Settings',
         strMargins: 'Text Padding',
         textRound:      'Round',

@@ -2029,8 +2029,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textWrapInFrontTooltip: 'In Front',
         textTitle:      'Image - Advanced Settings',
         textKeepRatio: 'Constant Proportions',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textBtnWrap:    'Text Wrapping',
         textCenter: 'Center',
         textCharacter: 'Character',

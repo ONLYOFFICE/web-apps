@@ -323,8 +323,6 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         textHeight:     'Height',
         textTitle:      'Image - Advanced Settings',
         textKeepRatio: 'Constant Proportions',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textPlacement:  'Placement',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',

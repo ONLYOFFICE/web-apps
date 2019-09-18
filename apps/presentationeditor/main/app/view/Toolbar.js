@@ -1592,8 +1592,6 @@ define([
             txtDistribHor: 'Distribute Horizontally',
             txtDistribVert: 'Distribute Vertically',
             tipChangeSlide: 'Change Slide Layout',
-            textOK: 'OK',
-            textCancel: 'Cancel',
             tipColorSchemas: 'Change Color Scheme',
             textNewColor: 'Add New Custom Color',
             mniSlideStandard: 'Standard (4:3)',
