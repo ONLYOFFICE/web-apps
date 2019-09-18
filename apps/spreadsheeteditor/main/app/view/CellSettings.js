@@ -74,17 +74,18 @@ define([
                 DisabledFillPanels: false,
                 CellAngle: undefined,
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
-                CellColor: null,
+                CellColor: 'transparent',
                 FillType: Asc.c_oAscFill.FILL_TYPE_SOLID,
                 FGColor: '000000',
                 BGColor: 'ffffff',
-                GradColor1: null,
-                GradColor2: null
+                GradColor1: '000000',
+                GradColor2: 'ffffff'
             };
             this.lockedControls = [];
             this._locked = true;
             this.isEditCell = false;
             this.BorderType = 1;
+            this.GradFillType = Asc.c_oAscFillGradType.GRAD_LINEAR;
             this.GradLinearDirectionType = 0;
             this.GradRadialDirectionIdx = 0;
             this.GradColors = [];
@@ -415,17 +416,17 @@ define([
                 if (this.pattern === null && this.gradient === null) {
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     this.CellColor = {Value: 0, Color: 'transparent'};
-                    this.FGColor = {Value: 1, Color: '000000'};
+                    this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
-                    this.GradColors[0] = {Value: 1, Color: '000000', Position: 0};
+                    this.GradColors[0] = {Value: 1, Color: {color: '4f81bd', effectId: 24}, Position: 0};
                     this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
                 } else if (this.pattern !== null) {
                     if(this.pattern.asc_getType() === -1) {
                         var color = this.pattern.asc_getFgColor();
-                        if (color.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                            this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB()), effectValue: color.get_value() }};
+                        if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() }};
                         } else {
-                            this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB())};
+                            this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())};
                         }
                         this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                         this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color)};
@@ -445,20 +446,20 @@ define([
                         }
                         var color = this.pattern.asc_getFgColor();
                         if (color) {
-                            if (color.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.FGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB()), effectValue: color.asc_getValue() }};
+                            if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                this.FGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() }};
                             } else {
-                                this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB())};
+                                this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())};
                             }
                         } else
-                            this.FGColor = {Value: 1, Color: '000000'};
+                            this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
 
                         color = this.pattern.asc_getBgColor();
                         if (color) {
-                            if (color.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.BGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB()), effectValue: color.asc_getValue() }};
+                            if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                this.BGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() }};
                             } else {
-                                this.BGColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.getR(), color.getG(), color.getB())};
+                                this.BGColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())};
                             }
                         } else
                             this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -502,10 +503,10 @@ define([
                         var clr = color.asc_getColor(),
                             position = color.asc_getPosition(),
                             itemColor;
-                        if (clr.getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                            itemColor  = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(clr.getR(), clr.getG(), clr.getB()), effectValue: clr.asc_getValue() }, Position: position};
+                        if (clr.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            itemColor  = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(clr.asc_getR(), clr.asc_getG(), clr.asc_getB()), effectValue: clr.asc_getValue()}, Position: position};
                         } else {
-                            itemColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(clr.getR(), clr.getG(), clr.getB()), Position: position};
+                            itemColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(clr.asc_getR(), clr.asc_getG(), clr.asc_getB()), Position: position};
                         }
                         me.GradColors.push(itemColor);
                     });
@@ -553,7 +554,7 @@ define([
                 type2 = typeof(this._state.FGColor);
 
                 if ( (type1 !== type2) || (type1=='object' &&
-                    (this.FGColor.Color.effectValue!==this._state.FGColorColor.effectValue || this._state.FGColor.color.indexOf(this.FGColor.Color.color)<0)) ||
+                    (this.FGColor.Color.effectValue!==this._state.FGColor.effectValue || this._state.FGColor.color.indexOf(this.FGColor.Color.color)<0)) ||
                     (type1!='object' && this._state.FGColor.indexOf(this.FGColor.Color)<0 )) {
 
                     this.btnFGColor.setColor(this.FGColor.Color);
@@ -600,7 +601,7 @@ define([
                 // Gradient colors
                 var gradColor1 = this.GradColors[0];
                 if (!gradColor1) {
-                    gradColor1 = {Value: 1, Color: '000000'};
+                    gradColor1 = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
                 }
                 type1 = typeof(gradColor1.Color);
                 type2 = typeof(this._state.GradColor1);
