@@ -219,6 +219,9 @@ define([
                 if (me.editorConfig.lang)
                     me.api.asc_setLocale(me.editorConfig.lang);
 
+                if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line"></div></div></div></div></div>');
+
 //                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
 //                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
@@ -551,6 +554,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {

@@ -489,13 +489,13 @@ define([
 
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
-                            this.btnDownload = createTitleButton('svg-btn-download', $html.find('#slot-hbtn-download'));
+                            this.btnDownload = createTitleButton('svg-btn-download', $html.findById('#slot-hbtn-download'));
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('svg-btn-print', $html.find('#slot-hbtn-print'));
+                            this.btnPrint = createTitleButton('svg-btn-print', $html.findById('#slot-hbtn-print'));
 
                         if ( config.canEdit && config.canRequestEditRights )
-                            this.btnEdit = createTitleButton('svg-btn-edit', $html.find('#slot-hbtn-edit'));
+                            this.btnEdit = createTitleButton('svg-btn-edit', $html.findById('#slot-hbtn-edit'));
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
@@ -519,12 +519,12 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html), true);
+                        me.btnPrint = createTitleButton('svg-btn-print', $html.findById('#slot-btn-dt-print'), true);
                     }
 
-                    me.btnSave = createTitleButton('svg-btn-save', $('#slot-btn-dt-save', $html), true);
-                    me.btnUndo = createTitleButton('svg-btn-undo', $('#slot-btn-dt-undo', $html), true);
-                    me.btnRedo = createTitleButton('svg-btn-redo', $('#slot-btn-dt-redo', $html), true);
+                    me.btnSave = createTitleButton('svg-btn-save', $html.findById('#slot-btn-dt-save'), true);
+                    me.btnUndo = createTitleButton('svg-btn-undo', $html.findById('#slot-btn-dt-undo'), true);
+                    me.btnRedo = createTitleButton('svg-btn-redo', $html.findById('#slot-btn-dt-redo'), true);
 
                     if ( me.btnSave.$icon.is('svg') ) {
                         me.btnSave.$icon.addClass('icon-save');

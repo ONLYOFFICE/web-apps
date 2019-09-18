@@ -119,8 +119,7 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             this.id             = me.options.id || Common.UI.getId();
             this.cls            = me.options.cls;
@@ -138,7 +137,7 @@ define([
             this.hint           = me.options.hint;
             this.rendered       = false;
 
-            if (this.menu !== null && !(this.menu instanceof Common.UI.Menu)) {
+            if (this.menu !== null && !(this.menu instanceof Common.UI.Menu) && !(this.menu instanceof Common.UI.MenuSimple)) {
                 this.menu = new Common.UI.Menu(_.extend({}, me.options.menu));
             }
 
@@ -148,7 +147,7 @@ define([
 
         render: function() {
             var me = this,
-                el = $(this.el);
+                el = me.$el || $(this.el);
 
             me.trigger('render:before', me);
 
@@ -159,7 +158,7 @@ define([
                     el.off('click');
                     Common.UI.ToggleManager.unregister(me);
 
-                    $(this.el).html(this.template({
+                    el.html(this.template({
                         id      : me.id,
                         caption : me.caption,
                         iconCls : me.iconCls,
@@ -170,7 +169,7 @@ define([
                     if (me.menu) {
                         el.addClass('dropdown-submenu');
 
-                        me.menu.render($(this.el));
+                        me.menu.render(el);
                         el.mouseenter(_.bind(me.menu.alignPosition, me.menu));
 //                        el.focusin(_.bind(me.onFocusItem, me));
                         el.focusout(_.bind(me.onBlurItem, me));
@@ -214,7 +213,7 @@ define([
                     }
 
                     if (this.disabled)
-                        $(this.el).toggleClass('disabled', this.disabled);
+                        el.toggleClass('disabled', this.disabled);
 
                     el.on('click',      _.bind(this.onItemClick, this));
                     el.on('mousedown',  _.bind(this.onItemMouseDown, this));
@@ -223,7 +222,7 @@ define([
                 }
             }
 
-            me.cmpEl = $(this.el);
+            me.cmpEl = el;
             me.rendered = true;
 
             me.trigger('render:after', me);

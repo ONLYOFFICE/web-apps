@@ -231,7 +231,7 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 scope: this
             }));
@@ -431,10 +431,10 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         ChangeSettings: function(props) {
@@ -641,6 +641,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
              if (!this.btnBackColor) {
                 // create color buttons
                  this.btnBorderColor = new Common.UI.ColorButton({
@@ -715,7 +716,6 @@ define([
                     data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
-                self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
                     arr.push({
@@ -725,7 +725,7 @@ define([
                         tip    : template.asc_getDisplayName()
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.add(arr);
+                self.cmbTableTemplate.menuPicker.store.reset(arr);
             }
         },
 

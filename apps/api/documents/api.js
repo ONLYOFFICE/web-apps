@@ -736,8 +736,15 @@
             : config.type === "embedded"
                 ? "embed"
                 : "main";
-        path += "/index.html";
 
+        var index = "/index.html";
+        if (config.editorConfig && config.editorConfig.targetApp!=='desktop') {
+            var customization = config.editorConfig.customization;
+            if ( typeof(customization) == 'object' && (customization.loaderName || customization.loaderLogo)) {
+                index = "/index_loader.html";
+            }
+        }
+        path += index;
         return path;
     }
 
@@ -754,6 +761,11 @@
                 params += "&customer=ONLYOFFICE";
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
+            } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
+                if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
+                    params += "&headerlogo=" + config.editorConfig.customization.logo.imageEmbedded;
+                else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
+                    params += "&headerlogo=" + config.editorConfig.customization.logo.image;
             }
         }
 

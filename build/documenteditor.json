@@ -168,6 +168,10 @@
                 {
                     "src": "../apps/documenteditor/main/index.html.deploy",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/index.html"
+                },
+                {
+                    "src": "../apps/documenteditor/main/index_loader.html.deploy",
+                    "dest": "../deploy/web-apps/apps/documenteditor/main/index_loader.html"
                 }
             ]
         },
@@ -335,7 +339,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html.deploy"
+                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html.deploy",
+                "../deploy/web-apps/apps/documenteditor/mobile/index_loader.html": "../apps/documenteditor/mobile/index_loader.html.deploy"
             },
             "localization": [
                 {

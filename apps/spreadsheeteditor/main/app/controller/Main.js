@@ -99,32 +99,10 @@ define([
                         'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
-            },
 
-            onLaunch: function() {
-//                $(document.body).css('position', 'absolute');
-                var me = this;
-
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
-                this.translationTable = [];
-                this.isModalShowed = 0;
-
-                if (!Common.Utils.isBrowserSupported()){
-                    Common.Utils.showBrowserRestriction();
-                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
-                    return;
-                } else {
-//                    this.getViewport().getEl().on('keypress', this.lockEscapeKey, this);
-//                    viewport.applicationUI.setVisible(true);
-                }
-
-                var value = Common.localStorage.getItem("sse-settings-fontrender");
-                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
-                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
-
-                // Initialize api
-                var styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
-                                'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
+                var me = this,
+                    styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
+                        'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
@@ -144,23 +122,42 @@ define([
                         'File': this.txtFile
                     };
                 styleNames.forEach(function(item){
-                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
-                translate['Currency [0]'] = me.translationTable['Currency [0]'] = me.txtStyle_Currency + ' [0]';
-                translate['Comma [0]'] = me.translationTable['Comma [0]'] = me.txtStyle_Comma + ' [0]';
+                translate['Currency [0]'] = me.txtStyle_Currency + ' [0]';
+                translate['Comma [0]'] = me.txtStyle_Comma + ' [0]';
 
                 for (var i=1; i<7; i++) {
-                    translate['Accent'+i] = me.translationTable['Accent'+i] = me.txtAccent + i;
-                    translate['20% - Accent'+i] = me.translationTable['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
-                    translate['40% - Accent'+i] = me.translationTable['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
-                    translate['60% - Accent'+i] = me.translationTable['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
+                    translate['Accent'+i] = me.txtAccent + i;
+                    translate['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
+                    translate['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
+                    translate['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
+                }
+                me.translationTable = translate;
+            },
+
+            onLaunch: function() {
+//                $(document.body).css('position', 'absolute');
+                var me = this;
+
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this.isModalShowed = 0;
+
+                if (!Common.Utils.isBrowserSupported()){
+                    Common.Utils.showBrowserRestriction();
+                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+                    return;
+                } else {
+//                    this.getViewport().getEl().on('keypress', this.lockEscapeKey, this);
+//                    viewport.applicationUI.setVisible(true);
                 }
 
-                this.api = new Asc.spreadsheet_api({
-                    'id-view'  : 'editor_sdk',
-                    'id-input' : 'ce-cell-content',
-                    'translate': translate
-                });
+                var value = Common.localStorage.getItem("sse-settings-fontrender");
+                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
+
+                // Initialize api
+                this.api = this.getApplication().getController('Viewport').getApi();
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
@@ -361,6 +358,9 @@ define([
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                if (!this.editorConfig.customization || !(this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
 
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 Common.Controllers.Desktop.init(this.appOptions);
@@ -769,7 +769,6 @@ define([
                                 if (shapes)
                                     me.fillAutoShapes(shapes[0], shapes[1]);
 
-                                me.fillTextArt(me.api.asc_getTextArtPreviews());
                                 me.updateThemeColors();
                                 toolbarController.activateControls();
                             }
@@ -873,7 +872,7 @@ define([
                             }
                         });
                     }
-                } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
+                } else if (!this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)) {
                     Common.UI.warning({
                         title: this.textPaidFeature,
@@ -1773,25 +1772,25 @@ define([
 
                 shapeStore.reset();
 
-                var groupscount = groupNames.length;
                 _.each(groupNames, function(groupName, index){
                     var store = new Backbone.Collection([], {
                         model: SSE.Models.ShapeModel
-                    });
+                    }),
+                        arr = [];
 
                     var cols = (shapes[index].length) > 18 ? 7 : 6,
                         height = Math.ceil(shapes[index].length/cols) * 35 + 3,
                         width = 30 * cols;
 
                     _.each(shapes[index], function(shape, idx){
-                        store.add({
+                        arr.push({
                             data     : {shapeType: shape.Type},
                             tip      : me['txtShape_' + shape.Type] || (me.textShape + ' ' + (idx+1)),
                             allowSelected : true,
                             selected: false
                         });
                     });
-
+                    store.add(arr);
                     shapegrouparray.push({
                         groupName   : me.shapeGroupNames[index],
                         groupStore  : store,
@@ -1803,15 +1802,18 @@ define([
                 shapeStore.add(shapegrouparray);
 
                 setTimeout(function(){
-                    me.getApplication().getController('Toolbar').fillAutoShapes();
+                    me.getApplication().getController('Toolbar').onApiAutoShapes();
                 }, 50);
             },
 
             fillTextArt: function(shapes){
-                if (_.isEmpty(shapes)) return;
-
-                var me = this, arr = [],
+                var arr = [],
                     artStore = this.getCollection('Common.Collections.TextArt');
+
+                if (!shapes && artStore.length>0) {// shapes == undefined when update textart collection (from asc_onSendThemeColors)
+                    shapes = this.api.asc_getTextArtPreviews();
+                }
+                if (_.isEmpty(shapes)) return;
 
                 _.each(shapes, function(shape, index){
                     arr.push({
@@ -1822,15 +1824,6 @@ define([
                     });
                 });
                 artStore.reset(arr);
-
-                setTimeout(function(){
-                    me.getApplication().getController('Toolbar').fillTextArt();
-                }, 50);
-
-                setTimeout(function(){
-                    me.getApplication().getController('RightMenu').fillTextArt();
-                }, 50);
-
             },
             
             updateThemeColors: function() {
@@ -1854,7 +1847,7 @@ define([
                     this.updateThemeColors();
                     var me = this;
                     setTimeout(function(){
-                        me.fillTextArt(me.api.asc_getTextArtPreviews());
+                        me.fillTextArt();
                     }, 1);
                 }
             },

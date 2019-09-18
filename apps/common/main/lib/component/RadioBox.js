@@ -76,8 +76,7 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             this.name =  this.options.name || Common.UI.getId();
 
@@ -94,7 +93,7 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 labelText: this.options.labelText,
                 name: this.name

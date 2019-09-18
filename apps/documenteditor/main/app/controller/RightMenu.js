@@ -251,10 +251,6 @@ define([
             this.rightmenu.textartSettings.UpdateThemeColors();
         },
 
-        fillTextArt:  function() {
-            this.rightmenu.textartSettings.fillTextArt();
-        },
-
         updateMetricUnit: function() {
             this.rightmenu.headerSettings.updateMetricUnit();
             this.rightmenu.paragraphSettings.updateMetricUnit();
@@ -276,7 +272,7 @@ define([
             }
 
             if (this.editMode && this.api) {
-                this.rightmenu.shapeSettings.createDelayedElements();
+                // this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
                     this.onFocusObject(selectedElements, !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu));

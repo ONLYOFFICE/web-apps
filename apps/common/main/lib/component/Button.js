@@ -319,7 +319,7 @@ define([
 
             me.trigger('render:before', me);
 
-            me.cmpEl = $(me.el);
+            me.cmpEl = me.$el || $(me.el);
 
             if (parentEl) {
                 me.setElement(parentEl, false);

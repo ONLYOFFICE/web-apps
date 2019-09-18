@@ -128,7 +128,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             var me = this,
-                el = $(this.el);
+                el = me.$el || $(this.el);
 
             el.addClass('spinner');
 
@@ -165,7 +165,7 @@ define([
             this.setRawValue(this.value);
 
             if (this.options.width) {
-                $(this.el).width(this.options.width);
+                el.width(this.options.width);
             }
 
             if (this.options.defaultValue===undefined)
@@ -176,7 +176,7 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template);
 
             this.$input = el.find('.form-control');
@@ -189,7 +189,7 @@ define([
         },
 
         setDisabled: function(disabled) {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             if (disabled !== this.disabled) {
                 el.find('button').toggleClass('disabled', disabled);
                 el.toggleClass('disabled', disabled);

@@ -208,7 +208,7 @@ define([
 
                 this.trigger('render:before', this);
 
-                this.cmpEl = $(this.el);
+                this.cmpEl = me.$el || $(this.el);
 
                 if (parentEl) {
                     this.setElement(parentEl, false);
@@ -225,7 +225,7 @@ define([
                         this.cmpEl = this.template({
                             options : me.options
                         });
-                        $(this.el).append(this.cmpEl);
+                        this.$el.append(this.cmpEl);
                     }
                 }
 
@@ -246,7 +246,7 @@ define([
                     if (this.options.maxHeight) {
                         menuRoot.css({'max-height': me.options.maxHeight});
                         this.scroller = new Common.UI.Scroller({
-                            el: $(this.el).find('.dropdown-menu '),
+                            el: me.$el.find('.dropdown-menu '),
                             minScrollbarLength: 30,
                             suppressScrollX: true,
                             alwaysVisibleY: this.scrollAlwaysVisible
@@ -547,7 +547,7 @@ define([
                         if (top + menuH > docH) {
                             menuRoot.css('max-height', (docH - top) + 'px');
                             (!this.scroller) && (this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
+                                el: this.$el.find('.dropdown-menu '),
                                 minScrollbarLength: 30,
                                 suppressScrollX: true,
                                 alwaysVisibleY: this.scrollAlwaysVisible
@@ -588,4 +588,447 @@ define([
             })()
         })
     })();
+
+    Common.UI.MenuSimple = Common.UI.BaseView.extend({
+        options : {
+            cls         : '',
+            style       : '',
+            itemTemplate: null,
+            items       : [],
+            menuAlign   : 'tl-bl',
+            menuAlignEl : null,
+            offset      : [0, 0],
+            cyclic      : true,
+            search      : false,
+            scrollAlwaysVisible: true
+        },
+
+        template: _.template([
+            '<ul class="dropdown-menu <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu">',
+                '<% _.each(items, function(item) { %>',
+                    '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                    '<% item.checked = item.checked || false;  %>',
+                    '<li><%= itemTemplate(item) %></li>',
+                '<% }) %>',
+            '</ul>'
+        ].join('')),
+
+        initialize : function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this, options);
+
+            var me = this;
+
+            this.id             = this.options.id || Common.UI.getId();
+            this.itemTemplate   = this.options.itemTemplate || _.template([
+                                                                '<a id="<%= id %>" <% if(typeof style !== "undefined") { %> style="<%= style %>" <% } %>',
+                                                                    '<% if(typeof canFocused !== "undefined") { %> tabindex="-1" type="menuitem" <% } %>',
+                                                                    '<% if(typeof stopPropagation !== "undefined") { %> data-stopPropagation="true" <% } %>',
+                                                                    'class="<% if (checked) { %> checked <% } %>" >',
+                                                                    '<% if (typeof iconCls !== "undefined") { %>',
+                                                                        '<span class="menu-item-icon <%= iconCls %>"></span>',
+                                                                    '<% } %>',
+                                                                '<%= caption %>',
+                                                                '</a>'
+                                                            ].join(''));
+            this.rendered       = false;
+            this.items          = this.options.items || [];
+            this.offset         = [0, 0];
+            this.menuAlign      = this.options.menuAlign;
+            this.menuAlignEl    = this.options.menuAlignEl;
+            this.scrollAlwaysVisible = this.options.scrollAlwaysVisible;
+            this.search = this.options.search;
+
+            if (this.options.restoreHeight) {
+                this.options.restoreHeight = (typeof (this.options.restoreHeight) == "number") ? this.options.restoreHeight : (this.options.maxHeight ? this.options.maxHeight : 100000);
+                !this.options.maxHeight && (this.options.maxHeight = this.options.restoreHeight);
+            }
+
+            if (!this.options.cyclic) this.options.cls += ' no-cyclic';
+
+            if (this.options.el)
+                this.render();
+
+            Common.UI.Menu.Manager.register(this);
+        },
+
+        remove: function() {
+            Common.UI.Menu.Manager.unregister(this);
+            Common.UI.BaseView.prototype.remove.call(this);
+        },
+
+        render: function(parentEl) {
+            var me = this;
+
+            this.trigger('render:before', this);
+
+            this.cmpEl = me.$el || $(this.el);
+
+            parentEl && this.setElement(parentEl, false);
+
+            if (!me.rendered) {
+                this.cmpEl = $(this.template({
+                    items: me.items,
+                    itemTemplate: me.itemTemplate,
+                    options : me.options
+                }));
+
+                parentEl ? parentEl.append(this.cmpEl) : this.$el.append(this.cmpEl);
+            }
+
+            var rootEl = this.cmpEl.parent(),
+                menuRoot = (rootEl.attr('role') === 'menu') ? rootEl : rootEl.find('[role=menu]');
+            this.menuRoot = menuRoot;
+
+            if (menuRoot) {
+                if (!me.rendered) {
+                    menuRoot.on( "click", "li",       _.bind(me.onItemClick, me));
+                    menuRoot.on( "mousedown", "li",   _.bind(me.onItemMouseDown, me));
+                }
+
+                if (this.options.maxHeight) {
+                    menuRoot.css({'max-height': me.options.maxHeight});
+                    this.scroller = new Common.UI.Scroller({
+                        el: me.$el.find('.dropdown-menu '),
+                        minScrollbarLength: 30,
+                        suppressScrollX: true,
+                        alwaysVisibleY: this.scrollAlwaysVisible
+                    });
+                }
+
+                menuRoot.css({
+                    position    : 'fixed',
+                    right       : 'auto',
+                    left        : -1000,
+                    top         : -1000
+                });
+
+                this.parentEl = menuRoot.parent();
+
+                this.parentEl.on('show.bs.dropdown',    _.bind(me.onBeforeShowMenu, me));
+                this.parentEl.on('shown.bs.dropdown',   _.bind(me.onAfterShowMenu, me));
+                this.parentEl.on('hide.bs.dropdown',    _.bind(me.onBeforeHideMenu, me));
+                this.parentEl.on('hidden.bs.dropdown',  _.bind(me.onAfterHideMenu, me));
+                this.parentEl.on('keydown.after.bs.dropdown', _.bind(me.onAfterKeydownMenu, me));
+
+                menuRoot.hover(
+                    function(e) { me.isOver = true;},
+                    function(e) { me.isOver = false; }
+                );
+            }
+
+            this.rendered = true;
+
+            this.trigger('render:after', this);
+
+            return this;
+        },
+
+        resetItems: function(items) {
+            this.items = items || [];
+            this.$items = null;
+            var template = _.template([
+                                '<% _.each(items, function(item) { %>',
+                                    '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                                    '<% item.checked = item.checked || false;  %>',
+                                    '<li><%= itemTemplate(item) %></li>',
+                                '<% }) %>'
+                            ].join(''));
+            this.cmpEl && this.cmpEl.html(template({
+                items: this.items,
+                itemTemplate: this.itemTemplate,
+                options : this.options
+            }));
+        },
+
+        isVisible: function() {
+            return this.rendered && (this.cmpEl.is(':visible'));
+        },
+
+        show: function() {
+            if (this.rendered && this.parentEl && !this.parentEl.hasClass('open')) {
+                this.cmpEl.dropdown('toggle');
+            }
+        },
+
+        hide: function() {
+            if (this.rendered && this.parentEl) {
+                if ( this.parentEl.hasClass('open') )
+                    this.cmpEl.dropdown('toggle');
+                else if (this.parentEl.hasClass('over'))
+                    this.parentEl.removeClass('over');
+            }
+        },
+
+        onItemClick: function(e) {
+            if (e.which != 1 && e.which !== undefined)
+                return false;
+
+            var index = $(e.currentTarget).closest('li').index(),
+                item = (index>=0) ? this.items[index] : null;
+            if (!item) return;
+
+            if (item.disabled)
+                return false;
+
+            if (item.checkable && !item.checked)
+                this.setChecked(index, !item.checked);
+
+            this.isOver = false;
+            if (item.stopPropagation) {
+                e.stopPropagation();
+                var me = this;
+                _.delay(function(){
+                    me.$el.parent().parent().find('[data-toggle=dropdown]').focus();
+                }, 10);
+                return;
+            }
+            this.trigger('item:click', this, item, e);
+        },
+
+        onItemMouseDown: function(e) {
+            if (e.which != 1) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                return false;
+            }
+            e.stopPropagation();
+        },
+
+        setChecked: function(index, check, suppressEvent) {
+            this.toggle(index, check, suppressEvent);
+        },
+
+        toggle: function(index, toggle, suppressEvent) {
+            var state = !!toggle;
+            var item = this.items[index];
+
+            this.clearAll();
+
+            if (item && item.checkable) {
+                item.checked = state;
+
+                if (this.rendered) {
+                    var itemEl = item.el || this.cmpEl.find('#'+item.id);
+                    if (itemEl) {
+                        itemEl.toggleClass('checked', item.checked);
+                        if (!_.isEmpty(item.iconCls)) {
+                            itemEl.css('background-image', 'none');
+                        }
+                    }
+                }
+
+                if (!suppressEvent)
+                    this.trigger('item:toggle', this, item, state);
+            }
+        },
+
+        setDisabled: function(disabled) {
+            this.disabled = !!disabled;
+
+            if (this.rendered)
+                this.cmpEl.toggleClass('disabled', this.disabled);
+        },
+
+        isDisabled: function() {
+            return this.disabled;
+        },
+
+        onBeforeShowMenu: function(e) {
+            Common.NotificationCenter.trigger('menu:show');
+            this.trigger('show:before', this, e);
+            this.alignPosition();
+        },
+
+        onAfterShowMenu: function(e) {
+            this.trigger('show:after', this, e);
+            if (this.scroller) {
+                this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+                var menuRoot = this.menuRoot,
+                    $selected = menuRoot.find('> li .checked');
+                if ($selected.length) {
+                    var itemTop = $selected.position().top,
+                        itemHeight = $selected.height(),
+                        listHeight = menuRoot.height();
+                    if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                        menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                    }
+                    setTimeout(function(){$selected.focus();}, 1);
+                }
+            }
+            this._search = {};
+            if (this.search && !this.$items) {
+                var me = this;
+                this.$items = this.menuRoot.find('> li').find('> a');
+                _.each(this.$items, function(item, index) {
+                    me.items[index].el = $(item);
+                });
+            }
+        },
+
+        onBeforeHideMenu: function(e) {
+            this.trigger('hide:before', this, e);
+
+            if (Common.UI.Scroller.isMouseCapture())
+                e.preventDefault();
+        },
+
+        onAfterHideMenu: function(e, isFromInputControl) {
+            this.trigger('hide:after', this, e, isFromInputControl);
+            Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
+        },
+
+        onAfterKeydownMenu: function(e) {
+            if (e.keyCode == Common.UI.Keys.RETURN) {
+                var li = $(e.target).closest('li');
+                if (li.length<=0) li = $(e.target).parent().find('li .dataview');
+                if (li.length>0) li.click();
+                if (!li.hasClass('dropdown-submenu'))
+                    Common.UI.Menu.Manager.hideAll();
+                if ( $(e.currentTarget).closest('li').hasClass('dropdown-submenu')) {
+                    e.stopPropagation();
+                    return false;
+                }
+            } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN)  {
+                this.fromKeyDown = true;
+            } else if (e.keyCode == Common.UI.Keys.ESC)  {
+//                    Common.NotificationCenter.trigger('menu:afterkeydown', e);
+//                    return false;
+            } else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
+                var me = this;
+                clearTimeout(this._search.timer);
+                this._search.timer = setTimeout(function () { me._search = {}; }, 1000);
+
+                (!this._search.text) && (this._search.text = '');
+                (!this._search.char) && (this._search.char = e.key);
+                (this._search.char !== e.key) && (this._search.full = true);
+                this._search.text += e.key;
+                if (this._search.index===undefined) {
+                    this._search.index = this.$items.index(this.$items.filter(':focus'));
+                }
+                this.selectCandidate();
+            }
+        },
+
+        selectCandidate: function() {
+            var index = this._search.index || 0,
+                re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                itemCandidate, idxCandidate;
+
+            for (var i=0; i<this.items.length; i++) {
+                var item = this.items[i];
+                if (re.test(item.caption)) {
+                    if (!itemCandidate) {
+                        itemCandidate = item;
+                        idxCandidate = i;
+                    }
+                    if (this._search.full && i==index || i>index) {
+                        itemCandidate = item;
+                        idxCandidate = i;
+                        break;
+                    }
+                }
+            }
+
+            if (itemCandidate) {
+                this._search.index = idxCandidate;
+                var item = itemCandidate.el;
+                if (this.scroller) {
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+                    var itemTop = item.position().top,
+                        itemHeight = item.height(),
+                        listHeight = this.menuRoot.height();
+                    if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                        this.menuRoot.scrollTop(this.menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                    }
+                }
+                item.focus();
+            }
+        },
+
+        setOffset: function(offsetX, offsetY) {
+            this.offset[0] = _.isUndefined(offsetX) ? this.offset[0] : offsetX;
+            this.offset[1] = _.isUndefined(offsetY) ? this.offset[1] : offsetY;
+            this.alignPosition();
+        },
+
+        getOffset: function() {
+            return this.offset;
+        },
+
+        alignPosition: function(fixedAlign, fixedOffset) {
+            var menuRoot = this.menuRoot,
+                menuParent  = this.menuAlignEl || menuRoot.parent(),
+                m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
+                offset      = menuParent.offset(),
+                docW        = Common.Utils.innerWidth(),
+                docH        = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW       = menuRoot.outerWidth(),
+                menuH       = menuRoot.outerHeight(),
+                parentW     = menuParent.outerWidth(),
+                parentH     = menuParent.outerHeight();
+
+            var posMenu = {
+                'tl': [0, 0],
+                'bl': [0, menuH],
+                'tr': [menuW, 0],
+                'br': [menuW, menuH]
+            };
+            var posParent = {
+                'tl': [0, 0],
+                'tr': [parentW, 0],
+                'bl': [0, parentH],
+                'br': [parentW, parentH]
+            };
+            var left = offset.left - posMenu[m[1]][0] + posParent[m[2]][0] + this.offset[0];
+            var top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1];
+
+            if (left + menuW > docW)
+                if (menuParent.is('li.dropdown-submenu')) {
+                    left = offset.left - menuW + 2;
+                } else {
+                    left = docW - menuW;
+                }
+
+            if (this.options.restoreHeight) {
+                if (typeof (this.options.restoreHeight) == "number") {
+                    if (top + menuH > docH) {
+                        menuRoot.css('max-height', (docH - top) + 'px');
+                        (!this.scroller) && (this.scroller = new Common.UI.Scroller({
+                            el: this.$el.find('.dropdown-menu '),
+                            minScrollbarLength: 30,
+                            suppressScrollX: true,
+                            alwaysVisibleY: this.scrollAlwaysVisible
+                        }));
+                    } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight) {
+                        menuRoot.css('max-height', (Math.min(docH - top, this.options.restoreHeight)) + 'px');
+                    }
+                }
+            } else {
+                if (top + menuH > docH) {
+                    if (fixedAlign && typeof fixedAlign == 'string') { // how to align if menu height > window height
+                        m = fixedAlign.match(/^([a-z]+)-([a-z]+)/);
+                        top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1] + (fixedOffset || 0);
+                    } else
+                        top = docH - menuH;
+                }
+
+                if (top < 0)
+                    top = 0;
+            }
+
+            if (this.options.additionalAlign)
+                this.options.additionalAlign.call(this, menuRoot, left, top);
+            else
+                menuRoot.css({left: Math.ceil(left), top: Math.ceil(top)});
+        },
+
+        clearAll: function() {
+            this.cmpEl && this.cmpEl.find('li > a.checked').removeClass('checked');
+            _.each(this.items, function(item){
+                item.checked = false;
+            });
+        }
+    });
+
 });
