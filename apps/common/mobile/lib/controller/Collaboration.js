@@ -734,7 +734,7 @@ define([
                     time                : date.getTime(),
                     replys              : [],
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null
-                }
+                };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
                     if (replies.length) {
@@ -818,6 +818,13 @@ define([
             stringOOToLocalDate: function (date) {
                 if (typeof date === 'string')
                     return parseInt(date);
+                return 0;
+            },
+
+            stringUtcToLocalDate: function (date) {
+                if (typeof date === 'string')
+                    return parseInt(date) + this.timeZoneOffsetInMs;
+
                 return 0;
             },
 
