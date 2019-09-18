@@ -136,9 +136,10 @@ define([
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {
-                    var check = me.props.asc_CheckNewBookmarkName(value);
-                    me.btnAdd.setDisabled(!check);
-                    return (check || _.isEmpty(value)) ? true : me.txtInvalidName;
+                    var check = me.props.asc_CheckNewBookmarkName(value),
+                        exist = me.props.asc_HaveBookmark(value);
+                    me.btnAdd.setDisabled(!check && !exist);
+                    return (check || _.isEmpty(value) || exist) ? true : me.txtInvalidName;
                 }
             }).on ('changing', function (input, value) {
                 var exist = me.props.asc_HaveBookmark(value);
@@ -314,7 +315,10 @@ define([
 
         gotoBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
-            rec && this.props.asc_SelectBookmark(rec.get('value'));
+            if (rec)
+                this.props.asc_SelectBookmark(rec.get('value'));
+            else if (this.txtName.getValue()!=='')
+                this.props.asc_SelectBookmark(this.txtName.getValue());
         },
 
         addBookmark: function(btn, eOpts){
