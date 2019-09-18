@@ -509,7 +509,7 @@ define([
                 var action = {id: id, type: type};
                 this.stackLongActions.pop(action);
 
-                this.headerView.setDocumentCaption(this.api.asc_getDocumentName());
+                this.headerView && this.headerView.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
 
                 if (type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open) {
