@@ -3414,7 +3414,6 @@ define([
                 } else if (scale < 10) {
                     scale = 10;
                 }
-                this.api.asc_SetPrintScale(0, 0, scale);
                 this.onChangeScaleSettings(0, 0, scale);
             }
         },
