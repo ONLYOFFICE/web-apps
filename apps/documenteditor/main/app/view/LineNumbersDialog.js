@@ -46,9 +46,9 @@ define([
 
     DE.Views.LineNumbersDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 300,
+            width: 290,
             header: true,
-            style: 'min-width: 216px;',
+            style: 'min-width: 290px;',
             cls: 'modal-dlg'
         },
 
@@ -59,16 +59,16 @@ define([
 
             this.template = [
                 '<div class="box" style="">',
-                '<div id="line-numbers-add-line-numbering"></div>',
-                '<div>',
-                    '<div style="display: inline-block;"><label>' + this.textStartAt + '</label><div id="line-numbers-start-at"></div></div>',
-                    '<div style="display: inline-block;"><label>' + this.textFromText + '</label><div id="line-numbers-from-text"></div></div>',
+                '<div id="line-numbers-add-line-numbering" style="margin-bottom: 15px;"></div>',
+                '<div style="margin-bottom: 15px;">',
+                    '<div style="display: inline-block; margin-right: 9px;"><label>' + this.textStartAt + '</label><div id="line-numbers-start-at"></div></div>',
+                    '<div style="display: inline-block; margin-right: 9px;"><label>' + this.textFromText + '</label><div id="line-numbers-from-text"></div></div>',
                     '<div style="display: inline-block;"><label>' + this.textCountBy + '</label><div id="line-numbers-count-by"></div></div>',
                 '</div>',
-                '<div><label>' + this.textNumbering + '</label></div>',
-                '<div id="line-numbers-restart-each-page"></div>',
-                '<div id="line-numbers-restart-each-section"></div>',
-                '<div id="line-numbers-continuous"></div>',
+                '<div style="margin-bottom: 8px;"><label>' + this.textNumbering + '</label></div>',
+                '<div id="line-numbers-restart-each-page" style="margin-bottom: 8px;"></div>',
+                '<div id="line-numbers-restart-each-section" style="margin-bottom: 8px;"></div>',
+                '<div id="line-numbers-continuous" style="margin-bottom: 5px;"></div>',
                 '</div>',
                 '<div class="footer center">',
                 '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
@@ -90,7 +90,15 @@ define([
             this.chAddLineNumbering = new Common.UI.CheckBox({
                 el: $('#line-numbers-add-line-numbering'),
                 labelText: this.textAddLineNumbering
-            });
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = field.getValue()!=='checked';
+                this.spnStartAt.setDisabled(checked);
+                this.spnFromText.setDisabled(checked);
+                this.spnCountBy.setDisabled(checked);
+                this.rbRestartEachPage.setDisabled(checked);
+                this.rbRestartEachSection.setDisabled(checked);
+                this.rbContinuous.setDisabled(checked);
+            }, this));
 
             this.spnStartAt = new Common.UI.MetricSpinner({
                 el: $('#line-numbers-start-at'),
@@ -107,9 +115,10 @@ define([
                 step: 0.1,
                 width: 80,
                 defaultUnit : 'cm',
-                value: 0.4,
+                value: 'Auto',
                 maxValue: 55.87,
-                minValue: 0
+                minValue: 0.1,
+                allowAuto: true
             });
             this.spinners.push(this.spnFromText);
 
@@ -145,6 +154,14 @@ define([
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
+        },
+
+        afterRender: function() {
+            this._setDefaults();
+        },
+
+        _setDefaults: function() {
+
         },
 
         _handleInput: function(state) {
@@ -185,7 +202,7 @@ define([
         textAddLineNumbering: 'Add line numbering',
         textStartAt: 'Start at',
         textFromText: 'From text',
-        textCountBy: 'CountBy',
+        textCountBy: 'Count by',
         textNumbering: 'Numbering',
         textRestartEachPage: 'Restart Each Page',
         textRestartEachSection: 'Restart Each Section',

@@ -346,6 +346,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 }
             }, this));
 
+            this.chLineNumbers = new Common.UI.CheckBox({
+                el: $('#paragraphadv-checkbox-suppress-line-numbers'),
+                labelText: this.strSuppressLineNumbers
+            });
+
             // Borders
 
             this.cmbBorderSize = new Common.UI.ComboBorderSize({
@@ -1471,7 +1476,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textLevel: 'Level',
         strIndentsOutlinelevel: 'Outline level',
         strIndent: 'Indents',
-        strSpacing: 'Spacing'
+        strSpacing: 'Spacing',
+        strSuppressLineNumbers: 'Suppress line numbers'
 
     }, DE.Views.ParagraphSettingsAdvanced || {}));
 });
