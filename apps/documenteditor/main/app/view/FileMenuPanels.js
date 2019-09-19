@@ -276,7 +276,7 @@ define([
             });
 
             this.chCompatible = new Common.UI.CheckBox({
-                el: $('#fms-chb-compatible'),
+                el: $markup.findById('#fms-chb-compatible'),
                 labelText: this.textOldVersions
             });
 
