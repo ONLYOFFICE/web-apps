@@ -1633,10 +1633,18 @@ define([
         },
 
         onApiInitTableTemplates: function(images) {
+            var me = this;
             var store = this.getCollection('TableTemplates');
             if (store) {
                 var templates = [];
                 _.each(images, function(item) {
+                    var tip = item.asc_getDisplayName();
+                    if (item.asc_getType()==0) {
+                        var arr = tip.split(' '),
+                            last = arr.pop();
+                        arr = 'txtTable_' + arr.join('');
+                        tip = me[arr] ? me[arr] + ' ' + last : tip;
+                    }
                     templates.push({
                         name        : item.asc_getName(),
                         caption     : item.asc_getDisplayName(),
@@ -1644,13 +1652,12 @@ define([
                         imageUrl    : item.asc_getImage(),
                         allowSelected : true,
                         selected    : false,
-                        tip         : item.asc_getDisplayName()
+                        tip         : tip
                     });
                 });
 
                 store.reset(templates);
             }
-
             this.fillTableTemplates();
         },
 
@@ -3789,7 +3796,10 @@ define([
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
         errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
-        textPivot: 'Pivot Table'
+        textPivot: 'Pivot Table',
+        txtTable_TableStyleMedium: 'Table Style Medium',
+        txtTable_TableStyleDark: 'Table Style Dark',
+        txtTable_TableStyleLight: 'Table Style Light'
 
     }, SSE.Controllers.Toolbar || {}));
 });
