@@ -249,6 +249,28 @@ define([
 
         afterRender: function() {
             this._setDefaults(this.props);
+            var me = this;
+            var onApiBookmarksUpdate = function() {
+                var rec = me.bookmarksList.getSelectedRec();
+                me.refreshBookmarks();
+                if (rec) {
+                    rec = me.bookmarksList.store.findWhere({value: rec.get('value')});
+                    if (rec) {
+                        me.bookmarksList.selectRecord(rec);
+                        me.bookmarksList.scrollToRecord(rec);
+                    } else {
+                        me.txtName.setValue('');
+                        me.btnAdd.setDisabled(true);
+                        me.btnGoto.setDisabled(true);
+                        me.btnDelete.setDisabled(true);
+                        me.btnGetLink.setDisabled(true);
+                    }
+                }
+            };
+            this.api.asc_registerCallback('asc_onBookmarksUpdate', onApiBookmarksUpdate);
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onBookmarksUpdate', onApiBookmarksUpdate);
+            });
         },
 
         show: function() {
