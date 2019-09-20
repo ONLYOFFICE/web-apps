@@ -145,6 +145,9 @@ define([
                 allowBlank  : false,
                 value       : ''
             });
+            var $captionInput = this.txtCaption.$el.find('input');
+            $captionInput.on('mouseup', _.bind(this.checkStartPosition, this, 'mouse'));
+            $captionInput.on('keydown', _.bind(this.checkStartPosition, this, 'key'));
 
             this.cmbPosition = new Common.UI.ComboBox({
                 el: $('#caption-combo-position'),
@@ -179,32 +182,72 @@ define([
             this.cmbLabel = new Common.UI.ComboBox({
                 el: $('#caption-combo-label'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 160px;max-height:135px;',
+                menuStyle: 'min-width: 160px;max-height:155px;',
                 editable: true,
-                data: this.arrLabel
+                data: this.arrLabel,
+                alwaysVisibleY: true
             });
+            this.cmbLabel.scroller = new Common.UI.Scroller({
+                el: this.cmbLabel.$el.find('ul'),
+                useKeyboard: true,
+                alwaysVisibleY: true
+            });
+            this.cmbLabel.scroller.update({alwaysVisibleY: true});
             this.cmbLabel.on('selected', function(combo, record) {
-                me.props.put_Label(record.value);
+                var value = record.value;
+                me.props.put_Label(value);
                 me.props.updateName();
                 me.txtCaption.setValue(me.props.get_Name());
-                var custom = (record.type==1);
-                me.btnAdd.setDisabled(true);
+                var custom = (record.type==1),
+                    find = _.findWhere(me.arrLabel, {value: value}) ? true : false;
+                me.btnAdd.setDisabled(find);
                 me.btnDelete.setDisabled(!custom);
+                me.currentLabel = value;
+                me.positionCaption = me.txtCaption.getValue().length;
             });
+            this.cmbLabel.on('changed:before', _.bind(function(field) {
+                var value = field.getRawValue(),
+                    disebled = _.findWhere(this.arrLabel, {value: value}) ? true : false;
+                if (!value) {
+                    Common.UI.error({
+                        msg  : this.textLabelError
+                    });
+                    this.cmbLabel.setValue(this.currentLabel);
+                    disebled = true;
+                }
+                this.btnAdd.setDisabled(disebled);
+            }, this));
             this.cmbLabel.selectRecord(this.cmbLabel.store.at(this.arrLabel.length-1));
 
             this.btnAdd = new Common.UI.Button({
                 el: $('#caption-btn-add'),
                 disabled: true
             });
-            // this.btnAdd.on('click', _.bind(this.addLabel, this));
+            this.btnAdd.on('click', _.bind(function (e) {
+                var value = this.cmbLabel.getRawValue();
+                if (value) {
+                    var rec = { displayValue: value,  value: value, type: 1 };
+                    this.arrLabel.unshift(rec);
+                    this.cmbLabel.setData(this.arrLabel);
+                    this.cmbLabel.setValue(value);
+                    this.cmbLabel.trigger('selected', this.cmbLabel, rec);
+                    this.cmbLabel.scroller.update({alwaysVisibleY: true});
+                }
+            }, this));
 
             this.btnDelete = new Common.UI.Button({
                 el: $('#caption-btn-delete'),
                 disabled: true
             });
-            this.btnDelete.on('click', function() {
-            });
+            this.btnDelete.on('click', _.bind(function (e) {
+                var value = this.cmbLabel.getValue();
+                this.arrLabel = _.reject(this.arrLabel, function (item) {
+                    return item.value === value;
+                });
+                this.cmbLabel.setData(this.arrLabel);
+                this.cmbLabel.setValue(this.arrLabel[0].value);
+                this.cmbLabel.trigger('selected', this.cmbLabel, this.arrLabel[0]);
+            }, this));
 
             this.chExclude = new Common.UI.CheckBox({
                 el: $('#caption-checkbox-exclude'),
@@ -303,7 +346,7 @@ define([
         },
 
         close: function() {
-            var val = _.pluck(_.where(this.arrLabel, {value: 1}), 'displayValue').join(';');
+            var val = _.pluck(_.where(this.arrLabel, {type: 1}), 'displayValue').join(';');
             Common.localStorage.setItem("de-settings-captions", val);
             Common.Utils.InternalSettings.set("de-settings-captions", val);
 
@@ -313,7 +356,8 @@ define([
         _setDefaults: function (props) {
             this.props = new Asc.CAscCaptionProperties();
             this.props.put_Before(!!this.cmbPosition.getValue());
-            this.props.put_Label(this.cmbLabel.getValue());
+            var valueLabel = this.cmbLabel.getValue();
+            this.props.put_Label(valueLabel);
             var value = this.cmbLabel.getSelectedRecord();
             this.btnDelete.setDisabled(!value || value.type==0);
             this.props.put_ExcludeLabel(this.chExclude.getValue()=='checked');
@@ -323,6 +367,8 @@ define([
             this.props.put_Separator(this.cmbSeparator.getValue());
             this.props.updateName();
             this.txtCaption.setValue(this.props.get_Name());
+            this.currentLabel = valueLabel;
+            this.positionCaption = this.txtCaption.getValue().length;
         },
 
         getSettings: function () {
@@ -341,6 +387,32 @@ define([
         _handleInput: function(state) {
             this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
             this.close();
+        },
+
+        checkStartPosition: function (type, event) {
+            var me = this,
+                key = event.key,
+                start = event.target.selectionStart,
+                end = event.target.selectionEnd;
+            if (type === 'mouse' || key === 'ArrowLeft' || key === 'ArrowDown') {
+                setTimeout(function () {
+                    if (start < me.positionCaption + 1) {
+                        event.target.selectionStart = me.positionCaption;
+                    }
+                }, );
+            } else if (key === 'ArrowUp') {
+                setTimeout(function () {
+                    event.target.selectionStart = me.positionCaption;
+                }, );
+            }  else if (key === 'Backspace') {
+                if ((start === end && start < me.positionCaption + 1) || start < me.positionCaption - 1) {
+                    event.preventDefault();
+                }
+            } else if (key === 'Delete') {
+                if (start < me.positionCaption - 1) {
+                    event.preventDefault();
+                }
+            }
         },
 
         textTitle:    'Insert Caption',
@@ -364,7 +436,8 @@ define([
         textEquation: 'Equation',
         textFigure: 'Figure',
         textTable: 'Table',
-        textExclude: 'Exclude label from caption'
+        textExclude: 'Exclude label from caption',
+        textLabelError: 'The entered value is incorrect.'
 
     }, DE.Views.CaptionDialog || {}))
 });
