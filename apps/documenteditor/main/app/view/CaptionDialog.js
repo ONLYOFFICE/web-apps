@@ -170,8 +170,7 @@ define([
                 arr = Common.localStorage.getItem("de-settings-captions") || '';
                 Common.Utils.InternalSettings.set("de-settings-captions", arr);
             }
-            arr = arr ? arr.split(';') : [];
-            arr = _.map(arr, function(str){ return { displayValue: str, value: str, type: 1 }; });
+            arr = arr ? JSON.parse(arr) : [];
 
             // 0 - not removable
             this.arrLabel = arr.concat([{ displayValue: this.textEquation,  value: this.textEquation, type: 0 },
@@ -352,9 +351,10 @@ define([
         },
 
         close: function() {
-            var val = _.pluck(_.where(this.arrLabel, {type: 1}), 'displayValue').join(';');
-            Common.localStorage.setItem("de-settings-captions", val);
-            Common.Utils.InternalSettings.set("de-settings-captions", val);
+            var val = _.where(this.arrLabel, {type: 1}),
+                valJson = JSON.stringify(val);
+            Common.localStorage.setItem("de-settings-captions", valJson);
+            Common.Utils.InternalSettings.set("de-settings-captions", valJson);
 
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
         },
