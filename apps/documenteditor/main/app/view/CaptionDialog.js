@@ -187,12 +187,6 @@ define([
                 data: this.arrLabel,
                 alwaysVisibleY: true
             });
-            this.cmbLabel.scroller = new Common.UI.Scroller({
-                el: this.cmbLabel.$el.find('ul'),
-                useKeyboard: true,
-                alwaysVisibleY: true
-            });
-            this.cmbLabel.scroller.update({alwaysVisibleY: true});
             this.cmbLabel.on('selected', function(combo, record) {
                 var value = record.value;
                 me.props.put_Label(value);
@@ -205,19 +199,25 @@ define([
                 me.currentLabel = value;
                 me.positionCaption = me.txtCaption.getValue().length;
             });
-            this.cmbLabel.on('changed:before', _.bind(function(field) {
-                var value = field.getRawValue(),
-                    disebled = _.findWhere(this.arrLabel, {value: value}) ? true : false;
-                if (!value) {
-                    Common.UI.error({
-                        msg  : this.textLabelError
-                    });
-                    this.cmbLabel.setValue(this.currentLabel);
-                    disebled = true;
-                }
-                this.btnAdd.setDisabled(disebled);
+            this.cmbLabel.$el.find('input').on('keyup', _.bind(function() {
+                var value = this.cmbLabel.getRawValue(),
+                    disabled = _.findWhere(this.arrLabel, {value: value}) ? true : false;
+                this.btnAdd.setDisabled(disabled);
             }, this));
-            this.cmbLabel.selectRecord(this.cmbLabel.store.at(this.arrLabel.length-1));
+            var curLabel = Common.Utils.InternalSettings.get("de-settings-current-label"),
+                recLabel,
+                findIndLabel;
+            if (curLabel) {
+                findIndLabel = _.findIndex(this.arrLabel, function (item) {
+                    return item.value === curLabel;
+                });
+            }
+            if (curLabel && findIndLabel !== -1) {
+                recLabel = this.cmbLabel.store.at(findIndLabel);
+            } else {
+                recLabel = this.cmbLabel.store.at(this.arrLabel.length-1);
+            }
+            this.cmbLabel.selectRecord(recLabel);
 
             this.btnAdd = new Common.UI.Button({
                 el: $('#caption-btn-add'),
@@ -225,7 +225,12 @@ define([
             });
             this.btnAdd.on('click', _.bind(function (e) {
                 var value = this.cmbLabel.getRawValue();
-                if (value) {
+                if (!value || !(/\S/.test(value))) {
+                    Common.UI.error({
+                        msg  : this.textLabelError
+                    });
+                    this.cmbLabel.setValue(this.currentLabel);
+                } else {
                     var rec = { displayValue: value,  value: value, type: 1 };
                     this.arrLabel.unshift(rec);
                     this.cmbLabel.setData(this.arrLabel);
@@ -372,6 +377,7 @@ define([
         },
 
         getSettings: function () {
+            this.props.put_Additional(this.txtCaption.getValue().substr(this.positionCaption));
             return this.props ;
         },
 
@@ -386,6 +392,9 @@ define([
 
         _handleInput: function(state) {
             this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
+            if (state == 'ok') {
+                Common.Utils.InternalSettings.set("de-settings-current-label", this.cmbLabel.getValue());
+            }
             this.close();
         },
 
@@ -399,17 +408,21 @@ define([
                     if (start < me.positionCaption + 1) {
                         event.target.selectionStart = me.positionCaption;
                     }
-                }, );
-            } else if (key === 'ArrowUp') {
+                }, 0);
+            } else if (key === 'ArrowUp' || key === 'Home') {
                 setTimeout(function () {
                     event.target.selectionStart = me.positionCaption;
-                }, );
+                }, 0);
             }  else if (key === 'Backspace') {
                 if ((start === end && start < me.positionCaption + 1) || start < me.positionCaption - 1) {
                     event.preventDefault();
                 }
             } else if (key === 'Delete') {
                 if (start < me.positionCaption - 1) {
+                    event.preventDefault();
+                }
+            } else {
+                if (start !== end && start === 0) {
                     event.preventDefault();
                 }
             }
