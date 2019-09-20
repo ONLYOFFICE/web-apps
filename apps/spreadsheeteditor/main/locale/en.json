@@ -1165,8 +1165,6 @@
   "SSE.Views.CellSettings.textDirection": "Direction",
   "SSE.Views.CellSettings.textLinear": "Linear",
   "SSE.Views.CellSettings.textRadial": "Radial",
-  "SSE.Views.CellSettings.textColor1": "Color 1",
-  "SSE.Views.CellSettings.textColor2": "Color 2",
   "SSE.Views.CellSettings.textPattern": "Pattern",
   "SSE.Views.CellSettings.textForeground": "Foreground color",
   "SSE.Views.CellSettings.textBackground": "Background color",

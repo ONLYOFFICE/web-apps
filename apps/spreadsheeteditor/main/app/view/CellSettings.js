@@ -1090,8 +1090,6 @@ define([
         textDirection:      'Direction',
         textLinear:         'Linear',
         textRadial:         'Radial',
-        textColor1:         'Color 1',
-        textColor2:         'Color 2',
         textPattern:        'Pattern',
         textForeground:     'Foreground color',
         textBackground:     'Background color'

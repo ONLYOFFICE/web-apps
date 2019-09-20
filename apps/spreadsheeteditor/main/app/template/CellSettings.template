@@ -39,7 +39,7 @@
                 </div>
                 <div style="height: 28px;">
                     <div style="display: inline-block;">
-                        <label class="input-label" style="width: 90px; padding-top: 3px;"><%= scope.textColor1 %></label>
+                        <label class="input-label" style="width: 90px; padding-top: 3px;"><%= scope.textBorderColor + " 1" %></label>
                     </div>
                     <div style="display: inline-block;float: right;">
                         <div id="cell-grad-btn-color-1" style=""></div>
@@ -47,7 +47,7 @@
                 </div>
                 <div style="height: 28px;">
                     <div style="display: inline-block;">
-                        <label class="input-label" style="width: 90px; padding-top: 3px;"><%= scope.textColor2 %></label>
+                        <label class="input-label" style="width: 90px; padding-top: 3px;"><%= scope.textBorderColor + " 2" %></label>
                     </div>
                     <div style="display: inline-block;float: right;">
                         <div id="cell-grad-btn-color-2" style=""></div>
