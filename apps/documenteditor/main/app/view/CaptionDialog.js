@@ -230,6 +230,7 @@ define([
                         msg  : this.textLabelError
                     });
                     this.cmbLabel.setValue(this.currentLabel);
+                    this.btnAdd.setDisabled(true);
                 } else {
                     var rec = { displayValue: value,  value: value, type: 1 };
                     this.arrLabel.unshift(rec);
@@ -400,12 +401,10 @@ define([
 
         checkStartPosition: function (type, event) {
             var me = this,
-                key = event.key,
-                start = event.target.selectionStart,
-                end = event.target.selectionEnd;
+                key = event.key;
             if (type === 'mouse' || key === 'ArrowLeft' || key === 'ArrowDown') {
                 setTimeout(function () {
-                    if (start < me.positionCaption + 1) {
+                    if (event.target.selectionStart < me.positionCaption + 1) {
                         event.target.selectionStart = me.positionCaption;
                     }
                 }, 0);
@@ -414,15 +413,15 @@ define([
                     event.target.selectionStart = me.positionCaption;
                 }, 0);
             }  else if (key === 'Backspace') {
-                if ((start === end && start < me.positionCaption + 1) || start < me.positionCaption - 1) {
+                if ((event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart < me.positionCaption + 1) || event.target.selectionStart < me.positionCaption - 1) {
                     event.preventDefault();
                 }
             } else if (key === 'Delete') {
-                if (start < me.positionCaption - 1) {
+                if (event.target.selectionStart < me.positionCaption - 1) {
                     event.preventDefault();
                 }
             } else {
-                if (start !== end && start === 0) {
+                if (event.target.selectionStart !== event.target.selectionEnd && event.target.selectionStart === 0) {
                     event.preventDefault();
                 }
             }
