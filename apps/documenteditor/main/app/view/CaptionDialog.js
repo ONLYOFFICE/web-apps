@@ -225,7 +225,7 @@ define([
             });
             this.btnAdd.on('click', _.bind(function (e) {
                 var value = this.cmbLabel.getRawValue();
-                if (!value || !(/\S/.test(value))) {
+                if (!value) {
                     Common.UI.error({
                         msg  : this.textLabelError
                     });
