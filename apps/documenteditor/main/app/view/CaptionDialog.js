@@ -387,7 +387,7 @@ define([
         },
 
         onPrimary: function() {
-            this._handleInput('insert');
+            this._handleInput('ok');
             return false;
         },
 
@@ -412,6 +412,16 @@ define([
                 setTimeout(function () {
                     event.target.selectionStart = me.positionCaption;
                 }, 0);
+            } else if (event.target.selectionStart !== event.target.selectionEnd && key === 'ArrowRight') {
+                if (event.target.selectionEnd > me.positionCaption) {
+                    setTimeout(function () {
+                        event.target.selectionStart = event.target.selectionEnd;
+                    }, 0);
+                } else {
+                    setTimeout(function () {
+                        event.target.selectionStart = me.positionCaption;
+                    }, 0);
+                }
             }  else if (key === 'Backspace') {
                 if ((event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart < me.positionCaption + 1) || event.target.selectionStart < me.positionCaption - 1) {
                     event.preventDefault();
@@ -420,7 +430,7 @@ define([
                 if (event.target.selectionStart < me.positionCaption - 1) {
                     event.preventDefault();
                 }
-            } else {
+            } else if (key !== 'End') {
                 if (event.target.selectionStart !== event.target.selectionEnd && event.target.selectionStart === 0) {
                     event.preventDefault();
                 }
@@ -449,7 +459,7 @@ define([
         textFigure: 'Figure',
         textTable: 'Table',
         textExclude: 'Exclude label from caption',
-        textLabelError: 'The entered value is incorrect.'
+        textLabelError: 'Label must not be empty.'
 
     }, DE.Views.CaptionDialog || {}))
 });
