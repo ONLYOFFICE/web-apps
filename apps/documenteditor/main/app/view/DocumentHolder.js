@@ -1908,6 +1908,19 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
+        onInsertCaption: function() {
+            var me = this;
+            (new DE.Views.CaptionDialog({
+                isObject: true,
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        me.api.asc_AddObjectCaption(settings);
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+        },
+
         onContinueNumbering: function(item, e) {
             this.api.asc_ContinueNumbering();
             this.fireEvent('editcomplete', this);
@@ -2051,6 +2064,16 @@ define([
 
         createDelayedElements: function() {
             var me = this;
+
+            var menuInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
+            var menuInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
+
+            var menuEquationInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
+            var menuEquationInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
 
             var menuImageAlign = new Common.UI.MenuItem({
                 caption     : me.textAlign,
@@ -2572,6 +2595,8 @@ define([
                         menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
                         menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
                     }
+
+                    menuInsertCaptionSeparator.setVisible(!value.imgProps.isShape);
                 },
                 items: [
                     menuImgCut,
@@ -2587,6 +2612,8 @@ define([
                     me.menuImageWrap,
                     menuImgRotate,
                     { caption: '--' },
+                    menuInsertCaption,
+                    menuInsertCaptionSeparator,
                     me.menuImgCrop,
                     me.menuOriginalSize,
                     menuImgReplace,
@@ -2600,6 +2627,10 @@ define([
             });
 
             /* table menu*/
+
+            var menuTableInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
 
             var mnuTableMerge = new Common.UI.MenuItem({
                 caption     : me.mergeCellsText
@@ -3226,6 +3257,8 @@ define([
                     menuTableCellAlign,
                     menuTableDirection,
                     { caption: '--' },
+                    menuTableInsertCaption,
+                    { caption: '--' },
                     menuTableAdvanced,
                     { caption: '--' },
                 /** coauthoring begin **/
@@ -3678,6 +3711,8 @@ define([
                     } else
                         me.clearEquationMenu(true, 13);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
+                    menuEquationInsertCaption.setVisible(isEquation);
+                    menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
                     menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
 
@@ -3740,6 +3775,8 @@ define([
                     menuParaCopy,
                     menuParaPaste,
                     menuParaPrint,
+                    menuEquationInsertCaptionSeparator,
+                    menuEquationInsertCaption,
                     { caption: '--' },
                     menuEquationSeparator,
                     menuParaRemoveControl,
@@ -4159,7 +4196,8 @@ define([
         toDictionaryText: 'Add to Dictionary',
         txtPrintSelection: 'Print Selection',
         textCells: 'Cells',
-        textSeveral: 'Several Rows/Columns'
+        textSeveral: 'Several Rows/Columns',
+        txtInsertCaption: 'Insert Caption'
 
     }, DE.Views.DocumentHolder || {}));
 });
