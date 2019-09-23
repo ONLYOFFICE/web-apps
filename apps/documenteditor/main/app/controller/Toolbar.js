@@ -2825,7 +2825,9 @@ define([
                     compactview = true;
             }
 
-            me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            setTimeout(function () {
+                me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            }, 0);
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();

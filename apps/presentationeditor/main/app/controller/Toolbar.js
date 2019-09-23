@@ -2076,7 +2076,13 @@ define([
                     compactview = true;
             }
 
-            me.toolbar.render(_.extend({compactview: compactview}, config));
+            /**
+             * Rendering of toolbar makes rendering of header very slow
+             * Temporary wrapped up in setTimeout to process events
+             * */
+            setTimeout(function () {
+                me.toolbar.render(_.extend({compactview: compactview}, config));
+            }, 0);
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);

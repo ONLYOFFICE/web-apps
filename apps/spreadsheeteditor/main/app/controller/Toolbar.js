@@ -3127,7 +3127,9 @@ define([
                     compactview = true;
             }
 
-            me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            setTimeout(function () {
+                me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            }, 0);
 
             Common.Utils.asyncCall(function () {
                 if ( config.isEdit ) {
