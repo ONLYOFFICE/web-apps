@@ -1340,7 +1340,7 @@ define([
                     if ( !config.isEdit ) return;
 
                     me.btnsPageBreak.forEach( function(btn) {
-                        btn.updateHint( me.tipPageBreak );
+                        btn.updateHint( [me.textInsPageBreak, me.tipPageBreak] );
 
                         var _menu_section_break = new Common.UI.Menu({
                             menuAlign: 'tl-tr',
