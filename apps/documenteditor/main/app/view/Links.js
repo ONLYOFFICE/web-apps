@@ -160,11 +160,12 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div style="background-position: 0 -<%= options.offsety %>px;" ></div></a>');
+                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div></div></a>');
                     me.btnsContents.forEach( function(btn) {
                         btn.updateHint( me.tipContents );
 
                         var _menu = new Common.UI.Menu({
+                            cls: 'toc-menu',
                             items: [
                                 {template: contentsTemplate, offsety: 0, value: 0},
                                 {template: contentsTemplate, offsety: 72, value: 1},
@@ -177,6 +178,7 @@ define([
                     });
 
                     me.contentsMenu = new Common.UI.Menu({
+                        cls: 'toc-menu',
                         items: [
                             {template: contentsTemplate, offsety: 0, value: 0},
                             {template: contentsTemplate, offsety: 72, value: 1},
