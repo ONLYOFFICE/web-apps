@@ -76,7 +76,7 @@ define([
                 subscript: undefined,
                 superscript: undefined,
                 fontsize: undefined,
-                fontname: 'Arial'
+                fontname: ''
             };
 
             this.template = [
@@ -342,6 +342,7 @@ define([
                 hint        : this.tipFontName
             }));
             this.cmbFonts[0].on('selected', _.bind(this.onFontSelect, this));
+            this.cmbFonts[0].setValue(this._state.fontname);
             this.headerControls.push(this.cmbFonts[0]);
 
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
@@ -355,6 +356,7 @@ define([
                 hint        : this.tipFontName
             }));
             this.cmbFonts[1].on('selected', _.bind(this.onFontSelect, this));
+            this.cmbFonts[1].setValue(this._state.fontname);
             this.footerControls.push(this.cmbFonts[1]);
             Common.NotificationCenter.on('fonts:change', _.bind(this.onApiChangeFont, this));
 
@@ -647,9 +649,7 @@ define([
             this.api.asc_registerCallback('asc_updateEditorCursorPosition', this.wrapEvents.onUpdateEditorCursorPosition);
 
             this.cmbFonts[0].fillFonts(this.fontStore);
-            this.cmbFonts[0].selectRecord(this.fontStore.findWhere({name: this._state.fontname}) || this.fontStore.at(0));
             this.cmbFonts[1].fillFonts(this.fontStore);
-            this.cmbFonts[1].selectRecord(this.fontStore.findWhere({name: this._state.fontname}) || this.fontStore.at(0));
             this.updateThemeColors();
 
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
