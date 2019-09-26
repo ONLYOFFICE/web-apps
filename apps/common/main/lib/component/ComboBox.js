@@ -252,7 +252,6 @@ define([
                     this.scroller = new Common.UI.Scroller(_.extend({
                         el: $('.dropdown-menu', this.cmpEl),
                         minScrollbarLength: 40,
-                        scrollYMarginOffset: 30,
                         includePadding: true,
                         wheelSpeed: 10,
                         alwaysVisibleY: this.scrollAlwaysVisible
@@ -277,7 +276,6 @@ define([
                     this.scroller = new Common.UI.Scroller(_.extend({
                         el: $('.dropdown-menu', this.cmpEl),
                         minScrollbarLength: 40,
-                        scrollYMarginOffset: 30,
                         includePadding: true,
                         wheelSpeed: 10,
                         alwaysVisibleY: this.scrollAlwaysVisible
@@ -642,7 +640,6 @@ define([
                 this.scroller = new Common.UI.Scroller(_.extend({
                     el: $('.dropdown-menu', this.cmpEl),
                     minScrollbarLength : 40,
-                    scrollYMarginOffset: 30,
                     includePadding     : true,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible

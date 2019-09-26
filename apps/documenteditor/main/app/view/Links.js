@@ -105,6 +105,10 @@ define([
             this.btnBookmarks.on('click', function (b, e) {
                 me.fireEvent('links:bookmarks');
             });
+
+            this.btnCaption.on('click', function (b, e) {
+                me.fireEvent('links:caption');
+            });
         }
 
         return {
@@ -146,6 +150,15 @@ define([
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-bookmarks'), this.btnBookmarks);
                 this.paragraphControls.push(this.btnBookmarks);
+
+                this.btnCaption = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-caption',
+                    caption: this.capBtnCaption,
+                    disabled: true
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-caption'), this.btnCaption);
+                this.paragraphControls.push(this.btnCaption);
 
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -244,6 +257,7 @@ define([
                     });
 
                     me.btnBookmarks.updateHint(me.tipBookmarks);
+                    me.btnCaption.updateHint(me.tipCaption);
 
                     setEvents.call(me);
                 });
@@ -285,7 +299,9 @@ define([
             capBtnInsLink: 'Hyperlink',
             tipInsertHyperlink: 'Add Hyperlink',
             capBtnBookmarks: 'Bookmark',
-            tipBookmarks: 'Create a bookmark'
+            tipBookmarks: 'Create a bookmark',
+            capBtnCaption: 'Caption',
+            tipCaption: 'Insert caption'
         }
     }()), DE.Views.Links || {}));
 });

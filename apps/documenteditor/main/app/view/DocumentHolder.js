@@ -1893,6 +1893,19 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
+        onInsertCaption: function() {
+            var me = this;
+            (new DE.Views.CaptionDialog({
+                isObject: true,
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        me.api.asc_AddObjectCaption(settings);
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+        },
+
         onContinueNumbering: function(item, e) {
             this.api.asc_ContinueNumbering();
             this.fireEvent('editcomplete', this);
@@ -2036,6 +2049,16 @@ define([
 
         createDelayedElements: function() {
             var me = this;
+
+            var menuInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
+            var menuInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
+
+            var menuEquationInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
+            var menuEquationInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
 
             var menuImageAlign = new Common.UI.MenuItem({
                 caption     : me.textAlign,
@@ -2519,7 +2542,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[17].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[19].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2572,6 +2595,8 @@ define([
                     me.menuImageWrap,
                     menuImgRotate,
                     { caption: '--' },
+                    menuInsertCaption,
+                    menuInsertCaptionSeparator,
                     me.menuImgCrop,
                     me.menuOriginalSize,
                     menuImgReplace,
@@ -2585,6 +2610,10 @@ define([
             });
 
             /* table menu*/
+
+            var menuTableInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
 
             var mnuTableMerge = new Common.UI.MenuItem({
                 caption     : me.mergeCellsText
@@ -2952,7 +2981,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 8; i < 25; i++) {
+                    for (var i = 8; i < 27; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -3218,6 +3247,8 @@ define([
                     { caption: '--' },
                     menuTableCellAlign,
                     menuTableDirection,
+                    { caption: '--' },
+                    menuTableInsertCaption,
                     { caption: '--' },
                     menuTableAdvanced,
                     { caption: '--' },
@@ -3668,10 +3699,12 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 13);
+                        eqlen = me.addEquationMenu(true, 15);
                     } else
-                        me.clearEquationMenu(true, 13);
+                        me.clearEquationMenu(true, 15);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
+                    menuEquationInsertCaption.setVisible(isEquation);
+                    menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
                     menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
 
@@ -3734,6 +3767,8 @@ define([
                     menuParaCopy,
                     menuParaPaste,
                     menuParaPrint,
+                    menuEquationInsertCaptionSeparator,
+                    menuEquationInsertCaption,
                     { caption: '--' },
                     menuEquationSeparator,
                     menuParaRemoveControl,
@@ -4134,7 +4169,8 @@ define([
         toDictionaryText: 'Add to Dictionary',
         txtPrintSelection: 'Print Selection',
         textCells: 'Cells',
-        textSeveral: 'Several Rows/Columns'
+        textSeveral: 'Several Rows/Columns',
+        txtInsertCaption: 'Insert Caption'
 
     }, DE.Views.DocumentHolder || {}));
 });
