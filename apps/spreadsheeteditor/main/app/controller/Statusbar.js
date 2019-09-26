@@ -247,31 +247,35 @@ define([
 
         onTabMenu: function(obj, item, e) {
             var me = this;
-            var selectTabs = this.statusbar.tabbar.selectTabs;
-                switch (item.value) {
-                    case 'ins':
-                        setTimeout(function () {
-                            me.api.asc_insertWorksheet(me.createSheetName());
-                        }, 1);
-                        break;
-                    case 'del':
-                        this.deleteWorksheet();
-                        break;
-                    case 'ren':
-                        this.renameWorksheet();
-                        break;
-                    case 'copy':
-                        this.moveWorksheet(false);
-                        break;
-                    case 'move':
-                        this.moveWorksheet(true);
-                        break;
-                    case 'hide':
-                        setTimeout(function () {
-                            me.hideWorksheet(true);
-                        }, 1);
-                        break;
-                }
+            var selectTabs = this.statusbar.tabbar.selectTabs,
+                arrIndex = [];
+            selectTabs.forEach(function (item) {
+                arrIndex.push(item.sheetindex);
+            });
+            switch (item.value) {
+                case 'ins':
+                    setTimeout(function () {
+                        me.api.asc_insertWorksheet(me.createSheetName());
+                     }, 1);
+                    break;
+                case 'del':
+                    this.deleteWorksheet(arrIndex);
+                    break;
+                case 'ren':
+                    this.renameWorksheet();
+                    break;
+                case 'copy':
+                    this.moveWorksheet(false);
+                    break;
+                case 'move':
+                    this.moveWorksheet(true);
+                    break;
+                case 'hide':
+                    setTimeout(function () {
+                        me.hideWorksheet(true, arrIndex);
+                    }, 1);
+                    break;
+            }
         },
 
         createSheetName: function() {
@@ -307,17 +311,17 @@ define([
             return name;
         },
 
-        deleteWorksheet: function() {
+        deleteWorksheet: function(selectTabs) {
             var me = this;
 
-            if (this.statusbar.tabbar.tabs.length == 1) {
+            if (this.statusbar.tabbar.tabs.length == 1 || selectTabs.length === this.statusbar.tabbar.tabs.length) {
                 Common.UI.warning({msg: this.errorLastSheet});
             } else {
                 Common.UI.warning({
                     msg: this.warnDeleteSheet,
                     buttons: ['ok','cancel'],
                     callback: function(btn) {
-                        if (btn == 'ok' && !me.api.asc_deleteWorksheet()) {
+                        if (btn == 'ok' && !me.api.asc_deleteWorksheet(selectTabs)) {
                             _.delay(function(){
                                 Common.UI.error({msg: me.errorRemoveSheet});
                             },10);
@@ -327,22 +331,9 @@ define([
             }
         },
 
-        hideWorksheets: function(selectTabs) {
-            var me = this;
-            if (selectTabs) {
-                if (selectTabs.length === me.statusbar.tabbar.tabs.length) {
-                    Common.UI.warning({msg: me.errorLastSheet});
-                } else {
-                    me.statusbar.tabbar.selectTabs.forEach(function (item) {
-                        //me.hideWorksheet(true, item.sheetindex);
-                    });
-                }
-            }
-        },
-
         hideWorksheet: function(hide, index) {
             if ( hide ) {
-                this.statusbar.tabbar.tabs.length == 1 ?
+                (this.statusbar.tabbar.tabs.length == 1 || index.length === this.statusbar.tabbar.tabs.length) ?
                     Common.UI.warning({msg: this.errorLastSheet}) :
                     this.api['asc_hideWorksheet'](index);
             } else {
