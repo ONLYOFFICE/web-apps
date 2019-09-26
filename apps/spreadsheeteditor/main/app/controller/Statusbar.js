@@ -495,18 +495,26 @@ define([
         },
 
         setWorksheetColor: function (color) {
+            var me = this;
             if (this.api) {
-                var sindex = this.api.asc_getActiveWorksheetIndex();
-                var tab = _.findWhere(this.statusbar.tabbar.tabs, {sheetindex: sindex});
-                if (tab) {
+                var selectTabs = this.statusbar.tabbar.selectTabs,
+                    arrIndex = [];
+                selectTabs.forEach(function (item) {
+                    arrIndex.push(item.sheetindex);
+                });
+                if (arrIndex) {
                     if ('transparent' === color) {
-                        this.api.asc_setWorksheetTabColor(sindex, null);
-                        tab.$el.find('a').css('box-shadow', '');
+                        this.api.asc_setWorksheetTabColor(null, arrIndex);
+                        selectTabs.forEach(function (tab) {
+                            tab.$el.find('a').css('box-shadow', '');
+                        });
                     } else {
                         var asc_clr = Common.Utils.ThemeColor.getRgbColor(color);
                         if (asc_clr) {
-                            this.api.asc_setWorksheetTabColor(sindex, asc_clr);
-                            this.setTabLineColor(tab, asc_clr);
+                            this.api.asc_setWorksheetTabColor(asc_clr, arrIndex);
+                            selectTabs.forEach(function (tab) {
+                                me.setTabLineColor(tab, asc_clr);
+                            });
                         }
                     }
                 }
