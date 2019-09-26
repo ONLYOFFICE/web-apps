@@ -2557,7 +2557,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[17].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[19].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2595,8 +2595,6 @@ define([
                         menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
                         menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
                     }
-
-                    menuInsertCaptionSeparator.setVisible(!value.imgProps.isShape);
                 },
                 items: [
                     menuImgCut,
@@ -2990,7 +2988,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 8; i < 25; i++) {
+                    for (var i = 8; i < 27; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -3707,9 +3705,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 13);
+                        eqlen = me.addEquationMenu(true, 15);
                     } else
-                        me.clearEquationMenu(true, 13);
+                        me.clearEquationMenu(true, 15);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
                     menuEquationInsertCaption.setVisible(isEquation);
                     menuEquationInsertCaptionSeparator.setVisible(isEquation);
