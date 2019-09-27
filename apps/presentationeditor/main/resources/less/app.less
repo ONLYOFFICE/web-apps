@@ -207,11 +207,10 @@
         width: 100%;
         background: #fbfbfb;
         border: 1px solid #dfdfdf;
-        display: grid;
 
         > .line {
-            height: 30%;
-            margin: auto 120px;
+            height: 20%;
+            margin: 0 120px;
             border-radius: 6px;
             background: #f5f5f5;
 
@@ -221,8 +220,12 @@
             animation: flickerAnimation 2s infinite ease-in-out;
 
             &:nth-child(1) {
-                height: 40%;
-                margin: auto 80px;
+                height: 30%;
+                margin: 120px 80px 0;
+            }
+
+            &.empty {
+                background: transparent;
             }
         }
     }

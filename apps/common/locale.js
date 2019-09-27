@@ -121,7 +121,7 @@ Common.Locale = new(function() {
         /* use fetch polifill if native method isn't supported */
         var polyfills = ['../vendor/fetch/fetch.umd'];
         if ( !window.Promise ) {
-            require(['../vendor/es6-promise/es6-promise.auto.min.js'],
+            require(['../vendor/es6-promise/es6-promise.auto.min'],
                 function () {
                     require(polyfills, _requireLang);
                 });

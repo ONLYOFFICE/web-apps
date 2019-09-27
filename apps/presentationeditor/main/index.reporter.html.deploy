@@ -85,7 +85,6 @@
             width: 100%;
             background: #fbfbfb;
             border: 1px solid #dfdfdf;
-            display: grid;
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
             -moz-animation: flickerAnimation 2s infinite ease-in-out;
@@ -94,15 +93,19 @@
         }
 
         .loadmask > .placeholder .slide-container > .line {
-            height: 30%;
-            margin: auto 120px;
+            height: 20%;
+            margin: 0 120px;
             border-radius: 6px;
             background: #f5f5f5;
         }
 
+        .loadmask > .placeholder .slide-container > .line.empty {
+            background: transparent;
+        }
+
         .loadmask > .placeholder .slide-container > .line:nth-child(1) {
-            height: 40%;
-            margin: auto 80px;
+            height: 30%;
+            margin: 120px 80px 0;
         }
 
         @keyframes flickerAnimation {
@@ -194,7 +197,7 @@
     </style>
 </head>
 <body>
-    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line"></div></div></div></div></div></div>
+    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div></div>
     <div id="viewport"></div>
 
     <script>

@@ -132,7 +132,7 @@
                 <div>
                     <div class="circle"></div>
                     <div class="loading-logo">
-                        <img src="../../common/mobile/resources/img/header/header-logo.png">
+                        <img src="../../../apps/spreadsheeteditor/mobile/resources/img/header/header-logo.png">
                     </div>
                     <div class="circle"></div>
                 </div>

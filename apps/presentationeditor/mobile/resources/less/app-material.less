@@ -269,7 +269,6 @@ input, textarea {
     width: 100%;
     background: #fbfbfb;
     border: 1px solid #dfdfdf;
-    display: grid;
 
     -webkit-animation: flickerAnimation 2s infinite ease-in-out;
     -moz-animation: flickerAnimation 2s infinite ease-in-out;
@@ -277,14 +276,18 @@ input, textarea {
     animation: flickerAnimation 2s infinite ease-in-out;
 
     > .line {
-      height: 40%;
-      margin: auto 60px;
+      height: 20%;
+      margin: 0 120px;
       border-radius: 6px;
       background: #f5f5f5;
 
       &:nth-child(1) {
-        height: 50%;
-        margin: auto 35px;
+        height: 30%;
+        margin: 120px 80px 0;
+      }
+
+      &.empty {
+        background: transparent;
       }
     }
   }
