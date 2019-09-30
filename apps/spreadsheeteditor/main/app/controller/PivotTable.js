@@ -136,11 +136,32 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        createSheetName: function() {
+            var items = [], wc = this.api.asc_getWorksheetsCount();
+            while (wc--) {
+                items.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+            }
+
+            var index = 0, name;
+            while(++index < 1000) {
+                name = this.strSheet + index;
+                if (items.indexOf(name.toLowerCase()) < 0) break;
+            }
+
+            return name;
+        },
+
         onCreateClick: function(btn, opts){
+            if (this.api) {
+                this.api.asc_insertPivot("Sheet1!B2:H13", this.createSheetName());
+            }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onRefreshClick: function(btn, opts){
+            if (this.api) {
+                this._originalProps.asc_refresh(this.api);
+            }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
@@ -160,29 +181,37 @@ define([
 
         onPivotBlankRows: function(type){
             if (this.api) {
-                if (type === 'insert'){
-
-                } else {
-
-                }
+                var props = new Asc.CT_pivotTableDefinition();
+                props.asc_setInsertBlankRow(type === 'insert');
+                this._originalProps.asc_set(this.api, props);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onPivotLayout: function(type){
             if (this.api) {
+                var props = new Asc.CT_pivotTableDefinition();
                 switch (type){
                     case 0:
+                        props.asc_setCompact(true);
+                        props.asc_setOutline(true);
                         break;
                     case 1:
+                        props.asc_setCompact(false);
+                        props.asc_setOutline(true);
                         break;
                     case 2:
+                        props.asc_setCompact(false);
+                        props.asc_setOutline(false);
                         break;
                     case 3:
+                        props.asc_setFillDownLabelsDefault(true);
                         break;
                     case 4:
+                        props.asc_setFillDownLabelsDefault(false);
                         break;
                 }
+                this._originalProps.asc_set(this.api, props);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -199,14 +228,21 @@ define([
 
         onPivotSubtotals: function(type){
             if (this.api) {
+                var props = new Asc.CT_pivotTableDefinition();
                 switch (type){
                     case 0:
+                        props.asc_setDefaultSubtotal(false);
                         break;
                     case 1:
+                        props.asc_setDefaultSubtotal(true);
+                        props.asc_setSubtotalTop(false);
                         break;
                     case 2:
+                        props.asc_setDefaultSubtotal(true);
+                        props.asc_setSubtotalTop(true);
                         break;
                 }
+                this._originalProps.asc_set(this.api, props);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },
@@ -348,7 +384,9 @@ define([
                 resolve();
             })).then(function () {
             });
-        }
+        },
+
+        strSheet        : 'Sheet'
 
     }, SSE.Controllers.PivotTable || {}));
 });

@@ -217,8 +217,12 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
 
         getSettings: function () {
             var props = new Asc.CT_pivotTableDefinition();
+            props.asc_setName(this.inputName.getValue());
             props.asc_setRowGrandTotals(this.chCols.getValue() == 'checked');
             props.asc_setColGrandTotals(this.chRows.getValue() == 'checked');
+            props.asc_setPageOverThenDown(this.radioOver.getValue());
+            props.asc_setPageWrap(this.numWrap.getNumberValue());
+            props.asc_setShowHeaders(this.chHeaders.getValue() == 'checked');
 
             return props;
         },

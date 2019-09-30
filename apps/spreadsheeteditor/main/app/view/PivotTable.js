@@ -52,21 +52,21 @@ define([
     SSE.Views.PivotTable = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section id="pivot-table-panel" class="panel" data-tab="pivot">' +
-                // '<div class="group">' +
-                //     '<span id="slot-btn-add-pivot" class="btn-slot text x-huge"></span>' +
-                // '</div>' +
-                // '<div class="separator long"/>' +
-                // '<div class="group">' +
-                //     '<span id="slot-btn-pivot-report-layout" class="btn-slot text x-huge"></span>' +
-                //     '<span id="slot-btn-pivot-blank-rows" class="btn-slot text x-huge"></span>' +
-                //     '<span id="slot-btn-pivot-subtotals" class="btn-slot text x-huge"></span>' +
-                //     '<span id="slot-btn-pivot-grand-totals" class="btn-slot text x-huge"></span>' +
-                // '</div>' +
-                // '<div class="separator long"/>' +
-                // '<div class="group">' +
-                //     '<span id="slot-btn-refresh-pivot" class="btn-slot text x-huge"></span>' +
-                // '</div>' +
-                // '<div class="separator long"/>' +
+                '<div class="group">' +
+                    '<span id="slot-btn-add-pivot" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long"/>' +
+                '<div class="group">' +
+                    '<span id="slot-btn-pivot-report-layout" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-pivot-blank-rows" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-pivot-subtotals" class="btn-slot text x-huge"></span>' +
+                    '<span id="slot-btn-pivot-grand-totals" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long"/>' +
+                '<div class="group">' +
+                    '<span id="slot-btn-refresh-pivot" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long"/>' +
                 '<div class="group">' +
                     '<span id="slot-btn-select-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
@@ -176,7 +176,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-add-pivot',
                     caption: this.txtCreate,
-                    disabled    : true
+                    disabled    : false
                 });
                 // this.lockedControls.push(this.btnAddPivot);
 
@@ -196,7 +196,7 @@ define([
                         ]
                     })
                 });
-                // this.lockedControls.push(this.btnPivotLayout); // remove commentings after enabled option
+                this.lockedControls.push(this.btnPivotLayout);
 
                 this.btnPivotBlankRows = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -210,7 +210,7 @@ define([
                         ]
                     })
                 });
-                // this.lockedControls.push(this.btnPivotBlankRows); // remove commentings after enabled option
+                this.lockedControls.push(this.btnPivotBlankRows);
 
                 this.btnPivotSubtotals = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -225,7 +225,7 @@ define([
                         ]
                     })
                 });
-                // this.lockedControls.push(this.btnPivotSubtotals); // remove commentings after enabled option
+                this.lockedControls.push(this.btnPivotSubtotals);
 
                 this.btnPivotGrandTotals = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -241,7 +241,7 @@ define([
                         ]
                     })
                 });
-                // this.lockedControls.push(this.btnPivotGrandTotals); // remove commentings after enabled option
+                this.lockedControls.push(this.btnPivotGrandTotals);
 
                 this.btnRefreshPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -249,7 +249,7 @@ define([
                     caption: this.txtRefresh,
                     disabled    : true
                 });
-                // this.lockedControls.push(this.btnRefreshPivot);
+                this.lockedControls.push(this.btnRefreshPivot);
 
                 this.btnSelectPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',

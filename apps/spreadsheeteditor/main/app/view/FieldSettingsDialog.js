@@ -227,59 +227,119 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
         _setDefaults: function (props) {
             if (props) {
                 var me = this,
-                    cache_names = props.asc_getCacheFields(),
                     field = props.asc_getPivotFields()[this.fieldIndex];
 
-                this.lblSourceName.html(Common.Utils.String.htmlEncode(cache_names[this.fieldIndex].asc_getName()));
-                this.inputCustomName.setValue(Common.Utils.String.htmlEncode((field || cache_names[this.fieldIndex]).asc_getName()));
+                this.lblSourceName.html(Common.Utils.String.htmlEncode(props.getCacheFieldName(this.fieldIndex)));
+                this.inputCustomName.setValue(Common.Utils.String.htmlEncode(props.getPivotFieldName(this.fieldIndex)));
 
+                (field.asc_getOutline()) ? this.radioOutline.setValue(true) : this.radioTabular.setValue(true);
+                this.chCompact.setValue(field.asc_getOutline() && field.asc_getCompact());
+
+                this.chRepeat.setValue(field.asc_getFillDownLabelsDefault());
+                this.chBlank.setValue(field.asc_getInsertBlankRow());
+
+                this.chSubtotals.setValue(field.asc_getDefaultSubtotal());
                 (field.asc_getSubtotalTop()) ? this.radioTop.setValue(true) : this.radioBottom.setValue(true);
 
-                var arr = field.asc_getSubtotals();
-                if (arr) {
-                    _.each(arr, function(item) {
-                        switch(item) {
-                            case Asc.c_oAscItemType.Sum:
-                                me.chSum.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.Count:
-                                me.chCount.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.Avg:
-                                me.chAve.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.Max:
-                                me.chMax.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.Min:
-                                me.chMin.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.Product:
-                                me.chProduct.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.CountA:
-                                me.chNum.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.StdDev:
-                                me.chDev.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.StdDevP:
-                                me.chDevp.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.Var:
-                                me.chVar.setValue(true);
-                            break;
-                            case Asc.c_oAscItemType.VarP:
-                                me.chVarp.setValue(true);
-                            break;
-                        }
-                    });
+                this.chEmpty.setValue(field.asc_getShowAll());
+                if (field.asc_getDefaultSubtotal()) {
+                    var arr = field.asc_getSubtotals();
+                    if (arr) {
+                        _.each(arr, function(item) {
+                            switch(item) {
+                                case Asc.c_oAscItemType.Sum:
+                                    me.chSum.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.Count:
+                                    me.chCount.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.Avg:
+                                    me.chAve.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.Max:
+                                    me.chMax.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.Min:
+                                    me.chMin.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.Product:
+                                    me.chProduct.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.CountA:
+                                    me.chNum.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.StdDev:
+                                    me.chDev.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.StdDevP:
+                                    me.chDevp.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.Var:
+                                    me.chVar.setValue(true);
+                                    break;
+                                case Asc.c_oAscItemType.VarP:
+                                    me.chVarp.setValue(true);
+                                    break;
+                            }
+                        });
+                    }
                 }
             }
         },
 
         getSettings: function () {
-            return {};
+            var field = new Asc.CT_PivotField();
+            field.asc_setName(this.inputCustomName.getValue());
+
+            field.asc_setOutline(this.radioOutline.getValue());
+            field.asc_setCompact(this.radioOutline.getValue() && this.chCompact.getValue() == 'checked');
+
+            field.asc_setFillDownLabelsDefault(this.chRepeat.getValue() == 'checked');
+            field.asc_setInsertBlankRow(this.chBlank.getValue() == 'checked');
+
+            field.asc_setDefaultSubtotal(this.chSubtotals.getValue() == 'checked');
+            field.asc_setSubtotalTop(this.radioTop.getValue());
+
+            field.asc_setShowAll(this.chEmpty.getValue() == 'checked');
+            if (field.asc_getDefaultSubtotal()) {
+                var arr = [];
+                if (this.chSum.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.Sum);
+                }
+                if (this.chCount.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.Count);
+                }
+                if (this.chAve.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.Avg);
+                }
+                if (this.chMax.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.Max);
+                }
+                if (this.chMin.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.Min);
+                }
+                if (this.chProduct.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.Product);
+                }
+                if (this.chNum.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.CountA);
+                }
+                if (this.chDev.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.StdDev);
+                }
+                if (this.chDevp.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.StdDevP);
+                }
+                if (this.chVar.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.Var);
+                }
+                if (this.chVarp.getValue() == 'checked') {
+                    arr.push(Asc.c_oAscItemType.VarP);
+                }
+                field.asc_setSubtotals(arr);
+            }
+
+            return field;
         },
 
         onDlgBtnClick: function(event) {

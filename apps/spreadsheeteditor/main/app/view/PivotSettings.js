@@ -344,17 +344,17 @@ define([
                             caption     : this.txtAddRow,
                             checkable   : false
                         });
-                        // this.miAddRow.on('click', _.bind(this.onAddRow, this));
+                        this.miAddRow.on('click', _.bind(this.onAddRow, this));
                         this.miAddColumn = new Common.UI.MenuItem({
                             caption     : this.txtAddColumn,
                             checkable   : false
                         });
-                        // this.miAddColumn.on('click', _.bind(this.onAddColumn, this));
+                        this.miAddColumn.on('click', _.bind(this.onAddColumn, this));
                         this.miAddValues = new Common.UI.MenuItem({
                             caption     : this.txtAddValues,
                             checkable   : false
                         });
-                        // this.miAddValues.on('click', _.bind(this.onAddValues, this));
+                        this.miAddValues.on('click', _.bind(this.onAddValues, this));
 
                         this.pivotFieldsMenu = new Common.UI.Menu({
                             menuAlign: 'tr-br',
@@ -435,6 +435,13 @@ define([
                 listView.isSuspendEvents = true;
 
                 record.set('check', !record.get('check'));
+                if (this.api && !this._locked){
+                    if (record.get('check')) {
+                        this._originalProps.asc_addField(this.api, record.get('index'));
+                    } else {
+                        this._originalProps.asc_removeField(this.api, record.get('index'));
+                    }
+                }
 
                 listView.isSuspendEvents = false;
                 listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
@@ -602,6 +609,7 @@ define([
                         }
                     })).show();
                 } else {
+                    var pivotField = me._originalProps.asc_getPivotFields()[me._state.field.record.get('pivotIndex')];
                     (new SSE.Views.FieldSettingsDialog(
                         {
                             props: me._originalProps,
@@ -611,7 +619,7 @@ define([
                             type: me._state.field.type,
                             handler: function(result, value) {
                                 if (result == 'ok' && me.api && value) {
-                                    // me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
+                                    pivotField.asc_set(me.api, me._originalProps, value);
                                 }
 
                                 Common.NotificationCenter.trigger('edit:complete', me);
@@ -624,6 +632,24 @@ define([
         onAddFilter: function() {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addPageField(this.api, this._state.field.record.get('index'));
+            }
+        },
+
+        onAddRow: function() {
+            if (this.api && !this._locked && this._state.field){
+                this._originalProps.asc_addRowField(this.api, this._state.field.record.get('index'));
+            }
+        },
+
+        onAddColumn: function() {
+            if (this.api && !this._locked && this._state.field){
+                this._originalProps.asc_addColField(this.api, this._state.field.record.get('index'));
+            }
+        },
+
+        onAddValues: function() {
+            if (this.api && !this._locked && this._state.field){
+                this._originalProps.asc_addDataField(this.api, this._state.field.record.get('index'));
             }
         },
 
