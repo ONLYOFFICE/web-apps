@@ -185,13 +185,16 @@
             <section class="panel" data-tab="data">
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot split slot-sortdesc"></span>
-                        <span class="btn-slot slot-sortasc"></span>
+                        <span class="btn-slot split slot-btn-setfilter"></span>
+                        <span class="btn-slot slot-sortdesc"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split slot-btn-setfilter"></span>
-                        <span class="btn-slot slot-btn-clear-filter"></span>
+                        <span class="btn-slot split slot-btn-clear-filter"></span>
+                        <span class="btn-slot slot-sortasc"></span>
                     </div>
+                </div>
+                <div class="group" style="padding-left: 0;">
+                    <span class="btn-slot text x-huge" id="slot-btn-custom-sort"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

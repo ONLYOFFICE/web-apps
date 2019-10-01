@@ -86,7 +86,8 @@ define([
                     'data:tocolumns': this.onTextToColumn,
                     'data:show': this.onShowClick,
                     'data:hide': this.onHideClick,
-                    'data:groupsettings': this.onGroupSettings
+                    'data:groupsettings': this.onGroupSettings,
+                    'data:sortcustom': this.onCustomSort
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -212,6 +213,21 @@ define([
             this.api.asc_changeGroupDetails(false);
         },
 
+        onCustomSort: function() {
+            var me = this;
+            // (new SSE.Views.SortDialog({
+            //     title: me.textSort,
+            //     closable: true,
+            //     api: me.api,
+            //     handler: function (result) {
+            //         if (result == 'ok') {
+            //             if (me && me.api) {
+            //             }
+            //         }
+            //     }
+            // })).show();
+        },
+
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
                 Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.btnGroup, this.view.btnUngroup]});
@@ -225,7 +241,8 @@ define([
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
         },
 
-        textWizard: 'Text to Columns Wizard'
+        textWizard: 'Text to Columns Wizard',
+        textSort: 'Sort'
 
     }, SSE.Controllers.DataTab || {}));
 });

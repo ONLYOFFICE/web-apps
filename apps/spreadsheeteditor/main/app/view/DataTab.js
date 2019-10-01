@@ -92,6 +92,9 @@ define([
                     me.fireEvent('data:clearfilter', [Asc.c_oAscSortOptions.Descending]);
                 });
             });
+            me.btnCustomSort.on('click', function (b, e) {
+                me.fireEvent('data:sortcustom');
+            });
         }
 
         return {
@@ -162,6 +165,16 @@ define([
                 Common.Utils.injectComponent($host.find('#slot-btn-hide-details'), this.btnHide);
                 this.lockedControls.push(this.btnHide);
 
+                this.btnCustomSort = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-to-columns',
+                    caption: this.capBtnTextCustomSort,
+                    disabled: true,
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-custom-sort'), this.btnCustomSort);
+                this.lockedControls.push(this.btnCustomSort);
+
                 this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'btn-sort-down', '',
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]);
 
@@ -225,6 +238,7 @@ define([
                     me.btnsClearAutofilter.forEach( function(btn) {
                         btn.updateHint(me.toolbar.txtClearFilter);
                     });
+                    me.btnCustomSort.updateHint(me.tipCustomSort);
 
                     setEvents.call(me);
                 });
@@ -240,6 +254,8 @@ define([
                     return this.btnsSortDown;
                 else if (type == 'sort-up')
                     return this.btnsSortUp;
+                else if (type == 'sort-custom')
+                    return this.btnCustomSort;
                 else if (type == 'set-filter')
                     return this.btnsSetAutofilter;
                 else if (type == 'clear-filter')
@@ -271,7 +287,9 @@ define([
             capBtnTextShow: 'Show details',
             capBtnTextHide: 'Hide details',
             textBelow: 'Summary rows below detail',
-            textRightOf: 'Summary columns to right of detail'
+            textRightOf: 'Summary columns to right of detail',
+            capBtnTextCustomSort: 'Custom Sort',
+            tipCustomSort: 'Custom sort'
         }
     }()), SSE.Views.DataTab || {}));
 });
