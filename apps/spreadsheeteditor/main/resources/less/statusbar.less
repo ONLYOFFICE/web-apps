@@ -232,6 +232,17 @@
                         color: @gray-darker;
                     }
                 }
+
+                &.mousemove {
+                    > a {
+                        background: linear-gradient(to right, @black, @gray-light 1px);
+                    }
+                    &.right {
+                        > a {
+                            background: linear-gradient(to left, @black, @gray-light 1px);
+                        }
+                    }
+                }
             }
         }
 

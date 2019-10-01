@@ -182,18 +182,22 @@ define([
                             me.fireEvent('sheet:changename');
                         }
                     }, this),
-                    'tab:move'          : _.bind(function (tabIndex, index) {
+                    'tab:move'          : _.bind(function (selectTabs, index) {
                         me.tabBarScroll = {scrollLeft: me.tabbar.scrollX};
-
-                        if (_.isUndefined(index) || tabIndex === index) {
+                        if (_.isUndefined(selectTabs) || _.isUndefined(index) || selectTabs === index) {
                             return;
                         }
+                        if (_.isArray(selectTabs)) {
+                            me.fireEvent('sheet:move', [selectTabs, false, true, undefined, index]);
+                        } else {
+                            var tabIndex = selectTabs;
 
-                        if (tabIndex < index) {
-                            ++index;
+                            if (tabIndex < index) {
+                                ++index;
+                            }
+
+                            me.fireEvent('sheet:move', [undefined, false, true, tabIndex, index]);
                         }
-
-                        me.fireEvent('sheet:move', [false, true, tabIndex, index]);
 
                     }, this)
                 });

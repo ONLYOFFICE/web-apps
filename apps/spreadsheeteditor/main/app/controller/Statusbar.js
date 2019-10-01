@@ -265,10 +265,10 @@ define([
                     this.renameWorksheet();
                     break;
                 case 'copy':
-                    this.moveWorksheet(false);
+                    this.moveWorksheet(arrIndex, false);
                     break;
                 case 'move':
-                    this.moveWorksheet(true);
+                    this.moveWorksheet(arrIndex, true);
                     break;
                 case 'hide':
                     setTimeout(function () {
@@ -390,26 +390,38 @@ define([
             }
         },
 
-        moveWorksheet: function(cut, silent, index, destPos) {
+        moveWorksheet: function(selectArr, cut, silent, index, destPos) {
             var me = this;
-            var wc = me.api.asc_getWorksheetsCount(), items = [], i = -1;
+            var wc = me.api.asc_getWorksheetsCount(), items = [], arrIndex = [], i = -1;
             while (++i < wc) {
                 if (!this.api.asc_isWorksheetHidden(i)) {
                     items.push({
-                        value       : me.api.asc_getWorksheetName(i),
-                        inindex     : i
+                        value: me.api.asc_getWorksheetName(i),
+                        inindex: i
                     });
                 }
             }
+            if (!_.isUndefined(selectArr)) {
+                items.forEach(function (item) {
+                    if (selectArr.indexOf(item.inindex) !== -1) {
+                        arrIndex.push(item.inindex);
+                    }
+                });
+            }
             if (!_.isUndefined(silent)) {
-                me.api.asc_showWorksheet(items[index].inindex);
+                if (_.isUndefined(selectArr)) {
+                    me.api.asc_showWorksheet(items[index].inindex);
 
-                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()]);
+                    Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()]);
 
-                if (!_.isUndefined(destPos)) {
-                    me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex);
+                    if (!_.isUndefined(destPos)) {
+                        me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex);
+                    }
+                } else {
+                    if (!_.isUndefined(destPos)) {
+                        me.api.asc_moveWorksheet(destPos, arrIndex);
+                    }
                 }
-
                 return;
             }
 
@@ -420,7 +432,7 @@ define([
                 handler : function(btn, i) {
                     if (btn == 'ok') {
                         if (cut) {
-                            me.api.asc_moveWorksheet(i == -255 ? wc : i);
+                            me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex);
                         } else {
                             var new_text = me.createCopyName(me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()));
                             me.api.asc_copyWorksheet(i == -255 ? wc : i, new_text);

@@ -294,6 +294,61 @@ define([
                             document.removeEventListener('dragstart',dragDropText);
                         });
                     }
+                },
+
+                setHookTabs: function (e, bar, tabs) {
+                    var me = this;
+                    function dragComplete() {
+                        if (!_.isUndefined(me.drag)) {
+                            bar.dragging = false;
+                            bar.$el.find('li.mousemove').removeClass('mousemove right');
+                            var arrSelectIndex = [];
+                            tabs.forEach(function (item) {
+                                arrSelectIndex.push(item.sheetindex);
+                            });
+                            if (!_.isUndefined(me.drag.place)) {
+                                me.bar.trigger('tab:move', arrSelectIndex, me.drag.place);
+                                me.bar.$bar.scrollLeft(me.scrollLeft);
+                                me.bar.scrollX = undefined;
+                            } else {
+                                me.bar.trigger('tab:move', arrSelectIndex);
+                                me.bar.$bar.scrollLeft(me.scrollLeft);
+                                me.bar.scrollX = undefined;
+                            }
+
+                            me.drag  = undefined;
+                        }
+                    }
+                    function dragMove (event) {
+                        if (!_.isUndefined(me.drag)) {
+                            me.drag.moveX = event.clientX*Common.Utils.zoom();
+                            if (me.drag.moveX > me.tabBarRight) {
+                                bar.tabs[bar.tabs.length - 1].$el.addClass('mousemove right');
+                                me.drag.place = bar.tabs.length;
+                            } else {
+                                $(event.target).parent().parent().find('li.mousemove').removeClass('mousemove right');
+                                $(event.target).parent().addClass('mousemove');
+                                var name = event.target.parentElement.dataset.label,
+                                    currentTab = _.findWhere(bar.tabs, {label: name});
+                                if (!_.isUndefined(currentTab)) {
+                                    me.drag.place = currentTab.sheetindex;
+                                }
+                            }
+                        }
+                    }
+                    if (!_.isUndefined(bar) && !_.isUndefined(tabs) && bar.tabs.length > 1) {
+                        me.bar      = bar;
+                        me.drag     = {tabs: tabs};
+                        bar.dragging = true;
+                        this.calculateBounds();
+
+                        $(document).on('mousemove.tabbar', dragMove);
+                        $(document).on('mouseup.tabbar', function (e) {
+                            dragComplete(e);
+                            $(document).off('mouseup.tabbar');
+                            $(document).off('mousemove.tabbar', dragMove);
+                        });
+                    }
                 }
             }
         });
@@ -337,7 +392,11 @@ define([
             mousedown: $.proxy(function (e) {
                 if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
                     if (!tab.isLockTheDrag) {
-                        dragHelper.setHook(e, this.bar, tab);
+                        if (this.bar.selectTabs.length > 1) {
+                            dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
+                        } else {
+                            dragHelper.setHook(e, this.bar, tab);
+                        }
                     }
                 }
             }, this)
