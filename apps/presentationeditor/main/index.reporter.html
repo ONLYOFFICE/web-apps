@@ -131,6 +131,8 @@
     </style>
 
     <script>
+        document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / window.devicePixelRatio + ';');
+
         window.onbeforeunload = function() {
             window.postMessage("{ \"reporter_command\" : \"end\" }", "*");
         };
