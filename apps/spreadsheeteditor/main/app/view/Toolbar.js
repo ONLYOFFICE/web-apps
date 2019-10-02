@@ -644,7 +644,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertimage',
                     caption     : me.capInsertImage,
-                    lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: me.mniImageFromFile, value: 'file' },
@@ -666,7 +666,7 @@ define([
                     id          : 'tlbtn-insertchart',
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-insertchart',
-                    lock        : [_set.editCell, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     caption     : me.capInsertChart,
                     menu        : true
                 });
@@ -677,7 +677,7 @@ define([
                     iconCls     : 'btn-insertshape',
                     enableToggle: true,
                     caption     : me.capInsertShape,
-                    lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'})
                 });
 
@@ -686,7 +686,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-text',
                     caption     : me.capInsertText,
-                    lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     enableToggle: true
                 });
 
@@ -695,7 +695,7 @@ define([
                     cls         : 'btn-toolbar x-huge icon-top',
                     iconCls     : 'btn-textart',
                     caption     : me.capInsertTextart,
-                    lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         cls: 'menu-shapes',
                         items: [
@@ -710,7 +710,7 @@ define([
                     iconCls     : 'btn-insertequation',
                     caption     : me.capInsertEquation,
                     split       : true,
-                    lock        : [_set.editCell, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'})
                 });
 

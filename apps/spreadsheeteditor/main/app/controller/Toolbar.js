@@ -989,7 +989,7 @@ define([
                 seltype = info.asc_getFlags().asc_getSelectionType(),
                 isSpark = (group == 'menu-chart-group-sparkcolumn' || group == 'menu-chart-group-sparkline' || group == 'menu-chart-group-sparkwin');
 
-            if (seltype!=Asc.c_oAscSelectionType.RangeImage && me.api) {
+            if (me.api) {
                 var win, props;
                 if (isSpark && (seltype==Asc.c_oAscSelectionType.RangeCells || seltype==Asc.c_oAscSelectionType.RangeCol ||
                     seltype==Asc.c_oAscSelectionType.RangeRow || seltype==Asc.c_oAscSelectionType.RangeMax)) {
