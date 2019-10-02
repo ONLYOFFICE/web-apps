@@ -61,6 +61,8 @@ define([
                     'changerange': _.bind(this.onChangeRange,this)
                 }
             });
+            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
+            Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
         },
 
         onLaunch: function() {
@@ -70,8 +72,6 @@ define([
         onAfterRender: function(view) {
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
-            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
-            Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
             this.registerControlEvents(this.printSettings);
         },
 
