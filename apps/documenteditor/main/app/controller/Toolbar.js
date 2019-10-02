@@ -690,7 +690,8 @@ define([
                 in_equation = false,
                 btn_eq_state = false,
                 in_image = false,
-                in_control = false;
+                in_control = false,
+                in_para = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -702,6 +703,7 @@ define([
                     can_add_image = pr.get_CanAddImage();
                     frame_pr = pr;
                     sh = pr.get_Shade();
+                    in_para = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
@@ -798,9 +800,9 @@ define([
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
+            need_disable = paragraph_locked || header_locked  || in_para && !can_add_image || in_equation || control_plain;
             toolbar.btnInsertImage.setDisabled(need_disable);
-            toolbar.btnInsertTextArt.setDisabled(need_disable || in_image || in_footnote);
+            toolbar.btnInsertTextArt.setDisabled(need_disable || !can_add_image || in_image || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
