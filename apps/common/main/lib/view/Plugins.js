@@ -190,7 +190,7 @@ define([
                     item.setDisabled(disable);
                 });
 
-                this.pluginsMask.css('display', disable ? 'block' : 'none');
+                this.pluginsMask && this.pluginsMask.css('display', disable ? 'block' : 'none');
             }
         },
 
