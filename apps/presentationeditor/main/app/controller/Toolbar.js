@@ -661,7 +661,8 @@ define([
                 } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                     shape_locked = pr.get_Locked();
                     no_object = false;
-                    if (type !== Asc.c_oAscTypeSelectElement.Image) {
+                    if (type == Asc.c_oAscTypeSelectElement.Table ||
+                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage() && !pr.get_FromChart()) {
                         no_text = false;
                     }
                     in_chart = type == Asc.c_oAscTypeSelectElement.Chart;

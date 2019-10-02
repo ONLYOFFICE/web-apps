@@ -353,7 +353,7 @@ define([
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-setmarkers',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -365,7 +365,7 @@ define([
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-numbering',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -393,7 +393,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'btn-align-left',
                         icls: 'btn-align-left',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         menu: new Common.UI.Menu({
                             items: [
                                 {
@@ -437,7 +437,7 @@ define([
                     me.btnVerticalAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-valign',
                         cls: 'btn-toolbar',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noObjectSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.noObjectSelected],
                         iconCls: 'btn-align-middle',
                         icls: 'btn-align-middle',
                         menu: new Common.UI.Menu({
@@ -492,7 +492,7 @@ define([
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-linespace',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
