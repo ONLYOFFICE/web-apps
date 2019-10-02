@@ -160,39 +160,39 @@ require([
         ]
     });
 
-    Common.Locale.apply();
-
-    require([
-        'presentationeditor/main/app/controller/Viewport',
-        'presentationeditor/main/app/controller/DocumentHolder',
-        'presentationeditor/main/app/controller/Toolbar',
-        'presentationeditor/main/app/controller/Statusbar',
-        'presentationeditor/main/app/controller/RightMenu',
-        'presentationeditor/main/app/controller/LeftMenu',
-        'presentationeditor/main/app/controller/Main',
-        'presentationeditor/main/app/view/FileMenuPanels',
-        'presentationeditor/main/app/view/ParagraphSettings',
-        'presentationeditor/main/app/view/ImageSettings',
-        'presentationeditor/main/app/view/ShapeSettings',
-        'presentationeditor/main/app/view/SlideSettings',
-        'presentationeditor/main/app/view/TableSettings',
-        'presentationeditor/main/app/view/TextArtSettings',
-        'presentationeditor/main/app/view/SignatureSettings',
-        'common/main/lib/util/utils',
-        'common/main/lib/util/LocalStorage',
-        'common/main/lib/controller/Fonts'
-        /** coauthoring begin **/
-        ,'common/main/lib/controller/Comments',
-        'common/main/lib/controller/Chat',
-        /** coauthoring end **/
-        'common/main/lib/controller/Plugins',
-        'presentationeditor/main/app/view/ChartSettings',
-        'common/main/lib/controller/ExternalDiagramEditor'
-        ,'common/main/lib/controller/ReviewChanges'
-        ,'common/main/lib/controller/Protection'
-        ,'common/main/lib/controller/Desktop'
-    ], function() {
-        app.start();
+    Common.Locale.apply(function(){
+        require([
+            'presentationeditor/main/app/controller/Viewport',
+            'presentationeditor/main/app/controller/DocumentHolder',
+            'presentationeditor/main/app/controller/Toolbar',
+            'presentationeditor/main/app/controller/Statusbar',
+            'presentationeditor/main/app/controller/RightMenu',
+            'presentationeditor/main/app/controller/LeftMenu',
+            'presentationeditor/main/app/controller/Main',
+            'presentationeditor/main/app/view/FileMenuPanels',
+            'presentationeditor/main/app/view/ParagraphSettings',
+            'presentationeditor/main/app/view/ImageSettings',
+            'presentationeditor/main/app/view/ShapeSettings',
+            'presentationeditor/main/app/view/SlideSettings',
+            'presentationeditor/main/app/view/TableSettings',
+            'presentationeditor/main/app/view/TextArtSettings',
+            'presentationeditor/main/app/view/SignatureSettings',
+            'common/main/lib/util/utils',
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/controller/Fonts'
+            /** coauthoring begin **/
+            ,'common/main/lib/controller/Comments',
+            'common/main/lib/controller/Chat',
+            /** coauthoring end **/
+            'common/main/lib/controller/Plugins',
+            'presentationeditor/main/app/view/ChartSettings',
+            'common/main/lib/controller/ExternalDiagramEditor'
+            ,'common/main/lib/controller/ReviewChanges'
+            ,'common/main/lib/controller/Protection'
+            ,'common/main/lib/controller/Desktop'
+        ], function() {
+            app.start();
+        });
     });
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {

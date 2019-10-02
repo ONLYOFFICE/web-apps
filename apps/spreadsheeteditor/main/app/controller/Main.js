@@ -216,13 +216,15 @@ define([
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (me.isAppDisabled === true || me.isFrameClosed) return;
 
-                    if ((!me.isModalShowed || $('.asc-window.enable-key-events:visible').length>0) && !(me.loadMask && me.loadMask.isVisible()) && !me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible()) {
+                    if ((!me.isModalShowed || $('.asc-window.enable-key-events:visible').length>0) && !(me.loadMask && me.loadMask.isVisible())) {
                         if (/form-control/.test(e.target.className))
                             me.inFormControl = false;
+                        if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
+                            return;
                         if (!e.relatedTarget ||
                             !/area_id/.test(e.target.id)
                             && !(e.target.localName == 'input' && $(e.target).parent().find(e.relatedTarget).length>0) /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
-                            && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
+                            && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find('.dropdown-menu').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
                             && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                             && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                             if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
@@ -391,7 +393,7 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
 
-                    this.headerView.setDocumentCaption(data.doc.title);
+                    this.headerView && this.headerView.setDocumentCaption(data.doc.title);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
@@ -507,7 +509,7 @@ define([
                 var action = {id: id, type: type};
                 this.stackLongActions.pop(action);
 
-                this.headerView.setDocumentCaption(this.api.asc_getDocumentName());
+                this.headerView && this.headerView.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
 
                 if (type === Asc.c_oAscAsyncActionType.BlockInteraction && id == Asc.c_oAscAsyncAction.Open) {
@@ -1492,29 +1494,30 @@ define([
 
             updateWindowTitle: function(change, force) {
                 if (this._state.isDocModified !== change || force) {
-                    var title = this.defaultTitleText;
+                    if (this.headerView) {
+                        var title = this.defaultTitleText;
 
-                    if (!_.isEmpty(this.headerView.getDocumentCaption()))
-                        title = this.headerView.getDocumentCaption() + ' - ' + title;
+                        if (!_.isEmpty(this.headerView.getDocumentCaption()))
+                            title = this.headerView.getDocumentCaption() + ' - ' + title;
 
-                    if (change) {
-                        clearTimeout(this._state.timerCaption);
-                        if (!_.isUndefined(title)) {
-                            title = '* ' + title;
-                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), true);
+                        if (change) {
+                            clearTimeout(this._state.timerCaption);
+                            if (!_.isUndefined(title)) {
+                                title = '* ' + title;
+                                this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), true);
+                            }
+                        } else {
+                            if (this._state.fastCoauth && this._state.usersCount>1) {
+                                var me = this;
+                                this._state.timerCaption = setTimeout(function () {
+                                    me.headerView.setDocumentCaption(me.headerView.getDocumentCaption(), false);
+                                }, 500);
+                            } else
+                                this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), false);
                         }
-                    } else {
-                        if (this._state.fastCoauth && this._state.usersCount>1) {
-                            var me = this;
-                            this._state.timerCaption = setTimeout(function () {
-                                me.headerView.setDocumentCaption(me.headerView.getDocumentCaption(), false);
-                            }, 500);
-                        } else
-                            this.headerView.setDocumentCaption(this.headerView.getDocumentCaption(), false);
+                        if (window.document.title != title)
+                            window.document.title = title;
                     }
-
-                    if (window.document.title != title)
-                        window.document.title = title;
 
                     Common.Gateway.setDocumentModified(change);
 

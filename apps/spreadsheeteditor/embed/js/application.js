@@ -33,9 +33,10 @@
 (function ($) {
 
     $(function(){
-        Common.Locale.apply();
-        SSE.ApplicationView.create();
-        SSE.ApplicationController.create();
+        Common.Locale.apply(function() {
+            SSE.ApplicationView.create();
+            SSE.ApplicationController.create();
+        });
     })
 
 })(window.jQuery);
