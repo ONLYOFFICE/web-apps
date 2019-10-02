@@ -144,6 +144,8 @@
     </style>
 
     <script>
+        document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / window.devicePixelRatio + ';');
+
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
             stopLoading = false;
