@@ -699,8 +699,8 @@ define([
                     var elType, elValue;
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].asc_getObjectType();
-                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                            elValue = selectedElements[i].asc_getObjectValue();
+                        elValue = selectedElements[i].asc_getObjectValue();
+                        if (Asc.c_oAscTypeSelectElement.Image == elType && elValue.asc_getShapeProperties()) {
                             (new SSE.Views.ShapeSettingsAdvanced(
                                 {
                                     shapeProps: elValue,
