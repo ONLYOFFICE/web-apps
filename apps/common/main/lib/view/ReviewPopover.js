@@ -1162,9 +1162,9 @@ define([
         insertEmailToTextbox: function(str, left, right) {
             var textBox = this.commentsView.getTextBox(),
                 val = textBox.val();
-            textBox.val(val.substring(0, left) + '+' + str + val.substring(right+1, val.length));
+            textBox.val(val.substring(0, left) + '+' + str + ' ' + val.substring(right+1, val.length));
             setTimeout(function(){
-                textBox[0].selectionStart = textBox[0].selectionEnd = left + str.length + 1;
+                textBox[0].selectionStart = textBox[0].selectionEnd = left + str.length + 2;
             }, 10);
         },
 
