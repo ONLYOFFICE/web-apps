@@ -153,7 +153,11 @@ define([
 
         onCreateClick: function(btn, opts){
             if (this.api) {
-                this.api.asc_insertPivot("Sheet1!B2:H13", this.createSheetName());
+				var options = this.api.asc_getAddPivotTableOptions();
+				if (options) {
+					this.api.asc_insertPivotNewWorksheet(options.asc_getRange(), this.createSheetName());
+					// this.api.asc_insertPivotExistingWorksheet(options.asc_getRange(), "Sheet1!B17:B17");
+				}
             }
             Common.NotificationCenter.trigger('edit:complete', this);
         },

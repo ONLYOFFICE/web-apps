@@ -593,7 +593,8 @@ define([
             var win;
             if (me.api && !this._locked && me._state.field){
                 if (me._state.field.type == 2) { // value field
-                    var field = me._originalProps.asc_getDataFields()[me._state.field.record.get('index')];
+                    var dataIndex = me._state.field.record.get('index');
+                    var field = me._originalProps.asc_getDataFields()[dataIndex];
                     (new SSE.Views.ValueFieldSettingsDialog(
                     {
                         props: me._originalProps,
@@ -602,24 +603,25 @@ define([
                         api: me.api,
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
-                                field.asc_set(me.api, me._originalProps, value);
+                                field.asc_set(me.api, me._originalProps, dataIndex, value);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
                         }
                     })).show();
                 } else {
-                    var pivotField = me._originalProps.asc_getPivotFields()[me._state.field.record.get('pivotIndex')];
+                    var pivotIndex = me._state.field.record.get('pivotIndex');
+                    var pivotField = me._originalProps.asc_getPivotFields()[pivotIndex];
                     (new SSE.Views.FieldSettingsDialog(
                         {
                             props: me._originalProps,
-                            fieldIndex: me._state.field.record.get('pivotIndex'),
+                            fieldIndex: pivotIndex,
                             names: me._state.names,
                             api: me.api,
                             type: me._state.field.type,
                             handler: function(result, value) {
                                 if (result == 'ok' && me.api && value) {
-                                    pivotField.asc_set(me.api, me._originalProps, value);
+                                    pivotField.asc_set(me.api, me._originalProps, pivotIndex, value);
                                 }
 
                                 Common.NotificationCenter.trigger('edit:complete', me);
