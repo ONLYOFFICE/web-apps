@@ -5819,26 +5819,34 @@ html.phone .document-menu .list-block .item-link {
   display: inline-block;
   overflow: visible;
 }
-.color-palette .standart-colors .item-inner {
+.color-palette .standart-colors .item-inner,
+.color-palette .dynamic-colors .item-inner {
   overflow: visible;
 }
 .color-palette.list-block:last-child li:last-child a {
   border-radius: 0;
 }
-.color-palette .custom-colors .color-picker-wheel {
+.custom-colors .item-link .item-inner {
+  background-image: none;
+  padding-right: 15px;
+}
+.custom-colors .color-picker-wheel {
   position: relative;
-  width: 330px;
+  width: 290px;
   max-width: 100%;
   height: auto;
   font-size: 0;
   margin-left: auto;
   margin-right: auto;
 }
-.color-palette .custom-colors .color-picker-wheel svg {
+.custom-colors .color-picker-wheel.phone {
+  width: 210px;
+}
+.custom-colors .color-picker-wheel svg {
   width: 100%;
   height: auto;
 }
-.color-palette .custom-colors .color-picker-wheel .color-picker-wheel-handle {
+.custom-colors .color-picker-wheel .color-picker-wheel-handle {
   width: calc(16.66666667%);
   height: calc(16.66666667%);
   position: absolute;
@@ -5850,7 +5858,7 @@ html.phone .document-menu .list-block .item-link {
   left: 0;
   top: 0;
 }
-.color-palette .custom-colors .color-picker-wheel .color-picker-sb-spectrum {
+.custom-colors .color-picker-wheel .color-picker-sb-spectrum {
   background-color: #000;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000 100%), linear-gradient(to left, rgba(255, 255, 255, 0) 0%, #fff 100%);
   position: relative;
@@ -5861,7 +5869,7 @@ html.phone .document-menu .list-block .item-link {
   transform: translate3d(-50%, -50%, 0);
   position: absolute;
 }
-.color-palette .custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle {
+.custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle {
   width: 4px;
   height: 4px;
   position: absolute;
@@ -5869,7 +5877,7 @@ html.phone .document-menu .list-block .item-link {
   top: -2px;
   z-index: 1;
 }
-.color-palette .custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle:after {
+.custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle:after {
   background-color: inherit;
   content: '';
   position: absolute;
@@ -5886,7 +5894,7 @@ html.phone .document-menu .list-block .item-link {
   transition-property: transform;
   transform-origin: center;
 }
-.color-palette .custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle.color-picker-sb-spectrum-handle-pressed:after {
+.custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle.color-picker-sb-spectrum-handle-pressed:after {
   transform: scale(1.5) translate(-33.333%, -33.333%);
 }
 .about .page-content {
