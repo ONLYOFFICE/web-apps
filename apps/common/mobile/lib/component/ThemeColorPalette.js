@@ -97,7 +97,6 @@ define([
                             '</div>',
                         '</div>',
                     '</li>',
-                    '<% if (dynamicColors.length > 0) {%>',
                     '<li class="dynamic-colors">',
                         '<div style="padding: 15px 0 0 15px;"><%= me.textCustomColors %></div>',
                         '<div class="item-content">',
@@ -113,7 +112,6 @@ define([
                             '</div>',
                         '</div>',
                     '</li>',
-                    '<% } %>',
                 '</ul>',
             '</div>'
         ].join('')),
@@ -191,16 +189,14 @@ define([
                     me.currentColor = {color: color, effectId: effectId};
                 }
                 me.trigger('select', me, me.currentColor);
+            } else {
+                me.fireEvent('customcolor', me);
             }
         },
 
         select: function(color) {
             var me = this,
                 el = $(me.el);
-
-            if (color == me.currentColor) {
-                return;
-            }
 
             me.currentColor = color;
 
@@ -218,8 +214,9 @@ define([
                 }
 
                 if (/^[a-fA-F0-9]{6}|transparent$/.test(color) || _.indexOf(Common.Utils.ThemeColor.getStandartColors(), color) > -1 || _.indexOf(this.dynamicColors, color) > -1) {
-                    el.find('.color-palette a[data-color=' + color + ']').addClass('active');
+                    el.find('.color-palette a[data-color=' + color + ']').first().addClass('active');
                 }
+
             }
         },
 
@@ -245,16 +242,6 @@ define([
             var me = this;
             var dynamicColors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
             dynamicColors = dynamicColors ? dynamicColors.toLowerCase().split(',') : [];
-            if (!this.isDynamicColors) {
-                var template = _.template(['<li class="dynamic-colors">',
-                    '<div style="padding: 15px 0 0 15px;">' + me.textCustomColors + '</div>',
-                    '<div class="item-content">',
-                    '<div class="item-inner">',
-                    '</div>',
-                    '</div>',
-                    '</li>'].join(''));
-                $(this.el).find('.color-palette ul').append(template);
-            }
             var templateColors = '';
             _.each(dynamicColors, function(color) {
                 templateColors += '<a data-color="' + color + '" style="background:#' + color + '"></a>';

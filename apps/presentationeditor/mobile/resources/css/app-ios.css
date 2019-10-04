@@ -6222,9 +6222,16 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .color-palette .dynamic-colors .item-inner {
   overflow: visible;
 }
-.custom-colors .item-link .item-inner {
-  background-image: none;
-  padding-right: 15px;
+.custom-colors .color-preview {
+  width: 75px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.custom-colors .list-block ul:before,
+.custom-colors .list-block ul:after {
+  content: none;
+}
+.custom-colors .list-block ul li {
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 .custom-colors .color-picker-wheel {
   position: relative;

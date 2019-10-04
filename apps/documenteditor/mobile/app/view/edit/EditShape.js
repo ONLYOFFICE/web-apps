@@ -156,6 +156,9 @@ define([
                     el: $('#tab-shape-fill'),
                     transparent: true
                 });
+                this.paletteFillColor.on('customcolor', function () {
+                    me.showCustomColor();
+                });
                 var template = _.template(['<div class="list-block">',
                     '<ul>',
                         '<li>',

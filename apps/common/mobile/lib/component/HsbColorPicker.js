@@ -57,19 +57,19 @@ define([
         },
         template: _.template([
             '<div class="custom-colors">',
-                '<div class="list-block" style="margin-bottom: 10px;">',
-                    '<ul>',
-                    '<li>',
-                        '<a id="add-new-color" class="item-link">',
-                            '<div class="item-content">',
-                                '<div class="item-inner">',
-                                    '<div class="item-title"><%= scope.textAddNewColor %></div>',
-                                    '<div class="item-after"><div class="color-preview"></div></div>',
-                                '</div>',
-                            '</div>',
-                        '</a>',
-                    '</li>',
-                    '<ul>',
+                '<div style="padding: 10px 15px; display: flex; justify-content: space-between; height: 30px;">',
+                    '<div class="color-preview" style=""></div>',
+                    '<% if (android) { %>',
+                        '<a href="#" class="button button-fill button-raised" id="add-new-color" style="margin-left: 20px;line-height: 30px;width: 100%;height: 30px;"><%= scope.textAddNewColor %></a>',
+                    '<% } else { %>',
+                        '<div class="list-block" style="width: 100%;margin: 0 0 0 20px;">',
+                        '<ul>',
+                            '<li>',
+                                '<a href="#" class="list-button item-link" id="add-new-color" style="line-height: 28px;"><%= scope.textAddNewColor %></a>',
+                            '</li>',
+                        '</ul>',
+                        '</div>',
+                    '<% } %>',
                 '</div>',
                 '<div class="color-picker-wheel <% if (phone) { %> phone <% } %>">',
                     '<svg id="id-wheel" viewBox="0 0 300 300" width="300" height="300"><%=circlesColors%></svg>',
@@ -113,7 +113,8 @@ define([
             (me.$el || $(me.el)).html(me.template({
                 circlesColors: circles,
                 scope: me,
-                phone: Common.SharedSettings.get('phone')
+                phone: Common.SharedSettings.get('phone'),
+                android: Common.SharedSettings.get('android')
             }));
 
             this.afterRender();
