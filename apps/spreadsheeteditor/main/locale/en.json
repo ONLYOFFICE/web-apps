@@ -430,6 +430,7 @@
   "SSE.Controllers.Main.errorInvalidRef": "Enter a correct name for the selection or a valid reference to go to.",
   "SSE.Controllers.Main.errorKeyEncrypt": "Unknown key descriptor",
   "SSE.Controllers.Main.errorKeyExpire": "Key descriptor expired",
+  "SSE.Controllers.Main.errorLabledColumnsPivot": "To create a pivot table, you must use data that is organized as a list with labeled columns.",
   "SSE.Controllers.Main.errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
   "SSE.Controllers.Main.errorLockedCellPivot": "You cannot change data inside a pivot table.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",

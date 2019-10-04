@@ -1351,6 +1351,10 @@ define([
                         config.msg = this.errorLockedCellPivot;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotLabledColumns:
+                        config.msg = this.errorLabledColumnsPivot;
+                        break;
+
                     case Asc.c_oAscError.ID.ForceSaveButton:
                         config.msg = this.errorForceSave;
                         break;
@@ -2436,7 +2440,8 @@ define([
             txtTime: 'Time',
             txtTab: 'Tab',
             txtFile: 'File',
-            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            errorLabledColumnsPivot: 'To create a pivot table, you must use data that is organized as a list with labeled columns.'
         }
     })(), SSE.Controllers.Main || {}))
 });
