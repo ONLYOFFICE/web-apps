@@ -802,7 +802,7 @@ define([
 
             need_disable = paragraph_locked || header_locked  || in_para && !can_add_image || in_equation || control_plain;
             toolbar.btnInsertImage.setDisabled(need_disable);
-            toolbar.btnInsertTextArt.setDisabled(need_disable || !can_add_image || in_image || in_footnote);
+            toolbar.btnInsertTextArt.setDisabled(need_disable || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);

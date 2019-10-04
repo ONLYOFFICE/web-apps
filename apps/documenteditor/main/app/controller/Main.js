@@ -132,7 +132,10 @@ define([
                     "Table Index Cannot be Zero": this.txtTableInd,
                     "Undefined Bookmark": this.txtUndefBookmark,
                     "Unexpected End of Formula": this.txtEndOfFormula,
-                    "Hyperlink": this.txtHyperlink
+                    "Hyperlink": this.txtHyperlink,
+                    "Error! Main Document Only.": this.txtMainDocOnly,
+                    "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
+                    "Error! No text of specified style in document.": this.txtNoText
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -360,8 +363,10 @@ define([
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
-                if (!this.editorConfig.customization || !(this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo))
+                if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
+                    (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
                     $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
+                }
 
                 Common.Controllers.Desktop.init(this.appOptions);
             },
@@ -2464,7 +2469,10 @@ define([
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
             txtHyperlink: 'Hyperlink',
             waitText: 'Please, wait...',
-            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            txtMainDocOnly: 'Error! Main Document Only.',
+            txtNotValidBookmark: 'Error! Not a valid bookmark self-reference.',
+            txtNoText: 'Error! No text of specified style in document.'
         }
     })(), DE.Controllers.Main || {}))
 });
