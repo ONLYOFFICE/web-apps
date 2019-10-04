@@ -76,6 +76,49 @@
             animation: flickerAnimation 2s infinite ease-in-out;
         }
 
+        .loadmask > .sktoolbar {
+            background: #fafafa;
+            height: 46px;
+            padding: 10px 12px;
+            box-sizing: content-box;
+        }
+
+        .loadmask > .sktoolbar ul {
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            position: relative;
+
+            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+            -moz-animation: flickerAnimation 2s infinite ease-in-out;
+            -o-animation: flickerAnimation 2s infinite ease-in-out;
+            animation: flickerAnimation 2s infinite ease-in-out;
+        }
+
+        .loadmask > .sktoolbar li {
+            background: #e2e2e2;
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .loadmask > .sktoolbar li.space {
+            background: none;
+            width: 12px;
+        }
+
+        .loadmask > .sktoolbar li.fat {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            left: 905px;
+            width: inherit;
+            height: 44px;
+        }
+
         .loadmask > .placeholder {
             background: #fbfbfb;
             width: 100%;
@@ -185,7 +228,21 @@
     <!-- debug end -->
 </head>
 <body>
-    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo.png"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="columns"></div><div class="columns"></div></div></div>
+    <div id="loading-mask" class="loadmask">
+        <div class="brendpanel"><div>
+            <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo.png"></div>
+            <div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div>
+        </div>
+        <div class="sktoolbar">
+            <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/><li class="fat"/></ul>
+            <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/></ul>
+        </div>
+        <div class="placeholder">
+            <div class="columns"></div>
+            <div class="columns"></div>
+        </div>
+    </div>
+
     <div id="viewport"></div>
 
     <script>
