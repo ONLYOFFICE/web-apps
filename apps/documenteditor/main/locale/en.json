@@ -993,6 +993,8 @@
   "DE.Controllers.Toolbar.txtSymbol_zeta": "Zeta",
   "DE.Controllers.Viewport.textFitPage": "Fit to Page",
   "DE.Controllers.Viewport.textFitWidth": "Fit to Width",
+  "DE.Views.AddNewCaptionLabelDialog.textLabel": "Label:",
+  "DE.Views.AddNewCaptionLabelDialog.textLabelError": "Label must not be empty."
   "DE.Views.BookmarksDialog.textAdd": "Add",
   "DE.Views.BookmarksDialog.textBookmarkName": "Bookmark name",
   "DE.Views.BookmarksDialog.textClose": "Close",
@@ -2258,7 +2260,5 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font Name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size",
-  "DE.Views.AddNewCaptionLabelDialog.textLabel": "Label:",
-  "DE.Views.AddNewCaptionLabelDialog.textLabelError": "Label must not be empty."
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size"
 }

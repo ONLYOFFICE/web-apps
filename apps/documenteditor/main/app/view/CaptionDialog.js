@@ -213,7 +213,7 @@ define([
             });
             this.btnAdd.on('click', _.bind(function (e) {
                 var me = this;
-                (new Common.Views.AddNewCaptionLabelDialog({
+                (new DE.Views.AddNewCaptionLabelDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
                             var rec = _.findWhere(me.arrLabel, {value: value});

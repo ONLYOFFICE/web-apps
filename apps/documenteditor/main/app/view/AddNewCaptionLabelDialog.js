@@ -43,7 +43,7 @@ define([
     'common/main/lib/component/InputField'
 ], function () { 'use strict';
 
-    Common.Views.AddNewCaptionLabelDialog = Common.UI.Window.extend(_.extend({
+    DE.Views.AddNewCaptionLabelDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 330,
             header: false,
@@ -123,5 +123,5 @@ define([
 
         textLabel: 'Label:',
         textLabelError: 'Label must not be empty.'
-    }, Common.Views.AddNewCaptionLabelDialog || {}));
+    }, DE.Views.AddNewCaptionLabelDialog || {}));
 });
