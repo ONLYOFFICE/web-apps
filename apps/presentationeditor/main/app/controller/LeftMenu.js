@@ -421,6 +421,10 @@ define([
                 this.dlgSearch = (new Common.UI.SearchDialog({
                     matchcase: true
                 }));
+                var me = this;
+                Common.NotificationCenter.on('preview:start', function() {
+                    me.dlgSearch.hide();
+                });
             }
 
             if (show) {

@@ -53,7 +53,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         options: {
             alias: 'NameManagerDlg',
             contentWidth: 510,
-            height: 353
+            height: 353,
+            buttons: null
         },
 
         initialize: function (options) {
@@ -408,7 +409,6 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         
         txtTitle: 'Name Manager',
         closeButtonText : 'Close',
-        okButtonText : 'Ok',
         textDataRange: 'Data Range',
         textNew: 'New',
         textEdit: 'Edit',

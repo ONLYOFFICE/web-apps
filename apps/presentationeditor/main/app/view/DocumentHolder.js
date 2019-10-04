@@ -692,21 +692,11 @@ define([
             };
 
             this.changeLanguageMenu = function(menu) {
-                var i;
                 if (me._currLang.id===null || me._currLang.id===undefined) {
-                    for (i=0; i<menu.items.length; i++)
-                        menu.items[i].setChecked(false);
-                    menu.currentCheckedItem = undefined;
+                    menu.clearAll();
                 } else {
-                    for (i=0; i<menu.items.length; i++) {
-                        if (menu.items[i].options.langid === me._currLang.id) {
-                            menu.currentCheckedItem = menu.items[i];
-                            if (!menu.items[i].checked)
-                                menu.items[i].setChecked(true);
-                            break;
-                        } else if (menu.items[i].checked)
-                            menu.items[i].setChecked(false);
-                    }
+                    var index = _.findIndex(menu.items, {langid: me._currLang.id});
+                    (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
                 }
             };
 
@@ -2169,13 +2159,21 @@ define([
                 })
             });
 
+            var langTemplate = _.template([
+                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
+                '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                '<%= caption %>',
+                '</a>'
+            ].join(''));
+
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
-                menu        : new Common.UI.Menu({
+                menu        : new Common.UI.MenuSimple({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
+                    itemTemplate: langTemplate,
                     search: true
                 })
             });
@@ -2246,11 +2244,12 @@ define([
 
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
-                menu        : new Common.UI.Menu({
+                menu        : new Common.UI.MenuSimple({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
+                    itemTemplate: langTemplate,
                     search: true
                 })
             });
@@ -3360,60 +3359,40 @@ define([
 
         setLanguages: function(langs){
             var me = this;
-
             if (langs && langs.length > 0 && me.langParaMenu && me.langTableMenu) {
-                me.langParaMenu.menu.removeAll();
-                me.langTableMenu.menu.removeAll();
-                _.each(langs, function(lang, index){
-                    me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
+                var arrPara = [], arrTable = [];
+                _.each(langs, function(lang) {
+                    var item = {
                         caption     : lang.displayValue,
                         value       : lang.value,
                         checkable   : true,
-                        toggleGroup : 'popupparalang',
                         langid      : lang.code,
-                        spellcheck   : lang.spellcheck,
-                        template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
-                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
-                                '<%= caption %>',
-                            '</a>'
-                        ].join(''))
-                    }).on('click', function(item, e){
-                        if (me.api){
-                            if (!_.isUndefined(item.options.langid))
-                                me.api.put_TextPrLang(item.options.langid);
+                        spellcheck   : lang.spellcheck
+                    };
+                    arrPara.push(item);
+                    arrTable.push(_.clone(item));
+                });
+                me.langParaMenu.menu.resetItems(arrPara);
+                me.langTableMenu.menu.resetItems(arrTable);
 
-                            me._currLang.paraid = item.options.langid;
-                            me.langParaMenu.menu.currentCheckedItem = item;
+                me.langParaMenu.menu.on('item:click', function(menu, item){
+                    if (me.api){
+                        if (!_.isUndefined(item.langid))
+                            me.api.put_TextPrLang(item.langid);
 
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }));
+                        me._currLang.paraid = item.langid;
+                        me.fireEvent('editcomplete', me);
+                    }
+                });
 
-                    me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.displayValue,
-                        value       : lang.value,
-                        checkable   : true,
-                        toggleGroup : 'popuptablelang',
-                        langid      : lang.code,
-                        spellcheck   : lang.spellcheck,
-                        template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
-                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
-                                '<%= caption %>',
-                            '</a>'
-                        ].join(''))
-                    }).on('click', function(item, e){
-                        if (me.api){
-                            if (!_.isUndefined(item.options.langid))
-                                me.api.put_TextPrLang(item.options.langid);
+                me.langTableMenu.menu.on('item:click', function(menu, item, e){
+                    if (me.api){
+                        if (!_.isUndefined(item.langid))
+                            me.api.put_TextPrLang(item.langid);
 
-                            me._currLang.tableid = item.options.langid;
-                            me.langTableMenu.menu.currentCheckedItem = item;
-
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }));
+                        me._currLang.tableid = item.langid;
+                        me.fireEvent('editcomplete', me);
+                    }
                 });
             }
         },

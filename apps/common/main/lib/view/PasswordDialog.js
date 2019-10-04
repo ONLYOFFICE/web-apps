@@ -59,7 +59,8 @@ define([
                 header          : true,
                 cls             : 'modal-dlg',
                 contentTemplate : '',
-                title           : t.txtTitle
+                title           : t.txtTitle,
+                buttons: ['ok', 'cancel']
 
             }, options);
 
@@ -77,11 +78,7 @@ define([
                     '</div>',
                     '<div id="id-repeat-txt" class="input-row"></div>',
                 '</div>',
-                '<div class="separator horizontal"/>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">' + t.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + t.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"/>'
             ].join('');
 
             this.handler        =   options.handler;
@@ -154,8 +151,6 @@ define([
             this.close();
         },
 
-        okButtonText       : "OK",
-        cancelButtonText   : "Cancel",
         txtTitle           : "Set Password",
         txtPassword        : "Password",
         txtDescription     : "A Password is required to open this document",

@@ -84,7 +84,7 @@ define([
                 '</div>',
                 '<div class="separator horizontal" style="width:100%"></div>',
                 '<div class="footer right" style="margin-left:-15px;">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
                     '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                 '</div>'
             ].join('');
@@ -276,7 +276,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
         capAnd              : "And",
         capCondition1       : "equals",
         capCondition10      : "does not end with",
@@ -312,7 +311,8 @@ define([
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : []
+                items           : [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template   =   options.template || [
@@ -332,11 +332,7 @@ define([
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal" style="width:100%"></div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
-                '</div>'
+                '<div class="separator horizontal" style="width:100%"></div>'
             ].join('');
 
             this.api        =   options.api;
@@ -461,8 +457,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
-        okButtonText        : 'OK',
         txtTitle            : "Top 10 AutoFilter",
         textType            : 'Show',
         txtTop              : 'Top',
@@ -548,7 +542,6 @@ define([
             this.btnOk = new Common.UI.Button({
                 cls: 'btn normal dlg-btn primary',
                 caption : this.okButtonText,
-                style: 'margin-right:10px;',
                 enableToggle: false,
                 allowDepress: false
             });
@@ -1406,13 +1399,11 @@ define([
             Common.Utils.InternalSettings.set('sse-settings-size-filter-window', size);
         },
 
-        okButtonText        : 'Ok',
         btnCustomFilter     : 'Custom Filter',
         textSelectAll       : 'Select All',
         txtTitle            : 'Filter',
         warnNoSelected      : 'You must choose at least one value',
         textWarning         : 'Warning',
-        cancelButtonText    : 'Cancel',
         textEmptyItem       : '{Blanks}',
         txtEmpty            : 'Enter cell\'s filter',
         txtSortLow2High     : 'Sort Lowest to Highest',

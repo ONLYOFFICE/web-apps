@@ -61,6 +61,8 @@ define([
                     'changerange': _.bind(this.onChangeRange,this)
                 }
             });
+            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
+            Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
         },
 
         onLaunch: function() {
@@ -70,8 +72,6 @@ define([
         onAfterRender: function(view) {
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
-            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
-            Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
             this.registerControlEvents(this.printSettings);
         },
 
@@ -138,15 +138,13 @@ define([
             if (item)
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
-                panel.cmbPaperSize.setValue('Custom (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
                                                          parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
 
             var fitwidth = opt.asc_getFitToWidth(),
-                fitheight = opt.asc_getFitToHeight();
-            if (!fitwidth && !fitheight) panel.cmbLayout.setValue(0);
-            else if (fitwidth && fitheight) panel.cmbLayout.setValue(1);
-            else if (fitwidth && !fitheight) panel.cmbLayout.setValue(2);
-            else panel.cmbLayout.setValue(3);
+                fitheight = opt.asc_getFitToHeight(),
+                fitscale = opt.asc_getScale();
+            this.setScaling(panel, fitwidth, fitheight, fitscale);
 
             item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
@@ -194,9 +192,17 @@ define([
             opt.asc_setHeight(pageh? parseFloat(pageh[0]) : (this._originalPageSettings ? this._originalPageSettings.asc_getHeight() : undefined));
 
             var value = panel.cmbLayout.getValue();
-            opt.asc_setFitToWidth(value==1 || value==2);
-            opt.asc_setFitToHeight(value==1 || value==3);
-
+            if (value !== 4) {
+                var fitToWidth = (value==1 || value==2) ? 1 : 0,
+                    fitToHeight = (value==1 || value==3) ? 1 : 0;
+                opt.asc_setFitToWidth(fitToWidth);
+                opt.asc_setFitToHeight(fitToHeight);
+                !fitToWidth && !fitToHeight && opt.asc_setScale(100);
+            } else {
+                opt.asc_setFitToWidth(this.fitWidth);
+                opt.asc_setFitToHeight(this.fitHeight);
+                opt.asc_setScale(this.fitScale);
+            }
             props.asc_setPageSetup(opt);
 
             opt = new Asc.asc_CPageMargins();
@@ -339,7 +345,7 @@ define([
         registerControlEvents: function(panel) {
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
-            panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel));
+            panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel, 'scale'));
             panel.spnMarginTop.on('change', _.bind(this.propertyChange, this, panel));
             panel.spnMarginBottom.on('change', _.bind(this.propertyChange, this, panel));
             panel.spnMarginLeft.on('change', _.bind(this.propertyChange, this, panel));
@@ -348,14 +354,53 @@ define([
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
         },
 
-        propertyChange: function(panel) {
-            if (this._changedProps) {
-                this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+        propertyChange: function(panel, scale, combo, record) {
+            if (scale === 'scale' && record.value === 4) {
+                var me = this,
+                    props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue());
+                var win = new SSE.Views.ScaleDialog({
+                    api: me.api,
+                    props: props,
+                    handler: function(dlg, result) {
+                        if (dlg == 'ok') {
+                            if (me.api && result) {
+                                me.fitWidth = result.width;
+                                me.fitHeight = result.height;
+                                me.fitScale = result.scale;
+                                me.setScaling(panel, me.fitWidth, me.fitHeight, me.fitScale);
+                                if (me._changedProps) {
+                                    me._changedProps[panel.cmbSheet.getValue()] = me.getPageOptions(panel);
+                                }
+                            }
+                        } else {
+                            var opt = props.asc_getPageSetup(),
+                                fitwidth = opt.asc_getFitToWidth(),
+                                fitheight = opt.asc_getFitToHeight(),
+                                fitscale = opt.asc_getScale();
+                            me.setScaling(panel, fitwidth, fitheight, fitscale);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
+                win.show();
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else {
+                if (this._changedProps) {
+                    this._changedProps[panel.cmbSheet.getValue()] = this.getPageOptions(panel);
+                }
             }
         },
 
         getPrintParams: function() {
             return this.adjPrintParams;
+        },
+
+        setScaling: function (panel, width, height, scale) {
+            if (!width && !height && scale === 100) panel.cmbLayout.setValue(0, true);
+            else if (width === 1 && height === 1) panel.cmbLayout.setValue(1, true);
+            else if (width === 1 && !height) panel.cmbLayout.setValue(2, true);
+            else if (!width && height === 1) panel.cmbLayout.setValue(3, true);
+            else panel.cmbLayout.setValue(4, true);
         },
 
         warnCheckMargings:      'Margins are incorrect',

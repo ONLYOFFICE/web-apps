@@ -125,6 +125,7 @@ define([
                     'translate': translate
                 });
 
+
                 // Localization uiApp params
                 uiApp.params.modalButtonOk = me.textOK;
                 uiApp.params.modalButtonCancel = me.textCancel;
@@ -238,6 +239,9 @@ define([
 
                if (me.appOptions.location == 'us' || me.appOptions.location == 'ca')
                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
             },
 
             loadDocument: function(data) {
@@ -579,6 +583,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {

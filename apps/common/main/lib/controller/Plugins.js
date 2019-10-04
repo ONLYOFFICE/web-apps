@@ -172,7 +172,7 @@ define([
         },
 
         onAfterRender: function(panelPlugins) {
-            panelPlugins.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
+            panelPlugins.viewPluginsList && panelPlugins.viewPluginsList.on('item:click', _.bind(this.onSelectPlugin, this));
             this.bindViewEvents(this.panelPlugins, this.events);
             var me = this;
             Common.NotificationCenter.on({

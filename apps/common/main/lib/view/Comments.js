@@ -72,6 +72,99 @@ define([
         return tpl;
     }
 
+    var CommentsPanelDataView = Common.UI.DataView.extend((function() {
+        return {
+            options : {
+                handleSelect: false,
+                scrollable: true,
+                listenStoreEvents: false,
+                template: _.template('<div class="dataview-ct inner"></div>')
+            },
+
+            getTextBox: function () {
+                var text = $(this.el).find('textarea');
+                return (text && text.length) ? text : undefined;
+            },
+            setFocusToTextBox: function () {
+                var text = $(this.el).find('textarea');
+                if (text && text.length) {
+                    var val = text.val();
+                    text.focus();
+                    text.val('');
+                    text.val(val);
+                }
+            },
+            getActiveTextBoxVal: function () {
+                var text = $(this.el).find('textarea');
+                return (text && text.length) ? text.val().trim() : '';
+            },
+            autoHeightTextBox: function () {
+                var view = this,
+                    textBox = $(this.el).find('textarea'),
+                    domTextBox = null,
+                    minHeight = 50,
+                    lineHeight = 0,
+                    scrollPos = 0,
+                    oldHeight = 0,
+                    newHeight = 0;
+
+                function updateTextBoxHeight() {
+                    if (domTextBox.scrollHeight > domTextBox.clientHeight) {
+                        textBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
+                    } else {
+                        oldHeight = domTextBox.clientHeight;
+                        if (oldHeight >= minHeight) {
+
+                            textBox.css({height: minHeight + 'px'});
+
+                            if (domTextBox.scrollHeight > domTextBox.clientHeight) {
+                                newHeight = Math.max(domTextBox.scrollHeight + lineHeight, minHeight);
+                                textBox.css({height: newHeight + 'px'});
+                            }
+                        }
+                    }
+
+                    view.autoScrollToEditButtons();
+                }
+
+                if (textBox && textBox.length) {
+                    domTextBox = textBox.get(0);
+
+                    if (domTextBox) {
+                        lineHeight = parseInt(textBox.css('lineHeight'), 10) * 0.25;
+                        updateTextBoxHeight();
+                        textBox.bind('input propertychange', updateTextBoxHeight)
+                    }
+                }
+
+                this.textBox = textBox;
+            },
+            clearTextBoxBind: function () {
+                if (this.textBox) {
+                    this.textBox.unbind('input propertychange');
+                    this.textBox = undefined;
+                }
+            },
+            autoScrollToEditButtons: function () {
+                var button = $('#id-comments-change'),  // TODO: add to cache
+                    btnBounds = null,
+                    contentBounds = this.el.getBoundingClientRect(),
+                    moveY = 0,
+                    padding = 7;
+
+                if (button.length) {
+                    btnBounds = button.get(0).getBoundingClientRect();
+                    if (btnBounds && contentBounds) {
+                        moveY = contentBounds.bottom - (btnBounds.bottom + padding);
+                        if (moveY < 0) {
+                            this.scroller.scrollTop(this.scroller.getScrollTop() - moveY);
+                        }
+                    }
+                }
+            }
+        }
+    })());
+
     Common.Views.Comments = Common.UI.BaseView.extend(_.extend({
         el: '#left-panel-comments',
         template: _.template(panelTemplate),
@@ -81,11 +174,126 @@ define([
         textBoxAutoSizeLocked: undefined, // disable autosize textbox
         viewmode: false,
 
+        _commentsViewOnItemClick: function (picker, item, record, e) {
+            var me = this;
+            var btn, showEditBox, showReplyBox, commentId, replyId, hideAddReply;
+
+            function readdresolves() {
+                me.update();
+            }
+
+            btn = $(e.target);
+            if (btn) {
+                showEditBox = record.get('editText');
+                showReplyBox = record.get('showReply');
+                commentId = record.get('uid');
+                replyId =  btn.attr('data-value');
+
+                if (btn.hasClass('btn-edit')) {
+                    if (!_.isUndefined(replyId)) {
+                        me.fireEvent('comment:closeEditing', [commentId]);
+                        me.fireEvent('comment:editReply', [commentId, replyId]);
+
+                        me.commentsView.reply = replyId;
+
+                        this.autoHeightTextBox();
+
+                        readdresolves();
+
+                        me.hookTextBox();
+
+                        this.autoScrollToEditButtons();
+                        this.setFocusToTextBox();
+                    } else {
+
+                        if (!showEditBox) {
+                            me.fireEvent('comment:closeEditing');
+                            record.set('editText', true);
+
+                            this.autoHeightTextBox();
+                            readdresolves();
+                            this.setFocusToTextBox();
+                            me.hookTextBox();
+                        }
+                    }
+                } else if (btn.hasClass('btn-delete')) {
+                    if (!_.isUndefined(replyId)) {
+                        me.fireEvent('comment:removeReply', [commentId, replyId]);
+                    } else {
+                        me.fireEvent('comment:remove', [commentId]);
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+
+                    me.fireEvent('comment:closeEditing');
+                    readdresolves();
+                } else if (btn.hasClass('user-reply')) {
+                    me.fireEvent('comment:closeEditing');
+                    record.set('showReply', true);
+
+                    readdresolves();
+
+                    this.autoHeightTextBox();
+                    me.hookTextBox();
+
+                    this.autoScrollToEditButtons();
+                    this.setFocusToTextBox();
+                } else if (btn.hasClass('btn-reply', false)) {
+                    if (showReplyBox) {
+                        me.fireEvent('comment:addReply', [commentId, this.getActiveTextBoxVal()]);
+                        me.fireEvent('comment:closeEditing');
+
+                        readdresolves();
+                    }
+                } else if (btn.hasClass('btn-close', false)) {
+
+                    me.fireEvent('comment:closeEditing', [commentId]);
+
+                } else if (btn.hasClass('btn-inner-edit', false)) {
+                    if (!_.isUndefined(me.commentsView.reply)) {
+                        me.fireEvent('comment:changeReply', [commentId, me.commentsView.reply, this.getActiveTextBoxVal()]);
+                        me.commentsView.reply = undefined;
+                    } else if (showEditBox) {
+                        me.fireEvent('comment:change', [commentId, this.getActiveTextBoxVal()]);
+                    }
+
+                    me.fireEvent('comment:closeEditing');
+
+                    readdresolves();
+
+                } else if (btn.hasClass('btn-inner-close', false)) {
+                    me.fireEvent('comment:closeEditing');
+
+                    me.commentsView.reply = undefined;
+
+                    readdresolves();
+                } else if (btn.hasClass('btn-resolve', false)) {
+                    var tip = btn.data('bs.tooltip');
+                    if (tip) tip.dontShow = true;
+
+                    me.fireEvent('comment:resolve', [commentId]);
+
+                    readdresolves();
+                } else if (btn.hasClass('btn-resolve-check', false)) {
+                    var tip = btn.data('bs.tooltip');
+                    if (tip) tip.dontShow = true;
+
+                    me.fireEvent('comment:resolve', [commentId]);
+
+                    readdresolves();
+                } else if (!btn.hasClass('msg-reply') &&
+                    !btn.hasClass('btn-resolve-check') &&
+                    !btn.hasClass('btn-resolve')) {
+                    me.fireEvent('comment:show', [commentId, false]);
+                }
+            }
+        },
+
         initialize: function (options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             this.store = this.options.store;
         },
+
         render: function () {
             var me = this;
 
@@ -134,255 +342,51 @@ define([
                     }
                 });
             }
-            var CommentsPanelDataView = Common.UI.DataView.extend((function() {
 
-                return {
+            if (this.commentsView) {
+                this.commentsView.onResetItems();
+            } else {
+                this.commentsView = new CommentsPanelDataView({
+                    el: $('.messages-ct',me.el),
+                    store: me.store,
+                    itemTemplate: _.template(replaceWords(commentsTemplate, {
+                        textAddReply: me.textAddReply,
+                        textAdd: me.textAdd,
+                        textCancel: me.textCancel,
+                        textEdit: me.textEdit,
+                        textReply: me.textReply,
+                        textClose: me.textClose,
+                        maxCommLength: Asc.c_oAscMaxCellOrCommentLength
+                    }))
+                });
 
-                    options : {
-                        handleSelect: false,
-                        scrollable: true,
-                        listenStoreEvents: false,
-                        template: _.template('<div class="dataview-ct inner"></div>')
-                    },
-
-                    getTextBox: function () {
-                        var text = $(this.el).find('textarea');
-                        return (text && text.length) ? text : undefined;
-                    },
-                    setFocusToTextBox: function () {
-                        var text = $(this.el).find('textarea');
-                        if (text && text.length) {
-                            var val = text.val();
-                            text.focus();
-                            text.val('');
-                            text.val(val);
-                        }
-                    },
-                    getActiveTextBoxVal: function () {
-                        var text = $(this.el).find('textarea');
-                        return (text && text.length) ? text.val().trim() : '';
-                    },
-                    autoHeightTextBox: function () {
-                        var view = this,
-                            textBox = $(this.el).find('textarea'),
-                            domTextBox = null,
-                            minHeight = 50,
-                            lineHeight = 0,
-                            scrollPos = 0,
-                            oldHeight = 0,
-                            newHeight = 0;
-
-                        function updateTextBoxHeight() {
-                            if (domTextBox.scrollHeight > domTextBox.clientHeight) {
-                                textBox.css({height: (domTextBox.scrollHeight + lineHeight) + 'px'});
-                            } else {
-                                oldHeight = domTextBox.clientHeight;
-                                if (oldHeight >= minHeight) {
-
-                                    textBox.css({height: minHeight + 'px'});
-
-                                    if (domTextBox.scrollHeight > domTextBox.clientHeight) {
-                                        newHeight = Math.max(domTextBox.scrollHeight + lineHeight, minHeight);
-                                        textBox.css({height: newHeight + 'px'});
-                                    }
-                                }
-                            }
-
-                            view.autoScrollToEditButtons();
-                        }
-
-                        if (textBox && textBox.length) {
-                            domTextBox = textBox.get(0);
-
-                            if (domTextBox) {
-                                lineHeight = parseInt(textBox.css('lineHeight'), 10) * 0.25;
-                                updateTextBoxHeight();
-                                textBox.bind('input propertychange', updateTextBoxHeight)
-                            }
-                        }
-
-                        this.textBox = textBox;
-                    },
-                    clearTextBoxBind: function () {
-                        if (this.textBox) {
-                            this.textBox.unbind('input propertychange');
-                            this.textBox = undefined;
-                        }
-                    },
-                    autoScrollToEditButtons: function () {
-                        var button = $('#id-comments-change'),  // TODO: add to cache
-                            btnBounds = null,
-                            contentBounds = this.el.getBoundingClientRect(),
-                            moveY = 0,
-                            padding = 7;
-
-                        if (button.length) {
-                            btnBounds = button.get(0).getBoundingClientRect();
-                            if (btnBounds && contentBounds) {
-                                moveY = contentBounds.bottom - (btnBounds.bottom + padding);
-                                if (moveY < 0) {
-                                    this.scroller.scrollTop(this.scroller.getScrollTop() - moveY);
-                                }
-                            }
-                        }
+                var addtooltip = function (dataview, view, record) {
+                    if (view.tipsArray) {
+                        view.tipsArray.forEach(function(item){
+                            item.remove();
+                        });
                     }
-                }
-            })());
-            if (CommentsPanelDataView) {
-                if (this.commentsView) {
-                    this.commentsView.onResetItems();
-                } else {
-                    this.commentsView = new CommentsPanelDataView({
-                        el: $('.messages-ct',me.el),
-                        store: me.store,
-                        itemTemplate: _.template(replaceWords(commentsTemplate, {
-                            textAddReply: me.textAddReply,
-                            textAdd: me.textAdd,
-                            textCancel: me.textCancel,
-                            textEdit: me.textEdit,
-                            textReply: me.textReply,
-                            textClose: me.textClose,
-                            maxCommLength: Asc.c_oAscMaxCellOrCommentLength
-                        }))
+
+                    var arr = [],
+                        btns = $(view.el).find('.btn-resolve');
+                    btns.tooltip({title: me.textResolve, placement: 'cursor'});
+                    btns.each(function(idx, item){
+                        arr.push($(item).data('bs.tooltip').tip());
                     });
-
-                    var addtooltip = function (dataview, view, record) {
-                        if (view.tipsArray) {
-                            view.tipsArray.forEach(function(item){
-                                item.remove();
-                            });
-                        }
-
-                        var arr = [],
-                            btns = $(view.el).find('.btn-resolve');
-                        btns.tooltip({title: me.textResolve, placement: 'cursor'});
-                        btns.each(function(idx, item){
-                            arr.push($(item).data('bs.tooltip').tip());
-                        });
-                        btns = $(view.el).find('.btn-resolve-check');
-                        btns.tooltip({title: me.textOpenAgain, placement: 'cursor'});
-                        btns.each(function(idx, item){
-                            arr.push($(item).data('bs.tooltip').tip());
-                        });
-                        view.tipsArray = arr;
-                    };
-                    this.commentsView.on('item:add', addtooltip);
-                    this.commentsView.on('item:remove', addtooltip);
-                    this.commentsView.on('item:change', addtooltip);
-
-                    this.commentsView.on('item:click', function (picker, item, record, e) {
-                        var btn, showEditBox, showReplyBox, commentId, replyId, hideAddReply;
-
-                        function readdresolves() {
-                            me.update();
-                        }
-
-                        btn = $(e.target);
-                        if (btn) {
-                            showEditBox = record.get('editText');
-                            showReplyBox = record.get('showReply');
-                            commentId = record.get('uid');
-                            replyId =  btn.attr('data-value');
-
-                            if (btn.hasClass('btn-edit')) {
-                                if (!_.isUndefined(replyId)) {
-                                    me.fireEvent('comment:closeEditing', [commentId]);
-                                    me.fireEvent('comment:editReply', [commentId, replyId]);
-
-                                    me.commentsView.reply = replyId;
-
-                                    this.autoHeightTextBox();
-
-                                    readdresolves();
-
-                                    me.hookTextBox();
-
-                                    this.autoScrollToEditButtons();
-                                    this.setFocusToTextBox();
-                                } else {
-
-                                    if (!showEditBox) {
-                                        me.fireEvent('comment:closeEditing');
-                                        record.set('editText', true);
-
-                                        this.autoHeightTextBox();
-                                        readdresolves();
-                                        this.setFocusToTextBox();
-                                        me.hookTextBox();
-                                    }
-                                }
-                            } else if (btn.hasClass('btn-delete')) {
-                                if (!_.isUndefined(replyId)) {
-                                    me.fireEvent('comment:removeReply', [commentId, replyId]);
-                                } else {
-                                    me.fireEvent('comment:remove', [commentId]);
-                                    Common.NotificationCenter.trigger('edit:complete', me);
-                                }
-
-                                me.fireEvent('comment:closeEditing');
-                                readdresolves();
-                            } else if (btn.hasClass('user-reply')) {
-                                me.fireEvent('comment:closeEditing');
-                                record.set('showReply', true);
-
-                                readdresolves();
-
-                                this.autoHeightTextBox();
-                                me.hookTextBox();
-
-                                this.autoScrollToEditButtons();
-                                this.setFocusToTextBox();
-                            } else if (btn.hasClass('btn-reply', false)) {
-                                if (showReplyBox) {
-                                    me.fireEvent('comment:addReply', [commentId, this.getActiveTextBoxVal()]);
-                                    me.fireEvent('comment:closeEditing');
-
-                                    readdresolves();
-                                }
-                            } else if (btn.hasClass('btn-close', false)) {
-
-                                me.fireEvent('comment:closeEditing', [commentId]);
-
-                            } else if (btn.hasClass('btn-inner-edit', false)) {
-                                if (!_.isUndefined(me.commentsView.reply)) {
-                                    me.fireEvent('comment:changeReply', [commentId, me.commentsView.reply, this.getActiveTextBoxVal()]);
-                                    me.commentsView.reply = undefined;
-                                } else if (showEditBox) {
-                                    me.fireEvent('comment:change', [commentId, this.getActiveTextBoxVal()]);
-                                }
-
-                                me.fireEvent('comment:closeEditing');
-
-                                readdresolves();
-
-                            } else if (btn.hasClass('btn-inner-close', false)) {
-                                me.fireEvent('comment:closeEditing');
-
-                                me.commentsView.reply = undefined;
-
-                                readdresolves();
-                            } else if (btn.hasClass('btn-resolve', false)) {
-                                var tip = btn.data('bs.tooltip');
-                                if (tip) tip.dontShow = true;
-
-                                me.fireEvent('comment:resolve', [commentId]);
-
-                                readdresolves();
-                            } else if (btn.hasClass('btn-resolve-check', false)) {
-                                var tip = btn.data('bs.tooltip');
-                                if (tip) tip.dontShow = true;
-
-                                me.fireEvent('comment:resolve', [commentId]);
-
-                                readdresolves();
-                            } else if (!btn.hasClass('msg-reply') &&
-                                !btn.hasClass('btn-resolve-check') &&
-                                !btn.hasClass('btn-resolve')) {
-                                me.fireEvent('comment:show', [commentId, false]);
-                            }
-                        }
+                    btns = $(view.el).find('.btn-resolve-check');
+                    btns.tooltip({title: me.textOpenAgain, placement: 'cursor'});
+                    btns.each(function(idx, item){
+                        arr.push($(item).data('bs.tooltip').tip());
                     });
-                }
+                    view.tipsArray = arr;
+                };
+
+                this.commentsView.on({
+                    'item:add': addtooltip,
+                    'item:remove': addtooltip,
+                    'item:change': addtooltip,
+                    'item:click': this._commentsViewOnItemClick.bind(this)
+                });
             }
 
             if (!this.rendered) this.setupLayout();
@@ -482,7 +486,7 @@ define([
         },
 
         setupLayout: function () {
-            var me = this, parent = $(me.el);
+            var me = this, parent = me.$el;
 
             var add = $('.new-comment-ct', me.el),
                 to = $('.add-link-ct', me.el),
@@ -655,6 +659,9 @@ define([
             message = Common.Utils.String.htmlEncode(message);
 
             message.replace(Common.Utils.ipStrongRe, function(subStr) {
+                var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                if (result)
+                    subStr = subStr.substring(0, result.index);
                 offset = arguments[arguments.length-2];
                 arr.push({start: offset, end: subStr.length+offset, str: '<a href="' + subStr + '" target="_blank" data-can-copy="true">' + subStr + '</a>'});
                 return '';
@@ -662,6 +669,9 @@ define([
 
             if (message.length<1000 || message.search(/\S{255,}/)<0)
                 message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
+                    var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                    if (result)
+                        subStr = subStr.substring(0, result.index);
                     var ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
                     offset = arguments[arguments.length-2];
                     len = subStr.length;

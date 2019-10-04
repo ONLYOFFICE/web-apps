@@ -231,7 +231,7 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 scope: this
             }));
@@ -431,10 +431,10 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         ChangeSettings: function(props) {
@@ -641,6 +641,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
              if (!this.btnBackColor) {
                 // create color buttons
                  this.btnBorderColor = new Common.UI.ColorButton({
@@ -715,17 +716,25 @@ define([
                     data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
-                self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
+                    var tip = template.asc_getDisplayName();
+                    if (template.asc_getType()==0) {
+                        ['Table Grid', 'Plain Table', 'Grid Table', 'List Table', 'Light', 'Dark', 'Colorful', 'Accent'].forEach(function(item){
+                            var str = 'txtTable_' + item.replace(' ', '');
+                            if (self[str])
+                                tip = tip.replace(item, self[str]);
+                        });
+
+                    }
                     arr.push({
                         imageUrl: template.asc_getImage(),
                         id     : Common.UI.getId(),
                         templateId: template.asc_getId(),
-                        tip    : template.asc_getDisplayName()
+                        tip    : tip
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.add(arr);
+                self.cmbTableTemplate.menuPicker.store.reset(arr);
             }
         },
 
@@ -823,8 +832,6 @@ define([
         textSelectBorders       : 'Select borders that you want to change',
         textAdvanced            : 'Show advanced settings',
         txtNoBorders            : 'No borders',
-        textOK                  : 'OK',
-        textCancel              : 'Cancel',
         textNewColor            : 'Add New Custom Color',
         textTemplate            : 'Select From Template',
         textRows                : 'Rows',
@@ -851,7 +858,15 @@ define([
         textWidth: 'Width',
         textDistributeRows: 'Distribute rows',
         textDistributeCols: 'Distribute columns',
-        textAddFormula: 'Add formula'
+        textAddFormula: 'Add formula',
+        txtTable_TableGrid: 'Table Grid',
+        txtTable_PlainTable: 'Plain Table',
+        txtTable_GridTable: 'Grid Table',
+        txtTable_ListTable: 'List Table',
+        txtTable_Light: 'Light',
+        txtTable_Dark: 'Dark',
+        txtTable_Colorful: 'Colorful',
+        txtTable_Accent: 'Accent'
 
     }, DE.Views.TableSettings || {}));
 });

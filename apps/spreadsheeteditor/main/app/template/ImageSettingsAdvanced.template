@@ -24,6 +24,27 @@
         </table>
     </div>
 </div>
+<div id="id-adv-image-snap" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1">
+            <tr>
+                <td class="padding-small">
+                    <div id="image-advanced-radio-twocell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="image-advanced-radio-onecell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="image-advanced-radio-absolute"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 <div id="id-adv-image-alttext" class="settings-panel active">
     <div class="inner-content">
         <table cols="1" width="100%">

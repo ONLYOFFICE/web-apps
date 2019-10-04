@@ -51,7 +51,8 @@ define([
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 360
+            height: 360,
+            buttons: null
         },
 
         initialize : function(options) {
@@ -136,9 +137,10 @@ define([
                 value       : '',
                 maxLength: 40,
                 validation  : function(value) {
-                    var check = me.props.asc_CheckNewBookmarkName(value);
-                    me.btnAdd.setDisabled(!check);
-                    return (check || _.isEmpty(value)) ? true : me.txtInvalidName;
+                    var check = me.props.asc_CheckNewBookmarkName(value),
+                        exist = me.props.asc_HaveBookmark(value);
+                    me.btnAdd.setDisabled(!check && !exist);
+                    return (check || _.isEmpty(value) || exist) ? true : me.txtInvalidName;
                 }
             }).on ('changing', function (input, value) {
                 var exist = me.props.asc_HaveBookmark(value);
@@ -247,6 +249,28 @@ define([
 
         afterRender: function() {
             this._setDefaults(this.props);
+            var me = this;
+            var onApiBookmarksUpdate = function() {
+                var rec = me.bookmarksList.getSelectedRec();
+                me.refreshBookmarks();
+                if (rec) {
+                    rec = me.bookmarksList.store.findWhere({value: rec.get('value')});
+                    if (rec) {
+                        me.bookmarksList.selectRecord(rec);
+                        me.bookmarksList.scrollToRecord(rec);
+                    } else {
+                        me.txtName.setValue('');
+                        me.btnAdd.setDisabled(true);
+                        me.btnGoto.setDisabled(true);
+                        me.btnDelete.setDisabled(true);
+                        me.btnGetLink.setDisabled(true);
+                    }
+                }
+            };
+            this.api.asc_registerCallback('asc_onBookmarksUpdate', onApiBookmarksUpdate);
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onBookmarksUpdate', onApiBookmarksUpdate);
+            });
         },
 
         show: function() {
@@ -266,7 +290,6 @@ define([
 
         _setDefaults: function (props) {
             this.refreshBookmarks();
-            this.bookmarksList.scrollToRecord(this.bookmarksList.selectByIndex(0));
             this.btnGetLink.setVisible(this.appOptions.canMakeActionLink);
         },
 
@@ -314,7 +337,10 @@ define([
 
         gotoBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
-            rec && this.props.asc_SelectBookmark(rec.get('value'));
+            if (rec)
+                this.props.asc_SelectBookmark(rec.get('value'));
+            else if (this.txtName.getValue()!=='')
+                this.props.asc_SelectBookmark(this.txtName.getValue());
         },
 
         addBookmark: function(btn, eOpts){

@@ -63,6 +63,12 @@
  *      @cfg {Boolean} animate
  *      Makes the window to animate while showing or hiding
  *
+ *      @cfg {Object} buttons
+ *          Use an array for predefined buttons (ok, cancel, yes, no): @example ['yes', 'no']
+ *          Use a named array for the custom buttons: {value: caption, ...}
+ *              @param {String} value will be returned in callback function
+ *              @param {String} caption
+ *
  *      Methods
  *
  *      @method show
@@ -106,12 +112,6 @@
  *      @window Common.UI.warning
  *      Shows warning message.
  *      @cfg {String} msg
- *      @cfg {Object} buttons
- *          Use an array for predefined buttons (ok, cancel, yes, no): @example ['yes', 'no']
- *          Use a named array for the custom buttons: {value: caption, ...}
- *              @param {String} value will be returned in callback function
- *              @param {String} caption
- *
  *      @cfg {Function} callback
  *      @param {String} button
  *      If the window is closed via shortcut or header's close tool, the 'button' will be 'close'
@@ -167,7 +167,15 @@ define([
                                     '<div class="title"><%= title %></div> ' +
                                 '</div>' +
                             '<% } %>' +
-                            '<div class="body"><%= tpl %></div>' +
+                            '<div class="body"><%= tpl %>' +
+                                '<% if (typeof (buttons) !== "undefined" && _.size(buttons) > 0) { %>' +
+                                '<div class="footer">' +
+                                    '<% for(var bt in buttons) { %>' +
+                                        '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>'+
+                                    '<% } %>' +
+                                '</div>' +
+                                '<% } %>' +
+                            '</div>' +
                         '</div>';
 
         function _getMask() {
@@ -399,31 +407,9 @@ define([
 
         Common.UI.alert = function(options) {
             var me = this.Window.prototype;
-            var arrBtns = {ok: me.okButtonText, cancel: me.cancelButtonText,
-                yes: me.yesButtonText, no: me.noButtonText,
-                close: me.closeButtonText};
 
             if (!options.buttons) {
-                options.buttons = {};
-                options.buttons['ok'] = {text: arrBtns['ok'], cls: 'primary'};
-            } else {
-                if (_.isArray(options.buttons)) {
-                    if (options.primary==undefined)
-                        options.primary = 'ok';
-                    var newBtns = {};
-                    _.each(options.buttons, function(b){
-                        if (typeof(b) == 'object') {
-                            if (b.value !== undefined)
-                                newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
-                        } else {
-                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b) ? 'primary' : ''};
-                            if (b=='custom')
-                                newBtns[b].cls += ' custom';
-                        }
-                    });
-
-                    options.buttons = newBtns;
-                }
+                options.buttons = ['ok'];
             }
             options.dontshow = options.dontshow || false;
 
@@ -435,14 +421,7 @@ define([
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
-                            '<% if (dontshow) { %><div class="separator horizontal" style="width: 100%;"/><% } %>' +
-                            '<% if (_.size(buttons) > 0) { %>' +
-                                '<div class="footer <% if (dontshow) { %> dontshow <% } %>">' +
-                                    '<% for(var bt in buttons) { %>' +
-                                        '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>'+
-                                    '<% } %>' +
-                                '</div>' +
-                            '<% } %>';
+                            '<% if (dontshow) { %><div class="separator horizontal" style="width: 100%;"/><% } %>';
 
             _.extend(options, {
                 cls: 'alert',
@@ -500,7 +479,9 @@ define([
 
             win.on({
                 'render:after': function(obj){
-                    obj.getChild('.footer .dlg-btn').on('click', onBtnClick);
+                    var footer = obj.getChild('.footer');
+                    options.dontshow && footer.addClass('dontshow');
+                    footer.find('.dlg-btn').on('click', onBtnClick);
                     chDontShow = new Common.UI.CheckBox({
                         el: win.$window.find('.dont-show-checkbox'),
                         labelText: win.textDontShow
@@ -572,6 +553,29 @@ define([
                 this.initConfig = {};
                 this.binding = {};
 
+                var arrBtns = {ok: this.okButtonText, cancel: this.cancelButtonText,
+                    yes: this.yesButtonText, no: this.noButtonText,
+                    close: this.closeButtonText};
+
+                if (options.buttons && _.isArray(options.buttons)) {
+                    if (options.primary==undefined)
+                        options.primary = 'ok';
+                    var newBtns = {};
+                    _.each(options.buttons, function(b){
+                        if (typeof(b) == 'object') {
+                            if (b.value !== undefined)
+                                newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                        } else {
+                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b) ? 'primary' : ''};
+                            if (b=='custom')
+                                newBtns[b].cls += ' custom';
+                        }
+                    });
+
+                    options.buttons = newBtns;
+                    options.footerCls = options.footerCls || 'center';
+                }
+
                 _.extend(this.initConfig, config, options || {});
 
                 !this.initConfig.id && (this.initConfig.id = 'window-' + this.cid);
@@ -631,6 +635,8 @@ define([
                     if (me.$window && me.isVisible() && me.$window == obj.$window) me.close();
                 };
                 Common.NotificationCenter.on('window:close', this.binding.winclose);
+
+                this.initConfig.footerCls && this.$window.find('.footer').addClass(this.initConfig.footerCls);
 
                 this.fireEvent('render:after',this);
                 return this;

@@ -82,7 +82,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             var me = this,
-                el = $(this.el),
+                el = me.$el || $(this.el),
                 arrowSatBrightness, arrowHue,
                 areaSatBrightness, areaHue,
                 previewColor, previewTransparentColor, previewColorText,
@@ -278,7 +278,7 @@ define([
         },
 
         render: function () {
-            $(this.el).html(this.template());
+            (this.$el || $(this.el)).html(this.template());
 
             this.trigger('render:after', this);
             return this;

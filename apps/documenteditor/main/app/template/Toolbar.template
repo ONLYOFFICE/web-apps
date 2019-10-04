@@ -152,6 +152,7 @@
                 <div class="group">
                     <span class="btn-slot text x-huge slot-inshyperlink"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-bookmarks"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-caption"></span>
                 </div>
             </section>
         </section>

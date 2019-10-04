@@ -88,22 +88,22 @@ define([
             el && (this.$el = $(el));
             this.$el.html(this.template({scope: this}));
 
-            this.viewPluginsList = new Common.UI.DataView({
-                el: $('#plugins-list'),
-                store: this.storePlugins,
-                enableKeyEvents: false,
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="item-plugins" style="display: <% if (visible) {%> block; <%} else {%> none; <% } %>">',
-                        '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[((window.devicePixelRatio > 1) ? 1 : 0) + (variations[currentVariation].get("icons").length>2 ? 2 : 0)] %>);"></div>',
-                        '<% if (variations.length>1) { %>',
-                        '<div class="plugin-caret img-commonctrl"></div>',
-                        '<% } %>',
-                        '<%= name %>',
-                    '</div>'
-                ].join(''))
-            });
-            this.lockedControls.push(this.viewPluginsList);
-            this.viewPluginsList.cmpEl.off('click');
+            // this.viewPluginsList = new Common.UI.DataView({
+            //     el: $('#plugins-list'),
+            //     store: this.storePlugins,
+            //     enableKeyEvents: false,
+            //     itemTemplate: _.template([
+            //         '<div id="<%= id %>" class="item-plugins" style="display: <% if (visible) {%> block; <%} else {%> none; <% } %>">',
+            //             '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[((window.devicePixelRatio > 1) ? 1 : 0) + (variations[currentVariation].get("icons").length>2 ? 2 : 0)] %>);"></div>',
+            //             '<% if (variations.length>1) { %>',
+            //             '<div class="plugin-caret img-commonctrl"></div>',
+            //             '<% } %>',
+            //             '<%= name %>',
+            //         '</div>'
+            //     ].join(''))
+            // });
+            // this.lockedControls.push(this.viewPluginsList);
+            // this.viewPluginsList.cmpEl.off('click');
 
             this.pluginName = $('#current-plugin-header label');
             this.pluginsPanel = $('#plugins-box');
@@ -190,7 +190,7 @@ define([
                     item.setDisabled(disable);
                 });
 
-                this.pluginsMask.css('display', disable ? 'block' : 'none');
+                this.pluginsMask && this.pluginsMask.css('display', disable ? 'block' : 'none');
             }
         },
 
@@ -368,7 +368,7 @@ define([
                     '<div class="separator horizontal"/>',
                     '<div class="footer" style="text-align: center;">',
                         '<% for(var bt in buttons) { %>',
-                            '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>" style="margin-right: 10px;"><%= buttons[bt].text %></button>',
+                            '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>',
                         '<% } %>',
                     '</div>',
                 '<% } %>'

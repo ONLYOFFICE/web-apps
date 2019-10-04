@@ -551,7 +551,9 @@ define([
             options: {
                 header: false,
                 width: 280,
-                cls: 'modal-dlg'
+                cls: 'modal-dlg',
+                buttons: ['ok', 'cancel'],
+                footerCls: 'right'
             },
 
             template:   '<div class="box">' +
@@ -559,16 +561,11 @@ define([
                                 '<label><%= label %></label>' +
                             '</div>' +
                             '<div class="input-row" id="txt-sheet-name" />' +
-                        '</div>' +
-                        '<div class="footer right">' +
-                            '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;"><%= btns.ok %></button>'+
-                            '<button class="btn normal dlg-btn" result="cancel"><%= btns.cancel %></button>'+
                         '</div>',
 
             initialize : function(options) {
                 _.extend(this.options, options || {}, {
-                    label: this.labelSheetName,
-                    btns: {ok: this.okButtonText, cancel: this.cancelButtonText}
+                    label: this.labelSheetName
                 });
                 this.options.tpl = _.template(this.template)(this.options);
 
@@ -663,7 +660,9 @@ define([
             options: {
                 width: 270,
                 height: 300,
-                cls: 'modal-dlg'
+                cls: 'modal-dlg',
+                buttons: ['ok', 'cancel'],
+                footerCls: 'right'
             },
 
             template:   '<div class="box">' +
@@ -671,16 +670,11 @@ define([
                                 '<label><%= label %></label>' +
                             '</div>' +
                             '<div id="status-list-names" style="height: 170px;"/>' +
-                        '</div>' +
-                        '<div class="footer center">' +
-                            '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;"><%= btns.ok %></button>'+
-                            '<button class="btn normal dlg-btn" result="cancel"><%= btns.cancel %></button>'+
                         '</div>',
 
             initialize : function(options) {
                 _.extend(this.options, options || {}, {
-                    label: options.ismove ? this.textMoveBefore : this.textCopyBefore,
-                    btns: {ok: this.okButtonText, cancel: this.cancelButtonText}
+                    label: options.ismove ? this.textMoveBefore : this.textCopyBefore
                 });
                 this.options.tpl = _.template(this.template)(this.options);
 

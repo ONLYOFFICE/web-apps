@@ -113,6 +113,7 @@ define([
                 me._state = {
                     hasCollaborativeChanges: undefined
                 };
+                me.binding = {};
 
                 Common.NotificationCenter.on('app:ready', me.onAppReady.bind(this));
                 return this;
@@ -352,7 +353,7 @@ define([
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-setmarkers',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -364,7 +365,7 @@ define([
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-numbering',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -392,7 +393,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'btn-align-left',
                         icls: 'btn-align-left',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         menu: new Common.UI.Menu({
                             items: [
                                 {
@@ -436,7 +437,7 @@ define([
                     me.btnVerticalAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-valign',
                         cls: 'btn-toolbar',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noObjectSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.noObjectSelected],
                         iconCls: 'btn-align-middle',
                         icls: 'btn-align-middle',
                         menu: new Common.UI.Menu({
@@ -491,7 +492,7 @@ define([
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-linespace',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -527,12 +528,7 @@ define([
                         iconCls: 'btn-insertchart',
                         caption: me.capInsertChart,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                        menu: new Common.UI.Menu({
-                            style: 'width: 435px;',
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
-                            ]
-                        })
+                        menu: true
                     });
                     me.slideOnlyControls.push(me.btnInsertChart);
 
@@ -1087,6 +1083,91 @@ define([
                     })
                 );
 
+                this.btnInsertChart.setMenu( new Common.UI.Menu({
+                    style: 'width: 435px;',
+                    items: [
+                        {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
+                    ]
+                }));
+
+                var onShowBefore = function(menu) {
+                    var picker = new Common.UI.DataView({
+                        el: $('#id-toolbar-menu-insertchart'),
+                        parentMenu: menu,
+                        showLast: false,
+                        restoreHeight: 421,
+                        groups: new Common.UI.DataViewGroupStore([
+                            {id: 'menu-chart-group-bar', caption: me.textColumn, headername: me.textCharts},
+                            {id: 'menu-chart-group-line', caption: me.textLine},
+                            {id: 'menu-chart-group-pie', caption: me.textPie},
+                            {id: 'menu-chart-group-hbar', caption: me.textBar},
+                            {id: 'menu-chart-group-area', caption: me.textArea, inline: true},
+                            {id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true},
+                            {id: 'menu-chart-group-stock', caption: me.textStock, inline: true}
+                            // {id: 'menu-chart-group-surface', caption: me.textSurface}
+                        ]),
+                        store: new Common.UI.DataViewStore([
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
+                            { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
+                            { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   iconCls: 'contour-wireframe'}
+
+                        ]),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('add:chart', [record.get('type')]);
+                    });
+                    menu.off('show:before', onShowBefore);
+                };
+                this.btnInsertChart.menu.on('show:before', onShowBefore);
+
+                var onShowBeforeTextArt = function (menu) {
+                    var collection = PE.getCollection('Common.Collections.TextArt');
+                    if (collection.length<1)
+                        PE.getController('Main').fillTextArt(me.api.asc_getTextArtPreviews());
+                    var picker = new Common.UI.DataView({
+                        el: $('#view-insert-art', menu.$el),
+                        store: collection,
+                        parentMenu: menu,
+                        showLast: false,
+                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('insert:textart', [record.get('data')]);
+                        if (e.type !== 'click') menu.hide();
+                    });
+                    menu.off('show:before', onShowBeforeTextArt);
+                };
+                this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
+
                 // set dataviews
 
                 var _conf = this.mnuMarkersPicker.conf;
@@ -1130,101 +1211,12 @@ define([
                 });
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
-                this.mnuInsertChartPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insertchart'),
-                    parentMenu: this.btnInsertChart.menu,
-                    showLast: false,
-                    restoreHeight: 421,
-                    groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-bar',     caption: me.textColumn, headername: me.textCharts },
-                        { id: 'menu-chart-group-line',    caption: me.textLine },
-                        { id: 'menu-chart-group-pie',     caption: me.textPie },
-                        { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
-                        // { id: 'menu-chart-group-surface', caption: me.textSurface}
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
-                });
-
                 this.mnuTablePicker = new Common.UI.DimensionPicker({
                     el: $('#id-toolbar-menu-tablepicker'),
                     minRows: 8,
                     minColumns: 10,
                     maxRows: 8,
                     maxColumns: 10
-                });
-
-                var createDataPicker = function (btn) {
-                    me.mnuChangeSlidePicker = new Common.UI.DataView({
-                        el: $('#id-toolbar-menu-changeslide'),
-                        parentMenu: me.btnChangeSlide.menu,
-                        restoreHeight: 300,
-                        restoreWidth: 302,
-                        style: 'max-height: 300px;',
-                        store: PE.getCollection('SlideLayouts'),
-                        itemTemplate: _.template([
-                            '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                            '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
-                            '<div class="title"><%= title %></div> ',
-                            '</div>'
-                        ].join(''))
-                    });
-                    if (me.btnChangeSlide.menu) {
-                        me.btnChangeSlide.menu.on('show:after', function () {
-                            me.onSlidePickerShowAfter(me.mnuChangeSlidePicker);
-                            me.mnuChangeSlidePicker.scroller.update({alwaysVisibleY: true});
-
-                            var record = me.mnuChangeSlidePicker.store.findLayoutByIndex(me.mnuChangeSlidePicker.options.layout_index);
-                            if (record) {
-                                me.mnuChangeSlidePicker.selectRecord(record, true);
-                                me.mnuChangeSlidePicker.scrollToRecord(record);
-                            }
-                        });
-                    }
-                    me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
-                };
-                // btnChangeSlide isn't in compact toolbar mode -> may be rendered after createDelayedElements
-                if (this.btnChangeSlide.rendered)
-                    createDataPicker(this.btnChangeSlide);
-                else
-                    this.btnChangeSlide.on('render:after', createDataPicker);
-
-                this.listenTo(PE.getCollection('SlideLayouts'), 'reset', function () {
-                    if (me.mnuChangeSlidePicker)
-                        me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
                 });
 
                 /** coauthoring begin **/
@@ -1420,7 +1412,6 @@ define([
 
             onSlidePickerShowAfter: function (picker) {
                 if (!picker._needRecalcSlideLayout) return;
-
                 if (picker.cmpEl && picker.dataViewItems.length > 0) {
                     var dataViewItems = picker.dataViewItems,
                         el = $(dataViewItems[0].el),
@@ -1449,79 +1440,52 @@ define([
                 }
             },
 
-            updateTextartMenu: function (collection) {
+            updateAutoshapeMenu: function (menuShape, collection) {
                 var me = this;
-
-                var btn = me.btnInsertTextArt;
-                if ( btn.textartPicker ) {
-                    if ( btn.textartPicker.store.size() == collection.size() ) {
-                        btn.textartPicker.store.each(function (model, index) {
-                            model.set('imageUrl', collection.at(index).get('imageUrl'));
-                        });
-                    } else {
-                        btn.textartPicker.store.reset( collection.models );
-                    }
-                } else {
-                    btn.textartPicker = new Common.UI.DataView({
-                        el: $('#view-insert-art', btn.menu.$el),
-                        store: collection,
-                        parentMenu: btn.menu,
-                        showLast: false,
-                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                    });
-
-                    btn.textartPicker.on('item:click', function(picker, item, record, e) {
-                        if (record)
-                            me.fireEvent('insert:textart', [record.get('data')]);
-
-                        if (e.type !== 'click') btn.menu.hide();
-                    });
-                }
-            },
-
-            updateAutoshapeMenu: function (collection) {
-                var me = this;
-                for (var i = 0; i < collection.size(); i++) {
-                    var group = collection.at(i);
-
-                    me.btnsInsertShape.forEach(function (btn, index) {
-                        var menuitem = new Common.UI.MenuItem({
-                            caption: group.get('groupName'),
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                items: [
-                                    { template: _.template('<div class="shapegroup-' + i + '" class="menu-shape" style="width: ' + (group.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
-                                ]
-                            })
-                        });
-
-                        btn.menu.addItem(menuitem);
-
-                        (new Common.UI.DataView({
-                            el: $('.shapegroup-' + i, menuitem.$el),
-                            store: group.get('groupStore'),
-                            parentMenu: menuitem.menu,
-                            showLast: false,
+                var onShowAfter = function(menu) {
+                    for (var i = 0; i < collection.length; i++) {
+                        var shapePicker = new Common.UI.DataViewSimple({
+                            el: $('.shapegroup-' + i, menu.items[i].$el),
+                            store: collection.at(i).get('groupStore'),
+                            parentMenu: menu.items[i].menu,
                             itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                        })).on('item:click', function (picker, item, record, e) {
+                        });
+                        shapePicker.on('item:click', function(picker, item, record, e) {
                             if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
                             if (record)
                                 me.fireEvent('insert:shape', [record.get('data').shapeType]);
                         });
+                    }
+                    menu.off('show:after', onShowAfter);
+                };
+                menuShape.on('show:after', onShowAfter);
+
+                for (var i = 0; i < collection.size(); i++) {
+                    var group = collection.at(i);
+
+                    var menuitem = new Common.UI.MenuItem({
+                        caption: group.get('groupName'),
+                        menu: new Common.UI.Menu({
+                            menuAlign: 'tl-tr',
+                            items: [
+                                {template: _.template('<div class="shapegroup-' + i + '" class="menu-shape" style="width: ' + (group.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>')}
+                            ]
+                        })
                     });
+                    menuShape.addItem(menuitem);
                 }
             },
 
             updateAddSlideMenu: function(collection) {
                 if (collection.size()<1) return;
-
                 var me = this;
-                me.btnsAddSlide.forEach(function (btn, index) {
-                    if ( !btn.mnuAddSlidePicker ) {
-                        btn.mnuAddSlidePicker = new Common.UI.DataView({
-                            el: $('#id-toolbar-menu-addslide-' + index),
-                            parentMenu: btn.menu,
-                            showLast: false,
+                if (!me.binding.onShowBeforeAddSlide) {
+                    me.binding.onShowBeforeAddSlide = function(menu) {
+                        var change = (this.iconCls == 'btn-changeslide');
+                        var picker = new Common.UI.DataView({
+                            el: $('.menu-layouts', menu.$el),
+                            parentMenu: menu,
+                            showLast: change,
                             restoreHeight: 300,
                             restoreWidth: 302,
                             style: 'max-height: 300px;',
@@ -1533,21 +1497,38 @@ define([
                                 '</div>'
                             ].join(''))
                         });
-                        btn.mnuAddSlidePicker.on('item:click', function (picker, item, record, e) {
+                        picker.on('item:click', function (picker, item, record, e) {
                             if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
                             if (record)
-                                me.fireEvent('add:slide', [record.get('data').idx]);
+                                me.fireEvent(change ? 'change:slide' : 'add:slide', [record.get('data').idx]);
                         });
-                        if (btn.menu) {
-                            btn.menu.on('show:after', function () {
-                                me.onSlidePickerShowAfter(btn.mnuAddSlidePicker);
-                                btn.mnuAddSlidePicker.scroller.update({alwaysVisibleY: true});
-                                btn.mnuAddSlidePicker.scroller.scrollTop(0);
+                        if (menu) {
+                            menu.on('show:after', function () {
+                                me.onSlidePickerShowAfter(picker);
+                                picker.scroller.update({alwaysVisibleY: true});
+                                if (change) {
+                                    var record = picker.store.findLayoutByIndex(picker.options.layout_index);
+                                    if (record) {
+                                        picker.selectRecord(record, true);
+                                        picker.scrollToRecord(record);
+                                    }
+                                } else
+                                    picker.scroller.scrollTop(0);
                             });
                         }
-                    }
-                    btn.mnuAddSlidePicker._needRecalcSlideLayout = true;
-                });
+                        menu.off('show:before', me.binding.onShowBeforeAddSlide);
+                        if (change && this.mnuSlidePicker)
+                            picker.options.layout_index = this.mnuSlidePicker.options.layout_index;
+                        this.mnuSlidePicker = picker;
+                    };
+                    me.btnsAddSlide.concat(me.btnChangeSlide).forEach(function (btn, index) {
+                        btn.menu.on('show:before', me.binding.onShowBeforeAddSlide, btn);
+                    });
+                } else {
+                    me.btnsAddSlide.concat(me.btnChangeSlide).forEach(function (btn, index) {
+                        btn.mnuSlidePicker && (btn.mnuSlidePicker._needRecalcSlideLayout = true);
+                    });
+                }
             },
 
             textBold: 'Bold',
@@ -1611,8 +1592,6 @@ define([
             txtDistribHor: 'Distribute Horizontally',
             txtDistribVert: 'Distribute Vertically',
             tipChangeSlide: 'Change Slide Layout',
-            textOK: 'OK',
-            textCancel: 'Cancel',
             tipColorSchemas: 'Change Color Scheme',
             textNewColor: 'Add New Custom Color',
             mniSlideStandard: 'Standard (4:3)',

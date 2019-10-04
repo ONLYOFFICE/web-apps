@@ -93,10 +93,6 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                         template,
                         '</div></div>',
                         '</div>',
-                        '</div>',
-                        '<div class="footer center">',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + me.okButtonText + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
                         '</div>'
                     ].join('')
                 )({
@@ -111,10 +107,13 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.textControls = [];
             this.imageControls = [];
             this.fontName = 'Arial';
-            this.lang = {value: 'en', displayValue: 'English'};
             this.text = '';
             this.isAutoColor = false;
             this.isImageLoaded = false;
+
+            var lang = options.lang || 'en',
+                val = Common.util.LanguageInfo.getLocalLanguageCode(lang);
+            this.lang = val ? {value: lang, displayValue: Common.util.LanguageInfo.getLocalLanguageName(val)[1], default: true} : {value: 'en', displayValue: 'English', default: true};
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -430,8 +429,11 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 });
                 if (data.length) {
                     me.cmbLang.setData(data);
-                    me.cmbLang.setValue(me.lang.displayValue);
-                    me.loadWMText(me.lang.value);
+                    var res = me.loadWMText(me.lang.value);
+                    if (res && me.lang.default)
+                        me.cmbLang.setValue(res);
+                    else
+                        me.cmbLang.setValue(me.lang.displayValue);
                     me.cmbLang.setDisabled(!me.radioText.getValue());
                     me.text && me.cmbText.setValue(me.text);
                 } else
@@ -477,6 +479,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 this.cmbText.setData(data);
                 this.cmbText.setValue(data[0].value);
             }
+            return item ? item.get('displayValue') : null;
         },
 
         insertFromUrl: function() {
@@ -667,8 +670,6 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         textLayout: 'Layout',
         textDiagonal: 'Diagonal',
         textHor: 'Horizontal',
-        cancelButtonText: 'Cancel',
-        okButtonText: 'Ok',
         textColor: 'Text color',
         textNewColor: 'Add New Custom Color',
         textLanguage: 'Language'

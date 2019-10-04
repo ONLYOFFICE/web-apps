@@ -124,8 +124,6 @@ define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.temp
         },
 
         textTitle:      'Table - Advanced Settings',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',

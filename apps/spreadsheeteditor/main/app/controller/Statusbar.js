@@ -486,12 +486,12 @@ define([
                 var tab = _.findWhere(this.statusbar.tabbar.tabs, {sheetindex: sindex});
                 if (tab) {
                     if ('transparent' === color) {
-                        this.api.asc_setWorksheetTabColor(sindex, null);
+                        this.api.asc_setWorksheetTabColor(null, [sindex]);
                         tab.$el.find('a').css('box-shadow', '');
                     } else {
                         var asc_clr = Common.Utils.ThemeColor.getRgbColor(color);
                         if (asc_clr) {
-                            this.api.asc_setWorksheetTabColor(sindex, asc_clr);
+                            this.api.asc_setWorksheetTabColor(asc_clr, [sindex]);
                             this.setTabLineColor(tab, asc_clr);
                         }
                     }

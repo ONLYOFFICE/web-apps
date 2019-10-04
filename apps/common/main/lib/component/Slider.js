@@ -104,8 +104,7 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             me.width = me.options.width;
             me.minValue = me.options.minValue;
@@ -131,10 +130,10 @@ define([
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
                 } else {
-                    $(this.el).html(this.cmpEl);
+                    me.$el.html(this.cmpEl);
                 }
             } else {
-                this.cmpEl = $(this.el);
+                this.cmpEl = me.$el;
             }
 
             this.cmpEl.find('.track-center').width(me.options.width - 14);
@@ -299,8 +298,7 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             me.width = me.options.width;
             me.minValue = me.options.minValue;
@@ -326,10 +324,10 @@ define([
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
                 } else {
-                    $(this.el).html(this.cmpEl);
+                    this.$el.html(this.cmpEl);
                 }
             } else {
-                this.cmpEl = $(this.el);
+                this.cmpEl = this.$el;
             }
 
             var el = this.cmpEl;

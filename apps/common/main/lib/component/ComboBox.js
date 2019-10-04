@@ -104,8 +104,7 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
-                var me = this,
-                    el = $(this.el);
+                var me = this;
 
                 this.id             = me.options.id || Common.UI.getId();
                 this.cls            = me.options.cls;
@@ -158,10 +157,10 @@ define([
                         this.setElement(parentEl, false);
                         parentEl.html(this.cmpEl);
                     } else {
-                        $(this.el).html(this.cmpEl);
+                        this.$el.html(this.cmpEl);
                     }
                 } else {
-                    this.cmpEl = $(this.el);
+                    this.cmpEl = me.$el || $(this.el);
                 }
 
                 if (!me.rendered) {
@@ -194,6 +193,18 @@ define([
                         var modalParents = el.closest('.asc-window');
                         if (modalParents.length > 0) {
                             el.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                            var onModalClose = function(dlg) {
+                                if (modalParents[0] !== dlg.$window[0]) return;
+                                var tip = el.data('bs.tooltip');
+                                if (tip) {
+                                    if (tip.dontShow===undefined)
+                                        tip.dontShow = true;
+
+                                    tip.hide();
+                                }
+                                Common.NotificationCenter.off({'modal:close': onModalClose});
+                            };
+                            Common.NotificationCenter.on({'modal:close': onModalClose});
                         }
 
                         el.find('.dropdown-menu').on('mouseenter', function(){ // hide tooltip when mouse is over menu
@@ -241,7 +252,6 @@ define([
                     this.scroller = new Common.UI.Scroller(_.extend({
                         el: $('.dropdown-menu', this.cmpEl),
                         minScrollbarLength: 40,
-                        scrollYMarginOffset: 30,
                         includePadding: true,
                         wheelSpeed: 10,
                         alwaysVisibleY: this.scrollAlwaysVisible
@@ -266,7 +276,6 @@ define([
                     this.scroller = new Common.UI.Scroller(_.extend({
                         el: $('.dropdown-menu', this.cmpEl),
                         minScrollbarLength: 40,
-                        scrollYMarginOffset: 30,
                         includePadding: true,
                         wheelSpeed: 10,
                         alwaysVisibleY: this.scrollAlwaysVisible
@@ -631,7 +640,6 @@ define([
                 this.scroller = new Common.UI.Scroller(_.extend({
                     el: $('.dropdown-menu', this.cmpEl),
                     minScrollbarLength : 40,
-                    scrollYMarginOffset: 30,
                     includePadding     : true,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible

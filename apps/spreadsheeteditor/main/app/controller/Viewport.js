@@ -130,6 +130,10 @@ define([
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
+        getApi: function() {
+            return this.api;
+        },
+
         onAppShowed: function (config) {
             var me = this;
             me.appConfig = config;
@@ -318,6 +322,14 @@ define([
         onLaunch: function() {
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
+            this.getApplication().getController('CellEditor').createView('CellEditor',{ el: '#cell-editing-box' }).render();
+
+            this.api = new Asc.spreadsheet_api({
+                'id-view'  : 'editor_sdk',
+                'id-input' : 'ce-cell-content',
+                'translate': this.getApplication().getController('Main').translationTable
+            });
+
             this.header   = this.createView('Common.Views.Header', {
                 headerCaption: 'Spreadsheet Editor',
                 storeUsers: SSE.getCollection('Common.Collections.Users')

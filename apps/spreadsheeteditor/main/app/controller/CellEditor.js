@@ -115,10 +115,7 @@ define([
         },
 
         onLaunch: function() {
-            this.editor = this.createView('CellEditor',{
-                el: '#cell-editing-box'
-            }).render();
-
+            this.editor = this.getView('CellEditor');
             this.bindViewEvents(this.editor, this.events);
 
             this.editor.$el.parent().find('.after').css({zIndex: '4'}); // for spreadsheets - bug 23127

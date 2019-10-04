@@ -945,7 +945,7 @@ define([
                     $this.val($this.val().substring(0, start) + '\t' + $this.val().substring(end));
                     this.selectionStart = this.selectionEnd = start + 1;
 
-                    event.stopImmediatePropagation();
+                    // event.stopImmediatePropagation();
                     event.preventDefault();
                 }
 
@@ -954,28 +954,30 @@ define([
 
             if (this.canRequestUsers) {
                 textBox && textBox.keydown(function (event) {
-                    if ( event.keyCode == Common.UI.Keys.SPACE ||
+                    if ( event.keyCode == Common.UI.Keys.SPACE || event.keyCode === Common.UI.Keys.TAB ||
                         event.keyCode == Common.UI.Keys.HOME || event.keyCode == Common.UI.Keys.END || event.keyCode == Common.UI.Keys.RIGHT ||
                         event.keyCode == Common.UI.Keys.LEFT || event.keyCode == Common.UI.Keys.UP) {
                         // hide email menu
                         me.onEmailListMenu();
                     } else if (event.keyCode == Common.UI.Keys.DOWN) {
-                        if (me.emailMenu && me.emailMenu.rendered && me.emailMenu.isVisible())
-                            _.delay(function() {
+                        if (me.emailMenu && me.emailMenu.rendered && me.emailMenu.isVisible()) {
+                            _.delay(function () {
                                 var selected = me.emailMenu.cmpEl.find('li:not(.divider):first');
                                 selected = selected.find('a');
                                 selected.focus();
                             }, 10);
+                            event.preventDefault();
+                        }
                     }
                     me.e = event;
                 });
                 textBox && textBox.on('input', function (event) {
                     var $this = $(this),
                         start = this.selectionStart,
-                        val = $this.val().replace(/[\n]$/, ""),
+                        val = $this.val(),
                         left = 0, right = val.length-1;
                     for (var i=start-1; i>=0; i--) {
-                        if (val.charCodeAt(i) == 32 /*space*/ || val.charCodeAt(i) == 13 || val.charCodeAt(i) == 10 || val.charCodeAt(i) == 9) {
+                        if (val.charCodeAt(i) == 32 /*space*/ || val.charCodeAt(i) == 13 /*enter*/ || val.charCodeAt(i) == 10 /*new line*/ || val.charCodeAt(i) == 9 /*tab*/) {
                             left = i+1; break;
                         }
                     }
@@ -989,7 +991,8 @@ define([
                     if (res && res.length>1) {
                         str = res[1]; // send to show email menu
                         me.onEmailListMenu(str, left, right);
-                    }
+                    } else
+                        me.onEmailListMenu(); // hide email menu
                 });
             }
         },
@@ -1118,7 +1121,7 @@ define([
                             return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
                         });
                     }
-                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;"><div><%= caption %></div><div style="color: #909090;"><%= options.value %></div></a>'),
+                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;"><div><%= Common.Utils.String.htmlEncode(caption) %></div><div style="color: #909090;"><%= Common.Utils.String.htmlEncode(options.value) %></div></a>'),
                         divider = false;
                     _.each(users, function(menuItem, index) {
                         if (divider && !menuItem.hasAccess) {
@@ -1159,9 +1162,9 @@ define([
         insertEmailToTextbox: function(str, left, right) {
             var textBox = this.commentsView.getTextBox(),
                 val = textBox.val();
-            textBox.val(val.substring(0, left) + '+' + str + val.substring(right+1, val.length));
+            textBox.val(val.substring(0, left) + '+' + str + ' ' + val.substring(right+1, val.length));
             setTimeout(function(){
-                textBox[0].selectionStart = textBox[0].selectionEnd = left + str.length + 1;
+                textBox[0].selectionStart = textBox[0].selectionEnd = left + str.length + 2;
             }, 10);
         },
 

@@ -216,6 +216,9 @@ define([
             var arr = [], offset, len;
 
             message.replace(Common.Utils.ipStrongRe, function(subStr) {
+                var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                if (result)
+                    subStr = subStr.substring(0, result.index);
                 offset = arguments[arguments.length-2];
                 arr.push({start: offset, end: subStr.length+offset, str: '<a href="' + subStr + '" target="_blank" data-can-copy="true">' + subStr + '</a>'});
                 return '';
@@ -223,6 +226,9 @@ define([
 
             if (message.length<1000 || message.search(/\S{255,}/)<0)
                 message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
+                    var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                    if (result)
+                        subStr = subStr.substring(0, result.index);
                     var ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
                     offset = arguments[arguments.length-2];
                     len = subStr.length;
