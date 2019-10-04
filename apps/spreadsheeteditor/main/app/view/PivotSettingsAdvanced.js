@@ -72,8 +72,16 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
             }, options);
 
             this.api        = options.api;
-            this.handler    = options.handler;
             this.props      = options.props;
+
+            this.options.handler = function(result, value) {
+                if ( result != 'ok' || this.isRangeValid() ) {
+                    if (options.handler)
+                        options.handler.call(this, result, value);
+                    return;
+                }
+                return true;
+            };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -227,36 +235,25 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
             return props;
         },
 
-        onDlgBtnClick: function(event) {
-            var me = this;
-            var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
-            if (state == 'ok' && this.isRangeValid()) {
-                this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
-            }
-
-            this.close();
-        },
-
-        onPrimary: function() {
-            this.onDlgBtnClick('ok');
-            return false;
-        },
-
         isRangeValid: function() {
-            if (this.isChart) {
-                var isvalid;
-                if (!_.isEmpty(this.txtDataRange.getValue())) {
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, this.txtDataRange.getValue());
-                    if (isvalid == Asc.c_oAscError.ID.No)
-                        return true;
-                } else
-                    this.txtDataRange.showError([this.txtEmpty]);
+            var isvalid = true,
+                txtError = '';
 
+            if (_.isEmpty(this.txtDataRange.getValue())) {
+                isvalid = false;
+                txtError = this.txtEmpty;
+            } else {
+                // isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, this.txtDataRange.getValue());
+                // isvalid = (isvalid == Asc.c_oAscError.ID.No);
+                !isvalid && (txtError = this.textInvalidRange);
+            }
+            if (!isvalid) {
                 this.setActiveCategory(1);
+                this.txtDataRange.showError([txtError]);
                 this.txtDataRange.cmpEl.find('input').focus();
-                return false;
-            } else
-                return true;
+                return isvalid;
+            }
+            return isvalid;
         },
 
         onSelectData: function() {

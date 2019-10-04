@@ -40,7 +40,8 @@
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/PivotTable'
+    'spreadsheeteditor/main/app/view/PivotTable',
+    'spreadsheeteditor/main/app/view/CreatePivotDialog'
 ], function () {
     'use strict';
 
@@ -155,8 +156,21 @@ define([
             if (this.api) {
 				var options = this.api.asc_getAddPivotTableOptions();
 				if (options) {
-					this.api.asc_insertPivotNewWorksheet(options.asc_getRange(), this.createSheetName());
-					// this.api.asc_insertPivotExistingWorksheet(options.asc_getRange(), "Sheet1!B17:B17");
+				    var me = this;
+                    (new SSE.Views.CreatePivotDialog(
+                        {
+                            props: options,
+                            api: me.api,
+                            handler: function(result, settings) {
+                                if (result == 'ok' && settings) {
+                                    if (settings.destination)
+                                        me.api.asc_insertPivotExistingWorksheet(settings.source, settings.destination);
+                                    else
+                                        me.api.asc_insertPivotNewWorksheet(settings.source, me.createSheetName());
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        })).show();
 				}
             }
             Common.NotificationCenter.trigger('edit:complete', this);
