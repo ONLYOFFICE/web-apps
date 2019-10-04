@@ -1025,7 +1025,6 @@
   "DE.Views.CaptionDialog.textFigure": "Figure",
   "DE.Views.CaptionDialog.textTable": "Table",
   "DE.Views.CaptionDialog.textExclude": "Exclude label from caption",
-  "DE.Views.CaptionDialog.textLabelError": "Label must not be empty.",
   "DE.Views.CellsAddDialog.textCol": "Columns",
   "DE.Views.CellsAddDialog.textDown": "Below the cursor",
   "DE.Views.CellsAddDialog.textLeft": "To the left",
@@ -2256,5 +2255,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font Name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size",
+  "DE.Views.AddNewCaptionLabelDialog.textLabel": "Label:",
+  "DE.Views.AddNewCaptionLabelDialog.textLabelError": "Label must not be empty."
 }

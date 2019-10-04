@@ -42,7 +42,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/ComboBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
+    'documenteditor/main/app/view/AddNewCaptionLabelDialog'
 ], function () { 'use strict';
 
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
@@ -178,7 +179,7 @@ define([
                 el: $('#caption-combo-label'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;max-height:155px;',
-                editable: true,
+                editable: false,
                 data: this.arrLabel,
                 alwaysVisibleY: true
             });
@@ -187,18 +188,11 @@ define([
                 me.props.put_Label(value);
                 me.props.updateName();
                 me.txtCaption.setValue(me.props.get_Name());
-                var custom = (record.type==1),
-                    find = _.findWhere(me.arrLabel, {value: value}) ? true : false;
-                me.btnAdd.setDisabled(find);
+                var custom = (record.type==1);
                 me.btnDelete.setDisabled(!custom);
                 me.currentLabel = value;
                 me.positionCaption = me.txtCaption.getValue().length;
             });
-            this.cmbLabel.$el.find('input').on('keyup', _.bind(function() {
-                var value = this.cmbLabel.getRawValue(),
-                    disabled = _.findWhere(this.arrLabel, {value: value}) ? true : false;
-                this.btnAdd.setDisabled(disabled);
-            }, this));
             var curLabel = Common.Utils.InternalSettings.get("de-settings-current-label"),
                 recLabel,
                 findIndLabel;
@@ -215,25 +209,28 @@ define([
             this.cmbLabel.selectRecord(recLabel);
 
             this.btnAdd = new Common.UI.Button({
-                el: $('#caption-btn-add'),
-                disabled: true
+                el: $('#caption-btn-add')
             });
             this.btnAdd.on('click', _.bind(function (e) {
-                var value = this.cmbLabel.getRawValue();
-                if (!value) {
-                    Common.UI.error({
-                        msg  : this.textLabelError
-                    });
-                    this.cmbLabel.setValue(this.currentLabel);
-                    this.btnAdd.setDisabled(true);
-                } else {
-                    var rec = { displayValue: value,  value: value, type: 1 };
-                    this.arrLabel.unshift(rec);
-                    this.cmbLabel.setData(this.arrLabel);
-                    this.cmbLabel.setValue(value);
-                    this.cmbLabel.trigger('selected', this.cmbLabel, rec);
-                    this.cmbLabel.scroller.update({alwaysVisibleY: true});
-                }
+                var me = this;
+                (new Common.Views.AddNewCaptionLabelDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            var rec = _.findWhere(me.arrLabel, {value: value});
+                            if (rec) {
+                                me.cmbLabel.setValue(value);
+                                me.cmbLabel.trigger('selected', me.cmbLabel, rec);
+                            } else {
+                                var rec = {displayValue: value, value: value, type: 1};
+                                me.arrLabel.unshift(rec);
+                                me.cmbLabel.setData(me.arrLabel);
+                                me.cmbLabel.setValue(value);
+                                me.cmbLabel.trigger('selected', me.cmbLabel, rec);
+                                me.cmbLabel.scroller.update({alwaysVisibleY: true});
+                            }
+                        }
+                    }
+                })).show();
             }, this));
 
             this.btnDelete = new Common.UI.Button({
@@ -454,8 +451,7 @@ define([
         textEquation: 'Equation',
         textFigure: 'Figure',
         textTable: 'Table',
-        textExclude: 'Exclude label from caption',
-        textLabelError: 'Label must not be empty.'
+        textExclude: 'Exclude label from caption'
 
     }, DE.Views.CaptionDialog || {}))
 });
