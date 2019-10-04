@@ -318,8 +318,8 @@ define([
         },
 
         onFieldsCheck: function (listView, itemView, record) {
-            if (this.checkCellTrigerBlock)
-                return;
+            // if (this.checkCellTrigerBlock)
+            //     return;
 
             var target = '', type = '', isLabel = false, bound = null;
 
@@ -451,7 +451,7 @@ define([
         onColumnsSelect: function(type, picker, item, record, e){
             var btn = $(e.target);
             if (btn && btn.hasClass('listitem-icon')) {
-                this._state.field = {record: record, type: type};
+                this._state.field = {record: record, type: type, length: picker.store.length};
                 if (this.fieldsMenu) {
                     if (this.fieldsMenu.isVisible()) {
                         this.fieldsMenu.hide();
@@ -462,22 +462,22 @@ define([
                         caption     : this.txtMoveUp,
                         checkable   : false
                     });
-                    // this.miMoveUp.on('click', _.bind(this.onMoveUp, this));
+                    this.miMoveUp.on('click', _.bind(this.onMoveUp, this));
                     this.miMoveDown = new Common.UI.MenuItem({
                         caption     : this.txtMoveDown,
                         checkable   : false
                     });
-                    // this.miMoveDown.on('click', _.bind(this.onMoveDown, this));
+                    this.miMoveDown.on('click', _.bind(this.onMoveDown, this));
                     this.miMoveBegin = new Common.UI.MenuItem({
                         caption     : this.txtMoveBegin,
                         checkable   : false
                     });
-                    // this.miMoveBegin.on('click', _.bind(this.onMoveBegin, this));
+                    this.miMoveBegin.on('click', _.bind(this.onMoveBegin, this));
                     this.miMoveEnd = new Common.UI.MenuItem({
                         caption     : this.txtMoveEnd,
                         checkable   : false
                     });
-                    // this.miMoveEnd.on('click', _.bind(this.onMoveEnd, this));
+                    this.miMoveEnd.on('click', _.bind(this.onMoveEnd, this));
 
                     this.miMoveFilter = new Common.UI.MenuItem({
                         caption     : this.txtMoveFilter,
@@ -661,6 +661,51 @@ define([
             }
         },
 
+        onMoveUp: function() {
+            if (this.api && !this._locked && this._state.field){
+                var index = this._state.field.record.get('index');
+                this.onMove(this._state.field.type, index, index-1);
+            }
+        },
+
+        onMoveDown: function() {
+            if (this.api && !this._locked && this._state.field){
+                var index = this._state.field.record.get('index');
+                this.onMove(this._state.field.type, index, index+1);
+            }
+        },
+
+        onMoveBegin: function() {
+            if (this.api && !this._locked && this._state.field){
+                var index = this._state.field.record.get('index');
+                this.onMove(this._state.field.type, index, 0);
+            }
+        },
+
+        onMoveEnd: function() {
+            if (this.api && !this._locked && this._state.field){
+                var index = this._state.field.record.get('index');
+                this.onMove(this._state.field.type, index, this._state.field.length-1);
+            }
+        },
+
+        onMove: function(type, from, to) {
+            switch (type) {
+                case 0:
+                    this._originalProps.asc_moveColField(this.api, from, to);
+                    break;
+                case 1:
+                    this._originalProps.asc_moveRowField(this.api, from, to);
+                    break;
+                case 2:
+                    this._originalProps.asc_moveDataField(this.api, from, to);
+                    break;
+                case 3:
+                    this._originalProps.asc_movePageField(this.api, from, to);
+                    break;
+            }
+        },
+        
         disableControls: function(disable) {
             if (this._initSettings) return;
             
