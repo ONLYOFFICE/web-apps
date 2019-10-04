@@ -96,7 +96,7 @@ define([
                                 '</table>',
                             '</div></div>',
                         '</div>',
-                    '</div>',
+                    '</div>'
                 ].join('')
             }, options);
 

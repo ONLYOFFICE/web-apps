@@ -81,15 +81,13 @@ define([
             };
             this._originalProps = null;
 
-            this.view =   this.createView('PivotTable');
-
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.SetDisabled, this));
         },
 
         setConfig: function (data, api) {
+            this.view =   this.createView('PivotTable');
             this.setApi(api);
-
             if (data) {
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }

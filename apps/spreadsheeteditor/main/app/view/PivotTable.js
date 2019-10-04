@@ -185,7 +185,6 @@ define([
                     disabled    : false,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editPivot]
                 });
-                // this.lockedControls.push(this.btnAddPivot);
 
                 this.btnPivotLayout = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -193,16 +192,7 @@ define([
                     caption     : this.capLayout,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { caption: this.mniLayoutCompact,  value: 0 },
-                            { caption: this.mniLayoutOutline,  value: 1 },
-                            { caption: this.mniLayoutTabular,  value: 2 },
-                            { caption: '--' },
-                            { caption: this.mniLayoutRepeat,   value: 3 },
-                            { caption: this.mniLayoutNoRepeat, value: 4 }
-                        ]
-                    })
+                    menu        : true
                 });
                 this.lockedControls.push(this.btnPivotLayout);
 
@@ -212,12 +202,7 @@ define([
                     caption     : this.capBlankRows,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { caption: this.mniInsertBlankLine,  value: 'insert' },
-                            { caption: this.mniRemoveBlankLine,  value: 'remove' }
-                        ]
-                    })
+                    menu        : true
                 });
                 this.lockedControls.push(this.btnPivotBlankRows);
 
@@ -227,13 +212,7 @@ define([
                     caption     : this.capSubtotals,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { caption: this.mniNoSubtotals,       value: 0 },
-                            { caption: this.mniBottomSubtotals,   value: 1 },
-                            { caption: this.mniTopSubtotals,      value: 2 }
-                        ]
-                    })
+                    menu        : true
                 });
                 this.lockedControls.push(this.btnPivotSubtotals);
 
@@ -243,14 +222,7 @@ define([
                     caption     : this.capGrandTotals,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { caption: this.mniOffTotals,       value: 0 },
-                            { caption: this.mniOnTotals,        value: 1 },
-                            { caption: this.mniOnRowsTotals,    value: 2 },
-                            { caption: this.mniOnColumnsTotals, value: 3 }
-                        ]
-                    })
+                    menu        : true
                 });
                 this.lockedControls.push(this.btnPivotGrandTotals);
 
@@ -300,9 +272,43 @@ define([
                     me.btnRefreshPivot.updateHint(me.tipRefresh);
                     me.btnSelectPivot.updateHint(me.tipSelect);
                     me.btnPivotLayout.updateHint(me.capLayout);
+                    me.btnPivotLayout.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.mniLayoutCompact,  value: 0 },
+                            { caption: me.mniLayoutOutline,  value: 1 },
+                            { caption: me.mniLayoutTabular,  value: 2 },
+                            { caption: '--' },
+                            { caption: me.mniLayoutRepeat,   value: 3 },
+                            { caption: me.mniLayoutNoRepeat, value: 4 }
+                        ]
+                    }));
+
                     me.btnPivotBlankRows.updateHint(me.capBlankRows);
+                    me.btnPivotBlankRows.setMenu( new Common.UI.Menu({
+                        items: [
+                            { caption: me.mniInsertBlankLine,  value: 'insert' },
+                            { caption: me.mniRemoveBlankLine,  value: 'remove' }
+                        ]
+                    }));
+
                     me.btnPivotSubtotals.updateHint(me.tipSubtotals);
+                    me.btnPivotSubtotals.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.mniNoSubtotals,       value: 0 },
+                            { caption: me.mniBottomSubtotals,   value: 1 },
+                            { caption: me.mniTopSubtotals,      value: 2 }
+                        ]
+                    }));
+
                     me.btnPivotGrandTotals.updateHint(me.tipGrandTotals);
+                    me.btnPivotGrandTotals.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.mniOffTotals,       value: 0 },
+                            { caption: me.mniOnTotals,        value: 1 },
+                            { caption: me.mniOnRowsTotals,    value: 2 },
+                            { caption: me.mniOnColumnsTotals, value: 3 }
+                        ]
+                    }));
 
                     setEvents.call(me);
                 });
