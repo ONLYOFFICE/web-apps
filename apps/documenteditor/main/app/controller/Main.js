@@ -363,8 +363,10 @@ define([
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
-                if (!this.editorConfig.customization || !(this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo))
+                if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
+                    (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
                     $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
+                }
 
                 Common.Controllers.Desktop.init(this.appOptions);
             },

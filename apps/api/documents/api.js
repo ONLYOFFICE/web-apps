@@ -738,9 +738,10 @@
                 : "main";
 
         var index = "/index.html";
-        if (config.editorConfig && config.editorConfig.targetApp!=='desktop') {
+        if (config.editorConfig) {
             var customization = config.editorConfig.customization;
-            if ( typeof(customization) == 'object' && (customization.loaderName || customization.loaderLogo)) {
+            if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
+                                                        (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
             }
         }
