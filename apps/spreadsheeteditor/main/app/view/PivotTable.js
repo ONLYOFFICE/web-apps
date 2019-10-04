@@ -152,23 +152,29 @@ define([
                 this.appConfig = options.mode;
                 this.lockedControls = [];
 
+                var _set = SSE.enumLock;
+
                 this.chRowHeader = new Common.UI.CheckBox({
-                    labelText: this.textRowHeader
+                    labelText: this.textRowHeader,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
                 });
                 this.lockedControls.push(this.chRowHeader);
 
                 this.chColHeader = new Common.UI.CheckBox({
-                    labelText: this.textColHeader
+                    labelText: this.textColHeader,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
                 });
                 this.lockedControls.push(this.chColHeader);
 
                 this.chRowBanded = new Common.UI.CheckBox({
-                    labelText: this.textRowBanded
+                    labelText: this.textRowBanded,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
                 });
                 this.lockedControls.push(this.chRowBanded);
 
                 this.chColBanded = new Common.UI.CheckBox({
-                    labelText: this.textColBanded
+                    labelText: this.textColBanded,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
                 });
                 this.lockedControls.push(this.chColBanded);
 
@@ -176,7 +182,8 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-add-pivot',
                     caption: this.txtCreate,
-                    disabled    : false
+                    disabled    : false,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editPivot]
                 });
                 // this.lockedControls.push(this.btnAddPivot);
 
@@ -185,6 +192,7 @@ define([
                     iconCls     : 'btn-pivot-layout',
                     caption     : this.capLayout,
                     disabled    : true,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: this.mniLayoutCompact,  value: 0 },
@@ -203,6 +211,7 @@ define([
                     iconCls     : 'btn-blank-rows',
                     caption     : this.capBlankRows,
                     disabled    : true,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: this.mniInsertBlankLine,  value: 'insert' },
@@ -217,6 +226,7 @@ define([
                     iconCls     : 'btn-subtotals',
                     caption     : this.capSubtotals,
                     disabled    : true,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: this.mniNoSubtotals,       value: 0 },
@@ -232,6 +242,7 @@ define([
                     iconCls     : 'btn-grand-totals',
                     caption     : this.capGrandTotals,
                     disabled    : true,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
                     menu        : new Common.UI.Menu({
                         items: [
                             { caption: this.mniOffTotals,       value: 0 },
@@ -247,14 +258,16 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-update-pivot',
                     caption: this.txtRefresh,
-                    disabled    : true
+                    disabled    : true,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
                 });
                 this.lockedControls.push(this.btnRefreshPivot);
 
                 this.btnSelectPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'btn-select-pivot',
-                    caption: this.txtSelect
+                    caption: this.txtSelect,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
                 });
                 this.lockedControls.push(this.btnSelectPivot);
 
@@ -263,8 +276,8 @@ define([
                     enableKeyEvents : true,
                     itemWidth       : 61,
                     itemHeight      : 49,
-                    menuMaxHeight   : 300
-                    // lock            : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
+                    menuMaxHeight   : 300,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
                 });
                 this.lockedControls.push(this.pivotStyles);
 
@@ -320,11 +333,12 @@ define([
                 this.fireEvent('show', this);
             },
 
-            getButton: function(type, parent) {
+            getButtons: function(type) {
+                return this.lockedControls.concat(this.btnAddPivot);
             },
 
             SetDisabled: function (state) {
-                this.lockedControls && this.lockedControls.forEach(function(button) {
+                this.lockedControls.concat(this.btnAddPivot).forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state);
                     }

@@ -147,7 +147,7 @@ define([
 
         onApiSelectionChanged: function(info) {
             var seltype = info.asc_getFlags().asc_getSelectionType(),
-                coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true) : false;
+                coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true) : false;
 
             var is_chart_text   = seltype == Asc.c_oAscSelectionType.RangeChartText,
                 is_chart        = seltype == Asc.c_oAscSelectionType.RangeChart,

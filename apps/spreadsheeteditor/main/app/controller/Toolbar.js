@@ -1947,7 +1947,7 @@ define([
                 return this.onApiSelectionChanged_MailMergeEditor(info);
 
             var selectionType = info.asc_getFlags().asc_getSelectionType(),
-                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true) : false,
+                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true || info.asc_getLockedPivotTable()===true) : false,
                 editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
                 me = this,
                 toolbar = this.toolbar,
@@ -3149,10 +3149,12 @@ define([
 
                         if ( !config.isOffline ) {
                             tab = {action: 'pivot', caption: me.textPivot};
-                            $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                            var pivottab = me.getApplication().getController('PivotTable');
+                            $panel = pivottab.createToolbarPanel();
                             if ($panel) {
                                 me.toolbar.addTab(tab, $panel, 5);
                                 me.toolbar.setVisible('pivot', true);
+                                Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                             }
                         }
 

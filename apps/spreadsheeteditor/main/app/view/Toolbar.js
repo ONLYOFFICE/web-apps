@@ -90,7 +90,8 @@ define([
         namedRangeLock: 'named-range-lock',
         multiselectCols:'is-multiselect-cols',
         headerLock: 'header-lock',
-        sheetLock: 'sheet-lock'
+        sheetLock: 'sheet-lock',
+        noPivot: 'no-pivot'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
