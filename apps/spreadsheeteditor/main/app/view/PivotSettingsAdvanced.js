@@ -220,6 +220,12 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                     // return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                     return true;
                 };
+
+                // var value = props.asc_getTitle();
+                // this.inputAltTitle.setValue(value ? value : '');
+                //
+                // value = props.asc_getDescription();
+                // this.textareaAltDescription.val(value ? value : '');
             }
         },
 
@@ -231,6 +237,11 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
             props.asc_setPageOverThenDown(this.radioOver.getValue());
             props.asc_setPageWrap(this.numWrap.getNumberValue());
             props.asc_setShowHeaders(this.chHeaders.getValue() == 'checked');
+
+            // if (this.isAltTitleChanged)
+            //     props.asc_putTitle(this.inputAltTitle.getValue());
+            // if (this.isAltDescChanged)
+            //     props.asc_putDescription(this.textareaAltDescription.val());
 
             return props;
         },
