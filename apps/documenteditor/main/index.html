@@ -157,7 +157,7 @@
     </style>
 
     <script>
-        document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / window.devicePixelRatio + ';');
+        document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
 
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
