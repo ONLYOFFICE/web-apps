@@ -69,6 +69,56 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        .loadmask > .sktoolbar {
+            background: #fafafa;
+            border-bottom: 1px solid #e2e2e2;
+            height: 46px;
+            padding: 10px 12px;
+            box-sizing: content-box;
+        }
+
+        .loadmask > .sktoolbar ul {
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            position: relative;
+
+            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+            -moz-animation: flickerAnimation 2s infinite ease-in-out;
+            -o-animation: flickerAnimation 2s infinite ease-in-out;
+            animation: flickerAnimation 2s infinite ease-in-out;
+        }
+
+        .loadmask > .sktoolbar li {
+            background: #ececec;
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .loadmask > .sktoolbar li.space {
+            background: none;
+            width: 12px;
+        }
+
+        .loadmask > .sktoolbar li.big {
+            width: 60px;
+            height: 46px;
+            margin-top: -46px;
+        }
+
+        .loadmask > .sktoolbar li.fat {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            left: 855px;
+            width: inherit;
+            height: 44px;
+        }
+
         .loadmask > .placeholder {
             display: flex;
             flex-direction: column;
@@ -83,8 +133,9 @@
             flex-grow: 1;
             max-width: 1350px;
             width: 100%;
-            margin: 0 auto 56px;
+            margin: 0 auto 126px;
         }
+
         .loadmask > .placeholder .slide-v {
             display: flex;
             position: relative;
@@ -203,7 +254,19 @@
     <link rel="stylesheet" type="text/css" href="../../../apps/presentationeditor/main/resources/css/app.css">
 </head>
 <body>
-    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"><img src="../../../apps/presentationeditor/main/resources/img/header/header-logo.png"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div></div>
+    <div id="loading-mask" class="loadmask">
+        <div class="brendpanel">
+            <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo.png"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div>
+        </div>
+        <div class="sktoolbar">
+            <ul><li/><li class="space" style="width: 78px;"/><li/><li class="space"/><li style="width: 210px;"/><li class="space"/><li style="width: 120px;"/><li class="space" style="width: 210px;"/><li style="width: 100px;"/><li class="fat"/></ul>
+            <ul><li/><li class="space"/><li class="big"/><li/><li class="space"/><li style="width: 210px;"/><li class="space"/><li style="width: 120px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li style="width: 100px;"/></ul>
+        </div>
+        <div class="placeholder">
+            <div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div>
+        </div>
+    </div>
+
     <div id="viewport"></div>
 
     <script>
