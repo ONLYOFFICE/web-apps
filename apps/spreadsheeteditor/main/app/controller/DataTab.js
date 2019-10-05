@@ -42,7 +42,8 @@
 define([
     'core',
     'spreadsheeteditor/main/app/view/DataTab',
-    'spreadsheeteditor/main/app/view/GroupDialog'
+    'spreadsheeteditor/main/app/view/GroupDialog',
+    'spreadsheeteditor/main/app/view/SortDialog'
 ], function () {
     'use strict';
 
@@ -215,17 +216,48 @@ define([
 
         onCustomSort: function() {
             var me = this;
-            // (new SSE.Views.SortDialog({
-            //     title: me.textSort,
-            //     closable: true,
-            //     api: me.api,
-            //     handler: function (result) {
-            //         if (result == 'ok') {
-            //             if (me && me.api) {
-            //             }
-            //         }
-            //     }
-            // })).show();
+            if (this.api) {
+                var res = this.api.asc_sortCellsRangeExpand();
+                if (res) {
+                    var config = {
+                        width: 500,
+                        title: this.txtSorting,
+                        msg: this.txtExpandSort,
+
+                        buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
+                            {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                            'cancel'],
+                        callback: function(btn){
+                            if (btn == 'expand' || btn == 'sort') {
+                                setTimeout(function(){
+                                    me.showCustomSort(btn == 'expand');
+                                },1);
+                            }
+                        }
+                    };
+                    Common.UI.alert(config);
+                } else
+                    me.showCustomSort(res !== null);
+            }
+        },
+
+        showCustomSort: function(expand) {
+            var me = this,
+                props = me.api.asc_getSortProps(expand);
+                // props = new Asc.CSortProperties();
+            if (props) {
+                (new SSE.Views.SortDialog({
+                    props: props,
+                    api: me.api,
+                    handler: function (result) {
+                        if (result == 'ok') {
+                            if (me && me.api) {
+
+                            }
+                        }
+                    }
+                })).show();
+            }
         },
 
         onWorksheetLocked: function(index,locked) {
@@ -242,7 +274,10 @@ define([
         },
 
         textWizard: 'Text to Columns Wizard',
-        textSort: 'Sort'
+        txtExpandSort: 'The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?',
+        txtExpand: 'Expand and sort',
+        txtSorting: 'Sorting',
+        txtSortSelected: 'Sort selected'
 
     }, SSE.Controllers.DataTab || {}));
 });
