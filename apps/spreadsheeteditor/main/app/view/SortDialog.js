@@ -88,11 +88,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 emptyText: '',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                        '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                            '<div class="listitem-icon <% if (isTable) {%>listitem-table<%} %>"></div>',
-                            '<div style="width:141px;padding-right: 5px;"><%= name %></div>',
-                            '<div style="width:94px;padding-right: 5px;"><%= scopeName %></div>',
-                            '<div style="width:212px;"><%= range %></div>',
+                        '<div class="list-item" style="width: 100%;display:inline-block;">',
+                            '<div style="width:150px;padding-right: 5px;display: inline-block;"><div id="sort-dialog-cmb-col-<%= index %>" class="input-group-nr" style="width:100%;"></div></div>',
+                            '<div style="width:150px;padding-right: 5px;display: inline-block;"><div id="sort-dialog-cmb-sort-<%= index %>" class="input-group-nr" style="width:100%;"></div></div>',
+                            '<div style="width:150px;display: inline-block;"><div id="sort-dialog-cmb-order-<%= index %>" class="input-group-nr" style="width:100%;"></div></div>',
                         '</div>'
                 ].join(''))
             });
@@ -149,76 +148,114 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     // sensitive: props.asc_getCaseSensitive(),
                     sort: props.asc_getColumnSort()
                 };
+
+                // get name from props
+                this.column_data = [
+                    { value: 'a', displayValue: 'a' },
+                    { value: 'b', displayValue: 'b' },
+                    { value: 'c', displayValue: 'c' }
+                ];
+                this.sort_data = [
+                    { value: Asc.c_oAscSortOptions.ByValue, displayValue: this.textValues },
+                    { value: Asc.c_oAscSortOptions.ByColorFill, displayValue: this.textCellColor },
+                    { value: Asc.c_oAscSortOptions.ByColorFont, displayValue: this.textFontColor },
+                    { value: Asc.c_oAscSortOptions.ByIcon, displayValue: this.textCellIcon }
+                ];
+                this.order_data = [
+                    { value: Asc.c_oAscSortOptions.Ascending, displayValue: this.textAZ },
+                    { value: Asc.c_oAscSortOptions.Descending, displayValue: this.textZA }
+                    ];
+
+                this.sortList.on('item:add', _.bind(this.addControls, this));
+                this.sortList.on('item:change', _.bind(this.addControls, this));
+                this.refreshList(props.asc_getLevels());
             }
         },
 
-        refreshRangeList: function(ranges, selectedItem) {
-            if (ranges) {
-                this.ranges = ranges;
+        refreshList: function(levels) {
+            this.cmbsColumn = [];
+            this.cmbsSort = [];
+            this.cmbsOrder = [];
+
+            if (levels) {
                 var arr = [];
-                for (var i=0; i<this.ranges.length; i++) {
-                    var scope = this.ranges[i].asc_getScope(),
-                        id = this.ranges[i].asc_getIsLock();
+                for (var i=0; i<levels.length; i++) {
+                    var level = levels[i];
                     arr.push({
-                        name: this.ranges[i].asc_getName(true),
-                        scope: scope,
-                        scopeName: (scope===null) ? this.textWorkbook: this.sheetNames[scope],
-                        range: this.ranges[i].asc_getRef(),
-                        isTable: (this.ranges[i].asc_getIsTable()===true),
-                        lock: (id!==null && id!==undefined),
-                        lockuser: (id) ? this.getUserName(id) : this.guestText
+                        index: level.asc_getIndex(),
+                        name: level.asc_getName(),
+                        sort: level.asc_getSortBy(),
+                        order: level.asc_getDescending(),
+                        color: level.asc_getColor()
                     });
                 }
-                this.rangesStore.reset(arr);
-                this.rangeList.setEmptyText((this.rangesStore.length>0) ? this.textnoNames : this.textEmpty);
-            }
 
-            var me = this,
-                store = this.rangeList.store,
-                models = this.rangesStore.models,
-                val = this.cmbFilter.getValue(),
-                isTableFilter = (val<3) ? (val==2) : -1,
-                isWorkbook = (val>2) ? (val==4) : -1;
-            if (val>0)
-                models = this.rangesStore.filter(function(item) {
-                    if (isTableFilter!==-1)
-                        return (isTableFilter===item.get('isTable'));
-                    if (isWorkbook!==-1)
-                        return (isWorkbook===(item.get('scope')===null));
-                    return false;
+                // arr.push({
+                //     index: 0,
+                //     name: 'a',
+                //     sort: Asc.c_oAscSortOptions.ByValue,
+                //     order: Asc.c_oAscSortOptions.Ascending
+                // });
+                // arr.push({
+                //     index: 1,
+                //     name: 's',
+                //     sort: Asc.c_oAscSortOptions.ByValue,
+                //     order: Asc.c_oAscSortOptions.Descending
+                // });
+
+                arr.sort(function (a, b) {
+                    return a.index - b.index;
                 });
-
-            store.reset(models, {silent: false});
-
-            val = store.length;
-            this.btnEditRange.setDisabled(!val);
-            this.btnDeleteRange.setDisabled(!val);
-            if (val>0) {
-                if (selectedItem===undefined || selectedItem===null) selectedItem = 0;
-                if (_.isNumber(selectedItem)) {
-                    if (selectedItem>val-1) selectedItem = val-1;
-                    this.rangeList.selectByIndex(selectedItem);
-                    setTimeout(function() {
-                        me.rangeList.scrollToRecord(store.at(selectedItem));
-                    }, 50);
-
-                } else if (selectedItem){ // object
-                    var rec = store.findWhere({name: selectedItem.asc_getName(true), scope: selectedItem.asc_getScope()});
-                    if (rec) {
-                        this.rangeList.selectRecord(rec);
-                        setTimeout(function() {
-                            me.rangeList.scrollToRecord(rec);
-                        }, 50);
-                    }
-                }
-
-                if (this.userTooltip===true && this.rangeList.cmpEl.find('.lock-user').length>0)
-                    this.rangeList.cmpEl.on('mouseover',  _.bind(me.onMouseOverLock, me)).on('mouseout',  _.bind(me.onMouseOutLock, me));
+                this.sortList.store.reset(arr);
             }
-            _.delay(function () {
-                me.rangeList.cmpEl.find('.listview').focus();
-                me.rangeList.scroller.update({alwaysVisibleY: true});
-            }, 100, this);
+        },
+
+        addControls: function(listView, itemView, item) {
+            if (!item) return;
+
+            var cmpEl = this.sortList.cmpEl;
+            var i = item.get('index');
+            var el = cmpEl.find('#sort-dialog-cmb-col-' + i),
+                combo = new Common.UI.ComboBox({
+                    el          : el,
+                    editable    : false,
+                    cls         : 'input-group-nr',
+                    menuCls     : 'menu-absolute',
+                    data        : this.column_data
+                }).on('selected', function(combo, record) {
+                    item.set('name', record.value);
+                });
+            var val = item.get('name');
+            (val!==null) && combo.setValue(item.get('name'));
+            this.cmbsColumn[i] = combo;
+
+            el = cmpEl.find('#sort-dialog-cmb-sort-' + i);
+            combo = new Common.UI.ComboBox({
+                el          : el,
+                editable    : false,
+                cls         : 'input-group-nr',
+                menuCls     : 'menu-absolute',
+                data        : this.sort_data
+            }).on('selected', function(combo, record) {
+                item.set('sort', record.value);
+            });
+            val = item.get('sort');
+            (val!==null) && combo.setValue(val);
+            this.cmbsSort[i] = combo;
+
+            el = cmpEl.find('#sort-dialog-cmb-order-' + i);
+            combo = new Common.UI.ComboBox({
+                el          : el,
+                editable    : false,
+                cls         : 'input-group-nr',
+                menuCls     : 'menu-absolute',
+                data        : this.order_data
+            }).on('selected', function(combo, record) {
+                item.set('order', record.value);
+            });
+            val = item.get('order');
+            (val!==null) && combo.setValue(val);
+            this.cmbsOrder[i] = combo;
         },
 
         onOptions: function () {
@@ -262,7 +299,13 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         textOrder: 'Order',
         textUp: 'Move level up',
         textDown: 'Move level down',
-        textOptions: 'Options'
+        textOptions: 'Options',
+        textValues: 'Values',
+        textCellColor: 'Cell color',
+        textFontColor: 'Font color',
+        textCellIcon: 'Cell icon',
+        textAZ: 'A to Z',
+        textZA: 'Z to A'
 
     }, SSE.Views.SortDialog || {}));
 });
