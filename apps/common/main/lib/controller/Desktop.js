@@ -42,8 +42,10 @@ define([
     'use strict';
 
     var Desktop = function () {
-        var config = {};
-        var app = window.AscDesktopEditor;
+        var config = {version:'{{PRODUCT_VERSION}}'};
+        var app = window.AscDesktopEditor,
+            webapp = window.DE || window.PE || window.SSE;
+        var titlebuttons;
 
         if ( !!app ) {
             window.on_native_message = function (cmd, param) {
@@ -83,14 +85,53 @@ define([
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
-                    if ( param == 'request' )
-                        app.execCommand('editor:config', JSON.stringify({user: config.user, 'extraleft': $('#box-document-title #slot-btn-dt-save').parent().width()}));
+                    if ( param == 'request' ) {
+                        var opts = {
+                            user: config.user,
+                            title: { buttons: [] }
+                        };
+
+                        var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                        if ( header ) {
+                            for (var i in titlebuttons) {
+                                opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                            }
+                        }
+
+                        app.execCommand('editor:config', JSON.stringify(opts));
+                    }
+                } else
+                if (/button:click/.test(cmd)) {
+                    var obj = JSON.parse(param);
+                    if ( !!obj.action ) {
+                        // TODO: add method 'click' to button
+                        titlebuttons[obj.action].btn.cmpEl.trigger({type:'click',which:1});
+                    }
                 }
             };
 
-            app.execCommand('webapps:events', 'loading');
-            app.execCommand('window:features', 'request');
+            // app.execCommand('webapps:events', 'loading');
+            // app.execCommand('window:features', {version: config.version, action: 'request'});
+            app.execCommand('webapps:features', {version: config.version, eventloading:true, titlebuttons:true});
         }
+
+        var _serializeHeaderButton = function(action, config) {
+            var attr = config.btn.$el.find('.icon use').attr('xlink:href');
+            var svgstr = '<svg viewBox="0 0 20 20">' + $(attr).html().replace(/<path/g, '<path fill=\"#fff\"') + '</svg>';
+            return {
+                icon: 'svg://' + btoa(svgstr),
+                action: action,
+                width: config.btn.$el.width(),
+                height: config.btn.$el.height(),
+                hint: config.btn.options.hint,
+                disabled: config.disabled
+            };
+        };
+
+        var _onTitleButtonDasabled = function (action, e, status) {
+            titlebuttons[action].disabled = status;
+            app.execCommand('title:changed', JSON.stringify({'button':action, 'disabled':status}));
+        };
 
         return {
             init: function (opts) {
@@ -111,6 +152,22 @@ define([
                     Common.NotificationCenter.on('app:face', function (mode) {
                         if ( config.canUndock ) {
                             Common.NotificationCenter.trigger('app:config', {canUndock: true});
+                        }
+
+                        var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                        titlebuttons = {
+                            'save': {btn: header.btnSave, disabled:false},
+                            'print': {btn: header.btnPrint, disabled:false},
+                            'undo': {btn: header.btnUndo, disabled:false},
+                            'redo': {btn: header.btnRedo,  disabled:false}
+                        };
+
+                        var toolbar = webapp.getController('Toolbar').getView();
+                        if ( toolbar ) {
+                            toolbar.btnUndo.on('disabled', _onTitleButtonDasabled.bind(this, 'undo'));
+                            toolbar.btnRedo.on('disabled', _onTitleButtonDasabled.bind(this, 'redo'));
+                            toolbar.btnSave.on('disabled', _onTitleButtonDasabled.bind(this, 'save'));
+                            toolbar.btnPrint.on('disabled', _onTitleButtonDasabled.bind(this, 'print'));
                         }
                     });
                 }

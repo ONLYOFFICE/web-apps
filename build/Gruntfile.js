@@ -231,7 +231,7 @@ module.exports = function(grunt) {
                     src: ['<%= pkg.main.js.requirejs.options.out %>'],
                     overwrite: true,
                     replacements: [{
-                        from: /\{\{PRODUCT_VERSION\}\}/,
+                        from: /\{\{PRODUCT_VERSION\}\}/g,
                         to: packageFile.version
                     }]
                 },
