@@ -94,8 +94,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         '</div>'
                 ].join(''))
             });
-            // this.rangeList.on('item:select', _.bind(this.onSelectLevel, this))
-            //               .on('item:keydown', _.bind(this.onKeyDown, this));
+            this.sortList.on('item:select', _.bind(this.onSelectLevel, this))
+                         .on('item:keydown', _.bind(this.onKeyDown, this));
 
             this.btnAdd = new Common.UI.Button({
                 el: $('#sort-dialog-btn-add')
@@ -110,7 +110,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.btnCopy = new Common.UI.Button({
                 el: $('#sort-dialog-btn-copy')
             });
-            // this.btnCopy.on('click', _.bind(this.onCopyLevel, this, false));
+            this.btnCopy.on('click', _.bind(this.onCopyLevel, this, false));
 
             this.btnOptions = new Common.UI.Button({
                 el: $('#sort-dialog-btn-options')
@@ -123,7 +123,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 hint: this.textUp
             });
             this.btnUp.render($('#sort-dialog-btn-up')) ;
-            // this.btnUp.on('click', _.bind(this.onUpClick, this));
+            this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
 
             this.btnDown = new Common.UI.Button({
                 cls: 'btn-toolbar',
@@ -131,7 +131,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 hint: this.textDown
             });
             this.btnDown.render($('#sort-dialog-btn-down')) ;
-            // this.btnDown.on('click', _.bind(this.onDownClick, this));
+            this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
 
             this.lblColumn = $('#sort-dialog-label-column');
 
@@ -195,6 +195,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.sortList.store.reset(arr);
                 (this.sortList.store.length>0) && this.sortList.selectByIndex(0);
             }
+            this.updateButtons();
         },
 
         addControls: function(listView, itemView, item) {
@@ -291,6 +292,24 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.sortList.selectRecord(rec);
                 this.sortList.scrollToRecord(rec);
             }
+            this.updateButtons();
+        },
+
+        onCopyLevel: function() {
+            var store = this.sortList.store,
+                rec = this.sortList.getSelectedRec();
+            rec = store.add({
+                levelIndex: this.cmbsColumn.length,
+                columnIndex: rec ? rec.get('columnIndex') : '',
+                sort: rec ? rec.get('sort') : Asc.c_oAscSortOptions.ByValue,
+                order: rec ? rec.get('order') : Asc.c_oAscSortOptions.Ascending,
+                color: rec ? rec.get('color') : null
+            }, {at: rec ? store.indexOf(rec)+1 : store.length});
+            if (rec) {
+                this.sortList.selectRecord(rec);
+                this.sortList.scrollToRecord(rec);
+            }
+            this.updateButtons();
         },
 
         onDeleteLevel: function() {
@@ -305,7 +324,26 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 index = store.indexOf(rec);
                 store.remove(rec);
                 (store.length>0) && this.sortList.selectByIndex(index<store.length ? index : store.length-1);
+                this.sortList.scrollToRecord(this.sortList.getSelectedRec());
             }
+            this.updateButtons();
+        },
+
+        onMoveClick: function(up) {
+            var store = this.sortList.store,
+                length = store.length,
+                rec = this.sortList.getSelectedRec();
+            if (rec) {
+                var index = store.indexOf(rec);
+                store.add(store.remove(rec), {at: up ? Math.max(0, index-1) : Math.min(length-1, index+1)});
+                this.sortList.selectRecord(rec);
+                this.sortList.scrollToRecord(rec);
+            }
+            this.updateMoveButtons();
+        },
+
+        onSelectLevel: function(lisvView, itemView, record) {
+            this.updateMoveButtons();
         },
 
         getSettings: function() {
@@ -323,7 +361,22 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
         onKeyDown: function (lisvView, record, e) {
             if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled())
-                this.onDeletelevel();
+                this.onDeleteLevel();
+        },
+
+        updateButtons: function() {
+            this.btnAdd.setDisabled(this.sortList.store.length>63);
+            this.btnCopy.setDisabled(this.sortList.store.length<1);
+            this.btnDelete.setDisabled(this.sortList.store.length<1);
+            this.updateMoveButtons();
+            this.sortList.scroller && this.sortList.scroller.update();
+        },
+
+        updateMoveButtons: function() {
+            var rec = this.sortList.getSelectedRec(),
+                index = rec ? this.sortList.store.indexOf(rec) : -1;
+            this.btnUp.setDisabled(index<1);
+            this.btnDown.setDisabled(index<0 || index==this.sortList.store.length-1);
         },
 
         txtTitle: 'Sort',
