@@ -233,6 +233,7 @@ define([
                 });
                 me.customColorPicker.on('addcustomcolor', function (colorPicker, color) {
                     me.paletteFillColor.addNewDynamicColor(colorPicker, color);
+                    DE.getController('EditContainer').rootView.router.back();
                 });
 
                 me.fireEvent('page:show', [me, selector]);
@@ -249,6 +250,9 @@ define([
                 });
                 me.customBorderColorPicker.on('addcustomcolor', function (colorPicker, color) {
                     me.paletteBorderColor.addNewDynamicColor(colorPicker, color);
+                    me.paletteFillColor.updateDynamicColors();
+                    me.paletteFillColor.select(me.paletteFillColor.currentColor);
+                    DE.getController('EditContainer').rootView.router.back();
                 });
 
                 me.fireEvent('page:show', [me, selector]);

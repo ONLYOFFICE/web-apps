@@ -56,26 +56,20 @@ define([
             color: '#000000'
         },
         template: _.template([
-            '<div class="custom-colors">',
-                '<div style="padding: 10px 15px; display: flex; justify-content: space-between; height: 30px;">',
-                    '<div class="color-hsb-preview" style=""></div>',
-                    '<% if (android) { %>',
-                        '<a href="#" class="button button-fill button-raised" id="add-new-color" style="margin-left: 20px;line-height: 30px;width: 100%;height: 30px;"><%= scope.textAddNewColor %></a>',
-                    '<% } else { %>',
-                        '<div class="list-block" style="width: 100%;margin: 0 0 0 20px;">',
-                        '<ul>',
-                            '<li>',
-                                '<a href="#" class="list-button item-link" id="add-new-color" style="line-height: 28px;"><%= scope.textAddNewColor %></a>',
-                            '</li>',
-                        '</ul>',
-                        '</div>',
-                    '<% } %>',
-                '</div>',
-                '<div class="color-picker-wheel <% if (phone) { %> phone <% } %>">',
+            '<div class="custom-colors <% if (phone) { %> phone <% } %>">',
+                '<div class="color-picker-wheel">',
                     '<svg id="id-wheel" viewBox="0 0 300 300" width="300" height="300"><%=circlesColors%></svg>',
                     '<div class="color-picker-wheel-handle"></div>',
                     '<div class="color-picker-sb-spectrum" style="background-color: hsl(0, 100%, 50%)">',
-                    '<div class="color-picker-sb-spectrum-handle"></div>',
+                        '<div class="color-picker-sb-spectrum-handle"></div>',
+                    '</div>',
+                '</div>',
+                '<div class="right-block">',
+                    '<div class="color-hsb-preview">',
+                        '<div class="new-color-hsb-preview" style=""></div>',
+                        '<div class="current-color-hsb-preview" style=""></div>',
+                    '</div>',
+                    '<a href="#" class="button button-round" id="add-new-color"><i class="icon icon-plus" style="height: 30px;width: 30px;"></i></a>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -116,6 +110,8 @@ define([
                 phone: Common.SharedSettings.get('phone'),
                 android: Common.SharedSettings.get('android')
             }));
+
+            $('.current-color-hsb-preview').css({'background-color': '#' + me.currentColor});
 
             this.afterRender();
 
@@ -310,7 +306,7 @@ define([
             }
             var color = this.colorHslToRgb(this.currentHsl[0], this.currentHsl[1], this.currentHsl[2]);
             this.currentColor = this.colorRgbToHex(color[0], color[1], color[2]);
-            $('.color-hsb-preview').css({'background-color': this.currentColor});
+            $('.new-color-hsb-preview').css({'background-color': this.currentColor});
 
         },
 
@@ -324,7 +320,6 @@ define([
             }
         },
 
-        textCustomColors: 'Custom Colors',
-        textAddNewColor: 'Add new color'
+        textCustomColors: 'Custom Colors'
     }, Common.UI.HsbColorPicker || {}));
 });
