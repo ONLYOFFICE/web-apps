@@ -6222,7 +6222,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .color-palette .dynamic-colors .item-inner {
   overflow: visible;
 }
-.custom-colors .color-preview {
+.custom-colors .color-hsb-preview {
   width: 75px;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }

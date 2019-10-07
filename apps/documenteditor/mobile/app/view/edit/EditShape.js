@@ -157,7 +157,7 @@ define([
                     transparent: true
                 });
                 this.paletteFillColor.on('customcolor', function () {
-                    me.showCustomColor();
+                    me.showCustomFillColor();
                 });
                 var template = _.template(['<div class="list-block">',
                     '<ul>',
@@ -173,7 +173,7 @@ define([
                     '</ul>',
                     '</div>'].join(''));
                 $('#tab-shape-fill').append(template({scope: this}));
-                $('#edit-shape-add-custom-color').single('click', _.bind(this.showCustomColor, this));
+                $('#edit-shape-add-custom-color').single('click', _.bind(this.showCustomFillColor, this));
                 Common.Utils.addScrollIfNeed('.page.shape-style', '.page.shape-style .page-content');
                 this.fireEvent('page:show', [this, selector]);
             },
@@ -200,11 +200,29 @@ define([
                 this.paletteBorderColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-shape-border-color] .page-content')
                 });
+                this.paletteBorderColor.on('customcolor', function () {
+                    me.showCustomBorderColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-shape-add-custom-border-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-shape-border-color] .page-content').append(template({scope: this}));
+                $('#edit-shape-add-custom-border-color').single('click', _.bind(this.showCustomBorderColor, this));
 
                 this.fireEvent('page:show', [this, selector]);
             },
 
-            showCustomColor: function() {
+            showCustomFillColor: function() {
                 var me = this,
                     selector = '#edit-shape-custom-color-view';
                 me.showPage(selector, true);
@@ -215,6 +233,22 @@ define([
                 });
                 me.customColorPicker.on('addcustomcolor', function (colorPicker, color) {
                     me.paletteFillColor.addNewDynamicColor(colorPicker, color);
+                });
+
+                me.fireEvent('page:show', [me, selector]);
+            },
+
+            showCustomBorderColor: function() {
+                var me = this,
+                    selector = '#edit-shape-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customBorderColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-shape-custom-color] .page-content'),
+                    color: me.paletteBorderColor.currentColor
+                });
+                me.customBorderColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteBorderColor.addNewDynamicColor(colorPicker, color);
                 });
 
                 me.fireEvent('page:show', [me, selector]);

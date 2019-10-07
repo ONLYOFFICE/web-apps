@@ -226,13 +226,9 @@ define([
         },
 
         saveDynamicColor: function(color) {
-            this.isDynamicColors = false;
             var key_name = 'asc.'+Common.localStorage.getId()+'.colors.custom';
             var colors = Common.localStorage.getItem(key_name);
             colors = colors ? colors.split(',') : [];
-            if (colors.length > 0) {
-                this.isDynamicColors = true;
-            }
             if (colors.push(color) > this.options.dynamiccolors) colors.shift();
             this.dynamicColors = colors;
             Common.localStorage.setItem(key_name, colors.join().toUpperCase());
@@ -251,7 +247,7 @@ define([
                     templateColors += '<a data-color="empty" style="background-color: #ffffff;"></a>';
                 }
             }
-            $('.dynamic-colors .item-inner').html(_.template(templateColors));
+            $(this.el).find('.dynamic-colors .item-inner').html(_.template(templateColors));
             $(this.el).find('.color-palette .dynamic-colors a').on('click', _.bind(this.onColorClick, this));
         },
 

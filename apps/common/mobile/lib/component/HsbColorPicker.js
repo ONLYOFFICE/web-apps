@@ -58,7 +58,7 @@ define([
         template: _.template([
             '<div class="custom-colors">',
                 '<div style="padding: 10px 15px; display: flex; justify-content: space-between; height: 30px;">',
-                    '<div class="color-preview" style=""></div>',
+                    '<div class="color-hsb-preview" style=""></div>',
                     '<% if (android) { %>',
                         '<a href="#" class="button button-fill button-raised" id="add-new-color" style="margin-left: 20px;line-height: 30px;width: 100%;height: 30px;"><%= scope.textAddNewColor %></a>',
                     '<% } else { %>',
@@ -310,7 +310,7 @@ define([
             }
             var color = this.colorHslToRgb(this.currentHsl[0], this.currentHsl[1], this.currentHsl[2]);
             this.currentColor = this.colorRgbToHex(color[0], color[1], color[2]);
-            $('.color-preview').css({'background-color': this.currentColor});
+            $('.color-hsb-preview').css({'background-color': this.currentColor});
 
         },
 

@@ -5816,7 +5816,7 @@ html.phone .document-menu .list-block .item-link {
 .color-palette.list-block:last-child li:last-child a {
   border-radius: 0;
 }
-.custom-colors .color-preview {
+.custom-colors .color-hsb-preview {
   width: 75px;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
