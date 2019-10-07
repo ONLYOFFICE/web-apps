@@ -78,12 +78,12 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<div id="sort-options-radio-top"></div>',
+                                        '<div id="sort-options-radio-row"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<div id="sort-options-radio-left"></div>',
+                                            '<div id="sort-options-radio-col"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -113,19 +113,21 @@ define([
             });
 
             this.radioTop = new Common.UI.RadioBox({
-                el: $('#sort-options-radio-top'),
+                el: $('#sort-options-radio-row'),
                 labelText: this.textTopBottom,
                 name: 'asc-radio-sort-orient',
                 checked: true
-            }).on('change', function(field, newValue) {
-            });
+            }).on('change', _.bind(function(field, newValue, eOpts) {
+                newValue && this.chHeaders.setDisabled(false);
+            }, this));
 
             this.radioLeft = new Common.UI.RadioBox({
-                el: $('#sort-options-radio-left'),
+                el: $('#sort-options-radio-col'),
                 labelText: this.textLeftRight,
                 name: 'asc-radio-sort-orient'
-            }).on('change', function(field, newValue) {
-            });
+            }).on('change', _.bind(function(field, newValue, eOpts) {
+                newValue && this.chHeaders.setDisabled(true);
+            }, this));
 
             this.afterRender();
         },
@@ -138,12 +140,12 @@ define([
             if (props) {
                 this.chHeaders.setValue(props.headers);
                 this.chCase.setValue(props.sensitive);
-                (props.sort == 'Row') ? this.radioLeft.setValue(true) : this.radioTop.setValue(true);
+                (props.sortcol) ? this.radioTop.setValue(true) : this.radioLeft.setValue(true);
             }
         },
 
         getSettings: function () {
-            return {headers: this.chHeaders.getValue()=='checked', sensitive: this.chCase.getValue()=='checked', sort: this.radioLeft.getValue() ? 'Row' : 'Column'};
+            return {headers: this.radioTop.getValue() && (this.chHeaders.getValue()=='checked'), sensitive: this.chCase.getValue()=='checked', sortcol: this.radioTop.getValue()};
         },
 
         textTitle: 'Sort Options',

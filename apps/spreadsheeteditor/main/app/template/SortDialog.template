@@ -13,14 +13,14 @@
             </tr>
             <tr>
                 <td>
-                    <label class="header" style="width: 150px;"><%= scope.textColumn %></label>
+                    <label id="sort-dialog-label-column" class="header" style="width: 150px;"><%= scope.textColumn %></label>
                     <label class="header" style="width: 150px;"><%= scope.textSort %></label>
                     <label class="header" style=""><%= scope.textOrder %></label>
                 </td>
             </tr>
             <tr>
                 <td class="padding-small">
-                    <div id="sort-dialog-list" class="" style="width:100%; height: 143px;"></div>
+                    <div id="sort-dialog-list" class="" style="width:100%; height: 152px;"></div>
                 </td>
             </tr>
         </table>

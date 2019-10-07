@@ -53,7 +53,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         options: {
             alias: 'SortDialog',
             contentWidth: 500,
-            height: 285,
+            height: 294,
             buttons: ['ok', 'cancel']
         },
 
@@ -84,14 +84,13 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.sortList = new Common.UI.ListView({
                 el: $('#sort-dialog-list', this.$window),
                 store: new Common.UI.DataViewStore(),
-                simpleAddMode: true,
                 emptyText: '',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div class="list-item" style="width: 100%;display:inline-block;">',
-                            '<div style="width:150px;padding-right: 5px;display: inline-block;"><div id="sort-dialog-cmb-col-<%= index %>" class="input-group-nr" style="width:100%;"></div></div>',
-                            '<div style="width:150px;padding-right: 5px;display: inline-block;"><div id="sort-dialog-cmb-sort-<%= index %>" class="input-group-nr" style="width:100%;"></div></div>',
-                            '<div style="width:150px;display: inline-block;"><div id="sort-dialog-cmb-order-<%= index %>" class="input-group-nr" style="width:100%;"></div></div>',
+                            '<div style="width:150px;padding-right: 5px;display: inline-block;"><div id="sort-dialog-cmb-col-<%= levelIndex %>" class="input-group-nr" style="width:100%;"></div></div>',
+                            '<div style="width:150px;padding-right: 5px;display: inline-block;"><div id="sort-dialog-cmb-sort-<%= levelIndex %>" class="input-group-nr" style="width:100%;"></div></div>',
+                            '<div style="width:150px;display: inline-block;"><div id="sort-dialog-cmb-order-<%= levelIndex %>" class="input-group-nr" style="width:100%;"></div></div>',
                         '</div>'
                 ].join(''))
             });
@@ -101,12 +100,12 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.btnAdd = new Common.UI.Button({
                 el: $('#sort-dialog-btn-add')
             });
-            // this.btnAdd.on('click', _.bind(this.onAddLevel, this, false));
+            this.btnAdd.on('click', _.bind(this.onAddLevel, this, false));
 
             this.btnDelete = new Common.UI.Button({
                 el: $('#sort-dialog-btn-delete')
             });
-            // this.btnDelete.on('click', _.bind(this.onDeleteLevel, this));
+            this.btnDelete.on('click', _.bind(this.onDeleteLevel, this));
 
             this.btnCopy = new Common.UI.Button({
                 el: $('#sort-dialog-btn-copy')
@@ -134,6 +133,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.btnDown.render($('#sort-dialog-btn-down')) ;
             // this.btnDown.on('click', _.bind(this.onDownClick, this));
 
+            this.lblColumn = $('#sort-dialog-label-column');
+
             this.afterRender();
         },
 
@@ -146,15 +147,17 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.sortOptions = {
                     headers: props.asc_getHasHeaders(),
                     // sensitive: props.asc_getCaseSensitive(),
-                    sort: props.asc_getColumnSort()
+                    sortcol: props.asc_getColumnSort()
                 };
 
+                this.lblColumn.text(props.asc_getColumnSort() ? this.textColumn : this.textRow);
+
                 // get name from props
-                this.column_data = [
-                    { value: 'a', displayValue: 'a' },
-                    { value: 'b', displayValue: 'b' },
-                    { value: 'c', displayValue: 'c' }
-                ];
+                this.column_data = [];
+                var values = props.asc_getSortList();
+                for (var i=0; i<values.length; i++) {
+                    this.column_data.push({ value: i, displayValue: values[i] });
+                }
                 this.sort_data = [
                     { value: Asc.c_oAscSortOptions.ByValue, displayValue: this.textValues },
                     { value: Asc.c_oAscSortOptions.ByColorFill, displayValue: this.textCellColor },
@@ -182,31 +185,15 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 for (var i=0; i<levels.length; i++) {
                     var level = levels[i];
                     arr.push({
-                        index: level.asc_getIndex(),
-                        name: level.asc_getName(),
+                        columnIndex: level.asc_getIndex(),
+                        levelIndex: i,
                         sort: level.asc_getSortBy(),
                         order: level.asc_getDescending(),
                         color: level.asc_getColor()
                     });
                 }
-
-                // arr.push({
-                //     index: 0,
-                //     name: 'a',
-                //     sort: Asc.c_oAscSortOptions.ByValue,
-                //     order: Asc.c_oAscSortOptions.Ascending
-                // });
-                // arr.push({
-                //     index: 1,
-                //     name: 's',
-                //     sort: Asc.c_oAscSortOptions.ByValue,
-                //     order: Asc.c_oAscSortOptions.Descending
-                // });
-
-                arr.sort(function (a, b) {
-                    return a.index - b.index;
-                });
                 this.sortList.store.reset(arr);
+                (this.sortList.store.length>0) && this.sortList.selectByIndex(0);
             }
         },
 
@@ -214,19 +201,20 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             if (!item) return;
 
             var cmpEl = this.sortList.cmpEl;
-            var i = item.get('index');
+            var i = item.get('levelIndex');
             var el = cmpEl.find('#sort-dialog-cmb-col-' + i),
                 combo = new Common.UI.ComboBox({
                     el          : el,
                     editable    : false,
                     cls         : 'input-group-nr',
                     menuCls     : 'menu-absolute',
+                    menuStyle   : 'max-height: 135px;',
                     data        : this.column_data
                 }).on('selected', function(combo, record) {
-                    item.set('name', record.value);
+                    item.set('columnIndex', record.value);
                 });
-            var val = item.get('name');
-            (val!==null) && combo.setValue(item.get('name'));
+            var val = item.get('columnIndex');
+            (val!==null) && combo.setValue(item.get('columnIndex'));
             this.cmbsColumn[i] = combo;
 
             el = cmpEl.find('#sort-dialog-cmb-sort-' + i);
@@ -266,17 +254,65 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
                         me.sortOptions = settings;
+                        me.lblColumn.text(settings.sortcol ? me.textColumn : me.textRow);
+                        me.props.asc_setHasHeaders(settings.headers);
+                        // me.props.asc_setCaseSensitive(settings.sensitive);
+                        me.props.asc_setColumnSort(settings.sortcol);
+                        me.props.asc_updateSortList();
+                        me.updateSortValues();
                     }
                 }
             });
             win.show();
         },
 
+        updateSortValues: function() {
+            var values = this.props.asc_getSortList();
+            this.column_data = [];
+            for (var i=0; i<values.length; i++) {
+                this.column_data.push({ value: values[i], displayValue: values[i] });
+            }
+            for (var i=0; i<this.cmbsColumn.length; i++) {
+                var cmb = this.cmbsColumn[i];
+                if (!cmb) continue;
+                cmb.setData(this.column_data);
+            }
+        },
+
+        onAddLevel: function() {
+            var store = this.sortList.store,
+                rec = this.sortList.getSelectedRec();
+            rec = store.add({
+                levelIndex: this.cmbsColumn.length,
+                sort: Asc.c_oAscSortOptions.ByValue,
+                order: Asc.c_oAscSortOptions.Ascending
+            }, {at: rec ? store.indexOf(rec)+1 : store.length});
+            if (rec) {
+                this.sortList.selectRecord(rec);
+                this.sortList.scrollToRecord(rec);
+            }
+        },
+
+        onDeleteLevel: function() {
+            var store = this.sortList.store,
+                rec = this.sortList.getSelectedRec();
+            if (rec) {
+                var index = rec.get('levelIndex');
+                this.cmbsColumn[index] = undefined;
+                this.cmbsSort[index] = undefined;
+                this.cmbsOrder[index] = undefined;
+
+                index = store.indexOf(rec);
+                store.remove(rec);
+                (store.length>0) && this.sortList.selectByIndex(index<store.length ? index : store.length-1);
+            }
+        },
+
         getSettings: function() {
             var props = new Asc.CSortProperties();
             props.asc_setHasHeaders(this.sortOptions.headers);
             // props.asc_setCaseSensitive(this.sortOptions.sensitive);
-            props.asc_setColumnSort(this.sortOptions.sort);
+            props.asc_setColumnSort(this.sortOptions.sortcol);
 
             return {};
         },
@@ -295,6 +331,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         textDelete: 'Delete level',
         textCopy: 'Copy level',
         textColumn: 'Column',
+        textRow: 'Row',
         textSort: 'Sort on',
         textOrder: 'Order',
         textUp: 'Move level up',
