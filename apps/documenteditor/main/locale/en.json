@@ -994,7 +994,7 @@
   "DE.Controllers.Viewport.textFitPage": "Fit to Page",
   "DE.Controllers.Viewport.textFitWidth": "Fit to Width",
   "DE.Views.AddNewCaptionLabelDialog.textLabel": "Label:",
-  "DE.Views.AddNewCaptionLabelDialog.textLabelError": "Label must not be empty."
+  "DE.Views.AddNewCaptionLabelDialog.textLabelError": "Label must not be empty.",
   "DE.Views.BookmarksDialog.textAdd": "Add",
   "DE.Views.BookmarksDialog.textBookmarkName": "Bookmark name",
   "DE.Views.BookmarksDialog.textClose": "Close",
