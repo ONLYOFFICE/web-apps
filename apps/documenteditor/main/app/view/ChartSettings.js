@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -84,16 +84,16 @@ define([
             this._originalProps = null;
 
             this.render();
-
-            this.labelWidth = $(this.el).find('#chart-label-width');
-            this.labelHeight = $(this.el).find('#chart-label-height');
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 scope: this
             }));
+
+            this.labelWidth = el.find('#chart-label-width');
+            this.labelHeight = el.find('#chart-label-height');
         },
 
         setApi: function(api) {
@@ -167,7 +167,7 @@ define([
 
                         if (this._isChartStylesChanged) {
                             if (rec)
-                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec()[0],true);
+                                this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.getSelectedRec(),true);
                             else
                                 this.cmbChartStyle.fillComboView(this.cmbChartStyle.menuPicker.store.at(0), true);
                         }
@@ -486,16 +486,16 @@ define([
                     if (count>0 && count==styles.length) {
                         var data = stylesStore.models;
                         _.each(styles, function(style, index){
-                            data[index].set('imageUrl', style.asc_getImageUrl());
+                            data[index].set('imageUrl', style.asc_getImage());
                         });
                     } else {
                         var stylearray = [],
                             selectedIdx = -1;
                         _.each(styles, function(item, index){
                             stylearray.push({
-                                imageUrl: item.asc_getImageUrl(),
-                                data    : item.asc_getStyle(),
-                                tip     : me.textStyle + ' ' + item.asc_getStyle()
+                                imageUrl: item.asc_getImage(),
+                                data    : item.asc_getName(),
+                                tip     : me.textStyle + ' ' + item.asc_getName()
                             });
                         });
                         stylesStore.reset(stylearray, {silent: false});

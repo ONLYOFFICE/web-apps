@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -50,8 +50,9 @@ define([
 
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 300,
-            height: 360
+            contentWidth: 310,
+            height: 360,
+            buttons: null
         },
 
         initialize : function(options) {
@@ -84,13 +85,20 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<div id="bookmarks-list" style="width:100%; height: 130px;"></div>',
+                                        '<div id="bookmarks-list" style="width:290px; height: 130px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 10px;">', me.textGoto,'</button>',
-                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="">', me.textDelete,'</button>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-goto" style="margin-right: 5px;">', me.textGoto,'</button>',
+                                            '<div style="display: inline-block; position: relative;">',
+                                                '<button type="button" class="btn btn-text-default auto dropdown-toggle" id="bookmarks-btn-link" style="min-width: 75px;" data-toggle="dropdown">', me.textGetLink,'</button>',
+                                                '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -80px; padding: 10px;">',
+                                                    '<div id="id-dlg-clip-copy"></div>',
+                                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + me.textCopy + '</button>',
+                                                '</div>',
+                                            '</div>',
+                                            '<button type="button" class="btn btn-text-default" id="bookmarks-btn-delete" style="float: right;">', me.textDelete,'</button>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -111,6 +119,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.appOptions = options.appOptions;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -123,11 +132,28 @@ define([
                 el          : $('#bookmarks-txt-name'),
                 allowBlank  : true,
                 validateOnChange: true,
-                validateOnBlur: false,
-                style       : 'width: 195px;',
+                validateOnBlur: true,
+                style       : 'width: 205px;',
                 value       : '',
-                maxLength: 40
-            }).on('changing', _.bind(this.onNameChanging, this));
+                maxLength: 40,
+                validation  : function(value) {
+                    var check = me.props.asc_CheckNewBookmarkName(value),
+                        exist = me.props.asc_HaveBookmark(value);
+                    me.btnAdd.setDisabled(!check && !exist);
+                    return (check || _.isEmpty(value) || exist) ? true : me.txtInvalidName;
+                }
+            }).on ('changing', function (input, value) {
+                var exist = me.props.asc_HaveBookmark(value);
+                if (exist) {
+                    var rec = me.bookmarksList.store.findWhere({value: value});
+                    me.bookmarksList.selectRecord(rec);
+                    me.bookmarksList.scrollToRecord(rec);
+                } else
+                    me.bookmarksList.deselectAll();
+                me.btnGoto.setDisabled(!exist);
+                me.btnDelete.setDisabled(!exist);
+                me.btnGetLink.setDisabled(!exist);
+            });
 
             this.radioName = new Common.UI.RadioBox({
                 el: $('#bookmarks-radio-name'),
@@ -147,7 +173,7 @@ define([
             this.bookmarksList = new Common.UI.ListView({
                 el: $('#bookmarks-list', this.$window),
                 store: new Common.UI.DataViewStore(),
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= value %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
             });
             this.bookmarksList.store.comparator = function(rec) {
                 return (me.radioName.getValue() ? rec.get("value") : rec.get("location"));
@@ -160,7 +186,7 @@ define([
                 el: $('#bookmarks-btn-add'),
                 disabled: true
             });
-            this.$window.find('#bookmarks-btn-add').on('click', _.bind(this.onDlgBtnClick, this));
+            this.btnAdd.on('click', _.bind(this.addBookmark, this));
 
             this.btnGoto = new Common.UI.Button({
                 el: $('#bookmarks-btn-goto'),
@@ -174,6 +200,12 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.deleteBookmark, this));
 
+            this.btnGetLink = new Common.UI.Button({
+                el: $('#bookmarks-btn-link'),
+                disabled: true
+            });
+            this.btnGetLink.on('click', _.bind(this.getBookmarkLink, this));
+
             this.chHidden = new Common.UI.CheckBox({
                 el: $('#bookmarks-checkbox-hidden'),
                 labelText: this.textHidden,
@@ -181,15 +213,73 @@ define([
             });
             this.chHidden.on('change', _.bind(this.onChangeHidden, this));
 
+            if (this.appOptions.canMakeActionLink) {
+                var inputCopy = new Common.UI.InputField({
+                    el          : $('#id-dlg-clip-copy'),
+                    editable    : false,
+                    style       : 'width: 176px;'
+                });
+
+                var copyBox = this.$window.find('#id-clip-copy-box');
+                copyBox.on('click', _.bind(function() {
+                    return false;
+                }, this));
+                copyBox.parent().on({
+                    'shown.bs.dropdown': function () {
+                        _.delay(function(){
+                            inputCopy._input.select().focus();
+                        },100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        me.txtName._input.select().focus();
+                    }
+                });
+                copyBox.find('button').on('click', function() {
+                    inputCopy._input.select();
+                    document.execCommand("copy");
+                });
+
+                Common.Gateway.on('setactionlink', function (url) {
+                    inputCopy.setValue(url);
+                });
+            }
+
             this.afterRender();
         },
 
         afterRender: function() {
             this._setDefaults(this.props);
+            var me = this;
+            var onApiBookmarksUpdate = function() {
+                var rec = me.bookmarksList.getSelectedRec();
+                me.refreshBookmarks();
+                if (rec) {
+                    rec = me.bookmarksList.store.findWhere({value: rec.get('value')});
+                    if (rec) {
+                        me.bookmarksList.selectRecord(rec);
+                        me.bookmarksList.scrollToRecord(rec);
+                    } else {
+                        me.txtName.setValue('');
+                        me.btnAdd.setDisabled(true);
+                        me.btnGoto.setDisabled(true);
+                        me.btnDelete.setDisabled(true);
+                        me.btnGetLink.setDisabled(true);
+                    }
+                }
+            };
+            this.api.asc_registerCallback('asc_onBookmarksUpdate', onApiBookmarksUpdate);
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onBookmarksUpdate', onApiBookmarksUpdate);
+            });
         },
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+
+            var me = this;
+            _.delay(function(){
+                $('input', me.txtName.cmpEl).select().focus();
+            },100);
         },
 
         close: function() {
@@ -200,7 +290,7 @@ define([
 
         _setDefaults: function (props) {
             this.refreshBookmarks();
-            this.bookmarksList.scrollToRecord(this.bookmarksList.selectByIndex(0));
+            this.btnGetLink.setVisible(this.appOptions.canMakeActionLink);
         },
 
         getSettings: function () {
@@ -208,11 +298,6 @@ define([
         },
 
         onDlgBtnClick: function(event) {
-            var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
-            if (state == 'add') {
-                this.props.asc_AddBookmark(this.txtName.getValue());
-            }
-
             this.close();
         },
 
@@ -247,31 +332,53 @@ define([
             this.btnAdd.setDisabled(false);
             this.btnGoto.setDisabled(false);
             this.btnDelete.setDisabled(false);
+            this.btnGetLink.setDisabled(false);
         },
 
         gotoBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
-            if (rec.length>0) {
-                this.props.asc_GoToBookmark(rec[0].get('value'));
-            }
+            if (rec)
+                this.props.asc_SelectBookmark(rec.get('value'));
+            else if (this.txtName.getValue()!=='')
+                this.props.asc_SelectBookmark(this.txtName.getValue());
+        },
+
+        addBookmark: function(btn, eOpts){
+            this.props.asc_AddBookmark(this.txtName.getValue());
+            this.refreshBookmarks();
+            var rec = this.bookmarksList.store.findWhere({value: this.txtName.getValue()});
+            this.bookmarksList.selectRecord(rec);
+            this.bookmarksList.scrollToRecord(rec);
         },
 
         onDblClickBookmark: function(listView, itemView, record) {
-            this.props.asc_GoToBookmark(record.get('value'));
+            this.props.asc_SelectBookmark(record.get('value'));
         },
 
         deleteBookmark: function(btn, eOpts){
             var rec = this.bookmarksList.getSelectedRec();
-            if (rec.length>0) {
-                this.props.asc_RemoveBookmark(rec[0].get('value'));
+            if (rec) {
+                this.props.asc_RemoveBookmark(rec.get('value'));
                 var store = this.bookmarksList.store;
-                var idx = _.indexOf(store.models, rec[0]);
-                store.remove(rec[0]);
+                var idx = _.indexOf(store.models, rec);
+                store.remove(rec);
                 this.txtName.setValue('');
                 this.btnAdd.setDisabled(true);
                 this.btnGoto.setDisabled(true);
                 this.btnDelete.setDisabled(true);
+                this.btnGetLink.setDisabled(true);
             }
+        },
+
+        getBookmarkLink: function(btn) {
+            if (btn.cmpEl && btn.cmpEl.parent().hasClass('open')) return;
+
+            var rec = this.bookmarksList.getSelectedRec();
+            rec && Common.Gateway.requestMakeActionLink({
+                                                            action: {
+                                                                type: "bookmark", data: rec.get('value')
+                                                            }
+                                                        });
         },
 
         onRadioSort: function(field, newValue, eOpts) {
@@ -285,17 +392,6 @@ define([
             this.refreshBookmarks();
         },
 
-        onNameChanging: function (input, value) {
-            var exist = this.props.asc_HaveBookmark(value);
-            if (exist)
-                this.bookmarksList.selectRecord(this.bookmarksList.store.findWhere({value: value}));
-            else
-                this.bookmarksList.deselectAll();
-            this.btnAdd.setDisabled(!this.props.asc_CheckNewBookmarkName(value) && !exist);
-            this.btnGoto.setDisabled(!exist);
-            this.btnDelete.setDisabled(!exist);
-        },
-
         textTitle:    'Bookmarks',
         textLocation: 'Location',
         textBookmarkName: 'Bookmark name',
@@ -305,7 +401,10 @@ define([
         textGoto: 'Go to',
         textDelete: 'Delete',
         textClose: 'Close',
-        textHidden: 'Hidden bookmarks'
+        textHidden: 'Hidden bookmarks',
+        txtInvalidName: 'Bookmark name can only contain letters, digits and underscores, and should begin with the letter',
+        textGetLink: 'Get Link',
+        textCopy: 'Copy'
 
     }, DE.Views.BookmarksDialog || {}))
 });

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -73,7 +73,8 @@ define([
                 Height: 0,
                 DisabledControls: false,
                 keepRatio: false,
-                isOleObject: false
+                isOleObject: false,
+                cropMode: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -97,6 +98,9 @@ define([
         setApi: function(api) {
             if ( api == undefined ) return;
             this.api = api;
+            if (this.api) {
+                this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this._changeCropState, this));
+            }
             return this;
         },
 
@@ -195,6 +199,79 @@ define([
 
             this.lblReplace = $('#image-lbl-replace');
 
+            this.btnCrop = new Common.UI.Button({
+                cls: 'btn-text-split-default',
+                caption: this.textCrop,
+                split: true,
+                enableToggle: true,
+                allowDepress: true,
+                pressed: this._state.cropMode,
+                width: 100,
+                menu        : new Common.UI.Menu({
+                    style       : 'min-width: 100px;',
+                    items: [
+                        {
+                            caption: this.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            checked: this._state.cropMode,
+                            value: 0
+                        },
+                        {
+                            caption: this.textCropFill,
+                            value: 1
+                        },
+                        {
+                            caption: this.textCropFit,
+                            value: 2
+                        }]
+                })
+            });
+            this.btnCrop.render( $('#image-button-crop')) ;
+            this.btnCrop.on('click', _.bind(this.onCrop, this));
+            this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
+            this.lockedControls.push(this.btnCrop);
+
+            this.btnRotate270 = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'rotate-270',
+                value: 0,
+                hint: this.textHint270
+            });
+            this.btnRotate270.render( $('#image-button-270', me.$el));
+            this.btnRotate270.on('click', _.bind(this.onBtnRotateClick, this));
+            this.lockedControls.push(this.btnRotate270);
+
+            this.btnRotate90 = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'rotate-90',
+                value: 1,
+                hint: this.textHint90
+            });
+            this.btnRotate90.render( $('#image-button-90', me.$el));
+            this.btnRotate90.on('click', _.bind(this.onBtnRotateClick, this));
+            this.lockedControls.push(this.btnRotate90);
+
+            this.btnFlipV = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'flip-vert',
+                value: 0,
+                hint: this.textHintFlipV
+            });
+            this.btnFlipV.render( $('#image-button-flipv', me.$el));
+            this.btnFlipV.on('click', _.bind(this.onBtnFlipClick, this));
+            this.lockedControls.push(this.btnFlipV);
+
+            this.btnFlipH = new Common.UI.Button({
+                cls: 'btn-toolbar',
+                iconCls: 'flip-hor',
+                value: 1,
+                hint: this.textHintFlipH
+            });
+            this.btnFlipH.render( $('#image-button-fliph', me.$el));
+            this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
+            this.lockedControls.push(this.btnFlipH);
+
             $(this.el).on('click', '#image-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
@@ -279,6 +356,10 @@ define([
                     this.btnInsertFromFile.setVisible(!value);
                     this.btnEditObject.setVisible(value);
                     this.lblReplace.text(value ? this.textEditObject : this.textInsert);
+                    this.btnRotate270.setDisabled(value);
+                    this.btnRotate90.setDisabled(value);
+                    this.btnFlipV.setDisabled(value);
+                    this.btnFlipH.setDisabled(value);
                     this._state.isOleObject=value;
                 }
 
@@ -342,6 +423,7 @@ define([
                 var properties = new Asc.asc_CImgProperty();
                 properties.asc_putWidth(w);
                 properties.asc_putHeight(h);
+                properties.put_ResetCrop(true);
                 this.api.asc_setGraphicObjectProps(properties);
                 Common.NotificationCenter.trigger('edit:complete', this);
             }
@@ -366,6 +448,51 @@ define([
             })).show();
         },
 
+        _changeCropState: function(state) {
+            this._state.cropMode = state;
+
+            if (!this.btnCrop) return;
+            this.btnCrop.toggle(state, true);
+            this.btnCrop.menu.items[0].setChecked(state, true);
+        },
+
+        onCrop: function(btn, e) {
+            if (this.api) {
+                btn.pressed ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onCropMenu: function(menu, item) {
+            if (this.api) {
+                if (item.value == 1) {
+                    this.api.asc_cropFill();
+                } else if (item.value == 2) {
+                    this.api.asc_cropFit();
+                } else {
+                    item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onBtnRotateClick: function(btn) {
+            var properties = new Asc.asc_CImgProperty();
+            properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            this.api.asc_setGraphicObjectProps(properties);
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onBtnFlipClick: function(btn) {
+            var properties = new Asc.asc_CImgProperty();
+            if (btn.options.value==1)
+                properties.asc_putFlipHInvert(true);
+            else
+                properties.asc_putFlipVInvert(true);
+            this.api.asc_setGraphicObjectProps(properties);
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -380,6 +507,7 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+            this.btnCrop.setDisabled(disable || !this.api.asc_canEditCrop());
         },
 
         textKeepRatio: 'Constant Proportions',
@@ -392,6 +520,16 @@ define([
         textFromFile:   'From File',
         textEditObject: 'Edit Object',
         textEdit:       'Edit',
-        textAdvanced:   'Show advanced settings'
+        textAdvanced:   'Show advanced settings',
+        textRotation: 'Rotation',
+        textRotate90: 'Rotate 90°',
+        textFlip: 'Flip',
+        textHint270: 'Rotate 90° Counterclockwise',
+        textHint90: 'Rotate 90° Clockwise',
+        textHintFlipV: 'Flip Vertically',
+        textHintFlipH: 'Flip Horizontally',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit'
     }, SSE.Views.ImageSettings || {}));
 });

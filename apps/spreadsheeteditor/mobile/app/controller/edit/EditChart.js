@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -147,14 +147,19 @@ define([
                     me.initStylePage();
                 } else if ('#edit-chart-border-color-view' == pageId) {
                     me.initBorderColorPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-border-color]', '.page[data-page=edit-chart-border-color] .page-content');
                 } else if ('#edit-chart-layout' == pageId) {
                     me.initLayoutPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-layout]', '.page[data-page=edit-chart-layout] .page-content');
                 } else if ('#edit-chart-vertical-axis' == pageId) {
                     me.initVertAxisPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-vertical-axis]', '.page[data-page=edit-chart-vertical-axis] .page-content');
                 } else if ('#edit-chart-horizontal-axis' == pageId) {
                     me.initHorAxisPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-horizontal-axis]', '.page[data-page=edit-chart-horizontal-axis] .page-content');
                 } else if ('#edit-chart-reorder' == pageId) {
                     me.initReorderPage();
+                    Common.Utils.addScrollIfNeed('.page[data-page=edit-chart-reorder]', '.page[data-page=edit-chart-reorder] .page-content');
                 } else {
                     me.initRootPage();
                 }
@@ -220,7 +225,7 @@ define([
                 var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4,
                     borderType = shapeProperties.get_stroke().get_type();
                 $('#edit-chart-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
-                $('#edit-chart-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
+                $('#edit-chart-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
 
                 $('#edit-chart-bordersize input').single('change touchend', _.buffered(me.onBorderSize, 100, me));
                 $('#edit-chart-bordersize input').single('input',           _.bind(me.onBorderSizeChanging, me));
@@ -230,6 +235,8 @@ define([
             },
 
             _initBorderColorView: function () {
+                if (!_shapeObject) return;
+
                 var me = this,
                     stroke = _shapeObject.get_ShapeProperties().get_stroke();
 
@@ -653,7 +660,7 @@ define([
 
             onBorderSizeChanging: function (e) {
                 var $target = $(e.currentTarget);
-                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+                $('#edit-chart-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
             },
 
             onBorderColor: function (palette, color) {

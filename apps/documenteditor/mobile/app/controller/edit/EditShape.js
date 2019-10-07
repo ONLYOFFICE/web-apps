@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -171,7 +171,7 @@ define([
                 var me = this;
 
                 // me.api && me.api.UpdateInterfaceState();
-
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
                 if (_shapeObject) {
                     if (pageId == '#edit-shape-wrap') {
                         me._initWrapView();
@@ -224,7 +224,7 @@ define([
                 var borderSize = shapeProperties.get_stroke().get_width() * 72.0 / 25.4;
                 var borderType = shapeProperties.get_stroke().get_type();
                 $('#edit-shape-bordersize input').val([(borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize)]);
-                $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + _metricText);
+                $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
 
                 // Init style opacity
                 $('#edit-shape-effect input').val([shapeProperties.get_fill().asc_getTransparent() ? shapeProperties.get_fill().asc_getTransparent() / 2.55 : 100]);
@@ -261,6 +261,8 @@ define([
             },
 
             _initBorderColorView: function () {
+                if (!_shapeObject) return;
+
                 var me = this,
                     paletteBorderColor = me.getView('EditShape').paletteBorderColor,
                     stroke = _shapeObject.get_ShapeProperties().get_stroke();
@@ -442,7 +444,7 @@ define([
 
             onBorderSizeChanging: function (e) {
                 var $target = $(e.currentTarget);
-                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + _metricText);
+                $('#edit-shape-bordersize .item-after').text(borderSizeTransform.sizeByIndex($target.val()) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
             },
 
             onOpacity: function (e) {

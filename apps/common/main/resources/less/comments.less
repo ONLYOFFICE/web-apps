@@ -16,6 +16,10 @@
         height: 300px;
         border-bottom: 1px solid @gray-dark;
 
+        &.stretch {
+            border-bottom: none;
+        }
+
         .ps-scrollbar-y-rail {
             margin-top: 5px;
             margin-bottom: 5px;
@@ -183,6 +187,10 @@
         &.user-select {
             cursor: text;
         }
+        &.user-select::selection {
+            background: #3494fb;
+            color: white;
+        }
     }
 
     .user-reply {
@@ -227,7 +235,7 @@
         cursor: pointer;
     }
 
-    .btn-edit,.btn-delete, .btn-resolve, .btn-resolve-check, .btn-accept, .btn-reject {
+    .btn-edit,.btn-delete, .btn-resolve, .btn-resolve-check, .btn-accept, .btn-reject, .btn-goto {
         width: 16px;
         height: 16px;
         margin: 0 0 0 5px;
@@ -256,6 +264,10 @@
 
     .btn-resolve-check {
         background-position: -42px -234px;
+    }
+
+    .btn-goto {
+        background-position: -22px -272px;
     }
 
     .inner-edit-ct {

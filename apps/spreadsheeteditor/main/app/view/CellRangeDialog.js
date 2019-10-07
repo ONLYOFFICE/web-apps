@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -51,7 +51,9 @@ define([
         options: {
             width   : 350,
             cls     : 'modal-dlg',
-            modal   : false
+            modal   : false,
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
         initialize : function(options) {
@@ -62,10 +64,6 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div id="id-dlg-cell-range" class="input-row" style="margin-bottom: 5px;"></div>',
-                '</div>',
-                '<div class="footer right">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -90,7 +88,6 @@ define([
             });
 
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
-            me.inputRange.cmpEl.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             this.on('close', _.bind(this.onClose, this));
 
@@ -153,12 +150,6 @@ define([
             SSE.getController('RightMenu').SetDisabled(false);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
-        },
-
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
@@ -177,7 +168,6 @@ define([
         },
 
         txtTitle   : 'Select Data Range',
-        textCancel  : 'Cancel',
         txtEmpty    : 'This field is required',
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',

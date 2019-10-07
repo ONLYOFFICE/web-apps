@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -118,7 +118,7 @@ define([
         rendered    : false,
 
         template    :
-                    '<input type="text" class="form-control">' +
+                    '<input type="text" class="form-control" spellcheck="false">' +
                     '<div class="spinner-buttons">' +
                         '<button type="button" class="spinner-up"><i class="img-commonctrl"></i></button>' +
                         '<button type="button" class="spinner-down"><i class="img-commonctrl"></i></button>' +
@@ -128,7 +128,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             var me = this,
-                el = $(this.el);
+                el = me.$el || $(this.el);
 
             el.addClass('spinner');
 
@@ -165,7 +165,7 @@ define([
             this.setRawValue(this.value);
 
             if (this.options.width) {
-                $(this.el).width(this.options.width);
+                el.width(this.options.width);
             }
 
             if (this.options.defaultValue===undefined)
@@ -176,7 +176,7 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template);
 
             this.$input = el.find('.form-control');
@@ -189,7 +189,7 @@ define([
         },
 
         setDisabled: function(disabled) {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             if (disabled !== this.disabled) {
                 el.find('button').toggleClass('disabled', disabled);
                 el.toggleClass('disabled', disabled);
@@ -374,12 +374,7 @@ define([
             if (charCode=='.' || charCode==',') {
                 e.preventDefault();
                 e.stopPropagation();
-            } else if(this.options.maskExp && !this.options.maskExp.test(charCode) && !e.ctrlKey &&
-                e.keyCode !== Common.UI.Keys.DELETE && e.keyCode !== Common.UI.Keys.BACKSPACE &&
-                e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT &&
-                e.keyCode !== Common.UI.Keys.HOME && e.keyCode !== Common.UI.Keys.END &&
-                e.keyCode !== Common.UI.Keys.ESC && e.keyCode !== Common.UI.Keys.RETURN &&
-                e.keyCode !== Common.UI.Keys.INSERT && e.keyCode !== Common.UI.Keys.TAB){
+            } else if(this.options.maskExp && !this.options.maskExp.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.RETURN ){
                 e.preventDefault();
                 e.stopPropagation();
             }

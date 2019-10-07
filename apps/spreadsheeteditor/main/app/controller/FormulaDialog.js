@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -43,16 +43,18 @@
 define([
     'core',
     'spreadsheeteditor/main/app/collection/FormulaGroups',
-    'spreadsheeteditor/main/app/view/FormulaDialog'
+    'spreadsheeteditor/main/app/view/FormulaDialog',
+    'spreadsheeteditor/main/app/view/FormulaTab'
 ], function () {
     'use strict';
 
     SSE.Controllers = SSE.Controllers || {};
 
-    SSE.Controllers.FormulaDialog = Backbone.Controller.extend({
+    SSE.Controllers.FormulaDialog = Backbone.Controller.extend(_.extend({
         models: [],
         views: [
-            'FormulaDialog'
+            'FormulaDialog',
+            'FormulaTab'
         ],
         collections: [
             'FormulaGroups'
@@ -60,20 +62,61 @@ define([
 
         initialize: function () {
             var me = this;
+            me.langJson = {};
+            me.langDescJson = {};
+
             this.addListeners({
                 'FileMenu': {
                     'settings:apply': function() {
+                        if (!me.mode || !me.mode.isEdit) return;
+
                         me.needUpdateFormula = true;
+
+                        var lang = Common.localStorage.getItem("sse-settings-func-locale");
+                        Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
+
+                        me.formulasGroups.reset();
+                        me.reloadTranslations(lang);
                     }
+                },
+                'FormulaTab': {
+                    'function:apply': this.applyFunction,
+                    'function:calculate': this.onCalculate
+                },
+                'Toolbar': {
+                    'function:apply': this.applyFunction,
+                    'tab:active': this.onTabActive
                 }
             });
+        },
+
+        applyFunction: function(func, autocomplete, group) {
+            if (func) {
+                if (func.origin === 'more') {
+                    this.showDialog(group);
+                } else {
+                    this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete);
+                    !autocomplete && this.updateLast10Formulas(func.origin);
+                }
+            }
+        },
+
+        setConfig: function(config) {
+            this.toolbar = config.toolbar;
+            this.formulaTab = this.createView('FormulaTab', {
+                toolbar: this.toolbar.toolbar,
+                formulasGroups: this.formulasGroups
+            });
+            return this;
         },
 
         setApi: function (api) {
             this.api = api;
 
             if (this.formulasGroups && this.api) {
-                this.loadingFormulas();
+                Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
+
+                this.reloadTranslations(Common.localStorage.getItem("sse-settings-func-locale") || this.appOptions.lang, true);
 
                 var me = this;
 
@@ -81,21 +124,16 @@ define([
                     api             : this.api,
                     toolclose       : 'hide',
                     formulasGroups  : this.formulasGroups,
-                    handler         : function (func) {
-                        if (func && me.api) {
-                            me.api.asc_insertFormula(func, Asc.c_oAscPopUpSelectorType.Func);
-                        }
-                    }
+                    handler         : _.bind(this.applyFunction, this)
                 });
-
                 this.formulas.on({
                     'hide': function () {
-                        if (me.api) {
-                            me.api.asc_enableKeyEvents(true);
-                        }
+                        me.api.asc_enableKeyEvents(true);
                     }
                 });
             }
+
+            this.formulaTab && this.formulaTab.setApi(this.api);
 
             return this;
         },
@@ -107,14 +145,78 @@ define([
 
         onLaunch: function () {
             this.formulasGroups = this.getApplication().getCollection('FormulaGroups');
+
+            var descriptions = ['Financial', 'Logical', 'TextAndData', 'DateAndTime', 'LookupAndReference', 'Mathematic', 'Cube', 'Database', 'Engineering',  'Information',
+                 'Statistical', 'Last10'];
+
+            Common.Gateway.on('init', this.loadConfig.bind(this));
         },
 
-        showDialog: function () {
+        loadConfig: function(data) {
+            this.appOptions = {};
+            this.appOptions.lang = data.config.lang;
+        },
+
+        reloadTranslations: function (lang, suppressEvent) {
+            var me = this;
+            lang = (lang || 'en').split(/[\-_]/)[0].toLowerCase();
+
+            Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
+            if (me.langJson[lang]) {
+                me.api.asc_setLocalization(me.langJson[lang]);
+                Common.NotificationCenter.trigger('formula:settings', this);
+            } else if (lang == 'en') {
+                me.api.asc_setLocalization(undefined);
+                Common.NotificationCenter.trigger('formula:settings', this);
+            } else {
+                Common.Utils.loadConfig('resources/formula-lang/' + lang + '.json',
+                    function (config) {
+                        if ( config != 'error' ) {
+                            me.langJson[lang] = config;
+                            me.api.asc_setLocalization(config);
+                            Common.NotificationCenter.trigger('formula:settings', this);
+                        }
+                    });
+            }
+
+            if (me.langDescJson[lang])
+                me.loadingFormulas(me.langDescJson[lang], suppressEvent);
+            else  {
+                Common.Utils.loadConfig('resources/formula-lang/' + lang + '_desc.json',
+                    function (config) {
+                        if ( config != 'error' ) {
+                            me.langDescJson[lang] = config;
+                            me.loadingFormulas(config, suppressEvent);
+                        } else {
+                            Common.Utils.loadConfig('resources/formula-lang/en_desc.json',
+                                function (config) {
+                                    me.langDescJson[lang] = (config != 'error') ? config : null;
+                                    me.loadingFormulas(me.langDescJson[lang], suppressEvent);
+                                });
+                        }
+                    });
+            }
+        },
+
+        getDescription: function(lang) {
+            if (!lang) return '';
+            lang = lang.toLowerCase() ;
+
+            if (this.langDescJson[lang])
+                return this.langDescJson[lang];
+            return null;
+        },
+
+        showDialog: function (group) {
             if (this.formulas) {
-                if (this.needUpdateFormula)
-                    this.updateFormulas();
-                this.needUpdateFormula = false;
-                this.formulas.show();
+                if ( this.needUpdateFormula ) {
+                    this.needUpdateFormula = false;
+
+                    if (this.formulas.$window) {
+                        this.formulas.fillFormulasGroups();
+                    }
+                }
+                this.formulas.show(group);
             }
         },
         hideDialog: function () {
@@ -123,7 +225,42 @@ define([
             }
         },
 
-        loadingFormulas: function () {
+        updateLast10Formulas: function(formula) {
+            var arr = Common.Utils.InternalSettings.get("sse-settings-func-last") || 'SUM;AVERAGE;IF;HYPERLINK;COUNT;MAX;SIN;SUMIF;PMT;STDEV';
+            arr = arr.split(';');
+            var idx = _.indexOf(arr, formula);
+            arr.splice((idx<0) ? arr.length-1 : idx, 1);
+            arr.unshift(formula);
+            var val = arr.join(';');
+            Common.localStorage.setItem("sse-settings-func-last", val);
+            Common.Utils.InternalSettings.set("sse-settings-func-last", val);
+
+            if (this.formulasGroups) {
+                var group = this.formulasGroups.findWhere({name : 'Last10'});
+                group && group.set('functions', this.loadingLast10Formulas(this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"))));
+                this.formulaTab && this.formulaTab.updateRecent();
+            }
+        },
+
+        loadingLast10Formulas: function(descrarr) {
+            var arr = (Common.Utils.InternalSettings.get("sse-settings-func-last") || 'SUM;AVERAGE;IF;HYPERLINK;COUNT;MAX;SIN;SUMIF;PMT;STDEV').split(';'),
+                separator = this.api.asc_getFunctionArgumentSeparator(),
+                functions = [];
+            for (var j = 0; j < arr.length; j++) {
+                var funcname = arr[j];
+                functions.push(new SSE.Models.FormulaModel({
+                    index : j,
+                    group : 'Last10',
+                    name  : this.api.asc_getFormulaLocaleName(funcname),
+                    origin: funcname,
+                    args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
+                    desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : ''
+                }));
+            }
+            return functions;
+        },
+
+        loadingFormulas: function (descrarr, suppressEvent) {
             var i = 0, j = 0,
                 ascGroupName,
                 ascFunctions,
@@ -134,22 +271,37 @@ define([
                 funcInd = 0,
                 info = null,
                 allFunctions = [],
-                allFunctionsGroup = null;
+                allFunctionsGroup = null,
+                last10FunctionsGroup = null,
+                separator = this.api.asc_getFunctionArgumentSeparator();
 
             if (store) {
-                var value = SSE.Views.FormulaLang.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
-
-                allFunctionsGroup = new SSE.Models.FormulaGroup ({
-                    name    : 'All',
+                ascGroupName = 'Last10';
+                last10FunctionsGroup = new SSE.Models.FormulaGroup ({
+                    name    : ascGroupName,
                     index   : index,
-                    store   : store
+                    store   : store,
+                    caption : this['sCategory' + ascGroupName] || ascGroupName
                 });
+                if (last10FunctionsGroup) {
+                    last10FunctionsGroup.set('functions', this.loadingLast10Formulas(descrarr));
+                    store.push(last10FunctionsGroup);
+                    index += 1;
+                }
+
+                ascGroupName = 'All';
+                allFunctionsGroup = new SSE.Models.FormulaGroup ({
+                    name    : ascGroupName,
+                    index   : index,
+                    store   : store,
+                    caption : this['sCategory' + ascGroupName] || ascGroupName
+                });
+                if (allFunctionsGroup) {
+                    store.push(allFunctionsGroup);
+                    index += 1;
+                }
 
                 if (allFunctionsGroup) {
-                    index += 1;
-
-                    store.push(allFunctionsGroup);
-
                     info = this.api.asc_getFormulasInfo();
 
                     for (i = 0; i < info.length; i += 1) {
@@ -159,7 +311,8 @@ define([
                         formulaGroup = new SSE.Models.FormulaGroup({
                             name  : ascGroupName,
                             index : index,
-                            store : store
+                            store : store,
+                            caption : this['sCategory' + ascGroupName] || ascGroupName
                         });
 
                         index += 1;
@@ -172,8 +325,9 @@ define([
                                 index : funcInd,
                                 group : ascGroupName,
                                 name  : ascFunctions[j].asc_getLocaleName(),
-                                args  : (value && value[funcname]) ? value[funcname].a : '',
-                                desc  : (value && value[funcname]) ? value[funcname].d : ''
+                                origin: funcname,
+                                args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
+                                desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : ''
                             });
 
                             funcInd += 1;
@@ -182,7 +336,7 @@ define([
                             allFunctions.push(func);
                         }
 
-                        formulaGroup.set('functions', functions);
+                        formulaGroup.set('functions', _.sortBy(functions, function (model) {return model.get('name'); }));
                         store.push(formulaGroup);
                     }
 
@@ -190,15 +344,36 @@ define([
                        _.sortBy(allFunctions, function (model) {return model.get('name'); }));
                 }
             }
+            (!suppressEvent || this._formulasInited) && this.formulaTab && this.formulaTab.fillFunctions();
         },
 
-        updateFormulas: function () {
-            this.formulasGroups.reset();
-            this.loadingFormulas();
-            if (this.formulas.$window) {
-                this.formulas.fillFormulasGroups();
-                this.formulas.fillFunctions('All');
+        onTabActive: function (tab) {
+            if ( tab == 'formula' && !this._formulasInited && this.formulaTab) {
+                this.formulaTab.fillFunctions();
+                this._formulasInited = true;
             }
-        }
-    });
+        },
+
+        onCalculate: function(calc) {
+            var type = calc.type;
+            if (type === Asc.c_oAscCalculateType.All || type === Asc.c_oAscCalculateType.ActiveSheet) {
+                this.api && this.api.asc_calculate(type);
+            }
+        },
+
+        sCategoryAll:                   'All',
+        sCategoryLast10:                '10 last used',
+        sCategoryLogical:               'Logical',
+        sCategoryCube:                  'Cube',
+        sCategoryDatabase:              'Database',
+        sCategoryDateAndTime:           'Date and time',
+        sCategoryEngineering:           'Engineering',
+        sCategoryFinancial:             'Financial',
+        sCategoryInformation:           'Information',
+        sCategoryLookupAndReference:    'Lookup and reference',
+        sCategoryMathematic:            'Math and trigonometry',
+        sCategoryStatistical:           'Statistical',
+        sCategoryTextAndData:           'Text and data'
+
+    }, SSE.Controllers.FormulaDialog || {}));
 });

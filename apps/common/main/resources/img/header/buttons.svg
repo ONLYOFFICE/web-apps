@@ -21,11 +21,8 @@
         <polygon points="14.243,7.585 11,10.829 11,4 9,4 9,10.827 5.758,7.585 4.344,9 10.001,14.656 15.657,9 "/>
     </symbol>
     <symbol id="svg-btn-print" viewBox="0 0 20 20">
-        <rect x="7" y="12" width="5" height="1"/>
-        <rect x="7" y="14" width="5" height="1"/>
-        <path d="M16,7h-2V5c0-0.552-0.447-1-1-1H6C5.448,4,5,4.448,5,5v2H3C2.448,7,2,7.448,2,8v5c0,0.553,0.448,1,1,1h2v2
-            c0,0.553,0.448,1,1,1h7c0.553,0,1-0.447,1-1v-2h2c0.553,0,1-0.447,1-1V8C17,7.448,16.553,7,16,7z M6,5h7v2H6V5z M5,13H3v-2h2V13z
-            M13,16H6v-5h7V16z M16,13h-2v-2h2V13z M3,10V8h13v2H3z"/>
+        <rect x="4" y="8" width="1" height="1" fill="#ffffff"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 4H6V6H14V4ZM5 4V6H3C2.44772 6 2 6.44772 2 7V12V13H3H5V15C5 15.5523 5.44772 16 6 16H14C14.5523 16 15 15.5523 15 15V13H17H18V12V7C18 6.44772 17.5523 6 17 6H15V4C15 3.44772 14.5523 3 14 3H6C5.44772 3 5 3.44772 5 4ZM15 12H17V7H14H6H3V12H5V11C5 10.4477 5.44772 10 6 10H14C14.5523 10 15 10.4477 15 11V12ZM6 11H14V15H6V11Z" fill="#ffffff"/>
     </symbol>
     <symbol id="svg-btn-edit" viewBox="0 0 20 20">
         <polygon points="11.738,7.891 6.434,13.195 5.02,14.859 4.5,17.5 7,17.5 8.555,15.566 13.859,10.137"/>	
@@ -33,26 +30,23 @@
 		c0.391,0.391,0.391,1.023,0,1.414L15.273,8.598z"/>
     </symbol>
     <symbol id="svg-btn-save" viewBox="0 0 20 20">
-        <rect x="7" y="13" width="6" height="1"/>
-	    <rect x="7" y="11" width="6" height="1"/>
-	    <path d="M13,4H5C4.447,4,4,4.447,4,5v10c0,0.553,0.447,1,1,1h10c0.553,0,1-0.447,1-1V7L13,4z M11,5v2h-1V5H11z
-		 M15,15H5V5h2v3h5V5h0.5L15,7.5V15z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 15H4V4H6V7H12V4H12.5858L15 6.41421V15ZM11 4H10V6H11V4ZM4 3H13L16 6V15C16 15.5523 15.5523 16 15 16H4C3.44772 16 3 15.5523 3 15V4C3 3.44772 3.44772 3 4 3Z" fill="#ffffff"/>
+        <rect x="6" y="10" width="7" height="1" fill="#ffffff"/>
+        <rect x="6" y="12" width="7" height="1" fill="#ffffff"/>
     </symbol>
     <symbol id="svg-btn-save-coauth" viewBox="0 0 20 20">
-        <path d="M14,9c-2.209,0-4,1.791-4,4c0,0.348,0.059,0.679,0.142,1h1.043C11.072,13.686,11,13.353,11,13
-            c0-1.654,1.346-3,3-3s3,1.346,3,3s-1.346,3-3,3v-1l-2,1.5l2,1.5v-1c2.209,0,4-1.791,4-4S16.209,9,14,9z"/>
-        <rect x="6" y="13" width="3" height="1"/>
-        <rect x="6" y="11" width="3" height="1"/>
-        <path d="M9,15H4V5h2v3h3h2V5h0.5L14,7.5V8h1V7l-3-3H4C3.447,4,3,4.447,3,5v10c0,0.553,0.447,1,1,1h5V15z M9,5h1v2H9 V5z"/>
+        <rect x="6" y="10" width="3" height="1" fill="#ffffff"/>
+        <rect x="6" y="12" width="2" height="1" fill="#ffffff"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 12.9996C16 11.3427 14.6569 9.99957 13 9.99957C11.3431 9.99957 10 11.3427 10 12.9996C10 14.3058 10.8348 15.417 12 15.8289V16.8736C10.2748 16.4295 9 14.8634 9 12.9996C9 10.7904 10.7909 8.99957 13 8.99957C15.2091 8.99957 17 10.7904 17 12.9996C17 14.1945 16.476 15.2671 15.6453 16H17V17H14L14 16.8736V15.8289L14 14H15V15.2357C15.6137 14.6864 16 13.8881 16 12.9996Z" fill="#ffffff"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 15H4V4H6V7H12V4H12.5858L15 6.41421V8H16V6L13 3H4C3.44772 3 3 3.44772 3 4V15C3 15.5523 3.44772 16 4 16H8V15ZM10 4H11V6H10V4Z" fill="#ffffff"/>
     </symbol>
     <symbol id="svg-btn-save-sync" viewBox="0 0 20 20">
-        <path fill="#FFD112" d="M18,16c0.553,0,1-0.447,1-1v-5c0-0.553-0.447-1-1-1h-7c-0.553,0-1,0.447-1,1v5c0,0.553,0.447,1,1,1h1
-                l1.5,2l1.5-2H18z"/>
-        <rect x="12" y="11" fill="#444444" width="5" height="1"/>
-        <rect x="12" y="13" fill="#444444" width="5" height="1"/>
-        <rect x="6" y="13" width="3" height="1"/>
-        <rect x="6" y="11" width="3" height="1"/>
-        <path d="M9,15H4V5h2v3h3h2V5h0.5L14,7.5V8h1V7l-3-3H4C3.447,4,3,4.447,3,5v10c0,0.553,0.447,1,1,1h5V15z M9,5h1v2H9 V5z"/>
+        <rect x="6" y="10" width="3" height="1" fill="#ffffff"/>
+        <rect x="6" y="12" width="3" height="1" fill="#ffffff"/>
+        <rect x="10" y="10" width="9" height="7" rx="1" fill="#FFD114"/>
+        <rect x="12" y="12" width="5" height="1" fill="#444444"/>
+        <rect x="12" y="14" width="5" height="1" fill="#444444"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 15H9V16H4C3.44772 16 3 15.5523 3 15V4C3 3.44772 3.44772 3 4 3H13L16 6V9H15V6.41421L12.5858 4H12V7H6V4H4V15ZM10 4H11V6H10V4Z" fill="#ffffff"/>
     </symbol>
     <symbol id="svg-btn-undo" viewBox="0 0 20 20">
         <path d="M11.355,7.625c-1.965,0-3.864,0.777-5.151,2.033L4,7.625V14h6.407l-2.091-2.219
@@ -66,5 +60,11 @@
         <rect x="3" y="6" width="14" height="1"/>
         <rect x="3" y="10" width="14" height="1"/>
         <rect x="3" y="14" width="14" height="1"/>
+    </symbol>
+    <symbol id="svg-btn-undock" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 7H6V8V9H3V16H12V14H13V16C13 16.5523 12.5523 17 12 17H3C2.44772 17 2 16.5523 2 16V8C2 7.44769 2.44772 7 3 7Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M17 5H8L8 12H17V5ZM7 4C7 3.44772 7.44772 3 8 3H17C17.5523 3 18 3.44772 18 4V12C18 12.5523 17.5523 13 17 13H8C7.44771 13 7 12.5523 7 12V4Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.64645 10.6464L14.1464 6.14642L14.8536 6.85353L10.3536 11.3535L9.64645 10.6464Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 6H11V7H14L14 10H15V7V6H14Z"/>
     </symbol>
 </svg>

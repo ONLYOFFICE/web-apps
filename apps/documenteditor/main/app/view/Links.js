@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -105,6 +105,10 @@ define([
             this.btnBookmarks.on('click', function (b, e) {
                 me.fireEvent('links:bookmarks');
             });
+
+            this.btnCaption.on('click', function (b, e) {
+                me.fireEvent('links:caption');
+            });
         }
 
         return {
@@ -115,44 +119,17 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
 
-                this.btnsContents = [];
-                this.btnsNotes = [];
                 this.btnsPrevNote = [];
                 this.btnsNextNote = [];
-                this.btnsHyperlink = [];
                 this.paragraphControls = [];
 
                 var me = this,
                     $host = me.toolbar.$el;
-                var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length)
-                        cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
-                };
 
-                var _injectComponents = function ($slots, iconCls, split, menu, caption, btnsArr) {
-                    $slots.each(function(index, el) {
-                        var _cls = 'btn-toolbar';
-                        /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                        var button = new Common.UI.Button({
-                            id: "id-toolbar-" + iconCls + index,
-                            cls: _cls,
-                            iconCls: iconCls,
-                            caption: caption,
-                            split: split,
-                            menu: menu,
-                            disabled: true
-                        }).render( $slots.eq(index) );
-
-                        btnsArr.push(button);
-                        me.paragraphControls.push(button);
-                    });
-                };
-
-                _injectComponents($host.find('.btn-slot.btn-contents'), 'btn-contents', true, true, me.capBtnInsContents, me.btnsContents);
-                _injectComponents($host.find('.btn-slot.slot-notes'), 'btn-notes', true, true, me.capBtnInsFootnote, me.btnsNotes);
-                _injectComponents($host.find('.btn-slot.slot-inshyperlink'), 'btn-inserthyperlink', false, false, me.capBtnInsLink, me.btnsHyperlink);
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'btn-contents', me.capBtnInsContents, undefined, true, true );
+                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'btn-notes', me.capBtnInsFootnote, undefined, true, true);
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'btn-inserthyperlink', me.capBtnInsLink);
+                Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -162,7 +139,7 @@ define([
                     menu: true,
                     disabled: true
                 });
-                _injectComponent('#slot-btn-contents-update', this.btnContentsUpdate);
+                Common.Utils.injectComponent($host.find('#slot-btn-contents-update'), this.btnContentsUpdate);
                 this.paragraphControls.push(this.btnContentsUpdate);
 
                 this.btnBookmarks = new Common.UI.Button({
@@ -171,8 +148,17 @@ define([
                     caption: this.capBtnBookmarks,
                     disabled: true
                 });
-                _injectComponent('#slot-btn-bookmarks', this.btnBookmarks);
+                Common.Utils.injectComponent($host.find('#slot-btn-bookmarks'), this.btnBookmarks);
                 this.paragraphControls.push(this.btnBookmarks);
+
+                this.btnCaption = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-caption',
+                    caption: this.capBtnCaption,
+                    disabled: true
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-caption'), this.btnCaption);
+                this.paragraphControls.push(this.btnCaption);
 
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -187,11 +173,12 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div style="background-position: 0 -<%= options.offsety %>px;" ></div></a>');
+                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div></div></a>');
                     me.btnsContents.forEach( function(btn) {
                         btn.updateHint( me.tipContents );
 
                         var _menu = new Common.UI.Menu({
+                            cls: 'toc-menu',
                             items: [
                                 {template: contentsTemplate, offsety: 0, value: 0},
                                 {template: contentsTemplate, offsety: 72, value: 1},
@@ -204,6 +191,7 @@ define([
                     });
 
                     me.contentsMenu = new Common.UI.Menu({
+                        cls: 'toc-menu',
                         items: [
                             {template: contentsTemplate, offsety: 0, value: 0},
                             {template: contentsTemplate, offsety: 72, value: 1},
@@ -258,7 +246,7 @@ define([
                             el: $('#id-menu-goto-footnote-prev-'+index),
                             cls: 'btn-toolbar'
                         }));
-                        me.btnsNextNote.push(me.mnuGotoFootNext = new Common.UI.Button({
+                        me.btnsNextNote.push(new Common.UI.Button({
                             el: $('#id-menu-goto-footnote-next-'+index),
                             cls: 'btn-toolbar'
                         }));
@@ -269,6 +257,7 @@ define([
                     });
 
                     me.btnBookmarks.updateHint(me.tipBookmarks);
+                    me.btnCaption.updateHint(me.tipCaption);
 
                     setEvents.call(me);
                 });
@@ -310,7 +299,9 @@ define([
             capBtnInsLink: 'Hyperlink',
             tipInsertHyperlink: 'Add Hyperlink',
             capBtnBookmarks: 'Bookmark',
-            tipBookmarks: 'Create a bookmark'
+            tipBookmarks: 'Create a bookmark',
+            capBtnCaption: 'Caption',
+            tipCaption: 'Insert caption'
         }
     }()), DE.Views.Links || {}));
 });

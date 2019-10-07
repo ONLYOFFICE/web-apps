@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -48,8 +48,8 @@ define([
 
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 300,
-            height: 275
+            contentWidth: 310,
+            height: 412
         },
 
         initialize : function(options) {
@@ -63,7 +63,7 @@ define([
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',
                                 '<tr>',
-                                    '<td class="padding-large">',
+                                    '<td class="padding-small">',
                                         '<label class="input-label">', me.textName, '</label>',
                                         '<div id="control-settings-txt-name"></div>',
                                     '</td>',
@@ -72,6 +72,46 @@ define([
                                     '<td class="padding-large">',
                                         '<label class="input-label">', me.textTag, '</label>',
                                         '<div id="control-settings-txt-tag"></div>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td class="padding-large">',
+                                        '<div class="separator horizontal"></div>',
+                                    '</td>',
+                                '</tr>',
+                                '</table>',
+                                '<table cols="2" style="width: auto;">',
+                                '<tr>',
+                                    '<td class="padding-small" colspan="2">',
+                                        '<label class="header">', me.textAppearance, '</label>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td class="padding-small">',
+                                        '<label class="input-label" style="margin-right: 10px;">', me.textShowAs,'</label>',
+                                    '</td>',
+                                    '<td class="padding-small">',
+                                        '<div id="control-settings-combo-show" class="input-group-nr" style="display: inline-block; width:120px;"></div>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td class="padding-small">',
+                                        '<label class="input-label" style="margin-right: 10px;">', me.textColor, '</label>',
+                                    '</td>',
+                                    '<td class="padding-small">',
+                                        '<div id="control-settings-color-btn" style="display: inline-block;"></div>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td class="padding-large" colspan="2">',
+                                        '<button type="button" class="btn btn-text-default auto" id="control-settings-btn-all" style="min-width: 98px;">', me.textApplyAll,'</button>',
+                                    '</td>',
+                                '</tr>',
+                                '</table>',
+                                '<table cols="1" style="width: 100%;">',
+                                '<tr>',
+                                    '<td class="padding-large">',
+                                        '<div class="separator horizontal"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -92,16 +132,13 @@ define([
                                 '</table>',
                             '</div></div>',
                         '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + me.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
                     '</div>'
                 ].join('')
             }, options);
 
             this.handler    = options.handler;
             this.props      = options.props;
+            this.api        = options.api;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -116,6 +153,7 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
+                maxLength: 64,
                 value       : ''
             });
 
@@ -125,8 +163,54 @@ define([
                 validateOnChange: false,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
+                maxLength: 64,
                 value       : ''
             });
+
+            this.cmbShow = new Common.UI.ComboBox({
+                el: $('#control-settings-combo-show'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 120px;',
+                editable: false,
+                data: [
+                    { displayValue: this.textBox,   value: Asc.c_oAscSdtAppearance.Frame },
+                    { displayValue: this.textNone,  value: Asc.c_oAscSdtAppearance.Hidden }
+                ]
+            });
+            this.cmbShow.setValue(Asc.c_oAscSdtAppearance.Frame);
+
+            this.btnColor = new Common.UI.ColorButton({
+                style: "width:45px;",
+                menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
+                    items: [
+                        {
+                            id: 'control-settings-system-color',
+                            caption: this.textSystemColor,
+                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
+                        },
+                        {caption: '--'},
+                        { template: _.template('<div id="control-settings-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="control-settings-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                    ]
+                })
+            });
+
+            this.btnColor.on('render:after', function(btn) {
+                me.colors = new Common.UI.ThemeColorPalette({
+                    el: $('#control-settings-color-menu')
+                });
+                me.colors.on('select', _.bind(me.onColorsSelect, me));
+            });
+            this.btnColor.render( $('#control-settings-color-btn'));
+            this.btnColor.setColor('000000');
+            this.btnColor.menu.items[3].on('click',  _.bind(this.addNewColor, this, this.colors, this.btnColor));
+            $('#control-settings-system-color').on('click', _.bind(this.onSystemColor, this));
+
+            this.btnApplyAll = new Common.UI.Button({
+                el: $('#control-settings-btn-all')
+            });
+            this.btnApplyAll.on('click', _.bind(this.applyAllClick, this));
 
             this.chLockDelete = new Common.UI.CheckBox({
                 el: $('#control-settings-chb-lock-delete'),
@@ -141,7 +225,32 @@ define([
             this.afterRender();
         },
 
+        onColorsSelect: function(picker, color) {
+            this.btnColor.setColor(color);
+            var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
+            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+            this.isSystemColor = false;
+        },
+
+        updateThemeColors: function() {
+            this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+        },
+
+        addNewColor: function(picker, btn) {
+            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
+        },
+
+        onSystemColor: function(e) {
+            var color = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
+            this.btnColor.setColor(color);
+            this.colors.clearSelection();
+            var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
+            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+            this.isSystemColor = true;
+        },
+
         afterRender: function() {
+            this.updateThemeColors();
             this._setDefaults(this.props);
         },
 
@@ -157,6 +266,22 @@ define([
                 val = props.get_Tag();
                 this.txtTag.setValue(val ? val : '');
 
+                val = props.get_Appearance();
+                (val!==null && val!==undefined) && this.cmbShow.setValue(val);
+
+                val = props.get_Color();
+                this.isSystemColor = (val===null);
+                if (val) {
+                    val = Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b());
+                    this.colors.selectByRGB(val,true);
+                } else {
+                    this.colors.clearSelection();
+                    var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
+                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                    val = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
+                }
+                this.btnColor.setColor(val);
+
                 val = props.get_Lock();
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
                 this.chLockDelete.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
@@ -166,11 +291,16 @@ define([
 
         getSettings: function () {
             var props   = new AscCommon.CContentControlPr();
-
-
             props.put_Alias(this.txtName.getValue());
             props.put_Tag(this.txtTag.getValue());
+            props.put_Appearance(this.cmbShow.getValue());
 
+            if (this.isSystemColor) {
+                props.put_Color(null);
+            } else {
+                var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                props.put_Color(color.get_r(), color.get_g(), color.get_b());
+            }
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
 
@@ -195,8 +325,18 @@ define([
             this.close();
         },
 
-        onPrimary: function() {
-            return true;
+        applyAllClick: function(btn, eOpts){
+            if (this.api) {
+                var props   = new AscCommon.CContentControlPr();
+                props.put_Appearance(this.cmbShow.getValue());
+                if (this.isSystemColor) {
+                    props.put_Color(null);
+                } else {
+                    var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
+                    props.put_Color(color.get_r(), color.get_g(), color.get_b());
+                }
+                this.api.asc_SetContentControlProperties(props, null, true);
+            }
         },
 
         textTitle:    'Content Control Settings',
@@ -205,8 +345,14 @@ define([
         txtLockDelete: 'Content control cannot be deleted',
         txtLockEdit: 'Contents cannot be edited',
         textLock: 'Locking',
-        cancelButtonText: 'Cancel',
-        okButtonText: 'Ok'
+        textShowAs: 'Show as',
+        textColor: 'Color',
+        textBox: 'Bounding box',
+        textNone: 'None',
+        textNewColor: 'Add New Custom Color',
+        textApplyAll: 'Apply to All',
+        textAppearance: 'Appearance',
+        textSystemColor: 'System'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

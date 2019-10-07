@@ -34,6 +34,7 @@
     opacity: 0;
 
     position: fixed;
+    cursor: default;
 
     > .header {
         height: 34px;
@@ -83,6 +84,12 @@
 
         &.resizing {
             cursor: inherit !important;
+        }
+
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
@@ -227,6 +234,14 @@
 
         &.resizing {
             cursor: inherit !important;
+        }
+    }
+
+    .footer {
+        button {
+            &:not(:first-child) {
+                margin-left: 10px;
+            }
         }
     }
 }

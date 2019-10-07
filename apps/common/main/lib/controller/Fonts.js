@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -48,10 +48,10 @@ define([
     'common/main/lib/collection/Fonts'
 ], function () { 'use strict';
     Common.Controllers.Fonts = Backbone.Controller.extend((function() {
-        var FONT_TYPE_USERUSED = 4;
+        var FONT_TYPE_RECENT = 4;
 
         function isFontSaved(store, rec) {
-            var out = rec.get('type') == FONT_TYPE_USERUSED,
+            var out = rec.get('type') == FONT_TYPE_RECENT,
                 i = -1,
                 c = store.length,
                 su,
@@ -59,7 +59,7 @@ define([
             while (!out && ++i < c) {
                 su = store.at(i);
 
-                if (su.get('type') != FONT_TYPE_USERUSED)
+                if (su.get('type') != FONT_TYPE_RECENT)
                     break;
 
                 out = su.get('name') == n;
@@ -78,7 +78,7 @@ define([
 //                    name: data.name,
 //                    imgidx: data.imgidx,
 //                    cloneid: node.querySelector('img').id,
-//                    type: FONT_TYPE_USERUSED
+//                    type: FONT_TYPE_RECENT
 //                };
 //                combo.getStore().insert(0,[font]);
 //
@@ -93,7 +93,7 @@ define([
 //                }
 //
 //                font = combo.getStore().getAt(5);
-//                if (font.data.type==FONT_TYPE_USERUSED) {
+//                if (font.data.type==FONT_TYPE_RECENT) {
 //                    combo.getStore().remove(font);
 //                } else {
 //                    var plugin = combo.getPlugin('scrollpane');

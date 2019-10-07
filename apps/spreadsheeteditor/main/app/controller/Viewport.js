@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -78,10 +78,10 @@ define([
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        toolbar.setExtra('left', me.header.getPanel('left', config));
+                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                            toolbar.setExtra('left', me.header.getPanel('left', config));
 
-                        if ( me.appConfig && me.appConfig.isDesktopApp &&
-                                me.appConfig.isEdit && toolbar.btnCollabChanges )
+                        if ( me.appConfig && me.appConfig.isEdit && !(config.customization && config.customization.compactHeader) && toolbar.btnCollabChanges )
                             toolbar.btnCollabChanges = me.header.btnSave;
 
                     },
@@ -103,6 +103,10 @@ define([
                                 me.header.btnRedo.keepState.disabled = state;
                             else me.header.btnRedo.setDisabled(state);
                         }
+                    },
+                    'print:disabled' : function (state) {
+                        if ( me.header.btnPrint )
+                            me.header.btnPrint.setDisabled(state);
                     },
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
@@ -126,6 +130,10 @@ define([
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
+        getApi: function() {
+            return this.api;
+        },
+
         onAppShowed: function (config) {
             var me = this;
             me.appConfig = config;
@@ -133,6 +141,8 @@ define([
             var _intvars = Common.Utils.InternalSettings;
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', _intvars.get('toolbar-height-tabs'));
+
+            me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
             if ( !config.isEdit ||
                     ( !Common.localStorage.itemExists("sse-compact-toolbar") &&
@@ -144,9 +154,10 @@ define([
                 me.viewport.vlayout.getItem('toolbar').height = 41;
             }
 
-            if ( config.isDesktopApp && config.isEdit && !config.isEditDiagram && !config.isEditMailMerge ) {
+            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !(config.customization && config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
+                $title.find('.extra').html(me.header.getPanel('left', config));
 
                 var toolbar = me.viewport.vlayout.getItem('toolbar');
                 toolbar.el.addClass('top-title');
@@ -158,6 +169,14 @@ define([
                 _intvars.set('toolbar-height-normal', _tabs_new_height + _intvars.get('toolbar-height-controls'));
 
                 $filemenu.css('top', _tabs_new_height + _intvars.get('document-title-height'));
+            }
+
+            if ( config.customization ) {
+                if ( config.customization.toolbarNoTabs )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+
+                if ( config.customization.toolbarHideFileName )
+                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
         },
 
@@ -256,6 +275,19 @@ define([
                     })
                 );
 
+                if (!config.isEdit) {
+                    var menu = me.header.btnOptions.menu;
+                    me.header.mnuitemHideHeadings.hide();
+                    me.header.mnuitemHideGridlines.hide();
+                    me.header.mnuitemFreezePanes.hide();
+                    menu.items[5].hide();
+                    menu.items[7].hide();
+                    if (!config.canViewComments) { // show advanced settings for editing and commenting mode
+                        // mnuitemAdvSettings.hide();
+                        // menu.items[9].hide();
+                    }
+                }
+
                 var _on_btn_zoom = function (btn) {
                     if ( btn == 'up' ) {
                         var _f = Math.floor(this.api.asc_getZoom() * 10)/10;
@@ -290,6 +322,14 @@ define([
         onLaunch: function() {
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
+            this.getApplication().getController('CellEditor').createView('CellEditor',{ el: '#cell-editing-box' }).render();
+
+            this.api = new Asc.spreadsheet_api({
+                'id-view'  : 'editor_sdk',
+                'id-input' : 'ce-cell-content',
+                'translate': this.getApplication().getController('Main').translationTable
+            });
+
             this.header   = this.createView('Common.Views.Header', {
                 headerCaption: 'Spreadsheet Editor',
                 storeUsers: SSE.getCollection('Common.Collections.Users')
@@ -370,6 +410,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable );
             me.header.lockHeaderBtns( 'redo', _need_disable );
             me.header.lockHeaderBtns( 'opts', _need_disable );
+            me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
         onApiZoomChange: function(zf, type){
@@ -419,11 +460,11 @@ define([
             }
         },
 
-        onApiCoAuthoringDisconnect: function() {
+        onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
-                if (this.header.btnDownload)
+                if (this.header.btnDownload && !enableDownload)
                     this.header.btnDownload.hide();
-                if (this.header.btnPrint)
+                if (this.header.btnPrint && !enableDownload)
                     this.header.btnPrint.hide();
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();

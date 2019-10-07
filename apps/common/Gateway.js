@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -76,6 +76,10 @@ if (Common === undefined) {
                 $me.trigger('setemailaddresses', data);
             },
 
+            'setActionLink': function (data) {
+                $me.trigger('setactionlink', data.url);
+            },
+
             'processMailMerge': function(data) {
                 $me.trigger('processmailmerge', data);
             },
@@ -94,6 +98,26 @@ if (Common === undefined) {
 
             'resetFocus': function(data) {
                 $me.trigger('resetfocus', data);
+            },
+
+            'setUsers': function(data) {
+                $me.trigger('setusers', data);
+            },
+
+            'showSharingSettings': function(data) {
+                $me.trigger('showsharingsettings', data);
+            },
+
+            'setSharingSettings': function(data) {
+                $me.trigger('setsharingsettings', data);
+            },
+
+            'insertImage': function(data) {
+                $me.trigger('insertimage', data);
+            },
+
+            'setMailMergeRecipients': function(data) {
+                $me.trigger('setmailmergerecipients', data);
             }
         };
 
@@ -234,6 +258,16 @@ if (Common === undefined) {
                 });
             },
 
+            requestSaveAs: function(url, title) {
+                _postMessage({
+                    event: 'onRequestSaveAs',
+                    data: {
+                        url: url,
+                        title: title
+                    }
+                });
+            },
+
             collaborativeChanges: function() {
                 _postMessage({event: 'onCollaborativeChanges'});
             },
@@ -252,6 +286,26 @@ if (Common === undefined) {
 
             requestClose: function() {
                 _postMessage({event: 'onRequestClose'});
+            },
+
+            requestMakeActionLink: function (config) {
+                _postMessage({event:'onMakeActionLink', data: config})
+            },
+
+            requestUsers:  function () {
+                _postMessage({event:'onRequestUsers'})
+            },
+
+            requestSendNotify:  function (emails) {
+                _postMessage({event:'onRequestSendNotify', data: emails})
+            },
+
+            requestInsertImage:  function () {
+                _postMessage({event:'onRequestInsertImage'})
+            },
+
+            requestMailMergeRecipients:  function () {
+                _postMessage({event:'onRequestMailMergeRecipients'})
             },
 
             on: function(event, handler){

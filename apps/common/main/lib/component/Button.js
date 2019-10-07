@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -132,7 +132,8 @@ define([
         };
 
         ButtonsArray.prototype.setDisabled = function(disable) {
-            if ( _disabled != disable ) {
+            // if ( _disabled != disable ) //bug when disable buttons outside the group
+            {
                 _disabled = disable;
 
                 this.forEach( function(button) {
@@ -319,7 +320,7 @@ define([
 
             me.trigger('render:before', me);
 
-            me.cmpEl = $(me.el);
+            me.cmpEl = me.$el || $(me.el);
 
             if (parentEl) {
                 me.setElement(parentEl, false);
@@ -386,6 +387,18 @@ define([
                     if (modalParents.length > 0) {
                         me.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                         me.btnMenuEl && me.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                        var onModalClose = function(dlg) {
+                            if (modalParents[0] !== dlg.$window[0]) return;
+                            var tip = me.btnEl.data('bs.tooltip');
+                            if (tip) {
+                                if (tip.dontShow===undefined)
+                                    tip.dontShow = true;
+
+                                tip.hide();
+                            }
+                            Common.NotificationCenter.off({'modal:close': onModalClose});
+                        };
+                        Common.NotificationCenter.on({'modal:close': onModalClose});
                     }
                 }
 
@@ -491,6 +504,7 @@ define([
                     if (isSplit) {
                         $('[data-toggle^=dropdown]', el).on('mousedown', _.bind(menuHandler, this));
                         $('button', el).on('mousedown', _.bind(onMouseDown, this));
+                        (me.options.width>0) && $('button:first', el).css('width', me.options.width - $('[data-toggle^=dropdown]', el).outerWidth());
                     }
 
                     el.on('hide.bs.dropdown', _.bind(doSplitSelect, me, false, 'arrow'));
@@ -512,8 +526,8 @@ define([
                 });
 
                 el.on('mouseout', function(e) {
+                    me.cmpEl.removeClass('over');
                     if (!me.disabled) {
-                        me.cmpEl.removeClass('over');
                         me.trigger('mouseout', me, e);
                     }
                 });
@@ -600,6 +614,9 @@ define([
                         }
                     }
                 }
+
+                if (disabled && this.menu && _.isObject(this.menu) && this.menu.rendered && this.menu.isVisible())
+                    setTimeout(function(){ me.menu.hide()}, 1);
 
                 if ( !!me.options.signals ) {
                     var opts = me.options.signals;

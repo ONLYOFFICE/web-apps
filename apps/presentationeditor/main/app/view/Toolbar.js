@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -103,7 +103,7 @@ define([
                 me.synchTooltip = undefined;
                 me.needShowSynchTip = false;
 
-                me.schemeNames = [
+                me.SchemeNames = [
                     me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
                     me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
                     me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
@@ -113,6 +113,7 @@ define([
                 me._state = {
                     hasCollaborativeChanges: undefined
                 };
+                me.binding = {};
 
                 Common.NotificationCenter.on('app:ready', me.onAppReady.bind(this));
                 return this;
@@ -175,9 +176,10 @@ define([
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-print no-mask',
-                        lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint]
+                        lock: [_set.slideDeleted, _set.noSlides, _set.cantPrint, _set.disableOnStart],
+                        signals: ['disabled']
                     });
-                    me.paragraphControls.push(me.btnPrint);
+                    me.slideOnlyControls.push(me.btnPrint);
 
                     me.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
@@ -253,7 +255,8 @@ define([
                             {value: 28, displayValue: "28"},
                             {value: 36, displayValue: "36"},
                             {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"}
+                            {value: 72, displayValue: "72"},
+                            {value: 96, displayValue: "96"}
                         ]
                     });
                     me.paragraphControls.push(me.cmbFontSize);
@@ -350,7 +353,7 @@ define([
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-setmarkers',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -362,7 +365,7 @@ define([
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-numbering',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -390,7 +393,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'btn-align-left',
                         icls: 'btn-align-left',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         menu: new Common.UI.Menu({
                             items: [
                                 {
@@ -434,7 +437,7 @@ define([
                     me.btnVerticalAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-valign',
                         cls: 'btn-toolbar',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noObjectSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.noObjectSelected],
                         iconCls: 'btn-align-middle',
                         icls: 'btn-align-middle',
                         menu: new Common.UI.Menu({
@@ -489,7 +492,7 @@ define([
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
                         iconCls: 'btn-linespace',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -525,12 +528,7 @@ define([
                         iconCls: 'btn-insertchart',
                         caption: me.capInsertChart,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                        menu: new Common.UI.Menu({
-                            style: 'width: 435px;',
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
-                            ]
-                        })
+                        menu: true
                     });
                     me.slideOnlyControls.push(me.btnInsertChart);
 
@@ -569,6 +567,33 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnInsertTextArt);
 
+                    me.btnEditHeader = new Common.UI.Button({
+                        id: 'id-toolbar-btn-editheader',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-editheader',
+                        caption: me.capBtnInsHeader,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnEditHeader);
+
+                    me.btnInsDateTime = new Common.UI.Button({
+                        id: 'id-toolbar-btn-datetime',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-datetime',
+                        caption: me.capBtnDateTime,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnInsDateTime);
+
+                    me.btnInsSlideNum = new Common.UI.Button({
+                        id: 'id-toolbar-btn-slidenum',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-pagenum',
+                        caption: me.capBtnSlideNum,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.paragraphLock, _set.disableOnStart]
+                    });
+                    me.slideOnlyControls.push(me.btnInsSlideNum);
+
                     me.btnColorSchemas = new Common.UI.Button({
                         id: 'id-toolbar-btn-colorschemas',
                         cls: 'btn-toolbar',
@@ -576,18 +601,38 @@ define([
                         lock: [_set.themeLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [],
-                            maxHeight: 560,
-                            restoreHeight: 560
-                        }).on('show:before', function (mnu) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40,
-                                alwaysVisibleY: true
-                            });
+                            restoreHeight: true
                         })
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
+
+                    me.mniAlignToSlide = new Common.UI.MenuItem({
+                        caption: me.txtSlideAlign,
+                        checkable: true,
+                        toggleGroup: 'slidealign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("pe-align-to-slide", true);
+                    });
+                    me.mniAlignObjects = new Common.UI.MenuItem({
+                        caption: me.txtObjectsAlign,
+                        checkable: true,
+                        toggleGroup: 'slidealign',
+                        value: -1
+                    }).on('click', function (mnu) {
+                        Common.Utils.InternalSettings.set("pe-align-to-slide", false);
+                    });
+
+                    me.mniDistribHor = new Common.UI.MenuItem({
+                        caption: me.txtDistribHor,
+                        iconCls: 'mnu-distrib-hor',
+                        value: 6
+                    });
+                    me.mniDistribVert = new Common.UI.MenuItem({
+                        caption: me.txtDistribVert,
+                        iconCls: 'mnu-distrib-vert',
+                        value: 7
+                    });
 
                     me.btnShapeAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-align',
@@ -627,16 +672,11 @@ define([
                                     value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                                 },
                                 {caption: '--'},
-                                {
-                                    caption: me.txtDistribHor,
-                                    iconCls: 'mnu-distrib-hor',
-                                    value: 6
-                                },
-                                {
-                                    caption: me.txtDistribVert,
-                                    iconCls: 'mnu-distrib-vert',
-                                    value: 7
-                                }
+                                me.mniDistribHor,
+                                me.mniDistribVert,
+                                {caption: '--'},
+                                me.mniAlignToSlide,
+                                me.mniAlignObjects
                             ]
                         })
                     });
@@ -760,12 +800,12 @@ define([
 
                     me.listTheme.fieldPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px;"/>',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''));
                     me.listTheme.menuPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + me.listTheme.itemWidth + 'px; height: ' + me.listTheme.itemHeight + 'px;"/>',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''));
 
@@ -795,66 +835,13 @@ define([
                             ]
                         }
                     );
-                    Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if (action=='plugins' && visible) {
-                            var compactview = false;
-                            if ( Common.localStorage.itemExists("pe-compact-toolbar") ) {
-                                compactview = Common.localStorage.getBool("pe-compact-toolbar");
-                            } else if ( config.customization && config.customization.compactToolbar )
-                                compactview = true;
-
-                            if (!compactview) {
-                                me.setFolded(false);
-                                me.setTab('plugins');
-                                me.fireEvent('view:compact', [me, compactview]);
-                                Common.NotificationCenter.trigger('layout:changed', 'toolbar');
-                            }
-                        }
-                    }, this));
                 }
 
                 return this;
             },
 
             lockToolbar: function (causes, lock, opts) {
-                !opts && (opts = {});
-
-                var controls = opts.array || this.lockControls;
-                opts.merge && (controls = _.union(this.lockControls, controls));
-
-                function doLock(cmp, cause) {
-                    if (_.contains(cmp.options.lock, cause)) {
-                        var index = cmp.keepState.indexOf(cause);
-                        if (lock) {
-                            if (index < 0) {
-                                cmp.keepState.push(cause);
-                            }
-                        } else {
-                            if (!(index < 0)) {
-                                cmp.keepState.splice(index, 1);
-                            }
-                        }
-                    }
-                }
-
-                _.each(controls, function (item) {
-                    if (_.isFunction(item.setDisabled)) {
-                        !item.keepState && (item.keepState = []);
-                        if (opts.clear && opts.clear.length > 0 && item.keepState.length > 0) {
-                            item.keepState = _.difference(item.keepState, opts.clear);
-                        }
-
-                        _.isArray(causes) ? _.each(causes, function (c) {
-                                doLock(item, c)
-                            }) : doLock(item, causes);
-
-                        if (!(item.keepState.length > 0)) {
-                            item.isDisabled() && item.setDisabled(false);
-                        } else {
-                            !item.isDisabled() && item.setDisabled(true);
-                        }
-                    }
-                });
+                Common.Utils.lockControls(causes, lock, opts, this.lockControls);
             },
 
             render: function (mode) {
@@ -884,8 +871,10 @@ define([
                     }
                 });
 
-                if ( mode.isEdit )
+                if ( mode.isEdit ) {
                     me.setTab('home');
+                    me.processPanelVisible();
+                }
 
                 if ( me.isCompactView )
                     me.setFolded(true);
@@ -912,11 +901,7 @@ define([
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
-                    var $slot = $host.find(id);
-                    if ($slot.length) {
-                        cmp.rendered ?
-                            $slot.append(cmp.$el) : cmp.render($slot);
-                    }
+                    Common.Utils.injectComponent($host.find(id), cmp);
                 };
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
@@ -955,79 +940,24 @@ define([
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-slidesize', this.btnSlideSize);
                 _injectComponent('#slot-field-styles', this.listTheme);
+                _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
+                _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
 
-                function _injectBtns(opts) {
-                    var array = createButtonSet();
-                    var $slots = $host.find(opts.slot);
-                    var id = opts.btnconfig.id;
-                    $slots.each(function(index, el) {
-                        if ( !!id ) opts.btnconfig.id = id + index;
+                this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'btn-insertimage', this.capInsertImage,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true);
+                this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'btn-text', this.capInsertText,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, false, true);
+                this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'btn-insertshape', this.capInsertShape,
+                    [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true, true);
+                this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'btn-addslide', this.capAddSlide,
+                    [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart], true, true);
 
-                        var button = new Common.UI.Button(opts.btnconfig);
-                        button.render( $slots.eq(index) );
-
-                        array.add(button);
-                    });
-
-                    return array;
-                }
-
-                var me = this;
-                me.btnsInsertImage = _injectBtns({
-                    slot: '.slot-insertimg',
-                    btnconfig: {
-                        id          : 'tlbtn-insertimage-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-insertimage',
-                        caption     : me.capInsertImage,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        menu        : true
-                    }
-                });
-
-                me.btnsInsertText = _injectBtns({
-                    slot: '.slot-instext',
-                    btnconfig: {
-                        id          : 'tlbtn-inserttext-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-text',
-                        caption     : me.capInsertText,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        enableToggle: true
-                    }
-                });
-
-                me.btnsInsertShape = _injectBtns({
-                    slot: '.slot-insertshape',
-                    btnconfig: {
-                        id          : 'tlbtn-insertshape-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-insertshape',
-                        caption     : me.capInsertShape,
-                        lock        : [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart],
-                        enableToggle: true,
-                        menu        : true
-                    }
-                });
-
-                me.btnsAddSlide = _injectBtns({
-                    slot: '.slot-addslide',
-                    btnconfig: {
-                        id          : 'tlbtn-addslide-',
-                        cls         : 'btn-toolbar x-huge icon-top',
-                        iconCls     : 'btn-addslide',
-                        split       : true,
-                        caption     : me.capAddSlide,
-                        lock        : [PE.enumLock.menuFileOpen, PE.enumLock.lostConnect, PE.enumLock.disableOnStart],
-                        menu        : true
-                    }
-                });
-
-                var created = me.btnsInsertImage.concat(me.btnsInsertText, me.btnsInsertShape, me.btnsAddSlide);
+                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide);
                 this.lockToolbar(PE.enumLock.disableOnStart, true, {array: created});
 
-                Array.prototype.push.apply(me.slideOnlyControls, created);
-                Array.prototype.push.apply(me.lockControls, created);
+                Array.prototype.push.apply(this.slideOnlyControls, created);
+                Array.prototype.push.apply(this.lockControls, created);
 
                 return $host;
             },
@@ -1042,12 +972,14 @@ define([
                         new Common.UI.Menu({
                             items: [
                                 {caption: me.mniImageFromFile, value: 'file'},
-                                {caption: me.mniImageFromUrl, value: 'url'}
+                                {caption: me.mniImageFromUrl, value: 'url'},
+                                {caption: me.mniImageFromStorage, value: 'storage'}
                             ]
                         }).on('item:click', function (menu, item, e) {
                             me.fireEvent('insert:image', [item.value]);
                         })
                     );
+                    btn.menu.items[2].setVisible(config.canRequestInsertImage || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
                 });
 
                 me.btnsInsertText.forEach(function (btn) {
@@ -1118,6 +1050,9 @@ define([
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnSlideSize.updateHint(this.tipSlideSize);
+                this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnInsDateTime.updateHint(this.tipDateTime);
+                this.btnInsSlideNum.updateHint(this.tipSlideNum);
 
                 // set menus
 
@@ -1147,6 +1082,91 @@ define([
                         ]
                     })
                 );
+
+                this.btnInsertChart.setMenu( new Common.UI.Menu({
+                    style: 'width: 435px;',
+                    items: [
+                        {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
+                    ]
+                }));
+
+                var onShowBefore = function(menu) {
+                    var picker = new Common.UI.DataView({
+                        el: $('#id-toolbar-menu-insertchart'),
+                        parentMenu: menu,
+                        showLast: false,
+                        restoreHeight: 421,
+                        groups: new Common.UI.DataViewGroupStore([
+                            {id: 'menu-chart-group-bar', caption: me.textColumn, headername: me.textCharts},
+                            {id: 'menu-chart-group-line', caption: me.textLine},
+                            {id: 'menu-chart-group-pie', caption: me.textPie},
+                            {id: 'menu-chart-group-hbar', caption: me.textBar},
+                            {id: 'menu-chart-group-area', caption: me.textArea, inline: true},
+                            {id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true},
+                            {id: 'menu-chart-group-stock', caption: me.textStock, inline: true}
+                            // {id: 'menu-chart-group-surface', caption: me.textSurface}
+                        ]),
+                        store: new Common.UI.DataViewStore([
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
+                            { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
+                            { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   iconCls: 'contour-wireframe'}
+
+                        ]),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('add:chart', [record.get('type')]);
+                    });
+                    menu.off('show:before', onShowBefore);
+                };
+                this.btnInsertChart.menu.on('show:before', onShowBefore);
+
+                var onShowBeforeTextArt = function (menu) {
+                    var collection = PE.getCollection('Common.Collections.TextArt');
+                    if (collection.length<1)
+                        PE.getController('Main').fillTextArt(me.api.asc_getTextArtPreviews());
+                    var picker = new Common.UI.DataView({
+                        el: $('#view-insert-art', menu.$el),
+                        store: collection,
+                        parentMenu: menu,
+                        showLast: false,
+                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('insert:textart', [record.get('data')]);
+                        if (e.type !== 'click') menu.hide();
+                    });
+                    menu.off('show:before', onShowBeforeTextArt);
+                };
+                this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
 
                 // set dataviews
 
@@ -1191,55 +1211,6 @@ define([
                 });
                 _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
-                this.mnuInsertChartPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insertchart'),
-                    parentMenu: this.btnInsertChart.menu,
-                    showLast: false,
-                    restoreHeight: 421,
-                    groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-bar',     caption: me.textColumn, headername: me.textCharts },
-                        { id: 'menu-chart-group-line',    caption: me.textLine },
-                        { id: 'menu-chart-group-pie',     caption: me.textPie },
-                        { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
-                        // { id: 'menu-chart-group-surface', caption: me.textSurface}
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         allowSelected: true, iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      allowSelected: true, iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        allowSelected: true, iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       allowSelected: true, iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    allowSelected: true, iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    allowSelected: true, iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         allowSelected: true, iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        allowSelected: true, iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     allowSelected: true, iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             allowSelected: true, iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                allowSelected: true, iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           allowSelected: true, iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              allowSelected: true, iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         allowSelected: true, iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        allowSelected: true, iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     allowSelected: true, iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       allowSelected: true, iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      allowSelected: true, iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   allowSelected: true, iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         allowSelected: true, iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        allowSelected: true, iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
-                });
-
                 this.mnuTablePicker = new Common.UI.DimensionPicker({
                     el: $('#id-toolbar-menu-tablepicker'),
                     minRows: 8,
@@ -1247,48 +1218,6 @@ define([
                     maxRows: 8,
                     maxColumns: 10
                 });
-
-                var createDataPicker = function (btn) {
-                    me.mnuChangeSlidePicker = new Common.UI.DataView({
-                        el: $('#id-toolbar-menu-changeslide'),
-                        parentMenu: me.btnChangeSlide.menu,
-                        restoreHeight: 300,
-                        style: 'max-height: 300px;',
-                        store: PE.getCollection('SlideLayouts'),
-                        itemTemplate: _.template([
-                            '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                            '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
-                            '<div class="title"><%= title %></div> ',
-                            '</div>'
-                        ].join(''))
-                    });
-                    if (me.btnChangeSlide.menu) {
-                        me.btnChangeSlide.menu.on('show:after', function () {
-                            me.onSlidePickerShowAfter(me.mnuChangeSlidePicker);
-                            me.mnuChangeSlidePicker.scroller.update({alwaysVisibleY: true});
-
-                            var record = me.mnuChangeSlidePicker.store.findLayoutByIndex(me.mnuChangeSlidePicker.options.layout_index);
-                            if (record) {
-                                me.mnuChangeSlidePicker.selectRecord(record, true);
-                                me.mnuChangeSlidePicker.scrollToRecord(record);
-                            }
-                        });
-                    }
-                    me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
-                };
-                // btnChangeSlide isn't in compact toolbar mode -> may be rendered after createDelayedElements
-                if (this.btnChangeSlide.rendered)
-                    createDataPicker(this.btnChangeSlide);
-                else
-                    this.btnChangeSlide.on('render:after', createDataPicker);
-
-                this.listenTo(PE.getCollection('SlideLayouts'), 'reset', function () {
-                    if (me.mnuChangeSlidePicker)
-                        me.mnuChangeSlidePicker._needRecalcSlideLayout = true;
-                });
-
-//            // Enable none paragraph components
-                this.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.slideOnlyControls.concat(this.shapeControls)});
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
@@ -1332,20 +1261,12 @@ define([
             setMode: function (mode) {
                 if (mode.isDisconnected) {
                     this.lockToolbar(PE.enumLock.lostConnect, true);
-                }
+                    if (!mode.enableDownload)
+                        this.lockToolbar(PE.enumLock.cantPrint, true, {array: [this.btnPrint]});
+                } else
+                    this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint, {array: [this.btnPrint]});
+
                 this.mode = mode;
-                if (!mode.nativeApp) {
-                    var nativeBtnGroup = $('.toolbar-group-native');
-
-                    if (nativeBtnGroup) {
-                        nativeBtnGroup.hide();
-                    }
-                }
-
-                if (mode.isDesktopApp)
-                    $('.toolbar-group-native').hide();
-
-                this.lockToolbar(PE.enumLock.cantPrint, !mode.canPrint || mode.disableDownload, {array: [this.btnPrint]});
             },
 
             onSendThemeColorSchemes: function (schemas) {
@@ -1361,14 +1282,7 @@ define([
 
                     if (mnuColorSchema == null) {
                         mnuColorSchema = new Common.UI.Menu({
-                            maxHeight: 560,
-                            restoreHeight: 560
-                        }).on('render:after', function (mnu) {
-                            this.scroller = new Common.UI.Scroller({
-                                el: $(this.el).find('.dropdown-menu '),
-                                useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                                minScrollbarLength: 40
-                            });
+                            restoreHeight: true
                         });
                     }
                     mnuColorSchema.items = [];
@@ -1396,15 +1310,17 @@ define([
                             mnuColorSchema.addItem({
                                 caption: '--'
                             });
-                        } else {
-                            mnuColorSchema.addItem({
-                                template: itemTemplate,
-                                cls: 'color-schemas-menu',
-                                colors: schemecolors,
-                                caption: (index < 21) ? (me.schemeNames[index] || schema.get_name()) : schema.get_name(),
-                                value: index
-                            });
                         }
+                        var name = schema.get_name();
+                        mnuColorSchema.addItem({
+                            template: itemTemplate,
+                            cls: 'color-schemas-menu',
+                            colors: schemecolors,
+                            caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                            value: name,
+                            checkable: true,
+                            toggleGroup: 'menuSchema'
+                        });
                     }, this);
                 }
             },
@@ -1441,7 +1357,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: this.mode.isDesktopApp ? 'inc-index' : undefined,
+                    extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
@@ -1496,13 +1412,14 @@ define([
 
             onSlidePickerShowAfter: function (picker) {
                 if (!picker._needRecalcSlideLayout) return;
-
                 if (picker.cmpEl && picker.dataViewItems.length > 0) {
                     var dataViewItems = picker.dataViewItems,
                         el = $(dataViewItems[0].el),
                         itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
-                        columnCount = Math.floor(picker.cmpEl.width() / itemW),
+                        columnCount = Math.floor(picker.options.restoreWidth / itemW + 0.5) || 1, // try to use restore width
                         col = 0, maxHeight = 0;
+
+                    picker.cmpEl.width(itemW * columnCount + 11);
 
                     for (var i = 0; i < dataViewItems.length; i++) {
                         var div = $(dataViewItems[i].el).find('.title'),
@@ -1523,80 +1440,54 @@ define([
                 }
             },
 
-            updateTextartMenu: function (collection) {
+            updateAutoshapeMenu: function (menuShape, collection) {
                 var me = this;
-
-                var btn = me.btnInsertTextArt;
-                if ( btn.textartPicker ) {
-                    if ( btn.textartPicker.store.size() == collection.size() ) {
-                        btn.textartPicker.store.each(function (model, index) {
-                            model.set('imageUrl', collection.at(index).get('imageUrl'));
+                var onShowAfter = function(menu) {
+                    for (var i = 0; i < collection.length; i++) {
+                        var shapePicker = new Common.UI.DataViewSimple({
+                            el: $('.shapegroup-' + i, menu.items[i].$el),
+                            store: collection.at(i).get('groupStore'),
+                            parentMenu: menu.items[i].menu,
+                            itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
                         });
-                    } else {
-                        btn.textartPicker.store.reset( collection.models );
-                    }
-                } else {
-                    btn.textartPicker = new Common.UI.DataView({
-                        el: $('#view-insert-art', btn.menu.$el),
-                        store: collection,
-                        parentMenu: btn.menu,
-                        showLast: false,
-                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                    });
-
-                    btn.textartPicker.on('item:click', function(picker, item, record, e) {
-                        if (record)
-                            me.fireEvent('insert:textart', [record.get('data')]);
-
-                        if (e.type !== 'click') btn.menu.hide();
-                    });
-                }
-            },
-
-            updateAutoshapeMenu: function (collection) {
-                var me = this;
-                for (var i = 0; i < collection.size(); i++) {
-                    var group = collection.at(i);
-
-                    me.btnsInsertShape.forEach(function (btn, index) {
-                        var menuitem = new Common.UI.MenuItem({
-                            caption: group.get('groupName'),
-                            menu: new Common.UI.Menu({
-                                menuAlign: 'tl-tr',
-                                items: [
-                                    { template: _.template('<div class="shapegroup-' + i + '" class="menu-shape" style="width: ' + (group.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
-                                ]
-                            })
-                        });
-
-                        btn.menu.addItem(menuitem);
-
-                        (new Common.UI.DataView({
-                            el: $('.shapegroup-' + i, menuitem.$el),
-                            store: group.get('groupStore'),
-                            parentMenu: menuitem.menu,
-                            showLast: false,
-                            itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
-                        })).on('item:click', function (picker, item, record, e) {
+                        shapePicker.on('item:click', function(picker, item, record, e) {
                             if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
                             if (record)
                                 me.fireEvent('insert:shape', [record.get('data').shapeType]);
                         });
+                    }
+                    menu.off('show:after', onShowAfter);
+                };
+                menuShape.on('show:after', onShowAfter);
+
+                for (var i = 0; i < collection.size(); i++) {
+                    var group = collection.at(i);
+
+                    var menuitem = new Common.UI.MenuItem({
+                        caption: group.get('groupName'),
+                        menu: new Common.UI.Menu({
+                            menuAlign: 'tl-tr',
+                            items: [
+                                {template: _.template('<div class="shapegroup-' + i + '" class="menu-shape" style="width: ' + (group.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>')}
+                            ]
+                        })
                     });
+                    menuShape.addItem(menuitem);
                 }
             },
 
             updateAddSlideMenu: function(collection) {
                 if (collection.size()<1) return;
-
                 var me = this;
-                me.btnsAddSlide.forEach(function (btn, index) {
-                    if ( !btn.mnuAddSlidePicker ) {
-                        btn.mnuAddSlidePicker = new Common.UI.DataView({
-                            el: $('#id-toolbar-menu-addslide-' + index),
-                            parentMenu: btn.menu,
-                            showLast: false,
+                if (!me.binding.onShowBeforeAddSlide) {
+                    me.binding.onShowBeforeAddSlide = function(menu) {
+                        var change = (this.iconCls == 'btn-changeslide');
+                        var picker = new Common.UI.DataView({
+                            el: $('.menu-layouts', menu.$el),
+                            parentMenu: menu,
+                            showLast: change,
                             restoreHeight: 300,
+                            restoreWidth: 302,
                             style: 'max-height: 300px;',
                             store: PE.getCollection('SlideLayouts'),
                             itemTemplate: _.template([
@@ -1606,21 +1497,38 @@ define([
                                 '</div>'
                             ].join(''))
                         });
-                        btn.mnuAddSlidePicker.on('item:click', function (picker, item, record, e) {
+                        picker.on('item:click', function (picker, item, record, e) {
                             if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
                             if (record)
-                                me.fireEvent('add:slide', [record.get('data').idx]);
+                                me.fireEvent(change ? 'change:slide' : 'add:slide', [record.get('data').idx]);
                         });
-                        if (btn.menu) {
-                            btn.menu.on('show:after', function () {
-                                me.onSlidePickerShowAfter(btn.mnuAddSlidePicker);
-                                btn.mnuAddSlidePicker.scroller.update({alwaysVisibleY: true});
-                                btn.mnuAddSlidePicker.scroller.scrollTop(0);
+                        if (menu) {
+                            menu.on('show:after', function () {
+                                me.onSlidePickerShowAfter(picker);
+                                picker.scroller.update({alwaysVisibleY: true});
+                                if (change) {
+                                    var record = picker.store.findLayoutByIndex(picker.options.layout_index);
+                                    if (record) {
+                                        picker.selectRecord(record, true);
+                                        picker.scrollToRecord(record);
+                                    }
+                                } else
+                                    picker.scroller.scrollTop(0);
                             });
                         }
-                    }
-                    btn.mnuAddSlidePicker._needRecalcSlideLayout = true;
-                });
+                        menu.off('show:before', me.binding.onShowBeforeAddSlide);
+                        if (change && this.mnuSlidePicker)
+                            picker.options.layout_index = this.mnuSlidePicker.options.layout_index;
+                        this.mnuSlidePicker = picker;
+                    };
+                    me.btnsAddSlide.concat(me.btnChangeSlide).forEach(function (btn, index) {
+                        btn.menu.on('show:before', me.binding.onShowBeforeAddSlide, btn);
+                    });
+                } else {
+                    me.btnsAddSlide.concat(me.btnChangeSlide).forEach(function (btn, index) {
+                        btn.mnuSlidePicker && (btn.mnuSlidePicker._needRecalcSlideLayout = true);
+                    });
+                }
             },
 
             textBold: 'Bold',
@@ -1684,8 +1592,6 @@ define([
             txtDistribHor: 'Distribute Horizontally',
             txtDistribVert: 'Distribute Vertically',
             tipChangeSlide: 'Change Slide Layout',
-            textOK: 'OK',
-            textCancel: 'Cancel',
             tipColorSchemas: 'Change Color Scheme',
             textNewColor: 'Add New Custom Color',
             mniSlideStandard: 'Standard (4:3)',
@@ -1749,7 +1655,16 @@ define([
             textSurface: 'Surface',
             textShowPresenterView: 'Show presenter view',
             textTabCollaboration: 'Collaboration',
-            textTabProtect: 'Protection'
+            textTabProtect: 'Protection',
+            mniImageFromStorage: 'Image from Storage',
+            txtSlideAlign: 'Align to Slide',
+            txtObjectsAlign: 'Align Selected Objects',
+            tipEditHeader: 'Edit header or footer',
+            tipSlideNum: 'Insert slide number',
+            tipDateTime: 'Insert current date and time',
+            capBtnInsHeader: 'Header/Footer',
+            capBtnSlideNum: 'Slide Number',
+            capBtnDateTime: 'Date & Time'
         }
     }()), PE.Views.Toolbar || {}));
 });

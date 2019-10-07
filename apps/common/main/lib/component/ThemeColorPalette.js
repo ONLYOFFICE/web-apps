@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -98,7 +98,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             var me = this,
-                el = $(this.el);
+                el = me.$el || $(this.el);
 
             this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
 
@@ -116,7 +116,7 @@ define([
         },
 
         render: function () {
-            $(this.el).html(this.template({colors: this.colors}));
+            this.$el.html(this.template({colors: this.colors}));
             return this;
         },
 
@@ -144,7 +144,7 @@ define([
         },
 
         updateCustomColors: function() {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             if (el) {
                 var selected = el.find('a.' + this.selectedCls),
                     color = (selected.length>0 && /color-dynamic/.test(selected[0].className)) ? selected.attr('color') : undefined;
@@ -221,7 +221,7 @@ define([
         },
 
         setCustomColor: function(color) {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             color = /#?([a-fA-F0-9]{6})/.exec(color);
             if (color) {
                 this.saveCustomColor(color[1]);
@@ -272,7 +272,7 @@ define([
         },
 
         select: function(color, suppressEvent) {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
 
             if (typeof(color) == 'object' ) {
@@ -320,11 +320,38 @@ define([
             }
         },
 
+        selectByRGB: function(rgb, suppressEvent) {
+            var el = this.$el || $(this.el);
+            el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
+
+            var color = (typeof(rgb) == 'object') ? rgb.color : rgb;
+            if (/#?[a-fA-F0-9]{6}/.test(color)) {
+                color = /#?([a-fA-F0-9]{6})/.exec(color)[1].toUpperCase();
+            }
+
+            if (/^[a-fA-F0-9]{6}|transparent$/.test(color)) {
+                if (color != this.value || this.options.allowReselect) {
+                    var co = (color == 'transparent') ? el.find('a.color-transparent') : el.find('a.color-' + color).first();
+                    if (co.length==0)
+                        co = el.find('#'+color).first();
+                    if (co.length==0)
+                        co = el.find('a[color="'+color+'"]').first();
+                    if (co.length>0) {
+                        co.addClass(this.selectedCls);
+                        this.value = color;
+                    }
+                    if (suppressEvent !== true) {
+                        this.fireEvent('select', this, color);
+                    }
+                }
+            }
+        },
+
         updateColors: function(effectcolors, standartcolors, value) {
             if (effectcolors===undefined || standartcolors===undefined) return;
 
             var me = this,
-                el = $(this.el);
+                el = me.$el || $(this.el);
 
             if (me.aColorElements === undefined) {
                 me.aColorElements = el.find('a.palette-color');
@@ -380,7 +407,7 @@ define([
             if (value)
                 this.select(value, true);
             else {
-                var selected = $(this.el).find('a.' + this.selectedCls);
+                var selected = el.find('a.' + this.selectedCls);
                 if (selected.length && selected.hasClass('palette-color-effect')) {
                     this.value = selected[0].className.match(this.colorRe)[1].toUpperCase();
                 }
@@ -389,7 +416,7 @@ define([
         },
 
         clearSelection: function(suppressEvent) {
-            $(this.el).find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            this.$el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
             this.value = undefined;
         },
 

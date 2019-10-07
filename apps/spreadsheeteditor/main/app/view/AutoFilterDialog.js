@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -84,7 +84,7 @@ define([
                 '</div>',
                 '<div class="separator horizontal" style="width:100%"></div>',
                 '<div class="footer right" style="margin-left:-15px;">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
                     '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                 '</div>'
             ].join('');
@@ -276,7 +276,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
         capAnd              : "And",
         capCondition1       : "equals",
         capCondition10      : "does not end with",
@@ -312,7 +311,8 @@ define([
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : []
+                items           : [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template   =   options.template || [
@@ -332,11 +332,7 @@ define([
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal" style="width:100%"></div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
-                '</div>'
+                '<div class="separator horizontal" style="width:100%"></div>'
             ].join('');
 
             this.api        =   options.api;
@@ -461,8 +457,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
-        okButtonText        : 'OK',
         txtTitle            : "Top 10 AutoFilter",
         textType            : 'Show',
         txtTop              : 'Top',
@@ -475,28 +469,35 @@ define([
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
         initialize: function (options) {
-            var t = this, _options = {};
+            var t = this, _options = {}, width = undefined, height = undefined;
+            if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0];
+                height = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1];
+            }
 
             _.extend(_options, {
-                width           : 450,
-                height          : 265,
-                contentWidth    : 400,
+                width           : width || 450,
+                height          : height || 265,
+                contentWidth    : (width - 50) || 400,
                 header          : false,
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
                 modal           : false,
                 animate         : false,
-                items           : []
+                items           : [],
+                resizable       : true,
+                minwidth        : 450,
+                minheight       : 265
             }, options);
 
             this.template   =   options.template || [
-                '<div class="box" style="height:' + _options.height + 'px;">',
-                    '<div class="content-panel" style="width: 250px;">',
-                        '<div class="">',
+                '<div class="box" style="height: 100%; display: flex; justify-content: space-between;">',
+                    '<div class="content-panel" style="width: 100%; border-right: 1px solid #cbcbcb; display: flex; flex-direction: column; justify-content: space-between;">',
+                        '<div class="" style="display: flex; flex-direction: column; justify-content: flex-start; height: calc(100% - 40px);">',
                             '<div id="id-sd-cell-search" style="height:22px; margin-bottom:10px;"></div>',
-                            '<div class="border-values" style="">',
-                                '<div id="id-dlg-filter-values" class="combo-values"/>',
+                            '<div class="border-values" style="overflow: hidden; flex-grow: 1;">',
+                                '<div id="id-dlg-filter-values" class="combo-values" style=""/>',
                             '</div>',
                         '</div>',
                         '<div class="footer center">',
@@ -504,8 +505,7 @@ define([
                             '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                         '</div>',
                     '</div>',
-                    '<div class="separator"/>',
-                    '<div class="menu-panel" style="width: 195px;">',
+                    '<div class="menu-panel" style="width: 195px; float: right;">',
                         '<div id="menu-container-filters" style=""><div class="dropdown-toggle" data-toggle="dropdown"></div></div>',
                     '</div>',
                 '</div>'
@@ -515,10 +515,14 @@ define([
             this.handler        =   options.handler;
             this.throughIndexes =   [];
             this.filteredIndexes =  [];
+            this.curSize = null;
 
             _options.tpl        =   _.template(this.template)(_options);
 
             Common.UI.Window.prototype.initialize.call(this, _options);
+
+            this.on('resizing', _.bind(this.onWindowResizing, this));
+            this.on('resize', _.bind(this.onWindowResize, this));
         },
         render: function () {
 
@@ -526,12 +530,18 @@ define([
 
             Common.UI.Window.prototype.render.call(this);
 
+            var $border = this.$window.find('.resize-border');
+            this.$window.find('.resize-border.left, .resize-border.top').css({'cursor': 'default'});
+            $border.css({'background': 'none', 'border': 'none'});
+            $border.removeClass('left');
+            $border.removeClass('top');
+
+
             this.$window.find('.btn').on('click', _.bind(this.onBtnClick, this));
 
             this.btnOk = new Common.UI.Button({
                 cls: 'btn normal dlg-btn primary',
                 caption : this.okButtonText,
-                style: 'margin-right:10px;',
                 enableToggle: false,
                 allowDepress: false
             });
@@ -756,7 +766,12 @@ define([
                                     '<input type="button" class="img-commonctrl"/>',
                                 '<% } %>',
                             '</label>',
-                            '<div id="<%= id %>" class="list-item" style="pointer-events:none;margin-left:20px;display:inline-block;width: 185px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                            '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                                '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                                '<% if (typeof count !=="undefined" && count) { %>',
+                                    '<div style="word-break: normal; margin-left: 10px; color: #afafaf;"><%= count%></div>',
+                                '<% } %>',
+                            '</div>',
                         '</div>'
                     ].join(''))
                 });
@@ -793,6 +808,11 @@ define([
             _.delay(function () {
                 $(document.body).on('mousedown', checkDocumentClick);
             }, 100, this);
+
+            if(Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                this.$window.find('.combo-values').css({'height': Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1] - 103 + 'px'});
+                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            }
         },
 
         show: function (x, y) {
@@ -1014,7 +1034,7 @@ define([
                 data.preventDefault();
                 data.stopPropagation();
 
-                this.updateCellCheck(listView, listView.getSelectedRec()[0]);
+                this.updateCellCheck(listView, listView.getSelectedRec());
 
             } else {
                 Common.UI.DataView.prototype.onKeyDown.call(this.cellsList, e, data);
@@ -1195,7 +1215,7 @@ define([
             }
 
             var me = this,
-                isnumber, value,
+                isnumber, value, count,
                 index = 0, throughIndex = 2,
                 applyfilter = true,
                 selectAllState = false,
@@ -1207,6 +1227,7 @@ define([
                 value       = item.asc_getText();
                 isnumber    = isNumeric(value);
                 applyfilter = true;
+                count = item.asc_getRepeats ? item.asc_getRepeats() : undefined;
 
                 if (me.filter) {
                     if (null === value.match(me.filter)) {
@@ -1227,7 +1248,8 @@ define([
                         strval          : !isnumber ? value : '',
                         groupid         : '1',
                         check           : idxs[throughIndex],
-                        throughIndex    : throughIndex
+                        throughIndex    : throughIndex,
+                        count: count ? count.toString() : ''
                     }));
                     if (idxs[throughIndex]) selectedCells++;
                 } else {
@@ -1278,6 +1300,7 @@ define([
             }
             this.btnOk.setDisabled(this.cells.length<1);
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            this.cellsList.cmpEl.toggleClass('scroll-padding', this.cellsList.scroller.isVisible());
         },
 
         testFilter: function () {
@@ -1351,13 +1374,36 @@ define([
             return false;
         },
 
-        okButtonText        : 'Ok',
+        onWindowResize: function (args) {
+            if (args && args[1]=='start')
+                this.curSize = {resize: false, height: this.getSize()[1]};
+            else if (this.curSize.resize) {
+                var size = this.getSize();
+                this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
+                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            }
+        },
+
+        onWindowResizing: function () {
+            if (!this.curSize) return;
+
+            var size = this.getSize();
+            if (size[1] !== this.curSize.height) {
+                if (!this.curSize.resize) {
+                    this.curSize.resize = true;
+                    this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: false, suppressScrollX: true});
+                }
+                this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
+                this.curSize.height = size[1];
+            }
+            Common.Utils.InternalSettings.set('sse-settings-size-filter-window', size);
+        },
+
         btnCustomFilter     : 'Custom Filter',
         textSelectAll       : 'Select All',
         txtTitle            : 'Filter',
         warnNoSelected      : 'You must choose at least one value',
         textWarning         : 'Warning',
-        cancelButtonText    : 'Cancel',
         textEmptyItem       : '{Blanks}',
         txtEmpty            : 'Enter cell\'s filter',
         txtSortLow2High     : 'Sort Lowest to Highest',

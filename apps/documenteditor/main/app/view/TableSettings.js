@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -50,7 +50,8 @@ define([
     'common/main/lib/component/ComboBorderSize',
     'common/main/lib/component/ComboDataView',
     'common/main/lib/view/InsertTableDialog',
-    'documenteditor/main/app/view/TableSettingsAdvanced'
+    'documenteditor/main/app/view/TableSettingsAdvanced',
+    'documenteditor/main/app/view/TableFormulaDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -230,7 +231,7 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 scope: this
             }));
@@ -419,15 +420,21 @@ define([
                 this.api.asc_DistributeTableCells(true);
             }, this));
 
+            this.btnAddFormula = new Common.UI.Button({
+                el: $('#table-btn-add-formula')
+            });
+            this.lockedControls.push(this.btnAddFormula);
+            this.btnAddFormula.on('click', _.bind(this.onAddFormula, this));
+
             this.linkAdvanced = $('#table-advanced-link');
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         ChangeSettings: function(props) {
@@ -466,7 +473,7 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec()[0],true);
+                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
                         else
                             this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
                     }
@@ -634,6 +641,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
              if (!this.btnBackColor) {
                 // create color buttons
                  this.btnBorderColor = new Common.UI.ColorButton({
@@ -705,19 +713,28 @@ define([
             if (count>0 && count==Templates.length) {
                 var data = self.cmbTableTemplate.menuPicker.store.models;
                 _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.get_Image());
+                    data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
-                self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
+                    var tip = template.asc_getDisplayName();
+                    if (template.asc_getType()==0) {
+                        ['Table Grid', 'Plain Table', 'Grid Table', 'List Table', 'Light', 'Dark', 'Colorful', 'Accent'].forEach(function(item){
+                            var str = 'txtTable_' + item.replace(' ', '');
+                            if (self[str])
+                                tip = tip.replace(item, self[str]);
+                        });
+
+                    }
                     arr.push({
-                        imageUrl: template.get_Image(),
+                        imageUrl: template.asc_getImage(),
                         id     : Common.UI.getId(),
-                        templateId: template.get_Id()
+                        templateId: template.asc_getId(),
+                        tip    : tip
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.add(arr);
+                self.cmbTableTemplate.menuPicker.store.reset(arr);
             }
         },
 
@@ -758,6 +775,26 @@ define([
             }
         },
 
+        onAddFormula: function(e) {
+            var me = this;
+            var win;
+            if (me.api && !this._locked){
+                (new DE.Views.TableFormulaDialog(
+                {
+                    api: me.api,
+                    bookmarks: me.api.asc_GetBookmarksManager(),
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_AddTableFormula(value);
+                            }
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            }
+        },
+
         setLocked: function (locked) {
             this._locked = locked;
         },
@@ -795,8 +832,6 @@ define([
         textSelectBorders       : 'Select borders that you want to change',
         textAdvanced            : 'Show advanced settings',
         txtNoBorders            : 'No borders',
-        textOK                  : 'OK',
-        textCancel              : 'Cancel',
         textNewColor            : 'Add New Custom Color',
         textTemplate            : 'Select From Template',
         textRows                : 'Rows',
@@ -822,7 +857,16 @@ define([
         textHeight: 'Height',
         textWidth: 'Width',
         textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns'
+        textDistributeCols: 'Distribute columns',
+        textAddFormula: 'Add formula',
+        txtTable_TableGrid: 'Table Grid',
+        txtTable_PlainTable: 'Plain Table',
+        txtTable_GridTable: 'Grid Table',
+        txtTable_ListTable: 'List Table',
+        txtTable_Light: 'Light',
+        txtTable_Dark: 'Dark',
+        txtTable_Colorful: 'Colorful',
+        txtTable_Accent: 'Accent'
 
     }, DE.Views.TableSettings || {}));
 });

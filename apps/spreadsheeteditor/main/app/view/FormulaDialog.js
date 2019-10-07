@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -56,14 +56,14 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                width           : 310,
+                width           : 375,
                 height          : 490,
-                contentWidth    : 390,
                 header          : true,
                 cls             : 'formula-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : []
+                items           : [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template   =   options.template || [
@@ -72,20 +72,14 @@ define([
 
                         '<label class="header">' + t.textGroupDescription + '</label>',
                         '<div id="formula-dlg-combo-group" class="input-group-nr" style="margin-top: 10px"/>',
-
                         '<label class="header" style="margin-top:10px">' + t.textListDescription + '</label>',
                         '<div id="formula-dlg-combo-functions" class="combo-functions"/>',
                         '<label id="formula-dlg-args" style="margin-top: 7px">' + '</label>',
-                        '<label id="formula-dlg-desc" style="margin-top: 4px">' + '</label>',
+                        '<label id="formula-dlg-desc" style="margin-top: 4px; display: block;">' + '</label>',
 
                     '</div>',
                 '</div>',
-
-                '<div class="separator horizontal"/>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + t.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + t.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"/>'
             ].join('');
 
             this.api            =   options.api;
@@ -103,29 +97,9 @@ define([
 
             this.syntaxLabel = $('#formula-dlg-args');
             this.descLabel = $('#formula-dlg-desc');
-
-            this.translationTable = {};
-
-            var name = '', translate = '',
-                descriptions = ['All', 'Cube', 'Database', 'DateAndTime', 'Engineering', 'Financial', 'Information',
-                                'Logical', 'LookupAndReference', 'Mathematic', 'Statistical', 'TextAndData' ];
-            for (var i=0; i<descriptions.length; i++) {
-                name = descriptions[i];
-                translate = 'sCategory' + name;
-                this.translationTable[name] = {
-                    en: this[translate],
-                    de: this[translate+'_de'],
-                    ru: this[translate+'_ru'],
-                    pl: this[translate+'_pl'],
-                    es: this[translate+'_es'],
-                    fr: this[translate+'_fr']
-                };
-            }
-
             this.fillFormulasGroups();
-            this.fillFunctions('All');
         },
-        show: function () {
+        show: function (group) {
             if (this.$window) {
                 var main_width, main_height, top, left, win_height = this.initConfig.height;
 
@@ -149,6 +123,9 @@ define([
             this.mask = $('.modals-mask');
             this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
             this.$window.on('mousedown',_.bind(this.onUpdateFocus, this));
+
+            group && this.cmbFuncGroup.setValue(group);
+            (group || this.cmbFuncGroup.getValue()=='Last10') && this.fillFunctions(this.cmbFuncGroup.getValue());
 
             if (this.cmbListFunctions) {
                 _.delay(function (me) {
@@ -187,9 +164,7 @@ define([
         },
         onSelectGroup: function (combo, record) {
             if (!_.isUndefined(record) && !_.isUndefined(record.value)) {
-                if (record.value < this.formulasGroups.length) {
-                    this.fillFunctions(this.formulasGroups.at(record.value).get('name'));
-                }
+                record.value && this.fillFunctions(record.value);
             }
 
             this.onUpdateFocus();
@@ -198,18 +173,9 @@ define([
             var funcId, functions, func;
 
             if (this.formulasGroups) {
-                funcId = record.get('id');
-                if (!_.isUndefined(funcId)) {
-                    functions = this.formulasGroups.at(0).get('functions');
-                    if (functions) {
-                        func = _.find(functions, function (f) { if (f.get('index') === funcId) { return f; } return null; });
-                        if (func) {
-                            this.applyFunction = func.get('name');
-                            this.syntaxLabel.text(this.applyFunction + func.get('args'));
-                            this.descLabel.text(func.get('desc'));
-                        }
-                    }
-                }
+                this.applyFunction = {name: record.get('value'), origin: record.get('origin')};
+                this.syntaxLabel.text(this.applyFunction.name + record.get('args'));
+                this.descLabel.text(record.get('desc'));
             }
         },
         onPrimary: function(list, record, event) {
@@ -237,10 +203,11 @@ define([
                 var i, groupsListItems = [], length =  this.formulasGroups.length;
 
                 for (i = 0; i < length; ++i) {
-                    if (this.formulasGroups.at(i).get('functions').length) {
+                    var group = this.formulasGroups.at(i);
+                    if (group.get('functions').length) {
                         groupsListItems.push({
-                            value           : this.formulasGroups.at(i).get('index'),
-                            displayValue    : this.translationTable[this.formulasGroups.at(i).get('name')][lang] || this.translationTable[this.formulasGroups.at(i).get('name')]['en']
+                            value           : group.get('name'),
+                            displayValue    :  group.get('caption')
                         });
                     }
                 }
@@ -248,7 +215,7 @@ define([
                 if (!this.cmbFuncGroup) {
                     this.cmbFuncGroup = new Common.UI.ComboBox({
                         el          : $('#formula-dlg-combo-group'),
-                        menuStyle   : 'min-width: 278px;',
+                        menuStyle   : 'min-width: 100%;',
                         cls         : 'input-group-nr',
                         data        : groupsListItems,
                         editable    : false
@@ -258,7 +225,9 @@ define([
                 } else {
                     this.cmbFuncGroup.setData(groupsListItems);
                 }
-                this.cmbFuncGroup.setValue(0);
+                this.cmbFuncGroup.setValue('Last10');
+                this.fillFunctions('Last10');
+
             }
         },
         fillFunctions: function (name) {
@@ -298,13 +267,16 @@ define([
                                     id              : functions[i].get('index'),
                                     selected        : i < 1,
                                     allowSelected   : true,
-                                    value           : functions[i].get('name')
+                                    value           : functions[i].get('name'),
+                                    args            : functions[i].get('args'),
+                                    desc            : functions[i].get('desc'),
+                                    origin          : functions[i].get('origin')
                                 }));
                             }
 
-                            this.applyFunction = functions[0].get('name');
+                            this.applyFunction = {name: functions[0].get('name'), origin: functions[0].get('origin')};
 
-                            this.syntaxLabel.text(this.applyFunction + functions[0].get('args'));
+                            this.syntaxLabel.text(this.applyFunction.name + functions[0].get('args'));
                             this.descLabel.text(functions[0].get('desc'));
                             this.cmbListFunctions.scroller.update({
                                 minScrollbarLength  : 40,
@@ -342,20 +314,20 @@ define([
                 event.stopPropagation();
             }
 
-            charVal = String.fromCharCode(e.keyCode);
+            charVal = e.key;
             if (e.keyCode > 64 && e.keyCode < 91 && charVal && charVal.length) {
-
+                charVal = charVal.toLocaleLowerCase();
                 selectRecord = this.store.findWhere({selected: true});
                 if (selectRecord) {
                     value = selectRecord.get('value');
-                    isEqualSelectRecord = (value && value.length && value[0] === charVal)
+                    isEqualSelectRecord = (value && value.length && value[0].toLocaleLowerCase() === charVal)
                 }
 
                 for (i = 0; i < this.store.length; ++i) {
                     record = this.store.at(i);
                     value = record.get('value');
 
-                    if (value[0] === charVal) {
+                    if (value[0].toLocaleLowerCase() === charVal) {
 
                         if (null === firstRecord) firstRecord = record;
 
@@ -399,84 +371,10 @@ define([
             }
         },
 
-        cancelButtonText:               'Cancel',
-        okButtonText:                   'Ok',
-        sCategoryAll:                   'All',
-        sCategoryLogical:               'Logical',
-        sCategoryCube:                  'Cube',
-        sCategoryDatabase:              'Database',
-        sCategoryDateAndTime:           'Date and time',
-        sCategoryEngineering:           'Engineering',
-        sCategoryFinancial:             'Financial',
-        sCategoryInformation:           'Information',
-        sCategoryLookupAndReference:    'Lookup and reference',
-        sCategoryMathematic:            'Math and trigonometry',
-        sCategoryStatistical:           'Statistical',
-        sCategoryTextAndData:           'Text and data',
         textGroupDescription:           'Select Function Group',
         textListDescription:            'Select Function',
         sDescription:                   'Description',
-        sCategoryAll_de:                'Alle',
-        sCategoryCube_de:               'Cube',
-        sCategoryDatabase_de:           'Datenbank',
-        sCategoryDateAndTime_de:        'Datum und Uhrzeit',
-        sCategoryEngineering_de:        'Konstruktion',
-        sCategoryFinancial_de:          'Finanzmathematik',
-        sCategoryInformation_de:        'Information',
-        sCategoryLogical_de:            'Logisch',
-        sCategoryLookupAndReference_de: 'Suchen und Bezüge',
-        sCategoryMathematic_de:         'Mathematik und Trigonometrie',
-        sCategoryStatistical_de:        'Statistik',
-        sCategoryTextAndData_de:        'Text und Daten',
-        sCategoryAll_ru:                'Все',
-        sCategoryCube_ru:               'Кубические',
-        sCategoryDatabase_ru:           'Базы данных',
-        sCategoryDateAndTime_ru:        'Дата и время',
-        sCategoryEngineering_ru:        'Инженерные',
-        sCategoryFinancial_ru:          'Финансовые',
-        sCategoryInformation_ru:        'Информационные',
-        sCategoryLogical_ru:            'Логические',
-        sCategoryLookupAndReference_ru: 'Поиск и ссылки',
-        sCategoryMathematic_ru:         'Математические',
-        sCategoryStatistical_ru:        'Статистические',
-        sCategoryTextAndData_ru:        'Текст и данные',
-        txtTitle:                       'Insert Function',
-        sCategoryAll_es:                   'Todo',
-        sCategoryLogical_es:               'Lógico',
-        sCategoryCube_es:                  'Cubo',
-        sCategoryDatabase_es:              'Base de Datos',
-        sCategoryDateAndTime_es:           'Fecha y hora',
-        sCategoryEngineering_es:           'Ingenería',
-        sCategoryFinancial_es:             'Financial',
-        sCategoryInformation_es:           'Información',
-        sCategoryLookupAndReference_es:    'Búsqueda y referencia',
-        sCategoryMathematic_es:            'Matemáticas y trigonometría',
-        sCategoryStatistical_es:           'Estadístico',
-        sCategoryTextAndData_es:           'Texto y datos',
-        sCategoryAll_fr:                   'Tout',
-        sCategoryLogical_fr:               'Logique',
-        sCategoryCube_fr:                  'Cube',
-        sCategoryDatabase_fr:              'Base de données',
-        sCategoryDateAndTime_fr:           'Date et heure',
-        sCategoryEngineering_fr:           'Ingénierie',
-        sCategoryFinancial_fr:             'Financier',
-        sCategoryInformation_fr:           'Information',
-        sCategoryLookupAndReference_fr:    'Recherche et référence',
-        sCategoryMathematic_fr:            'Maths et trigonométrie',
-        sCategoryStatistical_fr:           'Statistiques',
-        sCategoryTextAndData_fr:           'Texte et données',
-        sCategoryAll_pl:                   'Wszystko',
-        sCategoryLogical_pl:               'Logiczny',
-        sCategoryCube_pl:                  'Sześcian',
-        sCategoryDatabase_pl:              'Baza danych',
-        sCategoryDateAndTime_pl:           'Data i czas',
-        sCategoryEngineering_pl:           'Inżyniera',
-        sCategoryFinancial_pl:             'Finansowe',
-        sCategoryInformation_pl:           'Informacja',
-        sCategoryLookupAndReference_pl:    'Wyszukiwanie i odniesienie',
-        sCategoryMathematic_pl:            'Matematyczne i trygonometryczne',
-        sCategoryStatistical_pl:           'Statystyczny',
-        sCategoryTextAndData_pl:           'Tekst i data'
+        txtTitle:                       'Insert Function'
 
     }, SSE.Views.FormulaDialog || {}));
 });

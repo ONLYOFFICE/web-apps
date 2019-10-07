@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -41,7 +41,8 @@
 define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/ComboBox',
-    'common/main/lib/component/MetricSpinner'
+    'common/main/lib/component/MetricSpinner',
+    'common/main/lib/component/CheckBox'
 ], function (contentTemplate) {
     'use strict';
 
@@ -61,6 +62,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 title: this.textTitle,
                 items: [
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textSize},
+                    {panelId: 'id-adv-shape-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
                     {panelId: 'id-adv-shape-margins',    panelCaption: this.strMargins},
                     {panelId: 'id-adv-shape-columns',    panelCaption: this.strColumns},
@@ -230,6 +232,27 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             }, this));
             this.spinners.push(this.spnMarginRight);
 
+            // Rotation
+            this.spnAngle = new Common.UI.MetricSpinner({
+                el: $('#shape-advanced-spin-angle'),
+                step: 1,
+                width: 80,
+                defaultUnit : "°",
+                value: '0 °',
+                maxValue: 3600,
+                minValue: -3600
+            });
+
+            this.chFlipHor = new Common.UI.CheckBox({
+                el: $('#shape-advanced-checkbox-hor'),
+                labelText: this.textHorizontally
+            });
+
+            this.chFlipVert = new Common.UI.CheckBox({
+                el: $('#shape-advanced-checkbox-vert'),
+                labelText: this.textVertically
+            });
+
             // Shape
             this._arrCapType = [
                 {displayValue: this.textFlat,   value: Asc.c_oAscLineCapType.Flat},
@@ -314,6 +337,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             });
             this.btnBeginStyleMenu = (new Common.UI.Menu({
                 style: 'min-width: 105px;',
+                additionalAlign: this.menuAddAlign,
                 items: [
                     { template: _.template('<div id="shape-advanced-menu-begin-style" style="width: 105px; margin: 0 5px;"></div>') }
                 ]
@@ -340,6 +364,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             });
             this.btnBeginSizeMenu = (new Common.UI.Menu({
                 style: 'min-width: 160px;',
+                additionalAlign: this.menuAddAlign,
                 items: [
                     { template: _.template('<div id="shape-advanced-menu-begin-size" style="width: 160px; margin: 0 5px;"></div>') }
                 ]
@@ -372,6 +397,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             });
             this.btnEndStyleMenu = (new Common.UI.Menu({
                 style: 'min-width: 105px;',
+                additionalAlign: this.menuAddAlign,
                 items: [
                     { template: _.template('<div id="shape-advanced-menu-end-style" style="width: 105px; margin: 0 5px;"></div>') }
                 ]
@@ -398,6 +424,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             });
             this.btnEndSizeMenu = (new Common.UI.Menu({
                 style: 'min-width: 160px;',
+                additionalAlign: this.menuAddAlign,
                 items: [
                     { template: _.template('<div id="shape-advanced-menu-end-size" style="width: 160px; margin: 0 5px;"></div>') }
                 ]
@@ -499,10 +526,10 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     val = margins.get_Bottom();
                     this.spnMarginBottom.setValue((null !== val && undefined !== val) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
                 }
-                this.btnsCategory[2].setDisabled(null === margins);   // Margins
+                this.btnsCategory[3].setDisabled(null === margins);   // Margins
 
                 var shapetype = props.asc_getType();
-                this.btnsCategory[3].setDisabled(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                this.btnsCategory[4].setDisabled(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1');
@@ -519,6 +546,11 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
 
+                value = props.asc_getRot();
+                this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
+                this.chFlipHor.setValue(props.asc_getFlipH());
+                this.chFlipVert.setValue(props.asc_getFlipV());
+
                 this._changedProps = new Asc.asc_CShapeProperty();
             }
         },
@@ -530,6 +562,10 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             if (this.isAltDescChanged)
                 this._changedProps.asc_putDescription(this.textareaAltDescription.val());
 
+            this._changedProps.asc_putRot(this.spnAngle.getNumberValue() * 3.14159265358979 / 180);
+            this._changedProps.asc_putFlipH(this.chFlipHor.getValue()=='checked');
+            this._changedProps.asc_putFlipV(this.chFlipVert.getValue()=='checked');
+
             Common.localStorage.setItem("pe-settings-shaperatio", (this.btnRatio.pressed) ? 1 : 0);
             return { shapeProps: this._changedProps} ;
         },
@@ -538,7 +574,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             if (props ){
                 var stroke = props.get_stroke();
                 if (stroke) {
-                    this.btnsCategory[1].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
+                    this.btnsCategory[2].setDisabled(stroke.get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
 
                     var value = stroke.get_linejoin();
                     for (var i=0; i<this._arrJoinType.length; i++) {
@@ -704,8 +740,6 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         textFlat:       'Flat',
         textBevel:      'Bevel',
         textTitle:      'Shape - Advanced Settings',
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         txtNone:        'None',
         textWeightArrows: 'Weights & Arrows',
         textArrows:     'Arrows',
@@ -731,7 +765,12 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
         strColumns: 'Columns',
         textSpacing: 'Spacing between columns',
-        textColNumber: 'Number of columns'
+        textColNumber: 'Number of columns',
+        textRotation: 'Rotation',
+        textAngle: 'Angle',
+        textFlipped: 'Flipped',
+        textHorizontally: 'Horizontally',
+        textVertically: 'Vertically'
 
     }, PE.Views.ShapeSettingsAdvanced || {}));
 });

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -58,9 +58,6 @@ define([
         initialize: function() {
             var me = this;
             this.addListeners({
-                'FileMenu': {
-                    'settings:apply': _.bind(this.applySettings, this)
-                },
                 'Statusbar': {
                     'langchanged': this.onLangMenu
                 },
@@ -83,8 +80,7 @@ define([
         events: function() {
             return {
                 'click #btn-zoom-down': _.bind(this.zoomDocument,this,'down'),
-                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up'),
-                'click #btn-doc-lang':_.bind(this.onBtnLanguage,this)
+                'click #btn-zoom-up': _.bind(this.zoomDocument,this,'up')
             };
         },
 
@@ -99,8 +95,21 @@ define([
             this.statusbar.btnZoomToPage.on('click', _.bind(this.onBtnZoomTo, this, 'topage'));
             this.statusbar.btnZoomToWidth.on('click', _.bind(this.onBtnZoomTo, this, 'towidth'));
             this.statusbar.zoomMenu.on('item:click', _.bind(this.menuZoomClick, this));
-            this.statusbar.btnPreview.on('click', _.bind(this.onPreview, this));
-            this.statusbar.btnSetSpelling.on('click', _.bind(this.onBtnSpelling, this));
+            this.statusbar.btnPreview.on('click', _.bind(this.onPreviewBtnClick, this));
+            this.statusbar.btnPreview.menu.on('item:click', _.bind(this.onPreviewItemClick, this));
+
+            var me = this;
+            Common.NotificationCenter.on('app:face', function (cfg) {
+                if ( cfg.isEdit ) {
+                    var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
+                    me.btnSpelling = review.getButton('spelling', 'statusbar');
+                    me.btnSpelling.render( me.statusbar.$el.find('#btn-doc-spell') );
+                    me.btnDocLang = review.getButton('doclang', 'statusbar');
+                    me.btnDocLang.render( me.statusbar.$el.find('#btn-doc-lang') );
+                } else {
+                    me.statusbar.$el.find('.el-edit, .el-review').hide();
+                }
+            });
         },
 
         setApi: function(api) {
@@ -137,9 +146,26 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
-        onPreview: function(btn, e) {
-            var current = this.api.getCurrentPage();
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
+        onPreview: function(slidenum, presenter) {
+            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter);
+        },
+
+        onPreviewBtnClick: function(btn, e) {
+            this.onPreview(this.api.getCurrentPage());
+        },
+
+        onPreviewItemClick: function(menu, item) {
+            switch (item.value) {
+                case 0:
+                    this.onPreview(0);
+                    break;
+                case 1:
+                    this.onPreview(this.api.getCurrentPage());
+                    break;
+                case 2:
+                    this.onPreview(0, true);
+                    break;
+            }
         },
 
         /*
@@ -161,8 +187,8 @@ define([
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
             this.statusbar.setLanguage({
-                tip:    info[0],
-                title:  info[1],
+                value:    info[0],
+                displayValue:  info[1],
                 code:   langId
             });
         },
@@ -186,45 +212,11 @@ define([
         },
 
         createDelayedElements: function() {
-            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("pe-settings-spellcheck", true), true);
             this.statusbar.$el.css('z-index', '');
-        },
-
-        onBtnLanguage: function() {
-            var langs = _.map(this.langs, function(item){
-                return {
-                    displayValue:   item.title,
-                    value:          item.tip,
-                    code:           item.code
-                }
-            });
-
-            var me = this;
-            (new Common.Views.LanguageDialog({
-                languages: langs,
-                current: me.api.asc_getDefaultLanguage(),
-                handler: function(result, tip) {
-                    if (result=='ok') {
-                        var record = _.findWhere(langs, {'value':tip});
-                        record && me.api.asc_setDefaultLanguage(record.code);
-                    }
-                }
-            })).show();
         },
 
         onLangMenu: function(obj, langid, title) {
             this.api.put_TextPrLang(langid);
-        },
-
-        onBtnSpelling: function(d, b, e) {
-            Common.localStorage.setItem("pe-settings-spellcheck", d.pressed ? 1 : 0);
-            Common.Utils.InternalSettings.set("pe-settings-spellcheck", d.pressed);
-            this.api.asc_setSpellCheck(d.pressed);
-            Common.NotificationCenter.trigger('edit:complete', this.statusbar);
-        },
-
-        applySettings: function(menu) {
-            this.statusbar.btnSetSpelling.toggle(Common.localStorage.getBool("pe-settings-spellcheck", true), true);
         },
 
         zoomText        : 'Zoom {0}%'

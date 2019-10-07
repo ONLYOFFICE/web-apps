@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -184,6 +184,8 @@ define([
             this.statusbar.setMathInfo({
                 count   : info.asc_getCount(),
                 average : info.asc_getAverage(),
+                min     : info.asc_getMin(),
+                max     : info.asc_getMax(),
                 sum     : info.asc_getSum()
             });
             this.statusbar.updateTabbarBorders();
@@ -323,6 +325,10 @@ define([
             } else {
                 this.api['asc_showWorksheet'](index);
                 this.loadTabColor(index);
+                var me = this;
+                setTimeout(function(){
+                    me.statusbar.tabMenu.hide();
+                }, 1);
             }
         },
 
@@ -384,9 +390,7 @@ define([
             if (!_.isUndefined(silent)) {
                 me.api.asc_showWorksheet(items[index].inindex);
 
-                Common.NotificationCenter.trigger('comments:updatefilter',
-                    {property: 'uid',
-                        value: new RegExp('^(doc_|sheet' + this.api.asc_getActiveWorksheetId() + '_)')});
+                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()]);
 
                 if (!_.isUndefined(destPos)) {
                     me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex);
@@ -418,12 +422,7 @@ define([
                 this.api.asc_closeCellEditor();
                 this.api.asc_addWorksheet(this.createSheetName());
 
-                Common.NotificationCenter.trigger('comments:updatefilter',
-                    {property: 'uid',
-                        value: new RegExp('^(doc_|sheet' + this.api.asc_getActiveWorksheetId() + '_)')
-                    },
-                    false   //  hide popover
-                );
+                Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false);  //  hide popover
             }
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
@@ -487,12 +486,12 @@ define([
                 var tab = _.findWhere(this.statusbar.tabbar.tabs, {sheetindex: sindex});
                 if (tab) {
                     if ('transparent' === color) {
-                        this.api.asc_setWorksheetTabColor(sindex, null);
+                        this.api.asc_setWorksheetTabColor(null, [sindex]);
                         tab.$el.find('a').css('box-shadow', '');
                     } else {
                         var asc_clr = Common.Utils.ThemeColor.getRgbColor(color);
                         if (asc_clr) {
-                            this.api.asc_setWorksheetTabColor(sindex, asc_clr);
+                            this.api.asc_setWorksheetTabColor(asc_clr, [sindex]);
                             this.setTabLineColor(tab, asc_clr);
                         }
                     }

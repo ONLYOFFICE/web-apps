@@ -139,6 +139,16 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-add-formula" style="width:100%;"><%= scope.textAddFormula %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
             <div id="table-checkbox-repeat-row"></div>
         </td>
     </tr>

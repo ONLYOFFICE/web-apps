@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -115,10 +115,7 @@ define([
         },
 
         onLaunch: function() {
-            this.editor = this.createView('CellEditor',{
-                el: '#cell-editing-box'
-            }).render();
-
+            this.editor = this.getView('CellEditor');
             this.bindViewEvents(this.editor, this.events);
 
             this.editor.$el.parent().find('.after').css({zIndex: '4'}); // for spreadsheets - bug 23127
@@ -131,6 +128,8 @@ define([
             if (state == Asc.c_oAscCellEditorState.editStart){
                 this.api.isCellEdited = true;
                 this.editor.cellNameDisabled(true);
+            } else if (state == Asc.c_oAscCellEditorState.editInCell) {
+                this.api.isCEditorFocused = 'clear';
             } else if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.api.isCellEdited = false;
                 this.api.isCEditorFocused = false;
@@ -278,16 +277,16 @@ define([
 
             rangesMenu.removeItems(2, rangesMenu.items.length-1);
             names.sort(function(item1, item2) {
-                var n1 = item1.asc_getName().toLowerCase(),
-                    n2 = item2.asc_getName().toLowerCase();
+                var n1 = item1.asc_getName(true).toLowerCase(),
+                    n2 = item2.asc_getName(true).toLowerCase();
                 if (n1==n2) return 0;
                 return (n1<n2) ? -1 : 1;
             });
             _.each(names, function(field, index) {
-                var name = field.asc_getName();
+                var name = field.asc_getName(true);
                 if (prev_name !== name) {
                     rangesMenu.addItem(new Common.UI.MenuItem({
-                        caption : field.asc_getName()
+                        caption : name
                     }));
                 }
                 prev_name = name;

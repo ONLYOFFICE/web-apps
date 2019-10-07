@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -41,8 +41,8 @@
 function onDropDownKeyDown(e) {
     var $this       = $(this),
         $parent     = $this.parent(),
-        beforeEvent = jQuery.Event('keydown.before.bs.dropdown'),
-        afterEvent  = jQuery.Event('keydown.after.bs.dropdown');
+        beforeEvent = jQuery.Event('keydown.before.bs.dropdown', {keyCode: e.keyCode}),
+        afterEvent  = jQuery.Event('keydown.after.bs.dropdown', {keyCode: e.keyCode});
 
     $parent.trigger(beforeEvent);
 
@@ -111,17 +111,9 @@ function patchDropDownKeyDown(e) {
                  var mnu = $('> [role=menu]', li),
                     $subitems = mnu.find('> li:not(.divider):not(.disabled):visible > a'),
                     $dataviews = mnu.find('> li:not(.divider):not(.disabled):visible .dataview'),
-                    focusIdx = 0;
-                 if (mnu.find('> .menu-scroll').length>0) {
-                    var offset = mnu.scrollTop();
-                    for (var i=0; i<$subitems.length; i++) {
-                        if ($subitems[i].offsetTop > offset) {
-                            focusIdx = i; break;
-                        }
-                    }
-                }
-                if ($subitems.length>0 && $dataviews.length<1)
-                    $subitems.eq(focusIdx).focus();
+                    $internal_menu = mnu.find('> li:not(.divider):not(.disabled):visible ul.internal-menu');
+                if ($subitems.length>0 && $dataviews.length<1 && $internal_menu.length<1)
+                    ($subitems.index($subitems.filter(':focus'))<0) && $subitems.eq(0).focus();
             }, 250);
         }
     } else if (e.keyCode == 37) {     // left
@@ -165,13 +157,25 @@ function patchDropDownKeyDownAdditional(e) { // only for formula menu when typin
 
     if (!$items.length) return;
 
-    var index = $items.index($items.filter('.focus'));
+    var index = $items.index($items.filter('.focus')),
+        previndex = index;
     if (e.keyCode == 38) { index > 0 ? index-- : ($this.hasClass('no-cyclic') ? (index = 0) : (index = $items.length - 1));} else         // up
     if (e.keyCode == 40) { index < $items.length - 1 ? index++ : ($this.hasClass('no-cyclic') ? (index = $items.length - 1) : (index = 0));}              // down
     if (!~index) index=0;
 
     $items.removeClass('focus');
     $items.eq(index).addClass('focus');
+
+    if (previndex !== index) {
+        var tip = $items.eq(previndex).parent().data('bs.tooltip');
+        if (tip) {
+            tip.hide();
+        }
+        tip = $items.eq(index).parent().data('bs.tooltip');
+        if (tip) {
+            tip.show();
+        }
+    }
 }
 
 function getParent($this) {

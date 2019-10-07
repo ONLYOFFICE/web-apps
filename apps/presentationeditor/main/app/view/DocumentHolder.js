@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -583,7 +583,7 @@ define([
             
             var onDialogAddHyperlink = function() {
                 var win, props, text;
-                if (me.api && me.mode.isEdit && !me._isDisabled){
+                if (me.api && me.mode.isEdit && !me._isDisabled && !PE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
@@ -692,21 +692,11 @@ define([
             };
 
             this.changeLanguageMenu = function(menu) {
-                var i;
                 if (me._currLang.id===null || me._currLang.id===undefined) {
-                    for (i=0; i<menu.items.length; i++)
-                        menu.items[i].setChecked(false);
-                    menu.currentCheckedItem = undefined;
+                    menu.clearAll();
                 } else {
-                    for (i=0; i<menu.items.length; i++) {
-                        if (menu.items[i].options.langid === me._currLang.id) {
-                            menu.currentCheckedItem = menu.items[i];
-                            if (!menu.items[i].checked)
-                                menu.items[i].setChecked(true);
-                            break;
-                        } else if (menu.items[i].checked)
-                            menu.items[i].setChecked(false);
-                    }
+                    var index = _.findIndex(menu.items, {langid: me._currLang.id});
+                    (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
                 }
             };
 
@@ -724,13 +714,15 @@ define([
                 }
                 if (props && props.get_Checked()===false && props.get_Variants() !== null && props.get_Variants() !== undefined) {
                     me.addWordVariants();
-                    if (me.textMenu.isVisible()) {
+                    if (me.textMenu && me.textMenu.isVisible()) {
                         me.textMenu.alignPosition();
                     }
                 }
             };
 
             this.addWordVariants = function(isParagraph) {
+                if (!me.textMenu || !me.textMenu.isVisible() && !me.tableMenu.isVisible()) return;
+
                 if (_.isUndefined(isParagraph)) {
                     isParagraph = me.textMenu.isVisible();
                 }
@@ -764,19 +756,19 @@ define([
 
                     if (arr.length > 0) {
                         if (isParagraph) {
-                            _.each(arr, function(variant){
-                                me.textMenu.insertItem(0, variant);
+                            _.each(arr, function(variant, index){
+                                me.textMenu.insertItem(index, variant);
                             })
                         } else {
-                            _.each(arr, function(variant){
-                                me.menuSpellCheckTable.menu.insertItem(0, variant);
+                            _.each(arr, function(variant, index){
+                                me.menuSpellCheckTable.menu.insertItem(index, variant);
                             })
                         }
                     }
 
                     if (arrMore.length > 0) {
-                        _.each(arrMore, function(variant){
-                            moreMenu.menu.insertItem(0, variant);
+                        _.each(arrMore, function(variant, index){
+                            moreMenu.menu.addItem(variant);
                         });
                     }
 
@@ -1506,6 +1498,7 @@ define([
                 var coord  = specialPasteShowOptions.asc_getCellCoord(),
                     pasteContainer = me.cmpEl.find('#special-paste-container'),
                     pasteItems = specialPasteShowOptions.asc_getOptions();
+                if (!pasteItems) return;
 
                 // Prepare menu container
                 if (pasteContainer.length < 1) {
@@ -1565,6 +1558,10 @@ define([
                     pasteContainer.hide();
             };
 
+            var onChangeCropState = function(state) {
+                this.menuImgCrop.menu.items[0].setChecked(state, true);
+            };
+
             this.setApi = function(o) {
                 me.api = o;
 
@@ -1588,6 +1585,7 @@ define([
                         me.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, me));
                         me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(onShowSpecialPasteOptions, me));
                         me.api.asc_registerCallback('asc_onHideSpecialPasteOptions',  _.bind(onHideSpecialPasteOptions, me));
+                        me.api.asc_registerCallback('asc_ChangeCropState',            _.bind(onChangeCropState, me));
 
                     }
                     me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(onCoAuthoringDisconnect, me));
@@ -1609,12 +1607,6 @@ define([
             this.mode = {};
 
             this.setMode = function(mode) {
-                if (me.api && mode.isEdit) {
-                    me.api.asc_registerCallback('asc_onDialogAddHyperlink', _.bind(onDialogAddHyperlink, me));
-                    me.api.asc_registerCallback('asc_doubleClickOnChart', onDoubleClickOnChart);
-                    me.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(onSpellCheckVariantsFound, me));
-                }
-
                 me.mode = mode;
                 /** coauthoring begin **/
                 !(me.mode.canCoAuthoring && me.mode.canComments)
@@ -1747,8 +1739,10 @@ define([
                 var dataViewItems = picker.dataViewItems,
                     el = $(dataViewItems[0].el),
                     itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
-                    columnCount = Math.floor(picker.cmpEl.width() / itemW),
+                    columnCount = Math.floor(picker.options.restoreWidth / itemW + 0.5) || 1, // try to use restore width
                     col = 0, maxHeight = 0;
+
+                picker.cmpEl.width(itemW * columnCount + 11);
 
                 for (var i=0; i<dataViewItems.length; i++) {
                     var div = $(dataViewItems[i].el).find('.title'),
@@ -1867,6 +1861,20 @@ define([
                 }
             });
 
+            var mnuPrintSelection = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', function(item){
+                if (me.api){
+                    var printopt = new Asc.asc_CAdjustPrint();
+                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    opts.asc_setAdvancedOptions(printopt);
+                    me.api.asc_Print(opts);
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+                }
+            });
+
             var menuSlidePaste = new Common.UI.MenuItem({
                 caption : me.textPaste,
                 value : 'paste'
@@ -1903,12 +1911,13 @@ define([
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
-                    menuSlideSettings.setVisible(value.fromThumbs!==true);
+                    menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
-                    for (var i = 9; i < 13; i++) {
+                    for (var i = 9; i < 14; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
+                    mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
 
                     var selectedElements = me.api.getSelectedElements(),
                         locked           = false,
@@ -1936,6 +1945,7 @@ define([
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
                     mnuChangeTheme.setDisabled(me._state.themeLock || locked );
                     mnuSlideHide.setDisabled(lockedLayout || locked);
+                    mnuPrintSelection.setDisabled(me.slidesCount<1);
                 },
                 items: [
                     menuSlidePaste,
@@ -1969,6 +1979,7 @@ define([
                     menuSlideSettings,
                     {caption: '--'},
                     mnuSelectAll,
+                    mnuPrintSelection,
                     {caption: '--'},
                     mnuPreview
                 ]
@@ -1985,6 +1996,7 @@ define([
                     el          : $('#id-docholder-menu-changeslide'),
                     parentMenu  : mnuChangeSlide.menu,
                     style: 'max-height: 300px;',
+                    restoreWidth: 302,
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
                         '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
@@ -2026,8 +2038,8 @@ define([
                     style: 'max-height: 300px;',
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([
-                        '<div class="style" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
+                        '<div class="style" id="<%= id %>"">',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
                         '</div>'
                     ].join(''))
                 }).on('item:click', function(picker, item, record, e) {
@@ -2142,20 +2154,27 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
-                    items   : [
-                    ]
+                    restoreHeight: true,
+                    items   : []
                 })
             });
 
+            var langTemplate = _.template([
+                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
+                '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                '<%= caption %>',
+                '</a>'
+            ].join(''));
+
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
-                menu        : new Common.UI.Menu({
+                menu        : new Common.UI.MenuSimple({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
-                    items   : [
-                    ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
+                    restoreHeight: 285,
+                    items   : [],
+                    itemTemplate: langTemplate,
+                    search: true
                 })
             });
 
@@ -2177,6 +2196,13 @@ define([
                 }
             });
 
+            var menuToDictionaryTable = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
+                me.fireEvent('editcomplete', me);
+            });
+
             var menuIgnoreSpellTableSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -2195,6 +2221,7 @@ define([
                         menuIgnoreSpellTableSeparator,
                         menuIgnoreSpellTable,
                         menuIgnoreAllSpellTable,
+                        menuToDictionaryTable,
                         { caption: '--' },
                         me.langTableMenu
                     ]
@@ -2210,21 +2237,20 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
-                    style   : 'max-height: 300px;',
-                    items: [
-                    ]
+                    restoreHeight: true,
+                    items: []
                 })
             });
 
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
-                menu        : new Common.UI.Menu({
+                menu        : new Common.UI.MenuSimple({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
-                    items   : [
-                    ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
+                    restoreHeight: 285,
+                    items   : [],
+                    itemTemplate: langTemplate,
+                    search: true
                 })
             });
 
@@ -2239,6 +2265,13 @@ define([
                 caption     : me.ignoreAllSpellText
             }).on('click', function(item, e) {
                 me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuToDictionaryPara = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -2543,11 +2576,20 @@ define([
                 menu        : (function(){
                     function onItemClick(item) {
                         if (me.api) {
-                            me.api.put_ShapesAlign(item.value);
+                            var value = me.api.asc_getSelectedDrawingObjectsCount()<2 || Common.Utils.InternalSettings.get("pe-align-to-slide");
+                            value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                            if (item.value < 6) {
+                                me.api.put_ShapesAlign(item.value, value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                            } else if (item.value == 6) {
+                                me.api.DistributeHorizontally(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                            } else if (item.value == 7){
+                                me.api.DistributeVertically(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
+                            }
                         }
-
                         me.fireEvent('editcomplete', me);
-                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Align');
                     }
 
                     return new Common.UI.Menu({
@@ -2586,26 +2628,14 @@ define([
                             {caption    : '--'},
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribHor,
-                                iconCls     : 'mnu-distrib-hor'
-                            }).on('click', function(item) {
-                                    if (me.api) {
-                                        me.api.DistributeHorizontally();
-                                    }
-
-                                me.fireEvent('editcomplete', me);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
-                            }),
+                                iconCls     : 'mnu-distrib-hor',
+                                value       : 6
+                            }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribVert,
-                                iconCls     : 'mnu-distrib-vert'
-                            }).on('click', function(item) {
-                                if (me.api) {
-                                    me.api.DistributeVertically();
-                                }
-
-                                me.fireEvent('editcomplete', me);
-                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
-                            })
+                                iconCls     : 'mnu-distrib-vert',
+                                value       : 7
+                            }).on('click', _.bind(onItemClick, me))
                         ]
                     })
                 })()
@@ -2714,7 +2744,7 @@ define([
 
                         properties.put_Width(originalImageSize.get_ImageWidth());
                         properties.put_Height(originalImageSize.get_ImageHeight());
-
+                        properties.put_ResetCrop(true);
                         me.api.ImgApply(properties);
                     }
 
@@ -2755,6 +2785,83 @@ define([
                                 }
                             })).show();
                         })
+                    ]
+                })
+            });
+
+            var onImgRotate = function(item) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+                me.api.ShapeApply(properties);
+                me.fireEvent('editcomplete', me);
+            };
+
+            var onImgFlip = function(item) {
+                var properties = new Asc.asc_CShapeProperty();
+                if (item.value==1)
+                    properties.asc_putFlipHInvert(true);
+                else
+                    properties.asc_putFlipVInvert(true);
+                me.api.ShapeApply(properties);
+                me.fireEvent('editcomplete', me);
+            };
+
+            var menuImgShapeRotate = new Common.UI.MenuItem({
+                caption     : me.textRotate,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate90,
+                            value  : 1
+                        }).on('click', _.bind(onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            value  : 0
+                        }).on('click', _.bind(onImgRotate, me)),
+                        { caption: '--' },
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipH,
+                            value  : 1
+                        }).on('click', _.bind(onImgFlip, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipV,
+                            value  : 0
+                        }).on('click', _.bind(onImgFlip, me))
+                    ]
+                })
+            });
+
+            var onImgCrop = function(item) {
+                if (item.value == 1) {
+                    me.api.asc_cropFill();
+                } else if (item.value == 2) {
+                    me.api.asc_cropFit();
+                } else {
+                    item.checked ? me.api.asc_startEditCrop() : me.api.asc_endEditCrop();
+                }
+                me.fireEvent('editcomplete', me);
+            };
+
+            me.menuImgCrop = new Common.UI.MenuItem({
+                caption     : me.textCrop,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value  : 0
+                        }).on('click', _.bind(onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFill,
+                            value  : 1
+                        }).on('click', _.bind(onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFit,
+                            value  : 2
+                        }).on('click', _.bind(onImgCrop, me))
                     ]
                 })
             });
@@ -2895,15 +3002,17 @@ define([
                     menuParaPaste.setDisabled(disabled);
 
                     // spellCheck
-                    me.menuSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuSpellcheckParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreAllSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    me.langParaMenu.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    me.menuSpellPara.setVisible(spell);
+                    menuSpellcheckParaSeparator.setVisible(spell);
+                    menuIgnoreSpellPara.setVisible(spell);
+                    menuIgnoreAllSpellPara.setVisible(spell);
+                    menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
+                    me.langParaMenu.setVisible(spell);
                     me.langParaMenu.setDisabled(disabled);
-                    menuIgnoreSpellParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuIgnoreSpellParaSeparator.setVisible(spell);
 
-                    if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
+                    if (spell && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(true);
                     } else {
                         me.menuSpellPara.setCaption(me.loadSpellText, true);
@@ -2918,9 +3027,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 11);
+                        eqlen = me.addEquationMenu(true, 12);
                     } else
-                        me.clearEquationMenu(true, 11);
+                        me.clearEquationMenu(true, 12);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
                 },
                 items: [
@@ -2929,6 +3038,7 @@ define([
                     menuSpellcheckParaSeparator,
                     menuIgnoreSpellPara,
                     menuIgnoreAllSpellPara,
+                    menuToDictionaryPara,
                     me.langParaMenu,
                     menuIgnoreSpellParaSeparator,
                     menuParaCut,
@@ -3018,6 +3128,7 @@ define([
                     menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() /** coauthoring begin **/|| menuAddCommentTable.isVisible()/** coauthoring end **/);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
                     menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
 
                     me.langTableMenu.setDisabled(disabled);
@@ -3160,6 +3271,10 @@ define([
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked),
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null;
 
+                    menuImgShapeRotate.setVisible(_.isUndefined(value.chartProps) && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgShapeRotate.isVisible())
+                        menuImgShapeRotate.setDisabled(disabled);
+
                     // image properties
                     menuImgOriginalSize.setVisible(isimage);
                     if (menuImgOriginalSize.isVisible())
@@ -3168,6 +3283,10 @@ define([
                     menuImgReplace.setVisible(isimage && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(disabled || pluginGuid===null);
+
+                    me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
+                    if (me.menuImgCrop.isVisible())
+                        me.menuImgCrop.setDisabled(disabled);
 
                     menuImageAdvanced.setVisible(isimage);
                     menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
@@ -3179,6 +3298,12 @@ define([
                     menuAddCommentImg.setDisabled(disabled);
                     /** coauthoring end **/
                     menuImgShapeAlign.setDisabled(disabled);
+                    if (!disabled) {
+                        var objcount = me.api.asc_getSelectedDrawingObjectsCount(),
+                            slide_checked = Common.Utils.InternalSettings.get("pe-align-to-slide") || false;
+                        menuImgShapeAlign.menu.items[7].setDisabled(objcount==2 && !slide_checked);
+                        menuImgShapeAlign.menu.items[8].setDisabled(objcount==2 && !slide_checked);
+                    }
                     menuImageAdvanced.setDisabled(disabled);
                     menuShapeAdvanced.setDisabled(disabled);
                     if (menuChartEdit.isVisible())
@@ -3194,7 +3319,9 @@ define([
                     { caption: '--' },
                     menuImgShapeArrange,
                     menuImgShapeAlign,
+                    menuImgShapeRotate,
                     menuImgShapeSeparator,
+                    me.menuImgCrop,
                     menuImgOriginalSize,
                     menuImgReplace,
                     menuImageAdvanced,
@@ -3232,48 +3359,41 @@ define([
 
         setLanguages: function(langs){
             var me = this;
-
             if (langs && langs.length > 0 && me.langParaMenu && me.langTableMenu) {
-                me.langParaMenu.menu.removeAll();
-                me.langTableMenu.menu.removeAll();
-                _.each(langs, function(lang, index){
-                    me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                var arrPara = [], arrTable = [];
+                _.each(langs, function(lang) {
+                    var item = {
+                        caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
-                        toggleGroup : 'popupparalang',
-                        langid      : lang.code
-                    }).on('click', function(item, e){
-                        if (me.api){
-                            if (!_.isUndefined(item.options.langid))
-                                me.api.put_TextPrLang(item.options.langid);
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck
+                    };
+                    arrPara.push(item);
+                    arrTable.push(_.clone(item));
+                });
+                me.langParaMenu.menu.resetItems(arrPara);
+                me.langTableMenu.menu.resetItems(arrTable);
 
-                            me._currLang.paraid = item.options.langid;
-                            me.langParaMenu.menu.currentCheckedItem = item;
+                me.langParaMenu.menu.on('item:click', function(menu, item){
+                    if (me.api){
+                        if (!_.isUndefined(item.langid))
+                            me.api.put_TextPrLang(item.langid);
 
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }));
-
-                    me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
-                        checkable   : true,
-                        toggleGroup : 'popuptablelang',
-                        langid      : lang.code
-                    }).on('click', function(item, e){
-                        if (me.api){
-                            if (!_.isUndefined(item.options.langid))
-                                me.api.put_TextPrLang(item.options.langid);
-
-                            me._currLang.tableid = item.options.langid;
-                            me.langTableMenu.menu.currentCheckedItem = item;
-
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }));
+                        me._currLang.paraid = item.langid;
+                        me.fireEvent('editcomplete', me);
+                    }
                 });
 
-                me.langTableMenu.menu.doLayout();
-                me.langParaMenu.menu.doLayout();
+                me.langTableMenu.menu.on('item:click', function(menu, item, e){
+                    if (me.api){
+                        if (!_.isUndefined(item.langid))
+                            me.api.put_TextPrLang(item.langid);
+
+                        me._currLang.tableid = item.langid;
+                        me.fireEvent('editcomplete', me);
+                    }
+                });
             }
         },
 
@@ -3444,7 +3564,17 @@ define([
         textDistributeCols: 'Distribute columns',
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
-        textFromFile:   'From File'
+        textFromFile:   'From File',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
+        textFlipV: 'Flip Vertically',
+        textFlipH: 'Flip Horizontally',
+        textRotate: 'Rotate',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit',
+        toDictionaryText: 'Add to Dictionary',
+        txtPrintSelection: 'Print Selection'
 
     }, PE.Views.DocumentHolder || {}));
 });

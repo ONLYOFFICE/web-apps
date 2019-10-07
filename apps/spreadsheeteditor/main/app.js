@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -152,10 +152,12 @@ require([
             'Print',
             'Toolbar',
             'Statusbar',
+            'Spellcheck',
             'RightMenu',
             'LeftMenu',
             'Main',
             'PivotTable',
+            'DataTab',
             'Common.Controllers.Fonts',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
@@ -165,40 +167,42 @@ require([
         ]
     });
 
-    Common.Locale.apply();
-
-    require([
-        'spreadsheeteditor/main/app/controller/Viewport',
-        'spreadsheeteditor/main/app/controller/DocumentHolder',
-        'spreadsheeteditor/main/app/controller/CellEditor',
-        'spreadsheeteditor/main/app/controller/Toolbar',
-        'spreadsheeteditor/main/app/controller/Statusbar',
-        'spreadsheeteditor/main/app/controller/RightMenu',
-        'spreadsheeteditor/main/app/controller/LeftMenu',
-        'spreadsheeteditor/main/app/controller/Main',
-        'spreadsheeteditor/main/app/controller/Print',
-        'spreadsheeteditor/main/app/controller/PivotTable',
-        'spreadsheeteditor/main/app/view/FileMenuPanels',
-        'spreadsheeteditor/main/app/view/ParagraphSettings',
-        'spreadsheeteditor/main/app/view/ImageSettings',
-        'spreadsheeteditor/main/app/view/ChartSettings',
-        'spreadsheeteditor/main/app/view/ShapeSettings',
-        'spreadsheeteditor/main/app/view/TextArtSettings',
-        'spreadsheeteditor/main/app/view/PivotSettings',
-        'spreadsheeteditor/main/app/view/FieldSettingsDialog',
-        'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-        'spreadsheeteditor/main/app/view/SignatureSettings',
-        'common/main/lib/util/utils',
-        'common/main/lib/util/LocalStorage',
-        'common/main/lib/controller/Fonts',
-        'common/main/lib/controller/Comments',
-        'common/main/lib/controller/Chat',
-        'common/main/lib/controller/Plugins'
-        ,'common/main/lib/controller/ReviewChanges'
-        ,'common/main/lib/controller/Protection'
-        ,'common/main/lib/controller/Desktop'
-    ], function() {
-        app.start();
+    Common.Locale.apply(function(){
+        require([
+            'spreadsheeteditor/main/app/controller/Viewport',
+            'spreadsheeteditor/main/app/controller/DocumentHolder',
+            'spreadsheeteditor/main/app/controller/CellEditor',
+            'spreadsheeteditor/main/app/controller/Toolbar',
+            'spreadsheeteditor/main/app/controller/Statusbar',
+            'spreadsheeteditor/main/app/controller/Spellcheck',
+            'spreadsheeteditor/main/app/controller/RightMenu',
+            'spreadsheeteditor/main/app/controller/LeftMenu',
+            'spreadsheeteditor/main/app/controller/Main',
+            'spreadsheeteditor/main/app/controller/Print',
+            'spreadsheeteditor/main/app/controller/PivotTable',
+            'spreadsheeteditor/main/app/controller/DataTab',
+            'spreadsheeteditor/main/app/view/FileMenuPanels',
+            'spreadsheeteditor/main/app/view/ParagraphSettings',
+            'spreadsheeteditor/main/app/view/ImageSettings',
+            'spreadsheeteditor/main/app/view/ChartSettings',
+            'spreadsheeteditor/main/app/view/ShapeSettings',
+            'spreadsheeteditor/main/app/view/TextArtSettings',
+            'spreadsheeteditor/main/app/view/PivotSettings',
+            'spreadsheeteditor/main/app/view/FieldSettingsDialog',
+            'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
+            'spreadsheeteditor/main/app/view/SignatureSettings',
+            'common/main/lib/util/utils',
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/controller/Fonts',
+            'common/main/lib/controller/Comments',
+            'common/main/lib/controller/Chat',
+            'common/main/lib/controller/Plugins'
+            ,'common/main/lib/controller/ReviewChanges'
+            ,'common/main/lib/controller/Protection'
+            ,'common/main/lib/controller/Desktop'
+        ], function() {
+            app.start();
+        });
     });
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {

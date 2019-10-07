@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -73,7 +73,8 @@ define([
                 maskExp     : '',
                 validateOnChange: false,
                 validateOnBlur: true,
-                disabled: false
+                disabled: false,
+                editable: true
             },
 
             template: _.template([
@@ -93,8 +94,7 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
-                var me = this,
-                    el = $(this.el);
+                var me = this;
 
                 this.id             = me.options.id || Common.UI.getId();
                 this.cls            = me.options.cls;
@@ -106,7 +106,7 @@ define([
                 this.allowBlank     = me.options.allowBlank;
                 this.placeHolder    = me.options.placeHolder;
                 this.template       = me.options.template || me.template;
-                this.editable       = me.options.editable || true;
+                this.editable       = me.options.editable;
                 this.disabled       = me.options.disabled;
                 this.spellcheck     = me.options.spellcheck;
                 this.blankError     = me.options.blankError || 'This field is required';
@@ -141,10 +141,10 @@ define([
                         this.setElement(parentEl, false);
                         parentEl.html(this.cmpEl);
                     } else {
-                        $(this.el).html(this.cmpEl);
+                        this.$el.html(this.cmpEl);
                     }
                 } else {
-                    this.cmpEl = $(this.el);
+                    this.cmpEl = this.$el;
                 }
 
                 if (!me.rendered) {
@@ -155,6 +155,7 @@ define([
                     if (this.editable) {
                         this._input.on('blur',   _.bind(this.onInputChanged, this));
                         this._input.on('keypress', _.bind(this.onKeyPress, this));
+                        this._input.on('keydown',    _.bind(this.onKeyDown, this));
                         this._input.on('keyup',    _.bind(this.onKeyUp, this));
                         if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
                         if (this.maxLength) this._input.attr('maxlength', this.maxLength);
@@ -225,19 +226,25 @@ define([
                 if (e.isDefaultPrevented())
                     return;
 
-                if (e.keyCode === Common.UI.Keys.RETURN) {
-                    this._doChange(e);
-                } else if (this.options.maskExp && !_.isEmpty(this.options.maskExp.source)){
+                if (this.options.maskExp && !_.isEmpty(this.options.maskExp.source)){
                     var charCode = String.fromCharCode(e.which);
-                    if(!this.options.maskExp.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.DELETE && e.keyCode !== Common.UI.Keys.BACKSPACE &&
-                        e.keyCode !== Common.UI.Keys.LEFT && e.keyCode !== Common.UI.Keys.RIGHT && e.keyCode !== Common.UI.Keys.HOME &&
-                        e.keyCode !== Common.UI.Keys.END && e.keyCode !== Common.UI.Keys.ESC && e.keyCode !== Common.UI.Keys.INSERT ){
+                    if(!this.options.maskExp.test(charCode) && !e.ctrlKey && e.keyCode !== Common.UI.Keys.RETURN){
                         e.preventDefault();
                         e.stopPropagation();
                     }
                 }
 
                 this.trigger('keypress:after', this, e);
+            },
+
+            onKeyDown: function(e) {
+                this.trigger('keydown:before', this, e);
+
+                if (e.isDefaultPrevented())
+                    return;
+
+                if (e.keyCode === Common.UI.Keys.RETURN)
+                    this._doChange(e);
             },
 
             onKeyUp: function(e) {

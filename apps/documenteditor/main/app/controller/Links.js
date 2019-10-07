@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -45,7 +45,8 @@ define([
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/TableOfContentsSettings',
-    'documenteditor/main/app/view/BookmarksDialog'
+    'documenteditor/main/app/view/BookmarksDialog',
+    'documenteditor/main/app/view/CaptionDialog'
 ], function () {
     'use strict';
 
@@ -66,7 +67,8 @@ define([
                     'links:update': this.onTableContentsUpdate,
                     'links:notes': this.onNotesClick,
                     'links:hyperlink': this.onHyperlinkClick,
-                    'links:bookmarks': this.onBookmarksClick
+                    'links:bookmarks': this.onBookmarksClick,
+                    'links:caption': this.onCaptionClick
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -76,8 +78,12 @@ define([
         },
         onLaunch: function () {
             this._state = {
-                prcontrolsdisable:undefined
+                prcontrolsdisable:undefined,
+                in_object: false
             };
+            Common.Gateway.on('setactionlink', function (url) {
+                console.log('url with actions: ' + url);
+            }.bind(this));
         },
 
         setApi: function (api) {
@@ -122,7 +128,8 @@ define([
                 header_locked = false,
                 in_header = false,
                 in_equation = false,
-                in_image = false;
+                in_image = false,
+                in_table = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -137,31 +144,25 @@ define([
                     in_image = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Table) {
+                    in_table = true;
                 }
             }
-
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
+            this._state.in_object = in_image || in_table || in_equation;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
 
             var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
-            _.each (this.view.btnsNotes, function(item){
-                item.setDisabled(need_disable);
-            }, this);
+            this.view.btnsNotes.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || control_plain;
+            need_disable = paragraph_locked || header_locked || in_header || control_plain;
             this.view.btnBookmarks.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
-            var need_disable = !value || this._state.prcontrolsdisable;
-
-            if ( this.toolbar.editMode ) {
-                _.each (this.view.btnsHyperlink, function(item){
-                    item.setDisabled(need_disable);
-                }, this);
-            }
+            this.toolbar.editMode && this.view.btnsHyperlink.setDisabled(!value || this._state.prcontrolsdisable);
         },
 
         onHyperlinkClick: function(btn) {
@@ -256,8 +257,7 @@ define([
                     win.show();
                     break;
                 case 'remove':
-                    if (currentTOC)
-                        currentTOC = props.get_InternalClass();
+                    currentTOC = (currentTOC && props) ? props.get_InternalClass() : undefined;
                     this.api.asc_RemoveTableOfContents(currentTOC);
                     break;
             }
@@ -265,9 +265,12 @@ define([
         },
 
         onTableContentsUpdate: function(type, currentTOC){
-            if (currentTOC)
-                currentTOC = this.api.asc_GetTableOfContentsPr(currentTOC).get_InternalClass();
-            this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            var props = this.api.asc_GetTableOfContentsPr(currentTOC);
+            if (props) {
+                if (currentTOC && props)
+                    currentTOC = props.get_InternalClass();
+                this.api.asc_UpdateTableOfContents(type == 'pages', currentTOC);
+            }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -297,7 +300,9 @@ define([
                             if (settings) {
                                 me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
                                 if (result == 'insert')
-                                    me.api.asc_AddFootnote(settings.custom);
+                                    setTimeout(function() {
+                                        me.api.asc_AddFootnote(settings.custom);
+                                    }, 1);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },
@@ -323,9 +328,23 @@ define([
             var me = this;
             (new DE.Views.BookmarksDialog({
                 api: me.api,
+                appOptions: me.toolbar.appOptions,
                 props: me.api.asc_GetBookmarksManager(),
                 handler: function (result, settings) {
                     if (settings) {
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
+        onCaptionClick: function(btn) {
+            var me = this;
+            (new DE.Views.CaptionDialog({
+                isObject: this._state.in_object,
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        me.api.asc_AddObjectCaption(settings);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }

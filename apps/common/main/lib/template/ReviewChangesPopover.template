@@ -5,11 +5,22 @@
     <div class="user-date"><%=date%></div>
     <div class="user-message limit-height"><%=changetext%></div>
     <div class="edit-ct">
-        <% if (scope.appConfig.isReviewOnly) { %>
-        <div class="btn-delete img-commonctrl"></div>
-        <% } else { %>
-        <div class="btn-accept img-commonctrl"></div>
-        <div class="btn-reject img-commonctrl"></div>
+        <% if (goto) { %>
+        <div class="btn-goto img-commonctrl"></div>
+        <% } %>
+        <% if (!hint) { %>
+            <% if (scope.appConfig.isReviewOnly) { %>
+                <% if (editable) { %>
+                <div class="btn-delete img-commonctrl"></div>
+                <% } %>
+            <% } else { %>
+            <div class="btn-accept img-commonctrl"></div>
+            <div class="btn-reject img-commonctrl"></div>
+            <% } %>
         <% } %>
     </div>
+    <% if (!hint && lock) { %>
+    <div class="lock-area" style="cursor: default;"></div>
+    <div class="lock-author" style="cursor: default;"><%=lockuser%></div>
+    <% } %>
 </div>

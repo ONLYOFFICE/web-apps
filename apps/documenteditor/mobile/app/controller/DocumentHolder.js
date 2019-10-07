@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -57,7 +57,11 @@ define([
             _view,
             _fastCoAuthTips = [],
             _actionSheets = [],
-            _isEdit = false;
+            _isEdit = false,
+            _canReview = false,
+            _inRevisionChange = false,
+            _menuPos = [],
+            _timer = 0;
 
         return {
             models: [],
@@ -90,11 +94,13 @@ define([
                 me.api.asc_registerCallback('asc_onDocumentContentReady',   _.bind(me.onApiDocumentContentReady, me));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect,me));
+                me.api.asc_registerCallback('asc_onShowRevisionsChange',    _.bind(me.onApiShowChange, me));
                 me.api.asc_coAuthoringGetUsers();
             },
 
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
+                _canReview = mode.canReview;
             },
 
             // When our application is ready, lets get started
@@ -117,8 +123,15 @@ define([
                     me.api.Copy();
                 } else if ('paste' == eventName) {
                     me.api.Paste();
+                } else if ('merge' == eventName) {
+                    me.api.MergeCells();
+                } else if ('split' == eventName) {
+                    _view.hideMenu();
+                    me.showSplitModal();
                 } else if ('delete' == eventName) {
                     me.api.asc_Remove();
+                } else if('deletetable' == eventName) {
+                    me.api.remTable();
                 } else if ('edit' == eventName) {
                     _view.hideMenu();
 
@@ -135,10 +148,19 @@ define([
                             return true;
                         }
                     });
+                } else if ('review' == eventName) {
+                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
+                    getCollaboration.showModal();
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#reviewing-settings-view', false);
+                } else if('reviewchange' == eventName) {
+                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
+                    getCollaboration.showModal();
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#reviewing-settings-view', false);
+                    getCollaboration.getView('Common.Views.Collaboration').showPage('#change-view', false);
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
-                            action.text = action.caption
+                            action.text = action.caption;
                             action.onClick = function () {
                                 me.onContextMenuClick(null, action.event)
                             }
@@ -156,6 +178,55 @@ define([
                 _view.hideMenu();
             },
 
+            showSplitModal: function() {
+                var me = this,
+                    picker;
+                uiApp.modal({
+                    title   : me.menuSplit,
+                    text: '',
+                    afterText:
+                        '<div class="content-block">' +
+                        '<div class="row no-gutter" style="text-align: center;">' +
+                        '<div class="col-50 size-columns">' + me.textColumns + '</div>' +
+                        '<div class="col-50 size-rows">' + me.textRows + '</div>' +
+                        '</div>' +
+                        '<div id="picker-split-size"></div>' +
+                        '</div>',
+                    buttons: [
+                        {
+                            text: me.textCancel
+                        },
+                        {
+                            text: 'OK',
+                            bold: true,
+                            onClick: function () {
+                                var size = picker.value;
+                                if (me.api) {
+                                    me.api.SplitCell(parseInt(size[0]), parseInt(size[1]));
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                picker = uiApp.picker({
+                    container: '#picker-split-size',
+                    toolbar: false,
+                    rotateEffect: true,
+                    value: [3, 3],
+                    cols: [{
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    }, {
+                        textAlign: 'center',
+                        width: '100%',
+                        values: [1,2,3,4,5,6,7,8,9,10]
+                    }]
+                });
+
+            },
+
             // API Handlers
 
             onEditorResize: function(cmp) {
@@ -166,6 +237,11 @@ define([
                 if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal.modal-in, .actions-modal').length > 0) {
                     return;
                 }
+                var now = (new Date).getTime();
+                if (now - _timer < 1000) return;
+                _timer = 0;
+
+                _menuPos = [posX, posY];
 
                 var me = this,
                     items;
@@ -177,6 +253,8 @@ define([
             },
 
             onApiHidePopMenu: function() {
+                var now = (new Date).getTime();
+                if (now - _timer < 1000) return;
                 _view && _view.hideMenu();
             },
 
@@ -283,6 +361,10 @@ define([
                 _view = this.createView('DocumentHolder').render();
             },
 
+            onApiShowChange: function(sdkchange) {
+                _inRevisionChange = sdkchange && sdkchange.length>0;
+            },
+
             // Internal
 
             _openLink: function(url) {
@@ -297,15 +379,17 @@ define([
 
             _initMenu: function (stack) {
                 var me = this,
-                    menuItems = [],
+                    arrItems = [],
+                    arrItemsIcon = [],
                     canCopy = me.api.can_CopyCut();
 
                 _actionSheets = [];
 
                 if (canCopy) {
-                    menuItems.push({
+                    arrItemsIcon.push({
                         caption: me.menuCopy,
-                        event: 'copy'
+                        event: 'copy',
+                        icon: 'icon-copy'
                     });
                 }
 
@@ -314,15 +398,25 @@ define([
                     isImage = false,
                     isChart = false,
                     isShape = false,
-                    isLink = false;
+                    isLink = false,
+                    lockedText = false,
+                    lockedTable = false,
+                    lockedImage = false,
+                    lockedHeader = false;
 
                 _.each(stack, function (item) {
                     var objectType = item.get_ObjectType(),
                         objectValue = item.get_ObjectValue();
 
+                    if (objectType == Asc.c_oAscTypeSelectElement.Header) {
+                        lockedHeader = objectValue.get_Locked();
+                    }
+
                     if (objectType == Asc.c_oAscTypeSelectElement.Text) {
                         isText = true;
+                        lockedText = objectValue.get_Locked();
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
+                        lockedImage = objectValue.get_Locked();
                         if (objectValue && objectValue.get_ChartProperties()) {
                             isChart = true;
                         } else if (objectType && objectValue.get_ShapeProperties()) {
@@ -332,71 +426,114 @@ define([
                         }
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
                         isTable = true;
+                        lockedTable = objectValue.get_Locked();
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
                         isLink = true;
                     }
                 });
 
                 if (stack.length > 0) {
-                    var topObject = _.find(stack.reverse(), function(obj){ return obj.get_ObjectType() != Asc.c_oAscTypeSelectElement.SpellCheck; }),
-                        topObjectValue = topObject.get_ObjectValue(),
-                        objectLocked = _.isFunction(topObjectValue.get_Locked) ? topObjectValue.get_Locked() : false;
 
                     var swapItems = function(items, indexBefore, indexAfter) {
                         items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
                     };
 
-                    if (!objectLocked && _isEdit && !me.isDisconnected) {
-                        if (canCopy) {
-                            menuItems.push({
+                    if (_isEdit && !me.isDisconnected) {
+                        if (!lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy) {
+                            arrItemsIcon.push({
                                 caption: me.menuCut,
-                                event: 'cut'
+                                event: 'cut',
+                                icon: 'icon-cut'
                             });
 
                             // Swap 'Copy' and 'Cut'
-                            swapItems(menuItems, 0, 1);
+                            swapItems(arrItemsIcon, 0, 1);
                         }
 
-                        menuItems.push({
-                            caption: me.menuPaste,
-                            event: 'paste'
-                        });
+                        if (!lockedText && !lockedTable && !lockedImage && !lockedHeader) {
+                            arrItemsIcon.push({
+                                caption: me.menuPaste,
+                                event: 'paste',
+                                icon: 'icon-paste'
+                            });
+                        }
 
-                        menuItems.push({
-                            caption: me.menuDelete,
-                            event: 'delete'
-                        });
+                        if(isTable && me.api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
+                            arrItems.push({
+                                caption: me.menuMerge,
+                                event: 'merge'
+                            });
+                        }
 
-                        menuItems.push({
-                            caption: me.menuEdit,
-                            event: 'edit'
-                        });
+                        if(isTable && me.api.CheckBeforeSplitCells() && !lockedTable && !lockedHeader) {
+                            arrItems.push({
+                                caption: me.menuSplit,
+                                event: 'split'
+                            });
+                        }
 
-                        if (!_.isEmpty(me.api.can_AddHyperlink())) {
-                            menuItems.push({
+                        if(!lockedText && !lockedTable && !lockedImage && !lockedHeader) {
+                            arrItems.push({
+                                caption: me.menuDelete,
+                                event: 'delete'
+                            });
+                        }
+
+                        if(isTable && !lockedTable && !lockedText && !lockedHeader) {
+                            arrItems.push({
+                                caption: me.menuDeleteTable,
+                                event: 'deletetable'
+                            });
+                        }
+
+                        if(!lockedText && !lockedTable && !lockedImage && !lockedHeader){
+                            arrItems.push({
+                                caption: me.menuEdit,
+                                event: 'edit'
+                            });
+                        }
+
+                        if (!_.isEmpty(me.api.can_AddHyperlink()) && !lockedHeader) {
+                            arrItems.push({
                                 caption: me.menuAddLink,
                                 event: 'addlink'
                             });
+                        }
+
+                        if (_canReview) {
+                            if (_inRevisionChange) {
+                                arrItems.push({
+                                    caption: me.menuReviewChange,
+                                    event: 'reviewchange'
+                                });
+                            } else {
+                                arrItems.push({
+                                    caption: me.menuReview,
+                                    event: 'review'
+                                });
+                            }
                         }
                     }
                 }
 
                 if (isLink) {
-                    menuItems.push({
+                    arrItems.push({
                         caption: me.menuOpenLink,
                         event: 'openlink'
                     });
                 }
 
-                if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
-                    _actionSheets = menuItems.slice(3);
+                if (Common.SharedSettings.get('phone') && arrItems.length > 2) {
+                    _actionSheets = arrItems.slice(2);
 
-                    menuItems = menuItems.slice(0, 3);
-                    menuItems.push({
+                    arrItems = arrItems.slice(0, 2);
+                    arrItems.push({
                         caption: me.menuMore,
                         event: 'showActionSheet'
                     });
                 }
+
+                var menuItems = {itemsIcon: arrItemsIcon, items: arrItems};
 
                 return menuItems;
             },
@@ -406,6 +543,9 @@ define([
             },
 
             textGuest: 'Guest',
+            textCancel: 'Cancel',
+            textColumns: 'Columns',
+            textRows: 'Rows',
             menuCut: 'Cut',
             menuCopy: 'Copy',
             menuPaste: 'Paste',
@@ -414,7 +554,12 @@ define([
             menuAddLink: 'Add Link',
             menuOpenLink: 'Open Link',
             menuMore: 'More',
-            sheetCancel: 'Cancel'
+            sheetCancel: 'Cancel',
+            menuReview: 'Review',
+            menuMerge: 'Merge Cells',
+            menuSplit: 'Split Cell',
+            menuDeleteTable: 'Delete Table',
+            menuReviewChange: 'Review Change'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

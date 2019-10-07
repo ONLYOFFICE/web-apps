@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -127,15 +127,12 @@
             if (this.hasContent() && this.enabled && !this.dontShow) {
                 if (!this.$element.is(":visible") && this.$element.closest('[role=menu]').length>0) return;
                 var $tip = this.tip();
-                var placement = typeof this.options.placement === 'function' ?
-                                    this.options.placement.call(this, $tip[0], this.$element[0]) : this.options.placement;
 
                 if (this.options.arrow === false) $tip.addClass('arrow-free');
                 if (this.options.cls) $tip.addClass(this.options.cls);
-                
-                var placementEx = /^([a-zA-Z]+)-?([a-zA-Z]*)$/.exec(placement);
 
-                if (!at && !placementEx[2].length) {
+                var placementEx = (typeof this.options.placement !== 'function') ? /^([a-zA-Z]+)-?([a-zA-Z]*)$/.exec(this.options.placement) : null;
+                if (!at && placementEx && !placementEx[2].length) {
                     _superclass.prototype.show.apply(this, arguments);
                 } else {
                     var e = $.Event('show.bs.tooltip');
@@ -152,7 +149,9 @@
                     this.options.container ?
                         $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element);
 
-                    if (typeof at == 'object') { 
+                    if (typeof this.options.placement === 'function') {
+                        this.options.placement.call(this, $tip[0], this.$element[0]);
+                    } else if (typeof at == 'object') {
                         var tp = {top: at[1] + 15, left: at[0] + 18},
                             innerWidth = Common.Utils.innerWidth(),
                             innerHeight = Common.Utils.innerHeight();

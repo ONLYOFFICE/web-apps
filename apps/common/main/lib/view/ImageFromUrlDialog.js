@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -46,7 +46,9 @@ define([
         options: {
             width: 330,
             header: false,
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
         initialize : function(options) {
@@ -58,10 +60,6 @@ define([
                         '<label>' + this.textUrl + '</label>',
                     '</div>',
                     '<div id="id-dlg-url" class="input-row"></div>',
-                '</div>',
-                '<div class="footer right">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -87,7 +85,6 @@ define([
 
             var $window = this.getChild();
             $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
-            $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
         },
 
         show: function() {
@@ -99,10 +96,9 @@ define([
             },500);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         onBtnClick: function(event) {
@@ -125,8 +121,6 @@ define([
         },
 
         textUrl         : 'Paste an image URL:',
-        cancelButtonText: 'Cancel',
-        okButtonText    : 'Ok',
         txtEmpty        : 'This field is required',
         txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"'
     }, Common.Views.ImageFromUrlDialog || {}));

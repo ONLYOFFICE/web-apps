@@ -1,0 +1,68 @@
+
+.icon-redefine (@name; @svgres) {
+    i.icon {
+        &.@{name} {
+            background-color: transparent;
+            -webkit-mask-image: none;
+            .encoded-svg-background(@svgres);
+        }
+    }
+}
+
+.shape-icon-redefine(@type, @svgname) {
+    .thumb {
+        -webkit-mask-image: none !important;
+    }
+
+    [data-type=@{type}] .thumb {
+        background-image: url('../img/shapes/@{svgname}');
+        background-color: transparent;
+    }
+}
+
+
+.sailfish {
+    .icon-redefine(icon-text-align-center, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,3v1h21V3H1z M4,7v1h14V7H4z M1,12h21v-1H1V12z M4,15v1h14v-1H4z M1,20h21v-1H1V20z"/></g></svg>');
+    .icon-redefine(icon-text-align-jast, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,3v1h21V3H1z M1,8h21V7H1V8z M1,12h21v-1H1V12z M1,16h21v-1H1V16z M1,20h21v-1H1V20z"/></g></svg>');
+    .icon-redefine(icon-text-align-left, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,3v1h21V3H1z M15,7H1v1h14V7z M1,12h21v-1H1V12z M15,15H1v1h14V15z M1,20h21v-1H1V20z"/></g></svg>');
+    .icon-redefine(icon-text-align-right, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,3v1h21V3H1z M8,8h14V7H8V8z M22,11H1v1h21V11z M8,16h14v-1H8V16z M22,19H1v1h21V19z"/></g></svg>');
+    .icon-redefine(icon-de-indent, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,20v-1h21v1H1z M11,15h11v1H11V15z M11,11h11v1H11V11z M11,7h11v1H11V7z M6.3,7L7,7.7l-3.8,3.8L7,15.3L6.3,16L2,11.8l-0.2-0.3L2,11.2L6.3,7z M1,3h21v1H1V3z"/></g></svg>');
+    .icon-redefine(icon-in-indent, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M1,20v-1h21v1H1z M12,16H1v-1h11V16z M12,12H1v-1h11V12z M12,8H1V7h11V8z M21,11.2l0.2,0.3L21,11.8L16.7,16L16,15.3l3.8-3.8L16,7.7L16.7,7L21,11.2z M22,4H1V3h21V4z"/></g></svg>');
+    .icon-redefine(icon-block-align-left, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28" fill="@{themeColor}"><g><rect x="1" y="1" width="26" height="1"/><rect x="1" y="4" width="26" height="1"/><rect x="1" y="25" width="26" height="1"/><rect x="1" y="22" width="26" height="1"/><rect x="1" y="8" width="12" height="11"/></g></svg>');
+    .icon-redefine(icon-block-align-center, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28" fill="@{themeColor}"><g><rect y="1" width="26" height="1"/><rect y="4" width="26" height="1"/><rect y="25" width="26" height="1"/><rect y="22" width="26" height="1"/><rect x="7" y="8.08" width="12" height="10.92"/></g></svg>');
+    .icon-redefine(icon-block-align-right, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28" fill="@{themeColor}"><g><rect x="1" y="1" width="26" height="1"/><rect x="1" y="4" width="26" height="1"/><rect x="1" y="25" width="26" height="1"/><rect x="1" y="22" width="26" height="1"/><rect x="15" y="8" width="12" height="11"/></g></svg>');
+    .icon-redefine(icon-text-valign-top, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><rect x="2" y="2" width="19" height="1"/><rect x="2" y="4" width="19" height="1"/><polygon points="12 18 11 18 11 7.83 8.65 9.8 8 8.94 11.5 6 15 9 14.35 9.8 12 7.83 12 18"/></g></svg>');
+    .icon-redefine(icon-text-valign-middle, '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><rect x="2" y="10" width="19" height="1"/><rect x="2" y="12" width="19" height="1"/><polygon points="11 2 12 2 12 7.17 14.35 5.2 15 6.06 11.5 9 8 6 8.65 5.2 11 7.17 11 2"/><polygon points="12 21 11 21 11 15.83 8.65 17.8 8 16.94 11.5 14 15 17 14.35 17.8 12 15.83 12 21"/></g></svg>');
+    .icon-redefine(icon-text-valign-bottom,'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 22 22" fill="@{themeColor}"><g><rect x="2" y="18" width="19" height="1"/><rect x="2" y="20" width="19" height="1"/><polygon points="11 4 12 4 12 15.17 14.35 13.2 15 14.06 11.5 17 8 14 8.65 13.2 11 15.17 11 4"/></g></svg>');
+
+    .item-content.buttons .item-inner > .row .button.active {
+        background-color: @themeColorLight;
+    }
+
+    .dataview.shapes {
+        .shape-icon-redefine(textRect,'shape-01.svg');
+        .shape-icon-redefine(line,'shape-02.svg');
+        .shape-icon-redefine(lineWithArrow,'shape-03.svg');
+        .shape-icon-redefine(lineWithTwoArrows,'shape-04.svg');
+        .shape-icon-redefine(rect,'shape-05.svg');
+        .shape-icon-redefine(hexagon,'shape-06.svg');
+        .shape-icon-redefine(roundRect,'shape-07.svg');
+        .shape-icon-redefine(ellipse,'shape-08.svg');
+        .shape-icon-redefine(triangle,'shape-09.svg');
+        .shape-icon-redefine(rtTriangle,'shape-10.svg');
+        .shape-icon-redefine(trapezoid,'shape-11.svg');
+        .shape-icon-redefine(diamond,'shape-12.svg');
+        .shape-icon-redefine(rightArrow,'shape-13.svg');
+        .shape-icon-redefine(leftRightArrow,'shape-14.svg');
+        .shape-icon-redefine(leftArrow,'shape-15.svg');
+        .shape-icon-redefine(bentUpArrow,'shape-16.svg');
+        .shape-icon-redefine(flowChartOffpageConnector,'shape-17.svg');
+        .shape-icon-redefine(heart,'shape-18.svg');
+        .shape-icon-redefine(mathMinus,'shape-19.svg');
+        .shape-icon-redefine(mathPlus,'shape-20.svg');
+        .shape-icon-redefine(parallelogram,'shape-21.svg');
+        .shape-icon-redefine(wedgeRectCallout,'shape-22.svg');
+        .shape-icon-redefine(wedgeEllipseCallout,'shape-23.svg');
+        .shape-icon-redefine(cloudCallout,'shape-24.svg');
+    }
+}

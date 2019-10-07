@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -89,6 +89,8 @@ define([
                 cfgLink.internal = { sheet: {index: index, caption: caption}};
                 // me.fireEvent('link:changesheet', [me, $(e.currentTarget).val()]);
             }).val(cfgLink.internal.sheet.index);
+
+            Common.Utils.addScrollIfNeed('.page[data-page=add-link]', '.page[data-page=add-link] .page-content');
         }
 
 
@@ -105,6 +107,7 @@ define([
 
             initEvents: function () {
                 var me = this;
+                
                 me.initControls();
             },
 
@@ -197,7 +200,7 @@ define([
                 var $view = $('.settings');
                 var disabled = text == 'locked';
 
-                disabled && (text = ' ');
+                disabled && (text = this.textSelectedRange);
                 $view.find('#add-link-display input').prop('disabled', disabled).val(text);
                 $view.find('#add-link-display .label').toggleClass('disabled', disabled);
             },
@@ -258,7 +261,8 @@ define([
             textInternalLink: 'Internal Data Range',
             textSheet: 'Sheet',
             textRange: 'Range',
-            textRequired: 'Required'
+            textRequired: 'Required',
+            textSelectedRange: 'Selected Range'
         }
     })(), SSE.Views.AddLink || {}))
 });

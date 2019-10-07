@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -51,7 +51,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 471
+            height: 475,
+            buttons: null
         },
 
         initialize : function(options) {
@@ -61,7 +62,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 template: [
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                         '<div class="menu-panel" style="overflow: hidden;">',
-                            '<div style="height: 42px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
+                            '<div style="height: 54px; line-height: 42px;" class="div-category">' + ((this.type == 'print') ? this.textPrintRange : this.textRange)+ '</div>',
                             '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
@@ -73,8 +74,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     '</div>',
                     '<div class="separator horizontal"/>',
                     '<div class="footer justify">',
-                        '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="margin-right: 55px; width: 100px;">' + this.textHideDetails + '</button>',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
+                        '<button id="printadv-dlg-btn-hide" class="btn btn-text-default" style="width: 100px;">' + this.textHideDetails + '</button>',
+                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-left: 55px;  width: 150px;">' + ((this.type == 'print') ? this.btnPrint : this.btnDownload) + '</button>',
                         '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
                     '</div>'
                 ].join('')
@@ -100,6 +101,11 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             });
             this.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
 
+            this.chIgnorePrintArea = new Common.UI.CheckBox({
+                el: $('#printadv-dlg-chb-ignore'),
+                labelText: this.textIgnore
+            });
+
             this.cmbSheet = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-sheets'),
                 style       : 'width: 242px;',
@@ -119,12 +125,12 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
                     {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
                     {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
-                    {value:'148.1|209.9',    displayValue:'A5 (14,81cm x 20,99cm)', caption: 'A5'},
-                    {value:'176|250.1',      displayValue:'B5 (17,6cm x 25,01cm)', caption: 'B5'},
+                    {value:'148|210',        displayValue:'A5 (14,8cm x 21cm)', caption: 'A5'},
+                    {value:'176|250',        displayValue:'B5 (17,6cm x 25cm)', caption: 'B5'},
                     {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
-                    {value:'110.1|220.1',    displayValue:'Envelope DL (11,01cm x 22,01cm)', caption: 'Envelope DL'},
-                    {value:'279.4|431.7',    displayValue:'Tabloid (27,94cm x 43,17cm)', caption: 'Tabloid'},
-                    {value:'297|420.1',      displayValue:'A3 (29,7cm x 42,01cm)', caption: 'A3'},
+                    {value:'110|220',        displayValue:'Envelope DL (11cm x 22cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94cm x 43,18cm)', caption: 'Tabloid'},
+                    {value:'297|420',        displayValue:'A3 (29,7cm x 42cm)', caption: 'A3'},
                     {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
                     {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
                     {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
@@ -208,7 +214,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     { value: 0, displayValue: this.textActualSize },
                     { value: 1, displayValue: this.textFitPage },
                     { value: 2, displayValue: this.textFitCols },
-                    { value: 3, displayValue: this.textFitRows }
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 4, displayValue: this.textCustomOptions}
                 ]
             });
 
@@ -232,6 +239,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
         getRange: function() {
             return this.cmbRange.getValue();
+        },
+
+        setIgnorePrintArea: function(value) {
+            this.chIgnorePrintArea.setValue(value);
+        },
+
+        getIgnorePrintArea: function() {
+            return (this.chIgnorePrintArea.getValue()=='checked');
         },
 
         comboRangeChange: function(combo, record) {
@@ -263,13 +278,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             if (!this.extended) {
                 this.extended = true;
                 this.panelDetails.css({'display': 'none'});
-                this.setHeight(303);
+                this.setHeight(314);
                 btn.setCaption(this.textShowDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(471);
+                this.setHeight(475);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
@@ -299,7 +314,6 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textFitCols:            'Fit All Columns on One Page',
         textFitRows:            'Fit All Rows on One Page',
         textShowDetails:        'Show Details',
-        cancelButtonText:       'Cancel',
         textHideDetails:        'Hide Details',
         textPageScaling:        'Scaling',
         textSettings:           'Sheet Settings',
@@ -308,7 +322,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textShowHeadings:       'Show Rows and Columns Headings',
         strShow:                'Show',
         btnDownload:            'Save & Download',
-        textRange:              'Range'
+        textRange:              'Range',
+        textIgnore:             'Ignore Print Area',
+        textCustomOptions:      'Custom Options'
 
     }, SSE.Views.PrintSettings || {}));
 });

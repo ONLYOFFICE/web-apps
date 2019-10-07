@@ -41,6 +41,32 @@
                                 </div>
                             </div>
                         </li>
+                        <% if (orthography) { %>
+                        <li>
+                            <a id="settings-orthography" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-spellcheck"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Проверка правописания</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <% } %>
+                        <% if(width < 360) {%>
+                        <li>
+                            <div id="settings-collaboration" class="item-content" style="display: none;">
+                                <div class="item-media">
+                                    <i class="icon icon-collaboration"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCollaboration %></div>
+                                </div>
+                            </div>
+                        </li>
+                        <% } %>
                         <li>
                             <a id="settings-document" class="item-link" data-page="#settings-document-view">
                                 <div class="item-content">
@@ -49,6 +75,18 @@
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textDocumentSettings %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="settings-advanced" class="item-link" data-page="#settings-advanced-view">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-app-settings"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textAdvancedSettings %></div>
                                     </div>
                                 </div>
                             </a>
@@ -73,6 +111,18 @@
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title"><%= scope.textDownload %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="settings-print" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-print"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title"><%= scope.textPrint %></div>
                                     </div>
                                 </div>
                             </a>
@@ -167,9 +217,9 @@
                     </ul>
                 </div>
                 <div class="content-block-title"><%= scope.textFormat %></div>
-                <div class="list-block media-list">
+                <div class="list-block">
                     <ul>
-                        <li>
+                        <li class="media-item">
                             <a id="settings-document-format" class="item-link item-content" data-page="#settings-document-formats-view">
                                 <div class="item-inner">
                                     <div class="item-title-row">
@@ -179,7 +229,29 @@
                                 </div>
                             </a>
                         </li>
-                    </ul>
+                        <li>
+                            <a id="margin-settings" class="item-link item-content" data-page="#margins-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textMargins %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                   </ul>
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <a id="color-schemes" class="item-link item-content" data-page="#color-schemes-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textColorSchemes %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                   </ul>
                 </div>
             </div>
         </div>
@@ -230,22 +302,32 @@
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textAuthor %></div>
-                <div class="list-block">
+                <div class="content-block-title display-owner"><%= scope.textOwner %></div>
+                <div class="list-block display-owner">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-autor" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-document-owner" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="content-block-title"><%= scope.textCreateDate %></div>
-                <div class="list-block">
+                <div class="content-block-title display-location"><%= scope.textLocation %></div>
+                <div class="list-block display-location">
                     <ul>
                         <li class="item-content">
                             <div class="item-inner">
-                                <div id="settings-document-date" class="item-title"><%= scope.textLoading %></div>
+                                <div id="settings-doc-location" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-uploaded"><%= scope.textUploaded %></div>
+                <div class="list-block display-uploaded">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-uploaded" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
@@ -281,6 +363,87 @@
                             <div class="item-inner">
                                 <div class="item-title"><%= scope.textSpaces %></div>
                                 <div class="item-after" id="statistic-spaces">0</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-block-title display-title"><%= scope.textTitle %></div>
+                <div class="list-block display-title">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-title" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-subject"><%= scope.textSubject %></div>
+                <div class="list-block display-subject">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-subject" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-comment"><%= scope.textComment %></div>
+                <div class="list-block display-comment">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-comment" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-last-mode"><%= scope.textLastModified %></div>
+                <div class="list-block display-last-mode">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-last-mod" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-mode-by"><%= scope.textLastModifiedBy %></div>
+                <div class="list-block display-mode-by">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-mod-by" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-created-date"><%= scope.textCreated %></div>
+                <div class="list-block display-created-date">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-date" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-application"><%= scope.textApplication %></div>
+                <div class="list-block display-application">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-application" class="item-title"><%= scope.textLoading %></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title display-author"><%= scope.textAuthor %></div>
+                <div class="list-block display-author">
+                    <ul id="list-creator">
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div id="settings-doc-author" class="item-title"><%= scope.textLoading %></div>
                             </div>
                         </li>
                     </ul>
@@ -333,6 +496,18 @@
                             </a>
                         </li>
                         <li>
+                            <a data-format="2305" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-pdfa"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">PDF/A</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
                             <a data-format="69" class="item-link no-indicator">
                                 <div class="item-content">
                                     <div class="item-media">
@@ -340,6 +515,18 @@
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">TXT</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="68" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-rtf"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">RTF</div>
                                     </div>
                                 </div>
                             </a>
@@ -364,6 +551,30 @@
                                     </div>
                                     <div class="item-inner">
                                         <div class="item-title">HTML</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="76" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-dotx"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">DOTX</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-format="79" class="item-link no-indicator">
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon icon-format-ott"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">OTT</div>
                                     </div>
                                 </div>
                             </a>
@@ -422,21 +633,242 @@
                 </div>
                 <div class="content-block">
                     <h3>DOCUMENT EDITOR</h3>
-                    <h3><%= scope.textVersion %> {{PRODUCT_VERSION}}</h3>
+                    <h3><%= scope.textVersion %> <%= prodversion %></h3>
                 </div>
                 <div class="content-block">
-                    <h3 id="settings-about-name" class="vendor">Ascensio System SIA</h3>
-                    <p><label><%= scope.textAddress %>:</label><a id="settings-about-address" class="external" href="#">Lubanas st. 125a-25, Riga, Latvia, EU, LV-1021</a></p>
-                    <p><label><%= scope.textEmail %>:</label><a id="settings-about-email" class="external" target="_blank" href="mailto:support@onlyoffice.com">support@onlyoffice.com</a></p>
-                    <p><label><%= scope.textTel %>:</label><a id="settings-about-tel" class="external" target="_blank" href="tel:+371 660-16425">+371 660-16425</a></p>
-                    <p><a id="settings-about-url" class="external" target="_blank" href="http://www.onlyoffice.com">www.onlyoffice.com</a></p>
+                    <h3 id="settings-about-name" class="vendor"><%= publishername %></h3>
+                    <p><label><%= scope.textAddress %>:</label><a id="settings-about-address" class="external" href="#"><%= publisheraddr %></a></p>
+                    <p><label><%= scope.textEmail %>:</label><a id="settings-about-email" class="external" target="_blank" href="mailto:<%= supportemail %>"><%= supportemail %></a></p>
+                    <p><label><%= scope.textTel %>:</label><a id="settings-about-tel" class="external" target="_blank" href="tel:<%= phonenum %>"><%= phonenum %></a></p>
+                    <p><a id="settings-about-url" class="external" target="_blank" href="<%= publisherurl %>"><%= printed_url %></a></p>
                     <p><label id="settings-about-info" style="display: none;"></label></p>
                 </div>
                 <div class="content-block" id="settings-about-licensor" style="display: none;">
-                    <div class="content-block-inner" style="padding-top:0; padding-bottom: 1px;"/>
+                    <div class="content-block-inner" style="padding-top:0; padding-bottom: 1px;"></div>
                     <p><label><%= scope.textPoweredBy %></label></p>
-                    <h3 class="vendor">Ascensio System SIA</h3>
-                    <p><a class="external" target="_blank" href="http://www.onlyoffice.com">www.onlyoffice.com</a></p>
+                    <h3 class="vendor"><%= publishername %></h3>
+                    <p><a class="external" target="_blank" href="<%= publisherurl %>"><%= printed_url %></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Advanced Settings view -->
+<div id="settings-advanced-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textAdvancedSettings %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="settings-advanced-view">
+            <div class="page-content">
+
+                <div class="content-block-title"><%= scope.textUnitOfMeasurement %></div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="unit-of-measurement" value="0">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textCentimeter %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="unit-of-measurement" value="1">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textPoint %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="label-radio item-content">
+                                <input type="radio" name="unit-of-measurement" value="2">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textInch %></div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="list-block">
+                    <ul>
+                        <div id="settings-spellcheck" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textSpellcheck %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="list-block">
+                    <ul>
+                        <div id="settings-no-characters" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textNoCharacters %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="settings-hidden-borders" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textHiddenTableBorders %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="content-block-title display-view"><%= scope.textCommentingDisplay %></div>
+                <div class="list-block display-view">
+                    <ul>
+                        <div id="settings-display-comments" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDisplayComments %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="settings-display-resolved" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textDisplayResolvedComments %></div>
+                                <div class="item-after">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Color schemes view -->
+<div id="color-schemes-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textColorSchemes %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="color-schemes-view">
+            <div class="page-content">
+                <div id="color-schemes-content" class="list-block">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Margin settings view -->
+<div id="margins-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textMargins %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page" data-page="margins-view">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li id="document-margin-top">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textTop %></div>
+                                    <div class="item-after splitter">
+                                        <% if (!android) { %><label></label><% } %>
+                                        <p class="buttons-row">
+                                            <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                            <% if (android) { %><label></label><% } %>
+                                            <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="document-margin-bottom">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textBottom %></div>
+                                    <div class="item-after splitter">
+                                        <% if (!android) { %><label></label><% } %>
+                                        <p class="buttons-row">
+                                            <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                            <% if (android) { %><label></label><% } %>
+                                            <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="document-margin-left">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textLeft %></div>
+                                    <div class="item-after splitter">
+                                        <% if (!android) { %><label></label><% } %>
+                                        <p class="buttons-row">
+                                            <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                            <% if (android) { %><label></label><% } %>
+                                            <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="document-margin-right">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textRight %></div>
+                                    <div class="item-after splitter">
+                                        <% if (!android) { %><label></label><% } %>
+                                        <p class="buttons-row">
+                                            <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                            <% if (android) { %><label></label><% } %>
+                                            <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

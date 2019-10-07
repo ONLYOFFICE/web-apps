@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -69,15 +69,10 @@ define([
                 Common.Utils.String.format(this.pageIndexText, model.get('current'), model.get('count')) );
         }
 
-        function _clickLanguage(menu, item, state) {
+        function _clickLanguage(menu, item) {
             var $parent = menu.$el.parent();
-
             $parent.find('#status-label-lang').text(item.caption);
-            $parent.find('.dropdown-toggle > .icon.lang-flag')
-                .removeClass(this.langMenu.prevTip)
-                .addClass(item.value.tip);
-
-            this.langMenu.prevTip = item.value.tip;
+            this.langMenu.prevTip = item.value.value;
 
             this.fireEvent('langchanged', [this, item.value.code, item.caption]);
         }
@@ -235,36 +230,36 @@ define([
                 );
 
                 this.btnPreview = new Common.UI.Button({
-                    el: $('#status-btn-preview',this.el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'btn-preview',
                     hint: this.tipPreview,
-                    hintAnchor: 'top'
-                });
-
-                this.btnDocLanguage = new Common.UI.Button({
-                    el: $('#btn-doc-lang',this.el),
-                    hint: this.tipSetDocLang,
                     hintAnchor: 'top',
-                    disabled: true
+                    split: true,
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'bl-tl',
+                        style: 'margin-top:-5px;',
+                        items: [
+                            {caption: this.textShowBegin, value: 0},
+                            {caption: this.textShowCurrent, value: 1},
+                            {caption: this.textShowPresenterView, value: 2}
+                        ]
+                    })
                 });
-
-                this.btnSetSpelling = new Common.UI.Button({
-                    el: $('#btn-doc-spell',this.el),
-                    enableToggle: true,
-                    hint: this.tipSetSpelling,
-                    hintAnchor: 'top'
-                });
+                this.btnPreview.render($('#slot-status-btn-preview'));
 
                 var panelLang = $('.cnt-lang',this.el);
-                this.langMenu = new Common.UI.Menu({
+                this.langMenu = new Common.UI.MenuSimple({
+                    cls: 'lang-menu',
                     style: 'margin-top:-5px;',
-                    maxHeight: 300,
+                    restoreHeight: 285,
                     itemTemplate: _.template([
-                        '<a id="<%= id %>" tabindex="-1" type="menuitem">',
-                            '<i class="icon lang-flag <%= iconCls %>"></i>',
-                            '<%= caption %>',
+                        '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
+                        '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                        '<%= caption %>',
                         '</a>'
                     ].join('')),
-                    menuAlign: 'bl-tl'
+                    menuAlign: 'bl-tl',
+                    search: true
                 });
 
                 this.btnLanguage = new Common.UI.Button({
@@ -333,54 +328,47 @@ define([
             },
 
             reloadLanguages: function(array) {
-                this.langMenu.removeAll();
+                var arr = [],
+                    saved = this.langMenu.saved;
                 _.each(array, function(item) {
-                    this.langMenu.addItem({
-                        iconCls     : item['tip'],
-                        caption     : item['title'],
-                        value       : {tip: item['tip'], code: item['code']},
+                    arr.push({
+                        caption     : item['displayValue'],
+                        value       : {value: item['value'], code: item['code']},
                         checkable   : true,
-                        checked     : this.langMenu.saved == item.title,
-                        toggleGroup : 'language'
+                        checked     : saved == item['displayValue'],
+                        spellcheck  : item['spellcheck']
                     });
-                }, this);
-
-                this.langMenu.doLayout();
+                });
+                this.langMenu.resetItems(arr);
                 if (this.langMenu.items.length>0) {
                     this.btnLanguage.setDisabled(false || this._state.no_paragraph);
-                    this.btnDocLanguage.setDisabled(!!this.mode.isDisconnected);
                 }
             },
 
             setLanguage: function(info) {
-                if (this.langMenu.prevTip != info.tip && info.code !== undefined) {
+                if (this.langMenu.prevTip != info.value && info.code !== undefined) {
                     var $parent = $(this.langMenu.el.parentNode, this.$el);
-                    $parent.find('.dropdown-toggle > .icon.lang-flag')
-                        .removeClass(this.langMenu.prevTip)
-                        .addClass(info.tip);
+                    $parent.find('#status-label-lang').text(info.displayValue);
 
-                    this.langMenu.prevTip = info.tip;
-
-                    $parent.find('#status-label-lang').text(info.title);
-
-                    var index = $parent.find('ul li a:contains("'+info.title+'")').parent().index();
-                    if (index < 0) {
-                        this.langMenu.saved = info.title;
+                    this.langMenu.prevTip = info.value;
+                    var lang = _.find(this.langMenu.items, function(item) { return item.caption == info.displayValue; });
+                    if (lang) {
+                        this.langMenu.setChecked(this.langMenu.items.indexOf(lang), true);
+                    } else {
+                        this.langMenu.saved = info.displayValue;
                         this.langMenu.clearAll();
-                    } else
-                        this.langMenu.items[index-1].setChecked(true);
+                    }
                 }
             },
 
             SetDisabled: function(disable) {
                 var langs = this.langMenu.items.length>0;
                 this.btnLanguage.setDisabled(disable || !langs || this._state.no_paragraph);
-                this.btnDocLanguage.setDisabled(disable || !langs);
                 this.mode.isEdit = !disable;
             },
 
             onApiFocusObject: function(selectedObjects) {
-                if (!this.mode.isEdit) return;
+                if (!this.mode || !this.mode.isEdit) return;
 
                 this._state.no_paragraph = true;
                 var i = -1;
@@ -412,8 +400,9 @@ define([
             tipPreview      : 'Start Slideshow',
             tipAccessRights : 'Manage document access rights',
             tipSetLang      : 'Set Text Language',
-            tipSetDocLang   : 'Set Document Language',
-            tipSetSpelling  : 'Spell checking'
+            textShowBegin: 'Show from Beginning',
+            textShowCurrent: 'Show from Current slide',
+            textShowPresenterView: 'Show presenter view'
         }, PE.Views.Statusbar || {}));
     }
 );

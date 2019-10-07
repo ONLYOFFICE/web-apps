@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -40,10 +40,30 @@
  *
  */
 
+var c_paragraphLinerule = {
+    LINERULE_AUTO: 1,
+    LINERULE_EXACT: 2
+};
+
+var c_paragraphTextAlignment = {
+    RIGHT: 0,
+    LEFT: 1,
+    CENTERED: 2,
+    JUSTIFIED: 3
+};
+
+var c_paragraphSpecial = {
+    NONE_SPECIAL: 0,
+    FIRST_LINE: 1,
+    HANGING: 2
+};
+
 define([
     'core',
     'common/main/lib/util/utils',
+    'common/main/lib/util/Shortcuts',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/OpenDialog',
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
@@ -74,7 +94,9 @@ define([
                 row_column: {
                     ttHeight: 20
                 },
-                filter: {ttHeight: 40}
+                filter: {ttHeight: 40},
+                func_arg: {},
+                input_msg: {}
             };
             me.mouse = {};
             me.popupmenu = false;
@@ -119,6 +141,7 @@ define([
             $(document).on('mousedown',     _.bind(me.onDocumentRightDown, me));
             $(document).on('mouseup',       _.bind(me.onDocumentRightUp, me));
             $(document).on('keydown',       _.bind(me.onDocumentKeyDown, me));
+            $(document).on('mousemove',     _.bind(me.onDocumentMouseMove, me));
             $(window).on('resize',          _.bind(me.onDocumentResize, me));
             var viewport = SSE.getController('Viewport').getView('Viewport');
             viewport.hlayout.on('layout:resizedrag', _.bind(me.onDocumentResize, me));
@@ -155,6 +178,9 @@ define([
                 view.pmiTextCut.on('click',                         _.bind(me.onCopyPaste, me));
                 view.pmiTextCopy.on('click',                        _.bind(me.onCopyPaste, me));
                 view.pmiTextPaste.on('click',                       _.bind(me.onCopyPaste, me));
+                view.pmiCommonCut.on('click',                       _.bind(me.onCopyPaste, me));
+                view.pmiCommonCopy.on('click',                      _.bind(me.onCopyPaste, me));
+                view.pmiCommonPaste.on('click',                     _.bind(me.onCopyPaste, me));
                 view.pmiInsertEntire.on('click',                    _.bind(me.onInsertEntire, me));
                 view.pmiDeleteEntire.on('click',                    _.bind(me.onDeleteEntire, me));
                 view.pmiInsertCells.menu.on('item:click',           _.bind(me.onInsertCells, me));
@@ -181,7 +207,10 @@ define([
                 view.pmiAddComment.on('click',                      _.bind(me.onAddComment, me));
                 /** coauthoring end **/
                 view.pmiAddNamedRange.on('click',                   _.bind(me.onAddNamedRange, me));
-                view.imgMenu.on('item:click',                       _.bind(me.onImgMenu, me));
+                view.menuImageArrange.menu.on('item:click',         _.bind(me.onImgMenu, me));
+                view.menuImgRotate.menu.on('item:click',            _.bind(me.onImgMenu, me));
+                view.menuImgCrop.menu.on('item:click',              _.bind(me.onImgCrop, me));
+                view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
                 view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectNoneBullet, me));
@@ -215,12 +244,6 @@ define([
 
             if (documentHolderEl) {
                 documentHolderEl.on({
-                    keydown: function(e) {
-                        if (e.keyCode == e.F10 && e.shiftKey) {
-                            e.stopEvent();
-                            me.showObjectMenu(e);
-                        }
-                    },
                     mousedown: function(e) {
                         if (e.target.localName == 'canvas' && e.button != 2) {
                             Common.UI.Menu.Manager.hideAll();
@@ -283,6 +306,9 @@ define([
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
+                this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
+                this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
+                this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
             }
             return this;
         },
@@ -642,6 +668,54 @@ define([
 
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                     Common.component.Analytics.trackEvent('DocumentHolder', (item.value == 'grouping') ? 'Grouping' : 'Ungrouping');
+                } else if (item.options.type == 'rotate') {
+                    var properties = new Asc.asc_CImgProperty();
+                    properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+                    this.api.asc_setGraphicObjectProps(properties);
+
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Rotate');
+                } else if (item.options.type == 'flip') {
+                    var properties = new Asc.asc_CImgProperty();
+                    if (item.value==1)
+                        properties.asc_putFlipHInvert(true);
+                    else
+                        properties.asc_putFlipVInvert(true);
+                    this.api.asc_setGraphicObjectProps(properties);
+
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Flip');
+                }
+            }
+        },
+
+        onImgCrop: function(menu, item) {
+            if (this.api) {
+                if (item.value == 1) {
+                    this.api.asc_cropFill();
+                } else if (item.value == 2) {
+                    this.api.asc_cropFit();
+                } else {
+                    item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onImgMenuAlign: function(menu, item) {
+            if (this.api) {
+                if (item.value>-1 && item.value < 6) {
+                    this.api.asc_setSelectedDrawingObjectAlign(item.value);
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Objects Align');
+                } else if (item.value == 6) {
+                    this.api.asc_DistributeSelectedDrawingObjectHor();
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
+                } else if (item.value == 7){
+                    this.api.asc_DistributeSelectedDrawingObjectVer();
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute');
                 }
             }
         },
@@ -812,6 +886,8 @@ define([
         hideHyperlinkTip: function() {
             if (!this.tooltips.hyperlink.isHidden && this.tooltips.hyperlink.ref) {
                 this.tooltips.hyperlink.ref.hide();
+                this.tooltips.hyperlink.ref = undefined;
+                this.tooltips.hyperlink.text = '';
                 this.tooltips.hyperlink.isHidden = true;
             }
         },
@@ -864,10 +940,49 @@ define([
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
                     ];
 
-                hyperlinkTip.isHidden = false;
-                row_columnTip.isHidden = false;
-                filterTip.isHidden = false;
+                //close all tooltips
+                if (!index_hyperlink) {
+                    me.hideHyperlinkTip();
+                }
+                if (index_column===undefined && index_row===undefined) {
+                    if (!row_columnTip.isHidden && row_columnTip.ref) {
+                        row_columnTip.ref.hide();
+                        row_columnTip.ref = undefined;
+                        row_columnTip.text = '';
+                        row_columnTip.isHidden = true;
+                    }
+                }
+                if (me.permissions.isEdit || me.permissions.canViewComments) {
+                    if (!index_comments || this.popupmenu) {
+                        commentTip.moveCommentId = undefined;
+                        if (commentTip.viewCommentId != undefined) {
+                            commentTip = {};
 
+                            var commentsController = this.getApplication().getController('Common.Controllers.Comments');
+                            if (commentsController) {
+                                if (this.permissions.canCoAuthoring && this.permissions.canViewComments)
+                                    setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
+                                else
+                                    commentsController.onApiHideComment(true);
+                            }
+                        }
+                    }
+                }
+                if (me.permissions.isEdit) {
+                    if (!index_locked) {
+                        me.hideCoAuthTips();
+                    }
+                }
+                if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
+                    if (!filterTip.isHidden && filterTip.ref) {
+                        filterTip.ref.hide();
+                        filterTip.ref = undefined;
+                        filterTip.text = '';
+                        filterTip.isHidden = true;
+                    }
+                }
+
+                // show tooltips
                 /** coauthoring begin **/
                 var getUserName = function(id){
                     var usersStore = SSE.getCollection('Common.Collections.Users');
@@ -881,6 +996,11 @@ define([
                 /** coauthoring end **/
 
                 if (index_hyperlink) {
+                    if (!hyperlinkTip.parentEl) {
+                        hyperlinkTip.parentEl = $('<div id="tip-container-hyperlinktip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(hyperlinkTip.parentEl);
+                    }
+
                     var data  = dataarray[index_hyperlink-1],
                         props = data.asc_getHyperlink();
 
@@ -899,6 +1019,8 @@ define([
                     if (hyperlinkTip.ref && hyperlinkTip.ref.isVisible()) {
                         if (hyperlinkTip.text != linkstr) {
                             hyperlinkTip.ref.hide();
+                            hyperlinkTip.ref = undefined;
+                            hyperlinkTip.text = '';
                             hyperlinkTip.isHidden = true;
                         }
                     }
@@ -906,35 +1028,36 @@ define([
                     if (!hyperlinkTip.ref || !hyperlinkTip.ref.isVisible()) {
                         hyperlinkTip.text = linkstr;
                         hyperlinkTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : hyperlinkTip.parentEl,
                             html    : true,
                             title   : linkstr
-                        }).on('tooltip:hide', function(tip) {
-                            hyperlinkTip.ref = undefined;
-                            hyperlinkTip.text = '';
                         });
 
                         hyperlinkTip.ref.show([-10000, -10000]);
                         hyperlinkTip.isHidden = false;
+
+                        showPoint = [data.asc_getX(), data.asc_getY()];
+                        showPoint[0] += (pos[0] + 6);
+                        showPoint[1] += (pos[1] - 20);
+                        showPoint[1] -= hyperlinkTip.ref.getBSTip().$tip.height();
+                        var tipwidth = hyperlinkTip.ref.getBSTip().$tip.width();
+                        if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                            showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
+
+                        hyperlinkTip.ref.getBSTip().$tip.css({
+                            top : showPoint[1] + 'px',
+                            left: showPoint[0] + 'px'
+                        });
                     }
 
-                    showPoint = [data.asc_getX(), data.asc_getY()];
-                    showPoint[0] += (pos[0] + 6);
-                    showPoint[1] += (pos[1] - 20);
-                    showPoint[1] -= hyperlinkTip.ref.getBSTip().$tip.height();
-                    var tipwidth = hyperlinkTip.ref.getBSTip().$tip.width();
-                    if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
-                        showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth;
-
-                    hyperlinkTip.ref.getBSTip().$tip.css({
-                        top : showPoint[1] + 'px',
-                        left: showPoint[0] + 'px'
-                    });
-                } else {
-                    me.hideHyperlinkTip();
                 }
 
                 if (index_column!==undefined || index_row!==undefined) {
+                    if (!row_columnTip.parentEl) {
+                        row_columnTip.parentEl = $('<div id="tip-container-rowcolumntip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(row_columnTip.parentEl);
+                    }
+
                     var data  = dataarray[(index_column!==undefined) ? (index_column-1) : (index_row-1)];
                     var str = Common.Utils.String.format((index_column!==undefined) ? this.textChangeColumnWidth : this.textChangeRowHeight, data.asc_getSizeCCOrPt().toFixed(2), data.asc_getSizePx().toFixed());
                     if (row_columnTip.ref && row_columnTip.ref.isVisible()) {
@@ -948,12 +1071,9 @@ define([
                     if (!row_columnTip.ref || !row_columnTip.ref.isVisible()) {
                         row_columnTip.text = str;
                         row_columnTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : row_columnTip.parentEl,
                             html    : true,
                             title   : str
-                        }).on('tooltip:hide', function(tip) {
-                            row_columnTip.ref = undefined;
-                            row_columnTip.text = '';
                         });
 
                         row_columnTip.ref.show([-10000, -10000]);
@@ -972,14 +1092,9 @@ define([
                             left: showPoint[0] + 'px'
                         });
                     }
-                } else {
-                    if (!row_columnTip.isHidden && row_columnTip.ref) {
-                        row_columnTip.ref.hide();
-                        row_columnTip.isHidden = true;
-                    }
                 }
 
-                if (me.permissions.isEdit || me.permissions.canComments) {
+                if (me.permissions.isEdit || me.permissions.canViewComments) {
                     if (index_comments && !this.popupmenu) {
                         data = dataarray[index_comments - 1];
                         if (!commentTip.editCommentId && commentTip.moveCommentId != data.asc_getCommentIndexes()[0]) {
@@ -1006,19 +1121,6 @@ define([
                                     }
                                 }
                             }, 400);
-                        }
-                    } else {
-                        commentTip.moveCommentId = undefined;
-                        if (commentTip.viewCommentId != undefined) {
-                            commentTip = {};
-
-                            var commentsController = this.getApplication().getController('Common.Controllers.Comments');
-                            if (commentsController) {
-                                if (this.permissions.canCoAuthoring && this.permissions.canComments)
-                                    setTimeout(function() {commentsController.onApiHideComment(true);}, 200);
-                                else
-                                    commentsController.onApiHideComment(true);
-                            }
                         }
                     }
                 }
@@ -1056,7 +1158,7 @@ define([
                                 coAuthTip.y_point + coAuthTip.XY[1]
                             ];
 
-                            if (showPoint[1] > coAuthTip.XY[1] &&
+                            if (showPoint[1] >= coAuthTip.XY[1] &&
                                 showPoint[1] + coAuthTip.ttHeight < coAuthTip.XY[1] + coAuthTip.apiHeight) {
                                 src.text(getUserName(data.asc_getUserId()));
                                 if (coAuthTip.bodyWidth - showPoint[0] < coAuthTip.ref.width() ) {
@@ -1073,12 +1175,15 @@ define([
                                     });
                             }
                         }
-                    } else {
-                        me.hideCoAuthTips();
                     }
                 }
 
-                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible())) {
+                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
+                    if (!filterTip.parentEl) {
+                        filterTip.parentEl = $('<div id="tip-container-filtertip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(filterTip.parentEl);
+                    }
+
                     var data  = dataarray[index_filter-1],
                         str = me.makeFilterTip(data.asc_getFilter());
                     if (filterTip.ref && filterTip.ref.isVisible()) {
@@ -1092,13 +1197,10 @@ define([
                     if (!filterTip.ref || !filterTip.ref.isVisible()) {
                         filterTip.text = str;
                         filterTip.ref = new Common.UI.Tooltip({
-                            owner   : me.documentHolder,
+                            owner   : filterTip.parentEl,
                             html    : true,
                             title   : str,
                             cls: 'auto-tooltip'
-                        }).on('tooltip:hide', function(tip) {
-                            filterTip.ref = undefined;
-                            filterTip.text = '';
                         });
 
                         filterTip.ref.show([-10000, -10000]);
@@ -1120,11 +1222,6 @@ define([
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
-                    }
-                } else {
-                    if (!filterTip.isHidden && filterTip.ref) {
-                        filterTip.ref.hide();
-                        filterTip.isHidden = true;
                     }
                 }
             }
@@ -1160,6 +1257,8 @@ define([
             var me = this;
             if (!me.tooltips.filter.isHidden && me.tooltips.filter.ref) {
                 me.tooltips.filter.ref.hide();
+                me.tooltips.filter.ref = undefined;
+                me.tooltips.filter.text = '';
                 me.tooltips.filter.isHidden = true;
             }
             if (me.permissions.isEdit && !me.dlgFilter) {
@@ -1206,7 +1305,7 @@ define([
 
                 str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + customFilters[0].asc_getVal() + "\"";
                 if (customFilters.length>1) {
-                    str += (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
+                    str = str + " " + (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
                     str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + customFilters[1].asc_getVal() + "\"";
                 }
             } else if (filterType === Asc.c_oAscAutoFilterTypes.ColorFilter) {
@@ -1253,7 +1352,7 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + props.asc_getColumnName() + ":</b><br>" + str;
+            str = "<b>" + (props.asc_getColumnName() || '(' + this.txtColumn + ' ' + props.asc_getSheetColumnName() + ')') + ":</b><br>" + str;
             return str;
         },
 
@@ -1397,6 +1496,12 @@ define([
             (data.type == 'mouseup') && (this.mouse.isLeftButtonDown = false);
         },
 
+        onDocumentMouseMove: function(e) {
+            if (e.target.localName !== 'canvas') {
+                this.hideHyperlinkTip();
+            }
+        },
+
         showObjectMenu: function(event){
             if (this.api && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode){
                 (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
@@ -1432,10 +1537,15 @@ define([
                 case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = !internaleditor; break;
             }
 
-            if (isimagemenu || isshapemenu || ischartmenu) {
-                if (!showMenu && !documentHolder.imgMenu.isVisible()) return;
+            if (this.api.asc_getHeaderFooterMode()) {
+                if (!documentHolder.copyPasteMenu || !showMenu && !documentHolder.copyPasteMenu.isVisible()) return;
+                if (showMenu) this.showPopupMenu(documentHolder.copyPasteMenu, {}, event);
+            } else if (isimagemenu || isshapemenu || ischartmenu) {
+                if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
                 isimagemenu = isshapemenu = ischartmenu = false;
+                documentHolder.mnuImgAdvanced.imageInfo = undefined;
+
                 var has_chartprops = false,
                     signGuid;
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
@@ -1461,13 +1571,20 @@ define([
                             documentHolder.mnuImgAdvanced.imageInfo = elValue;
                             isimagemenu = true;
                         }
-                        if (this.permissions.canProtect)
+                        if (this.permissions.isSignatureSupport)
                             signGuid = elValue.asc_getSignatureId();
                     }
                 }
 
+                var cangroup = this.api.asc_canGroupGraphicsObjects();
                 documentHolder.mnuUnGroupImg.setDisabled(isObjLocked || !this.api.asc_canUnGroupGraphicsObjects());
-                documentHolder.mnuGroupImg.setDisabled(isObjLocked || !this.api.asc_canGroupGraphicsObjects());
+                documentHolder.mnuGroupImg.setDisabled(isObjLocked || !cangroup);
+                documentHolder.menuImageAlign.setDisabled(isObjLocked || !cangroup);
+
+                var objcount = this.api.asc_getSelectedDrawingObjectsCount();
+                documentHolder.menuImageAlign.menu.items[7].setDisabled(objcount<3);
+                documentHolder.menuImageAlign.menu.items[8].setDisabled(objcount<3);
+
                 documentHolder.mnuShapeAdvanced.setVisible(isshapemenu && !isimagemenu && !ischartmenu);
                 documentHolder.mnuShapeAdvanced.setDisabled(isObjLocked);
                 documentHolder.mnuChartEdit.setVisible(ischartmenu && !isimagemenu && !isshapemenu && has_chartprops);
@@ -1483,8 +1600,14 @@ define([
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
+                documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
+                documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
+                documentHolder.menuImgRotate.setDisabled(isObjLocked);
 
+                documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
+                if (documentHolder.menuImgCrop.isVisible())
+                    documentHolder.menuImgCrop.setDisabled(isObjLocked);
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
@@ -1498,7 +1621,7 @@ define([
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
             } else if (istextshapemenu || istextchartmenu) {
-                if (!showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
+                if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
                 
                 documentHolder.pmiTextAdvanced.textInfo = undefined;
 
@@ -1558,7 +1681,7 @@ define([
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
             seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText)) {
-                if (!showMenu && !documentHolder.ssMenu.isVisible()) return;
+                if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;
                 
                 var iscelledit = this.api.isCellEdited,
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
@@ -1611,14 +1734,14 @@ define([
                 documentHolder.pmiFreezePanes.setCaption(this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? documentHolder.textUnFreezePanes : documentHolder.textFreezePanes);
 
                 /** coauthoring begin **/
-                documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
-                documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments);
+                var count = cellinfo.asc_getComments().length;
+                documentHolder.ssMenu.items[17].setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
+                documentHolder.pmiAddComment.setVisible(iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && count < 1);
                 /** coauthoring end **/
                 documentHolder.pmiCellMenuSeparator.setVisible(iscellmenu && !iscelledit || isrowmenu || iscolmenu || isallmenu);
                 documentHolder.pmiEntireHide.isrowmenu = isrowmenu;
                 documentHolder.pmiEntireShow.isrowmenu = isrowmenu;
 
-                documentHolder.setMenuItemCommentCaptionMode(documentHolder.pmiAddComment, cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
                 commentsController && commentsController.blockPopover(true);
 
                 documentHolder.pmiClear.menu.items[0].setDisabled(!this.permissions.canModifyFilter);
@@ -1702,7 +1825,7 @@ define([
 
             if (!showMenu && !documentHolder.viewModeMenu.isVisible()) return;
 
-            if (isimagemenu && this.permissions.canProtect) {
+            if (isimagemenu && this.permissions.isSignatureSupport) {
                 var selectedObjects = this.api.asc_getGraphicObjectProps();
                 for (var i = 0; i < selectedObjects.length; i++) {
                     if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
@@ -1713,7 +1836,7 @@ define([
 
             var signProps = (signGuid) ? this.api.asc_getSignatureSetup(signGuid) : null,
                 isInSign = !!signProps && this._canProtect,
-                canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled;
+                canComment = iscellmenu && !iscelledit && this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled && cellinfo.asc_getComments().length < 1;
 
             documentHolder.menuViewUndo.setVisible(this.permissions.canCoAuthoring && this.permissions.canComments && !this._isDisabled);
             documentHolder.menuViewUndo.setDisabled(!this.api.asc_getCanUndo() && !this._isDisabled);
@@ -1734,7 +1857,6 @@ define([
             }
 
             documentHolder.menuViewAddComment.setVisible(canComment);
-            documentHolder.setMenuItemCommentCaptionMode(documentHolder.menuViewAddComment, cellinfo.asc_getComments().length < 1, this.permissions.canEditComments);
             commentsController && commentsController.blockPopover(true);
             documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
             if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
@@ -1845,22 +1967,37 @@ define([
         },
 
         onFormulaCompleteMenu: function(funcarr) {
+            if (!this.documentHolder.funcMenu) return;
+
             if (funcarr) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.funcMenu,
-                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection');
+                    menuContainer       = documentHolderView.cmpEl.find('#menu-formula-selection'),
+                    funcdesc = me.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"));
 
                 for (var i = 0; i < menu.items.length; i++) {
+                    var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                    if (tip)
+                        tip.hide();
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
-
+                funcarr.sort(function (a,b) {
+                    var aname = a.asc_getName(true).toLocaleUpperCase(),
+                        bname = b.asc_getName(true).toLocaleUpperCase();
+                    if (aname < bname) return -1;
+                    if (aname > bname) return 1;
+                    return 0;
+                });
                 _.each(funcarr, function(menuItem, index) {
                     var type = menuItem.asc_getType(),
+                        name = menuItem.asc_getName(true),
+                        origname = me.api.asc_getFormulaNameByLocale(name),
                         mnu = new Common.UI.MenuItem({
-                        iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
-                        caption: menuItem.asc_getName()
+                            iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
+                            caption: name,
+                            hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
                         setTimeout(function(){ me.api.asc_insertFormula(item.caption, type, false ); }, 10);
                     });
@@ -1907,6 +2044,13 @@ define([
                             Common.UI.Menu.Manager.hideAll();
                         }
                     };
+                    menu.on('hide:after', function(){
+                        for (var i = 0; i < menu.items.length; i++) {
+                            var tip = menu.items[i].cmpEl.data('bs.tooltip');
+                            if (tip)
+                                tip.hide();
+                        }
+                    });
 
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
@@ -1931,7 +2075,11 @@ define([
                         me.cellEditor.focus();
                     menu.cmpEl.toggleClass('from-cell-edit', infocus);
                     _.delay(function() {
-                        menu.cmpEl.find('li:first a').addClass('focus');
+                        var a = menu.cmpEl.find('li:first a');
+                        a.addClass('focus');
+                        var tip = a.parent().data('bs.tooltip');
+                        if (tip)
+                            tip.show();
                     }, 10);
                     if (!infocus)
                         _.delay(function() {
@@ -1943,33 +2091,153 @@ define([
             }
         },
 
+        onFormulaInfo: function(name) {
+            var functip = this.tooltips.func_arg;
+
+            if (name) {
+                if (!functip.parentEl) {
+                    functip.parentEl = $('<div id="tip-container-functip" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(functip.parentEl);
+                }
+
+                var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                    hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+
+                if (functip.ref && functip.ref.isVisible()) {
+                    if (functip.text != hint) {
+                        functip.ref.hide();
+                        functip.ref = undefined;
+                        functip.text = '';
+                        functip.isHidden = true;
+                    }
+                }
+
+                if (!hint) return;
+
+                if (!functip.ref || !functip.ref.isVisible()) {
+                    functip.text = hint;
+                    functip.ref = new Common.UI.Tooltip({
+                        owner   : functip.parentEl,
+                        html    : true,
+                        title   : hint,
+                        cls: 'auto-tooltip'
+                    });
+
+                    functip.ref.show([-10000, -10000]);
+                    functip.isHidden = false;
+                }
+
+                var pos = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    ],
+                    coord  = this.api.asc_getActiveCellCoord(),
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                var tipwidth = functip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+
+                functip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            } else {
+                if (!functip.isHidden && functip.ref) {
+                    functip.ref.hide();
+                    functip.ref = undefined;
+                    functip.text = '';
+                    functip.isHidden = true;
+                }
+            }
+        },
+
+        onInputMessage: function(title, message) {
+            var inputtip = this.tooltips.input_msg;
+
+            if (message) {
+                if (!inputtip.parentEl) {
+                    inputtip.parentEl = $('<div id="tip-container-inputtip" style="position: absolute; z-index: 10000;"></div>');
+                    this.documentHolder.cmpEl.append(inputtip.parentEl);
+                }
+
+                var hint = title ? ('<b>' + (title || '') + '</b><br>') : '';
+                hint += (message || '');
+
+                if (inputtip.ref && inputtip.ref.isVisible()) {
+                    if (inputtip.text != hint) {
+                        inputtip.ref.hide();
+                        inputtip.ref = undefined;
+                        inputtip.text = '';
+                        inputtip.isHidden = true;
+                    }
+                }
+
+                if (!inputtip.ref || !inputtip.ref.isVisible()) {
+                    inputtip.text = hint;
+                    inputtip.ref = new Common.UI.Tooltip({
+                        owner   : inputtip.parentEl,
+                        html    : true,
+                        title   : hint
+                    });
+
+                    inputtip.ref.show([-10000, -10000]);
+                    inputtip.isHidden = false;
+                }
+
+                var pos = [
+                        this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                        this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    ],
+                    coord  = this.api.asc_getActiveCellCoord(),
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputtip.ref.getBSTip().$tip.height() - 5];
+                var tipwidth = inputtip.ref.getBSTip().$tip.width();
+                if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )
+                    showPoint[0] = this.tooltips.coauth.bodyWidth - tipwidth;
+
+                inputtip.ref.getBSTip().$tip.css({
+                    top : showPoint[1] + 'px',
+                    left: showPoint[0] + 'px'
+                });
+            } else {
+                if (!inputtip.isHidden && inputtip.ref) {
+                    inputtip.ref.hide();
+                    inputtip.ref = undefined;
+                    inputtip.text = '';
+                    inputtip.isHidden = true;
+                }
+            }
+        },
+
         onShowSpecialPasteOptions: function(specialPasteShowOptions) {
             var me                  = this,
                 documentHolderView  = me.documentHolder,
                 coord  = specialPasteShowOptions.asc_getCellCoord(),
                 pasteContainer = documentHolderView.cmpEl.find('#special-paste-container'),
                 pasteItems = specialPasteShowOptions.asc_getOptions();
+            if (!pasteItems) return;
 
             // Prepare menu container
             if (pasteContainer.length < 1) {
                 me._arrSpecialPaste = [];
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.txtPaste;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = me.txtPasteFormulas;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = me.txtPasteFormulaNumFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = me.txtPasteKeepSourceFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = me.txtPasteBorders;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = me.txtPasteColWidths;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = me.txtPasteMerge;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = me.txtPasteValues;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = me.txtPasteValNumFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = me.txtPasteValFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = me.txtPasteFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = me.txtPasteTranspose;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = me.txtPasteLink;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = me.txtPastePicture;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = me.txtPasteLinkPicture;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
-                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = me.txtPasteDestFormat;
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = [me.txtPaste, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = [me.txtPasteFormulas, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaNumberFormat] = [me.txtPasteFormulaNumFormat, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaAllFormatting] = [me.txtPasteKeepSourceFormat, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = [me.txtPasteBorders, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.formulaColumnWidth] = [me.txtPasteColWidths, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.mergeConditionalFormating] = [me.txtPasteMerge, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.transpose] = [me.txtPasteTranspose, 0];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyValues] = [me.txtPasteValues, 1];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueNumberFormat] = [me.txtPasteValNumFormat, 1];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.valueAllFormating] = [me.txtPasteValFormat, 1];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = [me.txtPasteFormat, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.link] = [me.txtPasteLink, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.picture] = [me.txtPastePicture, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.linkedPicture] = [me.txtPasteLinkPicture, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = [me.txtPasteSourceFormat, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.destinationFormatting] = [me.txtPasteDestFormat, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = [me.txtKeepTextOnly, 2];
+                me._arrSpecialPaste[Asc.c_oSpecialPasteProps.useTextImport] = [me.txtUseTextImport, 3];
 
                 pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
                 documentHolderView.cmpEl.append(pasteContainer);
@@ -1988,28 +2256,78 @@ define([
                     menu.removeItem(menu.items[i]);
                     i--;
                 }
+                var groups = [];
+                for (var i = 0; i < 3; i++) {
+                    groups[i] = [];
+                }
 
-                var group_prev = -1;
+                var importText;
                 _.each(pasteItems, function(menuItem, index) {
-                    var group = (menuItem<7) ? 0 : (menuItem>9 ? 2 : 1);
-                    if (group_prev !== group && group_prev>=0)
-                        menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
-                    group_prev = group;
+                    if (menuItem == Asc.c_oSpecialPasteProps.useTextImport) {
+                        importText = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem][0],
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup : 'specialPasteGroup'
+                        }).on('click', function(item, e) {
+                            (new Common.Views.OpenDialog({
+                                title: me.txtImportWizard,
+                                closable: true,
+                                type: Common.Utils.importTextType.Paste,
+                                preview: true,
+                                api: me.api,
+                                handler: function (result, encoding, delimiter, delimiterChar) {
+                                    if (result == 'ok') {
+                                        if (me && me.api) {
+                                            var props = new Asc.SpecialPasteProps();
+                                            props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
+                                            props.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
+                                            me.api.asc_SpecialPaste(props);
+                                        }
+                                        me._state.lastSpecPasteChecked = item;
+                                    } else {
+                                        item.setChecked(false, true);
+                                        me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
+                                    }
+                                }
+                            })).show();
+                            setTimeout(function(){menu.hide();}, 100);
+                        });
+                    } else {
+                        var mnu = new Common.UI.MenuItem({
+                            caption: me._arrSpecialPaste[menuItem][0],
+                            value: menuItem,
+                            checkable: true,
+                            toggleGroup : 'specialPasteGroup'
+                        }).on('click', function(item, e) {
+                            me._state.lastSpecPasteChecked = item;
 
-                    var mnu = new Common.UI.MenuItem({
-                        caption: me._arrSpecialPaste[menuItem],
-                        value: menuItem,
-                        checkable: true,
-                        toggleGroup : 'specialPasteGroup'
-                    }).on('click', function(item, e) {
-                        var props = new Asc.SpecialPasteProps();
-                        props.asc_setProps(item.value);
-                        me.api.asc_SpecialPaste(props);
-                        setTimeout(function(){menu.hide();}, 100);
-                    });
-                    menu.addItem(mnu);
+                            var props = new Asc.SpecialPasteProps();
+                            props.asc_setProps(item.value);
+                            me.api.asc_SpecialPaste(props);
+                            setTimeout(function(){menu.hide();}, 100);
+                        });
+                        groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                    }
                 });
+                var newgroup = false;
+                for (var i = 0; i < 3; i++) {
+                    if (newgroup && groups[i].length>0) {
+                        menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                        newgroup = false;
+                    }
+                    _.each(groups[i], function(menuItem, index) {
+                        menu.addItem(menuItem);
+                        newgroup = true;
+                    });
+                }
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
+                me._state.lastSpecPasteChecked = (menu.items.length>0) ? menu.items[0] : null;
+
+                if (importText) {
+                    menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                    menu.addItem(importText);
+                }
             }
 
             if ( coord[0].asc_getX()<0 || coord[0].asc_getY()<0) {
@@ -2028,7 +2346,7 @@ define([
 
 
             if (right > width) {
-                showPoint[0] = leftTop.asc_getX();
+                showPoint[0] = (leftTop!==undefined) ? leftTop.asc_getX() : (width-btnSize[0]-3); // leftTop is undefined when paste to text box
                 if (bottom > height)
                     showPoint[0] -= (btnSize[0]+3);
                 if (showPoint[0]<0) showPoint[0] = width - 3 - btnSize[0];
@@ -2122,6 +2440,10 @@ define([
 
         onLockDefNameManager: function(state) {
             this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
+        },
+
+        onChangeCropState: function(state) {
+            this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
         initEquationMenu: function() {
@@ -2782,6 +3104,7 @@ define([
                 var properties = new Asc.asc_CImgProperty();
                 properties.asc_putWidth(w);
                 properties.asc_putHeight(h);
+                properties.put_ResetCrop(true);
                 this.api.asc_setGraphicObjectProps(properties);
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
@@ -2878,7 +3201,7 @@ define([
         },
 
         guestText               : 'Guest',
-        textCtrlClick           : 'Press CTRL and click link',
+        textCtrlClick           : 'Click the link to open it or click and hold the mouse button to select the cell.',
         txtHeight               : 'Height',
         txtWidth                : 'Width',
         tipIsLocked             : 'This element is being edited by another user.',
@@ -2993,6 +3316,8 @@ define([
         txtPasteLinkPicture: 'Linked Picture',
         txtPasteSourceFormat: 'Source formatting',
         txtPasteDestFormat: 'Destination formatting',
+        txtKeepTextOnly: 'Keep text only',
+        txtUseTextImport: 'Use text import wizard',
         txtUndoExpansion: 'Undo table autoexpansion',
         txtRedoExpansion: 'Redo table autoexpansion',
         txtAnd: 'and',
@@ -3018,7 +3343,9 @@ define([
         txtEqualsToCellColor: 'Equals to cell color',
         txtEqualsToFontColor: 'Equals to font color',
         txtAll: '(All)',
-        txtBlanks: '(Blanks)'
+        txtBlanks: '(Blanks)',
+        txtColumn: 'Column',
+        txtImportWizard: 'Text Import Wizard'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

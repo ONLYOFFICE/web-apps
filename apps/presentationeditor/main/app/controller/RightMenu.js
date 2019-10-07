@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -135,6 +135,7 @@ define([
                     this._settings[settingsType].lockedBackground = value.get_LockBackground();
                     this._settings[settingsType].lockedEffects = value.get_LockTranzition();
                     this._settings[settingsType].lockedTiming = value.get_LockTiming();
+                    this._settings[settingsType].lockedHeader = !!value.get_LockHeader && value.get_LockHeader();
                 } else {
                     this._settings[settingsType].locked = value.get_Locked();
                     if (settingsType == Common.Utils.documentSettingsType.Shape && value.asc_getTextArtProperties()) {
@@ -178,7 +179,8 @@ define([
                         if (pnl.locked!==undefined)
                             this.rightmenu.slideSettings.SetSlideDisabled(this._state.no_slides || pnl.lockedBackground || pnl.locked,
                                                                           this._state.no_slides || pnl.lockedEffects || pnl.locked,
-                                                                          this._state.no_slides || pnl.lockedTiming || pnl.locked);
+                                                                          this._state.no_slides || pnl.lockedTiming || pnl.locked,
+                                                                          this._state.no_slides || pnl.lockedHeader || pnl.locked);
                     } else
                         pnl.panel.setLocked(pnl.locked);
                 }
@@ -214,7 +216,7 @@ define([
         SetDisabled: function(disabled, allowSignature) {
             this.setMode({isEdit: !disabled});
             if (this.rightmenu) {
-                this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled, disabled);
+                this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled, disabled, disabled);
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
                 this.rightmenu.textartSettings.disableControls(disabled);
@@ -276,18 +278,14 @@ define([
             this.rightmenu.tableSettings.updateMetricUnit();
         },
 
-        fillTextArt:  function() {
-            this.rightmenu.textartSettings.fillTextArt();
-        },
-
         createDelayedElements: function() {
             if (this.editMode && this.api) {
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
 
-                this.rightmenu.shapeSettings.createDelayedElements();
+                // this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
-                    this.onFocusObject(selectedElements, !Common.localStorage.getBool("pe-hide-right-settings"));
+                    this.onFocusObject(selectedElements, !Common.localStorage.getBool("pe-hide-right-settings", this.rightmenu.defaultHideRightMenu));
                 }
             }
         },

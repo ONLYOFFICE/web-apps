@@ -1,0 +1,21 @@
+{
+  "common.view.modals.txtHeight": "高さ",
+  "common.view.modals.txtWidth": "幅",
+  "SSE.ApplicationController.convertationErrorText": "変換に失敗しました",
+  "SSE.ApplicationController.convertationTimeoutText": "変換のタイムアウトを超過しました。",
+  "SSE.ApplicationController.criticalErrorTitle": "エラー",
+  "SSE.ApplicationController.downloadErrorText": "ダウンロードに失敗しました",
+  "SSE.ApplicationController.downloadTextText": "スプレッドシートのダウンロード中...",
+  "SSE.ApplicationController.errorDefaultMessage": "エラー コード: %1",
+  "SSE.ApplicationController.errorFilePassProtect": "ドキュメントがパスワードで保護されているため開くことができません",
+  "SSE.ApplicationController.errorUserDrop": "今、ファイルにアクセスすることはできません。",
+  "SSE.ApplicationController.notcriticalErrorTitle": "警告",
+  "SSE.ApplicationController.textLoadingDocument": "スプレッドシートの読み込み中",
+  "SSE.ApplicationController.textOf": "から",
+  "SSE.ApplicationController.txtClose": "閉じる",
+  "SSE.ApplicationController.unknownErrorText": "不明なエラー",
+  "SSE.ApplicationController.unsupportedBrowserErrorText": "お使いのブラウザがサポートされていません。",
+  "SSE.ApplicationView.txtDownload": "ダウンロード",
+  "SSE.ApplicationView.txtFullScreen": "全画面表示",
+  "SSE.ApplicationView.txtShare": "シェア"
+}

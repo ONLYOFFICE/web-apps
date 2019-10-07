@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -54,6 +54,7 @@ define([
         var _stack = [],
             _paragraphInfo = {},
             _paragraphObject = undefined,
+            _paragraphProperty = undefined,
             _styles = [],
             _styleThumbSize,
             _styleName,
@@ -113,6 +114,7 @@ define([
 
                 $('#paragraph-distance-before .button').single('click',          _.bind(me.onDistanceBefore, me));
                 $('#paragraph-distance-after .button').single('click',           _.bind(me.onDistanceAfter, me));
+                $('#paragraph-spin-first-line .button').single('click',          _.bind(me.onSpinFirstLine, me));
                 $('#paragraph-space input:checkbox').single('change',            _.bind(me.onSpaceBetween, me));
                 $('#paragraph-page-break input:checkbox').single('change',       _.bind(me.onBreakBefore, me));
                 $('#paragraph-page-orphan input:checkbox').single('change',      _.bind(me.onOrphan, me));
@@ -127,11 +129,32 @@ define([
             initSettings: function () {
                 var me = this;
 
+                metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && _.isArray(selectedElements)) {
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                            _paragraphProperty = selectedElements[i].get_ObjectValue(); 
+                            break;
+                        }
+                    }
+                }
+
+                if (_paragraphProperty) {
+                    if (_paragraphProperty.get_Ind()===null || _paragraphProperty.get_Ind()===undefined) {
+                        _paragraphProperty.get_Ind().put_FirstLine(0);
+                    }
+                    var firstLineFix = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_paragraphProperty.get_Ind().get_FirstLine()).toFixed(2));
+                    $('#paragraph-spin-first-line .item-after label').text(firstLineFix + ' ' + metricText);
+                }
+
                 if (_paragraphObject) {
                     _paragraphInfo.spaceBefore = _paragraphObject.get_Spacing().get_Before() < 0 ? _paragraphObject.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_Before());
                     _paragraphInfo.spaceAfter  = _paragraphObject.get_Spacing().get_After() < 0 ? _paragraphObject.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_After());
-                    $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : _paragraphInfo.spaceBefore + ' ' + metricText);
-                    $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : _paragraphInfo.spaceAfter + ' ' + metricText);
+                    var distanceBeforeFix = parseFloat(_paragraphInfo.spaceBefore.toFixed(2));
+                    var distanceAfterFix = parseFloat(_paragraphInfo.spaceAfter.toFixed(2));
+                    $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : distanceBeforeFix + ' ' + metricText);
+                    $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : distanceAfterFix + ' ' + metricText);
 
                     $('#paragraph-space input:checkbox').prop('checked', _paragraphObject.get_ContextualSpacing());
                     $('#paragraph-page-break input:checkbox').prop('checked', _paragraphObject.get_PageBreakBefore());
@@ -212,36 +235,98 @@ define([
 
             onDistanceBefore: function (e) {
                 var $button = $(e.currentTarget),
-                    distance = _paragraphInfo.spaceBefore;
+                    distance = _paragraphInfo.spaceBefore,
+                    step,
+                    maxValue;
+
+                if (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.01;
+                }
+
+                maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
 
                 if ($button.hasClass('decrement')) {
-                    distance = Math.max(-1, --distance);
+                    distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(100, ++distance);
+                    distance = Math.min(maxValue, distance + step);
                 }
+
+                var distanceFix = parseFloat(distance.toFixed(2));
 
                 _paragraphInfo.spaceBefore = distance;
 
-                $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : (_paragraphInfo.spaceBefore) + ' ' + metricText);
+                $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : distanceFix + ' ' + metricText);
 
                 this.api.put_LineSpacingBeforeAfter(0, (_paragraphInfo.spaceBefore < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceBefore));
             },
 
             onDistanceAfter: function (e) {
                 var $button = $(e.currentTarget),
-                    distance = _paragraphInfo.spaceAfter;
+                    distance = _paragraphInfo.spaceAfter,
+                    step,
+                    maxValue;
+
+                if (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.01;
+                }
+
+                maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
 
                 if ($button.hasClass('decrement')) {
-                    distance = Math.max(-1, --distance);
+                    distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(100, ++distance);
+                    distance = Math.min(maxValue, distance + step);
                 }
+
+                var distanceFix = parseFloat(distance.toFixed(2));
 
                 _paragraphInfo.spaceAfter = distance;
 
-                $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : (_paragraphInfo.spaceAfter) + ' ' + metricText);
-
+                $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : distanceFix + ' ' + metricText);
                 this.api.put_LineSpacingBeforeAfter(1, (_paragraphInfo.spaceAfter < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceAfter));
+            },
+
+            onSpinFirstLine: function(e) {
+                var $button = $(e.currentTarget),
+                    distance = _paragraphProperty.get_Ind().get_FirstLine(),
+                    step,
+                    minValue,
+                    maxValue;
+
+                distance = Common.Utils.Metric.fnRecalcFromMM(distance);
+
+                if (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.1;
+                }
+
+                minValue = Common.Utils.Metric.fnRecalcFromMM(-558.7);
+                maxValue = Common.Utils.Metric.fnRecalcFromMM(558.7);
+
+                if ($button.hasClass('decrement')) {
+                    distance = Math.max(minValue, distance - step);
+                } else {
+                    distance = Math.min(maxValue, distance + step);
+                }
+
+                var distanceFix = parseFloat(distance.toFixed(2));
+
+                $('#paragraph-spin-first-line .item-after label').text(distanceFix + ' ' + metricText);
+
+                distance = Common.Utils.Metric.fnRecalcToMM(distance);
+
+                var newParagraphProp = new Asc.asc_CParagraphProperty();
+
+                _paragraphProperty.get_Ind().put_FirstLine(distance);
+
+                newParagraphProp.get_Ind().put_FirstLine(distance);
+
+                this.api.paraApply(newParagraphProp);
             },
 
             onSpaceBetween: function (e) {

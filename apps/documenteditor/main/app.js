@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -169,44 +169,46 @@ require([
         ]
     });
 
-    Common.Locale.apply();
-
-    require([
-        'documenteditor/main/app/controller/Viewport',
-        'documenteditor/main/app/controller/DocumentHolder',
-        'documenteditor/main/app/controller/Toolbar',
-        'documenteditor/main/app/controller/Statusbar',
-        'documenteditor/main/app/controller/Links',
-        'documenteditor/main/app/controller/Navigation',
-        'documenteditor/main/app/controller/RightMenu',
-        'documenteditor/main/app/controller/LeftMenu',
-        'documenteditor/main/app/controller/Main',
-        'documenteditor/main/app/view/FileMenuPanels',
-        'documenteditor/main/app/view/ParagraphSettings',
-        'documenteditor/main/app/view/HeaderFooterSettings',
-        'documenteditor/main/app/view/ImageSettings',
-        'documenteditor/main/app/view/TableSettings',
-        'documenteditor/main/app/view/ShapeSettings',
-        'documenteditor/main/app/view/TextArtSettings',
-        'documenteditor/main/app/view/SignatureSettings',
-        'common/main/lib/util/utils',
-        'common/main/lib/util/LocalStorage',
-        'common/main/lib/controller/Fonts',
-        'common/main/lib/controller/History'
-        /** coauthoring begin **/
-        ,'common/main/lib/controller/Comments'
-        ,'common/main/lib/controller/Chat'
-        /** coauthoring end **/
-        ,'common/main/lib/controller/Plugins'
-        ,'documenteditor/main/app/view/ChartSettings'
-        ,'common/main/lib/controller/ExternalDiagramEditor'
-        ,'common/main/lib/controller/ExternalMergeEditor'
-        ,'common/main/lib/controller/ReviewChanges'
-        ,'common/main/lib/controller/Protection'
-        ,'common/main/lib/controller/Desktop'
-    ], function() {
-        app.start();
-    });
+    Common.Locale.apply(
+        function() {
+            require([
+                'documenteditor/main/app/controller/Viewport',
+                'documenteditor/main/app/controller/DocumentHolder',
+                'documenteditor/main/app/controller/Toolbar',
+                'documenteditor/main/app/controller/Statusbar',
+                'documenteditor/main/app/controller/Links',
+                'documenteditor/main/app/controller/Navigation',
+                'documenteditor/main/app/controller/RightMenu',
+                'documenteditor/main/app/controller/LeftMenu',
+                'documenteditor/main/app/controller/Main',
+                'documenteditor/main/app/view/FileMenuPanels',
+                'documenteditor/main/app/view/ParagraphSettings',
+                'documenteditor/main/app/view/HeaderFooterSettings',
+                'documenteditor/main/app/view/ImageSettings',
+                'documenteditor/main/app/view/TableSettings',
+                'documenteditor/main/app/view/ShapeSettings',
+                'documenteditor/main/app/view/TextArtSettings',
+                'documenteditor/main/app/view/SignatureSettings',
+                'common/main/lib/util/utils',
+                'common/main/lib/util/LocalStorage',
+                'common/main/lib/controller/Fonts',
+                'common/main/lib/controller/History'
+                /** coauthoring begin **/
+                ,'common/main/lib/controller/Comments'
+                ,'common/main/lib/controller/Chat'
+                /** coauthoring end **/
+                ,'common/main/lib/controller/Plugins'
+                ,'documenteditor/main/app/view/ChartSettings'
+                ,'common/main/lib/controller/ExternalDiagramEditor'
+                ,'common/main/lib/controller/ExternalMergeEditor'
+                ,'common/main/lib/controller/ReviewChanges'
+                ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/Desktop'
+            ], function() {
+                app.start();
+            });
+        }
+    );
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {
         reqerr = window.requireTimeourError();

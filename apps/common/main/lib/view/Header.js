@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -54,6 +54,7 @@ define([
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers;
         var $saveStatus;
+        var _readonlyRights = false;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -73,7 +74,7 @@ define([
 
         var templateRightBox = '<section>' +
                             '<section id="box-doc-name">' +
-                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
+                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                             '</section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
@@ -99,6 +100,7 @@ define([
                                 '</section>'+
                             '</div>' +
                             '<div class="hedset">' +
+                                '<div class="btn-slot" id="slot-btn-undock"></div>' +
                                 '<div class="btn-slot" id="slot-btn-back"></div>' +
                                 '<div class="btn-slot" id="slot-btn-options"></div>' +
                             '</div>' +
@@ -109,6 +111,7 @@ define([
                             '</section>';
 
         var templateTitleBox = '<section id="box-document-title">' +
+                                '<div class="extra"></div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
@@ -116,27 +119,26 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator"></div>' +
-                                '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
+                                '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                                 '<label id="title-user-name" style="pointer-events: none;"></label>' +
                             '</section>';
 
         function onResetUsers(collection, opts) {
             var usercount = collection.getEditingCount();
             if ( $userList ) {
-                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.canComments) {
+                if ( usercount > 1 || usercount > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit) {
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
                         fnEncode: Common.Utils.String.htmlEncode
                     }));
 
-                    if (!$userList.scroller)
-                        $userList.scroller = new Common.UI.Scroller({
-                            el: $userList.find('ul'),
-                            useKeyboard: true,
-                            minScrollbarLength: 40,
-                            alwaysVisibleY: true
-                        });
+                    $userList.scroller = new Common.UI.Scroller({
+                        el: $userList.find('ul'),
+                        useKeyboard: true,
+                        minScrollbarLength: 40,
+                        alwaysVisibleY: true
+                    });
                     $userList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
                 } else {
                     $userList.empty();
@@ -151,7 +153,9 @@ define([
         };
 
         function applyUsers(count, originalCount) {
-            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.canComments; // has other user(s) who edit document
+            if (!$btnUsers) return;
+
+            var has_edit_users = count > 1 || count > 0 && appConfig && !appConfig.isEdit && !appConfig.isRestrictedEdit; // has other user(s) who edit document
             if ( has_edit_users ) {
                 $btnUsers
                     .attr('data-toggle', 'dropdown')
@@ -165,7 +169,7 @@ define([
                     .removeClass('dropdown-toggle')
                     .menu = false;
 
-                $panelUsers[(appConfig && !appConfig.isReviewOnly && appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length) ? 'show' : 'hide']();
+                $panelUsers[(!_readonlyRights && appConfig && !appConfig.isReviewOnly && appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length) ? 'show' : 'hide']();
             }
 
             $btnUsers.find('.caption')
@@ -180,20 +184,24 @@ define([
             }
         }
 
+        function onLostEditRights() {
+            _readonlyRights = true;
+            $panelUsers.find('#tlb-change-rights').hide();
+            $btnUsers && !$btnUsers.menu && $panelUsers.hide();
+        }
+
         function onUsersClick(e) {
             if ( !$btnUsers.menu ) {
                 $panelUsers.removeClass('open');
                 this.fireEvent('click:users', this);
+            } else {
+                var usertip = $btnUsers.data('bs.tooltip');
+                if ( usertip ) {
+                    if ( usertip.dontShow===undefined)
+                        usertip.dontShow = true;
 
-                return false;
-            }
-
-            var usertip = $btnUsers.data('bs.tooltip');
-            if ( usertip ) {
-                if ( usertip.dontShow===undefined)
-                    usertip.dontShow = true;
-
-                usertip.hide();
+                    usertip.hide();
+                }
             }
         }
 
@@ -209,11 +217,12 @@ define([
 
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
-                    var _url = !!me.branding && !!me.branding.logo && !!me.branding.logo.url ?
-                        me.branding.logo.url : 'http://www.onlyoffice.com';
-
-                    var newDocumentPage = window.open(_url);
-                    newDocumentPage && newDocumentPage.focus();
+                    var _url = !!me.branding && !!me.branding.logo && (me.branding.logo.url!==undefined) ?
+                        me.branding.logo.url : '{{PUBLISHER_URL}}';
+                    if (_url) {
+                        var newDocumentPage = window.open(_url);
+                        newDocumentPage && newDocumentPage.focus();
+                    }
                 });
 
             onResetUsers(storeUsers);
@@ -227,7 +236,7 @@ define([
 
             var editingUsers = storeUsers.getEditingCount();
             $btnUsers.tooltip({
-                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.canComments) ? me.tipViewUsers : me.tipAccessRights,
+                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
                 titleNorm: me.tipAccessRights,
                 titleExt: me.tipViewUsers,
                 placement: 'bottom',
@@ -243,7 +252,7 @@ define([
             });
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
-            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.canComments || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
 
             if ( $saveStatus ) {
                 $saveStatus.attr('data-width', me.textSaveExpander);
@@ -304,6 +313,24 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
+        function onAppConfig(config) {
+            var me = this;
+            if ( config.canUndock ) {
+                me.btnUndock = new Common.UI.Button({
+                    cls: 'btn-header no-caret',
+                    iconCls: 'svgicon svg-btn-undock',
+                    hint: me.tipUndock,
+                    split: true
+                });
+
+                me.btnUndock.on('click', function (e) {
+                    Common.NotificationCenter.trigger('action:undocking', 'undock');
+                });
+
+                me.btnUndock.render($('#toolbar .box-tabs #slot-btn-undock'));
+            }
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
 
@@ -335,6 +362,13 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
+            }
+        }
+
+        function onAppUndocked(c) {
+            var me = this;
+            if ( me.btnUndock ) {
+                c.status == 'undocked' ? me.btnUndock.hide() : me.btnUndock.show();
             }
         }
 
@@ -385,12 +419,13 @@ define([
 
                 me.mnuZoom = {options: {value: 100}};
 
-                Common.NotificationCenter.on('app:ready', function(mode) {
-                    Common.Utils.asyncCall(onAppReady, me, mode);
+                Common.NotificationCenter.on({
+                    'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
+                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
+                    'app:config' : function (c) {Common.Utils.asyncCall(onAppConfig, me, c);},
+                    'undock:status': onAppUndocked.bind(this)
                 });
-                Common.NotificationCenter.on('app:face', function(mode) {
-                    Common.Utils.asyncCall(onAppShowed, me, mode);
-                });
+                Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
             },
 
             render: function (el, role) {
@@ -417,6 +452,7 @@ define([
                     if (this.branding && this.branding.logo && this.branding.logo.image && this.logo) {
                         this.logo.html('<img src="' + this.branding.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                         this.logo.css({'background-image': 'none', width: 'auto'});
+                        (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
                     }
 
                     return $html;
@@ -456,13 +492,13 @@ define([
 
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
-                            this.btnDownload = createTitleButton('svg-btn-download', $html.find('#slot-hbtn-download'));
+                            this.btnDownload = createTitleButton('svg-btn-download', $html.findById('#slot-hbtn-download'));
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('svg-btn-print', $html.find('#slot-hbtn-print'));
+                            this.btnPrint = createTitleButton('svg-btn-print', $html.findById('#slot-hbtn-print'));
 
                         if ( config.canEdit && config.canRequestEditRights )
-                            this.btnEdit = createTitleButton('svg-btn-edit', $html.find('#slot-hbtn-edit'));
+                            this.btnEdit = createTitleButton('svg-btn-edit', $html.findById('#slot-hbtn-edit'));
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
@@ -486,12 +522,12 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html));
+                        me.btnPrint = createTitleButton('svg-btn-print', $html.findById('#slot-btn-dt-print'), true);
                     }
 
-                    me.btnSave = createTitleButton('svg-btn-save', $('#slot-btn-dt-save', $html), true);
-                    me.btnUndo = createTitleButton('svg-btn-undo', $('#slot-btn-dt-undo', $html), true);
-                    me.btnRedo = createTitleButton('svg-btn-redo', $('#slot-btn-dt-redo', $html), true);
+                    me.btnSave = createTitleButton('svg-btn-save', $html.findById('#slot-btn-dt-save'), true);
+                    me.btnUndo = createTitleButton('svg-btn-undo', $html.findById('#slot-btn-dt-undo'), true);
+                    me.btnRedo = createTitleButton('svg-btn-redo', $html.findById('#slot-btn-dt-redo'), true);
 
                     if ( me.btnSave.$icon.is('svg') ) {
                         me.btnSave.$icon.addClass('icon-save');
@@ -527,6 +563,7 @@ define([
                         if (element) {
                             element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                             element.css({'background-image': 'none', width: 'auto'});
+                            (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                         }
                     }
                 }
@@ -645,7 +682,7 @@ define([
                         $btnUsers.addClass('disabled').attr('disabled', 'disabled'); else
                         $btnUsers.removeClass('disabled').attr('disabled', '');
                 } else {
-                    function _lockButton(btn) {
+                    var _lockButton = function (btn) {
                         if ( btn ) {
                             if ( lock ) {
                                 btn.keepState = {
@@ -657,7 +694,7 @@ define([
                                 delete btn.keepState;
                             }
                         }
-                    }
+                    };
 
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
@@ -692,6 +729,7 @@ define([
             tipSave: 'Save',
             tipUndo: 'Undo',
             tipRedo: 'Redo',
+            tipUndock: 'Undock',
             textCompactView: 'Hide Toolbar',
             textHideStatusBar: 'Hide Status Bar',
             textHideLines: 'Hide Rulers',

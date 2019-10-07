@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -123,6 +123,7 @@ require([
         nameSpace: 'SSE',
         autoCreate: false,
         controllers : [
+            'Common.Controllers.Plugins',
             'Editor',
             'Toolbar',
             'Search',
@@ -144,10 +145,10 @@ require([
             ,'AddShape'
             ,'AddOther'
             ,'AddLink'
+            ,'FilterOptions'
+            ,'Common.Controllers.Collaboration'
         ]
     });
-
-    Common.Locale.apply();
 
     var device = Framework7.prototype.device;
     var loadPlatformCss = function (filename, opt){
@@ -164,7 +165,7 @@ require([
     //Store Framework7 initialized instance for easy access
     window.uiApp = new Framework7({
         // Default title for modals
-        modalTitle: 'ONLYOFFICE',
+        modalTitle: '{{APP_TITLE_TEXT}}',
 
         // Enable tap hold events
         tapHold: true,
@@ -190,32 +191,37 @@ require([
     //Load platform styles
     loadPlatformCss('resources/css/app-' + (device.android ? 'material' : 'ios') + '.css');
 
-    require([
-        'common/main/lib/util/LocalStorage',
-        'common/main/lib/util/utils',
-        'spreadsheeteditor/mobile/app/controller/Editor',
-        'spreadsheeteditor/mobile/app/controller/Toolbar',
-        'spreadsheeteditor/mobile/app/controller/Search',
-        'spreadsheeteditor/mobile/app/controller/Main',
-        'spreadsheeteditor/mobile/app/controller/DocumentHolder'
-        ,'spreadsheeteditor/mobile/app/controller/CellEditor'
-        ,'spreadsheeteditor/mobile/app/controller/Statusbar'
-        ,'spreadsheeteditor/mobile/app/controller/Settings'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditCell'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditText'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditImage'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditShape'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditChart'
-        ,'spreadsheeteditor/mobile/app/controller/edit/EditHyperlink'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddContainer'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddChart'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddFunction'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
-        ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
-    ], function() {
-        app.start();
+    Common.Locale.apply(function(){
+        require([
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/util/utils',
+            'common/mobile/lib/controller/Plugins',
+            'spreadsheeteditor/mobile/app/controller/Editor',
+            'spreadsheeteditor/mobile/app/controller/Toolbar',
+            'spreadsheeteditor/mobile/app/controller/Search',
+            'spreadsheeteditor/mobile/app/controller/Main',
+            'spreadsheeteditor/mobile/app/controller/DocumentHolder'
+            ,'spreadsheeteditor/mobile/app/controller/CellEditor'
+            ,'spreadsheeteditor/mobile/app/controller/Statusbar'
+            ,'spreadsheeteditor/mobile/app/controller/Settings'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditContainer'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditCell'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditText'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditImage'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditShape'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditChart'
+            ,'spreadsheeteditor/mobile/app/controller/edit/EditHyperlink'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddContainer'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddChart'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddFunction'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddShape'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddOther'
+            ,'spreadsheeteditor/mobile/app/controller/add/AddLink'
+            ,'spreadsheeteditor/mobile/app/controller/FilterOptions'
+            ,'common/mobile/lib/controller/Collaboration'
+        ], function() {
+            app.start();
+        });
     });
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {

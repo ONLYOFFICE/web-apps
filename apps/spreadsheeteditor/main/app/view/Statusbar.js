@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -201,13 +201,6 @@ define([
                 var menuHiddenItems = new Common.UI.Menu({
                     maxHeight: 260,
                     menuAlign: 'tl-tr'
-                }).on('render:after', function(mnu) {
-                    this.scroller = new Common.UI.Scroller({
-                        el: $(this.el).find('.dropdown-menu '),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        minScrollbarLength  : 40,
-                        alwaysVisibleY: true
-                    });
                 }).on('show:after', function () {
                     this.scroller.update({alwaysVisibleY: true});
                 });
@@ -276,6 +269,8 @@ define([
                 this.labelSum = $('#status-math-sum', this.boxMath);
                 this.labelCount = $('#status-math-count', this.boxMath);
                 this.labelAverage = $('#status-math-average', this.boxMath);
+                this.labelMin = $('#status-math-min', this.boxMath);
+                this.labelMax = $('#status-math-max', this.boxMath);
                 this.boxMath.hide();
 
                 this.boxFiltered = $('#status-filtered-box', this.el);
@@ -358,7 +353,7 @@ define([
 
                     me.fireEvent('sheet:changed', [me, sindex]);
                     me.fireEvent('sheet:updateColors', [true]);
-                    Common.NotificationCenter.trigger('comments:updatefilter', {property: 'uid', value: new RegExp('^(doc_|sheet' + me.api.asc_getActiveWorksheetId() + '_)')}, false);
+                    Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()], false);
                 }
             },
 
@@ -366,6 +361,8 @@ define([
                 if (info.count>1) {
                     if (!this.boxMath.is(':visible')) this.boxMath.show();
                     this.labelCount.text(this.textCount + ': ' + info.count);
+                    this.labelMin.text((info.min && info.min.length) ? (this.textMin + ': ' + info.min) : '');
+                    this.labelMax.text((info.max && info.max.length) ? (this.textMax + ': ' + info.max) : '');
                     this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum) : '');
                     this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
                 } else {
@@ -409,13 +406,7 @@ define([
                 this.fireEvent('sheet:changed', [this, tab.sheetindex]);
                 this.fireEvent('sheet:updateColors', [true]);
 
-                Common.NotificationCenter.trigger('comments:updatefilter',
-                    {
-                        property: 'uid',
-                        value: new RegExp('^(doc_|sheet' + this.api.asc_getActiveWorksheetId() + '_)')
-                    },
-                    false //  hide popover
-                );
+                // Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false); //  hide popover
             },
 
             onTabMenu: function (o, index, tab) {
@@ -550,6 +541,8 @@ define([
             textSum             : 'SUM',
             textCount           : 'COUNT',
             textAverage         : 'AVERAGE',
+            textMin             : 'MIN',
+            textMax             : 'MAX',
             filteredRecordsText : '{0} of {1} records filtered',
             filteredText        : 'Filter mode'
         }, SSE.Views.Statusbar || {}));
@@ -558,7 +551,9 @@ define([
             options: {
                 header: false,
                 width: 280,
-                cls: 'modal-dlg'
+                cls: 'modal-dlg',
+                buttons: ['ok', 'cancel'],
+                footerCls: 'right'
             },
 
             template:   '<div class="box">' +
@@ -566,16 +561,11 @@ define([
                                 '<label><%= label %></label>' +
                             '</div>' +
                             '<div class="input-row" id="txt-sheet-name" />' +
-                        '</div>' +
-                        '<div class="footer right">' +
-                            '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;"><%= btns.ok %></button>'+
-                            '<button class="btn normal dlg-btn" result="cancel"><%= btns.cancel %></button>'+
                         '</div>',
 
             initialize : function(options) {
                 _.extend(this.options, options || {}, {
-                    label: this.labelSheetName,
-                    btns: {ok: this.okButtonText, cancel: this.cancelButtonText}
+                    label: this.labelSheetName
                 });
                 this.options.tpl = _.template(this.template)(this.options);
 
@@ -591,15 +581,11 @@ define([
                 this.txtName = new Common.UI.InputField({
                     el: $window.find('#txt-sheet-name'),
                     style: 'width:100%;',
-                    value: this.options.current,
+                    value: Common.Utils.String.htmlEncode(this.options.current),
                     allowBlank: false,
                     maxLength: 31,
                     validation: _.bind(this.nameValidator, this)
                 });
-
-                if (this.txtName) {
-                    this.txtName.$el.on('keypress', 'input[type=text]', _.bind(this.onNameKeyPress, this));
-                }
             },
 
             show: function(x,y) {
@@ -632,10 +618,9 @@ define([
                 this.close();
             },
 
-            onNameKeyPress: function(e) {
-                if (e.keyCode == Common.UI.Keys.RETURN) {
-                    this.doClose('ok');
-                }
+            onPrimary: function(e) {
+                this.doClose('ok');
+                return false;
             },
 
             nameValidator: function(value) {
@@ -675,7 +660,9 @@ define([
             options: {
                 width: 270,
                 height: 300,
-                cls: 'modal-dlg'
+                cls: 'modal-dlg',
+                buttons: ['ok', 'cancel'],
+                footerCls: 'right'
             },
 
             template:   '<div class="box">' +
@@ -683,16 +670,11 @@ define([
                                 '<label><%= label %></label>' +
                             '</div>' +
                             '<div id="status-list-names" style="height: 170px;"/>' +
-                        '</div>' +
-                        '<div class="footer center">' +
-                            '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;"><%= btns.ok %></button>'+
-                            '<button class="btn normal dlg-btn" result="cancel"><%= btns.cancel %></button>'+
                         '</div>',
 
             initialize : function(options) {
                 _.extend(this.options, options || {}, {
-                    label: options.ismove ? this.textMoveBefore : this.textCopyBefore,
-                    btns: {ok: this.okButtonText, cancel: this.cancelButtonText}
+                    label: options.ismove ? this.textMoveBefore : this.textCopyBefore
                 });
                 this.options.tpl = _.template(this.template)(this.options);
 
@@ -750,7 +732,7 @@ define([
 
                 if (this.options.handler) {
                     this.options.handler.call(this,
-                        event.currentTarget.attributes['result'].value, active[0].get('inindex'));
+                        event.currentTarget.attributes['result'].value, active.get('inindex'));
                 }
 
                 this.close();
@@ -758,7 +740,7 @@ define([
 
             onPrimary: function() {
                 if (this.options.handler) {
-                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec()[0].get('inindex'));
+                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec().get('inindex'));
                 }
 
                 this.close();

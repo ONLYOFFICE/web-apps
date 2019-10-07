@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -99,14 +99,6 @@ define([
             var me = this;
 
             if ( me.appConfig.canReview ) {
-                this.btnPrev.on('click', function (e) {
-                    me.fireEvent('reviewchange:preview', [me.btnPrev, 'prev']);
-                });
-
-                this.btnNext.on('click', function (e) {
-                    me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
-                });
-
                 this.btnAccept.on('click', function (e) {
                     me.fireEvent('reviewchange:accept', [me.btnAccept, 'current']);
                 });
@@ -126,8 +118,17 @@ define([
                 this.btnsTurnReview.forEach(function (button) {
                     button.on('click', _click_turnpreview.bind(me));
                 });
+            }
+            if (this.appConfig.canViewReview) {
+                this.btnPrev.on('click', function (e) {
+                    me.fireEvent('reviewchange:preview', [me.btnPrev, 'prev']);
+                });
 
-                this.btnReviewView.menu.on('item:click', function (menu, item, e) {
+                this.btnNext.on('click', function (e) {
+                    me.fireEvent('reviewchange:preview', [me.btnNext, 'next']);
+                });
+
+                this.btnReviewView && this.btnReviewView.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('reviewchanges:view', [menu, item]);
                 });
             }
@@ -173,18 +174,6 @@ define([
                 this.appConfig = options.mode;
 
                 if ( this.appConfig.canReview ) {
-                    this.btnPrev = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'review-prev',
-                        caption: this.txtPrev
-                    });
-
-                    this.btnNext = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'review-next',
-                        caption: this.txtNext
-                    });
-
                     this.btnAccept = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtAccept,
@@ -206,13 +195,63 @@ define([
                         enableToggle: true
                     });
                     this.btnsTurnReview = [this.btnTurnOn];
-
-                    this.btnReviewView = new Common.UI.Button({
+                }
+                if (this.appConfig.canViewReview) {
+                    this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-reviewview',
-                        caption: this.txtView,
-                        menu: true
+                        iconCls: 'review-prev',
+                        caption: this.txtPrev
                     });
+
+                    this.btnNext = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'review-next',
+                        caption: this.txtNext
+                    });
+
+                    if (!this.appConfig.isRestrictedEdit) {// hide Display mode option for fillForms and commenting mode
+                        var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><%= caption %></div>' +
+                            '<% if (options.description !== null) { %><label style="display: block;color: #a5a5a5;cursor: pointer;white-space: normal;"><%= options.description %></label>' +
+                            '<% } %></a>');
+
+                        this.btnReviewView = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'btn-ic-reviewview',
+                            caption: this.txtView,
+                            menu: new Common.UI.Menu({
+                                cls: 'ppm-toolbar',
+                                items: [
+                                    {
+                                        caption: this.txtMarkupCap,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: true,
+                                        value: 'markup',
+                                        template: menuTemplate,
+                                        description: this.txtMarkup
+                                    },
+                                    {
+                                        caption: this.txtFinalCap,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: false,
+                                        template: menuTemplate,
+                                        description: this.txtFinal,
+                                        value: 'final'
+                                    },
+                                    {
+                                        caption: this.txtOriginalCap,
+                                        checkable: true,
+                                        toggleGroup: 'menuReviewView',
+                                        checked: false,
+                                        template: menuTemplate,
+                                        description: this.txtOriginal,
+                                        value: 'original'
+                                    }
+                                ]
+                            })
+                        });
+                    }
                 }
 
                 if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && this._readonlyRights!==true) {
@@ -223,7 +262,7 @@ define([
                     });
                 }
 
-                if (!this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
+                if (this.appConfig.isEdit && !this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
                     this.btnCoAuthMode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-coedit',
@@ -275,8 +314,6 @@ define([
                         '<% } %></a>');
 
                     if ( config.canReview ) {
-                        me.btnPrev.updateHint(me.hintPrev);
-                        me.btnNext.updateHint(me.hintNext);
                         me.btnTurnOn.updateHint(me.tipReview);
 
                         me.btnAccept.setMenu(
@@ -311,45 +348,15 @@ define([
                         );
                         me.btnReject.updateHint([me.tipRejectCurrent, me.txtRejectChanges]);
 
-                        me.btnReviewView.setMenu(
-                            new Common.UI.Menu({
-                                cls: 'ppm-toolbar',
-                                items: [
-                                    {
-                                        caption: me.txtMarkupCap,
-                                        checkable: true,
-                                        toggleGroup: 'menuReviewView',
-                                        checked: true,
-                                        value: 'markup',
-                                        template: menuTemplate,
-                                        description: me.txtMarkup
-                                    },
-                                    {
-                                        caption: me.txtFinalCap,
-                                        checkable: true,
-                                        toggleGroup: 'menuReviewView',
-                                        checked: false,
-                                        template: menuTemplate,
-                                        description: me.txtFinal,
-                                        value: 'final'
-                                    },
-                                    {
-                                        caption: me.txtOriginalCap,
-                                        checkable: true,
-                                        toggleGroup: 'menuReviewView',
-                                        checked: false,
-                                        template: menuTemplate,
-                                        description: me.txtOriginal,
-                                        value: 'original'
-                                    }
-                                ]
-                            }));
-                        me.btnReviewView.updateHint(me.tipReviewView);
-
                         me.btnAccept.setDisabled(config.isReviewOnly);
                         me.btnReject.setDisabled(config.isReviewOnly);
                     }
+                    if (me.appConfig.canViewReview) {
+                        me.btnPrev.updateHint(me.hintPrev);
+                        me.btnNext.updateHint(me.hintNext);
 
+                        me.btnReviewView && me.btnReviewView.updateHint(me.tipReviewView);
+                    }
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
                     me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
                     me.btnChat && me.btnChat.updateHint(me.txtChat + Common.Utils.String.platformKey('Alt+Q'));
@@ -392,7 +399,7 @@ define([
 
                     var separator_sharing = !(me.btnSharing || me.btnCoAuthMode) ? me.$el.find('.separator.sharing') : '.separator.sharing',
                         separator_comments = !(config.canComments && config.canCoAuthoring) ? me.$el.find('.separator.comments') : '.separator.comments',
-                        separator_review = !config.canReview ? me.$el.find('.separator.review') : '.separator.review',
+                        separator_review = !(config.canReview || config.canViewReview) ? me.$el.find('.separator.review') : '.separator.review',
                         separator_chat = !me.btnChat ? me.$el.find('.separator.chat') : '.separator.chat',
                         separator_last;
 
@@ -419,7 +426,7 @@ define([
                     if (!me.btnHistory && separator_last)
                         me.$el.find(separator_last).hide();
 
-                    Common.NotificationCenter.trigger('tab:visible', 'review', true);
+                    Common.NotificationCenter.trigger('tab:visible', 'review', config.isEdit || config.canViewReview);
 
                     setEvents.call(me);
                 });
@@ -429,13 +436,13 @@ define([
                 this.$el = $(_.template(template)( {} ));
 
                 if ( this.appConfig.canReview ) {
-                    this.btnPrev.render(this.$el.find('#btn-change-prev'));
-                    this.btnNext.render(this.$el.find('#btn-change-next'));
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
-                    this.btnReviewView.render(this.$el.find('#btn-review-view'));
                 }
+                this.btnPrev && this.btnPrev.render(this.$el.find('#btn-change-prev'));
+                this.btnNext && this.btnNext.render(this.$el.find('#btn-change-next'));
+                this.btnReviewView && this.btnReviewView.render(this.$el.find('#btn-review-view'));
 
                 this.btnSharing && this.btnSharing.render(this.$el.find('#slot-btn-sharing'));
                 this.btnCoAuthMode && this.btnCoAuthMode.render(this.$el.find('#slot-btn-coauthmode'));
@@ -527,6 +534,14 @@ define([
 
             turnChat: function (state) {
                 this.btnChat && this.btnChat.toggle(state, true);
+            },
+
+            turnDisplayMode: function(mode) {
+                if (this.btnReviewView) {
+                    this.btnReviewView.menu.items[0].setChecked(mode=='markup', true);
+                    this.btnReviewView.menu.items[1].setChecked(mode=='final', true);
+                    this.btnReviewView.menu.items[2].setChecked(mode=='original', true);
+                }
             },
 
             SetDisabled: function (state, langs) {

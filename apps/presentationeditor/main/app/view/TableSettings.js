@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -443,7 +443,7 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec()[0],true);
+                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
                         else
                             this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
                     }
@@ -604,13 +604,14 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -681,19 +682,28 @@ define([
             if (count>0 && count==Templates.length) {
                 var data = self.cmbTableTemplate.menuPicker.store.models;
                 _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.get_Image());
+                    data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
-                self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
+                    var tip = template.asc_getDisplayName();
+                    if (template.asc_getType()==0) {
+                        ['No Style', 'No Grid', 'Table Grid', 'Themed Style', 'Light Style', 'Medium Style', 'Dark Style', 'Accent'].forEach(function(item){
+                            var str = 'txtTable_' + item.replace(' ', '');
+                            if (self[str])
+                                tip = tip.replace(new RegExp(item, 'g'), self[str]);
+                        });
+
+                    }
                     arr.push({
-                        imageUrl: template.get_Image(),
+                        imageUrl: template.asc_getImage(),
                         id     : Common.UI.getId(),
-                        templateId: template.get_Id()
+                        templateId: template.asc_getId(),
+                        tip    : tip
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.add(arr);
+                self.cmbTableTemplate.menuPicker.store.reset(arr);
             }
         },
 
@@ -789,7 +799,15 @@ define([
         textHeight: 'Height',
         textWidth: 'Width',
         textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns'
+        textDistributeCols: 'Distribute columns',
+        txtTable_NoStyle: 'No Style',
+        txtTable_NoGrid: 'No Grid',
+        txtTable_TableGrid: 'Table Grid',
+        txtTable_ThemedStyle: 'Themed Style',
+        txtTable_LightStyle: 'Light Style',
+        txtTable_MediumStyle: 'Medium Style',
+        txtTable_DarkStyle: 'Dark Style',
+        txtTable_Accent: 'Accent'
 
-    }, PE.Views.TableSettings || {}));
+}, PE.Views.TableSettings || {}));
 });

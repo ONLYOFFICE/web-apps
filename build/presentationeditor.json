@@ -151,7 +151,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/resources/help/",
-                    "src": ["**","!*_/**"],
+                    "src": [
+                        "**",
+                        "!*_/**"
+                    ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/"
                 }
             ],
@@ -159,6 +162,10 @@
                 {
                     "src": "../apps/presentationeditor/main/index.html.deploy",
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/index.html"
+                },
+                {
+                    "src": "../apps/presentationeditor/main/index_loader.html.deploy",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/index_loader.html"
                 }
             ]
         },
@@ -335,7 +342,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html.deploy"
+                "../deploy/web-apps/apps/presentationeditor/mobile/index.html": "../apps/presentationeditor/mobile/index.html.deploy",
+                "../deploy/web-apps/apps/presentationeditor/mobile/index_loader.html": "../apps/presentationeditor/mobile/index_loader.html.deploy"
             },
             "localization": [
                 {
@@ -374,6 +382,7 @@
         },
         "js": {
             "src": [
+                "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
                 "../apps/common/embed/lib/util/utils.js",
@@ -392,6 +401,14 @@
             }
         },
         "copy": {
+            "localization": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/embed/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/embed/locale/"
+                }
+            ],
             "index-page": {
                 "../deploy/web-apps/apps/presentationeditor/embed/index.html": "../apps/presentationeditor/embed/index.html.deploy"
             },

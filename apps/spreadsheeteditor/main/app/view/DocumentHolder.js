@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -605,6 +605,143 @@ define([
                 })
             });
 
+            me.menuImgCrop = new Common.UI.MenuItem({
+                caption     : me.textCrop,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value  : 0
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFill,
+                            value  : 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFit,
+                            value  : 2
+                        })
+                    ]
+                })
+            });
+
+            me.mnuBringToFront = new Common.UI.MenuItem({
+                caption : this.textArrangeFront,
+                iconCls : 'mnu-arrange-front',
+                type    : 'arrange',
+                value   : Asc.c_oAscDrawingLayerType.BringToFront
+            });
+            me.mnuSendToBack = new Common.UI.MenuItem({
+                caption : this.textArrangeBack,
+                iconCls : 'mnu-arrange-back',
+                type    : 'arrange',
+                value   : Asc.c_oAscDrawingLayerType.SendToBack
+            });
+            me.mnuBringForward = new Common.UI.MenuItem({
+                caption : this.textArrangeForward,
+                iconCls : 'mnu-arrange-forward',
+                type    : 'arrange',
+                value   : Asc.c_oAscDrawingLayerType.BringForward
+            });
+            me.mnuSendBackward = new Common.UI.MenuItem({
+                caption: this.textArrangeBackward,
+                iconCls : 'mnu-arrange-backward',
+                type    : 'arrange',
+                value   : Asc.c_oAscDrawingLayerType.SendBackward
+            });
+
+            me.menuImageArrange = new Common.UI.MenuItem({
+                caption : me.textArrange,
+                menu    : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        me.mnuBringToFront,
+                        me.mnuSendToBack,
+                        me.mnuBringForward,
+                        me.mnuSendBackward,
+                        { caption: '--' },
+                        me.mnuGroupImg,
+                        me.mnuUnGroupImg
+                    ]
+                })
+            });
+
+            me.menuImageAlign = new Common.UI.MenuItem({
+                caption     : me.textAlign,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [{
+                        caption : me.textShapeAlignLeft,
+                        iconCls : 'mnu-img-align-left',
+                        value   : 0
+                    }, {
+                        caption : me.textShapeAlignCenter,
+                        iconCls : 'mnu-img-align-center',
+                        value   : 4
+                    }, {
+                        caption : me.textShapeAlignRight,
+                        iconCls : 'mnu-img-align-right',
+                        value   : 1
+                    }, {
+                        caption : me.textShapeAlignTop,
+                        iconCls : 'mnu-img-align-top',
+                        value   : 3
+                    }, {
+                        caption : me.textShapeAlignMiddle,
+                        iconCls : 'mnu-img-align-middle',
+                        value   : 5
+                    }, {
+                        caption : me.textShapeAlignBottom,
+                        iconCls : 'mnu-img-align-bottom',
+                        value   : 2
+                    },
+                    {caption: '--'},
+                    {
+                        caption: me.txtDistribHor,
+                        iconCls: 'mnu-distrib-hor',
+                        value: 6
+                    },
+                    {
+                        caption: me.txtDistribVert,
+                        iconCls: 'mnu-distrib-vert',
+                        value: 7
+                    }]
+                })
+            });
+
+            me.menuImgRotate = new Common.UI.MenuItem({
+                caption     : me.textRotate,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate90,
+                            type   : 'rotate',
+                            value  : 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textRotate270,
+                            type   : 'rotate',
+                            value  : 0
+                        }),
+                        { caption: '--' },
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipH,
+                            type   : 'flip',
+                            value  : 1
+                        }),
+                        new Common.UI.MenuItem({
+                            caption: me.textFlipV,
+                            type   : 'flip',
+                            value  : 0
+                        })
+                    ]
+                })
+            });
+
             this.imgMenu = new Common.UI.Menu({
                 items: [
                     me.pmiImgCut,
@@ -614,31 +751,11 @@ define([
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
                     me.menuEditSignSeparator,
-                    {
-                        caption : this.textArrangeFront,
-                        iconCls : 'mnu-arrange-front',
-                        type    : 'arrange',
-                        value   : Asc.c_oAscDrawingLayerType.BringToFront
-                    },{
-                        caption : this.textArrangeBack,
-                        iconCls : 'mnu-arrange-back',
-                        type    : 'arrange',
-                        value   : Asc.c_oAscDrawingLayerType.SendToBack
-                    },{
-                        caption : this.textArrangeForward,
-                        iconCls : 'mnu-arrange-forward',
-                        type    : 'arrange',
-                        value   : Asc.c_oAscDrawingLayerType.BringForward
-                    },{
-                        caption: this.textArrangeBackward,
-                        iconCls : 'mnu-arrange-backward',
-                        type    : 'arrange',
-                        value   : Asc.c_oAscDrawingLayerType.SendBackward
-                    },
-                    {caption: '--'},
-                    me.mnuGroupImg,
-                    me.mnuUnGroupImg,
+                    me.menuImageArrange,
+                    me.menuImageAlign,
+                    me.menuImgRotate,
                     me.mnuShapeSeparator,
+                    me.menuImgCrop,
                     me.mnuChartEdit,
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
@@ -805,17 +922,33 @@ define([
                 ]
             });
 
+            me.pmiCommonCut = new Common.UI.MenuItem({
+                caption     : me.txtCut,
+                value       : 'cut'
+            });
+
+            me.pmiCommonCopy = new Common.UI.MenuItem({
+                caption     : me.txtCopy,
+                value       : 'copy'
+            });
+
+            me.pmiCommonPaste = new Common.UI.MenuItem({
+                caption     : me.txtPaste,
+                value       : 'paste'
+            });
+
+            this.copyPasteMenu = new Common.UI.Menu({
+                items: [
+                    me.pmiCommonCut,
+                    me.pmiCommonCopy,
+                    me.pmiCommonPaste
+                ]
+            });
+
             this.entriesMenu = new Common.UI.Menu({
                 maxHeight: 200,
                 cyclic: false,
                 items: []
-            }).on('render:after', function(mnu) {
-                this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.dropdown-menu '),
-                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
-                    alwaysVisibleY: true
-                });
             }).on('show:after', function () {
                 this.scroller.update({alwaysVisibleY: true});
             });
@@ -826,12 +959,6 @@ define([
                 items: []
             }).on('render:after', function(mnu) {
                 mnu.cmpEl.removeAttr('oo_editor_input').attr('oo_editor_keyboard', true);
-                this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.dropdown-menu '),
-                    useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                    minScrollbarLength  : 40,
-                    alwaysVisibleY: true
-                });
             });
 
             me.fireEvent('createdelayedelements', [me]);
@@ -945,7 +1072,25 @@ define([
         txtPercentage:      'Percentage',
         txtFraction:        'Fraction',
         txtText:            'Text',
-        textMoreFormats: 'More formats'
+        textMoreFormats: 'More formats',
+        textShapeAlignLeft      : 'Align Left',
+        textShapeAlignRight     : 'Align Right',
+        textShapeAlignCenter    : 'Align Center',
+        textShapeAlignTop       : 'Align Top',
+        textShapeAlignBottom    : 'Align Bottom',
+        textShapeAlignMiddle    : 'Align Middle',
+        txtDistribHor: 'Distribute Horizontally',
+        txtDistribVert: 'Distribute Vertically',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
+        textFlipV: 'Flip Vertically',
+        textFlipH: 'Flip Horizontally',
+        textRotate: 'Rotate',
+        textArrange: 'Arrange',
+        textAlign: 'Align',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit'
 
     }, SSE.Views.DocumentHolder || {}));
 });

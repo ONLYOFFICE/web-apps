@@ -1,3 +1,37 @@
+// spell check indicator
+.icon.spellcheck-lang {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+}
+
+li {
+  .icon.spellcheck-lang {
+    margin: -3px 4px 0 -24px;
+  }
+
+  &.selected, a.checked {
+    .icon.spellcheck-lang {
+      background-position-x: -20px; --bgX: -20px;
+    }
+  }
+}
+
+.dropdown-menu.lang-menu {
+  > li {
+    a.checked {
+      &:before {
+        display: none;
+      }
+      background-color: @primary;
+
+      &, &:hover, &:focus {
+        color: @dropdown-link-active-color;
+      }
+    }
+  }
+}
+
 .combo-langs {
   .dropdown-menu {
     li .icon.lang-flag {
@@ -7,12 +41,14 @@
 
   .input-icon {
     position: absolute;
-    left: 5px;
-    top: 5px;
-  }
-
-  input {
-    padding-left: 25px !important;
+    &.spellcheck-lang { // spell check indicator
+      left: 2px;
+      top: 1px;
+    }
+    &.lang-flag { // language flags
+      left: 5px;
+      top: 5px;
+    }
   }
 }
 
@@ -63,7 +99,7 @@
   &.sr, &.sr-Cyrl-RS, &.sr-Latn-RS  {background-position: -16px      -168px;}
   &.sk, &.sk-SK                     {background-position: -32px      -168px;}
   &.kk, &.kk-KZ                     {background-position: 0          -180px;}
-  &.fi, &.fi-FI                     {background-position: -16px      -180px;}
+  &.fi, &.fi-FI, &.sv-FI            {background-position: -16px      -180px;}
   &.zh, &.zh-CN                     {background-position: -32px      -180px;}
   &.ja, &.ja-JP                     {background-position: 0          -192px;}
   &.es-MX                           {background-position: -16px      -192px;}

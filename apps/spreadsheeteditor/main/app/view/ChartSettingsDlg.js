@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -64,6 +64,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis},
                     {panelId: 'id-spark-settings-dlg-style',        panelCaption: this.textTypeData},
                     {panelId: 'id-spark-settings-dlg-axis',         panelCaption: this.textAxisOptions},
+                    {panelId: 'id-chart-settings-dlg-snap',         panelCaption: this.textSnap},
                     {panelId: 'id-chart-settings-dlg-alttext',      panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
@@ -87,6 +88,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             };
             this._noApply = true;
             this._changedProps = null;
+            this._changedImageProps = null;
 
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
@@ -111,27 +113,12 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             // Layout
 
-            var menuAddAlign = function(menuRoot, left, top) {
-                var self = this;
-                if (!$window.hasClass('notransform')) {
-                    $window.addClass('notransform');
-                    menuRoot.addClass('hidden');
-                    setTimeout(function() {
-                        menuRoot.removeClass('hidden');
-                        menuRoot.css({left: left, top: top});
-                        self.options.additionalAlign = null;
-                    }, 500);
-                } else {
-                    menuRoot.css({left: left, top: top});
-                    self.options.additionalAlign = null;
-                }
-            };
             this.btnChartType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
                 iconCls     : 'item-chartlist bar-normal',
                 menu        : new Common.UI.Menu({
                     style: 'width: 435px; padding-top: 12px;',
-                    additionalAlign: menuAddAlign,
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -205,7 +192,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 name        : 'range',
                 style       : 'width: 100%;',
                 allowBlank  : true,
-                blankError  : this.txtEmpty,
                 validateOnChange: true
             });
 
@@ -793,7 +779,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 iconCls     : 'item-chartlist spark-column',
                 menu        : new Common.UI.Menu({
                     style: 'width: 200px; padding-top: 12px;',
-                    additionalAlign: menuAddAlign,
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
                     ]
@@ -996,6 +982,31 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 }
             }, this));
 
+            // Snapping
+            this.radioTwoCell = new Common.UI.RadioBox({
+                el: $('#chart-dlg-radio-twocell'),
+                name: 'asc-radio-snap',
+                labelText: this.textTwoCell,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorTwoCell
+            });
+            this.radioTwoCell.on('change', _.bind(this.onRadioSnapChange, this));
+
+            this.radioOneCell = new Common.UI.RadioBox({
+                el: $('#chart-dlg-radio-onecell'),
+                name: 'asc-radio-snap',
+                labelText: this.textOneCell,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorOneCell
+            });
+            this.radioOneCell.on('change', _.bind(this.onRadioSnapChange, this));
+
+            this.radioAbsolute = new Common.UI.RadioBox({
+                el: $('#chart-dlg-radio-absolute'),
+                name: 'asc-radio-snap',
+                labelText: this.textAbsolute,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorAbsolute
+            });
+            this.radioAbsolute.on('change', _.bind(this.onRadioSnapChange, this));
+
             // Alt Text
 
             this.inputAltTitle = new Common.UI.InputField({
@@ -1032,6 +1043,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.btnsCategory[2].setVisible(false);
                 this.btnsCategory[3].setVisible(false);
                 this.btnsCategory[6].setVisible(false);
+                this.btnsCategory[7].setVisible(false);
             }
 
             if (this.storageName) {
@@ -1315,7 +1327,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this._changedProps.asc_setStyle(record.get('data'));
             }
         },
-        
+
         _setDefaults: function(props) {
             var me = this;
             if (props ){
@@ -1382,6 +1394,19 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                         value = this.imageSettings.asc_getDescription();
                         this.textareaAltDescription.val(value ? value : '');
+
+                        value = this.imageSettings.asc_getAnchor();
+                        switch (value) {
+                            case AscCommon.c_oAscCellAnchorType.cellanchorTwoCell:
+                                this.radioTwoCell.setValue(true, true);
+                                break;
+                            case AscCommon.c_oAscCellAnchorType.cellanchorOneCell:
+                                this.radioOneCell.setValue(true, true);
+                                break;
+                            case AscCommon.c_oAscCellAnchorType.cellanchorAbsolute:
+                                this.radioAbsolute.setValue(true, true);
+                                break;
+                        }
                     }
                 } else { // sparkline
                     this._state.SparkType = props.asc_getType();
@@ -1449,7 +1474,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             if (this.isChart) {
                 var rec = this.mnuChartTypePicker.getSelectedRec(),
-                    type = (rec && rec.length>0) ? rec[0].get('type') : this.currentChartType;
+                    type = (rec) ? rec.get('type') : this.currentChartType;
 
                 this.chartSettings.putType(type);
 
@@ -1490,16 +1515,26 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.chartSettings.putVertAxisProps(this.vertAxisProps);
                 this.chartSettings.putHorAxisProps(this.horAxisProps);
 
-                var imagesettings = (this.isAltTitleChanged || this.isAltDescChanged) ? new Asc.asc_CImgProperty() : null;
+                if ((this.isAltTitleChanged || this.isAltDescChanged) && !this._changedImageProps)
+                    this._changedImageProps = new Asc.asc_CImgProperty();
+
                 if (this.isAltTitleChanged)
-                    imagesettings.asc_putTitle(this.inputAltTitle.getValue());
+                    this._changedImageProps.asc_putTitle(this.inputAltTitle.getValue());
 
                 if (this.isAltDescChanged)
-                    imagesettings.asc_putDescription(this.textareaAltDescription.val());
+                    this._changedImageProps.asc_putDescription(this.textareaAltDescription.val());
 
-                return { chartSettings: this.chartSettings, imageSettings: imagesettings};
+                return { chartSettings: this.chartSettings, imageSettings: this._changedImageProps};
             } else {
                 return { chartSettings: this._changedProps };
+            }
+        },
+
+        onRadioSnapChange: function(field, newValue, eOpts) {
+            if (newValue) {
+                if (!this._changedImageProps)
+                    this._changedImageProps = new Asc.asc_CImgProperty();
+                this._changedImageProps.asc_putAnchor(field.options.value);
             }
         },
 
@@ -1508,13 +1543,13 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 var isvalid;
                 if (!_.isEmpty(this.txtDataRange.getValue())) {
                     var rec = this.mnuChartTypePicker.getSelectedRec(),
-                        type = (rec && rec.length>0) ? rec[0].get('type') : this.currentChartType;
+                        type = (rec) ? rec.get('type') : this.currentChartType;
 
                     isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, type);
                     if (isvalid == Asc.c_oAscError.ID.No)
                         return true;
                 } else
-                    this.txtDataRange.showError([this.txtEmpty]);
+                    return true;
 
                 this.setActiveCategory(0);
                 if (isvalid == Asc.c_oAscError.ID.StockChartError) {
@@ -1667,7 +1702,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textYAxisTitle:     'Y Axis Title',
         txtEmpty:           'This field is required',
         textInvalidRange:   'ERROR! Invalid cells range',
-        cancelButtonText:   'Cancel',
         textTypeStyle: 'Chart Type, Style &<br/>Data Range',
         textChartElementsLegend: 'Chart Elements &<br/>Chart Legend',
         textLayout: 'Layout',
@@ -1776,7 +1810,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
         textSurface: 'Surface',
-        errorMaxPoints: 'ERROR! The maximum number of points in series per chart is 4096.'
+        errorMaxPoints: 'ERROR! The maximum number of points in series per chart is 4096.',
+        textSnap: 'Cell Snapping',
+        textAbsolute: 'Don\'t move or size with cells',
+        textOneCell: 'Move but don\'t size with cells',
+        textTwoCell: 'Move and size with cells'
 
     }, SSE.Views.ChartSettingsDlg || {}));
 });

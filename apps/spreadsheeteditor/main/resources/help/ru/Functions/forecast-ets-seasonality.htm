@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Функция FORECAST.ETS.SEASONALITY (ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ)</title>
+		<title>Функция ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
@@ -13,14 +13,14 @@
             <div class="search-field">
                 <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
             </div>
-			<h1>Функция FORECAST.ETS.SEASONALITY (ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ)</h1>
-			<p>Функция <b>FORECAST.ETS.SEASONALITY</b> - это одна из статистических функций. Возвращает длину повторяющегося фрагмента, обнаруженного приложением в заданном временном ряду.</p>
-			<p>Синтаксис функции <b>FORECAST.ETS.SEASONALITY</b>:</p> 
-			<p style="text-indent: 150px;"><b><em>FORECAST.ETS.SEASONALITY(values, timeline, [data_completion], [aggregation])</em></b></p> 
+			<h1>Функция ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ</h1>
+			<p>Функция <b>ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ</b> - это одна из статистических функций. Возвращает длину повторяющегося фрагмента, обнаруженного приложением в заданном временном ряду.</p>
+			<p>Синтаксис функции <b>ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ</b>:</p> 
+			<p style="text-indent: 150px;"><b><em>ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ(значения;временная_шкала;[заполнение_данных];[агрегирование])</em></b></p> 
 			<p><em>где</em></p>
-				<p style="text-indent: 50px;"><b><em>values</em></b> - диапазон ретроспективных данных, на основе которых прогнозируется новое значение.</p>
-                <p style="text-indent: 50px;"><b><em>timeline</em></b> - диапазон значений даты/времени, которые соответствуют ретроспективным данным. Диапазон <b><em>timeline</em></b> должен быть такого же размера, что и <b><em>values</em></b>. Значения даты/времени должны отстоять друг от друга на одинаковый интервал (хотя функция может обработать до 30% отсутствующих значений в соответствии с указанным значением аргумента <b><em>data_completion</em></b> и агрегировать повторяющиеся значения в соответствии с указанным значением аргумента <b><em>aggregation</em></b>).</p>
-            <p style="text-indent: 50px;"><b><em>data_completion</em></b> - числовое значение, указывающее, как обрабатывать отсутствующие данные в диапазоне <b><em>timeline</em></b>. Это необязательный аргумент. Допустимые значения приведены в таблице ниже.</p>
+				<p style="text-indent: 50px;"><b><em>значения</em></b> - диапазон ретроспективных данных, на основе которых прогнозируется новое значение.</p>
+                <p style="text-indent: 50px;"><b><em>временная_шкала</em></b> - диапазон значений даты/времени, которые соответствуют ретроспективным данным. Диапазон <b><em>временная_шкала</em></b> должен быть такого же размера, что и <b><em>значения</em></b>. Значения даты/времени должны отстоять друг от друга на одинаковый интервал (хотя функция может обработать до 30% отсутствующих значений в соответствии с указанным значением аргумента <b><em>заполнение_данных</em></b> и агрегировать повторяющиеся значения в соответствии с указанным значением аргумента <b><em>агрегирование</em></b>).</p>
+            <p style="text-indent: 50px;"><b><em>заполнение_данных</em></b> - числовое значение, указывающее, как обрабатывать отсутствующие данные в диапазоне <b><em>временная_шкала</em></b>. Это необязательный аргумент. Допустимые значения приведены в таблице ниже.</p>
             <table style="width: 40%">
                 <tr>
                     <td><b>Числовое значение</b></td>
@@ -35,7 +35,7 @@
                     <td>Отсутствующие значения рассматриваются как нулевые.</td>
                 </tr>
             </table>
-            <p style="text-indent: 50px;"><b><em>aggregation</em></b> - числовое значение, указывающее, с помощью какой функции надо агрегировать одинаковые значения времени в диапазоне <b><em>timeline</em></b>. Это необязательный аргумент. Допустимые значения приведены в таблице ниже.</p>
+            <p style="text-indent: 50px;"><b><em>агрегирование</em></b> - числовое значение, указывающее, с помощью какой функции надо агрегировать одинаковые значения времени в диапазоне <b><em>временная_шкала</em></b>. Это необязательный аргумент. Допустимые значения приведены в таблице ниже.</p>
             <table style="width: 40%">
                 <tr>
                     <td><b>Числовое значение</b></td>
@@ -43,34 +43,34 @@
                 </tr>
                 <tr>
                     <td>1 или опущено</td>
-                    <td><a href="../Functions/average.htm" onclick="onhyperlinkclick(this)">AVERAGE</a></td>
+                    <td><a href="../Functions/average.htm" onclick="onhyperlinkclick(this)">СРЗНАЧ</a></td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td><a href="../Functions/count.htm" onclick="onhyperlinkclick(this)">COUNT</a></td>
+                    <td><a href="../Functions/count.htm" onclick="onhyperlinkclick(this)">СЧЁТ</a></td>
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td><a href="../Functions/counta.htm" onclick="onhyperlinkclick(this)">COUNTA</a></td>
+                    <td><a href="../Functions/counta.htm" onclick="onhyperlinkclick(this)">СЧЁТЗ</a></td>
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td><a href="../Functions/max.htm" onclick="onhyperlinkclick(this)">MAX</a></td>
+                    <td><a href="../Functions/max.htm" onclick="onhyperlinkclick(this)">МАКС</a></td>
                 </tr>
                 <tr>
                     <td>5</td>
-                    <td><a href="../Functions/median.htm" onclick="onhyperlinkclick(this)">MEDIAN</a></td>
+                    <td><a href="../Functions/median.htm" onclick="onhyperlinkclick(this)">МЕДИАНА</a></td>
                 </tr>
                 <tr>
                     <td>6</td>
-                    <td><a href="../Functions/min.htm" onclick="onhyperlinkclick(this)">MIN</a></td>
+                    <td><a href="../Functions/min.htm" onclick="onhyperlinkclick(this)">МИН</a></td>
                 </tr>
                 <tr>
                     <td>7</td>
-                    <td><a href="../Functions/sum.htm" onclick="onhyperlinkclick(this)">SUM</a></td>
+                    <td><a href="../Functions/sum.htm" onclick="onhyperlinkclick(this)">СУММ</a></td>
                 </tr>
             </table> 
-			<p>Чтобы применить функцию <b>FORECAST.ETS.SEASONALITY</b>,</p>
+			<p>Чтобы применить функцию <b>ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ</b>,</p>
             <ol>
                 <li>выделите ячейку, в которой требуется отобразить результат,</li>
                 <li>
@@ -79,12 +79,12 @@
                     <br />или щелкните по значку <img alt="Значок Функция" src="../images/function.png" /> перед строкой формул,
                 </li>
                 <li>выберите из списка группу функций <b>Статистические</b>,</li>
-                <li>щелкните по функции <b>FORECAST.ETS.SEASONALITY</b>,</li>
-                <li>введите требуемые аргументы, разделяя их запятыми,</li>
+                <li>щелкните по функции <b>ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ</b>,</li>
+                <li>введите требуемые аргументы через точку с запятой,</li>
                 <li>нажмите клавишу <b>Enter</b>.</li>
             </ol>
             <p>Результат будет отображен в выбранной ячейке.</p>
-			<p style="text-indent: 150px;"><img alt="Функция FORECAST.ETS.SEASONALITY" src="../images/forecast-ets-seasonality.png" /></p>
+			<p style="text-indent: 150px;"><img alt="Функция ПРЕДСКАЗ.ETS.СЕЗОННОСТЬ" src="../images/forecast-ets-seasonality.png" /></p>
 		</div>
 	</body>
 </html>

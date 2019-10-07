@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -60,8 +60,7 @@ define([
         storeMessages: undefined,
 
         tplUser: ['<li id="<%= user.get("iid") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
-                        '<div class="name"><%= scope.getUserName(user.get("username")) %>',
-                            '<div class="color" style="background-color: <%= user.get("color") %>;" ></div>',
+                        '<div class="name"><div class="color" style="background-color: <%= user.get("color") %>;" ></div><%= scope.getUserName(user.get("username")) %>',
                         '</div>',
                     '</li>'].join(''),
 
@@ -217,6 +216,9 @@ define([
             var arr = [], offset, len;
 
             message.replace(Common.Utils.ipStrongRe, function(subStr) {
+                var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                if (result)
+                    subStr = subStr.substring(0, result.index);
                 offset = arguments[arguments.length-2];
                 arr.push({start: offset, end: subStr.length+offset, str: '<a href="' + subStr + '" target="_blank" data-can-copy="true">' + subStr + '</a>'});
                 return '';
@@ -224,6 +226,9 @@ define([
 
             if (message.length<1000 || message.search(/\S{255,}/)<0)
                 message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
+                    var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                    if (result)
+                        subStr = subStr.substring(0, result.index);
                     var ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
                     offset = arguments[arguments.length-2];
                     len = subStr.length;

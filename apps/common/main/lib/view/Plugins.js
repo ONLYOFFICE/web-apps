@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -88,22 +88,22 @@ define([
             el && (this.$el = $(el));
             this.$el.html(this.template({scope: this}));
 
-            this.viewPluginsList = new Common.UI.DataView({
-                el: $('#plugins-list'),
-                store: this.storePlugins,
-                enableKeyEvents: false,
-                itemTemplate: _.template([
-                    '<div id="<%= id %>" class="item-plugins" style="display: <% if (visible) {%> block; <%} else {%> none; <% } %>">',
-                        '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[((window.devicePixelRatio > 1) ? 1 : 0) + (variations[currentVariation].get("icons").length>2 ? 2 : 0)] %>);"></div>',
-                        '<% if (variations.length>1) { %>',
-                        '<div class="plugin-caret img-commonctrl"></div>',
-                        '<% } %>',
-                        '<%= name %>',
-                    '</div>'
-                ].join(''))
-            });
-            this.lockedControls.push(this.viewPluginsList);
-            this.viewPluginsList.cmpEl.off('click');
+            // this.viewPluginsList = new Common.UI.DataView({
+            //     el: $('#plugins-list'),
+            //     store: this.storePlugins,
+            //     enableKeyEvents: false,
+            //     itemTemplate: _.template([
+            //         '<div id="<%= id %>" class="item-plugins" style="display: <% if (visible) {%> block; <%} else {%> none; <% } %>">',
+            //             '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[((window.devicePixelRatio > 1) ? 1 : 0) + (variations[currentVariation].get("icons").length>2 ? 2 : 0)] %>);"></div>',
+            //             '<% if (variations.length>1) { %>',
+            //             '<div class="plugin-caret img-commonctrl"></div>',
+            //             '<% } %>',
+            //             '<%= name %>',
+            //         '</div>'
+            //     ].join(''))
+            // });
+            // this.lockedControls.push(this.viewPluginsList);
+            // this.viewPluginsList.cmpEl.off('click');
 
             this.pluginName = $('#current-plugin-header label');
             this.pluginsPanel = $('#plugins-box');
@@ -190,7 +190,7 @@ define([
                     item.setDisabled(disable);
                 });
 
-                this.pluginsMask.css('display', disable ? 'block' : 'none');
+                this.pluginsMask && this.pluginsMask.css('display', disable ? 'block' : 'none');
             }
         },
 
@@ -368,7 +368,7 @@ define([
                     '<div class="separator horizontal"/>',
                     '<div class="footer" style="text-align: center;">',
                         '<% for(var bt in buttons) { %>',
-                            '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>" style="margin-right: 10px;"><%= buttons[bt].text %></button>',
+                            '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>',
                         '<% } %>',
                     '</div>',
                 '<% } %>'

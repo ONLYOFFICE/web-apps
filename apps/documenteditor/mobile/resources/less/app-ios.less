@@ -71,9 +71,16 @@ input, textarea {
 @import url('../../../../common/mobile/resources/less/ios/_contextmenu.less');
 @import url('../../../../common/mobile/resources/less/ios/_color-palette.less');
 @import url('../../../../common/mobile/resources/less/ios/_about.less');
+@import url('../../../../common/mobile/resources/less/ios/_color-schema.less');
+@import url('../../../../common/mobile/resources/less/ios/_collaboration.less');
+
 
 @import url('ios/_search.less');
 @import url('ios/_icons.less');
+
+.label-switch input[type="checkbox"]:checked + .checkbox {
+  background: @themeColor;
+}
 
 // Top offset
 
@@ -232,4 +239,29 @@ input, textarea {
 .modal.modal-in {
   max-height: 100%;
   overflow: auto;
+}
+
+// Skeleton of document
+
+.doc-placeholder {
+  background: #fbfbfb;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+
+  > .line {
+    height: 15px;
+    margin: 30px;
+    background: #e2e2e2;
+    overflow: hidden;
+    position: relative;
+
+    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    -moz-animation: flickerAnimation 2s infinite ease-in-out;
+    -o-animation: flickerAnimation 2s infinite ease-in-out;
+    animation: flickerAnimation 2s infinite ease-in-out;
+  }
 }

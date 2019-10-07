@@ -1,0 +1,22 @@
+{
+  "common.view.modals.txtCopy": "Копіювати в буфер обміну",
+  "common.view.modals.txtHeight": "Висота",
+  "common.view.modals.txtWidth": "Ширина",
+  "DE.ApplicationController.convertationTimeoutText": "Термін переходу перевищено.",
+  "DE.ApplicationController.criticalErrorTitle": "Помилка",
+  "DE.ApplicationController.downloadErrorText": "Завантаження не вдалося",
+  "DE.ApplicationController.downloadTextText": "Завантаження документу...",
+  "DE.ApplicationController.errorAccessDeny": "Ви намагаєтеся виконати дію, на яку у вас немає прав. <br> Будь ласка, зв'яжіться з адміністратором вашого Сервера документів.",
+  "DE.ApplicationController.errorDefaultMessage": "Код помилки: %1",
+  "DE.ApplicationController.errorFilePassProtect": "Документ захищений паролем і його неможливо відкрити.",
+  "DE.ApplicationController.errorUserDrop": "На даний момент файл не доступний.",
+  "DE.ApplicationController.notcriticalErrorTitle": "Застереження",
+  "DE.ApplicationController.textLoadingDocument": "Завантаження документа",
+  "DE.ApplicationController.textOf": "з",
+  "DE.ApplicationController.txtClose": "Закрити",
+  "DE.ApplicationController.unknownErrorText": "Невідома помилка.",
+  "DE.ApplicationController.unsupportedBrowserErrorText": "Ваш браузер не підтримується",
+  "DE.ApplicationView.txtDownload": "Завантажити",
+  "DE.ApplicationView.txtFullScreen": "Повноекранний режим",
+  "DE.ApplicationView.txtShare": "Доступ"
+}

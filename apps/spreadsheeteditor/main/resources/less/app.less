@@ -114,6 +114,7 @@
 @import "../../../../common/main/resources/less/plugins.less";
 @import "../../../../common/main/resources/less/toolbar.less";
 @import "../../../../common/main/resources/less/language-dialog.less";
+@import "../../../../common/main/resources/less/winxp_fix.less";
 
 // App
 // --------------------------------------------------
@@ -142,3 +143,35 @@
 
 @huge-icon-size: 37px;
 @x-huge-icon-size: 45px;
+
+// Skeleton of workbook
+
+.doc-placeholder {
+    background: #fbfbfb;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #dfdfdf;
+    white-space: nowrap;
+
+    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    -moz-animation: flickerAnimation 2s infinite ease-in-out;
+    -o-animation: flickerAnimation 2s infinite ease-in-out;
+    animation: flickerAnimation 2s infinite ease-in-out;
+    
+    > .columns {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        background: linear-gradient(90deg, #d5d5d5 0px, rgba(0,0,0,0) 1px) 0 0,
+                    linear-gradient(rgba(0,255,0,0) 19px, #d5d5d5 20px) 0 0,
+                    linear-gradient( #f1f1f1 0px, #f1f1f1 20px) 0 0 repeat-x;
+        background-size: 80px 20px;
+
+        &:first-child {
+            background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
+            background-size: 20px 20px;
+            width: 35px;
+        }
+    }
+}

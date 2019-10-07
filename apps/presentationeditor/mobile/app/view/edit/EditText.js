@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -109,6 +109,8 @@ define([
 
                 me.initControls();
                 PE.getController('EditText').initSettings();
+
+                Common.Utils.addScrollIfNeed('#edit-text .pages', '#edit-text .page');
             },
 
             // Render layout
@@ -189,6 +191,8 @@ define([
                         }, 100));
                     }
                 });
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-page]', '.page[data-page=edit-text-font-page] .page-content');
             },
 
             showFontColor: function () {
@@ -198,15 +202,18 @@ define([
                     el: $('.page[data-page=edit-text-font-color] .page-content')
                 });
 
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-color]', '.page[data-page=edit-text-font-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-text-color']);
             },
 
             showAdditional: function () {
                 this.showPage('#edit-text-additional');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-additional]', '.page[data-page=edit-text-additional] .page-content');
             },
 
             showLineSpacing: function () {
                 this.showPage('#edit-text-linespacing');
+                Common.Utils.addScrollIfNeed('#page-text-linespacing', '#page-text-linespacing .page-content');
             },
 
             showBullets: function () {
@@ -238,7 +245,11 @@ define([
             textLineSpacing: 'Line Spacing',
             textBullets: 'Bullets',
             textNone: 'None',
-            textNumbers: 'Numbers'
+            textNumbers: 'Numbers',
+            textCharacterBold: 'B',
+            textCharacterItalic: 'I',
+            textCharacterUnderline: 'U',
+            textCharacterStrikethrough: 'S'
         }
     })(), PE.Views.EditText || {}))
 });

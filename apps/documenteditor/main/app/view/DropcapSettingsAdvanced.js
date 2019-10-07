@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -162,6 +162,7 @@ define([
             this.btnBorderColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="drop-advanced-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="drop-advanced-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -187,6 +188,7 @@ define([
             this.btnBackColor = new Common.UI.ColorButton({
                 style: "width:45px;",
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="drop-advanced-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="drop-advanced-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
@@ -1162,8 +1164,6 @@ define([
         textBorderColor:        'Border Color',
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
-        cancelButtonText:       'Cancel',
-        okButtonText:           'Ok',
         txtNoBorders:           'No borders',
         textNewColor:           'Add New Custom Color',
         textPosition: 'Position',

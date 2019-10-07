@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -127,6 +127,7 @@ require([
         nameSpace: 'PE',
         autoCreate: false,
         controllers : [
+            'Common.Controllers.Plugins',
             'Editor',
             'Toolbar',
             'Search',
@@ -147,11 +148,10 @@ require([
             'AddShape',
             'AddImage',
             'AddLink',
-            'AddSlide'
+            'AddSlide',
+            'Common.Controllers.Collaboration'
         ]
     });
-
-    Common.Locale.apply();
 
     var device = Framework7.prototype.device;
     var loadPlatformCss = function (filename, opt){
@@ -191,34 +191,38 @@ require([
     //Load platform styles
     loadPlatformCss('resources/css/app-' + (device.android ? 'material' : 'ios') + '.css');
 
-    require([
-        'common/main/lib/util/LocalStorage',
-        'common/main/lib/util/utils',
-        'presentationeditor/mobile/app/controller/Editor',
-        'presentationeditor/mobile/app/controller/Toolbar',
-        'presentationeditor/mobile/app/controller/Search',
-        'presentationeditor/mobile/app/controller/Main',
-        'presentationeditor/mobile/app/controller/DocumentHolder',
-        'presentationeditor/mobile/app/controller/DocumentPreview',
-        'presentationeditor/mobile/app/controller/Settings',
-        'presentationeditor/mobile/app/controller/edit/EditContainer',
-        'presentationeditor/mobile/app/controller/edit/EditText',
-        'presentationeditor/mobile/app/controller/edit/EditTable',
-        'presentationeditor/mobile/app/controller/edit/EditImage',
-        'presentationeditor/mobile/app/controller/edit/EditShape',
-        'presentationeditor/mobile/app/controller/edit/EditSlide',
-        'presentationeditor/mobile/app/controller/edit/EditChart',
-        'presentationeditor/mobile/app/controller/edit/EditLink',
-        'presentationeditor/mobile/app/controller/add/AddContainer',
-        'presentationeditor/mobile/app/controller/add/AddTable',
-        'presentationeditor/mobile/app/controller/add/AddShape',
-        'presentationeditor/mobile/app/controller/add/AddImage',
-        'presentationeditor/mobile/app/controller/add/AddLink',
-        'presentationeditor/mobile/app/controller/add/AddSlide'
+    Common.Locale.apply(function(){
+        require([
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/util/utils',
+            'common/mobile/lib/controller/Plugins',
+            'presentationeditor/mobile/app/controller/Editor',
+            'presentationeditor/mobile/app/controller/Toolbar',
+            'presentationeditor/mobile/app/controller/Search',
+            'presentationeditor/mobile/app/controller/Main',
+            'presentationeditor/mobile/app/controller/DocumentHolder',
+            'presentationeditor/mobile/app/controller/DocumentPreview',
+            'presentationeditor/mobile/app/controller/Settings',
+            'presentationeditor/mobile/app/controller/edit/EditContainer',
+            'presentationeditor/mobile/app/controller/edit/EditText',
+            'presentationeditor/mobile/app/controller/edit/EditTable',
+            'presentationeditor/mobile/app/controller/edit/EditImage',
+            'presentationeditor/mobile/app/controller/edit/EditShape',
+            'presentationeditor/mobile/app/controller/edit/EditSlide',
+            'presentationeditor/mobile/app/controller/edit/EditChart',
+            'presentationeditor/mobile/app/controller/edit/EditLink',
+            'presentationeditor/mobile/app/controller/add/AddContainer',
+            'presentationeditor/mobile/app/controller/add/AddTable',
+            'presentationeditor/mobile/app/controller/add/AddShape',
+            'presentationeditor/mobile/app/controller/add/AddImage',
+            'presentationeditor/mobile/app/controller/add/AddLink',
+            'presentationeditor/mobile/app/controller/add/AddSlide',
+            'common/mobile/lib/controller/Collaboration'
 
-    ], function() {
-        window.compareVersions = true;
-        app.start();
+        ], function() {
+            window.compareVersions = true;
+            app.start();
+        });
     });
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {

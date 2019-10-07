@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -86,7 +86,8 @@ define([
                 'Common.Views.ReviewPopover': {
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
-                    'reviewchange:delete':      _.bind(this.onDeleteClick, this)
+                    'reviewchange:delete':      _.bind(this.onDeleteClick, this),
+                    'reviewchange:goto':        _.bind(this.onGotoClick, this)
                 }
             });
         },
@@ -108,6 +109,7 @@ define([
             this.setApi(api);
 
             if (data) {
+                this.currentUserId      =   data.config.user.id;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
         },
@@ -115,7 +117,7 @@ define([
             if (api) {
                 this.api = api;
 
-                if (this.appConfig.canReview) {
+                if (this.appConfig.canReview || this.appConfig.canViewReview) {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
                 }
@@ -135,6 +137,19 @@ define([
             if (this.dlgChanges)
                 this.dlgChanges.close();
             this.view && this.view.SetDisabled(state, this.langs);
+            this.setPreviewMode(state);
+        },
+
+        setPreviewMode: function(mode) { //disable accept/reject in popover
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+            if (mode)
+                this.prevcanReview = this.appConfig.canReview;
+            this.appConfig.canReview = (mode) ? false : this.prevcanReview;
+            var me = this;
+            this.popoverChanges && this.popoverChanges.each(function (model) {
+                model.set('hint', !me.appConfig.canReview);
+            });
         },
 
         onApiShowChange: function (sdkchange) {
@@ -148,6 +163,7 @@ define([
                         lock = (sdkchange[0].get_LockUserId()!==null),
                         lockUser = this.getUserName(sdkchange[0].get_LockUserId());
 
+                    this.getPopover().hideTips();
                     this.popoverChanges.reset(changes);
 
                     if (animate) {
@@ -157,7 +173,7 @@ define([
 
                     this.getPopover().showReview(animate, lock, lockUser);
 
-                    if (!this.appConfig.isReviewOnly && this._state.lock !== lock) {
+                    if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== lock) {
                         this.view.btnAccept.setDisabled(lock==true);
                         this.view.btnReject.setDisabled(lock==true);
                         if (this.dlgChanges) {
@@ -174,6 +190,7 @@ define([
                     this._state.posx = this._state.posy = -1000;
                     this._state.changes_length = 0;
                     this._state.popoverVisible = false;
+                    this.getPopover().hideTips();
                     this.popoverChanges.reset();
                     this.getPopover().hideReview();
                 }
@@ -207,7 +224,7 @@ define([
         },
 
         getPopover: function () {
-            if (this.appConfig.canReview && _.isUndefined(this.popover)) {
+            if ((this.appConfig.canReview || this.appConfig.canViewReview) && _.isUndefined(this.popover)) {
                 this.popover = Common.Views.ReviewPopover.prototype.getPopover({
                     reviewStore : this.popoverChanges,
                     renderTo : this.sdkViewName
@@ -224,10 +241,11 @@ define([
             _.each(data, function(item) {
                 var changetext = '', proptext = '',
                     value = item.get_Value(),
+                    movetype = item.get_MoveType(),
                     settings = false;
                 switch (item.get_Type()) {
                     case Asc.c_oAscRevisionsChangeType.TextAdd:
-                        changetext = me.textInserted;
+                        changetext = (movetype==Asc.c_oAscRevisionsMove.NoMove) ? me.textInserted : me.textParaMoveTo;
                         if (typeof value == 'object') {
                             _.each(value, function(obj) {
                                 if (typeof obj === 'string')
@@ -254,7 +272,7 @@ define([
                         }
                     break;
                     case Asc.c_oAscRevisionsChangeType.TextRem:
-                        changetext = me.textDeleted;
+                        changetext = (movetype==Asc.c_oAscRevisionsMove.NoMove) ? me.textDeleted : (item.is_MovedDown() ? me.textParaMoveFromDown : me.textParaMoveFromUp);
                         if (typeof value == 'object') {
                             _.each(value, function(obj) {
                                 if (typeof obj === 'string')
@@ -392,7 +410,15 @@ define([
                         changetext += '</b>';
                         changetext += proptext;
                     break;
-
+                    case Asc.c_oAscRevisionsChangeType.TablePr:
+                        changetext = me.textTableChanged;
+                    break;
+                    case Asc.c_oAscRevisionsChangeType.RowsAdd:
+                        changetext = me.textTableRowsAdd;
+                    break;
+                    case Asc.c_oAscRevisionsChangeType.RowsRem:
+                        changetext = me.textTableRowsDel;
+                    break;
                 }
                 var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
                     user = me.userCollection.findOriginalUser(item.get_UserId()),
@@ -405,10 +431,13 @@ define([
                         changetext  : changetext,
                         id          : Common.UI.getId(),
                         lock        : (item.get_LockUserId()!==null),
-                        lockuser    : item.get_LockUserId(),
+                        lockuser    : me.getUserName(item.get_LockUserId()),
                         type        : item.get_Type(),
                         changedata  : item,
-                        scope       : me.view
+                        scope       : me.view,
+                        hint        : !me.appConfig.canReview,
+                        goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom),
+                        editable    : (item.get_UserId() == me.currentUserId)
                     });
 
                 arr.push(change);
@@ -489,6 +518,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+        onGotoClick: function(change) {
+            if (this.api) {
+                this.api.asc_FollowRevisionMove(change);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
         onTurnPreview: function(state) {
             if ( this.appConfig.isReviewOnly ) {
                 this.view.turnChanges(true);
@@ -497,7 +533,7 @@ define([
                 state = (state == 'on');
 
                 this.api.asc_SetTrackRevisions(state);
-                Common.localStorage.setItem(this.view.appPrefix + "track-changes", state ? 1 : 0);
+                Common.localStorage.setItem(this.view.appPrefix + "track-changes-" + (this.appConfig.fileKey || ''), state ? 1 : 0);
 
                 this.view.turnChanges(state);
             }
@@ -509,21 +545,26 @@ define([
 
             Common.localStorage.setItem(this.view.appPrefix + "settings-spellcheck", state ? 1 : 0);
             this.api.asc_setSpellCheck(state);
-            Common.Utils.InternalSettings.set("de-settings-spellcheck", state);
+            Common.Utils.InternalSettings.set(this.view.appPrefix + "settings-spellcheck", state);
         },
 
         onReviewViewClick: function(menu, item, e) {
+            this.turnDisplayMode(item.value);
+            !this.appConfig.canReview && Common.localStorage.setItem(this.view.appPrefix + "review-mode", item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        turnDisplayMode: function(mode) {
             if (this.api) {
-                if (item.value === 'final')
+                if (mode === 'final')
                     this.api.asc_BeginViewModeInReview(true);
-                else if (item.value === 'original')
+                else if (mode === 'original')
                     this.api.asc_BeginViewModeInReview(false);
                 else
                     this.api.asc_EndViewModeInReview();
             }
-            this.disableEditing(item.value !== 'markup');
-            this._state.previewMode = (item.value !== 'markup');
-            Common.NotificationCenter.trigger('edit:complete', this.view);
+            this.disableEditing(mode == 'final' || mode == 'original');
+            this._state.previewMode = (mode == 'final' || mode == 'original');
         },
 
         isPreviewChangesMode: function() {
@@ -561,29 +602,31 @@ define([
 
         disableEditing: function(disable) {
             var app = this.getApplication();
-            app.getController('RightMenu').getView('RightMenu').clearSelection();
             app.getController('Toolbar').DisableToolbar(disable, false, true);
-            app.getController('RightMenu').SetDisabled(disable, false);
-            app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
             app.getController('DocumentHolder').getView().SetDisabled(disable);
-            app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
-            app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
 
-            var leftMenu = app.getController('LeftMenu').leftMenu;
-            leftMenu.btnComments.setDisabled(disable);
-            if (disable) leftMenu.close();
+            if (this.appConfig.canReview) {
+                app.getController('RightMenu').getView('RightMenu').clearSelection();
+                app.getController('RightMenu').SetDisabled(disable, false);
+                app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+                app.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins').disableControls(disable);
+            }
+
             var comments = app.getController('Common.Controllers.Comments');
             if (comments)
                 comments.setPreviewMode(disable);
 
-            leftMenu.getMenu('file').miProtect.setDisabled(disable);
+            var leftMenu = app.getController('LeftMenu');
+            leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+            leftMenu.setPreviewMode(disable);
 
             if (this.view) {
                 this.view.$el.find('.no-group-mask').css('opacity', 1);
 
                 this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
                     if ( button ) {
-                        button.setDisabled(disable || this.langs.length<1);
+                        button.setDisabled(disable || !this.langs || this.langs.length<1);
                     }
                 }, this);
             }
@@ -600,7 +643,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", true) )
+            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", !(config.customization && config.customization.spellcheck===false)))
                 me.view.turnSpelling(true);
 
             if ( config.canReview ) {
@@ -612,17 +655,9 @@ define([
                         me.api.asc_SetTrackRevisions(state);
                     };
 
-                    if ( config.isReviewOnly ) {
-                        me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-
-                        _setReviewStatus(true);
-                    } else
-                    if ( !me.api.asc_IsTrackRevisions() ) {
-                        _setReviewStatus(false);
-                    } else {
-                        me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-                        _setReviewStatus(Common.localStorage.getBool(me.view.appPrefix + "track-changes"));
-                    }
+                    var state = config.isReviewOnly || Common.localStorage.getBool(me.view.appPrefix + "track-changes-" + (config.fileKey || ''));
+                    me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
+                    _setReviewStatus(state);
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
@@ -634,6 +669,15 @@ define([
                         me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
                     }
                 });
+            } else if (config.canViewReview) {
+                config.canViewReview = (config.isEdit || me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
+                if (config.canViewReview) {
+                    var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode");
+                    if (val===null)
+                        val = me.appConfig.customization && /^(original|final|markup)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'original';
+                    me.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val); // load display mode only in viewer
+                    me.view.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val);
+                }
             }
 
             if (me.view && me.view.btnChat) {
@@ -666,21 +710,13 @@ define([
         },
 
         onDocLanguage: function() {
-            var langs = _.map(this.langs, function(item){
-                return {
-                    displayValue:   item.title,
-                    value:          item.tip,
-                    code:           item.code
-                }
-            });
-
             var me = this;
             (new Common.Views.LanguageDialog({
-                languages: langs,
+                languages: me.langs,
                 current: me.api.asc_getDefaultLanguage(),
-                handler: function(result, tip) {
+                handler: function(result, value) {
                     if (result=='ok') {
-                        var record = _.findWhere(langs, {'value':tip});
+                        var record = _.findWhere(me.langs, {'value':value});
                         record && me.api.asc_setDefaultLanguage(record.code);
                     }
                 }
@@ -755,7 +791,12 @@ define([
         textEquation: 'Equation',
         textImage: 'Image',
         textChart: 'Chart',
-        textShape: 'Shape'
-        
+        textShape: 'Shape',
+        textTableChanged: '<b>Table Settings Changed</b>',
+        textTableRowsAdd: '<b>Table Rows Added<b/>',
+        textTableRowsDel: '<b>Table Rows Deleted<b/>',
+        textParaMoveTo: '<b>Moved:</b>',
+        textParaMoveFromUp: '<b>Moved Up:</b>',
+        textParaMoveFromDown: '<b>Moved Down:</b>'
     }, Common.Controllers.ReviewChanges || {}));
 });

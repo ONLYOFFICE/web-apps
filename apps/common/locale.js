@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -35,46 +35,35 @@ if (Common === undefined) {
 }
 
 Common.Locale = new(function() {
-    var l10n = {};
+    "use strict";
+    var l10n = null;
+    var loadcallback,
+        apply = false;
 
-    var _createXMLHTTPObject = function() {
-        var xmlhttp;
+    var _applyLocalization = function(callback) {
         try {
-            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-        } 
-        catch (e) {
-            try {
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            } 
-            catch (E) {
-                xmlhttp = false;
-            }
-        }
-        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
-            xmlhttp = new XMLHttpRequest();
-        }
-        return xmlhttp;
-    };
+            callback && (loadcallback = callback);
+            if (l10n) {
+                for (var prop in l10n) {
+                    var p = prop.split('.');
+                    if (p && p.length > 2) {
 
-    var _applyLocalization = function() {
-        try {
-            for (var prop in l10n) {
-                var p = prop.split('.');
-                if (p && p.length > 2) {
-
-                    var obj = window;
-                    for (var i = 0; i < p.length - 1; ++i) {
-                        if (obj[p[i]] === undefined) {
-                            obj[p[i]] = new Object();
+                        var obj = window;
+                        for (var i = 0; i < p.length - 1; ++i) {
+                            if (obj[p[i]] === undefined) {
+                                obj[p[i]] = new Object();
+                            }
+                            obj = obj[p[i]];
                         }
-                        obj = obj[p[i]];
-                    }
 
-                    if (obj) {
-                        obj[p[p.length - 1]] = l10n[prop];
+                        if (obj) {
+                            obj[p[p.length - 1]] = l10n[prop];
+                        }
                     }
                 }
-            }
+                loadcallback && loadcallback();
+            } else
+                apply = true;
         }
         catch (e) {
         }
@@ -82,7 +71,7 @@ Common.Locale = new(function() {
 
     var _get = function(prop, scope) {
         var res = '';
-        if (scope && scope.name) {
+        if (l10n && scope && scope.name) {
             res = l10n[scope.name + '.' + prop];
         }
 
@@ -96,25 +85,48 @@ Common.Locale = new(function() {
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     };
 
-    try {
-        var langParam = _getUrlParameterByName('lang');
-        var xhrObj = _createXMLHTTPObject();
-        if (xhrObj && langParam) {
-            var lang = langParam.split(/[\-\_]/)[0];
-            xhrObj.open('GET', 'locale/' + lang + '.json', false);
-            xhrObj.send('');
-            l10n = eval("(" + xhrObj.responseText + ")");
-        }
-    }
-    catch (e) {
-        try {
-            xhrObj.open('GET', 'locale/en.json', false);
-            xhrObj.send('');
-            l10n = eval("(" + xhrObj.responseText + ")");
-        }
-        catch (e) {
-        }
-    }
+    var _requireLang = function () {
+        var lang = (_getUrlParameterByName('lang') || 'en').split(/[\-_]/)[0];
+        fetch('locale/' + lang + '.json')
+            .then(function(response) {
+                if (!response.ok) {
+                    if (lang != 'en')
+                        /* load default lang if fetch failed */
+                        return fetch('locale/en.json');
+
+                    throw new Error('server error');
+                }
+                return response.json();
+            }).then(function(response) {
+                if ( response.then )
+                    return response.json();
+                else {
+                    l10n = response;
+                    /* to break promises chain */
+                    throw new Error('loaded');
+                }
+            }).then(function(json) {
+                l10n = json || {};
+                apply && _applyLocalization();
+            }).catch(function(e) {
+                l10n = l10n || {};
+                apply && _applyLocalization();
+                if ( e.message == 'loaded' ) {
+                } else
+                    console.log('fetch error: ' + e);
+            });
+    };
+
+    if ( !window.fetch ) {
+        /* use fetch polifill if native method isn't supported */
+        var polyfills = ['../vendor/fetch/fetch.umd'];
+        if ( !window.Promise ) {
+            require(['../vendor/es6-promise/es6-promise.auto.min'],
+                function () {
+                    require(polyfills, _requireLang);
+                });
+        } else require(polyfills, _requireLang);
+    } else _requireLang();
 
     return {
         apply: _applyLocalization,

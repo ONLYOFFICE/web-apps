@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -51,25 +51,22 @@ define([
     options: {
         header: false,
         width: 350,
-        cls: 'modal-dlg'
+        cls: 'modal-dlg',
+        buttons: ['ok', 'cancel'],
+        footerCls: 'right'
     },
 
     template:   '<div class="box">' +
-    '<div class="input-row">' +
-    '<label><%= label %></label>' +
-    '</div>' +
-    '<div class="input-row" id="id-document-language">' +
-    '</div>' +
-    '</div>' +
-    '<div class="footer right">' +
-    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;"><%= btns.ok %></button>'+
-    '<button class="btn normal dlg-btn" result="cancel"><%= btns.cancel %></button>'+
-    '</div>',
+        '<div class="input-row">' +
+        '<label><%= label %></label>' +
+        '</div>' +
+        '<div class="input-row" id="id-document-language">' +
+        '</div>' +
+        '</div>',
 
     initialize : function(options) {
         _.extend(this.options, options || {}, {
-            label: this.labelSelect,
-            btns: {ok: this.btnOk, cancel: this.btnCancel}
+            label: this.labelSelect
         });
         this.options.tpl = _.template(this.template)(this.options);
 
@@ -85,31 +82,33 @@ define([
         this.cmbLanguage = new Common.UI.ComboBox({
             el: $window.find('#id-document-language'),
             cls: 'input-group-nr',
-            menuStyle: 'min-width: 318px; max-height: 300px;',
+            menuStyle: 'min-width: 318px; max-height: 285px;',
             editable: false,
             template: _.template([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                '<input type="text" class="form-control">',
-                '<span class="icon input-icon lang-flag"></span>',
-                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
-                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
-                '<% _.each(items, function(item) { %>',
-                '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
-                '<i class="icon lang-flag <%= item.value %>" style="position: absolute;margin-left:-21px;"></i>',
-                '<%= scope.getDisplayValue(item) %>',
-                '</a>',
-                '</li>',
-                '<% }); %>',
-                '</ul>',
+                    '<input type="text" class="form-control">',
+                    '<span class="icon input-icon spellcheck-lang img-toolbarmenu"></span>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                        '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= item.value %>">',
+                                '<i class="icon <% if (item.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<%= scope.getDisplayValue(item) %>',
+                            '</a>',
+                        '</li>',
+                        '<% }); %>',
+                    '</ul>',
                 '</span>'
             ].join('')),
-            data: this.options.languages
+            data: this.options.languages,
+            search: true
         });
 
         if (this.cmbLanguage.scroller) this.cmbLanguage.scroller.update({alwaysVisibleY: true});
         this.cmbLanguage.on('selected', _.bind(this.onLangSelect, this));
-        this.cmbLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(this.options.current)[0]);
+        var langname = Common.util.LanguageInfo.getLocalLanguageName(this.options.current);
+        this.cmbLanguage.setValue(langname[0], langname[1]);
         this.onLangSelect(this.cmbLanguage, this.cmbLanguage.getSelectedRecord());
     },
 
@@ -129,15 +128,19 @@ define([
     },
 
     onLangSelect: function(cmb, rec, e) {
-        var icon    = cmb.$el.find('.input-icon'),
-            plang   = icon.attr('lang');
-
-        if (plang) icon.removeClass(plang);
-        icon.addClass(rec.value).attr('lang',rec.value);
+        cmb.$el.find('.input-icon').toggleClass('spellcheck-lang', rec && rec.spellcheck);
+        cmb._input.css('padding-left', rec && rec.spellcheck ? 25 : 3);
     },
 
-    labelSelect     : 'Select document language',
-    btnCancel       : 'Cancel',
-    btnOk           : 'Ok'
+    onPrimary: function() {
+        if (this.options.handler) {
+            this.options.handler.call(this, 'ok', this.cmbLanguage.getValue());
+        }
+
+        this.close();
+        return false;
+    },
+
+    labelSelect     : 'Select document language'
     }, Common.Views.LanguageDialog || {}))
 });

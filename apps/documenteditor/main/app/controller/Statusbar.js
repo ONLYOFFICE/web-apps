@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -99,7 +99,7 @@ define([
                 $('.statusbar #label-zoom').css('min-width', 80);
 
                 if ( cfg.isEdit ) {
-                    var review = DE.getController('Common.Controllers.ReviewChanges').getView();
+                    var review = me.getApplication().getController('Common.Controllers.ReviewChanges').getView();
                     if (cfg.canReview) {
                         me.btnTurnReview = review.getButton('turn', 'statusbar');
                         me.btnTurnReview.render(me.statusbar.$layout.find('#btn-doc-review'));
@@ -143,27 +143,20 @@ define([
                         }
                     }
 
-                    if ( config.isReviewOnly ) {
+                    if ( config.isReviewOnly || Common.localStorage.getBool("de-track-changes-" + (config.fileKey || ''))) {
                         _process_changestip();
-                    } else
-                    if ( me.api.asc_IsTrackRevisions() ) {
-                        if ( Common.localStorage.getBool("de-track-changes") ) {
-                            // show tooltip "track changes in this document"
-                            _process_changestip();
-                        } else {
-                            var showNewChangesTip = !Common.localStorage.getBool("de-new-changes");
-                            if ( me.api.asc_HaveRevisionsChanges() && showNewChangesTip ) {
-                                me.btnTurnReview.updateHint('');
+                    } else if ( me.api.asc_IsTrackRevisions() ) {
+                        var showNewChangesTip = !Common.localStorage.getBool("de-new-changes");
+                        if ( me.api.asc_HaveRevisionsChanges() && showNewChangesTip ) {
+                            me.btnTurnReview.updateHint('');
 
-                                if (me.newChangesTooltip === undefined)
-                                    me.newChangesTooltip = me.createChangesTip(me.textHasChanges, 'de-new-changes', true);
+                            if (me.newChangesTooltip === undefined)
+                                me.newChangesTooltip = me.createChangesTip(me.textHasChanges, 'de-new-changes', true);
 
-                                me.newChangesTooltip.show();
-                            } else
-                                me.btnTurnReview.updateHint(me.tipReview);
-                        }
+                            me.newChangesTooltip.show();
+                        } else
+                            me.btnTurnReview.updateHint(me.tipReview);
                     }
-
                 }
             });
         },
@@ -222,8 +215,8 @@ define([
         _onTextLanguage: function(langId) {
             var info = Common.util.LanguageInfo.getLocalLanguageName(langId);
             this.statusbar.setLanguage({
-                    tip:    info[0],
-                    title:  info[1],
+                    value:    info[0],
+                    displayValue:  info[1],
                     code:   langId
             });
         },

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -30,7 +30,7 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
-var ApplicationController = new(function(){
+PE.ApplicationController = new(function(){
     var me,
         api,
         config = {},
@@ -45,14 +45,14 @@ var ApplicationController = new(function(){
     // Initialize analytics
     // -------------------------
 
-//    Common.Analytics.initialize('UA-12442749-13', 'Embedded ONLYOFFICE Presentation');
+//    Common.Analytics.initialize('UA-12442749-13', 'Embedded Presentation Editor');
 
 
     // Check browser
     // -------------------------
 
     if (typeof isBrowserSupported !== 'undefined' && !isBrowserSupported()){
-        Common.Gateway.reportError(undefined, 'Your browser is not supported.');
+        Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
         return;
     }
 
@@ -118,7 +118,7 @@ var ApplicationController = new(function(){
 
     function onCountPages(count) {
         maxPages = count;
-        $('#pages').text('of ' + count);
+        $('#pages').text(me.textOf + " " + count);
     }
 
     function onCurrentPage(number) {
@@ -131,10 +131,10 @@ var ApplicationController = new(function(){
         switch (id)
         {
             case Asc.c_oAscAsyncAction['Print']:
-                text = 'Downloading document...';
+                text = me.downloadTextText;
                 break;
             default:
-                text = 'Please wait...';
+                text = me.waitText;
                 break;
         }
 
@@ -201,11 +201,11 @@ var ApplicationController = new(function(){
 
     function onPrint() {
         if (permissions.print!==false)
-            api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
+            api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
     }
 
     function onPrintUrl(url) {
-        common.utils.dialogPrint(url);
+        common.utils.dialogPrint(url, api);
     }
 
     function hidePreloader() {
@@ -213,8 +213,6 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
-        Common.Gateway.documentReady();
-
         api.ShowThumbnails(false);
         api.asc_DeleteVerticalScroll();
 
@@ -258,18 +256,18 @@ var ApplicationController = new(function(){
         Common.Gateway.on('processmouse',       onProcessMouse);
         Common.Gateway.on('downloadas',         onDownloadAs);
 
-        ApplicationView.tools.get('#idt-fullscreen')
+        PE.ApplicationView.tools.get('#idt-fullscreen')
             .on('click', function(){
                 common.utils.openLink(embedConfig.fullscreenUrl);
             });
 
-        ApplicationView.tools.get('#idt-download')
+        PE.ApplicationView.tools.get('#idt-download')
             .on('click', function(){
                 if ( !!embedConfig.saveUrl ){
                     common.utils.openLink(embedConfig.saveUrl);
                 } else
                 if (api && permissions.print!==false){
-                    api.asc_Print($.browser.chrome || $.browser.safari || $.browser.opera);
+                    api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
                 }
 
                 Common.Analytics.trackEvent('Save');
@@ -394,6 +392,7 @@ var ApplicationController = new(function(){
         });
 
         $('#btn-play').on('click', onPlayStart);
+        Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
 
@@ -418,7 +417,7 @@ var ApplicationController = new(function(){
 
     function onOpenDocument(progress) {
         var proc = (progress.asc_getCurrentFont() + progress.asc_getCurrentImage())/(progress.asc_getFontsCount() + progress.asc_getImagesCount());
-        $('#loadmask-text').html('Loading document: ' + Math.min(Math.round(proc * 100), 100) + '%');
+        $('#loadmask-text').html(me.textLoadingDocument + ': ' + Math.min(Math.round(proc * 100), 100) + '%');
     }
 
     var isplaymode;
@@ -459,6 +458,16 @@ var ApplicationController = new(function(){
     }
 
     function onError(id, level, errData) {
+        if (id == Asc.c_oAscError.ID.LoadingScriptError) {
+            $('#id-critical-error-title').text(me.criticalErrorTitle);
+            $('#id-critical-error-message').text(me.scriptLoadError);
+            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
+                window.location.reload();
+            });
+            $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
+            return;
+        }
+
         hidePreloader();
 
         var message;
@@ -481,6 +490,18 @@ var ApplicationController = new(function(){
                 message = me.downloadErrorText;
                 break;
 
+            case Asc.c_oAscError.ID.ConvertationPassword:
+                message = me.errorFilePassProtect;
+                break;
+
+            case Asc.c_oAscError.ID.UserDrop:
+                message = me.errorUserDrop;
+                break;
+
+            case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                message = me.errorFileSizeExceed;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -492,9 +513,8 @@ var ApplicationController = new(function(){
             Common.Gateway.reportError(id, message);
 
             $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').text(message);
-            $('#id-critical-error-close').off();
-            $('#id-critical-error-close').on('click', function(){
+            $('#id-critical-error-message').html(message);
+            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
         }
@@ -502,9 +522,8 @@ var ApplicationController = new(function(){
             Common.Gateway.reportWarning(id, message);
 
             $('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').text(message);
-            $('#id-critical-error-close').off();
-            $('#id-critical-error-close').on('click', function(){
+            $('#id-critical-error-message').html(message);
+            $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 $('#id-critical-error-dialog').modal('hide');
             });
         }
@@ -517,7 +536,7 @@ var ApplicationController = new(function(){
     function onExternalMessage(error) {
         if (error) {
             hidePreloader();
-            $('#id-error-mask-title').text('Error');
+            $('#id-error-mask-title').text(me.criticalErrorTitle);
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');
 
@@ -539,7 +558,11 @@ var ApplicationController = new(function(){
     }
 
     function onDownloadAs() {
-        if (api) api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
+        if ( permissions.download === false) {
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
+            return;
+        }
+        if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
     }
     // Helpers
     // -------------------------
@@ -591,10 +614,21 @@ var ApplicationController = new(function(){
         create                  : createController,
         errorDefaultMessage     : 'Error code: %1',
         unknownErrorText        : 'Unknown error.',
-        convertationTimeoutText : 'Convertation timeout exceeded.',
-        convertationErrorText   : 'Convertation failed.',
+        convertationTimeoutText : 'Conversion timeout exceeded.',
+        convertationErrorText   : 'Conversion failed.',
         downloadErrorText       : 'Download failed.',
         criticalErrorTitle      : 'Error',
-        notcriticalErrorTitle   : 'Warning'
+        notcriticalErrorTitle   : 'Warning',
+        scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+        errorFilePassProtect: 'The file is password protected and cannot be opened.',
+        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+        errorUserDrop: 'The file cannot be accessed right now.',
+        unsupportedBrowserErrorText: 'Your browser is not supported.',
+        textOf: 'of',
+        downloadTextText: 'Downloading presentation...',
+        waitText: 'Please, wait...',
+        textLoadingDocument: 'Loading presentation',
+        txtClose: 'Close',
+        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
     }
 })();

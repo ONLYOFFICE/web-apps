@@ -117,6 +117,7 @@
 @import "../../../../common/main/resources/less/plugins.less";
 @import "../../../../common/main/resources/less/toolbar.less";
 @import "../../../../common/main/resources/less/language-dialog.less";
+@import "../../../../common/main/resources/less/winxp_fix.less";
 
 // App
 // --------------------------------------------------
@@ -144,3 +145,28 @@
 
 @huge-icon-size: 37px;
 @x-huge-icon-size: 45px;
+
+// Skeleton of document
+
+.doc-placeholder {
+    background: #fbfbfb;
+    width: 100%;
+    max-width: 796px;
+    margin: 40px auto;
+    height: 100%;
+    border: 1px solid #dfdfdf;
+    padding-top: 50px;
+
+    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    -moz-animation: flickerAnimation 2s infinite ease-in-out;
+    -o-animation: flickerAnimation 2s infinite ease-in-out;
+    animation: flickerAnimation 2s infinite ease-in-out;
+
+    > .line {
+        height: 15px;
+        margin: 30px 80px;
+        background: #e2e2e2;
+        overflow: hidden;
+        position: relative;
+    }
+}

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -130,6 +130,7 @@ require([
         nameSpace: 'DE',
         autoCreate: false,
         controllers : [
+            'Common.Controllers.Plugins',
             'Editor',
             'Toolbar',
             'Search',
@@ -139,6 +140,7 @@ require([
             'EditContainer',
             'EditText',
             'EditParagraph',
+            'EditHeader',
             'EditTable',
             'EditImage',
             'EditShape',
@@ -148,11 +150,10 @@ require([
             'AddTable',
             'AddShape',
             'AddImage',
-            'AddOther'
+            'AddOther',
+            'Common.Controllers.Collaboration'
         ]
     });
-
-    Common.Locale.apply();
 
     var device = Framework7.prototype.device;
     var loadPlatformCss = function (filename, opt){
@@ -195,31 +196,36 @@ require([
     //Load platform styles
     loadPlatformCss('resources/css/app-' + (device.android ? 'material' : 'ios') + '.css');
 
-    require([
-        'common/main/lib/util/LocalStorage',
-        'common/main/lib/util/utils',
-        'documenteditor/mobile/app/controller/Editor',
-        'documenteditor/mobile/app/controller/Toolbar',
-        'documenteditor/mobile/app/controller/Search',
-        'documenteditor/mobile/app/controller/Main',
-        'documenteditor/mobile/app/controller/DocumentHolder',
-        'documenteditor/mobile/app/controller/Settings',
-        'documenteditor/mobile/app/controller/edit/EditContainer',
-        'documenteditor/mobile/app/controller/edit/EditText',
-        'documenteditor/mobile/app/controller/edit/EditParagraph',
-        'documenteditor/mobile/app/controller/edit/EditTable',
-        'documenteditor/mobile/app/controller/edit/EditImage',
-        'documenteditor/mobile/app/controller/edit/EditShape',
-        'documenteditor/mobile/app/controller/edit/EditChart',
-        'documenteditor/mobile/app/controller/edit/EditHyperlink',
-        'documenteditor/mobile/app/controller/add/AddContainer',
-        'documenteditor/mobile/app/controller/add/AddTable',
-        'documenteditor/mobile/app/controller/add/AddShape',
-        'documenteditor/mobile/app/controller/add/AddImage',
-        'documenteditor/mobile/app/controller/add/AddOther'
-    ], function() {
-        window.compareVersions = true;
-        app.start();
+    Common.Locale.apply(function() {
+        require([
+            'common/main/lib/util/LocalStorage',
+            'common/main/lib/util/utils',
+            'common/mobile/lib/controller/Plugins',
+            'documenteditor/mobile/app/controller/Editor',
+            'documenteditor/mobile/app/controller/Toolbar',
+            'documenteditor/mobile/app/controller/Search',
+            'documenteditor/mobile/app/controller/Main',
+            'documenteditor/mobile/app/controller/DocumentHolder',
+            'documenteditor/mobile/app/controller/Settings',
+            'documenteditor/mobile/app/controller/edit/EditContainer',
+            'documenteditor/mobile/app/controller/edit/EditText',
+            'documenteditor/mobile/app/controller/edit/EditParagraph',
+            'documenteditor/mobile/app/controller/edit/EditHeader',
+            'documenteditor/mobile/app/controller/edit/EditTable',
+            'documenteditor/mobile/app/controller/edit/EditImage',
+            'documenteditor/mobile/app/controller/edit/EditShape',
+            'documenteditor/mobile/app/controller/edit/EditChart',
+            'documenteditor/mobile/app/controller/edit/EditHyperlink',
+            'documenteditor/mobile/app/controller/add/AddContainer',
+            'documenteditor/mobile/app/controller/add/AddTable',
+            'documenteditor/mobile/app/controller/add/AddShape',
+            'documenteditor/mobile/app/controller/add/AddImage',
+            'documenteditor/mobile/app/controller/add/AddOther',
+            'common/mobile/lib/controller/Collaboration'
+        ], function() {
+            window.compareVersions = true;
+            app.start();
+        });
     });
 }, function(err) {
     if (err.requireType == 'timeout' && !reqerr && window.requireTimeourError) {

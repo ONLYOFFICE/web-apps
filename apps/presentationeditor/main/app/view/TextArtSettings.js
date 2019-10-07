@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -75,6 +75,7 @@ define([
             this.shapeprops = null;
             this._sendUndoPoint = true;
             this._sliderChanged = false;
+            this._texturearray = null;
 
             this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
 
@@ -122,6 +123,10 @@ define([
             this.FillPatternContainer = $('#textart-panel-pattern-fill');
             this.FillGradientContainer = $('#textart-panel-gradient-fill');
             this.TransparencyContainer = $('#textart-panel-transparent-fill');
+
+            PE.getCollection('Common.Collections.TextArt').bind({
+                reset: this.fillTextArt.bind(this)
+            });
         },
 
         render: function () {
@@ -169,6 +174,9 @@ define([
                             fill.get_fill().put_linear_scale(true);
                         }
                         if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
+                            this.GradColor.values = [0, 100];
+                            this.GradColor.colors = [this.GradColor.colors[0], this.GradColor.colors[this.GradColor.colors.length - 1]];
+                            this.GradColor.currentIdx = 0;
                             var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]).get_color().get_hex(),
                                 HexColor1 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1]).get_color().get_hex();
 
@@ -363,8 +371,10 @@ define([
         onTransparencyChangeComplete: function(field, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = newValue;
-            this.api.setEndPointHistory();
-            this._transparencyApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -471,14 +481,22 @@ define([
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
-                fill.get_fill().put_colors([Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]), Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1])]);
+                var arr = [];
+                this.GradColor.colors.forEach(function(item){
+                    arr.push(Common.Utils.ThemeColor.getRgbColor(item));
+                });
+                fill.get_fill().put_colors(arr);
 
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                         fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
                         fill.get_fill().put_linear_scale(true);
                     }
-                    fill.get_fill().put_positions([this.GradColor.values[0]*1000, this.GradColor.values[1]*1000]);
+                    arr = [];
+                    this.GradColor.values.forEach(function(item){
+                        arr.push(item*1000);
+                    });
+                    fill.get_fill().put_positions(arr);
                 }
                 props.asc_putFill(fill);
                 this.shapeprops.put_TextArtProperties(props);
@@ -502,8 +520,10 @@ define([
         onGradientChangeComplete: function(slider, newValue, oldValue){
             clearInterval(this.updateslider);
             this._sliderChanged = true;
-            this.api.setEndPointHistory();
-            this._gradientApplyFunc();
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._gradientApplyFunc();
+            }
             this._sendUndoPoint = true;
         },
 
@@ -514,14 +534,22 @@ define([
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
-                fill.get_fill().put_positions([this.GradColor.values[0]*1000, this.GradColor.values[1]*1000]);
+                var arr = [];
+                this.GradColor.values.forEach(function(item){
+                    arr.push(item*1000);
+                });
+                fill.get_fill().put_positions(arr);
 
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                         fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
                         fill.get_fill().put_linear_scale(true);
                     }
-                    fill.get_fill().put_colors([Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]), Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1])]);
+                    arr = [];
+                    this.GradColor.colors.forEach(function(item){
+                        arr.push(Common.Utils.ThemeColor.getRgbColor(item));
+                    });
+                    fill.get_fill().put_colors(arr);
                 }
                 props.asc_putFill(fill);
                 this.shapeprops.put_TextArtProperties(props);
@@ -708,7 +736,7 @@ define([
                     this.FGColor = (this.ShapeColor.Color!=='transparent') ? {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.ShapeColor.Color)} : {Value: 1, Color: '000000'};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
                     this.GradColor.colors[0] = (this.ShapeColor.Color!=='transparent') ? Common.Utils.ThemeColor.colorValue2EffectId(this.ShapeColor.Color) : '000000';
-                    this.GradColor.colors[1] = 'ffffff';
+                    this.GradColor.colors[this.GradColor.colors.length-1] = 'ffffff';
                 }  else if (fill_type==Asc.c_oAscFill.FILL_TYPE_BLIP) {
                     fill = fill.get_fill();
                     this.BlipFillType = fill.get_type(); // null - не совпадают у нескольких фигур
@@ -756,7 +784,7 @@ define([
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     this.ShapeColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color)};
                     this.GradColor.colors[0] = Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color);
-                    this.GradColor.colors[1] = 'ffffff';
+                    this.GradColor.colors[this.GradColor.colors.length-1] = 'ffffff';
                 } else if (fill_type==Asc.c_oAscFill.FILL_TYPE_GRAD) {
                     fill = fill.get_fill();
                     var gradfilltype = fill.get_grad_type();  // null - не совпадают у нескольких фигур
@@ -787,49 +815,37 @@ define([
                         }
                     }
 
-                    var colors = fill.get_colors();
-                    if (colors && colors.length>0) {
-                        color = colors[0];
+                    var me = this;
+                    var colors = fill.get_colors(),
+                        positions = fill.get_positions(),
+                        length = colors.length;
+                    this.sldrGradient.setThumbs(length);
+                    if (this.GradColor.colors.length>length) {
+                        this.GradColor.colors.splice(length, this.GradColor.colors.length - length);
+                        this.GradColor.values.splice(length, this.GradColor.colors.length - length);
+                        this.GradColor.currentIdx = 0;
+                    }
+                    colors && colors.forEach(function(color, index) {
                         if (color) {
                             if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.GradColor.colors[0] = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
-                                Common.Utils.ThemeColor.colorValue2EffectId(this.GradColor.colors[0]);
+                                me.GradColor.colors[index] = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
+                                Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index]);
                             } else {
-                                this.GradColor.colors[0] = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                                me.GradColor.colors[index] = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                             }
                         } else
-                            this.GradColor.colors[0] = '000000';
+                            me.GradColor.colors[index] = '000000';
 
-                        color = colors[1];
-                        if (color) {
-                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.GradColor.colors[1] = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
-                                Common.Utils.ThemeColor.colorValue2EffectId(this.GradColor.colors[1]);
-                            } else {
-                                this.GradColor.colors[1] = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                            }
-                        } else
-                            this.GradColor.colors[1] = 'ffffff';
-
-                    }
-                    var positions = fill.get_positions();
-                    if (positions && positions.length>0) {
-                        var position = positions[0];
+                        var position = positions[index];
                         if (position!==null)       {
                             position = position/1000;
-                            this.GradColor.values[0] = position;
+                            me.GradColor.values[index] = position;
                         }
-
-                        position = positions[1];
-                        if (position!==null)       {
-                            position = position/1000;
-                            this.GradColor.values[1] = position;
-                        }
+                    });
+                    for (var index=0; index<length; index++) {
+                        me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
+                        me.sldrGradient.setValue(index, me.GradColor.values[index]);
                     }
-                    this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(this.GradColor.colors[0]) == 'object') ? this.GradColor.colors[0].color : this.GradColor.colors[0]), 0);
-                    this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(this.GradColor.colors[1]) == 'object') ? this.GradColor.colors[1].color : this.GradColor.colors[1]), 1);
-                    this.sldrGradient.setValue(0, this.GradColor.values[0]);
-                    this.sldrGradient.setValue(1, this.GradColor.values[1]);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1060,7 +1076,7 @@ define([
                 el: $('#textart-combo-fill-src'),
                 cls: 'input-group-nr',
                 style: 'width: 100%;',
-                menuStyle: 'min-width: 190px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrFillSrc
             });
@@ -1283,6 +1299,7 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             
             var global_hatch_menu_map = [
@@ -1316,50 +1333,59 @@ define([
                 this.PatternFillType = this.patternViewData[0].type;
             }
             this.UpdateThemeColors();
+            this.onInitStandartTextures();
+            this.fillTextArt();
             this.fillTransform(this.api.asc_getPropertyEditorTextArts());
-            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {
             var me = this;
             if (texture && texture.length>0){
-                if (!this.btnTexture) {
-                    this.btnTexture = new Common.UI.ComboBox({
-                        el: $('#textart-combo-fill-texture'),
-                        template: _.template([
-                            '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                                '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
-                                '<div style="display: table-cell;"></div>',
-                                '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
-                            '</div>'
-                        ].join(''))
-                    });
-                    this.textureMenu = new Common.UI.Menu({
-                        items: [
-                            { template: _.template('<div id="id-textart-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
-                        ]
-                    });
-                    this.textureMenu.render($('#textart-combo-fill-texture'));
-                    this.lockedControls.push(this.btnTexture);
-                }
-                var texturearray = [];
+                me._texturearray = [];
                 _.each(texture, function(item){
-                    texturearray.push({
+                    me._texturearray.push({
                         imageUrl: item.get_image(),
                         name   : me.textureNames[item.get_id()],
                         type    : item.get_id(),
+//                        allowSelected : false,
                         selected: false
                     });
                 });
-                var mnuTexturePicker = new Common.UI.DataView({
-                    el: $('#id-textart-menu-texture'),
-                    restoreHeight: 174,
-                    parentMenu: me.textureMenu,
-                    showLast: false,
-                    store: new Common.UI.DataViewStore(texturearray),
-                    itemTemplate: _.template('<div><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+            }
+
+            if (!me._texturearray || me._texturearray.length<1) return;
+            if (!this._initSettings && !this.btnTexture) {
+                this.btnTexture = new Common.UI.ComboBox({
+                    el: $('#textart-combo-fill-texture'),
+                    template: _.template([
+                        '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
+                            '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                            '<div style="display: table-cell;"></div>',
+                            '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '</div>'
+                    ].join(''))
                 });
-                mnuTexturePicker.on('item:click', _.bind(this.onSelectTexture, this));
+                this.textureMenu = new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-textart-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
+                    ]
+                });
+                this.textureMenu.render($('#textart-combo-fill-texture'));
+                this.lockedControls.push(this.btnTexture);
+
+                var onShowBefore = function(menu) {
+                    var mnuTexturePicker = new Common.UI.DataView({
+                        el: $('#id-textart-menu-texture'),
+                        restoreHeight: 174,
+                        parentMenu: menu,
+                        showLast: false,
+                        store: new Common.UI.DataViewStore(me._texturearray || []),
+                        itemTemplate: _.template('<div><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    });
+                    mnuTexturePicker.on('item:click', _.bind(me.onSelectTexture, me));
+                    menu.off('show:before', onShowBefore);
+                };
+                this.textureMenu.on('show:before', onShowBefore);
             }
         },
 
@@ -1384,6 +1410,7 @@ define([
         },
 
         fillTextArt: function() {
+            if (this._initSettings) return;
             var me = this;
             if (!this.cmbTextArt) {
                 this.cmbTextArt = new Common.UI.ComboDataView({
@@ -1408,6 +1435,10 @@ define([
             
             var models = this.application.getCollection('Common.Collections.TextArt').models,
                 count = this.cmbTextArt.menuPicker.store.length;
+            if (models.length<1) {
+                PE.getController('Main').fillTextArt(this.api.asc_getTextArtPreviews());
+                return;
+            }
             if (count>0 && count==models.length) {
                 var data = this.cmbTextArt.menuPicker.store.models;
                 _.each(models, function(template, index){
@@ -1464,6 +1495,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBackColor = new Common.UI.ColorButton({
                     style: "width:45px;",

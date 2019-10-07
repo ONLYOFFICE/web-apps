@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -65,7 +65,7 @@ define([
         function setEvents() {
             var me = this;
 
-            if ( me.appConfig.isDesktopApp && me.appConfig.isOffline ) {
+            if (me.appConfig.isPasswordSupport) {
                 this.btnsAddPwd.concat(this.btnsChangePwd).forEach(function(button) {
                     button.on('click', function (b, e) {
                         me.fireEvent('protect:password', [b, 'add']);
@@ -81,19 +81,19 @@ define([
                 this.btnPwd.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('protect:password', [menu, item.value]);
                 });
+            }
 
-                if (me.appConfig.canProtect) {
-                    if (this.btnSignature.menu)
-                        this.btnSignature.menu.on('item:click', function (menu, item, e) {
-                            me.fireEvent('protect:signature', [item.value, false]);
-                        });
-
-                    this.btnsInvisibleSignature.forEach(function(button) {
-                        button.on('click', function (b, e) {
-                            me.fireEvent('protect:signature', ['invisible']);
-                        });
+            if (me.appConfig.isSignatureSupport) {
+                if (this.btnSignature.menu)
+                    this.btnSignature.menu.on('item:click', function (menu, item, e) {
+                        me.fireEvent('protect:signature', [item.value, false]);
                     });
-                }
+
+                this.btnsInvisibleSignature.forEach(function(button) {
+                    button.on('click', function (b, e) {
+                        me.fireEvent('protect:signature', ['invisible']);
+                    });
+                });
             }
         }
 
@@ -111,12 +111,12 @@ define([
                 this.btnsDelPwd = [];
                 this.btnsChangePwd = [];
 
-                this._state = {disabled: false, hasPassword: false, disabledPassword: false};
+                this._state = {disabled: false, hasPassword: false, disabledPassword: false, invisibleSignDisabled: false};
 
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
-                if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
+                if ( this.appConfig.isPasswordSupport ) {
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-protect',
@@ -131,18 +131,18 @@ define([
                         menu: true,
                         visible: false
                     });
-
-                    if (this.appConfig.canProtect) {
-                        this.btnSignature = new Common.UI.Button({
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'btn-ic-signature',
-                            caption: this.txtSignature,
-                            menu: (this.appPrefix !== 'pe-')
-                        });
-                        if (!this.btnSignature.menu)
-                            this.btnsInvisibleSignature.push(this.btnSignature);
-                    }
                 }
+                if (this.appConfig.isSignatureSupport) {
+                    this.btnSignature = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-ic-signature',
+                        caption: this.txtSignature,
+                        menu: (this.appPrefix !== 'pe-')
+                    });
+                    if (!this.btnSignature.menu)
+                        this.btnsInvisibleSignature.push(this.btnSignature);
+                }
+
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -159,25 +159,26 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    if ( config.isDesktopApp && config.isOffline) {
-                        me.btnAddPwd.updateHint(me.hintAddPwd);
-                        me.btnPwd.updateHint(me.hintPwd);
+                    if ( config.canProtect) {
+                        if ( config.isPasswordSupport) {
+                            me.btnAddPwd.updateHint(me.hintAddPwd);
+                            me.btnPwd.updateHint(me.hintPwd);
 
-                        me.btnPwd.setMenu(
-                            new Common.UI.Menu({
-                                items: [
-                                    {
-                                        caption: me.txtChangePwd,
-                                        value: 'add'
-                                    },
-                                    {
-                                        caption: me.txtDeletePwd,
-                                        value: 'delete'
-                                    }
-                                ]
-                            })
-                        );
-
+                            me.btnPwd.setMenu(
+                                new Common.UI.Menu({
+                                    items: [
+                                        {
+                                            caption: me.txtChangePwd,
+                                            value: 'add'
+                                        },
+                                        {
+                                            caption: me.txtDeletePwd,
+                                            value: 'delete'
+                                        }
+                                    ]
+                                })
+                            );
+                        }
                         if (me.btnSignature) {
                             me.btnSignature.updateHint((me.btnSignature.menu) ? me.hintSignature : me.txtInvisibleSignature);
                             me.btnSignature.menu && me.btnSignature.setMenu(
@@ -206,9 +207,9 @@ define([
             getPanel: function () {
                 this.$el = $(_.template(template)( {} ));
 
-                if ( this.appConfig.isDesktopApp && this.appConfig.isOffline ) {
-                    this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
-                    this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
+                if ( this.appConfig.canProtect ) {
+                    this.btnAddPwd && this.btnAddPwd.render(this.$el.find('#slot-btn-add-password'));
+                    this.btnPwd && this.btnPwd.render(this.$el.find('#slot-btn-change-password'));
                     this.btnSignature && this.btnSignature.render(this.$el.find('#slot-btn-signature'));
                 }
                 return this.$el;
@@ -225,7 +226,7 @@ define([
                         cls: 'btn-text-default',
                         style: 'width: 100%;',
                         caption: this.txtInvisibleSignature,
-                        disabled: this._state.disabled
+                        disabled: this._state.invisibleSignDisabled
                     });
                     this.btnsInvisibleSignature.push(button);
 
@@ -268,6 +269,7 @@ define([
 
             SetDisabled: function (state, canProtect) {
                 this._state.disabled = state;
+                this._state.invisibleSignDisabled = state && !canProtect;
                 this.btnsInvisibleSignature && this.btnsInvisibleSignature.forEach(function(button) {
                     if ( button ) {
                         button.setDisabled(state && !canProtect);

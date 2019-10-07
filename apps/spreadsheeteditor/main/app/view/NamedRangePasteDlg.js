@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -74,11 +74,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
 
@@ -125,7 +121,7 @@ define([
             if (this.ranges) {
                 var me = this, arr = [], prev_name='';
                 for (var i=0; i<this.ranges.length; i++) {
-                    var name = this.ranges[i].asc_getName();
+                    var name = this.ranges[i].asc_getName(true);
                     if (name !== prev_name) {
                         arr.push({
                             name: name,
@@ -150,7 +146,7 @@ define([
 
         getSettings: function() {
             var rec = this.rangeList.getSelectedRec();
-            return (rec.length>0) ? (new Asc.asc_CDefName(rec[0].get('name'), rec[0].get('range'), rec[0].get('scope'), rec[0].get('isTable'))) : null;
+            return (rec) ? (new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true)) : null;
         },
 
         onPrimary: function() {
@@ -171,8 +167,6 @@ define([
         },
 
         txtTitle: 'Paste Name',
-        cancelButtonText : 'Cancel',
-        okButtonText : 'Ok',
         textNames: 'Named Ranges'
     }, SSE.Views.NamedRangePasteDlg || {}));
 });

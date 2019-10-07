@@ -1,7 +1,9 @@
 
 <div class="statusbar" style="display:table;">
+    <div class="status-group">
+        <div id="slot-status-btn-preview" style="display: inline-block;margin-left: 9px;"></div>
+    </div>
     <div class="status-group dropup">
-        <button id="status-btn-preview" type="button" class="btn small btn-toolbar" style="margin-left: 9px;"><i class="icon"></i></button>
         <label id="status-label-pages" class="status-label dropdown-toggle" style="margin-left: 7px; display: none;" data-toggle="dropdown"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
         <div id="status-goto-box" class="dropdown-menu">
             <label style="float:left;line-height:22px;"><%= scope.goToPageText %></label>
@@ -27,13 +29,12 @@
     <div class="status-group" style="">
         <div class="cnt-lang el-edit">
             <div class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 6px;">
-                <span class="icon lang-flag en" data-vertical-offset="10" />
                 <label id="status-label-lang" class="status-label">English (United States)</label>
                 <div class="caret up img-commonctrl" />
             </div>
         </div>
-        <button id="btn-doc-lang" type="button" class="btn small btn-toolbar el-edit"><i class="icon"></i></button>
-        <button id="btn-doc-spell" type="button" class="btn small btn-toolbar el-edit"><i class="icon"></i></button>
+        <span id="btn-doc-lang" class="el-edit"></span>
+        <span id="btn-doc-spell" class="el-edit"></span>
         <div class="separator short el-edit"></div>
         <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar"><i class="icon"></i></button>
         <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar"><i class="icon"></i></button>

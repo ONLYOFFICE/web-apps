@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -93,11 +93,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
 
@@ -137,7 +133,7 @@ define([
                                 return me.textIsLocked;
                             break;
                             case Asc.c_oAscDefinedNameReason.Existed:
-                                return (me.isEdit && me.props.asc_getName().toLowerCase() == value.toLowerCase()) ? true : me.textExistName;
+                                return (me.isEdit && me.props.asc_getName(true).toLowerCase() == value.toLowerCase()) ? true : me.textExistName;
                             case Asc.c_oAscDefinedNameReason.NameReserved:
                                 return (me.isEdit) ? me.textReservedName : true;
                             default:
@@ -145,12 +141,7 @@ define([
                         }
                     }
                 }
-            }).on('keypress:after', function(input, e) {
-                    if (e.keyCode === Common.UI.Keys.RETURN) {
-                       me.onDlgBtnClick('ok');
-                    }
-                }
-            );
+            });
 
             this.cmbScope = new Common.UI.ComboBox({
                 el          : $('#named-range-combo-scope'),
@@ -175,12 +166,7 @@ define([
                     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
                     return (isvalid!==Asc.c_oAscError.ID.DataRangeError || (me.isEdit && me.props.asc_getRef().toLowerCase() == value.toLowerCase())) ? true : me.textInvalidRange;
                 }
-            }).on('keypress:after', function(input, e) {
-                    if (e.keyCode === Common.UI.Keys.RETURN) {
-                       me.onDlgBtnClick('ok');
-                    }
-                }
-            );
+            });
 
             this.btnSelectData = new Common.UI.Button({
                 el: $('#named-range-btn-data')
@@ -214,7 +200,7 @@ define([
                 var val = props.asc_getScope();
                 this.cmbScope.setValue((val===null) ? -255 : val);
 
-                val = props.asc_getName();
+                val = props.asc_getName(true);
                 if ( !_.isEmpty(val) ) this.inputName.setValue(val);
 
                 val = props.asc_getRef();
@@ -258,11 +244,12 @@ define([
         },
 
         getSettings: function() {
-            return (new Asc.asc_CDefName(this.inputName.getValue(), this.txtDataRange.getValue(), (this.cmbScope.getValue()==-255) ? null : this.cmbScope.getValue(), this.props.asc_getIsTable()));
+            return (new Asc.asc_CDefName(this.inputName.getValue(), this.txtDataRange.getValue(), (this.cmbScope.getValue()==-255) ? null : this.cmbScope.getValue(), this.props.asc_getIsTable(), undefined, undefined, undefined, true));
         },
 
         onPrimary: function() {
-            return true;
+            this.onDlgBtnClick('ok');
+            return false;
         },
 
         onDlgBtnClick: function(event) {
@@ -304,7 +291,7 @@ define([
         onRefreshDefNameList: function(name) {
             var me = this;
             if (this.isEdit && Common.Utils.InternalSettings.get("sse-settings-coauthmode")) { // fast co-editing
-                if (name && name.asc_getIsLock() && name.asc_getName().toLowerCase() == this.props.asc_getName().toLowerCase() &&
+                if (name && name.asc_getIsLock() && name.asc_getName(true).toLowerCase() == this.props.asc_getName(true).toLowerCase() &&
                     (name.asc_getScope() === null && this.props.asc_getScope() === null || name.asc_getScope().toLowerCase() == this.props.asc_getScope().toLowerCase()) && !this._listRefreshed) {
                     this._listRefreshed = true;
                     Common.UI.alert({
@@ -330,8 +317,6 @@ define([
 
         txtTitleNew: 'New Name',
         txtTitleEdit: 'Edit Name',
-        cancelButtonText : 'Cancel',
-        okButtonText : 'Ok',
         textSelectData: 'Select Data',
         textName: 'Name',
         textScope: 'Scope',

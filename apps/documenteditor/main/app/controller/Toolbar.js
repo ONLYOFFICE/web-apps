@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -46,16 +46,17 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
+    'common/main/lib/view/SelectFileDlg',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
-    'documenteditor/main/app/view/MailMergeRecepients',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/controller/PageLayout',
     'documenteditor/main/app/view/CustomColumnsDialog',
-    'documenteditor/main/app/view/ControlSettingsDialog'
+    'documenteditor/main/app/view/ControlSettingsDialog',
+    'documenteditor/main/app/view/WatermarkSettingsDialog'
 ], function () {
     'use strict';
 
@@ -102,12 +103,15 @@ define([
             this.diagramEditor = null;
             this._isAddingShape = false;
             this.editMode = true;
+            this.binding = {};
 
             this.addListeners({
                 'Toolbar': {
                     'insert:break'      : this.onClickPageBreak,
                     'change:compact'    : this.onClickChangeCompact,
-                    'home:open'         : this.onHomeOpen
+                    'home:open'         : this.onHomeOpen,
+                    'add:chart'         : this.onSelectChart,
+                    'insert:textart'    : this.onInsertTextart
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -143,13 +147,15 @@ define([
                             Asc.c_oAscFileType.ODT,
                             Asc.c_oAscFileType.DOCX,
                             Asc.c_oAscFileType.HTML,
-                            Asc.c_oAscFileType.PDFA
+                            Asc.c_oAscFileType.PDFA,
+                            Asc.c_oAscFileType.DOTX,
+                            Asc.c_oAscFileType.OTT
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
                             _format = Asc.c_oAscFileType.PDF;
 
-                        _main.api.asc_DownloadAs(_format);
+                        _main.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format));
                     },
                     'go:editor': function() {
                         Common.Gateway.requestEditRights();
@@ -238,6 +244,7 @@ define([
              */
 
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
@@ -301,20 +308,27 @@ define([
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
+            toolbar.btnWatermark.menu.on('item:click',                  _.bind(this.onWatermarkSelect, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
+            toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
-            toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
+            toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
             toolbar.listStyles.on('click',                              _.bind(this.onListStyleSelect, this));
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
+            toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
+            Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
+            $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
 
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
@@ -324,44 +338,52 @@ define([
         setApi: function(api) {
             this.api = api;
 
-            this.toolbar.setApi(api);
+            if (this.mode.isEdit) {
+                this.toolbar.setApi(api);
 
-            this.api.asc_registerCallback('asc_onFontSize',             _.bind(this.onApiFontSize, this));
-            this.api.asc_registerCallback('asc_onBold',                 _.bind(this.onApiBold, this));
-            this.api.asc_registerCallback('asc_onItalic',               _.bind(this.onApiItalic, this));
-            this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
-            this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
-            this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
-            this.api.asc_registerCallback('asc_onCanUndo',              _.bind(this.onApiCanRevert, this, 'undo'));
-            this.api.asc_registerCallback('asc_onCanRedo',              _.bind(this.onApiCanRevert, this, 'redo'));
-            this.api.asc_registerCallback('asc_onListType',             _.bind(this.onApiBullets, this));
-            this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
-            this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
-            this.api.asc_registerCallback('asc_onParaSpacingLine',      _.bind(this.onApiLineSpacing, this));
-            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
-            this.api.asc_registerCallback('asc_onDocSize',              _.bind(this.onApiPageSize, this));
-            this.api.asc_registerCallback('asc_onPaintFormatChanged',   _.bind(this.onApiStyleChange, this));
-            this.api.asc_registerCallback('asc_onParaStyleName',        _.bind(this.onApiParagraphStyleChange, this));
-            this.api.asc_registerCallback('asc_onEndAddShape',          _.bind(this.onApiEndAddShape, this)); //for shapes
-            this.api.asc_registerCallback('asc_onPageOrient',           _.bind(this.onApiPageOrient, this));
-            this.api.asc_registerCallback('asc_onLockDocumentProps',    _.bind(this.onApiLockDocumentProps, this));
-            this.api.asc_registerCallback('asc_onUnLockDocumentProps',  _.bind(this.onApiUnLockDocumentProps, this));
-            this.api.asc_registerCallback('asc_onLockDocumentSchema',   _.bind(this.onApiLockDocumentSchema, this));
-            this.api.asc_registerCallback('asc_onUnLockDocumentSchema', _.bind(this.onApiUnLockDocumentSchema, this));
-            this.api.asc_registerCallback('asc_onLockHeaderFooters',    _.bind(this.onApiLockHeaderFooters, this));
-            this.api.asc_registerCallback('asc_onUnLockHeaderFooters',  _.bind(this.onApiUnLockHeaderFooters, this));
-            this.api.asc_registerCallback('asc_onZoomChange',           _.bind(this.onApiZoomChange, this));
-            this.api.asc_registerCallback('asc_onMarkerFormatChanged',  _.bind(this.onApiStartHighlight, this));
-            this.api.asc_registerCallback('asc_onTextHighLight',        _.bind(this.onApiHighlightColor, this));
-            this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this, true));
-            Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
-            this.api.asc_registerCallback('asc_onCanCopyCut',           _.bind(this.onApiCanCopyCut, this));
-            this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onMathTypes, this));
-            this.api.asc_registerCallback('asc_onColumnsProps',         _.bind(this.onColumnsProps, this));
-            this.api.asc_registerCallback('asc_onSectionProps',         _.bind(this.onSectionProps, this));
-            this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
-            this.api.asc_registerCallback('asc_onShowParaMarks',        _.bind(this.onShowParaMarks, this));
+                this.api.asc_registerCallback('asc_onFontSize', _.bind(this.onApiFontSize, this));
+                this.api.asc_registerCallback('asc_onBold', _.bind(this.onApiBold, this));
+                this.api.asc_registerCallback('asc_onItalic', _.bind(this.onApiItalic, this));
+                this.api.asc_registerCallback('asc_onUnderline', _.bind(this.onApiUnderline, this));
+                this.api.asc_registerCallback('asc_onStrikeout', _.bind(this.onApiStrikeout, this));
+                this.api.asc_registerCallback('asc_onVerticalAlign', _.bind(this.onApiVerticalAlign, this));
+                this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+                this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
+                this.api.asc_registerCallback('asc_onListType', _.bind(this.onApiBullets, this));
+                this.api.asc_registerCallback('asc_onPrAlign', _.bind(this.onApiParagraphAlign, this));
+                this.api.asc_registerCallback('asc_onTextColor', _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this.onApiLineSpacing, this));
+                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
+                this.api.asc_registerCallback('asc_onDocSize', _.bind(this.onApiPageSize, this));
+                this.api.asc_registerCallback('asc_onPaintFormatChanged', _.bind(this.onApiStyleChange, this));
+                this.api.asc_registerCallback('asc_onParaStyleName', _.bind(this.onApiParagraphStyleChange, this));
+                this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
+                this.api.asc_registerCallback('asc_onPageOrient', _.bind(this.onApiPageOrient, this));
+                this.api.asc_registerCallback('asc_onLockDocumentProps', _.bind(this.onApiLockDocumentProps, this));
+                this.api.asc_registerCallback('asc_onUnLockDocumentProps', _.bind(this.onApiUnLockDocumentProps, this));
+                this.api.asc_registerCallback('asc_onLockDocumentSchema', _.bind(this.onApiLockDocumentSchema, this));
+                this.api.asc_registerCallback('asc_onUnLockDocumentSchema', _.bind(this.onApiUnLockDocumentSchema, this));
+                this.api.asc_registerCallback('asc_onLockHeaderFooters', _.bind(this.onApiLockHeaderFooters, this));
+                this.api.asc_registerCallback('asc_onUnLockHeaderFooters', _.bind(this.onApiUnLockHeaderFooters, this));
+                this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
+                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+                this.api.asc_registerCallback('asc_onTextHighLight', _.bind(this.onApiHighlightColor, this));
+                this.api.asc_registerCallback('asc_onInitEditorStyles', _.bind(this.onApiInitEditorStyles, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+                this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
+                this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
+                this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
+                this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
+                this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
+                this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
+                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+            } else if (this.mode.isRestrictedEdit) {
+                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+            }
         },
 
         onChangeCompactView: function(view, compact) {
@@ -384,6 +406,10 @@ define([
 
         onContextMenu: function() {
             this.toolbar.collapse();
+        },
+
+        onApiChangeFont: function(font) {
+            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
@@ -573,14 +599,14 @@ define([
 
             var width = this._state.pgorient ? w : h,
                 height = this._state.pgorient ? h : w;
-            if (Math.abs(this._state.pgsize[0] - w) > 0.01 ||
-                Math.abs(this._state.pgsize[1] - h) > 0.01) {
+            if (Math.abs(this._state.pgsize[0] - w) > 0.1 ||
+                Math.abs(this._state.pgsize[1] - h) > 0.1) {
                 this._state.pgsize = [w, h];
                 if (this.toolbar.mnuPageSize) {
                     this.toolbar.mnuPageSize.clearAll();
                     _.each(this.toolbar.mnuPageSize.items, function(item){
                         if (item.value && typeof(item.value) == 'object' &&
-                            Math.abs(item.value[0] - width) < 0.01 && Math.abs(item.value[1] - height) < 0.01) {
+                            Math.abs(item.value[0] - width) < 0.1 && Math.abs(item.value[1] - height) < 0.1) {
                             item.setChecked(true);
                             return false;
                         }
@@ -596,16 +622,16 @@ define([
                     right = props.get_RightMargin(),
                     bottom = props.get_BottomMargin();
 
-                if (!this._state.pgmargins || Math.abs(this._state.pgmargins[0] - top) > 0.01 ||
-                    Math.abs(this._state.pgmargins[1] - left) > 0.01 || Math.abs(this._state.pgmargins[2] - bottom) > 0.01 ||
-                    Math.abs(this._state.pgmargins[3] - right) > 0.01) {
+                if (!this._state.pgmargins || Math.abs(this._state.pgmargins[0] - top) > 0.1 ||
+                    Math.abs(this._state.pgmargins[1] - left) > 0.1 || Math.abs(this._state.pgmargins[2] - bottom) > 0.1 ||
+                    Math.abs(this._state.pgmargins[3] - right) > 0.1) {
                     this._state.pgmargins = [top, left, bottom, right];
                     if (this.toolbar.btnPageMargins.menu) {
                         this.toolbar.btnPageMargins.menu.clearAll();
                         _.each(this.toolbar.btnPageMargins.menu.items, function(item){
                             if (item.value && typeof(item.value) == 'object' &&
-                                Math.abs(item.value[0] - top) < 0.01 && Math.abs(item.value[1] - left) < 0.01 &&
-                                Math.abs(item.value[2] - bottom) < 0.01 && Math.abs(item.value[3] - right) < 0.01) {
+                                Math.abs(item.value[0] - top) < 0.1 && Math.abs(item.value[1] - left) < 0.1 &&
+                                Math.abs(item.value[2] - bottom) < 0.1 && Math.abs(item.value[3] - right) < 0.1) {
                                 item.setChecked(true);
                                 return false;
                             }
@@ -619,6 +645,31 @@ define([
             this.toolbar.mnuNonPrinting.items[0].setChecked(v, true);
             this.toolbar.btnShowHidenChars.toggle(v, true);
             Common.localStorage.setItem("de-show-hiddenchars", v);
+        },
+
+        onApiFocusObjectRestrictedEdit: function(selectedObjects) {
+            if (!this.editMode) return;
+
+            var i = -1, type,
+                paragraph_locked = false,
+                header_locked = false,
+                image_locked = false;
+
+            while (++i < selectedObjects.length) {
+                type = selectedObjects[i].get_ObjectType();
+
+                if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    paragraph_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                } else if (type === Asc.c_oAscTypeSelectElement.Header) {
+                    header_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                } else if (type === Asc.c_oAscTypeSelectElement.Image) {
+                    image_locked = selectedObjects[i].get_ObjectValue().get_Locked();
+                }
+            }
+
+            var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            if ( this.btnsComment && this.btnsComment.length > 0 )
+                this.btnsComment.setDisabled(need_disable);
         },
 
         onApiFocusObject: function(selectedObjects) {
@@ -639,7 +690,8 @@ define([
                 in_equation = false,
                 btn_eq_state = false,
                 in_image = false,
-                in_control = false;
+                in_control = false,
+                in_para = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -651,6 +703,7 @@ define([
                     can_add_image = pr.get_CanAddImage();
                     frame_pr = pr;
                     sh = pr.get_Shade();
+                    in_para = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
@@ -741,12 +794,15 @@ define([
             var in_footnote = this.api.asc_IsCursorInFootnote();
             need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
             toolbar.btnsPageBreak.setDisabled(need_disable);
+            toolbar.btnBlankPage.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
-            toolbar.btnInsertImage.setDisabled(need_disable);
+            need_disable = paragraph_locked || header_locked || in_equation || control_plain;
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
-            toolbar.btnInsertTextArt.setDisabled(need_disable || in_image || in_footnote);
+
+            need_disable = paragraph_locked || header_locked  || in_para && !can_add_image || in_equation || control_plain;
+            toolbar.btnInsertImage.setDisabled(need_disable);
+            toolbar.btnInsertTextArt.setDisabled(need_disable || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
@@ -772,9 +828,11 @@ define([
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
-            need_disable = (paragraph_locked || header_locked) && this.api.can_AddQuotedComment() || image_locked;
+            need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
+
+            toolbar.btnWatermark.setDisabled(header_locked);
 
             this._state.in_equation = in_equation;
         },
@@ -884,6 +942,19 @@ define([
             this._onInitEditorStyles(styles);
         },
 
+        onChangeSdtGlobalSettings: function() {
+            var show = this.api.asc_GetGlobalContentControlShowHighlight();
+            this.toolbar.mnuNoControlsColor.setChecked(!show, true);
+            this.toolbar.mnuControlsColorPicker.clearSelection();
+            if (show){
+                var clr = this.api.asc_GetGlobalContentControlHighlightColor();
+                if (clr) {
+                    clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
+                    this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
+                }
+            }
+        },
+
         onNewDocument: function(btn, e) {
             if (this.api)
                 this.api.OpenNewDocument();
@@ -902,7 +973,7 @@ define([
 
         onPrint: function(e) {
             if (this.api)
-                this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
 
@@ -914,7 +985,7 @@ define([
             var toolbar = this.toolbar;
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
+                var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
                 if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
                     return;
 
@@ -1119,6 +1190,7 @@ define([
         onFontNameSelect: function(combo, record) {
             if (this.api) {
                 if (record.isNewFont) {
+                    !this.getApplication().getController('Main').isModalShowed &&
                     Common.UI.warning({
                         width: 500,
                         closable: false,
@@ -1339,7 +1411,7 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
-            } else {
+            } else if (item.value === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -1361,6 +1433,24 @@ define([
                         }
                     }
                 })).show();
+            } else if (item.value === 'storage') {
+                if (this.toolbar.mode.canRequestInsertImage) {
+                    Common.Gateway.requestInsertImage();
+                } else {
+                    (new Common.Views.SelectFileDlg({
+                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                    })).on('selectfile', function(obj, file){
+                        me.insertImage(file);
+                    }).show();
+                }
+            }
+        },
+
+        insertImage: function(data) {
+            if (data && data.url) {
+                this.toolbar.fireEvent('insertimage', this.toolbar);
+                this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
+                Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
         },
 
@@ -1506,6 +1596,14 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onColorSchemaShow: function(menu) {
+            if (this.api) {
+                var value = this.api.asc_GetCurrentColorSchemeName();
+                var item = _.find(menu.items, function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll();
+            }
+        },
+
         onDropCapSelect: function(menu, item) {
             if (_.isUndefined(item.value))
                 return;
@@ -1622,6 +1720,7 @@ define([
                             var me = this;
                             (new DE.Views.ControlSettingsDialog({
                                 props: props,
+                                api: me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         me.api.asc_SetContentControlProperties(value, id);
@@ -1643,6 +1742,26 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onNewControlsColor: function(picker, color) {
+            this.toolbar.mnuControlsColorPicker.addNewColor();
+        },
+
+        onNoControlsColor: function(item) {
+            if (!item.isChecked())
+                this.api.asc_SetGlobalContentControlShowHighlight(true, 220, 220, 220);
+            else
+                this.api.asc_SetGlobalContentControlShowHighlight(false);
+        },
+
+        onSelectControlsColor: function(picker, color) {
+            var clr = Common.Utils.ThemeColor.getRgbColor(color);
+            if (this.api) {
+                this.api.asc_SetGlobalContentControlShowHighlight(true, clr.get_r(), clr.get_g(), clr.get_b());
+            }
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Content Controls Color');
         },
 
         onColumnsSelect: function(menu, item) {
@@ -1723,11 +1842,8 @@ define([
             }
         },
 
-        onSelectChart: function(picker, item, record) {
-            if (!record) return;
-
+        onSelectChart: function(type) {
             var me      = this,
-                type    = record.get('type'),
                 chart = false;
 
             var selectedElements = me.api.getSelectedElements();
@@ -1764,6 +1880,19 @@ define([
                     }
                     me.toolbar.fireEvent('insertchart', me.toolbar);
                 }
+            }
+        },
+
+        onInsertTextart: function (data) {
+            if (this.api) {
+                this.toolbar.fireEvent('inserttextart', this.toolbar);
+                this.api.AddTextArt(data);
+
+                if (this.toolbar.btnInsertShape.pressed)
+                    this.toolbar.btnInsertShape.toggle(false, true);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertTextArt);
+                Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
             }
         },
 
@@ -1805,6 +1934,50 @@ define([
                 this.toolbar.btnEditHeader.menu.hide();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Page Number');
+        },
+
+        onBtnBlankPageClick: function(btn) {
+            if (this.api)
+                this.api.asc_AddBlankPage();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Blank Page');
+        },
+
+        onWatermarkSelect: function(menu, item) {
+            if (this.api) {
+                if (item.value == 'remove')
+                    this.api.asc_WatermarkRemove();
+                else {
+                    var me = this;
+                    if (_.isUndefined(me.fontstore)) {
+                        me.fontstore = new Common.Collections.Fonts();
+                        var fonts = me.toolbar.cmbFontName.store.toJSON();
+                        var arr = [];
+                        _.each(fonts, function(font, index){
+                            if (!font.cloneid) {
+                                arr.push(_.clone(font));
+                            }
+                        });
+                        me.fontstore.add(arr);
+                    }
+
+                    (new DE.Views.WatermarkSettingsDialog({
+                        props: me.api.asc_GetWatermarkProps(),
+                        api: me.api,
+                        lang: me.mode.lang,
+                        fontStore: me.fontstore,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me.api.asc_SetWatermarkProps(value);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
+                }
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Edit ' + item.value);
+            }
         },
 
         onListStyleSelect: function(combo, record) {
@@ -1971,16 +2144,6 @@ define([
                 this.api.asc_AddNewStyle(newStyle);
             }
         },
-
-        // onHideTitleBar: function(item, checked) {
-        //     var headerView  = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-        //     headerView  && headerView.setVisible(!checked);
-        //
-        //     Common.localStorage.setItem('de-hidden-title', checked ? 1 : 0);
-        //
-        //     Common.NotificationCenter.trigger('layout:changed', 'header');
-        //     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-        // },
 
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
@@ -2174,9 +2337,48 @@ define([
             this._state.clrtext_asccolor = color;
         },
 
+        onApiAutoShapes: function() {
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.fillAutoShapes();
+                menu.off('show:before', onShowBefore);
+            };
+            me.toolbar.btnInsertShape.menu.on('show:before', onShowBefore);
+        },
+
         fillAutoShapes: function() {
             var me = this,
                 shapesStore = this.getApplication().getCollection('ShapeGroups');
+
+            var onShowAfter = function(menu) {
+                for (var i = 0; i < shapesStore.length; i++) {
+                    var shapePicker = new Common.UI.DataViewSimple({
+                        el: $('#id-toolbar-menu-shapegroup' + i, menu.items[i].$el),
+                        store: shapesStore.at(i).get('groupStore'),
+                        parentMenu: menu.items[i].menu,
+                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
+                    });
+                    shapePicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            if (record) {
+                                me._addAutoshape(true, record.get('data').shapeType);
+                                me._isAddingShape = true;
+                            }
+
+                            if (me.toolbar.btnInsertText.pressed) {
+                                me.toolbar.btnInsertText.toggle(false, true);
+                            }
+
+                            if (e.type !== 'click')
+                                me.toolbar.btnInsertShape.menu.hide();
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
+                            Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
+                        }
+                    });
+                }
+                menu.off('show:after', onShowAfter);
+            };
+            me.toolbar.btnInsertShape.menu.on('show:after', onShowAfter);
 
             for (var i = 0; i < shapesStore.length; i++) {
                 var shapeGroup = shapesStore.at(i);
@@ -2190,34 +2392,7 @@ define([
                         ]
                     })
                 });
-
                 me.toolbar.btnInsertShape.menu.addItem(menuItem);
-
-                var shapePicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-shapegroup' + i),
-                    store: shapeGroup.get('groupStore'),
-                    parentMenu: menuItem.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
-                });
-
-                shapePicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        if (record) {
-                            me._addAutoshape(true, record.get('data').shapeType);
-                            me._isAddingShape = true;
-                        }
-
-                        if (me.toolbar.btnInsertText.pressed) {
-                            me.toolbar.btnInsertText.toggle(false, true);
-                        }
-
-                        if (e.type !== 'click')
-                            me.toolbar.btnInsertShape.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
-                    }
-                });
             }
         },
 
@@ -2226,12 +2401,44 @@ define([
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
 
-            me.equationPickers = [];
             me.toolbar.btnInsertEquation.menu.removeAll();
-            
+            var onShowAfter = function(menu) {
+                for (var i = 0; i < equationsStore.length; ++i) {
+                    var equationPicker = new Common.UI.DataViewSimple({
+                        el: $('#id-toolbar-menu-equationgroup' + i, menu.items[i].$el),
+                        parentMenu: menu.items[i].menu,
+                        store: equationsStore.at(i).get('groupStore'),
+                        scrollAlwaysVisible: true,
+                        itemTemplate: _.template('<div class="item-equation" '+
+                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
+                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                            '</div>')
+                    });
+                    equationPicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            if (record)
+                                me.api.asc_AddMath(record.get('data').equationType);
+
+                            if (me.toolbar.btnInsertText.pressed) {
+                                me.toolbar.btnInsertText.toggle(false, true);
+                            }
+                            if (me.toolbar.btnInsertShape.pressed) {
+                                me.toolbar.btnInsertShape.toggle(false, true);
+                            }
+
+                            if (e.type !== 'click')
+                                me.toolbar.btnInsertEquation.menu.hide();
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertEquation);
+                            Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
+                        }
+                    });
+                }
+                menu.off('show:after', onShowAfter);
+            };
+            me.toolbar.btnInsertEquation.menu.on('show:after', onShowAfter);
+
             for (var i = 0; i < equationsStore.length; ++i) {
                 var equationGroup = equationsStore.at(i);
-
                 var menuItem = new Common.UI.MenuItem({
                     caption: equationGroup.get('groupName'),
                     menu: new Common.UI.Menu({
@@ -2243,56 +2450,7 @@ define([
                         ]
                     })
                 });
-
                 me.toolbar.btnInsertEquation.menu.addItem(menuItem);
-
-                var equationPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-equationgroup' + i),
-                    store: equationGroup.get('groupStore'),
-                    parentMenu: menuItem.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-equation" '+
-                        'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                        '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>">')
-                });
-                if (equationGroup.get('groupHeight').length) {
-
-                    me.equationPickers.push(equationPicker);
-                    me.toolbar.btnInsertEquation.menu.on('show:after', function () {
-
-                        if (me.equationPickers.length) {
-                            var element = $(this.el).find('.over').find('.menu-shape');
-                            if (element.length) {
-                                for (var i = 0; i < me.equationPickers.length; ++i) {
-                                    if (element[0].id == me.equationPickers[i].el.id) {
-                                        me.equationPickers[i].scroller.update({alwaysVisibleY: true});
-                                        me.equationPickers.splice(i, 1);
-                                        return;
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-
-                equationPicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        if (record)
-                            me.api.asc_AddMath(record.get('data').equationType);
-
-                        if (me.toolbar.btnInsertText.pressed) {
-                            me.toolbar.btnInsertText.toggle(false, true);
-                        }
-                        if (me.toolbar.btnInsertShape.pressed) {
-                            me.toolbar.btnInsertShape.toggle(false, true);
-                        }
-
-                         if (e.type !== 'click')
-                             me.toolbar.btnInsertEquation.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertEquation);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
-                    }
-                });
             }
         },
 
@@ -2302,6 +2460,16 @@ define([
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
+        },
+
+        onApiMathTypes: function(equation) {
+            this._equationTemp = equation;
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.onMathTypes(me._equationTemp);
+                me.toolbar.btnInsertEquation.menu.off('show:before', onShowBefore);
+            };
+            me.toolbar.btnInsertEquation.menu.on('show:before', onShowBefore);
         },
 
         onMathTypes: function(equation) {
@@ -2344,35 +2512,29 @@ define([
                     translationTable[Common.define.c_oAscMathType[name]] = this[translate];
                 }
             }
-
-            var i,id = 0, count = 0, length = 0, width = 0, height = 0, store = null, list = null, eqStore = null, eq = null;
+            var i,id = 0, count = 0, length = 0, width = 0, height = 0, store = null, list = null, eqStore = null, eq = null, data;
 
             if (equation) {
-
-                count = equation.get_Data().length;
-
+                data = equation.get_Data();
+                count = data.length;
                 if (count) {
                     for (var j = 0; j < count; ++j) {
-                        id = equation.get_Data()[j].get_Id();
-                        width = equation.get_Data()[j].get_W();
-                        height = equation.get_Data()[j].get_H();
+                        var group = data[j];
+                        id = group.get_Id();
+                        width = group.get_W();
+                        height = group.get_H();
 
                         store = new Backbone.Collection([], {
                             model: DE.Models.EquationModel
                         });
 
                         if (store) {
-
-                            var allItemsCount = 0, itemsCount = 0, ids = 0;
-
-                            length = equation.get_Data()[j].get_Data().length;
-
+                            var allItemsCount = 0, itemsCount = 0, ids = 0, arr = [];
+                            length = group.get_Data().length;
                             for (i = 0; i < length; ++i) {
-                                eqStore = equation.get_Data()[j].get_Data()[i];
-
+                                eqStore = group.get_Data()[i];
                                 itemsCount = eqStore.get_Data().length;
                                 for (var p = 0; p < itemsCount; ++p) {
-
                                     eq = eqStore.get_Data()[p];
                                     ids = eq.get_Id();
 
@@ -2381,8 +2543,7 @@ define([
                                     if (translationTable.hasOwnProperty(ids)) {
                                         translate = translationTable[ids];
                                     }
-
-                                    store.add({
+                                    arr.push({
                                         data            : {equationType: ids},
                                         tip             : translate,
                                         allowSelected   : true,
@@ -2396,7 +2557,7 @@ define([
 
                                 allItemsCount += itemsCount;
                             }
-
+                            store.add(arr);
                             width = c_oAscMathMainTypeStrings[id][1] * (width + 10);  // 4px margin + 4px margin + 1px border + 1px border
 
                             var normHeight = parseInt(370 / (height + 10)) * (height + 10);
@@ -2408,54 +2569,9 @@ define([
                             });
                         }
                     }
-
                     equationsStore.add(equationgrouparray);
-
                     this.fillEquations();
                 }
-            }
-        },
-
-        fillTextArt: function() {
-            if (!this.toolbar.btnInsertTextArt.rendered) return;
-            
-            var me = this;
-            if (this.toolbar.mnuTextArtPicker) {
-                var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
-                    count = this.toolbar.mnuTextArtPicker.store.length;
-                if (count>0 && count==models.length) {
-                    var data = this.toolbar.mnuTextArtPicker.store.models;
-                    _.each(models, function(template, index){
-                        data[index].set('imageUrl', template.get('imageUrl'));
-                    });
-                } else {
-                    this.toolbar.mnuTextArtPicker.store.reset(models);
-                }
-            } else {
-                this.toolbar.mnuTextArtPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insart'),
-                    store: this.getApplication().getCollection('Common.Collections.TextArt'),
-                    parentMenu: this.toolbar.btnInsertTextArt.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                });
-
-                this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        if (record) {
-                            me.toolbar.fireEvent('inserttextart', me.toolbar);
-                            me.api.AddTextArt(record.get('data'));
-                        }
-
-                        if (me.toolbar.btnInsertShape.pressed)
-                            me.toolbar.btnInsertShape.toggle(false, true);
-
-                         if (e.type !== 'click')
-                             me.toolbar.btnInsertTextArt.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertTextArt);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
-                    }
-                });
             }
         },
 
@@ -2467,12 +2583,17 @@ define([
             this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
             this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
             this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
-            if (this.toolbar.mode.fileChoiceUrl)
+            if (!this._state.mmdisable && (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients))
                 this.toolbar.btnMailRecepients.setDisabled(false);
             this._state.activated = true;
 
             var props = this.api.asc_GetSectionProps();
             this.onApiPageSize(props.get_W(), props.get_H());
+        },
+
+        DisableMailMerge: function() {
+            this._state.mmdisable = true;
+            this.toolbar && this.toolbar.btnMailRecepients && this.toolbar.btnMailRecepients.setDisabled(true);
         },
 
         updateThemeColors: function() {
@@ -2516,6 +2637,9 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
+
+            updateColors(this.toolbar.mnuControlsColorPicker, 1);
+            this.onChangeSdtGlobalSettings();
         },
 
         _onInitEditorStyles: function(styles) {
@@ -2530,17 +2654,17 @@ define([
                 return;
             }
 
-            listStyles.menuPicker.store.reset([]); // remove all
-
+            var arr = [];
             var mainController = this.getApplication().getController('Main');
             _.each(styles.get_MergedStyles(), function(style){
-                listStyles.menuPicker.store.add({
+                arr.push({
                     imageUrl: style.asc_getImage(),
                     title   : style.get_Name(),
                     tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     id      : Common.UI.getId()
                 });
             });
+            listStyles.menuPicker.store.reset(arr); // remove all
 
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered){
                 var styleRec;
@@ -2595,18 +2719,12 @@ define([
         onSetupCopyStyleButton: function () {
             this.modeAlwaysSetStyle = false;
 
-            var acsCopyFmtStyleState = {
-                kOff        : 0,
-                kOn         : 1,
-                kMultiple   : 2
-            };
-
             var me = this;
 
             Common.NotificationCenter.on({
                 'edit:complete': function () {
                     if (me.api && me.modeAlwaysSetStyle) {
-                        me.api.SetPaintFormat(acsCopyFmtStyleState.kOff);
+                        me.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kOff);
                         me.toolbar.btnCopyStyle.toggle(false, true);
                         me.modeAlwaysSetStyle = false;
                     }
@@ -2617,13 +2735,13 @@ define([
                 if (me.api) {
                     me.modeAlwaysSetStyle = true;
                     me.toolbar.btnCopyStyle.toggle(true, true);
-                    me.api.SetPaintFormat(acsCopyFmtStyleState.kMultiple);
+                    me.api.SetPaintFormat(AscCommon.c_oAscFormatPainterState.kMultiple);
                 }
             });
         },
 
-        onApiCoAuthoringDisconnect: function(disableDownload) {
-            this.toolbar.setMode({isDisconnected:true, disableDownload: !!disableDownload});
+        onApiCoAuthoringDisconnect: function(enableDownload) {
+            this.mode.isEdit && this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
             this.DisableToolbar(true, true);
         },
@@ -2655,7 +2773,7 @@ define([
 
             toolbar._state.previewmode = reviewmode && disable;
             if (reviewmode) {
-                toolbar._state.previewmode && toolbar.btnSave.setDisabled(true);
+                toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {
                     toolbar.needShowSynchTip = false;
@@ -2668,22 +2786,28 @@ define([
         onSelectRecepientsClick: function() {
             if (this._mailMergeDlg) return;
 
-            var me = this;
-            me._mailMergeDlg = new DE.Views.MailMergeRecepients({
-                            fileChoiceUrl: this.toolbar.mode.fileChoiceUrl
-                        });
-            me._mailMergeDlg.on('mailmergerecepients', function(obj, recepients){
-                me.api.asc_StartMailMerge(recepients);
-                if (!me.mergeEditor)
-                    me.mergeEditor = me.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
-                if (me.mergeEditor)
-                    me.mergeEditor.setEditMode(false);
+            if (this.toolbar.mode.canRequestMailMergeRecipients) {
+                Common.Gateway.requestMailMergeRecipients();
+            } else {
+                var me = this;
+                me._mailMergeDlg = new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "xlsx").replace("{documentType}", "")
+                });
+                me._mailMergeDlg.on('selectfile', function(obj, recepients){
+                    me.setMailMergeRecipients(recepients);
+                }).on('close', function(obj){
+                    me._mailMergeDlg = undefined;
+                });
+                me._mailMergeDlg.show();
+            }
+        },
 
-            }).on('close', function(obj){
-                me._mailMergeDlg = undefined;
-            });
-
-            me._mailMergeDlg.show();
+        setMailMergeRecipients: function(recepients) {
+            this.api.asc_StartMailMerge(recepients);
+            if (!this.mergeEditor)
+                this.mergeEditor = this.getApplication().getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
+            if (this.mergeEditor)
+                this.mergeEditor.setEditMode(false);
         },
 
         createDelayedElements: function() {
@@ -2703,41 +2827,45 @@ define([
                     compactview = true;
             }
 
-            me.toolbar.render(_.extend({isCompactView: compactview}, config));
-
-            if ( config.isEdit ) {
-                me.toolbar.setMode(config);
+            setTimeout(function () {
+                me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-
+                var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ( $panel )
                     me.toolbar.addTab(tab, $panel, 4);
 
-                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-                if ( config.isDesktopApp ) {
-                    // hide 'print' and 'save' buttons group and next separator
-                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                if ( config.isEdit ) {
+                    me.toolbar.setMode(config);
 
-                    // hide 'undo' and 'redo' buttons and retrieve parent container
-                    var $box =  me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                    // move 'paste' button to the container instead of 'undo' and 'redo'
-                    me.toolbar.btnPaste.$el.detach().appendTo($box);
-                    me.toolbar.btnCopy.$el.removeClass('split');
+                    if (!(config.customization && config.customization.compactHeader)) {
+                        // hide 'print' and 'save' buttons group and next separator
+                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                    if ( config.isProtectSupport && config.isOffline ) {
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                        // hide 'undo' and 'redo' buttons and retrieve parent container
+                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                        if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                        // move 'paste' button to the container instead of 'undo' and 'redo'
+                        me.toolbar.btnPaste.$el.detach().appendTo($box);
+                        me.toolbar.btnCopy.$el.removeClass('split');
                     }
-                }
 
-                var links = me.getApplication().getController('Links');
-                links.setApi(me.api).setConfig({toolbar: me});
-                Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
-            }
+                    if ( config.isDesktopApp ) {
+                        if ( config.canProtect ) {
+                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+
+                            if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                        }
+                    }
+
+                    var links = me.getApplication().getController('Links');
+                    links.setApi(me.api).setConfig({toolbar: me});
+                    Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+                }
+            }, 0);
         },
 
         onAppReady: function (config) {
@@ -2745,22 +2873,7 @@ define([
             me.appOptions = config;
 
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = createButtonSet();
-                var slots = me.toolbar.$el.find('.slot-comment');
-                slots.each(function(index, el) {
-                    var _cls = 'btn-toolbar';
-                    /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
-
-                    var button = new Common.UI.Button({
-                        id: 'tlbtn-addcomment-' + index,
-                        cls: _cls,
-                        iconCls: 'btn-menu-comments',
-                        caption: me.toolbar.capBtnComment
-                    }).render( slots.eq(index) );
-
-                    me.btnsComment.add(button);
-                });
-
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', this.toolbar.capBtnComment);
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
                     this.btnsComment.forEach(function (btn) {

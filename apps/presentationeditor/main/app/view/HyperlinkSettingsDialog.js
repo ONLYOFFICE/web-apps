@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -60,7 +60,9 @@ define([
             width: 350,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
-            id: 'window-hyperlink-settings'
+            id: 'window-hyperlink-settings',
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
         initialize : function(options) {
@@ -95,11 +97,7 @@ define([
                     '<div class="input-row">',
                         '<label>' + this.textTipText + '</label>',
                     '</div>',
-                        '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
-                    '</div>',
-                    '<div class="footer right">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
+                    '<div id="id-dlg-hyperlink-tip" class="input-row" style="margin-bottom: 5px;"></div>',
                 '</div>'
             ].join('');
 
@@ -197,16 +195,23 @@ define([
                 cls: 'input-group-nr',
                 style: 'width: 50px;',
                 menuStyle: 'min-width: 50px; max-height: 200px;',
-                editable: false,
                 data: this.slides
             });
             me.cmbSlides.setValue(0);
             me.cmbSlides.on('selected', _.bind(function(combo, record) {
                 me.radioSlide.setValue(true);
+            }, me))
+            .on('changed:after', _.bind(function(combo, record) {
+                me.radioSlide.setValue(true);
+                if (record.value>me.slides.length)
+                    combo.setValue(me.slides.length-1);
+                else if (record.value<1)
+                    combo.setValue(0);
+                else
+                    combo.setValue(record.value-1);
             }, me));
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-            $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
         },
@@ -229,8 +234,11 @@ define([
                 this.isTextChanged = false;
                 this.inputTip.setValue(props.get_ToolTip());
 
-                if (type==c_oHyperlinkType.WebLink)
-                    me.inputUrl.cmpEl.find('input').focus();
+                if (type==c_oHyperlinkType.WebLink) {
+                    _.delay(function(){
+                        me.inputUrl.cmpEl.find('input').focus();
+                    },50);
+                }
             }
         },
 
@@ -287,11 +295,9 @@ define([
                 this._handleInput(event.currentTarget.attributes['result'].value);
         },
 
-        onKeyPress: function(event) {
-            if (event.keyCode == Common.UI.Keys.RETURN) {
-                this._handleInput('ok');
-                return false;
-            }
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {
@@ -379,8 +385,6 @@ define([
         txtEmpty:           'This field is required',
         txtNotUrl:          'This field should be a URL in the format \"http://www.example.com\"',
         strPlaceInDocument: 'Select a Place in This Document',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         txtNext:            'Next Slide',
         txtPrev:            'Previous Slide',
         txtFirst:           'First Slide',

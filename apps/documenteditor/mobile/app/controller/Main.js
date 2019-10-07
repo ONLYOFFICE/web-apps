@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -153,6 +153,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(me.onCoAuthoringDisconnect, me));
                     Common.NotificationCenter.on('goback',                          _.bind(me.goBack, me));
+                    Common.NotificationCenter.on('download:advanced',               _.bind(me.onAdvancedOptions, me));
 
                     // Initialize descendants
                     _.each(me.getApplication().controllers, function(controller) {
@@ -183,6 +184,11 @@ define([
                     });
                     Common.Gateway.internalMessage('listenHardBack');
                 }
+
+                me.defaultTitleText = '{{APP_TITLE_TEXT}}';
+                me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
+                me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -213,6 +219,9 @@ define([
 
                 if (me.editorConfig.lang)
                     me.api.asc_setLocale(me.editorConfig.lang);
+
+                if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>');
 
 //                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
 //                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
@@ -259,6 +268,10 @@ define([
 
                 if (data.doc) {
                     DE.getController('Toolbar').setDocumentTitle(data.doc.title);
+                    if (data.doc.info) {
+                        data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
+                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+                    }
                 }
             },
 
@@ -306,19 +319,24 @@ define([
             },
 
             onDownloadAs: function() {
+                if ( !this.appOptions.canDownload && !this.appOptions.canDownloadOrigin) {
+                    Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+                    return;
+                }
+
                this._state.isFromGatewayDownloadAs = true;
                var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
 
                 if (type && typeof type[1] === 'string') {
                     this.api.asc_DownloadOrigin(true)
                 } else {
-                    this.api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
                 }
             },
 
-            goBack: function() {
+            goBack: function(current) {
                 var href = this.appOptions.customization.goback.url;
-                if (this.appOptions.customization.goback.blank!==false) {
+                if (!current && this.appOptions.customization.goback.blank!==false) {
                     window.open(href, "_blank");
                 } else {
                     parent.location.href = href;
@@ -448,6 +466,11 @@ define([
                         text    = me.sendMergeText;
                         break;
 
+                    case Asc.c_oAscAsyncAction['Waiting']:
+                        title   = me.waitText;
+                        text    = me.waitText;
+                        break;
+
                     case ApplyEditRights:
                         title   = me.txtEditingMode;
                         text    = me.txtEditingMode;
@@ -485,8 +508,6 @@ define([
                 if (this._isDocReady)
                     return;
 
-                Common.Gateway.documentReady();
-
                 if (this._state.openDlg)
                     uiApp.closeModal(this._state.openDlg);
 
@@ -499,12 +520,12 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                if (me.appOptions.isReviewOnly)
-                    me.api.asc_SetTrackRevisions(true);
+                me.api.asc_SetTrackRevisions(me.appOptions.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (me.appOptions.fileKey || '')));
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
-                this.isLiveCommenting ? this.api.asc_showComments(true) : this.api.asc_hideComments();
+                var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                this.isLiveCommenting ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
                 /** coauthoring end **/
 
                 value = Common.localStorage.getItem("de-settings-zoom");
@@ -517,7 +538,9 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                me.api.asc_setSpellCheck(false); // don't use spellcheck for mobile mode
+                value = Common.localStorage.getBool("de-mobile-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
+                Common.Utils.InternalSettings.set("de-mobile-spellcheck", value);
+                me.api.asc_setSpellCheck(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onEndAction',              _.bind(me.onLongActionEnd, me));
@@ -527,6 +550,12 @@ define([
                 me.updateWindowTitle(true);
 
                 me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
+
+                value = Common.localStorage.getItem("de-mobile-no-characters");
+                me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
+
+                value = Common.localStorage.getItem("de-mobile-hidden-borders");
+                me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -579,6 +608,22 @@ define([
                 me.applyLicense();
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
+
+                if (!me.appOptions.canReview) {
+                    var canViewReview = me.appOptions.isEdit || me.api.asc_HaveRevisionsChanges(true);
+                    DE.getController('Common.Controllers.Collaboration').setCanViewReview(canViewReview);
+                    if (canViewReview) {
+                        var viewReviewMode = Common.localStorage.getItem("de-view-review-mode");
+                        if (viewReviewMode===null)
+                            viewReviewMode = me.appOptions.customization && /^(original|final|markup)$/i.test(me.appOptions.customization.reviewDisplay) ? me.appOptions.customization.reviewDisplay.toLocaleLowerCase() : 'original';
+                        viewReviewMode = me.appOptions.isEdit ? 'markup' : viewReviewMode;
+                        DE.getController('Common.Controllers.Collaboration').turnDisplayMode(viewReviewMode);
+                    }
+                }
+
+                Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {
@@ -604,13 +649,13 @@ define([
                                         text: me.textBuyNow,
                                         bold: true,
                                         onClick: function() {
-                                            window.open('https://www.onlyoffice.com', "_blank");
+                                            window.open('{{PUBLISHER_URL}}', "_blank");
                                         }
                                     },
                                     {
                                         text: me.textContactUs,
                                         onClick: function() {
-                                            window.open('mailto:sales@onlyoffice.com', "_blank");
+                                            window.open('mailto:{{SALES_EMAIL}}', "_blank");
                                         }
                                     }];
                     }
@@ -630,8 +675,24 @@ define([
                             buttons: buttons
                         });
                     }
-                } else
+                } else {
+                    if (!me.appOptions.isDesktopApp && !me.appOptions.canBrandingExt &&
+                        me.editorConfig && me.editorConfig.customization && (me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo)) {
+                        uiApp.modal({
+                            title: me.textPaidFeature,
+                            text  : me.textCustomLoader,
+                            buttons: [{
+                                        text: me.textContactUs,
+                                        bold: true,
+                                        onClick: function() {
+                                            window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                                        }
+                                    },
+                                    { text: me.textClose }]
+                        });
+                    }
                     DE.getController('Toolbar').activateControls();
+                }
             },
 
             onOpenDocument: function(progress) {
@@ -684,14 +745,19 @@ define([
                 me.appOptions.canChat         = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                 me.appOptions.canEditStyles   = me.appOptions.canLicense && me.appOptions.canEdit;
                 me.appOptions.canPrint        = (me.permissions.print !== false);
+                me.appOptions.fileKey = me.document.key;
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
                 me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
                 me.appOptions.canDownload       = me.permissions.download !== false && (!type || typeof type[1] !== 'string');
                 me.appOptions.canReader         = (!type || typeof type[1] !== 'string');
 
-                me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
+                me.appOptions.canBranding  = params.asc_getCustomization();
                 me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
+
+                if ( me.appOptions.isLightVersion ) {
+                    me.appOptions.canUseHistory = me.appOptions.canReview = me.appOptions.isReviewOnly = false;
+                }
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
@@ -720,25 +786,25 @@ define([
                 if (me.api) {
                     me.api.asc_registerCallback('asc_onSendThemeColors', _.bind(me.onSendThemeColors, me));
                     me.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(me.onDownloadUrl, me));
+                    me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
+                    me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                 }
             },
 
             applyModeEditorElements: function() {
                 if (this.appOptions.isEdit) {
                     var me = this;
-//
-//                    var value = Common.localStorage.getItem('de-settings-unit');
-//                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
-//                    Common.Utils.Metric.setCurrentMetric(value);
-//                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+
+                   var value = Common.localStorage.getItem('de-mobile-settings-unit');
+                   value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
-                    me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
-                    me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -754,11 +820,15 @@ define([
                 }
             },
 
+            returnUserCount: function() {
+                return this._state.usersCount;
+            },
+
             onExternalMessage: function(msg) {
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
                     uiApp.addNotification({
-                        title: 'ONLYOFFICE',
+                        title: uiApp.params.modalTitle,
                         message: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]
                     });
 
@@ -767,6 +837,14 @@ define([
             },
 
             onError: function(id, level, errData) {
+                if (id == Asc.c_oAscError.ID.LoadingScriptError) {
+                    uiApp.addNotification({
+                        title: this.criticalErrorTitle,
+                        message: this.scriptLoadError
+                    });
+                    return;
+                }
+
                 this.hidePreloader();
                 this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
@@ -833,7 +911,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.CoAuthoringDisconnect:
-                        config.msg = (this.appOptions.isEdit) ? this.errorCoAuthoringDisconnect : this.errorViewerDisconnect;
+                        config.msg = this.errorViewerDisconnect;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
@@ -870,7 +948,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.Warning:
-                        config.msg = this.errorConnectToServer;
+                        config.msg = this.errorConnectToServer.replace('%1', '{{API_URL_EDITING_CALLBACK}}');
                         break;
 
                     case Asc.c_oAscError.ID.UplImageUrl:
@@ -879,6 +957,18 @@ define([
 
                     case Asc.c_oAscError.ID.DataEncrypted:
                         config.msg = this.errorDataEncrypted;
+                        break;
+
+                    case Asc.c_oAscError.ID.AccessDeny:
+                        config.msg = this.errorAccessDeny;
+                        break;
+
+                    case Asc.c_oAscError.ID.EditingError:
+                        config.msg = this.errorEditingDownloadas;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                        config.msg = this.errorFileSizeExceed;
                         break;
 
                     default:
@@ -898,7 +988,7 @@ define([
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp) {
                         config.msg += '</br></br>' + this.criticalErrorExtText;
                         config.callback = function() {
-                            Common.NotificationCenter.trigger('goback');
+                            Common.NotificationCenter.trigger('goback', true);
                         }
                     }
                     if (id == Asc.c_oAscError.ID.DataEncrypted) {
@@ -1051,17 +1141,16 @@ define([
                Common.Utils.ThemeColor.setColors(colors, standart_colors);
             },
 
-            onAdvancedOptions: function(advOptions) {
+            onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
                 if (this._state.openDlg) return;
 
-                var type = advOptions.asc_getOptionId(),
-                    me = this;
+                var me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
                     var picker,
                         pages = [],
                         pagesName = [];
 
-                    _.each(advOptions.asc_getOptions().asc_getCodePages(), function(page) {
+                    _.each(advOptions.asc_getCodePages(), function(page) {
                         pages.push(page.asc_getCodePage());
                         pagesName.push(page.asc_getCodePageName());
                     });
@@ -1069,6 +1158,37 @@ define([
                     $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                    var buttons = [];
+                    if (mode === 2) {
+                        buttons.push({
+                            text: me.textCancel,
+                            onClick: function () {
+                                me._state.openDlg = null;
+                            }
+                        });
+                    }
+                    buttons.push({
+                        text: 'OK',
+                        bold: true,
+                        onClick: function() {
+                            var encoding = picker.value;
+
+                            if (me.api) {
+                                if (mode==2) {
+                                    formatOptions && formatOptions.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding));
+                                    me.api.asc_DownloadAs(formatOptions);
+                                } else {
+                                    me.api.asc_setAdvancedOptions(type, new Asc.asc_CTextOptions(encoding));
+                                }
+
+                                if (!me._isDocReady) {
+                                    me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                                }
+                            }
+                            me._state.openDlg = null;
+                        }
+                    });
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advTxtOptions,
@@ -1080,31 +1200,14 @@ define([
                             '</div>' +
                             '<div id="txt-encoding"></div>' +
                         '</div>',
-                        buttons: [
-                            {
-                                text: 'OK',
-                                bold: true,
-                                onClick: function() {
-                                    var encoding = picker.value;
-
-                                    if (me.api) {
-                                        me.api.asc_setAdvancedOptions(type, new Asc.asc_CTXTAdvancedOptions(encoding));
-
-                                        if (!me._isDocReady) {
-                                            me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
-                                        }
-                                    }
-                                    me._state.openDlg = null;
-                                }
-                            }
-                        ]
+                        buttons: buttons
                     });
 
                     picker = uiApp.picker({
                         container: '#txt-encoding',
                         toolbar: false,
                         rotateEffect: true,
-                        value: [advOptions.asc_getOptions().asc_getRecommendedSettings().asc_getCodePage()],
+                        value: [advOptions.asc_getRecommendedSettings().asc_getCodePage()],
                         cols: [{
                             values: pages,
                             displayValues: pagesName
@@ -1182,7 +1285,7 @@ define([
                 if (!this.appOptions.canPrint) return;
 
                 if (this.api)
-                    this.api.asc_Print(Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    this.api.asc_Print();
                 Common.component.Analytics.trackEvent('Print');
             },
 
@@ -1229,11 +1332,10 @@ define([
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
-            defaultTitleText: 'ONLYOFFICE Document Editor',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
             errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "Ok" to back to document list.',
+            criticalErrorExtText: 'Press "OK" to back to document list.',
             openTitleText: 'Opening Document',
             openTextText: 'Opening document...',
             saveTitleText: 'Saving Document',
@@ -1260,7 +1362,7 @@ define([
             unknownErrorText: 'Unknown error.',
             convertationTimeoutText: 'Convertation timeout exceeded.',
             downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText : 'Your browser is not supported.',
+            unsupportedBrowserErrorText: 'Your browser is not supported.',
             splitMaxRowsErrorText: 'The number of rows must be less than %1',
             splitMaxColsErrorText: 'The number of columns must be less than %1',
             splitDividerErrorText: 'The number of rows must be a divisor of %1',
@@ -1297,10 +1399,10 @@ define([
             sendMergeTitle: 'Sending Merge',
             sendMergeText: 'Sending Merge...',
             txtArt: 'Your text here',
-            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>',
+            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"%1\" target=\"_blank\">here</a>',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             textBuyNow: 'Visit website',
-            textNoLicenseTitle: 'ONLYOFFICE open source version',
+            textNoLicenseTitle: '%1 open source version',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -1342,12 +1444,19 @@ define([
             txtHeader: "Header",
             txtFooter: "Footer",
             txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset',
-            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicenseUsers: 'This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
-            closeButtonText: 'Close File'
+            closeButtonText: 'Close File',
+            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
+            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
+            textPaidFeature: 'Paid feature',
+            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
+            waitText: 'Please, wait...',
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
         }
     })(), DE.Controllers.Main || {}))
 });

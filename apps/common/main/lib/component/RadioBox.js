@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -71,13 +71,12 @@ define([
         disabled    : false,
         rendered    : false,
 
-        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="img-commonctrl"><%= labelText %></label>'),
+        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="img-commonctrl"><span><%= labelText %></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             this.name =  this.options.name || Common.UI.getId();
 
@@ -94,19 +93,23 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 labelText: this.options.labelText,
                 name: this.name
             }));
 
             this.$radio = el.find('input[type=button]');
+            this.$label = el.find('label');
             this.rendered = true;
 
             return this;
         },
 
         setDisabled: function(disabled) {
+            if (!this.rendered)
+                return;
+
             if (disabled !== this.disabled) {
                 this.$radio.toggleClass('disabled', disabled);
                 (disabled) ? this.$radio.attr({disabled: disabled}) : this.$radio.removeAttr('disabled');
@@ -142,6 +145,10 @@ define([
 
         getValue: function() {
             return this.$radio.hasClass('checked');
+        },
+
+        setCaption: function(text) {
+            this.$label.find('span').text(text);
         }
     });
 });

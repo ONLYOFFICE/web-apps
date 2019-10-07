@@ -95,6 +95,7 @@
           scrollbarXWidth,
           scrollbarXLeft,
           scrollbarXBottom = parseInt($scrollbarXRail.css('bottom'), 10),
+          scrollbarXRailWidth,
           scrollbarYHeight,
           scrollbarYTop,
           scrollbarYRight = parseInt($scrollbarYRail.css('right'), 10),
@@ -122,7 +123,7 @@
 
       var updateContentScrollLeft = function (currentLeft, deltaX) {
         var newLeft = currentLeft + deltaX,
-            maxLeft = containerWidth - scrollbarXWidth;
+            maxLeft = scrollbarXRailWidth - scrollbarXWidth;
 
         if (newLeft < 0) {
           scrollbarXLeft = 0;
@@ -134,7 +135,7 @@
           scrollbarXLeft = newLeft;
         }
 
-        var scrollLeft = parseInt(scrollbarXLeft * (contentWidth - containerWidth) / (containerWidth - scrollbarXWidth), 10);
+        var scrollLeft = parseInt(scrollbarXLeft * (contentWidth - containerWidth) / (scrollbarXRailWidth - scrollbarXWidth), 10);
         $this.scrollLeft(scrollLeft);
         $scrollbarYRail.css({right: scrollbarYRight - scrollLeft});
       };
@@ -147,7 +148,7 @@
       };
 
       var updateScrollbarCss = function () {
-        $scrollbarXRail.css({left: $this.scrollLeft(), bottom: scrollbarXBottom - $this.scrollTop(), width: containerWidth, display: scrollbarXActive ? "inherit": "none"});
+        $scrollbarXRail.css({left: $this.scrollLeft(), bottom: scrollbarXBottom - $this.scrollTop(), width: scrollbarXRailWidth, display: scrollbarXActive ? "inherit": "none"});
 
         if ($scrollbarYRail.hasClass('in-scrolling'))
             $scrollbarYRail.css({/*top: $this.scrollTop(),*/ right: scrollbarYRight - $this.scrollLeft(), height: scrollbarYRailHeight, display: scrollbarYActive ? "inherit": "none"});
@@ -162,13 +163,14 @@
         containerWidth = settings.includePadding ? $this.innerWidth() : $this.width();
         containerHeight = settings.includePadding ? $this.innerHeight() : $this.height();
         scrollbarYRailHeight = containerHeight - (settings.includeMargin ? (parseInt($scrollbarYRail.css('margin-top')) + parseInt($scrollbarYRail.css('margin-bottom'))): 0);
+        scrollbarXRailWidth = containerWidth - (settings.includeMargin ? (parseInt($scrollbarXRail.css('margin-left')) + parseInt($scrollbarXRail.css('margin-right'))): 0);
         contentWidth = $this.prop('scrollWidth');
         contentHeight = $this.prop('scrollHeight');
 
         if (!settings.suppressScrollX && containerWidth + settings.scrollXMarginOffset < contentWidth) {
           scrollbarXActive = true;
-          scrollbarXWidth = getSettingsAdjustedThumbSize(parseInt(containerWidth * containerWidth / contentWidth, 10));
-          scrollbarXLeft = parseInt($this.scrollLeft() * (containerWidth - scrollbarXWidth) / (contentWidth - containerWidth), 10);
+          scrollbarXWidth = getSettingsAdjustedThumbSize(parseInt(scrollbarXRailWidth * containerWidth / contentWidth, 10));
+          scrollbarXLeft = parseInt($this.scrollLeft() * (scrollbarXRailWidth - scrollbarXWidth) / (contentWidth - containerWidth), 10);
         }
         else {
           scrollbarXActive = false;
@@ -192,8 +194,8 @@
         if (scrollbarYTop >= scrollbarYRailHeight - scrollbarYHeight) {
           scrollbarYTop = scrollbarYRailHeight - scrollbarYHeight;
         }
-        if (scrollbarXLeft >= containerWidth - scrollbarXWidth) {
-          scrollbarXLeft = containerWidth - scrollbarXWidth;
+        if (scrollbarXLeft >= scrollbarXRailWidth - scrollbarXWidth) {
+          scrollbarXLeft = scrollbarXRailWidth - scrollbarXWidth;
         }
 
         updateScrollbarCss();
@@ -461,7 +463,7 @@
         $scrollbarXRail.bind('click' + eventClassName, function (e) {
           var halfOfScrollbarLength = parseInt(scrollbarXWidth / 2, 10),
               positionLeft = e.pageX - $scrollbarXRail.offset().left - halfOfScrollbarLength,
-              maxPositionLeft = containerWidth - scrollbarXWidth,
+              maxPositionLeft = scrollbarXRailWidth - scrollbarXWidth,
               positionRatio = positionLeft / maxPositionLeft;
 
           if (positionRatio < 0) {

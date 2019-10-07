@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -42,8 +42,8 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/Switcher',
-    'documenteditor/main/app/view/MailMergeRecepients',
-    'documenteditor/main/app/view/MailMergeSaveDlg',
+    'common/main/lib/view/SaveAsDlg',
+    'common/main/lib/view/SelectFileDlg',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -91,6 +91,31 @@ define([
             this.mergeMailData = undefined;
 
             this.render();
+        },
+
+        render: function () {
+            this.$el.html(this.template({
+                scope: this
+            }));
+        },
+
+        setApi: function(api) {
+            this.api = api;
+            if (this.api) {
+                this.api.asc_registerCallback('asc_onPreviewMailMergeResult',    _.bind(this.onPreviewMailMergeResult, this));
+                this.api.asc_registerCallback('asc_onEndPreviewMailMergeResult', _.bind(this.onEndPreviewMailMergeResult, this));
+                this.api.asc_registerCallback('asc_onStartMailMerge',            _.bind(this.onStartMailMerge, this));
+                this.api.asc_registerCallback('asc_onSaveMailMerge',             _.bind(this.onSaveMailMerge, this));
+                this.api.asc_registerCallback('asc_onEndAction',                 _.bind(this.onLongActionEnd, this));
+                Common.Gateway.on('setemailaddresses',                           _.bind(this.onSetEmailAddresses, this));
+                Common.Gateway.on('processmailmerge',                            _.bind(this.onProcessMailMerge, this));
+            }
+            return this;
+        },
+
+        createDelayedControls: function() {
+            var me = this,
+                _set = DE.enumLockMM;
 
             this.btnInsField = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
@@ -101,13 +126,6 @@ define([
                     style: 'min-width: 190px;max-width: 400px;',
                     maxHeight: 200,
                     items: []
-                }).on('render:after', function(mnu) {
-                        this.scroller = new Common.UI.Scroller({
-                        el: this.$el.find('.dropdown-menu'),
-                        useKeyboard: this.enableKeyEvents && !this.handleSelect,
-                        suppressScrollX: true,
-                        minScrollbarLength  : 40
-                    });
                 })
             });
             this.btnInsField.render( $('#mmerge-btn-ins-field',me.$el)) ;
@@ -140,32 +158,7 @@ define([
                 }
             });
             this.emptyDBControls.push(this.txtFieldNum);
-        },
 
-        render: function () {
-            this.$el.html(this.template({
-                scope: this
-            }));
-        },
-
-        setApi: function(api) {
-            this.api = api;
-            if (this.api) {
-                this.api.asc_registerCallback('asc_onPreviewMailMergeResult',    _.bind(this.onPreviewMailMergeResult, this));
-                this.api.asc_registerCallback('asc_onEndPreviewMailMergeResult', _.bind(this.onEndPreviewMailMergeResult, this));
-                this.api.asc_registerCallback('asc_onStartMailMerge',            _.bind(this.onStartMailMerge, this));
-                this.api.asc_registerCallback('asc_onSaveMailMerge',             _.bind(this.onSaveMailMerge, this));
-                this.api.asc_registerCallback('asc_onEndAction',                 _.bind(this.onLongActionEnd, this));
-                Common.Gateway.on('setemailaddresses',                           _.bind(this.onSetEmailAddresses, this));
-                Common.Gateway.on('processmailmerge',                            _.bind(this.onProcessMailMerge, this));
-            }
-            return this;
-        },
-
-        createDelayedControls: function() {
-            var me = this,
-                _set = DE.enumLockMM;
-            
             this.btnEditData = new Common.UI.Button({
                 el: me.$el.find('#mmerge-button-edit-data'),
                 lock: [_set.preview, _set.lostConnect]
@@ -372,7 +365,7 @@ define([
             this.$el.on('click', '#mmerge-readmore-link', _.bind(this.openHelp, this));
 
             if (this.mode) {
-                if (!this.mode.mergeFolderUrl)
+                if (!this.mode.canRequestSaveAs && !this.mode.mergeFolderUrl)
                     this.btnPortal.setVisible(false);
                 if (!this.mode.canSendEmailAddresses) {
                     this._arrMergeSrc.pop();
@@ -433,7 +426,7 @@ define([
                 if (num>this._state.recipientsCount-1) num = this._state.recipientsCount-1;
 
                 this.lockControls(DE.enumLockMM.noRecipients, this._state.recipientsCount<1, {
-                    array: (this.mode.mergeFolderUrl) ? [this.btnPortal] : [],
+                    array: (this.mode.canRequestSaveAs || this.mode.mergeFolderUrl) ? [this.btnPortal] : [],
                     merge: true
                 });
 
@@ -544,28 +537,33 @@ define([
             if (this._mailMergeDlg) return;
             var me = this;
             if (this.cmbMergeTo.getValue() != Asc.c_oAscFileType.HTML) {
-                me._mailMergeDlg = new DE.Views.MailMergeSaveDlg({
-                                    mergeFolderUrl: me.mode.mergeFolderUrl,
-                                    mergedFileUrl: url,
-                                    defFileName: me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx')
-                                });
-                me._mailMergeDlg.on('mailmergefolder', function(obj, folder){ // save last folder
-                }).on('mailmergeerror', function(obj, err){ // save last folder
-                    var config = {
-                        closable: false,
-                        title: this.notcriticalErrorTitle,
-                        msg: err,
-                        iconCls: 'warn',
-                        buttons: ['ok'],
-                        callback: function(btn){
-                            me.fireEvent('editcomplete', me);
-                        }
-                    };
-                    Common.UI.alert(config);
-                }).on('close', function(obj){
-                    me._mailMergeDlg = undefined;
-                });
-                me._mailMergeDlg.show();
+                var defFileName = me.defFileName + ((this.cmbMergeTo.getValue() == Asc.c_oAscFileType.PDF) ? '.pdf' : '.docx');
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._mailMergeDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.mergeFolderUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._mailMergeDlg.on('saveasfolder', function(obj, folder){ // save last folder
+                    }).on('saveaserror', function(obj, err){ // save last folder
+                        var config = {
+                            closable: false,
+                            title: me.notcriticalErrorTitle,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                me.fireEvent('editcomplete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._mailMergeDlg = undefined;
+                    });
+                    me._mailMergeDlg.show();
+                }
             }
         },
 
@@ -762,8 +760,8 @@ define([
         },
 
         onStartMailMerge: function() {
-            this.btnInsField.menu.removeAll();
-            this.txtFieldNum.setValue(1);
+            this.btnInsField && this.btnInsField.menu.removeAll();
+            this.txtFieldNum && this.txtFieldNum.setValue(1);
             this.ChangeSettings({
                 recipientsCount: this.api.asc_GetReceptionsCount(),
                 fieldsList: this.api.asc_GetMailMergeFieldsNameList()
@@ -773,7 +771,7 @@ define([
         onCmbMergeToSelect: function(combo, record) {
             var mergeVisible = (record.value == Asc.c_oAscFileType.HTML);
             this.btnMerge.setVisible(mergeVisible);
-            this.btnPortal.setVisible(!mergeVisible && this.mode.mergeFolderUrl);
+            this.btnPortal.setVisible(!mergeVisible && (this.mode.canRequestSaveAs || this.mode.mergeFolderUrl));
             this.btnDownload.setVisible(!mergeVisible);
         },
 
@@ -783,9 +781,9 @@ define([
 
         disableControls: function(disable) {
             if (this._initSettings) return;
-            
+
             this.lockControls(DE.enumLockMM.lostConnect, disable, {
-                array: _.union([this.btnEditData, this.btnInsField, this.chHighlight], (this.mode.mergeFolderUrl) ? [this.btnPortal] : []),
+                array: _.union([this.btnEditData, this.btnInsField, this.chHighlight], (this.mode.canRequestSaveAs || this.mode.mergeFolderUrl) ? [this.btnPortal] : []),
                 merge: true
             });
         },
@@ -801,11 +799,17 @@ define([
         disableEditing: function(disable) {
             DE.getController('Toolbar').DisableToolbar(disable, disable);
             DE.getController('RightMenu').SetDisabled(disable, true);
-            DE.getController('LeftMenu').SetDisabled(disable);
             DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
-            if (this.mode.canComments) {
-                DE.getController('Common.Controllers.Comments').setMode(disable ? {canComments: false} : this.mode).onApiHideComment();
-            }
+            DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+            DE.getController('DocumentHolder').getView().SetDisabled(disable);
+            DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
+
+            var comments = DE.getController('Common.Controllers.Comments');
+            if (comments)
+                comments.setPreviewMode(disable);
+
+            DE.getController('LeftMenu').setPreviewMode(disable);
+
             this.lockControls(DE.enumLockMM.preview, disable, {array: [this.btnInsField, this.btnEditData]});
         },
 
@@ -827,42 +831,7 @@ define([
         },
 
         lockControls: function(causes, lock, opts) {
-            !opts && (opts = {});
-
-            var controls = opts.array || this.emptyDBControls;
-            opts.merge && (controls = _.union(this.emptyDBControls,controls));
-
-            function doLock(cmp, cause) {
-                if ( _.contains(cmp.options.lock, cause) ) {
-                    var index = cmp.keepState.indexOf(cause);
-                    if (lock) {
-                        if (index < 0) {
-                            cmp.keepState.push(cause);
-                        }
-                    } else {
-                        if (!(index < 0)) {
-                            cmp.keepState.splice(index, 1);
-                        }
-                    }
-                }
-            }
-
-            _.each(controls, function(item) {
-                if (_.isFunction(item.setDisabled)) {
-                    !item.keepState && (item.keepState = []);
-                    if (opts.clear && opts.clear.length > 0 && item.keepState.length > 0) {
-                        item.keepState = _.difference(item.keepState, opts.clear);
-                    }
-
-                    _.isArray(causes) ? _.each(causes, function(c) {doLock(item, c)}) : doLock(item, causes);
-
-                    if (!(item.keepState.length > 0)) {
-                        item.isDisabled() && item.setDisabled(false);
-                    } else {
-                        !item.isDisabled() && item.setDisabled(true);
-                    }
-                }
-            });
+            Common.Utils.lockControls(causes, lock, opts, this.emptyDBControls);
         },
 
         textDataSource:     'Data Source',

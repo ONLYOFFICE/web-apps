@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -110,6 +110,7 @@ define([
                 $('#edit-slide-effect').single('click',           _.bind(me.showEffect, me));
                 $('#edit-slide-effect-type').single('click',      _.bind(me.showEffectType, me));
 
+                Common.Utils.addScrollIfNeed('#edit-slide .pages', '#edit-slide .page');
                 me.initControls();
             },
 
@@ -165,6 +166,10 @@ define([
 
                     this.initEvents();
                 }
+
+                Common.Utils.addScrollIfNeed('.page[data-page=editslide-effect]', '.page[data-page=editslide-effect] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=editslide-effect-type]', '.page[data-page=editslide-effect-type] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-slide-style]', '.page[data-page=edit-slide-style] .page-content');
             },
 
             showStyle: function () {
@@ -183,6 +188,7 @@ define([
 
                 this.renderLayouts();
 
+                Common.Utils.addScrollIfNeed('.view.edit-root-view .page-on-center', '.view.edit-root-view .page-on-center .page-content');
                 this.fireEvent('page:show', [this, '#edit-slide-layout']);
             },
 
@@ -195,6 +201,8 @@ define([
 
                 // remove android specific style
                 $('.page[data-page=edit-slide-transition] .list-block.inputs-list').removeClass('inputs-list');
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-slide-transition]', '.page[data-page=edit-slide-transition] .page-content');
             },
 
             showEffect: function () {

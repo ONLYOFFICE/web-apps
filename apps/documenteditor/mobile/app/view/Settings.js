@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -56,7 +56,10 @@ define([
             _canDownloadOrigin = false,
             _canReader = false,
             _canAbout = true,
-            _canHelp = true;
+            _canHelp = true,
+            _canPrint = false,
+            _canReview = false,
+            _isReviewOnly = false;
 
         return {
             // el: '.view-main',
@@ -76,6 +79,7 @@ define([
             initEvents: function () {
                 var me = this;
 
+                Common.Utils.addScrollIfNeed('.view[data-page=settings-root-view] .pages', '.view[data-page=settings-root-view] .page');
                 me.updateItemHandlers();
                 me.initControls();
             },
@@ -85,7 +89,16 @@ define([
                 this.layout = $('<div/>').append(this.template({
                     android : Common.SharedSettings.get('android'),
                     phone   : Common.SharedSettings.get('phone'),
-                    scope   : this
+                    orthography: Common.SharedSettings.get('sailfish'),
+                    scope   : this,
+                    width   : $(window).width(),
+                    prodversion: '{{PRODUCT_VERSION}}',
+                    publishername: '{{PUBLISHER_NAME}}',
+                    publisheraddr: '{{PUBLISHER_ADDRESS}}',
+                    publisherurl: '{{PUBLISHER_URL}}',
+                    printed_url: ("{{PUBLISHER_URL}}").replace(/https?:\/{2}/, "").replace(/\/$/,""),
+                    supportemail: '{{SUPPORT_EMAIL}}',
+                    phonenum: '{{PUBLISHER_PHONE}}'
                 }));
 
                 return this;
@@ -97,6 +110,9 @@ define([
                 _canDownload = mode.canDownload;
                 _canDownloadOrigin = mode.canDownloadOrigin;
                 _canReader = !mode.isEdit && mode.canReader;
+                _canPrint = mode.canPrint;
+                _canReview = mode.canReview;
+                _isReviewOnly = mode.isReviewOnly;
 
                 if (mode.customization && mode.canBrandingExt) {
                     _canAbout = (mode.customization.about!==false);
@@ -116,6 +132,9 @@ define([
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
                         $layour.find('#settings-document').hide();
+                        $layour.find('#color-schemes').hide();
+                        $layour.find('#settings-spellcheck').hide();
+                        $layour.find('#settings-orthography').hide();
                     }
                     if (!_canReader)
                         $layour.find('#settings-readermode').hide();
@@ -127,6 +146,9 @@ define([
                     if (!_canDownloadOrigin) $layour.find('#settings-download').hide();
                     if (!_canAbout) $layour.find('#settings-about').hide();
                     if (!_canHelp) $layour.find('#settings-help').hide();
+                    if (!_canPrint) $layour.find('#settings-print').hide();
+                    if (!_canReview) $layour.find('#settings-review').hide();
+                    if (_isReviewOnly) $layour.find('#settings-review').addClass('disabled');
 
                     return $layour.html();
                 }
@@ -141,7 +163,8 @@ define([
             updateItemHandlers: function () {
                 var selectorsDynamicPage = [
                     '.page[data-page=settings-root-view]',
-                    '.page[data-page=settings-document-view]'
+                    '.page[data-page=settings-document-view]',
+                    '.page[data-page=settings-advanced-view]'
                 ].map(function (selector) {
                     return selector + ' a.item-link[data-page]';
                 }).join(', ');
@@ -194,8 +217,7 @@ define([
                                     '<div class="item-title-row">',
                                         '<div class="item-title"><%= item.caption %></div>',
                                     '</div>',
-                                    // '<div class="item-subtitle"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[0]).toFixed(2)) %><%= Common.Utils.Metric.getCurrentMetricName() %> x <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div>',
-                                    '<div class="item-subtitle"><%= item.subtitle %></div>',
+                                    '<div class="item-subtitle"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div>',
                                 '</div>',
                             '</label>',
                         '</li>'
@@ -255,7 +277,38 @@ define([
             textCustomSize: 'Custom Size',
             textDocumentFormats: 'Document Formats',
             textOrientation: 'Orientation',
-            textPoweredBy: 'Powered by'
+            textPoweredBy: 'Powered by',
+            textSpellcheck: 'Spell Checking',
+            textPrint: 'Print',
+            textReview: 'Review',
+            textMargins: 'Margins',
+            textTop: 'Top',
+            textLeft: 'Left',
+            textBottom: 'Bottom',
+            textRight: 'Right',
+            textAdvancedSettings: 'Application Settings',
+            textUnitOfMeasurement: 'Unit of Measurement',
+            textCentimeter: 'Centimeter',
+            textPoint: 'Point',
+            textInch: 'Inch',
+            textColorSchemes: 'Color Schemes',
+            textNoCharacters: 'Nonprinting Characters',
+            textHiddenTableBorders: 'Hidden Table Borders',
+            textCollaboration: 'Collaboration',
+            textCommentingDisplay: 'Commenting Display',
+            textDisplayComments: 'Comments',
+            textDisplayResolvedComments: 'Resolved Comments',
+            textSubject: 'Subject',
+            textTitle: 'Title',
+            textComment: 'Comment',
+            textOwner: 'Owner',
+            textApplication : 'Application',
+            textLocation: 'Location',
+            textUploaded: 'Uploaded',
+            textLastModified: 'Last Modified',
+            textLastModifiedBy: 'Last Modified By',
+            textCreated: 'Created'
+
 
     }
     })(), DE.Views.Settings || {}))

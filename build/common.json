@@ -1,7 +1,7 @@
 {
     "name": "common",
     "version": "4.3.0",
-    "build": 35,
+    "build": 37,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -16,7 +16,9 @@
                         "cwd": "../../sdkjs/common/",
                         "src": [
                             "Images/*",
-                            "Native/*.js"
+                            "Native/*.js",
+                            "libfont/js/fonts.*",
+                            "libfont/wasm/fonts.*"
                         ],
                         "dest": "../deploy/sdkjs/common/"
                     },
@@ -48,6 +50,10 @@
                         "dest": "../deploy/sdkjs/slide/"
                     }
                 ]
+            },
+            "desktop": {
+                "src": "../../sdkjs/common/HtmlFileInternal/AllFonts.js",
+                "dest": "../deploy/sdkjs/common/AllFonts.js"
             }
         }
     },
@@ -64,6 +70,10 @@
                     "!**/*.desktop"
                 ],
                 "dest": "../deploy/web-apps/apps/api/"
+            },
+            "desktop": {
+                "src": "../apps/api/documents/index.html.desktop",
+                "dest": "../deploy/web-apps/apps/api/documents/index.html"
             }
         }
     },
@@ -173,6 +183,39 @@
             }
         }
     },
+    "iscroll": {
+        "clean": [
+            "../deploy/web-apps/vendor/iscroll"
+        ],
+        "copy": {
+            "script": {
+                "src": "../vendor/iscroll/iscroll.min.js",
+                "dest": "../deploy/web-apps/vendor/iscroll/iscroll.min.js"
+            }
+        }
+    },
+    "fetch": {
+        "clean": [
+            "../deploy/web-apps/vendor/fetch"
+        ],
+        "copy": {
+            "script": {
+                "src": "../vendor/fetch/fetch.umd.js",
+                "dest": "../deploy/web-apps/vendor/fetch/fetch.umd.js"
+            }
+        }
+    },
+    "es6-promise": {
+        "clean": [
+            "../deploy/web-apps/vendor/es6-promise"
+        ],
+        "copy": {
+            "script": {
+                "src": "../vendor/es6-promise/es6-promise.auto.min.js",
+                "dest": "../deploy/web-apps/vendor/es6-promise/es6-promise.auto.min.js"
+            }
+        }
+    },
     "requirejs": {
         "clean": [
             "../deploy/web-apps/vendor/requirejs"
@@ -194,8 +237,11 @@
             "deploy-jquery",
             "deploy-underscore",
             "deploy-bootstrap",
+            "deploy-iscroll",
+            "deploy-fetch",
             "deploy-jszip",
-            "deploy-jsziputils"
+            "deploy-jsziputils",
+            "deploy-es6-promise"
         ]
     }
 }

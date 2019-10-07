@@ -1,0 +1,22 @@
+{
+  "common.view.modals.txtCopy": "Copiar para a área de transferência",
+  "common.view.modals.txtHeight": "Altura",
+  "common.view.modals.txtWidth": "Largura",
+  "PE.ApplicationController.convertationTimeoutText": "Tempo limite de conversão excedido.",
+  "PE.ApplicationController.criticalErrorTitle": "Erro",
+  "PE.ApplicationController.downloadErrorText": "Falha ao baixar",
+  "PE.ApplicationController.downloadTextText": "Baixando apresentação...",
+  "PE.ApplicationController.errorAccessDeny": "Você está tentando executar uma ação para a qual não tem direitos.<br>Entre em contato com o administrador do Document Server.",
+  "PE.ApplicationController.errorDefaultMessage": "Código do erro: %1",
+  "PE.ApplicationController.errorFilePassProtect": "O documento é protegido por senha e não pode ser aberto.",
+  "PE.ApplicationController.errorUserDrop": "O arquivo não pode ser acessado agora.",
+  "PE.ApplicationController.notcriticalErrorTitle": "Aviso",
+  "PE.ApplicationController.textLoadingDocument": "Carregando apresentação",
+  "PE.ApplicationController.textOf": "de",
+  "PE.ApplicationController.txtClose": "Fechar",
+  "PE.ApplicationController.unknownErrorText": "Erro desconhecido.",
+  "PE.ApplicationController.unsupportedBrowserErrorText": "Seu navegador não é suportado.",
+  "PE.ApplicationController.waitText": "Aguarde...",
+  "PE.ApplicationView.txtDownload": "Baixar",
+  "PE.ApplicationView.txtShare": "Compartilhar"
+}

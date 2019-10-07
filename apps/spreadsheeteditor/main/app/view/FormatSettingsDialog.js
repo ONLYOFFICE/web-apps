@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -146,11 +146,7 @@ define([
                     '</div></div>',
                     '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>',
-                    '<div class="footer center">',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.textOk + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textCancel + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"/>'
                 ].join('')
             }, options);
 
@@ -428,13 +424,19 @@ define([
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
                     if (hasSymbols) {
                         if (!me.CurrencySymbolsData) {
-                            me.CurrencySymbolsData = [{value: null, displayValue: me.txtNone}];
+                            me.CurrencySymbolsData = [];
                             var symbolssarr = this.api.asc_getCurrencySymbols();
                             for (var code in symbolssarr) {
                                 if (symbolssarr.hasOwnProperty(code)) {
                                     me.CurrencySymbolsData.push({value: parseInt(code), displayValue: symbolssarr[code] + ' ' + Common.util.LanguageInfo.getLocalLanguageName(code)[1]});
                                 }
                             }
+                            me.CurrencySymbolsData.sort(function(a, b){
+                                if (a.displayValue < b.displayValue) return -1;
+                                if (a.displayValue > b.displayValue) return 1;
+                                return 0;
+                            });
+                            me.CurrencySymbolsData.unshift({value: null, displayValue: me.txtNone});
                             this.cmbSymbols.setData(this.CurrencySymbolsData);
                             this.cmbSymbols.setValue(valSymbol);
                         }
@@ -501,8 +503,6 @@ define([
         textSeparator: 'Use 1000 separator',
         textFormat: 'Format',
         textSymbols: 'Symbols',
-        textCancel: 'Cancel',
-        textOk: 'OK',
         txtGeneral:         'General',
         txtNumber:          'Number',
         txtCustom:          'Custom',

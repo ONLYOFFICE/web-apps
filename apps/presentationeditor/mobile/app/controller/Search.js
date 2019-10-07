@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -81,7 +81,8 @@ define([
                     'Search': {
                         'searchbar:show'        : this.onSearchbarShow,
                         'searchbar:hide'        : this.onSearchbarHide,
-                        'searchbar:render'      : this.onSearchbarRender
+                        'searchbar:render'      : this.onSearchbarRender,
+                        'searchbar:showsettings': this.onSearchbarSettings
                     }
                 });
             },
@@ -120,7 +121,8 @@ define([
                 var _endPoint = pointerEventToXY(e);
 
                 if (_isShow) {
-                    var distance = Math.sqrt((_endPoint.x -= _startPoint.x) * _endPoint.x + (_endPoint.y -= _startPoint.y) * _endPoint.y);
+                    var distance = (_startPoint.x===undefined || _startPoint.y===undefined) ? 0 :
+                        Math.sqrt((_endPoint.x -= _startPoint.x) * _endPoint.x + (_endPoint.y -= _startPoint.y) * _endPoint.y);
 
                     if (distance < 1) {
                         this.hideSearch();
@@ -130,7 +132,8 @@ define([
 
             onSearchbarRender: function(bar) {
                 var me              = this,
-                    searchString    = Common.SharedSettings.get('search-search') || '';
+                    searchString    = Common.SharedSettings.get('search-search') || '',
+                    replaceString   = Common.SharedSettings.get('search-replace')|| '';
 
                 me.searchBar = uiApp.searchbar('.searchbar.document .searchbar.search', {
                     customSearch: true,
@@ -139,13 +142,46 @@ define([
                     onClear     : _.bind(me.onSearchClear, me)
                 });
 
+                me.replaceBar = uiApp.searchbar('.searchbar.document .searchbar.replace', {
+                    customSearch: true,
+                    onSearch    : _.bind(me.onReplaceChange, me),
+                    onEnable    : _.bind(me.onReplaceEnable, me),
+                    onClear     : _.bind(me.onReplaceClear, me)
+                });
+
                 me.searchPrev = $('.searchbar.document .prev');
                 me.searchNext = $('.searchbar.document .next');
+                me.replaceBtn = $('.searchbar.document .link.replace');
 
                 me.searchPrev.single('click', _.bind(me.onSearchPrev, me));
                 me.searchNext.single('click', _.bind(me.onSearchNext, me));
+                me.replaceBtn.single('click', _.bind(me.onReplace, me));
+
+                $$('.searchbar.document .link.replace').on('taphold', _.bind(me.onReplaceAll, me));
 
                 me.searchBar.search(searchString);
+                me.replaceBar.search(replaceString);
+            },
+
+            onSearchbarSettings: function (view) {
+                var strictBool = function (settingName) {
+                    var value = Common.SharedSettings.get(settingName);
+                    return !_.isUndefined(value) && (value === true);
+                };
+
+                var me              = this,
+                    isReplace       = strictBool('search-is-replace'),
+                    isCaseSensitive = strictBool('search-case-sensitive'),
+                    $pageSettings   = $('.page[data-page=search-settings]'),
+                    $inputType      = $pageSettings.find('input[name=search-type]'),
+                    $inputCase      = $pageSettings.find('#search-case-sensitive input:checkbox');
+
+                $inputType.val([isReplace ? 'replace' : 'search']);
+                $inputCase.prop('checked', isCaseSensitive);
+
+                // init events
+                $inputType.single('change',      _.bind(me.onTypeChange, me));
+                $inputCase.single('change',      _.bind(me.onCaseClick, me));
             },
 
             onSearchbarShow: function(bar) {
@@ -153,7 +189,7 @@ define([
             },
 
             onSearchEnable: function (bar) {
-                //
+                this.replaceBar.container.removeClass('searchbar-active');
             },
 
             onSearchbarHide: function(bar) {
@@ -166,7 +202,7 @@ define([
 
                 Common.SharedSettings.set('search-search', search.query);
 
-                _.each([me.searchPrev, me.searchNext], function(btn) {
+                _.each([me.searchPrev, me.searchNext, me.replaceBtn], function(btn) {
                     btn.toggleClass('disabled', isEmpty);
                 });
             },
@@ -177,6 +213,21 @@ define([
 //            document.activeElement.blur();
             },
 
+            onReplaceChange: function(replace) {
+                var me = this,
+                    isEmpty = (replace.query.trim().length < 1);
+
+                Common.SharedSettings.set('search-replace', replace.query);
+            },
+
+            onReplaceEnable: function (bar) {
+                this.searchBar.container.removeClass('searchbar-active');
+            },
+
+            onReplaceClear: function(replace) {
+                Common.SharedSettings.set('search-replace', '');
+            },
+
             onSearchPrev: function(btn) {
                 this.onQuerySearch(this.searchBar.query, 'back');
             },
@@ -185,9 +236,37 @@ define([
                 this.onQuerySearch(this.searchBar.query, 'next');
             },
 
+            onReplace: function (btn) {
+                this.onQueryReplace(this.searchBar.query, this.replaceBar.query);
+            },
+
+            onReplaceAll: function (e) {
+                var me = this,
+                    popover = [
+                        '<div class="popover" style="width: auto;">',
+                            '<div class="popover-inner">',
+                                '<div class="list-block">',
+                                    '<ul>',
+                                        '<li><a href="#" id="replace-all" class="item-link list-button">{0}</li>'.format(me.textReplaceAll),
+                                    '</ul>',
+                                '</div>',
+                            '</div>',
+                        '</div>'
+                    ].join('');
+
+                popover = uiApp.popover(popover, $$(e.currentTarget));
+
+                $('#replace-all').single('click', _.bind(function () {
+                    me.onQueryReplaceAll(this.searchBar.query, this.replaceBar.query);
+                    uiApp.closeModal(popover);
+                }, me))
+            },
+
             onQuerySearch: function(query, direction) {
+                var matchcase = Common.SharedSettings.get('search-case-sensitive') || false;
+
                 if (query && query.length) {
-                    if (!this.api.findText(query, direction != 'back')) {
+                    if (!this.api.findText(query, direction != 'back', matchcase)) {
                         var me = this;
                         uiApp.alert(
                             '',
@@ -200,9 +279,48 @@ define([
                 }
             },
 
+            onQueryReplace: function(search, replace) {
+                var matchcase = Common.SharedSettings.get('search-case-sensitive') || false;
+
+                if (search && search.length) {
+                    if (!this.api.asc_replaceText(search, replace, false, matchcase)) {
+                        var me = this;
+                        uiApp.alert(
+                            '',
+                            me.textNoTextFound,
+                            function () {
+                                me.searchBar.input.focus();
+                            }
+                        );
+                    }
+                }
+            },
+
+            onQueryReplaceAll: function(search, replace) {
+                var matchcase = Common.SharedSettings.get('search-case-sensitive') || false;
+
+                if (search && search.length) {
+                    this.api.asc_replaceText(search, replace, true, matchcase);
+                }
+            },
+
+            onTypeChange: function (e) {
+                var me = this,
+                    $target = $(e.currentTarget),
+                    isReplace = ($target.val() === 'replace');
+
+                Common.SharedSettings.set('search-is-replace', isReplace);
+                $('.searchbar.document').toggleClass('replace', isReplace);
+            },
+
+            onCaseClick: function (e) {
+                Common.SharedSettings.set('search-case-sensitive', $(e.currentTarget).is(':checked'));
+            },
+
             // API handlers
 
-            textNoTextFound     : 'Text not found'
+            textNoTextFound     : 'Text not found',
+            textReplaceAll: 'Replace All'
         }
     })(), PE.Controllers.Search || {}))
 });

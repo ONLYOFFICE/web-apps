@@ -3,14 +3,62 @@ module.exports = function(grunt) {
         defaultConfig,
         packageFile;
 
+    const copyrightHeader = 'Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved'
     var copyright = '/*\n' +
-                    ' * Copyright (c) Ascensio System SIA <%= grunt.template.today("yyyy") %>. All rights reserved\n' +
+                    ' * ' + (process.env['APP_COPYRIGHT'] || copyrightHeader) + '\n' +
                     ' *\n' +
                     ' * <%= pkg.homepage %> \n' +
                     ' *\n' +
                     ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
                     ' */\n';
 
+    var jsreplacements = [
+                {
+                    from: /\{\{SUPPORT_EMAIL\}\}/g,
+                    to: process.env['SUPPORT_EMAIL'] || 'support@onlyoffice.com'
+                },{
+                    from: /\{\{SUPPORT_URL\}\}/g,
+                    to: process.env['SUPPORT_URL'] || 'https://support.onlyoffice.com'
+                },{
+                    from: /\{\{SALES_EMAIL\}\}/g,
+                    to: process.env['SALES_EMAIL'] || 'sales@onlyoffice.com'
+                },{
+                    from: /\{\{PUBLISHER_URL\}\}/g,
+                    to: process.env['PUBLISHER_URL'] || 'https://www.onlyoffice.com'
+                },{
+                    from: /\{\{PUBLISHER_PHONE\}\}/,
+                    to: process.env['PUBLISHER_PHONE'] || '+371 660-16425'
+                },{
+                    from: /\{\{PUBLISHER_NAME\}\}/g,
+                    to: process.env['PUBLISHER_NAME'] || 'Ascensio System SIA'
+                },{
+                    from: /\{\{PUBLISHER_ADDRESS\}\}/,
+                    to: process.env['PUBLISHER_ADDRESS'] || '20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'
+                },{
+                    from: /\{\{API_URL_EDITING_CALLBACK\}\}/,
+                    to: process.env['API_URL_EDITING_CALLBACK'] || 'https://api.onlyoffice.com/editors/callback'
+                },{
+                    from: /\{\{COMPANY_NAME\}\}/g,
+                    to: process.env['COMPANY_NAME'] || 'ONLYOFFICE'
+                }, {
+                    from: /\{\{APP_TITLE_TEXT\}\}/g,
+                    to: process.env['APP_TITLE_TEXT'] || 'ONLYOFFICE'
+                }, {
+                    from: /\{\{HELP_URL\}\}/g,
+                    to: process.env['HELP_URL'] || 'https://helpcenter.onlyoffice.com'
+                }];
+
+    var helpreplacements = [
+                {
+                    from: /\{\{COEDITING_DESKTOP\}\}/g,
+                    to: process.env['COEDITING_DESKTOP'] || 'Подключиться к облаку'
+                },{
+                    from: /\{\{PLUGIN_LINK\}\}/g,
+                    to: process.env['PLUGIN_LINK'] || 'https://api.onlyoffice.com/plugin/basic'
+                },{
+                    from: /\{\{PLUGIN_LINK_MACROS\}\}/g,
+                    to: process.env['PLUGIN_LINK_MACROS'] || 'https://api.onlyoffice.com/plugin/macros'
+                }];
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -115,6 +163,9 @@ module.exports = function(grunt) {
     doRegisterTask('underscore');
     doRegisterTask('zeroclipboard');
     doRegisterTask('bootstrap');
+    doRegisterTask('iscroll');
+    doRegisterTask('fetch');
+    doRegisterTask('es6-promise');
     doRegisterTask('jszip');
     doRegisterTask('jsziputils');
     doRegisterTask('requirejs', function(defaultConfig, packageFile) {
@@ -183,6 +234,11 @@ module.exports = function(grunt) {
                         from: /\{\{PRODUCT_VERSION\}\}/,
                         to: packageFile.version
                     }]
+                },
+                prepareHelp: {
+                    src: ['<%= pkg.main.copy.help[0].dest %>/ru/**/*.htm*'],
+                    overwrite: true,
+                    replacements: []
                 }
             },
 
@@ -237,6 +293,11 @@ module.exports = function(grunt) {
                 options: {
                     plugins: [{
                         cleanupIDs: false
+                    },
+                    {
+                        convertPathData: {
+                            floatPrecision: 4
+                        }
                     }]
                 },
                 dist: {
@@ -244,6 +305,11 @@ module.exports = function(grunt) {
                 }
             }
         });
+
+        var replace = grunt.config.get('replace');
+        replace.writeVersion.replacements.push(...jsreplacements);
+        replace.prepareHelp.replacements.push(...helpreplacements);
+        grunt.config.set('replace', replace);
     });
 
     grunt.registerTask('deploy-reporter', function(){
@@ -365,6 +431,10 @@ module.exports = function(grunt) {
                 }
             }
         });
+
+        var replace = grunt.config.get('replace');
+        replace.writeVersion.replacements.push(...jsreplacements);
+        grunt.config.set('replace', replace);
     });
 
     grunt.registerTask('embed-app-init', function() {
@@ -402,6 +472,9 @@ module.exports = function(grunt) {
             },
 
             copy: {
+                localization: {
+                    files: packageFile['embed']['copy']['localization']
+                },
                 'index-page': {
                     files: packageFile['embed']['copy']['index-page']
                 },
@@ -416,28 +489,34 @@ module.exports = function(grunt) {
     grunt.registerTask('increment-build', function() {
         var pkg = grunt.file.readJSON(defaultConfig);
         pkg.build = parseInt(pkg.build) + 1;
+        packageFile.homepage = (process.env['PUBLISHER_URL'] || pkg.homepage);
         packageFile.version = (process.env['PRODUCT_VERSION'] || pkg.version);
         packageFile.build = (process.env['BUILD_NUMBER'] || pkg.build);
         grunt.file.write(defaultConfig, JSON.stringify(pkg, null, 4));
     });
 
+    //quick workaround for build desktop version
+    var copyTask = grunt.option('desktop')? "copy": "copy:script";
 
-    grunt.registerTask('deploy-api',                    ['api-init', 'clean', 'copy', 'replace:writeVersion']);
-    grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-api',                    ['api-init', 'clean', copyTask, 'replace:writeVersion']);
+    grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
     grunt.registerTask('deploy-sockjs',                 ['sockjs-init', 'clean', 'copy']);
     grunt.registerTask('deploy-xregexp',                ['xregexp-init', 'clean', 'copy']);
     grunt.registerTask('deploy-megapixel',              ['megapixel-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
     grunt.registerTask('deploy-underscore',             ['underscore-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-iscroll',                ['iscroll-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-fetch',                  ['fetch-init', 'clean', 'copy']);
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jszip',                  ['jszip-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jsziputils',             ['jsziputils-init', 'clean', 'copy']);
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
+    grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean:prebuild', 'imagemin', 'less', 'requirejs', 'concat',
                                                             'copy', 'svgmin', 'inline', 'json-minify',
-                                                            'replace:writeVersion', 'clean:postbuild']);
+                                                            'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
                                                             'htmlmin', 'requirejs', 'concat', 'copy:template-restore',

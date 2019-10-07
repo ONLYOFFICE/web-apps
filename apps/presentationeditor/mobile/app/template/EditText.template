@@ -12,10 +12,10 @@
             <li><div class="item-content buttons">
                 <div class="item-inner">
                     <div class="row">
-                        <a id="font-bold" class="button"><b>B</b></a>
-                        <a id="font-italic" class="button"><i>I</i></a>
-                        <a id="font-underline" class="button" style="text-decoration: underline;">U</a>
-                        <a id="font-strikethrough" class="button" style="text-decoration: line-through">S</a>
+                        <a id="font-bold" class="button"><b><%= scope.textCharacterBold %></b></a>
+                        <a id="font-italic" class="button"><i><%= scope.textCharacterItalic %></i></a>
+                        <a id="font-underline" class="button" style="text-decoration: underline;"><%= scope.textCharacterUnderline %></a>
+                        <a id="font-strikethrough" class="button" style="text-decoration: line-through"><%= scope.textCharacterStrikethrough %></a>
                     </div>
                 </div>
             </div></li>
@@ -104,9 +104,9 @@
                         <div class="item-after splitter">
                             <% if (!android) { %><label><%= scope.textAuto %></label><% } %>
                             <p class="buttons-row">
-                                <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                <span class="button decrement no-ripple"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
                                 <% if (android) { %><label><%= scope.textAuto %></label><% } %>
-                                <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                <span class="button increment no-ripple"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
                             </p>
                         </div>
                     </div>
@@ -119,9 +119,9 @@
                         <div class="item-after splitter">
                             <% if (!android) { %><label><%= scope.textAuto %></label><% } %>
                             <p class="buttons-row">
-                                <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                <span class="button decrement no-ripple"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
                                 <% if (android) { %><label><%= scope.textAuto %></label><% } %>
-                                <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                <span class="button increment no-ripple"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
                             </p>
                         </div>
                     </div>
@@ -151,9 +151,9 @@
                                 <div class="item-after splitter">
                                     <% if (!android) { %><label></label><% } %>
                                     <p class="buttons-row">
-                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <span class="button decrement no-ripple"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
                                         <% if (android) { %><label></label><% } %>
-                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                        <span class="button increment no-ripple"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
                                     </p>
                                 </div>
                             </div>
@@ -266,9 +266,9 @@
                                 <div class="item-after splitter">
                                     <% if (!android) { %><label></label><% } %>
                                     <p class="buttons-row">
-                                        <span class="button decrement"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
+                                        <span class="button decrement no-ripple"><% if (android) { %><i class="icon icon-expand-down"></i><% } else { %>-<% } %></span>
                                         <% if (android) { %><label></label><% } %>
-                                        <span class="button increment"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
+                                        <span class="button increment no-ripple"><% if (android) { %><i class="icon icon-expand-up"></i><% } else { %>+<% } %></span>
                                     </p>
                                 </div>
                             </div>

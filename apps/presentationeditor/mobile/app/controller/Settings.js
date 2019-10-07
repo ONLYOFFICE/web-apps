@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -56,7 +56,8 @@ define([
             inProgress,
             infoObj,
             modalView,
-            _licInfo;
+            _licInfo,
+            templateInsert;
 
         var _slideSizeArr = [
             [254, 190.5], [254, 143]
@@ -84,6 +85,7 @@ define([
                 this.api = api;
 
                 this.api.asc_registerCallback('asc_onPresentationSize', _.bind(this.onApiPageSize, this));
+                this.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
             },
 
             onLaunch: function () {
@@ -138,7 +140,8 @@ define([
                 }
 
                 rootView = uiApp.addView('.settings-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('settingscontainer:show');
@@ -153,10 +156,25 @@ define([
 
             onPageShow: function(view, pageId) {
                 var me = this;
+                $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("pe-mobile-spellcheck"));
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
+                $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
                 $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
-                $('#page-settings-setup-view li').single('click',           _.bind(me._onSlideSize, me));
+                $('#page-settings-view #slide-size-block li').single('click',           _.bind(me._onSlideSize, me));
+                $('#settings-print').single('click',                        _.bind(me._onPrint, me));
+                $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
+
+                var _userCount = PE.getController('Main').returnUserCount();
+                if (_userCount > 0) {
+                    $('#settings-collaboration').show();
+                }
+
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-setup-view]', '.page[data-page=settings-setup-view] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
 
                 me.initSettings(pageId);
             },
@@ -168,7 +186,100 @@ define([
                 } else if (pageId == '#settings-about-view') {
                     // About
                     me.setLicInfo(_licInfo);
+                } else if ('#settings-application-view' == pageId) {
+                    me.initPageApplicationSettings();
+                } else if ('#color-schemes-view' == pageId) {
+                    me.initPageColorSchemes();
+                } else if ('#settings-info-view' == pageId) {
+                    me.initPageInfo();
                 }
+            },
+
+            initPageInfo: function() {
+                var document = Common.SharedSettings.get('document') || {},
+                    info = document.info || {};
+
+                document.title ? $('#settings-presentation-title').html(document.title) : $('.display-presentation-title').remove();
+                var value = info.owner || info.author;
+                value ? $('#settings-pe-owner').html(value) : $('.display-owner').remove();
+                value = info.uploaded || info.created;
+                value ? $('#settings-pe-uploaded').html(value) : $('.display-uploaded').remove();
+                info.folder ? $('#settings-pe-location').html(info.folder) : $('.display-location').remove();
+
+                var appProps = (this.api) ? this.api.asc_getAppProps() : null;
+                if (appProps) {
+                    var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                    appName ? $('#settings-pe-application').html(appName) : $('.display-application').remove();
+                }
+
+                var props = (this.api) ? this.api.asc_getCoreProps() : null;
+                if (props) {
+                    value = props.asc_getTitle();
+                    value ? $('#settings-pe-title').html(value) : $('.display-title').remove();
+                    value = props.asc_getSubject();
+                    value ? $('#settings-pe-subject').html(value) : $('.display-subject').remove();
+                    value = props.asc_getDescription();
+                    value ? $('#settings-pe-comment').html(value) : $('.display-comment').remove();
+                    value = props.asc_getModified();
+                    value ? $('#settings-pe-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                    value = props.asc_getLastModifiedBy();
+                    value ? $('#settings-pe-mod-by').html(value) : $('.display-mode-by').remove();
+                    value = props.asc_getCreated();
+                    value ? $('#settings-pe-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                    value = props.asc_getCreator();
+                    var templateCreator = "";
+                    value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                        templateCreator = templateCreator + "<li class='item-content'><div class='item-inner'><div class='item-title'>" + item + "</div></div></li>";
+                    });
+                    templateCreator ? $('#list-creator').html(templateCreator) : $('.display-author').remove();
+                }
+
+            },
+
+            onCollaboration: function() {
+                PE.getController('Common.Controllers.Collaboration').showModal();
+            },
+
+            initPageColorSchemes: function () {
+                $('#color-schemes-content').html(templateInsert);
+                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+            },
+
+            onSendThemeColorSchemes: function (schemas) {
+                templateInsert = "";
+                _.each(schemas, function (schema, index) {
+                    var colors = schema.get_colors();//schema.colors;
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    for (var j = 2; j < 7; j++) {
+                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
+                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
+                    }
+                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                }, this);
+            },
+
+            onColorSchemaClick: function (event) {
+                if (this.api) {
+                    var ind = $(event.currentTarget).children('input').val();
+                    this.api.ChangeColorScheme(ind);
+                }
+            },
+
+            initPageApplicationSettings: function () {
+                var me = this,
+                    $unitMeasurement = $('.page[data-page=settings-application-view] input:radio[name=unit-of-measurement]');
+                $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
+                var value = Common.localStorage.getItem('pe-mobile-settings-unit');
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                $unitMeasurement.val([value]);
+            },
+
+            unitMeasurementChange: function (e) {
+                var value = $(e.currentTarget).val();
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.localStorage.setItem("pe-mobile-settings-unit", value);
+                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
             },
 
             setLicInfo: function(data){
@@ -233,6 +344,23 @@ define([
                 this.hideModal();
             },
 
+            _onPrint: function(e) {
+                var me = this;
+
+                _.defer(function () {
+                    me.api.asc_Print();
+                });
+                me.hideModal();
+            },
+
+            _onSpellcheck: function (e) {
+                var $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("pe-mobile-spellcheck", state ? 1 : 0);
+                Common.Utils.InternalSettings.set("pe-mobile-spellcheck", state);
+                this.api && this.api.asc_setSpellCheck(state);
+            },
+
             _onReaderMode: function (e) {
                 var me = this;
 
@@ -255,7 +383,7 @@ define([
 
                 if (format) {
                     _.defer(function () {
-                        me.api.asc_DownloadAs(format);
+                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                     });
                 }
 

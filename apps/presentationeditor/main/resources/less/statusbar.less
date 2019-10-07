@@ -58,17 +58,11 @@
     }
 
     #btn-doc-lang {
-        .btn-tpl(-1500px);
         margin-right: 9px;
     }
 
     #btn-doc-spell {
-        .btn-tpl(-1520px);
         margin-right: 5px;
-    }
-
-    #status-btn-preview {
-        .btn-tpl(-160px);
     }
 
     .status-group {
@@ -95,14 +89,6 @@
         color: #000;
         margin-left: 6px;
 
-        .dropdown-toggle > .icon.lang-flag {
-            position: relative;
-            top: 3px;
-            margin-left: 3px;
-            margin-right: 2px;
-            display: inline-block;
-        }
-
         .caret.up {
             background-position: @arrow-up-small-offset-x @arrow-up-small-offset-y;
 
@@ -115,17 +101,9 @@
             cursor: pointer;
         }
 
-        .dropdown-menu {
-            > li .icon {
-                display: inline-block;
-                vertical-align: text-bottom;
-                margin: 1px 5px 0 2px;
-            }
-        }
-
         &.disabled {
             cursor: default;
-            label, .icon.lang-flag {
+            label {
                 cursor: default;
                 opacity: 0.4;
             }
@@ -219,3 +197,5 @@
         }
     }
 }
+
+.button-normal-icon(spellcheck-lang, 76, @toolbar-icon-size);

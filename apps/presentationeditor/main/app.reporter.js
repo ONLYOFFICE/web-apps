@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -95,6 +95,10 @@ require([
         using      : 'reporter'
     });
 
+    var setDocumentTitle = function(title) {
+        (title) && (window.document.title += (' - ' + title));
+    };
+
     function load_document(data) {
         var docInfo = {};
 
@@ -107,7 +111,8 @@ require([
             docInfo.put_VKey(data.vkey);
             docInfo.put_Options(data.options);
             docInfo.put_Token(data.token);
-            docInfo.put_Permissions( data.permissions);
+            docInfo.put_Permissions(data.permissions || {});
+            setDocumentTitle(data.title);
         }
 
         api.preloadReporter(data);

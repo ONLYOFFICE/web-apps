@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -72,6 +72,7 @@ define([
                 $('#edit-image-url').single('click',                _.bind(me.showEditUrl, me));
                 $('#image-align').single('click',                   _.bind(me.showAlign, me));
 
+                Common.Utils.addScrollIfNeed('#edit-image .pages', '#edit-image .page');
                 me.initControls();
             },
 
@@ -125,6 +126,7 @@ define([
 
                     this.initEvents();
                 }
+                Common.Utils.addScrollIfNeed('.page.edit-image-url-link', '.page.edit-image-url-link .page-content');
             },
 
             showReplace: function () {
@@ -133,6 +135,7 @@ define([
 
             showReorder: function () {
                 this.showPage('#edit-image-reorder-view');
+                Common.Utils.addScrollIfNeed('.page.image-reorder', '.page.image-reorder .page-content');
             },
 
             showEditUrl: function () {
@@ -149,6 +152,7 @@ define([
 
             showAlign: function () {
                 this.showPage('#edit-image-align');
+                Common.Utils.addScrollIfNeed('.page.image-align', '.page.image-align .page-content');
             },
 
             textReplace: 'Replace',

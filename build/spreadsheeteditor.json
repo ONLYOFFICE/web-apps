@@ -165,7 +165,10 @@
                 {
                     "expand": true,
                     "cwd": "../apps/spreadsheeteditor/main/resources/help/",
-                    "src": ["**","!*_/**"],
+                    "src": [
+                        "**",
+                        "!*_/**"
+                    ],
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/"
                 }
             ],
@@ -173,6 +176,10 @@
                 {
                     "src": "../apps/spreadsheeteditor/main/index.html.deploy",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/index.html"
+                },
+                {
+                    "src": "../apps/spreadsheeteditor/main/index_loader.html.deploy",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/index_loader.html"
                 }
             ]
         },
@@ -337,7 +344,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html.deploy"
+                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index.html": "../apps/spreadsheeteditor/mobile/index.html.deploy",
+                "../deploy/web-apps/apps/spreadsheeteditor/mobile/index_loader.html": "../apps/spreadsheeteditor/mobile/index_loader.html.deploy"
             },
             "localization": [
                 {
@@ -345,6 +353,12 @@
                     "cwd": "../apps/spreadsheeteditor/mobile/locale/",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/locale/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/mobile/resources/l10n/functions",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/mobile/resources/l10n/functions"
                 }
             ],
             "images-app": [
@@ -382,6 +396,7 @@
         },
         "js": {
             "src": [
+                "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
                 "../apps/common/embed/lib/util/utils.js",
@@ -400,6 +415,14 @@
             }
         },
         "copy": {
+            "localization": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/embed/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/embed/locale/"
+                }
+            ],
             "index-page": {
                 "../deploy/web-apps/apps/spreadsheeteditor/embed/index.html": "../apps/spreadsheeteditor/embed/index.html.deploy"
             },

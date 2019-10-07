@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -53,7 +53,10 @@ define([
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
-    'documenteditor/main/app/view/ControlSettingsDialog'
+    'documenteditor/main/app/view/ControlSettingsDialog',
+    'documenteditor/main/app/view/NumberingValueDialog',
+    'documenteditor/main/app/view/CellsRemoveDialog',
+    'documenteditor/main/app/view/CellsAddDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -613,6 +616,7 @@ define([
                 var coord  = specialPasteShowOptions.asc_getCellCoord(),
                     pasteContainer = me.cmpEl.find('#special-paste-container'),
                     pasteItems = specialPasteShowOptions.asc_getOptions();
+                if (!pasteItems) return;
 
                 // Prepare menu container
                 if (pasteContainer.length < 1) {
@@ -673,7 +677,7 @@ define([
 
             var onDialogAddHyperlink = function() {
                 var win, props, text;
-                if (me.api && me.mode.isEdit && !me._isDisabled){
+                if (me.api && me.mode.isEdit && !me._isDisabled && !DE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
@@ -739,21 +743,11 @@ define([
             };
 
             this.changeLanguageMenu = function(menu) {
-                var i;
                 if (me._currLang.id===null || me._currLang.id===undefined) {
-                    for (i=0; i<menu.items.length; i++)
-                        menu.items[i].setChecked(false);
-                    menu.currentCheckedItem = undefined;
+                    menu.clearAll();
                 } else {
-                    for (i=0; i<menu.items.length; i++) {
-                        if (menu.items[i].options.langid === me._currLang.id) {
-                            menu.currentCheckedItem = menu.items[i];
-                            if (!menu.items[i].checked)
-                                menu.items[i].setChecked(true);
-                            break;
-                        } else if (menu.items[i].checked)
-                            menu.items[i].setChecked(false);
-                    }
+                    var index = _.findIndex(menu.items, {langid: me._currLang.id});
+                    (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
                 }
             };
 
@@ -771,13 +765,15 @@ define([
                 }
                 if (props && props.get_Checked()===false && props.get_Variants() !== null && props.get_Variants() !== undefined) {
                     me.addWordVariants();
-                    if (me.textMenu.isVisible()) {
+                    if (me.textMenu && me.textMenu.isVisible()) {
                         me.textMenu.alignPosition();
                     }
                 }
             };
 
             this.addWordVariants = function(isParagraph) {
+                if (!me.textMenu || !me.textMenu.isVisible() && !me.tableMenu.isVisible()) return;
+
                 if (_.isUndefined(isParagraph)) {
                     isParagraph = me.textMenu.isVisible();
                 }
@@ -811,19 +807,19 @@ define([
 
                     if (arr.length > 0) {
                         if (isParagraph) {
-                            _.each(arr, function(variant){
-                                me.textMenu.insertItem(0, variant);
+                            _.each(arr, function(variant, index){
+                                me.textMenu.insertItem(index, variant);
                             })
                         } else {
-                            _.each(arr, function(variant){
-                                me.menuSpellCheckTable.menu.insertItem(0, variant);
+                            _.each(arr, function(variant, index){
+                                me.menuSpellCheckTable.menu.insertItem(index, variant);
                             })
                         }
                     }
 
                     if (arrMore.length > 0) {
-                        _.each(arrMore, function(variant){
-                            moreMenu.menu.insertItem(0, variant);
+                        _.each(arrMore, function(variant, index){
+                            moreMenu.menu.addItem(variant);
                         });
                     }
 
@@ -1527,6 +1523,7 @@ define([
                         this.api.asc_registerCallback('asc_doubleClickOnChart',         onDoubleClickOnChart);
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
                         this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
+                        this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
                     }
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',                      _.bind(onCoAuthoringDisconnect, this));
@@ -1545,13 +1542,6 @@ define([
 
             this.mode = {};
             this.setMode = function(m) {
-                if (this.api && m.isEdit) {
-                    this.api.asc_registerCallback('asc_onImgWrapStyleChanged',          _.bind(this.onImgWrapStyleChanged, this));
-                    this.api.asc_registerCallback('asc_onDialogAddHyperlink',           onDialogAddHyperlink);
-                    this.api.asc_registerCallback('asc_doubleClickOnChart',             onDoubleClickOnChart);
-                    this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',      _.bind(onSpellCheckVariantsFound, this));
-                }
-
                 this.mode = m;
                 /** coauthoring begin **/
                 !(this.mode.canCoAuthoring && this.mode.canComments)
@@ -1597,6 +1587,10 @@ define([
                     this.menuImageWrap.menu.items[5].setChecked(true);
                     break;
             }
+        },
+
+        onChangeCropState: function(state) {
+            this.menuImgCrop.menu.items[0].setChecked(state, true);
         },
 
         onApiParagraphStyleChange: function(name) {
@@ -1846,11 +1840,6 @@ define([
             }
         },
 
-        updateThemeColors: function() {
-            this.effectcolors   = Common.Utils.ThemeColor.getEffectColors();
-            this.standartcolors = Common.Utils.ThemeColor.getStandartColors();
-        },
-
         onCutCopyPaste: function(item, e) {
             var me = this;
             if (me.api) {
@@ -1869,6 +1858,18 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
+        onPrintSelection: function(item){
+            if (this.api){
+                var printopt = new Asc.asc_CAdjustPrint();
+                printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                opts.asc_setAdvancedOptions(printopt);
+                this.api.asc_Print(opts);
+                this.fireEvent('editcomplete', this);
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+            }
+        },
+
         onControlsSelect: function(item, e) {
             var me = this;
             var props = this.api.asc_GetContentControlProperties();
@@ -1876,6 +1877,7 @@ define([
                 if (item.value == 'settings') {
                     (new DE.Views.ControlSettingsDialog({
                         props: props,
+                        api: me.api,
                         handler: function (result, value) {
                             if (result == 'ok') {
                                 me.api.asc_SetContentControlProperties(value, props.get_InternalId());
@@ -1889,6 +1891,77 @@ define([
                 }
             }
             me.fireEvent('editcomplete', me);
+        },
+
+        onInsertCaption: function() {
+            var me = this;
+            (new DE.Views.CaptionDialog({
+                isObject: true,
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        me.api.asc_AddObjectCaption(settings);
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+        },
+
+        onContinueNumbering: function(item, e) {
+            this.api.asc_ContinueNumbering();
+            this.fireEvent('editcomplete', this);
+        },
+
+        onStartNumbering: function(startfrom, item, e) {
+            if (startfrom == 1)
+                this.api.asc_RestartNumbering(item.value.start);
+            else {
+                var me = this;
+                (new DE.Views.NumberingValueDialog({
+                    title: me.textNumberingValue,
+                    props: item.value,
+                    handler: function (result, value) {
+                        if (result == 'ok')
+                            me.api.asc_RestartNumbering(value);
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onCellsRemove: function() {
+            var me = this;
+            (new DE.Views.CellsRemoveDialog({
+                handler: function (result, value) {
+                    if (result == 'ok') {
+                        if (value == 'row')
+                            me.api.remRow();
+                        else if (value == 'col')
+                            me.api.remColumn();
+                        else
+                            me.api.asc_RemoveTableCells();
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+            this.fireEvent('editcomplete', this);
+        },
+
+        onCellsAdd: function() {
+            var me = this;
+            (new DE.Views.CellsAddDialog({
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        if (settings.row) {
+                            settings.before ? me.api.addRowAbove(settings.count) : me.api.addRowBelow(settings.count);
+                        } else {
+                            settings.before ? me.api.addColumnLeft(settings.count) : me.api.addColumnRight(settings.count);
+                        }
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+            this.fireEvent('editcomplete', this);
         },
 
         createDelayedElementsViewer: function() {
@@ -1922,7 +1995,7 @@ define([
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
-                        signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
+                        signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         signProps = (signGuid) ? me.api.asc_getSignatureSetup(signGuid) : null,
                         isInSign = !!signProps && me._canProtect,
                         canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled;
@@ -1977,24 +2050,33 @@ define([
         createDelayedElements: function() {
             var me = this;
 
+            var menuInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
+            var menuInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
+
+            var menuEquationInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
+            var menuEquationInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
+
             var menuImageAlign = new Common.UI.MenuItem({
                 caption     : me.textAlign,
                 menu        : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new Asc.asc_CImgProperty();
-                            if (!_.isUndefined(item.options.halign)) {
-                                properties.put_PositionH(new Asc.CImagePositionH());
-                                properties.get_PositionH().put_UseAlign(true);
-                                properties.get_PositionH().put_Align(item.options.halign);
-                                properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Margin);
-                            } else {
-                                properties.put_PositionV(new Asc.CImagePositionV());
-                                properties.get_PositionV().put_UseAlign(true);
-                                properties.get_PositionV().put_Align(item.options.valign);
-                                properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Margin);
+                            var alignto = Common.Utils.InternalSettings.get("de-img-align-to"),
+                                value = (alignto==1) ? Asc.c_oAscObjectsAlignType.Page : ((me.api.asc_getSelectedDrawingObjectsCount()<2 && !alignto || alignto==2) ? Asc.c_oAscObjectsAlignType.Margin : Asc.c_oAscObjectsAlignType.Selected);
+                            if (item.value < 6) {
+                                me.api.put_ShapesAlign(item.value, value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                            } else if (item.value == 6) {
+                                me.api.DistributeHorizontally(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                            } else if (item.value == 7){
+                                me.api.DistributeVertically(value);
+                                Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
                             }
-                            me.api.ImgApply(properties);
                         }
                         me.fireEvent('editcomplete', me);
                     }
@@ -2005,32 +2087,43 @@ define([
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignLeft,
                                 iconCls : 'mnu-img-align-left',
-                                halign  : Asc.c_oAscAlignH.Left
+                                value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignCenter,
                                 iconCls : 'mnu-img-align-center',
-                                halign  : Asc.c_oAscAlignH.Center
+                                value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignRight,
                                 iconCls : 'mnu-img-align-right',
-                                halign  : Asc.c_oAscAlignH.Right
+                                value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignTop,
                                 iconCls : 'mnu-img-align-top',
-                                valign  : Asc.c_oAscAlignV.Top
+                                value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignMiddle,
                                 iconCls : 'mnu-img-align-middle',
-                                valign  : Asc.c_oAscAlignV.Center
+                                value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignBottom,
                                 iconCls : 'mnu-img-align-bottom',
-                                valign  : Asc.c_oAscAlignV.Bottom
+                                value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
+                            }).on('click', onItemClick),
+                            {caption    : '--'},
+                            new Common.UI.MenuItem({
+                                caption     : me.txtDistribHor,
+                                iconCls     : 'mnu-distrib-hor',
+                                value       : 6
+                            }).on('click', onItemClick),
+                            new Common.UI.MenuItem({
+                                caption     : me.txtDistribVert,
+                                iconCls     : 'mnu-distrib-vert',
+                                value       : 7
                             }).on('click', onItemClick)
                         ]
                     })
@@ -2257,7 +2350,7 @@ define([
                     var properties = new Asc.asc_CImgProperty();
                     properties.put_Width(originalImageSize.get_ImageWidth());
                     properties.put_Height(originalImageSize.get_ImageHeight());
-
+                    properties.put_ResetCrop(true);
                     me.api.ImgApply(properties);
 
                     me.fireEvent('editcomplete', this);
@@ -2315,9 +2408,62 @@ define([
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
+            var menuImgPrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
             var menuSignatureEditSign   = new Common.UI.MenuItem({caption: this.strSign,      value: 0 }).on('click', _.bind(me.onSignatureClick, me));
             var menuSignatureEditSetup  = new Common.UI.MenuItem({caption: this.strSetup,     value: 2 }).on('click', _.bind(me.onSignatureClick, me));
             var menuEditSignSeparator = new Common.UI.MenuItem({ caption: '--' });
+
+            var menuImgRotate = new Common.UI.MenuItem({
+                caption     : me.textRotate,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: this.textRotate90,
+                            value  : 1
+                        }).on('click', _.bind(me.onImgRotate, me)),
+                        new Common.UI.MenuItem({
+                            caption: this.textRotate270,
+                            value  : 0
+                        }).on('click', _.bind(me.onImgRotate, me)),
+                        { caption: '--' },
+                        new Common.UI.MenuItem({
+                            caption: this.textFlipH,
+                            value  : 1
+                        }).on('click', _.bind(me.onImgFlip, me)),
+                        new Common.UI.MenuItem({
+                            caption: this.textFlipV,
+                            value  : 0
+                        }).on('click', _.bind(me.onImgFlip, me))
+                    ]
+                })
+            });
+
+            me.menuImgCrop = new Common.UI.MenuItem({
+                caption     : me.textCrop,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        new Common.UI.MenuItem({
+                            caption: me.textCrop,
+                            checkable: true,
+                            allowDepress: true,
+                            value  : 0
+                        }).on('click', _.bind(me.onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFill,
+                            value  : 1
+                        }).on('click', _.bind(me.onImgCrop, me)),
+                        new Common.UI.MenuItem({
+                            caption: me.textCropFit,
+                            value  : 2
+                        }).on('click', _.bind(me.onImgCrop, me))
+                    ]
+                })
+            });
 
             this.pictureMenu = new Common.UI.Menu({
                 initMenu: function(value){
@@ -2379,20 +2525,34 @@ define([
 
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
+                    var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
                     var pluginGuid = value.imgProps.value.asc_getPluginGuid();
                     menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(islocked || pluginGuid===null);
 
-                    var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
+                    menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
+                    if (menuImgRotate.isVisible())
+                        menuImgRotate.setDisabled(islocked);
+
+                    me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
+                    if (me.menuImgCrop.isVisible())
+                        me.menuImgCrop.setDisabled(islocked);
+
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[14].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[19].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
                     menuImageAlign.setDisabled( islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline) );
+                    if (!(islocked || (wrapping == Asc.c_oAscWrapStyle2.Inline))) {
+                        var objcount = me.api.asc_getSelectedDrawingObjectsCount(),
+                            alignto = Common.Utils.InternalSettings.get("de-img-align-to"); // 1 - page, 2 - margin, 3 - selected
+                        menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
+                        menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
+                    }
                     menuImageArrange.setDisabled( wrapping == Asc.c_oAscWrapStyle2.Inline );
 
                     if (me.api) {
@@ -2407,8 +2567,10 @@ define([
                     menuImgCopy.setDisabled(!cancopy);
                     menuImgCut.setDisabled(islocked || !cancopy);
                     menuImgPaste.setDisabled(islocked);
+                    menuImgPrint.setVisible(me.mode.canPrint);
+                    menuImgPrint.setDisabled(!cancopy);
 
-                    var signGuid = (value.imgProps && value.imgProps.value && me.mode.canProtect) ? value.imgProps.value.asc_getSignatureId() : undefined,
+                    var signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         isInSign = !!signGuid;
                     menuSignatureEditSign.setVisible(isInSign);
                     menuSignatureEditSetup.setVisible(isInSign);
@@ -2423,6 +2585,7 @@ define([
                     menuImgCut,
                     menuImgCopy,
                     menuImgPaste,
+                    menuImgPrint,
                     { caption: '--' },
                     menuSignatureEditSign,
                     menuSignatureEditSetup,
@@ -2430,7 +2593,11 @@ define([
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
+                    menuImgRotate,
                     { caption: '--' },
+                    menuInsertCaption,
+                    menuInsertCaptionSeparator,
+                    me.menuImgCrop,
                     me.menuOriginalSize,
                     menuImgReplace,
                     menuChartEdit,
@@ -2443,6 +2610,10 @@ define([
             });
 
             /* table menu*/
+
+            var menuTableInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
 
             var mnuTableMerge = new Common.UI.MenuItem({
                 caption     : me.mergeCellsText
@@ -2597,6 +2768,10 @@ define([
                 caption     : me.hyperlinkText
             }).on('click', _.bind(me.addHyperlink, me));
 
+            var menuTableFollow = new Common.UI.MenuItem({
+                caption: me.textFollow
+            }).on('click', _.bind(me.onFollowMove, me));
+
             me.menuSpellTable = new Common.UI.MenuItem({
                 caption     : me.loadSpellText,
                 disabled    : true
@@ -2606,35 +2781,28 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
+                    restoreHeight: true,
                     items   : [
                     ]
                 })
             });
 
+            var langTemplate = _.template([
+                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
+                '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                '<%= caption %>',
+                '</a>'
+            ].join(''));
+
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
-                menu        : new Common.UI.Menu({
+                menu        : new Common.UI.MenuSimple({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
-                    items   : [
-                    ]
-                }).on('show:after', function(menu) {
-                    var self = this;
-
-                    // TODO: scroll to checked item
-//                    self.el.show();
-//                    self.callParent(arguments);
-//                    if (self.floating && self.constrain) {
-//                        var y = self.el.getY();
-//                        self.doConstrain();
-//                        var h = self.getHeight();
-//                        var maxHeight = Ext.Element.getViewportHeight();
-//                        if (y+h > maxHeight)
-//                            y = maxHeight-h;
-//                        self.el.setY(y);
-//                        if (self.currentCheckedItem!== undefined)
-//                            self.currentCheckedItem.getEl().scrollIntoView(self.layout.getRenderTarget());
-//                    }
+                    restoreHeight: 285,
+                    items   : [],
+                    itemTemplate: langTemplate,
+                    search: true
                 })
             });
 
@@ -2656,6 +2824,13 @@ define([
                 }
             });
 
+            var menuToDictionaryTable = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
+                me.fireEvent('editcomplete', me);
+            });
+
             var menuIgnoreSpellTableSeparator = new Common.UI.MenuItem({
                 caption     : '--'
             });
@@ -2674,6 +2849,7 @@ define([
                         menuIgnoreSpellTableSeparator,
                         menuIgnoreSpellTable,
                         menuIgnoreAllSpellTable,
+                        menuToDictionaryTable,
                         { caption: '--' },
                         me.langTableMenu
                     ]
@@ -2694,6 +2870,11 @@ define([
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
+
+            var menuTablePrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
 
             var menuEquationSeparatorInTable = new Common.UI.MenuItem({
                 caption     : '--'
@@ -2757,6 +2938,41 @@ define([
                 })
             });
 
+            var menuTableStartNewList = new Common.UI.MenuItem({
+                caption: me.textStartNewList
+            }).on('click', _.bind(me.onStartNumbering, me, 1));
+
+            var menuTableStartNumberingFrom = new Common.UI.MenuItem({
+                caption: me.textStartNumberingFrom
+            }).on('click', _.bind(me.onStartNumbering, me, 'advanced'));
+
+            var menuTableContinueNumbering = new Common.UI.MenuItem({
+                caption: me.textContinueNumbering
+            }).on('click', _.bind(me.onContinueNumbering, me));
+
+            var menuNumberingTable = new Common.UI.MenuItem({
+                caption     : me.bulletsText,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items   : [
+                        menuTableStartNewList,
+                        menuTableStartNumberingFrom,
+                        menuTableContinueNumbering
+                    ]
+                })
+            });
+
+            var menuTableRefreshField = new Common.UI.MenuItem({
+                caption: me.textRefreshField
+            }).on('click', function(item, e){
+                me.api.asc_UpdateComplexField(item.options.fieldProps);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuTableFieldSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.tableMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     // table properties
@@ -2765,7 +2981,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 7; i < 22; i++) {
+                    for (var i = 8; i < 27; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -2780,8 +2996,8 @@ define([
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
 
                     var disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
-                    me.tableMenu.items[8].setDisabled(disabled);
-                    me.tableMenu.items[9].setDisabled(disabled);
+                    me.tableMenu.items[11].setDisabled(disabled);
+                    me.tableMenu.items[12].setDisabled(disabled);
 
                     if (me.api) {
                         mnuTableMerge.setDisabled(disabled || !me.api.CheckBeforeMergeCells());
@@ -2799,6 +3015,24 @@ define([
                     menuTableCopy.setDisabled(!cancopy);
                     menuTableCut.setDisabled(disabled || !cancopy);
                     menuTablePaste.setDisabled(disabled);
+                    menuTablePrint.setVisible(me.mode.canPrint);
+                    menuTablePrint.setDisabled(!cancopy);
+
+                    // bullets & numbering
+                    var listId = me.api.asc_GetCurrentNumberingId(),
+                        in_list = (listId !== null);
+                    menuNumberingTable.setVisible(in_list);
+                    if (in_list) {
+                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                            format = numLvl.get_Format(),
+                            start = me.api.asc_GetCalculatedNumberingValue();
+                        menuTableStartNewList.setVisible(numLvl.get_Start()!=start);
+                        menuTableStartNewList.value = {start: numLvl.get_Start()};
+                        menuTableStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
+                        menuTableStartNumberingFrom.value = {format: format, start: start};
+                        menuTableStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
+                        menuTableContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                    }
 
                     // hyperlink properties
                     var text = null;
@@ -2807,7 +3041,6 @@ define([
                     }
                     menuAddHyperlinkTable.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkTable.setVisible(value.hyperProps!==undefined);
-                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
 
                     menuEditHyperlinkTable.hyperProps = value.hyperProps;
                     menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
@@ -2822,7 +3055,23 @@ define([
                     menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
                     /** coauthoring end **/
-                        // paragraph properties
+
+                    // review move
+                    var data = me.api.asc_GetRevisionsChangesStack(),
+                        move = false;
+                    menuTableFollow.value = null;
+                    _.each(data, function(item) {
+                        if ((item.get_Type()==Asc.c_oAscRevisionsChangeType.TextAdd || item.get_Type() == Asc.c_oAscRevisionsChangeType.TextRem) &&
+                            item.get_MoveType()!=Asc.c_oAscRevisionsMove.NoMove) {
+                            menuTableFollow.value = item;
+                            move = true;
+                        }
+                    });
+                    menuTableFollow.setVisible(move);
+
+                    menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible() || menuNumberingTable.isVisible() || menuTableFollow.isVisible());
+
+                    // paragraph properties
                     menuParagraphAdvancedInTable.setVisible(value.paraProps!==undefined);
 
                     me._currentParaObjDisabled = disabled = value.paraProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
@@ -2831,6 +3080,7 @@ define([
                     menuParagraphAdvancedInTable.setDisabled(disabled);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
                     menuSpellcheckTableSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     
                     me.langTableMenu.setDisabled(disabled);
@@ -2850,9 +3100,9 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(false, 6);
+                        eqlen = me.addEquationMenu(false, 7);
                     } else
-                        me.clearEquationMenu(false, 6);
+                        me.clearEquationMenu(false, 7);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
 
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
@@ -2865,6 +3115,14 @@ define([
                         menuTableControlSettings.setVisible(me.mode.canEditContentControl);
                     }
                     menuTableTOC.setVisible(in_toc);
+
+                    var in_field = me.api.asc_GetCurrentComplexField();
+                    menuTableRefreshField.setVisible(!!in_field);
+                    menuTableRefreshField.setDisabled(disabled);
+                    menuTableFieldSeparator.setVisible(!!in_field);
+                    if (in_field) {
+                        menuTableRefreshField.options.fieldProps = in_field;
+                    }
                 },
                 items: [
                     me.menuSpellCheckTable,
@@ -2872,8 +3130,11 @@ define([
                     menuTableCut,
                     menuTableCopy,
                     menuTablePaste,
+                    menuTablePrint,
                     { caption: '--' },
                     menuEquationSeparatorInTable,
+                    menuTableRefreshField,
+                    menuTableFieldSeparator,
                     {
                         caption     : me.selectText,
                         menu        : new Common.UI.Menu({
@@ -2936,6 +3197,11 @@ define([
                                 }).on('click', function(item) {
                                     if (me.api)
                                         me.api.addRowBelow();
+                                }),
+                                new Common.UI.MenuItem({
+                                    caption: me.textSeveral
+                                }).on('click', function(item) {
+                                    me.onCellsAdd();
                                 })
                             ]
                         })
@@ -2963,6 +3229,11 @@ define([
                                 }).on('click', function(item) {
                                     if (me.api)
                                         me.api.remTable();
+                                }),
+                                new Common.UI.MenuItem({
+                                    caption: me.textCells
+                                }).on('click', function(item) {
+                                    me.onCellsRemove();
                                 })
                             ]
                         })
@@ -2977,13 +3248,17 @@ define([
                     menuTableCellAlign,
                     menuTableDirection,
                     { caption: '--' },
+                    menuTableInsertCaption,
+                    { caption: '--' },
                     menuTableAdvanced,
                     { caption: '--' },
                 /** coauthoring begin **/
                     menuAddCommentTable,
                 /** coauthoring end **/
+                    menuNumberingTable,
                     menuAddHyperlinkTable,
                     menuHyperlinkTable,
+                    menuTableFollow,
                     menuHyperlinkSeparator,
                     menuTableControl,
                     menuTableTOC,
@@ -3168,36 +3443,20 @@ define([
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
-                    style   : 'max-height: 300px;',
-                    items: [
-                    ]
+                    restoreHeight: true,
+                    items: []
                 })
             });
 
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
-                menu        : new Common.UI.Menu({
+                menu        : new Common.UI.MenuSimple({
+                    cls: 'lang-menu',
                     menuAlign: 'tl-tr',
-                    maxHeight: 300,
-                    items   : [
-                    ]
-                }).on('show:after', function(menu) {
-                    // TODO: scroll to checked item
-//                    var self = this;
-//
-//                    self.el.show();
-//                    self.callParent(arguments);
-//                    if (self.floating && self.constrain) {
-//                        var y = self.el.getY();
-//                        self.doConstrain();
-//                        var h = self.getHeight();
-//                        var maxHeight = Ext.Element.getViewportHeight();
-//                        if (y+h > maxHeight)
-//                            y = maxHeight-h;
-//                        self.el.setY(y);
-//                        if (self.currentCheckedItem!== undefined)
-//                            self.currentCheckedItem.getEl().scrollIntoView(self.layout.getRenderTarget());
-//                    }
+                    restoreHeight: 285,
+                    items   : [],
+                    itemTemplate: langTemplate,
+                    search: true
                 })
             });
 
@@ -3212,6 +3471,13 @@ define([
                 caption     : me.ignoreAllSpellText
             }).on('click', function(item, e) {
                 me.api.asc_ignoreMisspelledWord(me._currentSpellObj, true);
+                me.fireEvent('editcomplete', me);
+            });
+
+            var menuToDictionaryPara = new Common.UI.MenuItem({
+                caption     : me.toDictionaryText
+            }).on('click', function(item, e) {
+                me.api.asc_spellCheckAddToDictionary(me._currentSpellObj);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -3237,6 +3503,10 @@ define([
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
+
+            var menuParaPrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
 
             var menuEquationSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -3299,6 +3569,30 @@ define([
                 caption     : '--'
             });
 
+            var menuParaStartNewList = new Common.UI.MenuItem({
+                caption: me.textStartNewList
+            }).on('click', _.bind(me.onStartNumbering, me, 1));
+
+            var menuParaStartNumberingFrom = new Common.UI.MenuItem({
+                caption: me.textStartNumberingFrom
+            }).on('click', _.bind(me.onStartNumbering, me, 'advanced'));
+
+            var menuParaContinueNumbering = new Common.UI.MenuItem({
+                caption: me.textContinueNumbering
+            }).on('click', _.bind(me.onContinueNumbering, me));
+
+            var menuParaNumberingSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            var menuParaFollow = new Common.UI.MenuItem({
+                caption: me.textFollow
+            }).on('click', _.bind(me.onFollowMove, me));
+
+            var menuParaFollowSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
@@ -3351,6 +3645,20 @@ define([
                     menuAddHyperlinkPara.setDisabled(disabled);
                     menuHyperlinkPara.setDisabled(disabled || value.hyperProps!==undefined && value.hyperProps.isSeveralLinks===true);
 
+                    // review move
+                    var data = me.api.asc_GetRevisionsChangesStack(),
+                        move = false;
+                    menuParaFollow.value = null;
+                    _.each(data, function(item) {
+                        if ((item.get_Type()==Asc.c_oAscRevisionsChangeType.TextAdd || item.get_Type() == Asc.c_oAscRevisionsChangeType.TextRem) &&
+                            item.get_MoveType()!=Asc.c_oAscRevisionsMove.NoMove) {
+                            menuParaFollow.value = item;
+                            move = true;
+                        }
+                    });
+                    menuParaFollow.setVisible(move);
+                    menuParaFollowSeparator.setVisible(move);
+
                     menuParagraphBreakBefore.setDisabled(disabled || !_.isUndefined(value.headerProps) || !_.isUndefined(value.imgProps));
                     menuParagraphKeepLines.setDisabled(disabled);
                     menuParagraphAdvanced.setDisabled(disabled);
@@ -3362,17 +3670,21 @@ define([
                     menuParaCopy.setDisabled(!cancopy);
                     menuParaCut.setDisabled(disabled || !cancopy);
                     menuParaPaste.setDisabled(disabled);
+                    menuParaPrint.setVisible(me.mode.canPrint);
+                    menuParaPrint.setDisabled(!cancopy);
 
                     // spellCheck
-                    me.menuSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuSpellcheckParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    menuIgnoreAllSpellPara.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
-                    me.langParaMenu.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    var spell = (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    me.menuSpellPara.setVisible(spell);
+                    menuSpellcheckParaSeparator.setVisible(spell);
+                    menuIgnoreSpellPara.setVisible(spell);
+                    menuIgnoreAllSpellPara.setVisible(spell);
+                    menuToDictionaryPara.setVisible(spell && me.mode.isDesktopApp);
+                    me.langParaMenu.setVisible(spell);
                     me.langParaMenu.setDisabled(disabled);
-                    menuIgnoreSpellParaSeparator.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
+                    menuIgnoreSpellParaSeparator.setVisible(spell);
 
-                    if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
+                    if (spell && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(true);
                     } else {
                         me.menuSpellPara.setCaption(me.loadSpellText, true);
@@ -3387,10 +3699,12 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 11);
+                        eqlen = me.addEquationMenu(true, 15);
                     } else
-                        me.clearEquationMenu(true, 11);
+                        me.clearEquationMenu(true, 15);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
+                    menuEquationInsertCaption.setVisible(isEquation);
+                    menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
                     menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
 
@@ -3421,6 +3735,24 @@ define([
                     if (in_field) {
                         menuParaRefreshField.options.fieldProps = in_field;
                     }
+
+                    var listId = me.api.asc_GetCurrentNumberingId(),
+                        in_list = (listId !== null);
+                    menuParaNumberingSeparator.setVisible(in_list); // hide when first item is selected
+                    menuParaStartNewList.setVisible(in_list);
+                    menuParaStartNumberingFrom.setVisible(in_list);
+                    menuParaContinueNumbering.setVisible(in_list);
+                    if (in_list) {
+                        var numLvl = me.api.asc_GetNumberingPr(listId).get_Lvl(me.api.asc_GetCurrentNumberingLvl()),
+                            format = numLvl.get_Format(),
+                            start = me.api.asc_GetCalculatedNumberingValue();
+                        menuParaStartNewList.setVisible(numLvl.get_Start()!=start);
+                        menuParaStartNewList.value = {start: numLvl.get_Start()};
+                        menuParaStartNumberingFrom.setVisible(format != Asc.c_oAscNumberingFormat.Bullet);
+                        menuParaStartNumberingFrom.value = {format: format, start: start};
+                        menuParaStartNewList.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textSeparateList : me.textStartNewList);
+                        menuParaContinueNumbering.setCaption((format == Asc.c_oAscNumberingFormat.Bullet) ? me.textJoinList : me.textContinueNumbering);
+                    }
                 },
                 items: [
                     me.menuSpellPara,
@@ -3428,11 +3760,15 @@ define([
                     menuSpellcheckParaSeparator,
                     menuIgnoreSpellPara,
                     menuIgnoreAllSpellPara,
+                    menuToDictionaryPara,
                     me.langParaMenu,
                     menuIgnoreSpellParaSeparator,
                     menuParaCut,
                     menuParaCopy,
                     menuParaPaste,
+                    menuParaPrint,
+                    menuEquationInsertCaptionSeparator,
+                    menuEquationInsertCaption,
                     { caption: '--' },
                     menuEquationSeparator,
                     menuParaRemoveControl,
@@ -3456,6 +3792,12 @@ define([
                     menuHyperlinkParaSeparator,
                     menuAddHyperlinkPara,
                     menuHyperlinkPara,
+                    menuParaFollowSeparator,
+                    menuParaFollow,
+                    menuParaNumberingSeparator,
+                    menuParaStartNewList,
+                    menuParaStartNumberingFrom,
+                    menuParaContinueNumbering,
                     menuStyleSeparator,
                     menuStyle
                 ]
@@ -3515,46 +3857,40 @@ define([
             var me = this;
 
             if (langs && langs.length > 0 && me.langParaMenu && me.langTableMenu) {
-                me.langParaMenu.menu.removeAll();
-                me.langTableMenu.menu.removeAll();
-                _.each(langs, function(lang, index){
-                    me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
+                var arrPara = [], arrTable = [];
+                _.each(langs, function(lang) {
+                    var item = {
+                        caption     : lang.displayValue,
+                        value       : lang.value,
                         checkable   : true,
-                        toggleGroup : 'popupparalang',
-                        langid      : lang.code
-                    }).on('click', function(item, e){
-                        if (me.api){
-                            if (!_.isUndefined(item.options.langid))
-                                me.api.put_TextPrLang(item.options.langid);
+                        langid      : lang.code,
+                        spellcheck   : lang.spellcheck
+                    };
+                    arrPara.push(item);
+                    arrTable.push(_.clone(item));
+                });
+                me.langParaMenu.menu.resetItems(arrPara);
+                me.langTableMenu.menu.resetItems(arrTable);
 
-                            me._currLang.paraid = item.options.langid;
-                            me.langParaMenu.menu.currentCheckedItem = item;
+                me.langParaMenu.menu.on('item:click', function(menu, item){
+                    if (me.api){
+                        if (!_.isUndefined(item.langid))
+                            me.api.put_TextPrLang(item.langid);
 
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }));
-
-                    me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.title,
-                        checkable   : true,
-                        toggleGroup : 'popuptablelang',
-                        langid      : lang.code
-                    }).on('click', function(item, e){
-                        if (me.api){
-                            if (!_.isUndefined(item.options.langid))
-                                me.api.put_TextPrLang(item.options.langid);
-
-                            me._currLang.tableid = item.options.langid;
-                            me.langTableMenu.menu.currentCheckedItem = item;
-
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }));
+                        me._currLang.paraid = item.langid;
+                        me.fireEvent('editcomplete', me);
+                    }
                 });
 
-                me.langTableMenu.menu.doLayout();
-                me.langParaMenu.menu.doLayout();
+                me.langTableMenu.menu.on('item:click', function(menu, item, e){
+                    if (me.api){
+                        if (!_.isUndefined(item.langid))
+                            me.api.put_TextPrLang(item.langid);
+
+                        me._currLang.tableid = item.langid;
+                        me.fireEvent('editcomplete', me);
+                    }
+                });
             }
         },
 
@@ -3574,6 +3910,41 @@ define([
                     this.api.asc_RemoveSignature(datavalue); //guid
                     break;
             }
+        },
+
+        onImgRotate: function(item) {
+            var properties = new Asc.asc_CImgProperty();
+            properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            this.api.ImgApply(properties);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onImgFlip: function(item) {
+            var properties = new Asc.asc_CImgProperty();
+            if (item.value==1)
+                properties.asc_putFlipHInvert(true);
+            else
+                properties.asc_putFlipVInvert(true);
+            this.api.ImgApply(properties);
+            this.fireEvent('editcomplete', this);
+        },
+
+        onImgCrop: function(item) {
+            if (item.value == 1) {
+                this.api.asc_cropFill();
+            } else if (item.value == 2) {
+                this.api.asc_cropFit();
+            } else {
+                item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onFollowMove: function(item) {
+            if (this.api) {
+                this.api.asc_FollowRevisionMove(item.value);
+            }
+            this.fireEvent('editcomplete', this);
         },
 
         focus: function() {
@@ -3776,7 +4147,30 @@ define([
         txtPasteSourceFormat: 'Keep source formatting',
         textReplace:    'Replace image',
         textFromUrl:    'From URL',
-        textFromFile:   'From File'
+        textFromFile:   'From File',
+        textStartNumberingFrom: 'Set numbering value',
+        textStartNewList: 'Start new list',
+        textContinueNumbering: 'Continue numbering',
+        textSeparateList: 'Separate list',
+        textJoinList: 'Join to previous list',
+        textNumberingValue: 'Numbering Value',
+        bulletsText: 'Bullets and Numbering',
+        txtDistribHor           : 'Distribute Horizontally',
+        txtDistribVert          : 'Distribute Vertically',
+        textRotate270: 'Rotate 90° Counterclockwise',
+        textRotate90: 'Rotate 90° Clockwise',
+        textFlipV: 'Flip Vertically',
+        textFlipH: 'Flip Horizontally',
+        textRotate: 'Rotate',
+        textCrop: 'Crop',
+        textCropFill: 'Fill',
+        textCropFit: 'Fit',
+        textFollow: 'Follow move',
+        toDictionaryText: 'Add to Dictionary',
+        txtPrintSelection: 'Print Selection',
+        textCells: 'Cells',
+        textSeveral: 'Several Rows/Columns',
+        txtInsertCaption: 'Insert Caption'
 
     }, DE.Views.DocumentHolder || {}));
 });

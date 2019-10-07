@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -104,8 +104,7 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             me.width = me.options.width;
             me.minValue = me.options.minValue;
@@ -131,10 +130,10 @@ define([
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
                 } else {
-                    $(this.el).html(this.cmpEl);
+                    me.$el.html(this.cmpEl);
                 }
             } else {
-                this.cmpEl = $(this.el);
+                this.cmpEl = me.$el;
             }
 
             this.cmpEl.find('.track-center').width(me.options.width - 14);
@@ -277,7 +276,8 @@ define([
             width: 100,
             minValue: 0,
             maxValue: 100,
-            values: [0, 100]
+            values: [0, 100],
+            thumbTemplate: '<div class="thumb" style=""></div>'
         },
 
         disabled: false,
@@ -290,7 +290,7 @@ define([
                     '<div class="track-right" style=""></div>',
                 '</div>',
                 '<% _.each(items, function(item) { %>',
-                '<div class="thumb" style=""></div>',
+                '<%= thumbTemplate %>',
                 '<% }); %>',
             '</div>'
         ].join('')),
@@ -298,8 +298,7 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             me.width = me.options.width;
             me.minValue = me.options.minValue;
@@ -317,17 +316,18 @@ define([
 
             if (!me.rendered) {
                 this.cmpEl = $(this.template({
-                    items: this.options.values
+                    items: this.options.values,
+                    thumbTemplate: this.options.thumbTemplate
                 }));
 
                 if (parentEl) {
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
                 } else {
-                    $(this.el).html(this.cmpEl);
+                    this.$el.html(this.cmpEl);
                 }
             } else {
-                this.cmpEl = $(this.el);
+                this.cmpEl = this.$el;
             }
 
             var el = this.cmpEl;
@@ -353,8 +353,8 @@ define([
                 if (need_sort)
                     me.sortThumbs();
 
-                $(document).off('mouseup', onMouseUp);
-                $(document).off('mousemove', onMouseMove);
+                $(document).off('mouseup', me.binding.onMouseUp);
+                $(document).off('mousemove', me.binding.onMouseMove);
 
                 me._dragstart = undefined;
                 me.trigger('changecomplete', me, value, lastValue);
@@ -399,8 +399,8 @@ define([
                     (index == idx) ? item.thumb.css('z-index', 500) : item.thumb.css('z-index', '');
                 });
 
-                $(document).on('mouseup', null, e.data, onMouseUp);
-                $(document).on('mousemove', null, e.data, onMouseMove);
+                $(document).on('mouseup', null, e.data, me.binding.onMouseUp);
+                $(document).on('mousemove', null, e.data, me.binding.onMouseMove);
             };
 
             var onTrackMouseDown = function (e) {
@@ -443,6 +443,12 @@ define([
                 return index;
             };
 
+            this.binding = {
+                onMouseUp:   _.bind(onMouseUp, this),
+                onMouseMove: _.bind(onMouseMove, this),
+                onMouseDown: _.bind(onMouseDown, this)
+            };
+
             this.$thumbs = el.find('.thumb');
             _.each(this.$thumbs, function(item, index) {
                 var thumb = $(item);
@@ -451,7 +457,7 @@ define([
                     index: index
                 });
                 me.setValue(index, me.options.values[index]);
-                thumb.on('mousedown', null, me.thumbs[index], onMouseDown);
+                thumb.on('mousedown', null, me.thumbs[index], me.binding.onMouseDown);
             });
             me.setActiveThumb(0, true);
 
@@ -480,7 +486,6 @@ define([
             this.thumbs[index].value = Math.max(this.minValue, Math.min(this.maxValue, value));
             this.setThumbPosition(index, Math.round((value-this.minValue)*this.delta));
         },
-
 
         getValue: function(index) {
             return this.thumbs[index].value;
@@ -511,6 +516,35 @@ define([
                 thumb.index = index;
             });
             return recalc_indexes;
+        },
+
+        setThumbs: function(count) {
+            var length = this.thumbs.length;
+            if (length==count) return;
+
+            for (var i=0; i<Math.abs(count-length); i++)
+                (length<count) ? this.addThumb() : this.removeThumb();
+        },
+
+        addThumb: function() {
+            var el = this.cmpEl,
+                thumb = $(this.options.thumbTemplate),
+                index = this.thumbs.length;
+            el.append(thumb);
+            this.thumbs.push({
+                thumb: thumb,
+                index: index
+            });
+            (index>0) && this.setValue(index, this.getValue(index-1));
+            thumb.on('mousedown', null, this.thumbs[index], this.binding.onMouseDown);
+        },
+
+        removeThumb: function(index) {
+            if (index===undefined) index = this.thumbs.length-1;
+            if (index>0) {
+                this.thumbs[index].thumb.remove();
+                this.thumbs.splice(index, 1);
+            }
         }
     });
 });

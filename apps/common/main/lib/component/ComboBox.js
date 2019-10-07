@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -85,12 +85,13 @@ define([
                 menuStyle   : '',
                 displayField: 'displayValue',
                 valueField  : 'value',
+                search      : false,
                 scrollAlwaysVisible: false
             },
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control">',
+                    '<input type="text" class="form-control" spellcheck="false">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
@@ -103,8 +104,7 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
-                var me = this,
-                    el = $(this.el);
+                var me = this;
 
                 this.id             = me.options.id || Common.UI.getId();
                 this.cls            = me.options.cls;
@@ -119,6 +119,7 @@ define([
                 this.store          = me.options.store || new Common.UI.ComboBoxStore();
                 this.displayField   = me.options.displayField;
                 this.valueField     = me.options.valueField;
+                this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 me.rendered         = me.options.rendered || false;
 
@@ -156,10 +157,10 @@ define([
                         this.setElement(parentEl, false);
                         parentEl.html(this.cmpEl);
                     } else {
-                        $(this.el).html(this.cmpEl);
+                        this.$el.html(this.cmpEl);
                     }
                 } else {
-                    this.cmpEl = $(this.el);
+                    this.cmpEl = me.$el || $(this.el);
                 }
 
                 if (!me.rendered) {
@@ -192,6 +193,18 @@ define([
                         var modalParents = el.closest('.asc-window');
                         if (modalParents.length > 0) {
                             el.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                            var onModalClose = function(dlg) {
+                                if (modalParents[0] !== dlg.$window[0]) return;
+                                var tip = el.data('bs.tooltip');
+                                if (tip) {
+                                    if (tip.dontShow===undefined)
+                                        tip.dontShow = true;
+
+                                    tip.hide();
+                                }
+                                Common.NotificationCenter.off({'modal:close': onModalClose});
+                            };
+                            Common.NotificationCenter.on({'modal:close': onModalClose});
                         }
 
                         el.find('.dropdown-menu').on('mouseenter', function(){ // hide tooltip when mouse is over menu
@@ -239,7 +252,6 @@ define([
                     this.scroller = new Common.UI.Scroller(_.extend({
                         el: $('.dropdown-menu', this.cmpEl),
                         minScrollbarLength: 40,
-                        scrollYMarginOffset: 30,
                         includePadding: true,
                         wheelSpeed: 10,
                         alwaysVisibleY: this.scrollAlwaysVisible
@@ -264,7 +276,6 @@ define([
                     this.scroller = new Common.UI.Scroller(_.extend({
                         el: $('.dropdown-menu', this.cmpEl),
                         minScrollbarLength: 40,
-                        scrollYMarginOffset: 30,
                         includePadding: true,
                         wheelSpeed: 10,
                         alwaysVisibleY: this.scrollAlwaysVisible
@@ -295,12 +306,14 @@ define([
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {
                         $list.scrollTop($list.scrollTop() + itemTop + itemHeight - (listHeight/2));
                     }
+                    setTimeout(function(){$selected.find('a').focus();}, 1);
                 }
 
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
                 this.trigger('show:after', this, e);
+                this._search = {};
             },
 
             onBeforeHideMenu: function(e) {
@@ -332,6 +345,57 @@ define([
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                     return false;
+                }  else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
+                    var me = this;
+                    clearTimeout(this._search.timer);
+                    this._search.timer = setTimeout(function () { me._search = {}; }, 1000);
+
+                    (!this._search.text) && (this._search.text = '');
+                    (!this._search.char) && (this._search.char = e.key);
+                    (this._search.char !== e.key) && (this._search.full = true);
+                    this._search.text += e.key;
+                    if (this._search.index===undefined) {
+                        var $items = this.cmpEl.find('ul > li').find('> a');
+                        this._search.index = $items.index($items.filter(':focus'));
+                    }
+                    this.selectCandidate();
+                }
+            },
+
+            selectCandidate: function() {
+                var index = this._search.index || 0,
+                    re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
+                    itemCandidate, idxCandidate;
+
+                for (var i=0; i<this.store.length; i++) {
+                    var item = this.store.at(i);
+                    if (re.test(item.get(this.displayField))) {
+                        if (!itemCandidate) {
+                            itemCandidate = item;
+                            idxCandidate = i;
+                        }
+                        if (this._search.full && i==index || i>index) {
+                            itemCandidate = item;
+                            idxCandidate = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (itemCandidate) {
+                    this._search.index = idxCandidate;
+                    var item = $('#' + itemCandidate.get('id') + ' a', $(this.el));
+                    if (this.scroller) {
+                        this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+                        var $list = $(this.el).find('ul');
+                        var itemTop = item.position().top,
+                            itemHeight = item.height(),
+                            listHeight = $list.height();
+                        if (itemTop < 0 || itemTop + itemHeight > listHeight) {
+                            $list.scrollTop($list.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        }
+                    }
+                    item.focus();
                 }
             },
 
@@ -576,7 +640,6 @@ define([
                 this.scroller = new Common.UI.Scroller(_.extend({
                     el: $('.dropdown-menu', this.cmpEl),
                     minScrollbarLength : 40,
-                    scrollYMarginOffset: 30,
                     includePadding     : true,
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible

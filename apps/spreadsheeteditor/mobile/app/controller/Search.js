@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -81,13 +81,15 @@ define([
                         'searchbar:show'        : this.onSearchbarShow,
                         'searchbar:hide'        : this.onSearchbarHide,
                         'searchbar:render'      : this.onSearchbarRender,
-                        'searchbar:showsettings': this.onSearchbarSettings
+                        'searchbar:showsettings': this.onSearchbarSettings,
+                        'search:highlight'      : this.onSearchHighlight
                     }
                 });
             },
 
             setApi: function(api) {
                 this.api = api;
+                this.api.asc_registerCallback('asc_onRenameCellTextEnd',    _.bind(this.onReplaceNext, this));
             },
 
             setMode: function (mode) {
@@ -120,7 +122,8 @@ define([
                 var _endPoint = pointerEventToXY(e);
 
                 if (_isShow) {
-                    var distance = Math.sqrt((_endPoint.x -= _startPoint.x) * _endPoint.x + (_endPoint.y -= _startPoint.y) * _endPoint.y);
+                    var distance = (_startPoint.x===undefined || _startPoint.y===undefined) ? 0 :
+                        Math.sqrt((_endPoint.x -= _startPoint.x) * _endPoint.x + (_endPoint.y -= _startPoint.y) * _endPoint.y);
 
                     if (distance < 1) {
                         this.hideSearch();
@@ -167,22 +170,40 @@ define([
                     searchIn        = Common.SharedSettings.get('search-in') === 'sheet' ? 'sheet' : 'workbook',
                     isMatchCase     = Common.SharedSettings.get('search-match-case') === true,
                     isMatchCell     = Common.SharedSettings.get('search-match-cell') === true,
+                    isHighlightRes  = Common.SharedSettings.get('search-highlight-res') === true,
+                    searchBy        = Common.SharedSettings.get('search-by') === 'rows' ? 'rows' : 'columns',
+                    lookIn          = Common.SharedSettings.get('look-in') === 'formulas' ? 'formulas' : 'values',
                     $pageSettings   = $('.page[data-page=search-settings]'),
                     $inputType      = $pageSettings.find('input[name=search-type]'),
                     $inputSearchIn  = $pageSettings.find('input[name=search-in]'),
+                    $inputSearchBy  = $pageSettings.find('input[name=search-by]'),
                     $inputMatchCase = $pageSettings.find('#search-match-case input:checkbox'),
-                    $inputMatchCell = $pageSettings.find('#search-match-cell input:checkbox');
+                    $inputMatchCell = $pageSettings.find('#search-match-cell input:checkbox'),
+                    $inputHighlightResults = $pageSettings.find('#search-highlight-res input:checkbox'),
+                    $inputLookIn = $pageSettings.find('input[name=look-in]');
 
                 $inputType.val([isReplace ? 'replace' : 'search']);
                 $inputSearchIn.val([searchIn]);
                 $inputMatchCase.prop('checked', isMatchCase);
                 $inputMatchCell.prop('checked', isMatchCell);
+                $inputHighlightResults.prop('checked', isHighlightRes);
+                $inputSearchBy.val([searchBy]);
+                $inputLookIn.val([lookIn]);
 
                 // init events
                 $inputType.single('change',      _.bind(me.onTypeChange, me));
                 $inputSearchIn.single('change',  _.bind(me.onSearchInChange, me));
+                $inputSearchBy.single('change',  _.bind(me.onSearchByChange, me));
+                $inputLookIn.single('change',  _.bind(me.onLookInChange, me));
                 $inputMatchCase.single('change', _.bind(me.onMatchCaseClick, me));
                 $inputMatchCell.single('change', _.bind(me.onMatchCellClick, me));
+                $inputHighlightResults.single('change', _.bind(me.onHighlightResultsClick, me));
+
+                if (isReplace) {
+                    Common.SharedSettings.set('look-in', 'formulas');
+                    $('input[name=look-in]').val(['formulas']);
+                    $('input[name=look-in]:eq(1)').parent().addClass('disabled');
+                }
             },
 
             onSearchbarShow: function(bar) {
@@ -240,7 +261,12 @@ define([
             },
 
             onReplace: function (btn) {
-                this.onQueryReplace(this.searchBar.query, this.replaceBar.query);
+                var me = this;
+                me.onQueryReplace(me.searchBar.query, me.replaceBar.query ? me.replaceBar.query : "");
+            },
+
+            onReplaceNext: function() {
+                this.onQuerySearch(this.searchBar.query, 'next');
             },
 
             onReplaceAll: function (e) {
@@ -268,7 +294,9 @@ define([
             onQuerySearch: function(query, direction) {
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
-                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows',
+                    lookIn = Common.SharedSettings.get('look-in') === 'formulas';
 
                 if (query && query.length) {
                     var options = new Asc.asc_CFindOptions();
@@ -277,8 +305,8 @@ define([
                     options.asc_setIsMatchCase(matchCase);
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
-                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+                    options.asc_setScanByRows(searchBy);
+                    options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
 
                     if (!this.api.asc_findText(options)) {
                         var me = this;
@@ -297,7 +325,9 @@ define([
             onQueryReplace: function(search, replace) {
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
-                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows',
+                    lookIn = Common.SharedSettings.get('look-in') === 'formulas';
 
                 if (search && search.length) {
                     this.api.isReplaceAll = false;
@@ -308,8 +338,8 @@ define([
                     options.asc_setIsMatchCase(matchCase);
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
-                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+                    options.asc_setScanByRows(searchBy);
+                    options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
                     options.asc_setIsReplaceAll(false);
 
                     this.api.asc_replaceText(options);
@@ -319,7 +349,9 @@ define([
             onQueryReplaceAll: function(search, replace) {
                 var matchCase = Common.SharedSettings.get('search-match-case') || false,
                     matchCell = Common.SharedSettings.get('search-match-cell') || false,
-                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet';
+                    lookInSheet = Common.SharedSettings.get('search-in') === 'sheet',
+                    searchBy = Common.SharedSettings.get('search-by') === 'rows',
+                    lookIn = Common.SharedSettings.get('look-in') === 'formulas';
 
                 if (search && search.length) {
                     this.api.isReplaceAll = true;
@@ -330,8 +362,8 @@ define([
                     options.asc_setIsMatchCase(matchCase);
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
-                    // options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                    // options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
+                    options.asc_setScanByRows(searchBy);
+                    options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
                     options.asc_setIsReplaceAll(true);
 
                     this.api.asc_replaceText(options);
@@ -344,10 +376,26 @@ define([
 
                 Common.SharedSettings.set('search-is-replace', isReplace);
                 $('.searchbar.document').toggleClass('replace', isReplace);
+
+                if (isReplace) {
+                    Common.SharedSettings.set('look-in', 'formulas');
+                    $('input[name=look-in]').val(['formulas']);
+                    $('input[name=look-in]:eq(1)').parent().addClass('disabled');
+                } else {
+                    $('input[name=look-in]:eq(1)').parent().removeClass('disabled');
+                }
             },
 
             onSearchInChange: function (e) {
                 Common.SharedSettings.set('search-in', $(e.currentTarget).val());
+            },
+
+            onSearchByChange: function(e) {
+                Common.SharedSettings.set('search-by', $(e.currentTarget).val());
+            },
+
+            onLookInChange: function(e) {
+                Common.SharedSettings.set('look-in', $(e.currentTarget).val());
             },
 
             onMatchCaseClick: function (e) {
@@ -356,6 +404,16 @@ define([
 
             onMatchCellClick: function (e) {
                 Common.SharedSettings.set('search-match-cell', $(e.currentTarget).is(':checked'));
+            },
+
+            onHighlightResultsClick: function (e) {
+                var value = $(e.currentTarget).is(':checked');
+                Common.SharedSettings.set('search-highlight-res', value);
+                this.api.asc_selectSearchingResults(value);
+            },
+
+            onSearchHighlight: function(w, highlight) {
+                this.api.asc_selectSearchingResults(highlight);
             },
 
             // API handlers

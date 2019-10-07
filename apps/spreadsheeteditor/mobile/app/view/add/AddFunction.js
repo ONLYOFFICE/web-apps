@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -89,6 +89,7 @@ define([
                                 .on('click', '.function > a', this.onFunctionClick.bind(this));
                 $('.groups a.group').single('click', this.onGroupClick.bind(this));
 
+                Common.Utils.addScrollIfNeed('#add-formula .pages', '#add-formula .page');
                 me.initControls();
             },
 
@@ -108,17 +109,35 @@ define([
                         quickFunction.caption = me.functions[quickFunction.type].caption
                     });
                 }
+                var lang = me.lang;
+
+                this.translatTable = {};
+
+                var name = '', translate = '',
+                    descriptions = ['DateAndTime', 'Engineering', 'Financial', 'Information', 'Logical', 'LookupAndReference', 'Mathematic', 'Statistical', 'TextAndData' ];
+                for (var i=0; i<descriptions.length; i++) {
+                    name = descriptions[i];
+                    translate = 'sCat' + name;
+                    this.translatTable[name] = {
+                        en: this[translate],
+                        de: this[translate+'_de'],
+                        ru: this[translate+'_ru'],
+                        pl: this[translate+'_pl'],
+                        es: this[translate+'_es'],
+                        fr: this[translate+'_fr']
+                    };
+                }
 
                 me.groups = {
-                    'DateAndTime':          me.sCatDateAndTime,
-                    'Engineering':          me.sCatEngineering,
-                    'TextAndData':          me.sCatTextAndData,
-                    'Statistical':          me.sCatStatistical,
-                    'Financial':            me.sCatFinancial,
-                    'Mathematic':           me.sCatMathematic,
-                    'LookupAndReference':   me.sCatLookupAndReference,
-                    'Information':          me.sCatInformation,
-                    'Logical':              me.sCatLogical
+                    'DateAndTime':          me.translatTable['DateAndTime'][lang] || me.translatTable['DateAndTime']['en'],
+                    'Engineering':          me.translatTable['Engineering'][lang] || me.translatTable['Engineering']['en'],
+                    'TextAndData':          me.translatTable['TextAndData'][lang] || me.translatTable['TextAndData']['en'],
+                    'Statistical':          me.translatTable['Statistical'][lang] || me.translatTable['Statistical']['en'],
+                    'Financial':            me.translatTable['Financial'][lang]   || me.translatTable['Financial']['en'],
+                    'Mathematic':           me.translatTable['Mathematic'][lang]  || me.translatTable['Mathematic']['en'],
+                    'LookupAndReference':   me.translatTable['LookupAndReference'][lang] || me.translatTable['LookupAndReference']['en'],
+                    'Information':          me.translatTable['Information'][lang] || me.translatTable['Information']['en'],
+                    'Logical':              me.translatTable['Logical'][lang] || me.translatTable['Logical']['en']
                 };
 
                 me.layout = $('<div/>').append(_.template(me.template)({
@@ -133,8 +152,9 @@ define([
                 return this;
             },
 
-            setFunctions: function (arr) {
+            setFunctions: function (arr, lang) {
                 this.functions = arr;
+                this.lang = lang;
             },
 
             rootLayout: function () {
@@ -181,10 +201,12 @@ define([
                     groupname   : this.groups[group],
                     functions   : items
                 });
+                Common.Utils.addScrollIfNeed('.view.add-root-view .page-on-center', '.view.add-root-view .page-on-center .page-content');
             },
 
             openFunctionInfo: function (type) {
                 _openView.call(this, 'info', this.functions[type]);
+                Common.Utils.addScrollIfNeed('.view.add-root-view .page-on-center', '.view.add-root-view .page-on-center .page-content');
             },
 
             textGroups:                'CATEGORIES',
@@ -199,7 +221,57 @@ define([
             sCatLookupAndReference:    'Lookup and Reference',
             sCatMathematic:            'Math and trigonometry',
             sCatStatistical:           'Statistical',
-            sCatTextAndData:           'Text and data'
+            sCatTextAndData:           'Text and data',
+
+            sCatDateAndTime_ru:        'Дата и время',
+            sCatEngineering_ru:        'Инженерные',
+            sCatFinancial_ru:          'Финансовые',
+            sCatInformation_ru:        'Информационные',
+            sCatLogical_ru:            'Логические',
+            sCatLookupAndReference_ru: 'Поиск и ссылки',
+            sCatMathematic_ru:         'Математические',
+            sCatStatistical_ru:        'Статистические',
+            sCatTextAndData_ru:        'Текст и данные',
+
+            sCatLogical_es:            'Lógico',
+            sCatDateAndTime_es:       'Fecha y hora',
+            sCatEngineering_es:        'Ingenería',
+            sCatFinancial_es:          'Financial',
+            sCatInformation_es:        'Información',
+            sCatLookupAndReference_es: 'Búsqueda y referencia',
+            sCatMathematic_es:         'Matemáticas y trigonometría',
+            sCatStatistical_es:        'Estadístico',
+            sCatTextAndData_es:        'Texto y datos',
+
+            sCatLogical_fr:            'Logique',
+            sCatDateAndTime_fr:        'Date et heure',
+            sCatEngineering_fr:        'Ingénierie',
+            sCatFinancial_fr:          'Financier',
+            sCatInformation_fr:        'Information',
+            sCatLookupAndReference_fr: 'Recherche et référence',
+            sCatMathematic_fr:         'Maths et trigonométrie',
+            sCatStatistical_fr:        'Statistiques',
+            sCatTextAndData_fr:        'Texte et données',
+
+            sCatLogical_pl:            'Logiczny',
+            sCatDateAndTime_pl:        'Data i czas',
+            sCatEngineering_pl:        'Inżyniera',
+            sCatFinancial_pl:          'Finansowe',
+            sCatInformation_pl:        'Informacja',
+            sCatLookupAndReference_pl: 'Wyszukiwanie i odniesienie',
+            sCatMathematic_pl:         'Matematyczne i trygonometryczne',
+            sCatStatistical_pl:        'Statystyczny',
+            sCatTextAndData_pl:        'Tekst i data',
+
+            sCatDateAndTime_de:        'Datum und Uhrzeit',
+            sCatEngineering_de:        'Konstruktion',
+            sCatFinancial_de:          'Finanzmathematik',
+            sCatInformation_de:        'Information',
+            sCatLogical_de:            'Logisch',
+            sCatLookupAndReference_de: 'Suchen und Bezüge',
+            sCatMathematic_de:         'Mathematik und Trigonometrie',
+            sCatStatistical_de:        'Statistik',
+            sCatTextAndData_de:        'Text und Daten'
 
         }
     })(), SSE.Views.AddFunction || {}));

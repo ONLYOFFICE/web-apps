@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -33,6 +33,7 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
+    'common/main/lib/view/SaveAsDlg',
     'spreadsheeteditor/main/app/view/LeftMenu',
     'spreadsheeteditor/main/app/view/FileMenu'
 ], function () {
@@ -73,6 +74,7 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
+                    'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -106,7 +108,7 @@ define([
                 shortcuts: {
                     'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
                     'command+f,ctrl+f': _.bind(this.onShortcut, this, 'search'),
-                    'command+h,ctrl+h': _.bind(this.onShortcut, this, 'replace'),
+                    'ctrl+h': _.bind(this.onShortcut, this, 'replace'),
                     'alt+f': _.bind(this.onShortcut, this, 'file'),
                     'esc': _.bind(this.onShortcut, this, 'escape'),
                     /** coauthoring begin **/
@@ -139,8 +141,10 @@ define([
         setApi: function(api) {
             this.api = api;
             this.api.asc_registerCallback('asc_onRenameCellTextEnd',    _.bind(this.onRenameText, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this, true));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiServerDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiServerDisconnect, this));
+            this.api.asc_registerCallback('asc_onDownloadUrl',          _.bind(this.onDownloadUrl, this));
+            Common.NotificationCenter.on('download:cancel',             _.bind(this.onDownloadCancel, this));
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat)
@@ -148,11 +152,15 @@ define([
                 if (this.mode.canComments) {
                     this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
                     this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
-                    var collection = this.getApplication().getCollection('Common.Collections.Comments');
-                    for (var i = 0; i < collection.length; ++i) {
-                        if (collection.at(i).get('userid') !== this.mode.user.id) {
-                            this.leftMenu.markCoauthOptions('comments', true);
-                            break;
+                    var comments = this.getApplication().getController('Common.Controllers.Comments').groupCollection;
+                    for (var name in comments) {
+                        var collection = comments[name],
+                            resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
+                        for (var i = 0; i < collection.length; ++i) {
+                            if (collection.at(i).get('userid') !== this.mode.user.id && (resolved || !collection.at(i).get('resolved'))) {
+                                this.leftMenu.markCoauthOptions('comments', true);
+                                break;
+                            }
                         }
                     }
                 }
@@ -183,8 +191,8 @@ define([
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
-                this.leftMenu.btnComments[(this.mode.canComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
-                if (this.mode.canComments)
+                this.leftMenu.btnComments[(this.mode.canViewComments && !this.mode.isLightVersion) ? 'show' : 'hide']();
+                if (this.mode.canViewComments)
                     this.leftMenu.setOptionsPanel('comment', this.getApplication().getController('Common.Controllers.Comments').getView('Common.Views.Comments'));
 
                 this.leftMenu.btnChat[(this.mode.canChat && !this.mode.isLightVersion) ? 'show' : 'hide']();
@@ -194,6 +202,12 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
+
+            if (this.mode.isEdit) {
+                this.leftMenu.btnSpellcheck.show();
+                this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
+            }
+
             this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
@@ -256,7 +270,7 @@ define([
                     buttons: ['ok', 'cancel'],
                     callback: _.bind(function(btn){
                         if (btn == 'ok') {
-                            this.api.asc_DownloadAs(format);
+                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
                             menu.hide();
                         }
                     }, this)
@@ -265,9 +279,79 @@ define([
                 menu.hide();
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format);
             } else {
-                this.api.asc_DownloadAs(format);
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                 menu.hide();
             }
+        },
+
+        clickSaveCopyAsFormat: function(menu, format, ext) {
+            if (format == Asc.c_oAscFileType.CSV) {
+                Common.UI.warning({
+                    title: this.textWarning,
+                    msg: this.warnDownloadAs,
+                    buttons: ['ok', 'cancel'],
+                    callback: _.bind(function(btn){
+                        if (btn == 'ok') {
+                            this.isFromFileDownloadAs = ext;
+                            Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, this.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                            menu.hide();
+                        }
+                    }, this)
+                });
+            } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
+                this.isFromFileDownloadAs = ext;
+                menu.hide();
+                Common.NotificationCenter.trigger('download:settings', this.leftMenu, format, true);
+            } else {
+                this.isFromFileDownloadAs = ext;
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
+                menu.hide();
+            }
+        },
+
+        onDownloadUrl: function(url) {
+            if (this.isFromFileDownloadAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                if (typeof this.isFromFileDownloadAs == 'string') {
+                    var idx = defFileName.lastIndexOf('.');
+                    if (idx>0)
+                        defFileName = defFileName.substring(0, idx) + this.isFromFileDownloadAs;
+                }
+
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        var config = {
+                            closable: false,
+                            title: me.textWarning,
+                            msg: err,
+                            iconCls: 'warn',
+                            buttons: ['ok'],
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        };
+                        Common.UI.alert(config);
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
+            }
+            this.isFromFileDownloadAs = false;
+        },
+
+        onDownloadCancel: function() {
+            this.isFromFileDownloadAs = false;
         },
 
         applySettings: function(menu) {
@@ -281,9 +365,13 @@ define([
             var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment");
             Common.Utils.InternalSettings.set("sse-settings-resolvedcomment", resolved);
 
-            if (this.mode.canComments && this.leftMenu.panelComments.isVisible())
+            if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
+
+            value = Common.localStorage.getBool("sse-settings-r1c1");
+            Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
+            this.api.asc_setR1C1Mode(value);
 
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 value = Common.localStorage.getBool("sse-settings-coauthmode", true);
@@ -298,11 +386,6 @@ define([
                 this.api.asc_setAutoSaveGap(value);
             }
 
-            value = Common.localStorage.getItem("sse-settings-func-locale");
-            Common.Utils.InternalSettings.set("sse-settings-func-locale", value);
-            if (value) value = SSE.Views.FormulaLang.get(value);
-            if (value!==null) this.api.asc_setLocalization(value);
-
             value = Common.localStorage.getItem("sse-settings-reg-settings");
             if (value!==null) this.api.asc_setLocale(parseInt(value));
 
@@ -312,13 +395,10 @@ define([
         },
 
         onCreateNew: function(menu, type) {
-            if (this.mode.nativeApp === true) {
-                this.api.asc_openNewDocument(type == 'blank' ? '' : type);
-            } else {
+            if ( !Common.Controllers.Desktop.process('create:new') ) {
                 var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
                 if (newDocumentPage) newDocumentPage.focus();
             }
-
             if (menu) {
                 menu.hide();
             }
@@ -347,7 +427,8 @@ define([
         },
 
         changeToolbarSaveState: function (state) {
-            this.leftMenu.menuFile.getButton('save').setDisabled(state);
+            var btnSave = this.leftMenu.menuFile.getButton('save');
+            btnSave && btnSave.setDisabled(state);
         },
 
         /** coauthoring begin **/
@@ -499,7 +580,7 @@ define([
             }
 
             if (show) {
-                var mode = this.mode.isEdit ? (action || undefined) : 'no-replace';
+                var mode = this.mode.isEdit && !this.viewmode ? (action || undefined) : 'no-replace';
 
                 if (this.dlgSearch.isVisible()) {
                     this.dlgSearch.setMode(mode);
@@ -555,7 +636,14 @@ define([
             }
         },
 
-        onApiServerDisconnect: function(disableDownload) {
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+
+            this.dlgSearch && this.dlgSearch.setMode(this.viewmode ? 'no-replace' : 'search');
+        },
+
+        onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
 
@@ -564,8 +652,9 @@ define([
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
             this.leftMenu.btnPlugins.setDisabled(true);
+            this.leftMenu.btnSpellcheck.setDisabled(true);
 
-            this.leftMenu.getMenu('file').setMode({isDisconnected: true, disableDownload: !!disableDownload});
+            this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
             if ( this.dlgSearch ) {
                 this.leftMenu.btnSearch.toggle(false, true);
                 this.dlgSearch['hide']();
@@ -578,13 +667,15 @@ define([
         },
 
         onApiAddComment: function(id, data) {
-            if (data && data.asc_getUserId() !== this.mode.user.id)
+            var resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
+            if (data && data.asc_getUserId() !== this.mode.user.id && (resolved || !data.asc_getSolved()))
                 this.leftMenu.markCoauthOptions('comments');
         },
 
         onApiAddComments: function(data) {
+            var resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
             for (var i = 0; i < data.length; ++i) {
-                if (data[i].asc_getUserId() !== this.mode.user.id) {
+                if (data[i].asc_getUserId() !== this.mode.user.id && (resolved || !data[i].asc_getSolved())) {
                     this.leftMenu.markCoauthOptions('comments');
                     break;
                 }
@@ -640,7 +731,7 @@ define([
                 if (!state && this.leftMenu._state.pluginIsRunning) {
                     this.leftMenu.panelPlugins.show();
                     if (this.mode.canCoAuthoring) {
-                        this.mode.canComments && this.leftMenu.panelComments['hide']();
+                        this.mode.canViewComments && this.leftMenu.panelComments['hide']();
                         this.mode.canChat && this.leftMenu.panelChat['hide']();
                     }
                 }
@@ -745,7 +836,7 @@ define([
                     }
                     return false;
                 case 'comments':
-                    if (this.mode.canCoAuthoring && this.mode.canComments && !this.mode.isLightVersion) {
+                    if (this.mode.canCoAuthoring && this.mode.canViewComments && !this.mode.isLightVersion) {
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('comments');
                         this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
@@ -760,6 +851,7 @@ define([
 
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
             this.leftMenu.btnSearch.setDisabled(isRangeSelection);
+            this.leftMenu.btnSpellcheck.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isRangeSelection);
                 this.leftMenu.panelPlugins.disableControls(isRangeSelection);
@@ -771,6 +863,7 @@ define([
 
             this.leftMenu.btnAbout.setDisabled(isEditFormula);
             this.leftMenu.btnSearch.setDisabled(isEditFormula);
+            this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
                 this.leftMenu.panelPlugins.disableControls(isEditFormula);
@@ -819,6 +912,7 @@ define([
         textValues: 'Values',
         textWithin: 'Within',
         textSearch: 'Search',
-        textLookin: 'Look in'
+        textLookin: 'Look in',
+        txtUntitled: 'Untitled'
     }, SSE.Controllers.LeftMenu || {}));
 });

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -46,7 +46,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'documenteditor/mobile/app/view/Settings'
+    'documenteditor/mobile/app/view/Settings',
+    'common/mobile/lib/controller/Collaboration'
 ], function (core, $, _, Backbone) {
     'use strict';
 
@@ -64,18 +65,36 @@ define([
                 { caption: 'US Letter',             subtitle: Common.Utils.String.format('21,59{0} x 27,94{0}', txtCm),  value: [215.9, 279.4] },
                 { caption: 'US Legal',              subtitle: Common.Utils.String.format('21,59{0} x 35,56{0}', txtCm),  value: [215.9, 355.6] },
                 { caption: 'A4',                    subtitle: Common.Utils.String.format('21{0} x 29,7{0}', txtCm),      value: [210, 297] },
-                { caption: 'A5',                    subtitle: Common.Utils.String.format('14,81{0} x 20,99{0}', txtCm),  value: [148.1, 209.9] },
-                { caption: 'B5',                    subtitle: Common.Utils.String.format('17,6{0} x 25,01{0}', txtCm),   value: [176, 250.1] },
+                { caption: 'A5',                    subtitle: Common.Utils.String.format('14,8{0} x 21{0}', txtCm),  value: [148, 210] },
+                { caption: 'B5',                    subtitle: Common.Utils.String.format('17,6{0} x 25{0}', txtCm),   value: [176, 250] },
                 { caption: 'Envelope #10',          subtitle: Common.Utils.String.format('10,48{0} x 24,13{0}', txtCm),  value: [104.8, 241.3] },
-                { caption: 'Envelope DL',           subtitle: Common.Utils.String.format('11,01{0} x 22,01{0}', txtCm),  value: [110.1, 220.1] },
-                { caption: 'Tabloid',               subtitle: Common.Utils.String.format('27,94{0} x 43,17{0}', txtCm),  value: [279.4, 431.7] },
-                { caption: 'A3',                    subtitle: Common.Utils.String.format('29,7{0} x 42,01{0}', txtCm),   value: [297, 420.1] },
+                { caption: 'Envelope DL',           subtitle: Common.Utils.String.format('11{0} x 22{0}', txtCm),  value: [110, 220] },
+                { caption: 'Tabloid',               subtitle: Common.Utils.String.format('27,94{0} x 43,18{0}', txtCm),  value: [279.4, 431.8] },
+                { caption: 'A3',                    subtitle: Common.Utils.String.format('29,7{0} x 42{0}', txtCm),   value: [297, 420] },
                 { caption: 'Tabloid Oversize',      subtitle: Common.Utils.String.format('30,48{0} x 45,71{0}', txtCm),  value: [304.8, 457.1] },
                 { caption: 'ROC 16K',               subtitle: Common.Utils.String.format('19,68{0} x 27,3{0}', txtCm),   value: [196.8, 273] },
                 { caption: 'Envelope Choukei 3',    subtitle: Common.Utils.String.format('11,99{0} x 23,49{0}', txtCm),  value: [119.9, 234.9] },
-                { caption: 'Super B/A3',            subtitle: Common.Utils.String.format('33,02{0} x 48,25{0}', txtCm),  value: [330.2, 482.5] }
+                { caption: 'Super B/A3',            subtitle: Common.Utils.String.format('33,02{0} x 48,25{0}', txtCm),  value: [330.2, 482.5] },
+                { caption: 'A0',                    subtitle: Common.Utils.String.format('84,1{0} x 118,9{0}', txtCm),   value: [841, 1189] },
+                { caption: 'A1',                    subtitle: Common.Utils.String.format('59,4{0} x 84,1{0}', txtCm),    value: [594, 841] },
+                { caption: 'A2',                    subtitle: Common.Utils.String.format('42{0} x 59,4{0}', txtCm),      value: [420, 594] },
+                { caption: 'A6',                    subtitle: Common.Utils.String.format('10,5{0} x 14,8{0}', txtCm),    value: [105, 148] }
             ],
-            _licInfo;
+            _licInfo,
+            _canReview = false,
+            _isReviewOnly = false,
+            _fileKey,
+            templateInsert,
+            _metricText = Common.Utils.Metric.getCurrentMetricName(),
+            _isEdit;
+
+        var mm2Cm = function(mm) {
+            return parseFloat((mm/10.).toFixed(2));
+        };
+
+        var cm2Mm = function(cm) {
+            return cm * 10.;
+        };
 
         return {
             models: [],
@@ -85,13 +104,22 @@ define([
             ],
 
             initialize: function () {
+                var me = this;
+
                 Common.SharedSettings.set('readerMode', false);
                 Common.NotificationCenter.on('settingscontainer:show', _.bind(this.initEvents, this));
 
-                this.addListeners({
+                me.maxMarginsW = me.maxMarginsH = 0;
+                me.localSectionProps = null;
+                
+                me.addListeners({
                     'Settings': {
-                        'page:show' : this.onPageShow
+                        'page:show' : me.onPageShow
                     }
+                });
+
+                uiApp.onPageAfterBack('margin-view', function (page) {
+                    me.applyPageMarginsIfNeed()
                 });
             },
 
@@ -106,6 +134,7 @@ define([
                 me.api.asc_registerCallback('asc_onDocumentName',       _.bind(me.onApiDocumentName, me));
                 me.api.asc_registerCallback('asc_onDocSize',            _.bind(me.onApiPageSize, me));
                 me.api.asc_registerCallback('asc_onPageOrient',         _.bind(me.onApiPageOrient, me));
+                me.api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(me.onSendThemeColorSchemes, me));
             },
 
             onLaunch: function () {
@@ -116,6 +145,10 @@ define([
                 this.getView('Settings').setMode(mode);
                 if (mode.canBranding)
                     _licInfo = mode.customization;
+                _canReview = mode.canReview;
+                _isReviewOnly = mode.isReviewOnly;
+                _fileKey = mode.fileKey;
+                _isEdit = mode.isEdit;
             },
 
             initEvents: function () {
@@ -179,22 +212,178 @@ define([
 
                 if ('#settings-document-view' == pageId) {
                     me.initPageDocumentSettings();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-document-view]', '.page[data-page=settings-document-view] .page-content');
                 } else if ('#settings-document-formats-view' == pageId) {
                     me.getView('Settings').renderPageSizes(_pageSizes, _pageSizesIndex);
                     $('.page[data-page=settings-document-formats-view] input:radio[name=document-format]').single('change', _.bind(me.onFormatChange, me));
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-document-formats-view]', '.page[data-page=settings-document-formats-view] .page-content');
                 } else if ('#settings-download-view' == pageId) {
                     $(modalView).find('.formats a').single('click', _.bind(me.onSaveFormat, me));
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
                 } else if ('#settings-info-view' == pageId) {
                     me.initPageInfo();
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
                 } else if ('#settings-about-view' == pageId) {
                     // About
                     me.setLicInfo(_licInfo);
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
+                } else if ('#settings-advanced-view' == pageId) {
+                    me.initPageAdvancedSettings();
+                    $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("de-mobile-spellcheck"));
+                    $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
+                    $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
+                    $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
+                    $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
+                    $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
+                    $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
+                    var displayComments = Common.localStorage.getBool("de-settings-livecomment", true);
+                    $('#settings-display-comments input:checkbox').attr('checked', displayComments);
+                    $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
+                    var displayResolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
+                    if (!displayComments) {
+                        $("#settings-display-resolved").addClass("disabled");
+                        displayResolved = false;
+                    }
+                    $('#settings-display-resolved input:checkbox').attr('checked', displayResolved);
+                    $('#settings-display-resolved input:checkbox').single('change',   _.bind(me.onChangeDisplayResolved, me));
+                    Common.Utils.addScrollIfNeed('.page[data-page=settings-advanced-view]', '.page[data-page=settings-advanced-view] .page-content');
+                } else if ('#color-schemes-view' == pageId) {
+                    me.initPageColorSchemes();
+                    Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
+                } else if ('#margins-view' == pageId) {
+                    me.initPageMargin();
+                    Common.Utils.addScrollIfNeed('.page[data-page=margin-view]', '.page[data-page=margin-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
                     $('#settings-readermode input:checkbox').single('change',   _.bind(me.onReaderMode, me));
                     $('#settings-help').single('click',                         _.bind(me.onShowHelp, me));
                     $('#settings-download').single('click',                     _.bind(me.onDownloadOrigin, me));
+                    $('#settings-print').single('click',                        _.bind(me.onPrint, me));
+                    $('#settings-collaboration').single('click',                _.bind(me.clickCollaboration, me));
+                    var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
+                    if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
+                        $('#settings-document').addClass('disabled');
+                    }
+                    var _userCount = DE.getController('Main').returnUserCount();
+                    if (_userCount > 0) {
+                        $('#settings-collaboration').show();
+                    }
+                }
+            },
+
+            onChangeDisplayComments: function(e) {
+                var displayComments = $(e.currentTarget).is(':checked');
+                if (!displayComments) {
+                    this.api.asc_hideComments();
+                    $("#settings-display-resolved input").prop( "checked", false );
+                    Common.localStorage.setBool("de-settings-resolvedcomment", false);
+                    $("#settings-display-resolved").addClass("disabled");
+                } else {
+                    var resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
+                    this.api.asc_showComments(resolved);
+                    $("#settings-display-resolved").removeClass("disabled");
+                }
+                Common.localStorage.setBool("de-settings-livecomment", displayComments);
+            },
+
+            onChangeDisplayResolved: function(e) {
+                var displayComments = Common.localStorage.getBool("de-settings-livecomment");
+                if (displayComments) {
+                    var resolved = $(e.currentTarget).is(':checked');
+                    if (this.api) {
+                        this.api.asc_showComments(resolved);
+                    }
+                    Common.localStorage.setBool("de-settings-resolvedcomment", resolved);
+                }
+            },
+
+            clickCollaboration: function() {
+                DE.getController('Common.Controllers.Collaboration').showModal();
+            },
+
+            onNoCharacters: function(e) {
+                var me = this;
+                var $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("de-mobile-no-characters", state);
+                me.api.put_ShowParaMarks(state);
+            },
+
+            onShowTableEmptyLine: function(e) {
+                var me = this,
+                    $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("de-mobile-hidden-borders", state);
+                me.api.put_ShowTableEmptyLine(state);
+            },
+
+            initPageMargin: function() {
+                var me = this;
+                _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
+
+                // Init page margins
+                me.localSectionProps = me.api.asc_GetSectionProps();
+
+                if (me.localSectionProps) {
+                    me.maxMarginsH = me.localSectionProps.get_H() - 26;
+                    me.maxMarginsW = me.localSectionProps.get_W() - 127;
+
+                    var top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin()).toFixed(2)),
+                        bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin()).toFixed(2)),
+                        left = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_LeftMargin()).toFixed(2)),
+                        right = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_RightMargin()).toFixed(2));
+
+                    $('#document-margin-top .item-after label').text(top + ' ' + _metricText);
+                    $('#document-margin-bottom .item-after label').text(bottom + ' ' + _metricText);
+                    $('#document-margin-left .item-after label').text(left + ' ' + _metricText);
+                    $('#document-margin-right .item-after label').text(right + ' ' + _metricText);
+                }
+
+                _.each(["top", "left", "bottom", "right"], function(align) {
+                    $(Common.Utils.String.format('#document-margin-{0} .button', align)).single('click', _.bind(me.onPageMarginsChange, me, align));
+                })
+            },
+
+            initPageColorSchemes: function() {
+                $('#color-schemes-content').html(templateInsert);
+                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+            },
+
+            onSendThemeColorSchemes: function (schemas) {
+                templateInsert = "";
+                _.each(schemas, function (schema, index) {
+                    var colors = schema.get_colors();//schema.colors;
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    for (var j = 2; j < 7; j++) {
+                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
+                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
+                    }
+                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                }, this);
+            },
+
+            onColorSchemaClick: function(event) {
+                if (this.api) {
+                    var ind = $(event.currentTarget).children('input').val();
+                    this.api.ChangeColorScheme(ind);
+                }
+            },
+
+            initPageAdvancedSettings: function() {
+                var me = this,
+                    $unitMeasurement = $('.page[data-page=settings-advanced-view] input:radio[name=unit-of-measurement]');
+                $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
+                var value = Common.localStorage.getItem('de-mobile-settings-unit');
+                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                $unitMeasurement.val([value]);
+                var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
+                if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
+                    $('#settings-no-characters').addClass('disabled');
+                    $('#settings-hidden-borders').addClass('disabled');
+                }
+                if (!_isEdit) {
+                    $('.page[data-page=settings-advanced-view] .page-content > :not(.display-view)').hide();
                 }
             },
 
@@ -209,7 +398,12 @@ define([
 
                 // Init format
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
-                $pageSize.find('.item-subtitle').text(_pageSizes[_pageSizesIndex]['subtitle']);
+                var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
+                    sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
+
+                var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
+                $pageSize.find('.item-subtitle').text(pageSizeTxt);
             },
 
             initPageInfo: function () {
@@ -221,9 +415,39 @@ define([
                     var document = Common.SharedSettings.get('document') || {},
                         info = document.info || {};
 
-                    $('#settings-document-title').html(document.title ? document.title : me.unknownText);
-                    $('#settings-document-autor').html(info.author ? info.author : me.unknownText);
-                    $('#settings-document-date').html(info.created ? info.created : me.unknownText);
+                    document.title ? $('#settings-document-title').html(document.title) : $('.display-document-title').remove();
+                    var value = info.owner || info.author;
+                    value ? $('#settings-document-owner').html(value) : $('.display-owner').remove();
+                    value = info.uploaded || info.created;
+                    value ? $('#settings-doc-uploaded').html(value) : $('.display-uploaded').remove();
+                    info.folder ? $('#settings-doc-location').html(info.folder) : $('.display-location').remove();
+
+                    var appProps = (this.api) ? this.api.asc_getAppProps() : null;
+                    if (appProps) {
+                        var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                        appName ? $('#settings-doc-application').html(appName) : $('.display-application').remove();
+                    }
+                    var props = (this.api) ? this.api.asc_getCoreProps() : null;
+                    if (props) {
+                        value = props.asc_getTitle();
+                        value ? $('#settings-doc-title').html(value) : $('.display-title').remove();
+                        value = props.asc_getSubject();
+                        value ? $('#settings-doc-subject').html(value) : $('.display-subject').remove();
+                        value = props.asc_getDescription();
+                        value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
+                        value = props.asc_getModified();
+                        value ? $('#settings-doc-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                        value = props.asc_getLastModifiedBy();
+                        value ? $('#settings-doc-mod-by').html(value) : $('.display-mode-by').remove();
+                        value = props.asc_getCreated();
+                        value ? $('#settings-doc-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                        value = props.asc_getCreator();
+                        var templateCreator = "";
+                        value && value.split(/\s*[,;]\s*/).forEach(function(item) {
+                            templateCreator = templateCreator + "<li class='item-content'><div class='item-inner'><div class='item-title'>" + item + "</div></div></li>";
+                        });
+                        templateCreator ? $('#list-creator').html(templateCreator) : $('.display-author').remove();
+                    }
                 }
             },
 
@@ -264,6 +488,29 @@ define([
                 }
             },
 
+            // Utils
+
+            applyPageMarginsIfNeed: function() {
+                var me = this,
+                    originalMarginsProps = me.api.asc_GetSectionProps(),
+                    originalMarginsChecksum = _.reduce([
+                        originalMarginsProps.get_TopMargin(),
+                        originalMarginsProps.get_LeftMargin(),
+                        originalMarginsProps.get_RightMargin(),
+                        originalMarginsProps.get_BottomMargin()
+                    ], function(memo, num){ return memo + num; }, 0),
+                    localMarginsChecksum = _.reduce([
+                        me.localSectionProps.get_TopMargin(),
+                        me.localSectionProps.get_LeftMargin(),
+                        me.localSectionProps.get_RightMargin(),
+                        me.localSectionProps.get_BottomMargin()
+                    ], function(memo, num){ return memo + num; }, 0);
+
+                if (Math.abs(originalMarginsChecksum - localMarginsChecksum) > 0.01) {
+                    me.api.asc_SetSectionProps(me.localSectionProps);
+                }
+            },
+
             // Handlers
 
             onSearch: function (e) {
@@ -292,8 +539,33 @@ define([
                 Common.NotificationCenter.trigger('readermode:change', Common.SharedSettings.get('readerMode'));
             },
 
+            onSpellcheck: function (e) {
+                var $checkbox = $(e.currentTarget),
+                    state = $checkbox.is(':checked');
+                Common.localStorage.setItem("de-mobile-spellcheck", state ? 1 : 0);
+                Common.Utils.InternalSettings.set("de-mobile-spellcheck", state);
+                this.api && this.api.asc_setSpellCheck(state);
+            },
+
+            onOrthographyCheck: function (e) {
+                this.hideModal();
+
+                this.api && this.api.asc_pluginRun("asc.{B631E142-E40B-4B4C-90B9-2D00222A286E}", 0);
+            },
+
             onShowHelp: function () {
-                window.open('http://support.onlyoffice.com/', "_blank");
+                var url = '{{HELP_URL}}';
+                if (url.charAt(url.length-1) !== '/') {
+                    url += '/';
+                }
+                if (Common.SharedSettings.get('sailfish')) {
+                    url+='mobile-applications/documents/sailfish/index.aspx';
+                } else if (Common.SharedSettings.get('android')) {
+                    url+='mobile-applications/documents/android/index.aspx';
+                } else {
+                    url+='mobile-applications/documents/index.aspx';
+                }
+                window.open(url, "_blank");
                 this.hideModal();
             },
 
@@ -302,19 +574,22 @@ define([
                     format = $(e.currentTarget).data('format');
 
                 if (format) {
-                    if (format == Asc.c_oAscFileType.TXT) {
+                    if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                         _.defer(function () {
                             uiApp.confirm(
-                                me.warnDownloadAs,
+                                (format === Asc.c_oAscFileType.TXT) ? me.warnDownloadAs : me.warnDownloadAsRTF,
                                 me.notcriticalErrorTitle,
                                 function () {
-                                    me.api.asc_DownloadAs(format);
+                                    if (format == Asc.c_oAscFileType.TXT)
+                                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.TXT, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format));
+                                    else
+                                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                                 }
                             );
                         });
                     } else {
                         _.defer(function () {
-                            me.api.asc_DownloadAs(format);
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
                         });
                     }
 
@@ -327,6 +602,15 @@ define([
 
                 _.defer(function () {
                     me.api.asc_DownloadOrigin();
+                });
+                me.hideModal();
+            },
+
+            onPrint: function(e) {
+                var me = this;
+
+                _.defer(function () {
+                    me.api.asc_Print();
                 });
                 me.hideModal();
             },
@@ -348,6 +632,54 @@ define([
                 _.delay(function () {
                     me.api.change_PageOrient(value === 'true');
                 }, 300);
+            },
+
+            unitMeasurementChange: function (e) {
+                var value = $(e.currentTarget).val();
+                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.localStorage.setItem("de-mobile-settings-unit", value);
+                this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+
+            },
+
+            onPageMarginsChange: function (align, e) {
+                var me = this,
+                    $button = $(e.currentTarget),
+                    step,
+                    txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm),
+                    marginValue = null;
+                if(Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.1;
+                }
+                step = Common.Utils.Metric.fnRecalcToMM(step);
+
+                switch (align) {
+                    case 'left': marginValue = me.localSectionProps.get_LeftMargin(); break;
+                    case 'top': marginValue = me.localSectionProps.get_TopMargin(); break;
+                    case 'right': marginValue = me.localSectionProps.get_RightMargin(); break;
+                    case 'bottom': marginValue = me.localSectionProps.get_BottomMargin(); break;
+                }
+
+                if ($button.hasClass('decrement')) {
+                    marginValue = Math.max(0, marginValue - step);
+                } else {
+                    marginValue = Math.min((align == 'left' || align == 'right') ? me.maxMarginsW : me.maxMarginsH, marginValue + step);
+                }
+
+                switch (align) {
+                    case 'left': me.localSectionProps.put_LeftMargin(marginValue); break;
+                    case 'top': me.localSectionProps.put_TopMargin(marginValue); break;
+                    case 'right': me.localSectionProps.put_RightMargin(marginValue); break;
+                    case 'bottom': me.localSectionProps.put_BottomMargin(marginValue); break;
+                }
+
+                var valueCurrentMetric = parseFloat(Common.Utils.Metric.fnRecalcFromMM(marginValue).toFixed(2));
+                $(Common.Utils.String.format('#document-margin-{0} .item-after label', align)).text(valueCurrentMetric + ' ' + _metricText);
+
+                me.applyPageMarginsIfNeed()
             },
 
             // API handlers
@@ -409,12 +741,12 @@ define([
                     var tempW = w; w = h; h = tempW;
                 }
 
-                if (Math.abs(_pageSizesCurrent[0] - w) > 0.01 ||
-                    Math.abs(_pageSizesCurrent[1] - h) > 0.01) {
+                if (Math.abs(_pageSizesCurrent[0] - w) > 0.1 ||
+                    Math.abs(_pageSizesCurrent[1] - h) > 0.1) {
                     _pageSizesCurrent = [w, h];
 
                     _.find(_pageSizes, function(size, index) {
-                        if (Math.abs(size.value[0] - w) < 0.01 && Math.abs(size.value[1] - h) < 0.01) {
+                        if (Math.abs(size.value[0] - w) < 0.1 && Math.abs(size.value[1] - h) < 0.1) {
                             _pageSizesIndex = index;
                         }
                     }, this);
@@ -430,7 +762,8 @@ define([
             unknownText: 'Unknown',
             txtLoading              : 'Loading...',
             notcriticalErrorTitle   : 'Warning',
-            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'
+            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
+            warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
         }
     })(), DE.Controllers.Settings || {}))
 });

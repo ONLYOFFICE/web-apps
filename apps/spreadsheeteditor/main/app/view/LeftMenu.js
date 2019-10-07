@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -63,11 +63,12 @@ define([
                 'click #left-btn-chat': _.bind(this.onCoauthOptions, this),
                 /** coauthoring end **/
                 'click #left-btn-plugins': _.bind(this.onCoauthOptions, this),
+                'click #left-btn-spellcheck': _.bind(this.onCoauthOptions, this),
                 'click #left-btn-support': function() {
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
                         window.open(config.feedback.url) :
-                        window.open('http://support.onlyoffice.com');
+                        window.open('{{SUPPORT_URL}}');
                 }
             }
         },
@@ -78,13 +79,11 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-            }));
+            var $markup = $(this.template({}));
 
             this.btnSearch = new Common.UI.Button({
                 action: 'search',
-                el: $('#left-btn-search', this.el),
+                el: $markup.elementById('#left-btn-search'),
                 hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
                 disabled: true,
                 enableToggle: true
@@ -92,7 +91,7 @@ define([
 
             this.btnAbout = new Common.UI.Button({
                 action: 'about',
-                el: $('#left-btn-about', this.el),
+                el: $markup.elementById('#left-btn-about'),
                 hint: this.tipAbout,
                 enableToggle: true,
                 disabled: true,
@@ -101,14 +100,14 @@ define([
 
             this.btnSupport = new Common.UI.Button({
                 action: 'support',
-                el: $('#left-btn-support', this.el),
+                el: $markup.elementById('#left-btn-support'),
                 hint: this.tipSupport,
                 disabled: true
             });
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
-                el: $('#left-btn-comments', this.el),
+                el: $markup.elementById('#left-btn-comments'),
                 hint: this.tipComments +  Common.Utils.String.platformKey('Ctrl+Shift+H'),
                 enableToggle: true,
                 disabled: true,
@@ -116,7 +115,7 @@ define([
             });
 
             this.btnChat = new Common.UI.Button({
-                el: $('#left-btn-chat', this.el),
+                el: $markup.elementById('#left-btn-chat'),
                 hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
                 enableToggle: true,
                 disabled: true,
@@ -126,13 +125,13 @@ define([
             this.btnComments.hide();
             this.btnChat.hide();
 
-            this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
-            this.btnComments.on('toggle',       _.bind(this.onBtnCommentsToggle, this));
-            this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
+            this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
+            this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
+            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
             /** coauthoring end **/
 
             this.btnPlugins = new Common.UI.Button({
-                el: $('#left-btn-plugins'),
+                el: $markup.elementById('#left-btn-plugins'),
                 hint: this.tipPlugins,
                 enableToggle: true,
                 disabled: true,
@@ -141,12 +140,22 @@ define([
             this.btnPlugins.hide();
             this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
 
+            this.btnSpellcheck = new Common.UI.Button({
+                el: $markup.elementById('#left-btn-spellcheck'),
+                hint: this.tipSpellcheck,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'leftMenuGroup'
+            });
+            this.btnSpellcheck.hide();
+            this.btnSpellcheck.on('click',      _.bind(this.onBtnMenuClick, this));
+
             this.btnSearch.on('click',          _.bind(this.onBtnMenuClick, this));
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
 
             this.menuFile = new SSE.Views.FileMenu({});
-            this.menuFile.render();
-            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Spreadsheet Editor'})).render();
+            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: 'Spreadsheet Editor'}));
+            this.$el.html($markup);
 
             return this;
         },
@@ -193,7 +202,7 @@ define([
         /** coauthoring begin **/
         onCoauthOptions: function(e) {
             if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
+                if (this.mode.canViewComments) {
                     if (this.btnComments.pressed && this.btnComments.$el.hasClass('notify'))
                         this.btnComments.$el.removeClass('notify');
                     this.panelComments[this.btnComments.pressed?'show':'hide']();
@@ -209,6 +218,12 @@ define([
                    } else
                         this.panelChat['hide']();
                }
+            }
+            if (this.panelSpellcheck) {
+                if (this.btnSpellcheck.pressed) {
+                    this.panelSpellcheck.show();
+                } else
+                    this.panelSpellcheck['hide']();
             }
             // if (this.mode.canPlugins && this.panelPlugins) {
             //     if (this.btnPlugins.pressed) {
@@ -226,6 +241,9 @@ define([
             } else
             if (name == 'plugins' && !this.panelPlugins) {
                 this.panelPlugins = panel.render('#left-panel-plugins');
+            } else
+            if (name == 'spellcheck' && !this.panelSpellcheck) {
+                this.panelSpellcheck = panel.render('#left-panel-spellcheck');
             }
         },
 
@@ -247,7 +265,7 @@ define([
                 this.$el.width(SCALE_MIN);
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
+                if (this.mode.canViewComments) {
                     this.panelComments['hide']();
                     if (this.btnComments.pressed)
                         this.fireEvent('comments:hide', this);
@@ -262,6 +280,10 @@ define([
             if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
                 this.panelPlugins['hide']();
                 this.btnPlugins.toggle(false, true);
+            }
+            if (this.panelSpellcheck) {
+                this.panelSpellcheck['hide']();
+                this.btnSpellcheck.toggle(false, true);
             }
         },
 
@@ -282,6 +304,7 @@ define([
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
             this.btnPlugins.setDisabled(false);
+            this.btnSpellcheck.setDisabled(false);
         },
 
         showMenu: function(menu) {
@@ -356,6 +379,7 @@ define([
         tipSearch   : 'Search',
         tipPlugins  : 'Plugins',
         txtDeveloper: 'DEVELOPER MODE',
-        txtTrial: 'TRIAL MODE'
+        txtTrial: 'TRIAL MODE',
+        tipSpellcheck: 'Spell checking'
     }, SSE.Views.LeftMenu || {}));
 });

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2018
+ * (c) Copyright Ascensio System SIA 2010-2019
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,8 +13,8 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at Lubanas st. 125a-25, Riga, Latvia,
- * EU, LV-1021.
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
  * of the Program must display Appropriate Legal Notices, as required under
@@ -76,23 +76,22 @@ define([
                     var config = this.mode.customization;
                     config && !!config.feedback && !!config.feedback.url ?
                         window.open(config.feedback.url) :
-                        window.open('http://support.onlyoffice.com');
+                        window.open('{{SUPPORT_URL}}');
                 }
             }
         },
 
         initialize: function () {
             this.minimizedMode = true;
+            this._state = {};
         },
 
         render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-            }));
+            var $markup = $(this.template({}));
 
             this.btnSearch = new Common.UI.Button({
                 action: 'search',
-                el: $('#left-btn-search'),
+                el: $markup.elementById('#left-btn-search'),
                 hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
                 disabled: true,
                 enableToggle: true
@@ -100,7 +99,7 @@ define([
 
             this.btnThumbs = new Common.UI.Button({
                 action: 'thumbs',
-                el: $('#left-btn-thumbs'),
+                el: $markup.elementById('#left-btn-thumbs'),
                 hint: this.tipSlides,
                 enableToggle: true,
                 disabled: true,
@@ -109,7 +108,7 @@ define([
 
             this.btnAbout = new Common.UI.Button({
                 action: 'about',
-                el: $('#left-btn-about'),
+                el: $markup.elementById('#left-btn-about'),
                 hint: this.tipAbout,
                 enableToggle: true,
                 disabled: true,
@@ -118,14 +117,14 @@ define([
 
             this.btnSupport = new Common.UI.Button({
                 action: 'support',
-                el: $('#left-btn-support'),
+                el: $markup.elementById('#left-btn-support'),
                 hint: this.tipSupport,
                 disabled: true
             });
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
-                el: $('#left-btn-comments'),
+                el: $markup.elementById('#left-btn-comments'),
                 hint: this.tipComments + Common.Utils.String.platformKey('Ctrl+Shift+H'),
                 enableToggle: true,
                 disabled: true,
@@ -133,7 +132,7 @@ define([
             });
 
             this.btnChat = new Common.UI.Button({
-                el: $('#left-btn-chat'),
+                el: $markup.elementById('#left-btn-chat'),
                 hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
                 enableToggle: true,
                 disabled: true,
@@ -143,12 +142,12 @@ define([
             this.btnComments.hide();
             this.btnChat.hide();
 
-            this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
-            this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
+            this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
+            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
             /** coauthoring end **/
 
             this.btnPlugins = new Common.UI.Button({
-                el: $('#left-btn-plugins'),
+                el: $markup.elementById('#left-btn-plugins'),
                 hint: this.tipPlugins,
                 enableToggle: true,
                 disabled: true,
@@ -163,8 +162,8 @@ define([
             this.btnAbout.on('click',           _.bind(this.onFullMenuClick, this));
 
             this.menuFile = new PE.Views.FileMenu({});
-            this.menuFile.render();
-            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Presentation Editor'})).render();
+            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: 'Presentation Editor'}));
+            this.$el.html($markup);
 
             return this;
         },
@@ -172,7 +171,8 @@ define([
         onBtnMenuToggle: function(btn, state) {
             if (state) {
                 btn.panel['show']();
-                this.$el.width(SCALE_MIN);
+                if (!this._state.pluginIsRunning)
+                    this.$el.width(SCALE_MIN);
 
                 if (this.btnSearch.isActive())
                     this.btnSearch.toggle(false);
@@ -192,16 +192,22 @@ define([
                 return;
             } else
             if (btn.options.action == 'thumbs') {
-                if (this.$el.width() > SCALE_MIN) {
-                    Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
-                    this.$el.width(SCALE_MIN);
+                if (!btn.pressed && this._state.pluginIsRunning) {
+                    this.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
+                } else {
+                    if (this.$el.width() > SCALE_MIN) {
+                        Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
+                        this.$el.width(SCALE_MIN);
+                    }
+                    if (this._state.pluginIsRunning) // hide comments or chat panel when plugin is running
+                        this.onCoauthOptions();
                 }
             } else {
                 if (btn.pressed) {
                     if (!(this.$el.width() > SCALE_MIN)) {
                         this.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
                     }
-                } else {
+                } else if (!this._state.pluginIsRunning){
                     Common.localStorage.setItem('pe-mainmenu-width',this.$el.width());
                     this.$el.width(SCALE_MIN);
                 }
@@ -218,7 +224,7 @@ define([
         onCoauthOptions: function(e) {
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
+                if (this.mode.canViewComments) {
                     if (this.btnComments.pressed && this.btnComments.$el.hasClass('notify'))
                         this.btnComments.$el.removeClass('notify');
                     this.panelComments[this.btnComments.pressed?'show':'hide']();
@@ -235,12 +241,12 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins) {
-                if (this.btnPlugins.pressed) {
-                    this.panelPlugins.show();
-                } else
-                    this.panelPlugins['hide']();
-            }
+            // if (this.mode.canPlugins && this.panelPlugins) {
+            //     if (this.btnPlugins.pressed) {
+            //         this.panelPlugins.show();
+            //     } else
+            //         this.panelPlugins['hide']();
+            // }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -271,10 +277,11 @@ define([
         close: function(menu) {
             this.btnAbout.toggle(false);
             this.btnThumbs.toggle(false);
-            this.$el.width(SCALE_MIN);
+            if (!this._state.pluginIsRunning)
+                this.$el.width(SCALE_MIN);
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
-                if (this.mode.canComments) {
+                if (this.mode.canViewComments) {
                     this.panelComments['hide']();
                     if (this.btnComments.pressed)
                         this.fireEvent('comments:hide', this);
@@ -286,7 +293,7 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins) {
+            if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
                 this.panelPlugins['hide']();
                 this.btnPlugins.toggle(false, true);
             }

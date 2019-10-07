@@ -137,7 +137,7 @@
         },
         "jsonmin": {
             "files": "../deploy/web-apps/apps/documenteditor/main/**/*.json"
-        },       
+        },
         "copy": {
             "localization": [
                 {
@@ -145,13 +145,22 @@
                     "cwd": "../apps/documenteditor/main/locale/",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/locale/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/main/resources/watermark",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/documenteditor/main/resources/watermark"
                 }
             ],
             "help": [
                 {
                     "expand": true,
                     "cwd": "../apps/documenteditor/main/resources/help/",
-                    "src": ["**","!*_/**"],
+                    "src": [
+                        "**",
+                        "!*_/**"
+                    ],
                     "dest": "../deploy/web-apps/apps/documenteditor/main/resources/help/"
                 }
             ],
@@ -159,6 +168,10 @@
                 {
                     "src": "../apps/documenteditor/main/index.html.deploy",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/index.html"
+                },
+                {
+                    "src": "../apps/documenteditor/main/index_loader.html.deploy",
+                    "dest": "../deploy/web-apps/apps/documenteditor/main/index_loader.html"
                 }
             ]
         },
@@ -326,7 +339,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html.deploy"
+                "../deploy/web-apps/apps/documenteditor/mobile/index.html": "../apps/documenteditor/mobile/index.html.deploy",
+                "../deploy/web-apps/apps/documenteditor/mobile/index_loader.html": "../apps/documenteditor/mobile/index_loader.html.deploy"
             },
             "localization": [
                 {
@@ -365,6 +379,7 @@
         },
         "js": {
             "src": [
+                "../apps/common/locale.js",
                 "../apps/common/Gateway.js",
                 "../apps/common/Analytics.js",
                 "../apps/common/embed/lib/util/utils.js",
@@ -383,6 +398,14 @@
             }
         },
         "copy": {
+            "localization": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/embed/locale/",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/documenteditor/embed/locale/"
+                }
+            ],
             "index-page": {
                 "../deploy/web-apps/apps/documenteditor/embed/index.html": "../apps/documenteditor/embed/index.html.deploy"
             },
