@@ -256,7 +256,7 @@
 <body>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel">
-            <div><div class="loading-logo"><img src="../../../apps/presentationeditor/main/resources/img/header/header-logo.png"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div>
+            <div><div class="loading-logo"><img src="../../../apps/presentationeditor/main/resources/img/header/header-logo@2x.png"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div>
         </div>
         <div class="sktoolbar">
             <ul><li/><li class="space" style="width: 78px;"/><li/><li class="space"/><li style="width: 210px;"/><li class="space"/><li style="width: 120px;"/><li class="space" style="width: 210px;"/><li style="width: 100px;"/><li class="fat"/></ul>
