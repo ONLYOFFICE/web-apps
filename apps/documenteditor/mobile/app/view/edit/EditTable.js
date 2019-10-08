@@ -115,7 +115,7 @@ define([
                 var $styleContainer = $('#edit-table-styles .item-inner');
 
                 if ($styleContainer.length > 0) {
-                    var columns = parseInt($styleContainer.width() / 70), // magic
+                    var columns = parseInt(($styleContainer.width() - 15) / 70), // magic
                         row = -1,
                         styles = [];
 
