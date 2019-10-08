@@ -246,6 +246,14 @@
     <div id="viewport"></div>
 
     <script>
+        var params = getUrlParams(),
+            internal = params["internal"] == 'true';
+
+        if (internal) {
+            document.querySelector('.brendpanel').remove();
+            document.querySelector('.sktoolbar').remove();
+        }
+
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {
@@ -275,7 +283,6 @@
 
     <script type="text/javascript">
         window.g_debug_mode = true;
-        debugger;
     </script>
 
     <!-- debug begin -->
