@@ -70,7 +70,8 @@
         .loop((@counter - 1));
         li:nth-child(@{counter}) > a.item-contents {
             div {
-                background-position: 0 calc(~"var(--bckgHOffset) - " (@counter - 1)*@contents-menu-item-height);
+                @incr-height: (@counter - 1)*@contents-menu-item-height;
+                background-position: 0 ~"calc(var(--bckgHOffset) - @{incr-height})";
             }
         }
     }
