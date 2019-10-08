@@ -770,6 +770,9 @@
             }
         }
 
+        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge'))
+            params += "&internal=true";
+
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
         

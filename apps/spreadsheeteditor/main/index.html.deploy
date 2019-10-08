@@ -243,14 +243,21 @@
             <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/></ul>
         </div>
         <div class="placeholder">
-            <div class="columns"></div>
-            <div class="columns"></div>
+            <div class="columns"></div><div class="columns"></div>
         </div>
     </div>
 
     <div id="viewport"></div>
 
     <script>
+        var params = getUrlParams(),
+            internal = params["internal"] == 'true';
+
+        if (internal) {
+            document.querySelector('.brendpanel').remove();
+            document.querySelector('.sktoolbar').remove();
+        }
+
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {
