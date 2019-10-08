@@ -2045,7 +2045,7 @@ define([
                 this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
                 this.appOptions.spreadsheet.title = meta.title;
                 filemenu.loadDocument({doc:this.appOptions.spreadsheet});
-                filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
+                filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
                 Common.Gateway.metaChange(meta);
             },
 

@@ -1765,7 +1765,7 @@ define([
 
                 var filemenu = this.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 filemenu.loadDocument({doc:this.document});
-                filemenu.panels['info'].updateInfo(this.document);
+                filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
                 Common.Gateway.metaChange(meta);
             },
 
