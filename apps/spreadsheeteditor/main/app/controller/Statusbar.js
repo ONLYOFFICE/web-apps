@@ -293,7 +293,7 @@ define([
             return name;
         },
 
-        createCopyName: function(orig) {
+        createCopyName: function(orig, curArrNames) {
             var wc = this.api.asc_getWorksheetsCount(), names = [];
             while (wc--) {
                 names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
@@ -306,6 +306,17 @@ define([
             while(++index < 1000) {
                 name = first + '(' + index + ')';
                 if (names.indexOf(name.toLowerCase()) < 0) break;
+            }
+
+            if (curArrNames && curArrNames.length > 0) {
+                var arr = [];
+                curArrNames.forEach(function (item) {
+                    arr.push(item.toLowerCase());
+                });
+                while(arr.indexOf(name.toLowerCase()) !== -1) {
+                    index++;
+                    name = first + '(' + index + ')';
+                }
             }
 
             return name;
@@ -434,8 +445,11 @@ define([
                         if (cut) {
                             me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex);
                         } else {
-                            var new_text = me.createCopyName(me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()));
-                            me.api.asc_copyWorksheet(i == -255 ? wc : i, new_text);
+                            var arrNames = [];
+                            arrIndex.forEach(function (item) {
+                                arrNames.push(me.createCopyName(me.api.asc_getWorksheetName(item), arrNames));
+                            });
+                            me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex);
                         }
                     }
                     me.api.asc_enableKeyEvents(true);
