@@ -1211,7 +1211,7 @@ define([
             }).on('keydown:before', keyDownBefore);
 
             this.btnApply = new Common.UI.Button({
-                el: '#fminfo-btn-apply'
+                el: $markup.findById('#fminfo-btn-apply')
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 

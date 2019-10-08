@@ -367,14 +367,14 @@ define([
                     var me = this,
                         isCustomWindow = variation.get_CustomWindow(),
                         arrBtns = variation.get_Buttons(),
-                        newBtns = {},
+                        newBtns = [],
                         size = variation.get_Size();
                         if (!size || size.length<2) size = [800, 600];
 
                     if (_.isArray(arrBtns)) {
                         _.each(arrBtns, function(b, index){
                             if (b.visible)
-                                newBtns[index] = {text: b.text, cls: 'custom' + ((b.primary) ? ' primary' : '')};
+                                newBtns[index] = {caption: b.text, value: index, primary: b.primary};
                         });
                     }
 

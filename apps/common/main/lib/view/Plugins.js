@@ -366,11 +366,6 @@ define([
                 '</div>',
                 '<% if ((typeof buttons !== "undefined") && _.size(buttons) > 0) { %>',
                     '<div class="separator horizontal"/>',
-                    '<div class="footer" style="text-align: center;">',
-                        '<% for(var bt in buttons) { %>',
-                            '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>',
-                        '<% } %>',
-                    '</div>',
                 '<% } %>'
             ].join('');
 

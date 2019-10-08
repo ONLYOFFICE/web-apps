@@ -196,23 +196,23 @@ define([
 
                         me.commentsView.reply = replyId;
 
-                        this.autoHeightTextBox();
+                        picker.autoHeightTextBox();
 
                         readdresolves();
 
                         me.hookTextBox();
 
-                        this.autoScrollToEditButtons();
-                        this.setFocusToTextBox();
+                        picker.autoScrollToEditButtons();
+                        picker.setFocusToTextBox();
                     } else {
 
                         if (!showEditBox) {
                             me.fireEvent('comment:closeEditing');
                             record.set('editText', true);
 
-                            this.autoHeightTextBox();
+                            picker.autoHeightTextBox();
                             readdresolves();
-                            this.setFocusToTextBox();
+                            picker.setFocusToTextBox();
                             me.hookTextBox();
                         }
                     }
@@ -232,14 +232,14 @@ define([
 
                     readdresolves();
 
-                    this.autoHeightTextBox();
+                    picker.autoHeightTextBox();
                     me.hookTextBox();
 
-                    this.autoScrollToEditButtons();
-                    this.setFocusToTextBox();
+                    picker.autoScrollToEditButtons();
+                    picker.setFocusToTextBox();
                 } else if (btn.hasClass('btn-reply', false)) {
                     if (showReplyBox) {
-                        me.fireEvent('comment:addReply', [commentId, this.getActiveTextBoxVal()]);
+                        me.fireEvent('comment:addReply', [commentId, picker.getActiveTextBoxVal()]);
                         me.fireEvent('comment:closeEditing');
 
                         readdresolves();
@@ -250,10 +250,10 @@ define([
 
                 } else if (btn.hasClass('btn-inner-edit', false)) {
                     if (!_.isUndefined(me.commentsView.reply)) {
-                        me.fireEvent('comment:changeReply', [commentId, me.commentsView.reply, this.getActiveTextBoxVal()]);
+                        me.fireEvent('comment:changeReply', [commentId, me.commentsView.reply, picker.getActiveTextBoxVal()]);
                         me.commentsView.reply = undefined;
                     } else if (showEditBox) {
-                        me.fireEvent('comment:change', [commentId, this.getActiveTextBoxVal()]);
+                        me.fireEvent('comment:change', [commentId, picker.getActiveTextBoxVal()]);
                     }
 
                     me.fireEvent('comment:closeEditing');
