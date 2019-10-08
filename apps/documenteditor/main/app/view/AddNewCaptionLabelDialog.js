@@ -94,7 +94,7 @@ define([
             var me = this;
             _.delay(function(){
                 me.getChild('input').focus();
-            },500);
+            },50);
         },
 
         onPrimary: function(event) {

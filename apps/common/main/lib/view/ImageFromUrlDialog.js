@@ -93,7 +93,7 @@ define([
             var me = this;
             _.delay(function(){
                 me.getChild('input').focus();
-            },500);
+            },100);
         },
 
         onPrimary: function(event) {
