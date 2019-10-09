@@ -54,7 +54,9 @@ define([
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
-    'documenteditor/main/app/view/NumberingValueDialog'
+    'documenteditor/main/app/view/NumberingValueDialog',
+    'documenteditor/main/app/view/CellsRemoveDialog',
+    'documenteditor/main/app/view/CellsAddDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
@@ -741,21 +743,11 @@ define([
             };
 
             this.changeLanguageMenu = function(menu) {
-                var i;
                 if (me._currLang.id===null || me._currLang.id===undefined) {
-                    for (i=0; i<menu.items.length; i++)
-                        menu.items[i].setChecked(false);
-                    menu.currentCheckedItem = undefined;
+                    menu.clearAll();
                 } else {
-                    for (i=0; i<menu.items.length; i++) {
-                        if (menu.items[i].options.langid === me._currLang.id) {
-                            menu.currentCheckedItem = menu.items[i];
-                            if (!menu.items[i].checked)
-                                menu.items[i].setChecked(true);
-                            break;
-                        } else if (menu.items[i].checked)
-                            menu.items[i].setChecked(false);
-                    }
+                    var index = _.findIndex(menu.items, {langid: me._currLang.id});
+                    (index>-1) && !menu.items[index].checked && menu.setChecked(index, true);
                 }
             };
 
@@ -1848,11 +1840,6 @@ define([
             }
         },
 
-        updateThemeColors: function() {
-            this.effectcolors   = Common.Utils.ThemeColor.getEffectColors();
-            this.standartcolors = Common.Utils.ThemeColor.getStandartColors();
-        },
-
         onCutCopyPaste: function(item, e) {
             var me = this;
             if (me.api) {
@@ -1906,6 +1893,19 @@ define([
             me.fireEvent('editcomplete', me);
         },
 
+        onInsertCaption: function() {
+            var me = this;
+            (new DE.Views.CaptionDialog({
+                isObject: true,
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        me.api.asc_AddObjectCaption(settings);
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+        },
+
         onContinueNumbering: function(item, e) {
             this.api.asc_ContinueNumbering();
             this.fireEvent('editcomplete', this);
@@ -1926,6 +1926,41 @@ define([
                     }
                 })).show();
             }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onCellsRemove: function() {
+            var me = this;
+            (new DE.Views.CellsRemoveDialog({
+                handler: function (result, value) {
+                    if (result == 'ok') {
+                        if (value == 'row')
+                            me.api.remRow();
+                        else if (value == 'col')
+                            me.api.remColumn();
+                        else
+                            me.api.asc_RemoveTableCells();
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
+            this.fireEvent('editcomplete', this);
+        },
+
+        onCellsAdd: function() {
+            var me = this;
+            (new DE.Views.CellsAddDialog({
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        if (settings.row) {
+                            settings.before ? me.api.addRowAbove(settings.count) : me.api.addRowBelow(settings.count);
+                        } else {
+                            settings.before ? me.api.addColumnLeft(settings.count) : me.api.addColumnRight(settings.count);
+                        }
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
             this.fireEvent('editcomplete', this);
         },
 
@@ -2014,6 +2049,16 @@ define([
 
         createDelayedElements: function() {
             var me = this;
+
+            var menuInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
+            var menuInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
+
+            var menuEquationInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
+            var menuEquationInsertCaptionSeparator = new Common.UI.MenuItem({ caption: '--' });
 
             var menuImageAlign = new Common.UI.MenuItem({
                 caption     : me.textAlign,
@@ -2497,7 +2542,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[17].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[19].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2550,6 +2595,8 @@ define([
                     me.menuImageWrap,
                     menuImgRotate,
                     { caption: '--' },
+                    menuInsertCaption,
+                    menuInsertCaptionSeparator,
                     me.menuImgCrop,
                     me.menuOriginalSize,
                     menuImgReplace,
@@ -2563,6 +2610,10 @@ define([
             });
 
             /* table menu*/
+
+            var menuTableInsertCaption = new Common.UI.MenuItem({
+                caption : me.txtInsertCaption
+            }).on('click', _.bind(me.onInsertCaption, me));
 
             var mnuTableMerge = new Common.UI.MenuItem({
                 caption     : me.mergeCellsText
@@ -2736,13 +2787,21 @@ define([
                 })
             });
 
+            var langTemplate = _.template([
+                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
+                '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                '<%= caption %>',
+                '</a>'
+            ].join(''));
+
             me.langTableMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
-                menu        : new Common.UI.Menu({
+                menu        : new Common.UI.MenuSimple({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
+                    itemTemplate: langTemplate,
                     search: true
                 })
             });
@@ -2922,7 +2981,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 8; i < 25; i++) {
+                    for (var i = 8; i < 27; i++) {
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -3138,6 +3197,11 @@ define([
                                 }).on('click', function(item) {
                                     if (me.api)
                                         me.api.addRowBelow();
+                                }),
+                                new Common.UI.MenuItem({
+                                    caption: me.textSeveral
+                                }).on('click', function(item) {
+                                    me.onCellsAdd();
                                 })
                             ]
                         })
@@ -3165,6 +3229,11 @@ define([
                                 }).on('click', function(item) {
                                     if (me.api)
                                         me.api.remTable();
+                                }),
+                                new Common.UI.MenuItem({
+                                    caption: me.textCells
+                                }).on('click', function(item) {
+                                    me.onCellsRemove();
                                 })
                             ]
                         })
@@ -3178,6 +3247,8 @@ define([
                     { caption: '--' },
                     menuTableCellAlign,
                     menuTableDirection,
+                    { caption: '--' },
+                    menuTableInsertCaption,
                     { caption: '--' },
                     menuTableAdvanced,
                     { caption: '--' },
@@ -3379,11 +3450,12 @@ define([
 
             me.langParaMenu = new Common.UI.MenuItem({
                 caption     : me.langText,
-                menu        : new Common.UI.Menu({
+                menu        : new Common.UI.MenuSimple({
                     cls: 'lang-menu',
                     menuAlign: 'tl-tr',
                     restoreHeight: 285,
                     items   : [],
+                    itemTemplate: langTemplate,
                     search: true
                 })
             });
@@ -3627,10 +3699,12 @@ define([
                     //equation menu
                     var eqlen = 0;
                     if (isEquation) {
-                        eqlen = me.addEquationMenu(true, 13);
+                        eqlen = me.addEquationMenu(true, 15);
                     } else
-                        me.clearEquationMenu(true, 13);
+                        me.clearEquationMenu(true, 15);
                     menuEquationSeparator.setVisible(isEquation && eqlen>0);
+                    menuEquationInsertCaption.setVisible(isEquation);
+                    menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
                     menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
 
@@ -3693,6 +3767,8 @@ define([
                     menuParaCopy,
                     menuParaPaste,
                     menuParaPrint,
+                    menuEquationInsertCaptionSeparator,
+                    menuEquationInsertCaption,
                     { caption: '--' },
                     menuEquationSeparator,
                     menuParaRemoveControl,
@@ -3781,58 +3857,39 @@ define([
             var me = this;
 
             if (langs && langs.length > 0 && me.langParaMenu && me.langTableMenu) {
-                me.langParaMenu.menu.removeAll();
-                me.langTableMenu.menu.removeAll();
-                _.each(langs, function(lang, index){
-                    me.langParaMenu.menu.addItem(new Common.UI.MenuItem({
+                var arrPara = [], arrTable = [];
+                _.each(langs, function(lang) {
+                    var item = {
                         caption     : lang.displayValue,
                         value       : lang.value,
                         checkable   : true,
-                        toggleGroup : 'popupparalang',
                         langid      : lang.code,
-                        spellcheck   : lang.spellcheck,
-                        template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
-                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
-                                '<%= caption %>',
-                            '</a>'
-                        ].join(''))
-                    }).on('click', function(item, e){
-                        if (me.api){
-                            if (!_.isUndefined(item.options.langid))
-                                me.api.put_TextPrLang(item.options.langid);
+                        spellcheck   : lang.spellcheck
+                    };
+                    arrPara.push(item);
+                    arrTable.push(_.clone(item));
+                });
+                me.langParaMenu.menu.resetItems(arrPara);
+                me.langTableMenu.menu.resetItems(arrTable);
 
-                            me._currLang.paraid = item.options.langid;
-                            me.langParaMenu.menu.currentCheckedItem = item;
+                me.langParaMenu.menu.on('item:click', function(menu, item){
+                    if (me.api){
+                        if (!_.isUndefined(item.langid))
+                            me.api.put_TextPrLang(item.langid);
 
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }));
+                        me._currLang.paraid = item.langid;
+                        me.fireEvent('editcomplete', me);
+                    }
+                });
 
-                    me.langTableMenu.menu.addItem(new Common.UI.MenuItem({
-                        caption     : lang.displayValue,
-                        value       : lang.value,
-                        checkable   : true,
-                        toggleGroup : 'popuptablelang',
-                        langid      : lang.code,
-                        spellcheck   : lang.spellcheck,
-                        template: _.template([
-                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= options.value %>">',
-                                '<i class="icon <% if (options.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
-                                '<%= caption %>',
-                            '</a>'
-                        ].join(''))
-                    }).on('click', function(item, e){
-                        if (me.api){
-                            if (!_.isUndefined(item.options.langid))
-                                me.api.put_TextPrLang(item.options.langid);
+                me.langTableMenu.menu.on('item:click', function(menu, item, e){
+                    if (me.api){
+                        if (!_.isUndefined(item.langid))
+                            me.api.put_TextPrLang(item.langid);
 
-                            me._currLang.tableid = item.options.langid;
-                            me.langTableMenu.menu.currentCheckedItem = item;
-
-                            me.fireEvent('editcomplete', me);
-                        }
-                    }));
+                        me._currLang.tableid = item.langid;
+                        me.fireEvent('editcomplete', me);
+                    }
                 });
             }
         },
@@ -4110,7 +4167,10 @@ define([
         textCropFit: 'Fit',
         textFollow: 'Follow move',
         toDictionaryText: 'Add to Dictionary',
-        txtPrintSelection: 'Print Selection'
+        txtPrintSelection: 'Print Selection',
+        textCells: 'Cells',
+        textSeveral: 'Several Rows/Columns',
+        txtInsertCaption: 'Insert Caption'
 
     }, DE.Views.DocumentHolder || {}));
 });

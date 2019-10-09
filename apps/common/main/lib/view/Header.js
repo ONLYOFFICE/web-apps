@@ -74,7 +74,7 @@ define([
 
         var templateRightBox = '<section>' +
                             '<section id="box-doc-name">' +
-                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
+                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                             '</section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<div class="hedset">' +
@@ -116,7 +116,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator"></div>' +
-                                '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;">' +
+                                '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                                 '<label id="title-user-name" style="pointer-events: none;"></label>' +
                             '</section>';
 
@@ -190,7 +190,7 @@ define([
         function onUsersClick(e) {
             if ( !$btnUsers.menu ) {
                 $panelUsers.removeClass('open');
-                this.fireEvent('click:users', this);
+                Common.NotificationCenter.trigger('collaboration:sharing');
             } else {
                 var usertip = $btnUsers.data('bs.tooltip');
                 if ( usertip ) {
@@ -245,7 +245,7 @@ define([
             var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
             $labelChangeRights.on('click', function(e) {
                 $panelUsers.removeClass('open');
-                me.fireEvent('click:users', me);
+                Common.NotificationCenter.trigger('collaboration:sharing');
             });
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
@@ -489,13 +489,13 @@ define([
 
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
-                            this.btnDownload = createTitleButton('svg-btn-download', $html.find('#slot-hbtn-download'));
+                            this.btnDownload = createTitleButton('svg-btn-download', $html.findById('#slot-hbtn-download'));
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('svg-btn-print', $html.find('#slot-hbtn-print'));
+                            this.btnPrint = createTitleButton('svg-btn-print', $html.findById('#slot-hbtn-print'));
 
                         if ( config.canEdit && config.canRequestEditRights )
-                            this.btnEdit = createTitleButton('svg-btn-edit', $html.find('#slot-hbtn-edit'));
+                            this.btnEdit = createTitleButton('svg-btn-edit', $html.findById('#slot-hbtn-edit'));
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
@@ -519,12 +519,12 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('svg-btn-print', $('#slot-btn-dt-print', $html), true);
+                        me.btnPrint = createTitleButton('svg-btn-print', $html.findById('#slot-btn-dt-print'), true);
                     }
 
-                    me.btnSave = createTitleButton('svg-btn-save', $('#slot-btn-dt-save', $html), true);
-                    me.btnUndo = createTitleButton('svg-btn-undo', $('#slot-btn-dt-undo', $html), true);
-                    me.btnRedo = createTitleButton('svg-btn-redo', $('#slot-btn-dt-redo', $html), true);
+                    me.btnSave = createTitleButton('svg-btn-save', $html.findById('#slot-btn-dt-save'), true);
+                    me.btnUndo = createTitleButton('svg-btn-undo', $html.findById('#slot-btn-dt-undo'), true);
+                    me.btnRedo = createTitleButton('svg-btn-redo', $html.findById('#slot-btn-dt-redo'), true);
 
                     if ( me.btnSave.$icon.is('svg') ) {
                         me.btnSave.$icon.addClass('icon-save');

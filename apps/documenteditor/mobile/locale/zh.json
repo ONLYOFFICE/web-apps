@@ -163,7 +163,7 @@
   "DE.Controllers.Main.warnLicenseExp": "您的许可证已过期。<br>请更新您的许可证并刷新页面。",
   "DE.Controllers.Main.warnLicenseUsersExceeded": "并发用户数量已超出限制，文档打开后将仅供查看。<br>请联系您的账户管理员了解详情。",
   "DE.Controllers.Main.warnNoLicense": "该版本对文档服务器的并发连接有限制。<br>如果需要更多请考虑购买商业许可证。",
-  "DE.Controllers.Main.warnNoLicenseUsers": "此版本的ONLYOFFICE编辑器对并发用户数量有一定的限制。<br>如果需要更多，请考虑购买商用许可证。",
+  "DE.Controllers.Main.warnNoLicenseUsers": "此版本的%1编辑器对并发用户数量有一定的限制。<br>如果需要更多，请考虑购买商用许可证。",
   "DE.Controllers.Main.warnProcessRightsChange": "您被拒绝编辑文件的权限。",
   "DE.Controllers.Search.textNoTextFound": "文本没找到",
   "DE.Controllers.Search.textReplaceAll": "全部替换",

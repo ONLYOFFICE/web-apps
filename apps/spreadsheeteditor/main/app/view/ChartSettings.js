@@ -518,6 +518,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
             var defValue;
             if (!this.btnSparkColor) {
                 defValue = this.defColor;
@@ -863,10 +864,10 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.updateMetricUnit();
             this.UpdateThemeColors();
-            this._initSettings = false;
         },
 
         ShowHideElem: function(isChart) {

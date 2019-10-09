@@ -51,7 +51,7 @@ define([
         this.active     = false;
         this.label      = 'Tab';
         this.cls        = '';
-        this.template   = _.template(['<li class="<% if(active){ %>active<% } %> <% if(cls.length){%><%= cls %><%}%>" data-label="<%= label %>">',
+        this.template   = _.template(['<li class="<% if(active){ %>active selected<% } %> <% if(cls.length){%><%= cls %><%}%>" data-label="<%= label %>">',
                                             '<a><%- label %></a>',
                                         '</li>'].join(''));
 
@@ -82,6 +82,10 @@ define([
                 this.$el.addClass('active');
         },
 
+        isSelected: function() {
+            return this.$el.hasClass('selected');
+        },
+
         deactivate: function(){
             this.$el.removeClass('active');
         },
@@ -108,6 +112,11 @@ define([
         removeClass: function(cls) {
             if (cls.length && this.$el.hasClass(cls))
                 this.$el.removeClass(cls);
+        },
+
+        toggleClass: function(cls) {
+            if (cls.length)
+                this.$el.toggleClass(cls);
         },
 
         hasClass: function(cls) {

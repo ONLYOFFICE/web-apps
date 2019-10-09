@@ -91,16 +91,14 @@ define([
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
                 } else {
-                    $(this.el).html(this.cmpEl);
+                    me.$el.html(this.cmpEl);
                 }
             } else {
-                this.cmpEl = $(this.el);
+                this.cmpEl = me.$el || $(this.el);
             }
 
             if (!me.rendered) {
-                var el = this.cmpEl;
-
-                el.on('click', 'span.color-item', _.bind(this.itemClick, this));
+                me.cmpEl.on('click', 'span.color-item', me.itemClick.bind(me));
             }
 
             me.rendered = true;

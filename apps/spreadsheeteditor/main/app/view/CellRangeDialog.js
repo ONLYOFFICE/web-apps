@@ -51,7 +51,9 @@ define([
         options: {
             width   : 350,
             cls     : 'modal-dlg',
-            modal   : false
+            modal   : false,
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
         initialize : function(options) {
@@ -62,10 +64,6 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div id="id-dlg-cell-range" class="input-row" style="margin-bottom: 5px;"></div>',
-                '</div>',
-                '<div class="footer right">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -170,7 +168,6 @@ define([
         },
 
         txtTitle   : 'Select Data Range',
-        textCancel  : 'Cancel',
         txtEmpty    : 'This field is required',
         txtInvalidRange: 'ERROR! Invalid cells range',
         errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',

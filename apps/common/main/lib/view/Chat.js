@@ -208,7 +208,7 @@ define([
             var user    = this.storeUsers.findOriginalUser(m.get('userid'));
             m.set({
                 usercolor   : user ? user.get('color') : null,
-                message     : this._pickLink(Common.Utils.String.htmlEncode(m.get('message')))
+                message     : this._pickLink(m.get('message'))
             }, {silent:true});
         },
 
@@ -216,6 +216,9 @@ define([
             var arr = [], offset, len;
 
             message.replace(Common.Utils.ipStrongRe, function(subStr) {
+                var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                if (result)
+                    subStr = subStr.substring(0, result.index);
                 offset = arguments[arguments.length-2];
                 arr.push({start: offset, end: subStr.length+offset, str: '<a href="' + subStr + '" target="_blank" data-can-copy="true">' + subStr + '</a>'});
                 return '';
@@ -223,6 +226,9 @@ define([
 
             if (message.length<1000 || message.search(/\S{255,}/)<0)
                 message.replace(Common.Utils.hostnameStrongRe, function(subStr) {
+                    var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
+                    if (result)
+                        subStr = subStr.substring(0, result.index);
                     var ref = (! /(((^https?)|(^ftp)):\/\/)/i.test(subStr) ) ? ('http://' + subStr) : subStr;
                     offset = arguments[arguments.length-2];
                     len = subStr.length;
@@ -250,14 +256,13 @@ define([
 
             arr = _.sortBy(arr, function(item){ return item.start; });
 
-            var str_res = (arr.length>0) ? ( message.substring(0, arr[0].start) + arr[0].str) : message;
+            var str_res = (arr.length>0) ? ( Common.Utils.String.htmlEncode(message.substring(0, arr[0].start)) + arr[0].str) : Common.Utils.String.htmlEncode(message);
             for (var i=1; i<arr.length; i++) {
-                str_res += (message.substring(arr[i-1].end, arr[i].start) + arr[i].str);
+                str_res += (Common.Utils.String.htmlEncode(message.substring(arr[i-1].end, arr[i].start)) + arr[i].str);
             }
             if (arr.length>0) {
-                str_res += message.substring(arr[i-1].end, message.length);
+                str_res += Common.Utils.String.htmlEncode(message.substring(arr[i-1].end, message.length));
             }
-
             return str_res;
         },
 

@@ -82,16 +82,16 @@ define([
             this._originalProps = null;
 
             this.render();
-
-            this.labelWidth = $(this.el).find('#image-label-width');
-            this.labelHeight = $(this.el).find('#image-label-height');
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 scope: this
             }));
+
+            this.labelWidth = el.find('#image-label-width');
+            this.labelHeight = el.find('#image-label-height');
         },
 
         setApi: function(api) {

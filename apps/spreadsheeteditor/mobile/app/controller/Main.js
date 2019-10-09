@@ -125,6 +125,7 @@ define([
                     'translate': translate
                 });
 
+
                 // Localization uiApp params
                 uiApp.params.modalButtonOk = me.textOK;
                 uiApp.params.modalButtonCancel = me.textCancel;
@@ -238,6 +239,9 @@ define([
 
                if (me.appOptions.location == 'us' || me.appOptions.location == 'ca')
                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
             },
 
             loadDocument: function(data) {
@@ -579,6 +583,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {
@@ -1032,6 +1038,10 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlMaxTextLength:
                         config.msg = this.errorFrmlMaxTextLength;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                        config.msg = this.errorFileSizeExceed;
                         break;
 
                     default:
@@ -1615,7 +1625,8 @@ define([
             textPaidFeature: 'Paid feature',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
             errorFrmlMaxTextLength: 'Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)',
-            waitText: 'Please, wait...'
+            waitText: 'Please, wait...',
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -49,7 +49,8 @@ define([
             header: true,
             style: 'min-width: 250px;',
             cls: 'modal-dlg',
-            id: 'window-slide-size-settings'
+            id: 'window-slide-size-settings',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -80,11 +81,7 @@ define([
                     '</div>',
                     '<div id="slide-orientation-combo" class="" style="margin-bottom: 10px;"></div>',
                 '</div>',
-                '<div class="separator horizontal"/>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"/>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -249,8 +246,6 @@ define([
         textSlideSize:      'Slide Size',
         textWidth:          'Width',
         textHeight:         'Height',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         txtStandard:        'Standard (4:3)',
         txtWidescreen1:     'Widescreen (16:9)',
         txtWidescreen2:     'Widescreen (16:10)',

@@ -62,8 +62,7 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this),
-                    'click:users': _.bind(this.clickStatusbarUsers, this)
+                    'file:settings': _.bind(this.clickToolbarSettings,this)
                 },
                 'Common.Views.Plugins': {
                     'plugin:open': _.bind(this.onPluginOpen, this),
@@ -368,10 +367,6 @@ define([
         },
 
         /** coauthoring begin **/
-        clickStatusbarUsers: function() {
-            this.leftMenu.menuFile.panels['rights'].changeAccessRights();
-        },
-
         onHideChat: function() {
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -421,6 +416,10 @@ define([
                 this.dlgSearch = (new Common.UI.SearchDialog({
                     matchcase: true
                 }));
+                var me = this;
+                Common.NotificationCenter.on('preview:start', function() {
+                    me.dlgSearch.hide();
+                });
             }
 
             if (show) {

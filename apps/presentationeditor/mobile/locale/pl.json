@@ -203,7 +203,7 @@
   "PE.Controllers.Main.uploadImageTitleText": "Wysyłanie obrazu",
   "PE.Controllers.Main.waitText": "Proszę czekać...",
   "PE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",
-  "PE.Controllers.Main.warnNoLicense": "Używasz wersji ONLYOFFICE w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
+  "PE.Controllers.Main.warnNoLicense": "Używasz wersji %1 w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
   "PE.Controllers.Main.warnProcessRightsChange": "Nie masz prawa edytować tego pliku.",
   "PE.Controllers.Search.textNoTextFound": "Nie znaleziono tekstu",
   "PE.Controllers.Settings.notcriticalErrorTitle": "Ostrzeżenie",

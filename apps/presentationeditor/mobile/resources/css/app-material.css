@@ -6844,3 +6844,52 @@ html.pixel-ratio-3 .numbers li {
   max-height: 100%;
   overflow: auto;
 }
+.doc-placeholder {
+  background: #f5f5f5;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  padding-top: 22px;
+}
+.doc-placeholder .slide-h {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+  width: 90%;
+  margin: 15px auto;
+}
+.doc-placeholder .slide-v {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  padding-bottom: 56.1333%;
+}
+.doc-placeholder .slide-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #fbfbfb;
+  border: 1px solid #dfdfdf;
+  -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+  -moz-animation: flickerAnimation 2s infinite ease-in-out;
+  -o-animation: flickerAnimation 2s infinite ease-in-out;
+  animation: flickerAnimation 2s infinite ease-in-out;
+}
+.doc-placeholder .slide-container > .line {
+  height: 20%;
+  margin: 0 120px;
+  border-radius: 6px;
+  background: #f5f5f5;
+}
+.doc-placeholder .slide-container > .line:nth-child(1) {
+  height: 30%;
+  margin: 120px 80px 0;
+}
+.doc-placeholder .slide-container > .line.empty {
+  background: transparent;
+}

@@ -102,6 +102,8 @@ define([
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+            Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
+            Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
 
             this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
             this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
@@ -113,6 +115,7 @@ define([
                 this.currentUserId      =   data.config.user.id;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
+            return this;
         },
         setApi: function (api) {
             if (api) {
@@ -131,7 +134,14 @@ define([
             this.popoverChanges = new Common.Collections.ReviewChanges();
             this.view = this.createView('Common.Views.ReviewChanges', { mode: mode });
 
+            !!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
+            !!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
+
             return this;
+        },
+
+        loadDocument: function(data) {
+            this.document = data.doc;
         },
 
         SetDisabled: function(state) {
@@ -678,7 +688,7 @@ define([
                 comments.setPreviewMode(disable);
 
             var leftMenu = app.getController('LeftMenu');
-            leftMenu.leftMenu.getMenu('file').miProtect.setDisabled(disable);
+            leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
             leftMenu.setPreviewMode(disable);
 
             if (this.view) {
@@ -703,7 +713,7 @@ define([
 
         onAppReady: function (config) {
             var me = this;
-            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", true) )
+            if ( me.view && Common.localStorage.getBool(me.view.appPrefix + "settings-spellcheck", !(config.customization && config.customization.spellcheck===false)))
                 me.view.turnSpelling(true);
 
             if ( config.canReview ) {
@@ -730,13 +740,13 @@ define([
                     }
                 });
             } else if (config.canViewReview) {
-                config.canViewReview = me.api.asc_HaveRevisionsChanges(true); // check revisions from all users
+                config.canViewReview = (config.isEdit || me.api.asc_HaveRevisionsChanges(true)); // check revisions from all users
                 if (config.canViewReview) {
                     var val = Common.localStorage.getItem(me.view.appPrefix + "review-mode");
                     if (val===null)
                         val = me.appConfig.customization && /^(original|final|markup)$/i.test(me.appConfig.customization.reviewDisplay) ? me.appConfig.customization.reviewDisplay.toLocaleLowerCase() : 'original';
-                    me.turnDisplayMode(config.isRestrictedEdit ? 'markup' : val); // load display mode only in viewer
-                    me.view.turnDisplayMode(config.isRestrictedEdit ? 'markup' : val);
+                    me.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val); // load display mode only in viewer
+                    me.view.turnDisplayMode((config.isEdit || config.isRestrictedEdit) ? 'markup' : val);
                 }
             }
 
@@ -784,7 +794,32 @@ define([
         },
 
         onLostEditRights: function() {
+            this._readonlyRights = true;
             this.view && this.view.onLostEditRights();
+        },
+
+        changeAccessRights: function(btn,event,opts) {
+            if (this._docAccessDlg || this._readonlyRights) return;
+
+            var me = this;
+            me._docAccessDlg = new Common.Views.DocumentAccessDialog({
+                settingsurl: this.appConfig.sharingSettingsUrl
+            });
+            me._docAccessDlg.on('accessrights', function(obj, rights){
+                me.setSharingSettings({sharingSettings: rights});
+            }).on('close', function(obj){
+                me._docAccessDlg = undefined;
+            });
+
+            me._docAccessDlg.show();
+        },
+
+        setSharingSettings: function(data) {
+            if (data) {
+                this.document.info.sharingSettings = data.sharingSettings;
+                Common.NotificationCenter.trigger('collaboration:sharingupdate', data.sharingSettings);
+                Common.NotificationCenter.trigger('mentions:clearusers', this);
+            }
         },
 
         onCoAuthoringDisconnect: function() {

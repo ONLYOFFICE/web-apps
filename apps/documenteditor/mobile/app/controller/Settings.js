@@ -229,7 +229,7 @@ define([
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
                 } else if ('#settings-advanced-view' == pageId) {
                     me.initPageAdvancedSettings();
-                    $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
+                    $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("de-mobile-spellcheck"));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
                     $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
                     $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
@@ -262,7 +262,7 @@ define([
                     $('#settings-print').single('click',                        _.bind(me.onPrint, me));
                     $('#settings-collaboration').single('click',                _.bind(me.clickCollaboration, me));
                     var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
-                    if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
+                    if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
                         $('#settings-document').addClass('disabled');
                     }
                     var _userCount = DE.getController('Main').returnUserCount();
@@ -378,7 +378,7 @@ define([
                     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 $unitMeasurement.val([value]);
                 var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
-                if(_stateDisplayMode == "Final" || _stateDisplayMode == "Original") {
+                if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
                     $('#settings-no-characters').addClass('disabled');
                     $('#settings-hidden-borders').addClass('disabled');
                 }
@@ -543,6 +543,7 @@ define([
                 var $checkbox = $(e.currentTarget),
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("de-mobile-spellcheck", state ? 1 : 0);
+                Common.Utils.InternalSettings.set("de-mobile-spellcheck", state);
                 this.api && this.api.asc_setSpellCheck(state);
             },
 
@@ -553,7 +554,18 @@ define([
             },
 
             onShowHelp: function () {
-                window.open('{{SUPPORT_URL}}', "_blank");
+                var url = '{{HELP_URL}}';
+                if (url.charAt(url.length-1) !== '/') {
+                    url += '/';
+                }
+                if (Common.SharedSettings.get('sailfish')) {
+                    url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
+                } else if (Common.SharedSettings.get('android')) {
+                    url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
+                } else {
+                    url+='mobile-applications/documents/mobile-web-editors/ios/index.aspx';
+                }
+                window.open(url, "_blank");
                 this.hideModal();
             },
 

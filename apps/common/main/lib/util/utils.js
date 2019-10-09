@@ -87,12 +87,12 @@ Common.Utils = _.extend(new(function() {
         isSecure = /^https/i.test(window.location.protocol),
         emailRe = /^(mailto:)?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\? :&]*)/i,
         ipRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/i,
-        hostnameRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+\.)+[\wа-яё\-]{2,}(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
-        localRe = /^(((https?)|(ftps?)):\/\/)([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+)(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
+        hostnameRe = /^(((https?)|(ftps?)):\/\/)?([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+\.)+[\wа-яё\-]{2,}(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
+        localRe = /^(((https?)|(ftps?)):\/\/)([\-\wа-яё]*:?[\-\wа-яё]*@)?(([\-\wа-яё]+)(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`'~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/i,
         emailStrongRe = /(mailto:)?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
-        emailAddStrongRe = /(mailto:|\s[@]|\s[+])?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%+-=\?:&]*)/ig,
-        ipStrongRe = /(((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/ig,
-        hostnameStrongRe = /((((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)|(([\-\wа-яё]*:?[\-\wа-яё]*@)?www\.))((([\-\wа-яё]+\.)+[\wа-яё\-]{2,}|([\-\wа-яё]+))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/ig,
+        emailAddStrongRe = /(mailto:|\s[@]|\s[+])?([a-z0-9'\._-]+@[a-z0-9\.-]+\.[a-z0-9]{2,4})([a-яё0-9\._%\+-=\?:&]*)/ig,
+        ipStrongRe = /(((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)(((1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9])\.){3}(1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]|[0-9]))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?/ig,
+        hostnameStrongRe = /((((https?)|(ftps?)):\/\/([\-\wа-яё]*:?[\-\wа-яё]*@)?)|(([\-\wа-яё]*:?[\-\wа-яё]*@)?www\.))((([\-\wа-яё]+\.)+[\wа-яё\-]{2,}|([\-\wа-яё]+))(:\d+)?(\/[%\-\wа-яё]*(\.[\wа-яё]{2,})?(([\wа-яё\-\.\?\\\/\+@&#;:`~=%!,\(\)]*)(\.[\wа-яё]{2,})?)*)*\/?)/ig,
         documentSettingsType = {
         	Paragraph  : 0,
             Table      : 1,
@@ -845,6 +845,47 @@ Common.Utils.injectComponent = function ($slot, cmp) {
         cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
     }
 };
+
+jQuery.fn.extend({
+    elementById: function (id, parent) {
+        /**
+         * usage:   $obj.findById('#id')
+         *          $().findById('#id', $obj | node)
+         *          $.fn.findById('#id', $obj | node)
+         *
+         * return:  dom element
+         * */
+        var _el = document.getElementById(id.substring(1));
+        if ( !_el ) {
+            parent = parent || this;
+            if ( parent instanceof jQuery ) {
+                parent.each(function (i, node) {
+                    _el = node.querySelectorAll(id);
+                    if ( _el.length == 0 ) {
+                        if ( ('#' + node.id) == id ) {
+                            _el = node;
+                            return false;
+                        }
+                    } else
+                    if ( _el.length ) {
+                        _el = _el[0];
+                        return false;
+                    }
+                })
+            } else {
+                _el = parent.querySelectorAll(id);
+                if ( _el && _el.length ) return _el[0];
+            }
+        }
+
+        return _el;
+    },
+
+    findById: function (id, parent) {
+        var _el = $.fn.elementById.apply(this, arguments);
+        return !!_el ? $(_el) : $();
+    }
+});
 
 Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
 Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);

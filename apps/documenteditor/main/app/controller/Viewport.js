@@ -116,11 +116,20 @@ define([
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
+        getApi: function() {
+            return this.api;
+        },
 
         // When our application is ready, lets get started
         onLaunch: function() {
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
+
+            this.api = new Asc.asc_docs_api({
+                'id-view'  : 'editor_sdk',
+                'translate': this.getApplication().getController('Main').translationTable
+            });
+
             this.header   = this.createView('Common.Views.Header', {
                 headerCaption: 'Document Editor',
                 storeUsers: DE.getCollection('Common.Collections.Users')

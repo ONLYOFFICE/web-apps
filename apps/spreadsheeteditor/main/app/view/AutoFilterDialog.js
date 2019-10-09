@@ -84,7 +84,7 @@ define([
                 '</div>',
                 '<div class="separator horizontal" style="width:100%"></div>',
                 '<div class="footer right" style="margin-left:-15px;">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
                     '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                 '</div>'
             ].join('');
@@ -276,7 +276,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
         capAnd              : "And",
         capCondition1       : "equals",
         capCondition10      : "does not end with",
@@ -312,7 +311,8 @@ define([
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : []
+                items           : [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template   =   options.template || [
@@ -332,11 +332,7 @@ define([
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal" style="width:100%"></div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
-                '</div>'
+                '<div class="separator horizontal" style="width:100%"></div>'
             ].join('');
 
             this.api        =   options.api;
@@ -461,8 +457,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
-        okButtonText        : 'OK',
         txtTitle            : "Top 10 AutoFilter",
         textType            : 'Show',
         txtTop              : 'Top',
@@ -475,12 +469,16 @@ define([
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
         initialize: function (options) {
-            var t = this, _options = {};
+            var t = this, _options = {}, width = undefined, height = undefined;
+            if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0];
+                height = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1];
+            }
 
             _.extend(_options, {
-                width           : 450,
-                height          : 265,
-                contentWidth    : 400,
+                width           : width || 450,
+                height          : height || 265,
+                contentWidth    : (width - 50) || 400,
                 header          : false,
                 cls             : 'filter-dlg',
                 contentTemplate : '',
@@ -489,8 +487,8 @@ define([
                 animate         : false,
                 items           : [],
                 resizable       : true,
-                minwidth           : 450,
-                minheight          : 265
+                minwidth        : 450,
+                minheight       : 265
             }, options);
 
             this.template   =   options.template || [
@@ -534,6 +532,7 @@ define([
 
             var $border = this.$window.find('.resize-border');
             this.$window.find('.resize-border.left, .resize-border.top').css({'cursor': 'default'});
+            $border.css({'background': 'none', 'border': 'none'});
             $border.removeClass('left');
             $border.removeClass('top');
 
@@ -543,7 +542,6 @@ define([
             this.btnOk = new Common.UI.Button({
                 cls: 'btn normal dlg-btn primary',
                 caption : this.okButtonText,
-                style: 'margin-right:10px;',
                 enableToggle: false,
                 allowDepress: false
             });
@@ -810,6 +808,11 @@ define([
             _.delay(function () {
                 $(document.body).on('mousedown', checkDocumentClick);
             }, 100, this);
+
+            if(Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                this.$window.find('.combo-values').css({'height': Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1] - 103 + 'px'});
+                this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+            }
         },
 
         show: function (x, y) {
@@ -1393,15 +1396,14 @@ define([
                 this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
                 this.curSize.height = size[1];
             }
+            Common.Utils.InternalSettings.set('sse-settings-size-filter-window', size);
         },
 
-        okButtonText        : 'Ok',
         btnCustomFilter     : 'Custom Filter',
         textSelectAll       : 'Select All',
         txtTitle            : 'Filter',
         warnNoSelected      : 'You must choose at least one value',
         textWarning         : 'Warning',
-        cancelButtonText    : 'Cancel',
         textEmptyItem       : '{Blanks}',
         txtEmpty            : 'Enter cell\'s filter',
         txtSortLow2High     : 'Sort Lowest to Highest',

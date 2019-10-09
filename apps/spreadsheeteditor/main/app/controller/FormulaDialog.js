@@ -80,7 +80,8 @@ define([
                     }
                 },
                 'FormulaTab': {
-                    'function:apply': this.applyFunction
+                    'function:apply': this.applyFunction,
+                    'function:calculate': this.onCalculate
                 },
                 'Toolbar': {
                     'function:apply': this.applyFunction,
@@ -335,7 +336,7 @@ define([
                             allFunctions.push(func);
                         }
 
-                        formulaGroup.set('functions', functions);
+                        formulaGroup.set('functions', _.sortBy(functions, function (model) {return model.get('name'); }));
                         store.push(formulaGroup);
                     }
 
@@ -350,6 +351,13 @@ define([
             if ( tab == 'formula' && !this._formulasInited && this.formulaTab) {
                 this.formulaTab.fillFunctions();
                 this._formulasInited = true;
+            }
+        },
+
+        onCalculate: function(calc) {
+            var type = calc.type;
+            if (type === Asc.c_oAscCalculateType.All || type === Asc.c_oAscCalculateType.ActiveSheet) {
+                this.api && this.api.asc_calculate(type);
             }
         },
 

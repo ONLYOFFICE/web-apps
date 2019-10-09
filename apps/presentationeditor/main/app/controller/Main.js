@@ -96,42 +96,10 @@ define([
                         'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
-            },
 
-            onLaunch: function() {
-                var me = this;
-
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
-                this.languages = null;
-                this.translationTable = [];
-                this.isModalShowed = 0;
-
-                window.storagename = 'presentation';
-
-                this.stackLongActions = new Common.IrregularStack({
-                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
-                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
-                });
-
-                // Initialize viewport
-
-                if (!Common.Utils.isBrowserSupported()){
-                    Common.Utils.showBrowserRestriction();
-                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
-                    return;
-                }
-
-                var value = Common.localStorage.getItem("pe-settings-fontrender");
-                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
-                Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
-
-                // Initialize api
-
-                window["flat_desine"] = true;
-
-                this.api = new Asc.asc_docs_api({
-                    'id-view'  : 'editor_sdk',
-                    'translate': {
+                var me = this,
+                    themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle'],
+                    translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
                         'X Axis': this.txtXAxis,
@@ -154,13 +122,43 @@ define([
                         'Loading': this.txtLoading,
                         'Click to add notes': this.txtAddNotes,
                         'Click to add first slide': this.txtAddFirstSlide
-                    }
+                    };
+
+                themeNames.forEach(function(item){
+                    translate[item] = me['txtTheme_' + item.replace(/ /g, '_')] || item;
+                });
+                me.translationTable = translate;
+            },
+
+            onLaunch: function() {
+                var me = this;
+
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this.languages = null;
+                this.isModalShowed = 0;
+
+                window.storagename = 'presentation';
+
+                this.stackLongActions = new Common.IrregularStack({
+                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
+                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
 
-                var themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle'];
-                themeNames.forEach(function(item){
-                    me.translationTable[item] = me['txtTheme_' + item.replace(/ /g, '_')] || item;
-                });
+                // Initialize viewport
+
+                if (!Common.Utils.isBrowserSupported()){
+                    Common.Utils.showBrowserRestriction();
+                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+                    return;
+                }
+
+                var value = Common.localStorage.getItem("pe-settings-fontrender");
+                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
+
+                // Initialize api
+                window["flat_desine"] = true;
+                this.api = this.getApplication().getController('Viewport').getApi();
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -180,6 +178,7 @@ define([
                     this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
 
                     this.isShowOpenDialog = false;
 
@@ -207,13 +206,15 @@ define([
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
-                        if (!me.isModalShowed && !me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible()) {
+                        if (!me.isModalShowed) {
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
+                            if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
+                                return;
                             if (!e.relatedTarget ||
                                 !/area_id/.test(e.target.id)
                                 && !(e.target.localName == 'input' && $(e.target).parent().find(e.relatedTarget).length>0) /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
-                                && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
+                                && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find('.dropdown-menu').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                                 && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
@@ -328,6 +329,11 @@ define([
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
+                    (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
+                    $('#editor_sdk').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div>');
+                }
 
                 Common.Controllers.Desktop.init(this.appOptions);
             },
@@ -473,7 +479,7 @@ define([
                 var action = {id: id, type: type};
                 this.stackLongActions.pop(action);
 
-                appHeader.setDocumentCaption(this.api.asc_getDocumentName());
+                appHeader && appHeader.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(true);
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
@@ -645,7 +651,7 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                value = Common.localStorage.getBool("pe-settings-spellcheck", true);
+                value = Common.localStorage.getBool("pe-settings-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
                 Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
 
@@ -761,7 +767,6 @@ define([
 
                             me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
 
-                            me.fillTextArt(me.api.asc_getTextArtPreviews());
                             toolbarController.activateControls();
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
@@ -789,6 +794,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {
@@ -963,21 +970,20 @@ define([
                     commentsController.setConfig({config: this.editorConfig, sdkviewname: '#id_main_parent'}, this.api);
                 }
                 /** coauthoring end **/
+                var me = this,
+                    application         = this.getApplication(),
+                    reviewController    = application.getController('Common.Controllers.ReviewChanges');
+                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
+
                 if (this.appOptions.isEdit) {
-                    var me = this,
-                        application         = this.getApplication(),
-                        toolbarController   = application.getController('Toolbar'),
+                    var toolbarController   = application.getController('Toolbar'),
                         rightmenuController = application.getController('RightMenu'),
-                        fontsControllers    = application.getController('Common.Controllers.Fonts'),
-                        reviewController    = application.getController('Common.Controllers.ReviewChanges');
+                        fontsControllers    = application.getController('Common.Controllers.Fonts');
 
 //                    me.getStore('SlideLayouts');
                     fontsControllers    && fontsControllers.setApi(me.api);
                     toolbarController   && toolbarController.setApi(me.api);
-
                     rightmenuController && rightmenuController.setApi(me.api);
-
-                    reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (me.appOptions.canProtect)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
@@ -1193,6 +1199,10 @@ define([
                         config.msg = this.errorEmailClient;
                         break;
 
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                        config.msg = this.errorFileSizeExceed;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1309,7 +1319,7 @@ define([
                 if (this._state.isDocModified !== isModified || force) {
                     var title = this.defaultTitleText;
 
-                    if (!_.isEmpty(appHeader.getDocumentCaption()))
+                    if (appHeader && !_.isEmpty(appHeader.getDocumentCaption()))
                         title = appHeader.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {
@@ -1554,7 +1564,10 @@ define([
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
                 if (window.styles_loaded) {
                     this.updateThemeColors();
-                    this.fillTextArt(this.api.asc_getTextArtPreviews());
+                    var me = this;
+                    setTimeout(function(){
+                        me.fillTextArt();
+                    }, 1);
                 }
             },
 
@@ -1583,21 +1596,22 @@ define([
                 _.each(groupNames, function(groupName, index){
                     var store = new Backbone.Collection([], {
                         model: PE.Models.ShapeModel
-                    });
+                    }),
+                        arr = [];
 
                     var cols = (shapes[index].length) > 18 ? 7 : 6,
                         height = Math.ceil(shapes[index].length/cols) * 35 + 3,
                         width = 30 * cols;
 
                     _.each(shapes[index], function(shape, idx){
-                        store.add({
+                        arr.push({
                             data     : {shapeType: shape.Type},
                             tip      : me['txtShape_' + shape.Type] || (me.textShape + ' ' + (idx+1)),
                             allowSelected : true,
                             selected: false
                         });
                     });
-
+                    store.add(arr);
                     shapegrouparray.push({
                         groupName   : me.shapeGroupNames[index],
                         groupStore  : store,
@@ -1636,10 +1650,13 @@ define([
             },
 
             fillTextArt: function(shapes){
-                if (_.isEmpty(shapes)) return;
-
-                var me = this, arr = [],
+                var arr = [],
                     artStore = this.getCollection('Common.Collections.TextArt');
+
+                if (!shapes && artStore.length>0) {// shapes == undefined when update textart collection (from asc_onSendThemeColors)
+                    shapes = this.api.asc_getTextArtPreviews();
+                }
+                if (_.isEmpty(shapes)) return;
 
                 _.each(shapes, function(shape, index){
                     arr.push({
@@ -1650,11 +1667,6 @@ define([
                     });
                 });
                 artStore.reset(arr);
-
-                setTimeout(function(){
-                    me.getApplication().getController('RightMenu').fillTextArt();
-                }, 50);
-
             },
 
             loadLanguages: function(apiLangs) {
@@ -1752,7 +1764,8 @@ define([
 
                 var filemenu = this.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 filemenu.loadDocument({doc:this.document});
-                filemenu.panels['info'].updateInfo(this.document);
+                filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
+                this.getApplication().getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.document});
                 Common.Gateway.metaChange(meta);
             },
 
@@ -2175,7 +2188,8 @@ define([
             txtShape_polyline2: 'Freeform',
             errorEmailClient: 'No email client could be found',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
-            waitText: 'Please, wait...'
+            waitText: 'Please, wait...',
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
         }
     })(), PE.Controllers.Main || {}))
 });

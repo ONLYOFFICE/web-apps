@@ -105,6 +105,10 @@ define([
             this.btnBookmarks.on('click', function (b, e) {
                 me.fireEvent('links:bookmarks');
             });
+
+            this.btnCaption.on('click', function (b, e) {
+                me.fireEvent('links:caption');
+            });
         }
 
         return {
@@ -147,6 +151,15 @@ define([
                 Common.Utils.injectComponent($host.find('#slot-btn-bookmarks'), this.btnBookmarks);
                 this.paragraphControls.push(this.btnBookmarks);
 
+                this.btnCaption = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-caption',
+                    caption: this.capBtnCaption,
+                    disabled: true
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-caption'), this.btnCaption);
+                this.paragraphControls.push(this.btnCaption);
+
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -160,11 +173,12 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div style="background-position: 0 -<%= options.offsety %>px;" ></div></a>');
+                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div></div></a>');
                     me.btnsContents.forEach( function(btn) {
                         btn.updateHint( me.tipContents );
 
                         var _menu = new Common.UI.Menu({
+                            cls: 'toc-menu',
                             items: [
                                 {template: contentsTemplate, offsety: 0, value: 0},
                                 {template: contentsTemplate, offsety: 72, value: 1},
@@ -177,6 +191,7 @@ define([
                     });
 
                     me.contentsMenu = new Common.UI.Menu({
+                        cls: 'toc-menu',
                         items: [
                             {template: contentsTemplate, offsety: 0, value: 0},
                             {template: contentsTemplate, offsety: 72, value: 1},
@@ -242,6 +257,7 @@ define([
                     });
 
                     me.btnBookmarks.updateHint(me.tipBookmarks);
+                    me.btnCaption.updateHint(me.tipCaption);
 
                     setEvents.call(me);
                 });
@@ -283,7 +299,9 @@ define([
             capBtnInsLink: 'Hyperlink',
             tipInsertHyperlink: 'Add Hyperlink',
             capBtnBookmarks: 'Bookmark',
-            tipBookmarks: 'Create a bookmark'
+            tipBookmarks: 'Create a bookmark',
+            capBtnCaption: 'Caption',
+            tipCaption: 'Insert caption'
         }
     }()), DE.Views.Links || {}));
 });

@@ -71,13 +71,12 @@ define([
         disabled    : false,
         rendered    : false,
 
-        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="img-commonctrl"><%= labelText %></label>'),
+        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="img-commonctrl"><span><%= labelText %></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             this.name =  this.options.name || Common.UI.getId();
 
@@ -94,13 +93,14 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 labelText: this.options.labelText,
                 name: this.name
             }));
 
             this.$radio = el.find('input[type=button]');
+            this.$label = el.find('label');
             this.rendered = true;
 
             return this;
@@ -145,6 +145,10 @@ define([
 
         getValue: function() {
             return this.$radio.hasClass('checked');
+        },
+
+        setCaption: function(text) {
+            this.$label.find('span').text(text);
         }
     });
 });

@@ -74,11 +74,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
 
@@ -171,8 +167,6 @@ define([
         },
 
         txtTitle: 'Paste Name',
-        cancelButtonText : 'Cancel',
-        okButtonText : 'Ok',
         textNames: 'Named Ranges'
     }, SSE.Views.NamedRangePasteDlg || {}));
 });

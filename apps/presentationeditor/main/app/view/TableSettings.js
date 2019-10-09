@@ -604,13 +604,14 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -684,17 +685,25 @@ define([
                     data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
-                self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
+                    var tip = template.asc_getDisplayName();
+                    if (template.asc_getType()==0) {
+                        ['No Style', 'No Grid', 'Table Grid', 'Themed Style', 'Light Style', 'Medium Style', 'Dark Style', 'Accent'].forEach(function(item){
+                            var str = 'txtTable_' + item.replace(' ', '');
+                            if (self[str])
+                                tip = tip.replace(new RegExp(item, 'g'), self[str]);
+                        });
+
+                    }
                     arr.push({
                         imageUrl: template.asc_getImage(),
                         id     : Common.UI.getId(),
                         templateId: template.asc_getId(),
-                        tip    : template.asc_getDisplayName()
+                        tip    : tip
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.add(arr);
+                self.cmbTableTemplate.menuPicker.store.reset(arr);
             }
         },
 
@@ -790,7 +799,15 @@ define([
         textHeight: 'Height',
         textWidth: 'Width',
         textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns'
+        textDistributeCols: 'Distribute columns',
+        txtTable_NoStyle: 'No Style',
+        txtTable_NoGrid: 'No Grid',
+        txtTable_TableGrid: 'Table Grid',
+        txtTable_ThemedStyle: 'Themed Style',
+        txtTable_LightStyle: 'Light Style',
+        txtTable_MediumStyle: 'Medium Style',
+        txtTable_DarkStyle: 'Dark Style',
+        txtTable_Accent: 'Accent'
 
-    }, PE.Views.TableSettings || {}));
+}, PE.Views.TableSettings || {}));
 });

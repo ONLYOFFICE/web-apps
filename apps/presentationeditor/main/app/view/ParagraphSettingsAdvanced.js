@@ -772,13 +772,10 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         },
 
         textTitle:      'Paragraph - Advanced Settings',
-        strIndentsFirstLine:    'First line',
         strIndentsLeftText:     'Left',
         strIndentsRightText:    'Right',
         strParagraphIndents:    'Indents & Spacing',
         strParagraphFont:   'Font',
-        cancelButtonText:       'Cancel',
-        okButtonText:           'Ok',
         textEffects: 'Effects',
         textCharacterSpacing: 'Character Spacing',
         strDoubleStrike: 'Double strikethrough',

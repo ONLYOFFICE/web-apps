@@ -47,7 +47,9 @@ define([
             width: 350,
             height: 200,
             style: 'min-width: 230px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
             initialize : function(options) {
@@ -62,15 +64,11 @@ define([
 
                         '<label class="input-row" style="margin-bottom: -5px; margin-top: 5px;">' + this.textNextStyle + '</label>',
                         '<div id="id-dlg-style-next-par" class="input-group-nr" style="margin-bottom: 5px;" ></div>',
-                    '</div>',
-
-                    '<div class="footer right">',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                     '</div>'
                 ].join('');
 
                 this.options.tpl = _.template(this.template)(this.options);
+                this.options.formats = this.options.formats || [];
 
                 Common.UI.Window.prototype.initialize.call(this, this.options);
             },
@@ -100,17 +98,17 @@ define([
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            this.options.formats.unshift({value: -1, displayValue: this.txtSameAs});
             this.cmbNextStyle = new Common.UI.ComboBox({
                 el          : $('#id-dlg-style-next-par'),
                 style       : 'width: 100%;',
-                menuStyle   : 'width: 100%; max-height: 290px;',
+                menuStyle   : 'width: 100%; max-height: 210px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : this.options.formats,
                 disabled    : (this.options.formats.length==0)
             });
-            if (this.options.formats.length>0)
-                this.cmbNextStyle.setValue(this.options.formats[0].value);
+            this.cmbNextStyle.setValue(-1);
         },
 
         show: function() {
@@ -128,8 +126,8 @@ define([
         },
 
         getNextStyle: function () {
-            var me = this;
-            return (me.options.formats.length>0) ? me.cmbNextStyle.getValue() : null;
+            var val = this.cmbNextStyle.getValue();
+            return (val!=-1) ? val : null;
         },
 
         onBtnClick: function(event) {
@@ -161,7 +159,8 @@ define([
         textHeader:           'Create New Style',
         txtEmpty:             'This field is required',
         txtNotEmpty:          'Field must not be empty',
-        textNextStyle:        'Next paragraph style'
+        textNextStyle:        'Next paragraph style',
+        txtSameAs:            'Same as created new style'
 
     }, DE.Views.StyleTitleDialog || {}))
 

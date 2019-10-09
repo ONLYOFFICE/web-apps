@@ -104,12 +104,15 @@ define([
             this.diagramEditor = null;
             this._isAddingShape = false;
             this.editMode = true;
+            this.binding = {};
 
             this.addListeners({
                 'Toolbar': {
                     'insert:break'      : this.onClickPageBreak,
                     'change:compact'    : this.onClickChangeCompact,
-                    'home:open'         : this.onHomeOpen
+                    'home:open'         : this.onHomeOpen,
+                    'add:chart'         : this.onSelectChart,
+                    'insert:textart'    : this.onInsertTextart
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -311,8 +314,8 @@ define([
             toolbar.btnCopyStyle.on('toggle',                           _.bind(this.onCopyStyleToggle, this));
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
+            toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
-            toolbar.mnuInsertChartPicker.on('item:click',               _.bind(this.onSelectChart, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
@@ -370,7 +373,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
-                this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onMathTypes, this));
+                this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
                 this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
@@ -688,7 +691,8 @@ define([
                 in_equation = false,
                 btn_eq_state = false,
                 in_image = false,
-                in_control = false;
+                in_control = false,
+                in_para = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -700,6 +704,7 @@ define([
                     can_add_image = pr.get_CanAddImage();
                     frame_pr = pr;
                     sh = pr.get_Shade();
+                    in_para = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
@@ -796,9 +801,9 @@ define([
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || !can_add_image || in_equation || control_plain;
+            need_disable = paragraph_locked || header_locked  || in_para && !can_add_image || in_equation || control_plain;
             toolbar.btnInsertImage.setDisabled(need_disable);
-            toolbar.btnInsertTextArt.setDisabled(need_disable || in_image || in_footnote);
+            toolbar.btnInsertTextArt.setDisabled(need_disable || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
@@ -1592,6 +1597,14 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onColorSchemaShow: function(menu) {
+            if (this.api) {
+                var value = this.api.asc_GetCurrentColorSchemeName();
+                var item = _.find(menu.items, function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll();
+            }
+        },
+
         onDropCapSelect: function(menu, item) {
             if (_.isUndefined(item.value))
                 return;
@@ -1830,11 +1843,8 @@ define([
             }
         },
 
-        onSelectChart: function(picker, item, record) {
-            if (!record) return;
-
+        onSelectChart: function(type) {
             var me      = this,
-                type    = record.get('type'),
                 chart = false;
 
             var selectedElements = me.api.getSelectedElements();
@@ -1871,6 +1881,19 @@ define([
                     }
                     me.toolbar.fireEvent('insertchart', me.toolbar);
                 }
+            }
+        },
+
+        onInsertTextart: function (data) {
+            if (this.api) {
+                this.toolbar.fireEvent('inserttextart', this.toolbar);
+                this.api.AddTextArt(data);
+
+                if (this.toolbar.btnInsertShape.pressed)
+                    this.toolbar.btnInsertShape.toggle(false, true);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertTextArt);
+                Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
             }
         },
 
@@ -1943,6 +1966,7 @@ define([
                     (new DE.Views.WatermarkSettingsDialog({
                         props: me.api.asc_GetWatermarkProps(),
                         api: me.api,
+                        lang: me.mode.lang,
                         fontStore: me.fontstore,
                         handler: function(result, value) {
                             if (result == 'ok') {
@@ -2314,9 +2338,48 @@ define([
             this._state.clrtext_asccolor = color;
         },
 
+        onApiAutoShapes: function() {
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.fillAutoShapes();
+                menu.off('show:before', onShowBefore);
+            };
+            me.toolbar.btnInsertShape.menu.on('show:before', onShowBefore);
+        },
+
         fillAutoShapes: function() {
             var me = this,
                 shapesStore = this.getApplication().getCollection('ShapeGroups');
+
+            var onShowAfter = function(menu) {
+                for (var i = 0; i < shapesStore.length; i++) {
+                    var shapePicker = new Common.UI.DataViewSimple({
+                        el: $('#id-toolbar-menu-shapegroup' + i, menu.items[i].$el),
+                        store: shapesStore.at(i).get('groupStore'),
+                        parentMenu: menu.items[i].menu,
+                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
+                    });
+                    shapePicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            if (record) {
+                                me._addAutoshape(true, record.get('data').shapeType);
+                                me._isAddingShape = true;
+                            }
+
+                            if (me.toolbar.btnInsertText.pressed) {
+                                me.toolbar.btnInsertText.toggle(false, true);
+                            }
+
+                            if (e.type !== 'click')
+                                me.toolbar.btnInsertShape.menu.hide();
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
+                            Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
+                        }
+                    });
+                }
+                menu.off('show:after', onShowAfter);
+            };
+            me.toolbar.btnInsertShape.menu.on('show:after', onShowAfter);
 
             for (var i = 0; i < shapesStore.length; i++) {
                 var shapeGroup = shapesStore.at(i);
@@ -2330,34 +2393,7 @@ define([
                         ]
                     })
                 });
-
                 me.toolbar.btnInsertShape.menu.addItem(menuItem);
-
-                var shapePicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-shapegroup' + i),
-                    store: shapeGroup.get('groupStore'),
-                    parentMenu: menuItem.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                });
-
-                shapePicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        if (record) {
-                            me._addAutoshape(true, record.get('data').shapeType);
-                            me._isAddingShape = true;
-                        }
-
-                        if (me.toolbar.btnInsertText.pressed) {
-                            me.toolbar.btnInsertText.toggle(false, true);
-                        }
-
-                        if (e.type !== 'click')
-                            me.toolbar.btnInsertShape.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertShape);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
-                    }
-                });
             }
         },
 
@@ -2366,12 +2402,44 @@ define([
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
 
-            me.equationPickers = [];
             me.toolbar.btnInsertEquation.menu.removeAll();
-            
+            var onShowAfter = function(menu) {
+                for (var i = 0; i < equationsStore.length; ++i) {
+                    var equationPicker = new Common.UI.DataViewSimple({
+                        el: $('#id-toolbar-menu-equationgroup' + i, menu.items[i].$el),
+                        parentMenu: menu.items[i].menu,
+                        store: equationsStore.at(i).get('groupStore'),
+                        scrollAlwaysVisible: true,
+                        itemTemplate: _.template('<div class="item-equation" '+
+                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
+                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                            '</div>')
+                    });
+                    equationPicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            if (record)
+                                me.api.asc_AddMath(record.get('data').equationType);
+
+                            if (me.toolbar.btnInsertText.pressed) {
+                                me.toolbar.btnInsertText.toggle(false, true);
+                            }
+                            if (me.toolbar.btnInsertShape.pressed) {
+                                me.toolbar.btnInsertShape.toggle(false, true);
+                            }
+
+                            if (e.type !== 'click')
+                                me.toolbar.btnInsertEquation.menu.hide();
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertEquation);
+                            Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
+                        }
+                    });
+                }
+                menu.off('show:after', onShowAfter);
+            };
+            me.toolbar.btnInsertEquation.menu.on('show:after', onShowAfter);
+
             for (var i = 0; i < equationsStore.length; ++i) {
                 var equationGroup = equationsStore.at(i);
-
                 var menuItem = new Common.UI.MenuItem({
                     caption: equationGroup.get('groupName'),
                     menu: new Common.UI.Menu({
@@ -2383,56 +2451,7 @@ define([
                         ]
                     })
                 });
-
                 me.toolbar.btnInsertEquation.menu.addItem(menuItem);
-
-                var equationPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-equationgroup' + i),
-                    store: equationGroup.get('groupStore'),
-                    parentMenu: menuItem.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-equation" '+
-                        'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                        '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>">')
-                });
-                if (equationGroup.get('groupHeight').length) {
-
-                    me.equationPickers.push(equationPicker);
-                    me.toolbar.btnInsertEquation.menu.on('show:after', function () {
-
-                        if (me.equationPickers.length) {
-                            var element = $(this.el).find('.over').find('.menu-shape');
-                            if (element.length) {
-                                for (var i = 0; i < me.equationPickers.length; ++i) {
-                                    if (element[0].id == me.equationPickers[i].el.id) {
-                                        me.equationPickers[i].scroller.update({alwaysVisibleY: true});
-                                        me.equationPickers.splice(i, 1);
-                                        return;
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-
-                equationPicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        if (record)
-                            me.api.asc_AddMath(record.get('data').equationType);
-
-                        if (me.toolbar.btnInsertText.pressed) {
-                            me.toolbar.btnInsertText.toggle(false, true);
-                        }
-                        if (me.toolbar.btnInsertShape.pressed) {
-                            me.toolbar.btnInsertShape.toggle(false, true);
-                        }
-
-                         if (e.type !== 'click')
-                             me.toolbar.btnInsertEquation.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertEquation);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
-                    }
-                });
             }
         },
 
@@ -2442,6 +2461,16 @@ define([
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
+        },
+
+        onApiMathTypes: function(equation) {
+            this._equationTemp = equation;
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.onMathTypes(me._equationTemp);
+                me.toolbar.btnInsertEquation.menu.off('show:before', onShowBefore);
+            };
+            me.toolbar.btnInsertEquation.menu.on('show:before', onShowBefore);
         },
 
         onMathTypes: function(equation) {
@@ -2484,35 +2513,29 @@ define([
                     translationTable[Common.define.c_oAscMathType[name]] = this[translate];
                 }
             }
-
-            var i,id = 0, count = 0, length = 0, width = 0, height = 0, store = null, list = null, eqStore = null, eq = null;
+            var i,id = 0, count = 0, length = 0, width = 0, height = 0, store = null, list = null, eqStore = null, eq = null, data;
 
             if (equation) {
-
-                count = equation.get_Data().length;
-
+                data = equation.get_Data();
+                count = data.length;
                 if (count) {
                     for (var j = 0; j < count; ++j) {
-                        id = equation.get_Data()[j].get_Id();
-                        width = equation.get_Data()[j].get_W();
-                        height = equation.get_Data()[j].get_H();
+                        var group = data[j];
+                        id = group.get_Id();
+                        width = group.get_W();
+                        height = group.get_H();
 
                         store = new Backbone.Collection([], {
                             model: DE.Models.EquationModel
                         });
 
                         if (store) {
-
-                            var allItemsCount = 0, itemsCount = 0, ids = 0;
-
-                            length = equation.get_Data()[j].get_Data().length;
-
+                            var allItemsCount = 0, itemsCount = 0, ids = 0, arr = [];
+                            length = group.get_Data().length;
                             for (i = 0; i < length; ++i) {
-                                eqStore = equation.get_Data()[j].get_Data()[i];
-
+                                eqStore = group.get_Data()[i];
                                 itemsCount = eqStore.get_Data().length;
                                 for (var p = 0; p < itemsCount; ++p) {
-
                                     eq = eqStore.get_Data()[p];
                                     ids = eq.get_Id();
 
@@ -2521,8 +2544,7 @@ define([
                                     if (translationTable.hasOwnProperty(ids)) {
                                         translate = translationTable[ids];
                                     }
-
-                                    store.add({
+                                    arr.push({
                                         data            : {equationType: ids},
                                         tip             : translate,
                                         allowSelected   : true,
@@ -2536,7 +2558,7 @@ define([
 
                                 allItemsCount += itemsCount;
                             }
-
+                            store.add(arr);
                             width = c_oAscMathMainTypeStrings[id][1] * (width + 10);  // 4px margin + 4px margin + 1px border + 1px border
 
                             var normHeight = parseInt(370 / (height + 10)) * (height + 10);
@@ -2548,54 +2570,9 @@ define([
                             });
                         }
                     }
-
                     equationsStore.add(equationgrouparray);
-
                     this.fillEquations();
                 }
-            }
-        },
-
-        fillTextArt: function() {
-            if (!this.toolbar.btnInsertTextArt.rendered) return;
-            
-            var me = this;
-            if (this.toolbar.mnuTextArtPicker) {
-                var models = this.getApplication().getCollection('Common.Collections.TextArt').models,
-                    count = this.toolbar.mnuTextArtPicker.store.length;
-                if (count>0 && count==models.length) {
-                    var data = this.toolbar.mnuTextArtPicker.store.models;
-                    _.each(models, function(template, index){
-                        data[index].set('imageUrl', template.get('imageUrl'));
-                    });
-                } else {
-                    this.toolbar.mnuTextArtPicker.store.reset(models);
-                }
-            } else {
-                this.toolbar.mnuTextArtPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insart'),
-                    store: this.getApplication().getCollection('Common.Collections.TextArt'),
-                    parentMenu: this.toolbar.btnInsertTextArt.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
-                });
-
-                this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        if (record) {
-                            me.toolbar.fireEvent('inserttextart', me.toolbar);
-                            me.api.AddTextArt(record.get('data'));
-                        }
-
-                        if (me.toolbar.btnInsertShape.pressed)
-                            me.toolbar.btnInsertShape.toggle(false, true);
-
-                         if (e.type !== 'click')
-                             me.toolbar.btnInsertTextArt.menu.hide();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnInsertTextArt);
-                        Common.component.Analytics.trackEvent('ToolBar', 'Add Text Art');
-                    }
-                });
             }
         },
 
@@ -2607,12 +2584,17 @@ define([
             this.toolbar.btnRedo.setDisabled(this._state.can_redo!==true);
             this.toolbar.btnCopy.setDisabled(this._state.can_copycut!==true);
             this.toolbar.btnPrint.setDisabled(!this.toolbar.mode.canPrint);
-            if (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients)
+            if (!this._state.mmdisable && (this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestMailMergeRecipients))
                 this.toolbar.btnMailRecepients.setDisabled(false);
             this._state.activated = true;
 
             var props = this.api.asc_GetSectionProps();
             this.onApiPageSize(props.get_W(), props.get_H());
+        },
+
+        DisableMailMerge: function() {
+            this._state.mmdisable = true;
+            this.toolbar && this.toolbar.btnMailRecepients && this.toolbar.btnMailRecepients.setDisabled(true);
         },
 
         updateThemeColors: function() {
@@ -2673,17 +2655,17 @@ define([
                 return;
             }
 
-            listStyles.menuPicker.store.reset([]); // remove all
-
+            var arr = [];
             var mainController = this.getApplication().getController('Main');
             _.each(styles.get_MergedStyles(), function(style){
-                listStyles.menuPicker.store.add({
+                arr.push({
                     imageUrl: style.asc_getImage(),
                     title   : style.get_Name(),
                     tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     id      : Common.UI.getId()
                 });
             });
+            listStyles.menuPicker.store.reset(arr); // remove all
 
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered){
                 var styleRec;
@@ -2846,43 +2828,45 @@ define([
                     compactview = true;
             }
 
-            me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            setTimeout(function () {
+                me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-            var $panel = this.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-            if ( $panel )
-                me.toolbar.addTab(tab, $panel, 4);
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ( $panel )
+                    me.toolbar.addTab(tab, $panel, 4);
 
-            if ( config.isEdit ) {
-                me.toolbar.setMode(config);
+                if ( config.isEdit ) {
+                    me.toolbar.setMode(config);
 
-                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                if (!(config.customization && config.customization.compactHeader)) {
-                    // hide 'print' and 'save' buttons group and next separator
-                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                    if (!(config.customization && config.customization.compactHeader)) {
+                        // hide 'print' and 'save' buttons group and next separator
+                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                    // hide 'undo' and 'redo' buttons and retrieve parent container
-                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                        // hide 'undo' and 'redo' buttons and retrieve parent container
+                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                    // move 'paste' button to the container instead of 'undo' and 'redo'
-                    me.toolbar.btnPaste.$el.detach().appendTo($box);
-                    me.toolbar.btnCopy.$el.removeClass('split');
-                }
-
-                if ( config.isDesktopApp ) {
-                    if ( config.canProtect ) {
-                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-
-                        if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                        // move 'paste' button to the container instead of 'undo' and 'redo'
+                        me.toolbar.btnPaste.$el.detach().appendTo($box);
+                        me.toolbar.btnCopy.$el.removeClass('split');
                     }
-                }
 
-                var links = me.getApplication().getController('Links');
-                links.setApi(me.api).setConfig({toolbar: me});
-                Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
-            }
+                    if ( config.isDesktopApp ) {
+                        if ( config.canProtect ) {
+                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+
+                            if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                        }
+                    }
+
+                    var links = me.getApplication().getController('Links');
+                    links.setApi(me.api).setConfig({toolbar: me});
+                    Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+                }
+            }, 0);
         },
 
         onAppReady: function (config) {

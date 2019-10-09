@@ -112,7 +112,18 @@ define([
                     'Settings': {
                         'page:show' : this.onPageShow
                         , 'settings:showhelp': function(e) {
-                            window.open('{{SUPPORT_URL}}', "_blank");
+                            var url = '{{HELP_URL}}';
+                            if (url.charAt(url.length-1) !== '/') {
+                                url += '/';
+                            }
+                            if (Common.SharedSettings.get('sailfish')) {
+                                url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
+                            } else if (Common.SharedSettings.get('android')) {
+                                url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
+                            } else {
+                                url+='mobile-applications/documents/mobile-web-editors/ios/index.aspx';
+                            }
+                            window.open(url, "_blank");
                             this.hideModal();
                         }
                     }

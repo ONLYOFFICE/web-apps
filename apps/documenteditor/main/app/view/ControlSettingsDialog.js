@@ -132,10 +132,6 @@ define([
                                 '</table>',
                             '</div></div>',
                         '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + me.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
                     '</div>'
                 ].join('')
             }, options);
@@ -349,8 +345,6 @@ define([
         txtLockDelete: 'Content control cannot be deleted',
         txtLockEdit: 'Contents cannot be edited',
         textLock: 'Locking',
-        cancelButtonText: 'Cancel',
-        okButtonText: 'Ok',
         textShowAs: 'Show as',
         textColor: 'Color',
         textBox: 'Bounding box',

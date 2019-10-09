@@ -278,15 +278,11 @@ define([
             this.rightmenu.tableSettings.updateMetricUnit();
         },
 
-        fillTextArt:  function() {
-            this.rightmenu.textartSettings.fillTextArt();
-        },
-
         createDelayedElements: function() {
             if (this.editMode && this.api) {
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
 
-                this.rightmenu.shapeSettings.createDelayedElements();
+                // this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
                     this.onFocusObject(selectedElements, !Common.localStorage.getBool("pe-hide-right-settings", this.rightmenu.defaultHideRightMenu));

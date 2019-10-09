@@ -131,8 +131,7 @@ define([
                         },
                         {
                             caption: this.textIgnoreAll,
-                            value: 1,
-                            disabled: true
+                            value: 1
                         }
                     ]
                 })
@@ -147,7 +146,8 @@ define([
                 cls         : 'input-group-nr',
                 scroller    : {
                     suppressScrollX: true
-                }
+                },
+                search: true
             });
 
             this.btnToDictionary = new Common.UI.Button({

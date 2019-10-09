@@ -646,8 +646,6 @@ define([
         },
 
         textFields:             'Select Fields',
-        textOK                  : 'OK',
-        textCancel              : 'Cancel',
         textValues              : 'Values',
         textRows                : 'Rows',
         textColumns             : 'Columns',

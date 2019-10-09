@@ -62,7 +62,6 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'click:users': _.bind(this.clickStatusbarUsers, this),
                     'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
@@ -532,10 +531,6 @@ define([
         },
 
         /** coauthoring begin **/
-        clickStatusbarUsers: function() {
-            this.leftMenu.menuFile.panels['rights'].changeAccessRights();
-        },
-
         onHideChat: function() {
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');

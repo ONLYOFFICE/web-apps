@@ -256,7 +256,7 @@
   "SSE.Controllers.Main.uploadImageTitleText": "Wysyłanie obrazu",
   "SSE.Controllers.Main.waitText": "Proszę czekać...",
   "SSE.Controllers.Main.warnLicenseExp": "Twoja licencja wygasła.<br>Zaktualizuj licencję i odśwież stronę.",
-  "SSE.Controllers.Main.warnNoLicense": "Używasz wersji ONLYOFFICE w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
+  "SSE.Controllers.Main.warnNoLicense": "Używasz wersji %1 w wersji open source. Wersja ma ograniczenia dla jednoczesnych połączeń z serwerem dokumentów (po 20 połączeń naraz). Jeśli potrzebujesz więcej, rozważ zakup licencji komercyjnej.",
   "SSE.Controllers.Main.warnProcessRightsChange": "Nie masz uprawnień do edycji tego pliku.",
   "SSE.Controllers.Search.textNoTextFound": "Nie znaleziono tekstu",
   "SSE.Controllers.Search.textReplaceAll": "Zamień wszystko",

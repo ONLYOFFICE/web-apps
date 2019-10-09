@@ -118,18 +118,10 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 {displayValue: this.textJustified, value: c_paragraphTextAlignment.JUSTIFIED}
             ];
 
-            this._arrOutlinelevel = [
-                {displayValue: this.textBodyText},
-                {displayValue: this.textLevel + '1'},
-                {displayValue: this.textLevel + '2'},
-                {displayValue: this.textLevel + '3'},
-                {displayValue: this.textLevel + '4'},
-                {displayValue: this.textLevel + '5'},
-                {displayValue: this.textLevel + '6'},
-                {displayValue: this.textLevel + '7'},
-                {displayValue: this.textLevel + '8'},
-                {displayValue: this.textLevel + '9'}
-            ];
+            this._arrOutlinelevel = [{displayValue: this.textBodyText, value: -1}];
+            for (var i=0; i<9; i++) {
+                this._arrOutlinelevel.push({displayValue: this.textLevel + ' ' + (i+1), value: i});
+            }
 
             this._arrTabAlign = [
                 { value: 1, displayValue: this.textTabLeft },
@@ -309,7 +301,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 style: 'width: 174px;',
                 menuStyle   : 'min-width: 174px;'
             });
-            this.cmbOutlinelevel.setValue('');
+            this.cmbOutlinelevel.setValue(-1);
             this.cmbOutlinelevel.on('selected', _.bind(this.onOutlinelevelSelect, this));
 
             // Line & Page Breaks
@@ -898,6 +890,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this.tabList.selectByIndex(0);
                 }
 
+                this.cmbOutlinelevel.setValue((props.get_OutlineLvl() === undefined || props.get_OutlineLvl()===null) ? -1 : props.get_OutlineLvl());
+                this.cmbOutlinelevel.setDisabled(!!props.get_OutlineLvlStyle());
+
                 this._noApply = false;
 
                 this._changedProps = new Asc.asc_CParagraphProperty();
@@ -1433,11 +1428,12 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         },
 
         onOutlinelevelSelect: function(combo, record) {
-
+            if (this._changedProps) {
+                this._changedProps.put_OutlineLvl(record.value>-1 ? record.value: null);
+            }
         },
 
         textTitle:      'Paragraph - Advanced Settings',
-        strIndentsFirstLine:    'First line',
         strIndentsLeftText:     'Left',
         strIndentsRightText:    'Right',
         strParagraphIndents:    'Indents & Spacing',
@@ -1450,8 +1446,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textBorderColor:        'Border Color',
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
-        cancelButtonText:       'Cancel',
-        okButtonText:           'Ok',
         txtNoBorders:           'No borders',
         textNewColor:           'Add New Custom Color',
         textEffects: 'Effects',
@@ -1506,8 +1500,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textFirstLine: 'First line',
         textHanging: 'Hanging',
         textJustified: 'Justified',
-        textBodyText: 'BodyText',
-        textLevel: 'Level ',
+        textBodyText: 'Basic Text',
+        textLevel: 'Level',
         strIndentsOutlinelevel: 'Outline level',
         strIndent: 'Indents',
         strSpacing: 'Spacing'

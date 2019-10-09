@@ -97,38 +97,9 @@ define([
                         'settings:apply': _.bind(this.applySettings, this)
                     }
                 });
-            },
 
-            onLaunch: function() {
-                var me = this;
-
-                this.stackLongActions = new Common.IrregularStack({
-                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
-                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
-                });
-
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
-                this.languages = null;
-                this.translationTable = [];
-                this.isModalShowed = 0;
-                // Initialize viewport
-
-                if (!Common.Utils.isBrowserSupported()){
-                    Common.Utils.showBrowserRestriction();
-                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
-                    return;
-                }
-
-                var value = Common.localStorage.getItem("de-settings-fontrender");
-                if (value === null)
-                    window.devicePixelRatio > 1 ? value = '1' : '0';
-                Common.Utils.InternalSettings.set("de-settings-fontrender", value);
-
-                // Initialize api
-
-                window["flat_desine"] = true;
-
-                var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
+                var me = this,
+                    styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
                 translate = {
                     'Series': this.txtSeries,
@@ -161,18 +132,44 @@ define([
                     "Table Index Cannot be Zero": this.txtTableInd,
                     "Undefined Bookmark": this.txtUndefBookmark,
                     "Unexpected End of Formula": this.txtEndOfFormula,
-                    "Hyperlink": this.txtHyperlink
+                    "Hyperlink": this.txtHyperlink,
+                    "Error! Main Document Only.": this.txtMainDocOnly,
+                    "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
+                    "Error! No text of specified style in document.": this.txtNoText
                 };
                 styleNames.forEach(function(item){
-                    translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
-                me.translationTable['Header'] = this.txtHeader;
-                me.translationTable['Footer'] = this.txtFooter;
+                me.translationTable = translate;
+            },
 
-                this.api = new Asc.asc_docs_api({
-                    'id-view'  : 'editor_sdk',
-                    'translate': translate
+            onLaunch: function() {
+                var me = this;
+
+                this.stackLongActions = new Common.IrregularStack({
+                    strongCompare   : function(obj1, obj2){return obj1.id === obj2.id && obj1.type === obj2.type;},
+                    weakCompare     : function(obj1, obj2){return obj1.type === obj2.type;}
                 });
+
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this.languages = null;
+                this.isModalShowed = 0;
+                // Initialize viewport
+
+                if (!Common.Utils.isBrowserSupported()){
+                    Common.Utils.showBrowserRestriction();
+                    Common.Gateway.reportError(undefined, this.unsupportedBrowserErrorText);
+                    return;
+                }
+
+                var value = Common.localStorage.getItem("de-settings-fontrender");
+                if (value === null)
+                    window.devicePixelRatio > 1 ? value = '1' : '0';
+                Common.Utils.InternalSettings.set("de-settings-fontrender", value);
+
+                // Initialize api
+                window["flat_desine"] = true;
+                this.api = this.getApplication().getController('Viewport').getApi();
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -196,6 +193,7 @@ define([
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
                     Common.NotificationCenter.on('download:advanced',               _.bind(this.onAdvancedOptions, this));
+                    Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -229,13 +227,15 @@ define([
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
-                        if (!me.isModalShowed && !me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible()) {
+                        if (!me.isModalShowed) {
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
+                            if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
+                                return;
                             if (!e.relatedTarget ||
                                 !/area_id/.test(e.target.id)
                                 && !(e.target.localName == 'input' && $(e.target).parent().find(e.relatedTarget).length>0) /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
-                                && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
+                                && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find('.dropdown-menu').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                                 && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
@@ -362,6 +362,11 @@ define([
 
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
+                    (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
+                    $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
+                }
 
                 Common.Controllers.Desktop.init(this.appOptions);
             },
@@ -690,7 +695,7 @@ define([
                 var action = {id: id, type: type};
                 this.stackLongActions.pop(action);
 
-                appHeader.setDocumentCaption(this.api.asc_getDocumentName());
+                appHeader && appHeader.setDocumentCaption(this.api.asc_getDocumentName());
                 this.updateWindowTitle(true);
 
                 action = this.stackLongActions.get({type: Asc.c_oAscAsyncActionType.Information});
@@ -890,7 +895,7 @@ define([
                 value = Common.localStorage.getItem("de-show-tableline");
                 me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
-                value = Common.localStorage.getBool("de-settings-spellcheck", true);
+                value = Common.localStorage.getBool("de-settings-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
                 Common.Utils.InternalSettings.set("de-settings-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
 
@@ -1024,7 +1029,6 @@ define([
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
                             me.api.UpdateInterfaceState();
-                            me.fillTextArt(me.api.asc_getTextArtPreviews());
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
@@ -1049,6 +1053,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {
@@ -1254,7 +1260,7 @@ define([
                 var me = this,
                     application         = this.getApplication(),
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
-                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
                 if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode
                     var toolbarController   = application.getController('Toolbar');
@@ -1486,6 +1492,10 @@ define([
                         config.msg = this.errorEmailClient;
                         break;
 
+                   case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                        config.msg = this.errorFileSizeExceed;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1598,7 +1608,7 @@ define([
                 if (this._state.isDocModified !== isModified || force) {
                     var title = this.defaultTitleText;
 
-                    if (!_.isEmpty(appHeader.getDocumentCaption()))
+                    if (appHeader && !_.isEmpty(appHeader.getDocumentCaption()))
                         title = appHeader.getDocumentCaption() + ' - ' + title;
 
                     if (isModified) {
@@ -1803,25 +1813,25 @@ define([
 
                 shapeStore.reset();
 
-                var groupscount = groupNames.length;
                 _.each(groupNames, function(groupName, index){
                     var store = new Backbone.Collection([], {
                         model: DE.Models.ShapeModel
-                    });
+                    }),
+                        arr = [];
 
                     var cols = (shapes[index].length) > 18 ? 7 : 6,
                         height = Math.ceil(shapes[index].length/cols) * 35 + 3,
                         width = 30 * cols;
 
                     _.each(shapes[index], function(shape, idx){
-                        store.add({
+                        arr.push({
                             data     : {shapeType: shape.Type},
                             tip      : me['txtShape_' + shape.Type] || (me.textShape + ' ' + (idx+1)),
                             allowSelected : true,
                             selected: false
                         });
                     });
-
+                    store.add(arr);
                     shapegrouparray.push({
                         groupName   : me.shapeGroupNames[index],
                         groupStore  : store,
@@ -1831,18 +1841,19 @@ define([
                 });
 
                 shapeStore.add(shapegrouparray);
-
                 setTimeout(function(){
-                    me.getApplication().getController('Toolbar').fillAutoShapes();
+                    me.getApplication().getController('Toolbar').onApiAutoShapes();
                 }, 50);
-
             },
 
             fillTextArt: function(shapes){
-                if (_.isEmpty(shapes)) return;
-
-                var me = this, arr = [],
+                var arr = [],
                     artStore = this.getCollection('Common.Collections.TextArt');
+
+                if (!shapes && artStore.length>0) {// shapes == undefined when update textart collection (from asc_onSendThemeColors)
+                    shapes = this.api.asc_getTextArtPreviews();
+                }
+                if (_.isEmpty(shapes)) return;
 
                 _.each(shapes, function(shape, index){
                     arr.push({
@@ -1853,15 +1864,6 @@ define([
                     });
                 });
                 artStore.reset(arr);
-
-                setTimeout(function(){
-                    me.getApplication().getController('Toolbar').fillTextArt();
-                }, 50);
-
-                setTimeout(function(){
-                    me.getApplication().getController('RightMenu').fillTextArt();
-                }, 50);
-
             },
 
             updateThemeColors: function() {
@@ -1869,10 +1871,6 @@ define([
                 setTimeout(function(){
                     me.getApplication().getController('RightMenu').UpdateThemeColors();
                 }, 50);
-                setTimeout(function(){
-                    me.getApplication().getController('DocumentHolder').getView().updateThemeColors();
-                }, 50);
-
                 setTimeout(function(){
                     me.getApplication().getController('Toolbar').updateThemeColors();
                 }, 50);
@@ -1882,7 +1880,10 @@ define([
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
                 if (window.styles_loaded) {
                     this.updateThemeColors();
-                    this.fillTextArt(this.api.asc_getTextArtPreviews());
+                    var me = this;
+                    setTimeout(function(){
+                        me.fillTextArt();
+                    }, 1);
                 }
             },
 
@@ -2072,7 +2073,8 @@ define([
 
                 var filemenu = this.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 filemenu.loadDocument({doc:this.document});
-                filemenu.panels['info'].updateInfo(this.document);
+                filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
+                this.getApplication().getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.document});
                 Common.Gateway.metaChange(meta);
             },
 
@@ -2119,6 +2121,17 @@ define([
 
             onShowDummyComment: function() {
                 this.beforeShowDummyComment = true;
+            },
+
+            DisableMailMerge: function() {
+                this.appOptions.mergeFolderUrl = "";
+                var toolbarController   = this.getApplication().getController('Toolbar');
+                toolbarController && toolbarController.DisableMailMerge();
+            },
+
+            DisableVersionHistory: function() {
+                this.editorConfig.canUseHistory = false;
+                this.appOptions.canUseHistory = false;
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2456,7 +2469,11 @@ define([
             errorEmailClient: 'No email client could be found',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
             txtHyperlink: 'Hyperlink',
-            waitText: 'Please, wait...'
+            waitText: 'Please, wait...',
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            txtMainDocOnly: 'Error! Main Document Only.',
+            txtNotValidBookmark: 'Error! Not a valid bookmark self-reference.',
+            txtNoText: 'Error! No text of specified style in document.'
         }
     })(), DE.Controllers.Main || {}))
 });

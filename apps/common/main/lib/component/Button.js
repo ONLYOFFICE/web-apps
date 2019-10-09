@@ -319,7 +319,7 @@ define([
 
             me.trigger('render:before', me);
 
-            me.cmpEl = $(me.el);
+            me.cmpEl = me.$el || $(me.el);
 
             if (parentEl) {
                 me.setElement(parentEl, false);
@@ -386,6 +386,18 @@ define([
                     if (modalParents.length > 0) {
                         me.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                         me.btnMenuEl && me.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                        var onModalClose = function(dlg) {
+                            if (modalParents[0] !== dlg.$window[0]) return;
+                            var tip = me.btnEl.data('bs.tooltip');
+                            if (tip) {
+                                if (tip.dontShow===undefined)
+                                    tip.dontShow = true;
+
+                                tip.hide();
+                            }
+                            Common.NotificationCenter.off({'modal:close': onModalClose});
+                        };
+                        Common.NotificationCenter.on({'modal:close': onModalClose});
                     }
                 }
 

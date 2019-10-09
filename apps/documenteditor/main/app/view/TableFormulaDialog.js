@@ -47,7 +47,9 @@ define([
         options: {
             width: 300,
             style: 'min-width: 230px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
         initialize : function(options) {
@@ -69,11 +71,7 @@ define([
                         '<div id="id-dlg-formula-function" style="display: inline-block; width: 50%; padding-right: 10px; float: left;"></div>',
                         '<div id="id-dlg-formula-bookmark" style="display: inline-block; width: 50%;"></div>',
                     '</div>',
-                    '</div>',
-                '<div class="footer right">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
-                '</div>'
+                    '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -240,8 +238,6 @@ define([
         textFormat: 'Number Format',
         textBookmark: 'Paste Bookmark',
         textInsertFunction: 'Paste Function',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         textTitle:          'Formula Settings'
     }, DE.Views.TableFormulaDialog || {}))
 });

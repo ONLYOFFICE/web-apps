@@ -506,12 +506,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: me.capBtnInsChart,
                         iconCls: 'btn-insertchart',
-                        menu: new Common.UI.Menu({
-                            style: 'width: 435px;',
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
-                            ]
-                        })
+                        menu: true
                     });
                     this.paragraphControls.push(this.btnInsertChart);
 
@@ -1270,7 +1265,7 @@ define([
             rendererComponents: function (html) {
                 var $host = $(html);
                 var _injectComponent = function (id, cmp) {
-                    Common.Utils.injectComponent($host.find(id), cmp);
+                    Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
@@ -1345,7 +1340,7 @@ define([
                     if ( !config.isEdit ) return;
 
                     me.btnsPageBreak.forEach( function(btn) {
-                        btn.updateHint( me.tipPageBreak );
+                        btn.updateHint( [me.textInsPageBreak, me.tipPageBreak] );
 
                         var _menu_section_break = new Common.UI.Menu({
                             menuAlign: 'tl-tr',
@@ -1656,6 +1651,91 @@ define([
                 this.paragraphControls.push(this.mnuPageNumCurrentPos);
                 this.paragraphControls.push(this.mnuInsertPageCount);
 
+                this.btnInsertChart.setMenu( new Common.UI.Menu({
+                    style: 'width: 435px;',
+                    items: [
+                        {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
+                    ]
+                }));
+
+                var onShowBefore = function(menu) {
+                    var picker = new Common.UI.DataView({
+                        el: $('#id-toolbar-menu-insertchart'),
+                        parentMenu: menu,
+                        showLast: false,
+                        restoreHeight: 421,
+                        groups: new Common.UI.DataViewGroupStore([
+                            {id: 'menu-chart-group-bar', caption: me.textColumn, headername: me.textCharts},
+                            {id: 'menu-chart-group-line', caption: me.textLine},
+                            {id: 'menu-chart-group-pie', caption: me.textPie},
+                            {id: 'menu-chart-group-hbar', caption: me.textBar},
+                            {id: 'menu-chart-group-area', caption: me.textArea, inline: true},
+                            {id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true},
+                            {id: 'menu-chart-group-stock', caption: me.textStock, inline: true}
+                            // {id: 'menu-chart-group-surface', caption: me.textSurface}
+                        ]),
+                        store: new Common.UI.DataViewStore([
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
+                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
+                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
+                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
+                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
+                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
+                            { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
+                            { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
+                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   iconCls: 'contour-wireframe'}
+
+                        ]),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('add:chart', [record.get('type')]);
+                    });
+                    menu.off('show:before', onShowBefore);
+                };
+                this.btnInsertChart.menu.on('show:before', onShowBefore);
+
+                var onShowBeforeTextArt = function (menu) {
+                    var collection = DE.getCollection('Common.Collections.TextArt');
+                    if (collection.length<1)
+                        DE.getController('Main').fillTextArt(me.api.asc_getTextArtPreviews());
+                    var picker = new Common.UI.DataView({
+                        el: $('#id-toolbar-menu-insart'),
+                        store: collection,
+                        parentMenu: menu,
+                        showLast: false,
+                        itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
+                    });
+                    picker.on('item:click', function (picker, item, record, e) {
+                        if (record)
+                            me.fireEvent('insert:textart', [record.get('data')]);
+                        if (e.type !== 'click') menu.hide();
+                    });
+                    menu.off('show:before', onShowBeforeTextArt);
+                };
+                this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
+
                 // set dataviews
 
                 var _conf = this.mnuMarkersPicker.conf;
@@ -1772,181 +1852,6 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-pagenumber" style="background-position: 0 -<%= offsety %>px"></div>')
                 });
                 _conf && this.mnuPageNumberPosPicker.setDisabled(_conf.disabled);
-
-                this.mnuInsertChartPicker = new Common.UI.DataView({
-                    el: $('#id-toolbar-menu-insertchart'),
-                    parentMenu: this.btnInsertChart.menu,
-                    showLast: false,
-                    restoreHeight: 421,
-                    groups: new Common.UI.DataViewGroupStore([
-                        {id: 'menu-chart-group-bar', caption: me.textColumn, headername: me.textCharts},
-                        {id: 'menu-chart-group-line', caption: me.textLine},
-                        {id: 'menu-chart-group-pie', caption: me.textPie},
-                        {id: 'menu-chart-group-hbar', caption: me.textBar},
-                        {id: 'menu-chart-group-area', caption: me.textArea, inline: true},
-                        {id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true},
-                        {id: 'menu-chart-group-stock', caption: me.textStock, inline: true}
-                        // {id: 'menu-chart-group-surface', caption: me.textSurface}
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        {
-                            group: 'menu-chart-group-bar',
-                            type: Asc.c_oAscChartTypeSettings.barNormal,
-                            allowSelected: true,
-                            iconCls: 'column-normal',
-                            selected: true
-                        },
-                        {
-                            group: 'menu-chart-group-bar',
-                            type: Asc.c_oAscChartTypeSettings.barStacked,
-                            allowSelected: true,
-                            iconCls: 'column-stack'
-                        },
-                        {
-                            group: 'menu-chart-group-bar',
-                            type: Asc.c_oAscChartTypeSettings.barStackedPer,
-                            allowSelected: true,
-                            iconCls: 'column-pstack'
-                        },
-                        {
-                            group: 'menu-chart-group-bar',
-                            type: Asc.c_oAscChartTypeSettings.barNormal3d,
-                            allowSelected: true,
-                            iconCls: 'column-3d-normal'
-                        },
-                        {
-                            group: 'menu-chart-group-bar',
-                            type: Asc.c_oAscChartTypeSettings.barStacked3d,
-                            allowSelected: true,
-                            iconCls: 'column-3d-stack'
-                        },
-                        {
-                            group: 'menu-chart-group-bar',
-                            type: Asc.c_oAscChartTypeSettings.barStackedPer3d,
-                            allowSelected: true,
-                            iconCls: 'column-3d-pstack'
-                        },
-                        {
-                            group: 'menu-chart-group-bar',
-                            type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,
-                            allowSelected: true,
-                            iconCls: 'column-3d-normal-per'
-                        },
-                        {
-                            group: 'menu-chart-group-line',
-                            type: Asc.c_oAscChartTypeSettings.lineNormal,
-                            allowSelected: true,
-                            iconCls: 'line-normal'
-                        },
-                        {
-                            group: 'menu-chart-group-line',
-                            type: Asc.c_oAscChartTypeSettings.lineStacked,
-                            allowSelected: true,
-                            iconCls: 'line-stack'
-                        },
-                        {
-                            group: 'menu-chart-group-line',
-                            type: Asc.c_oAscChartTypeSettings.lineStackedPer,
-                            allowSelected: true,
-                            iconCls: 'line-pstack'
-                        },
-                        {
-                            group: 'menu-chart-group-line',
-                            type: Asc.c_oAscChartTypeSettings.line3d,
-                            allowSelected: true,
-                            iconCls: 'line-3d'
-                        },
-                        {
-                            group: 'menu-chart-group-pie',
-                            type: Asc.c_oAscChartTypeSettings.pie,
-                            allowSelected: true,
-                            iconCls: 'pie-normal'
-                        },
-                        {
-                            group: 'menu-chart-group-pie',
-                            type: Asc.c_oAscChartTypeSettings.doughnut,
-                            allowSelected: true,
-                            iconCls: 'pie-doughnut'
-                        },
-                        {
-                            group: 'menu-chart-group-pie',
-                            type: Asc.c_oAscChartTypeSettings.pie3d,
-                            allowSelected: true,
-                            iconCls: 'pie-3d-normal'
-                        },
-                        {
-                            group: 'menu-chart-group-hbar',
-                            type: Asc.c_oAscChartTypeSettings.hBarNormal,
-                            allowSelected: true,
-                            iconCls: 'bar-normal'
-                        },
-                        {
-                            group: 'menu-chart-group-hbar',
-                            type: Asc.c_oAscChartTypeSettings.hBarStacked,
-                            allowSelected: true,
-                            iconCls: 'bar-stack'
-                        },
-                        {
-                            group: 'menu-chart-group-hbar',
-                            type: Asc.c_oAscChartTypeSettings.hBarStackedPer,
-                            allowSelected: true,
-                            iconCls: 'bar-pstack'
-                        },
-                        {
-                            group: 'menu-chart-group-hbar',
-                            type: Asc.c_oAscChartTypeSettings.hBarNormal3d,
-                            allowSelected: true,
-                            iconCls: 'bar-3d-normal'
-                        },
-                        {
-                            group: 'menu-chart-group-hbar',
-                            type: Asc.c_oAscChartTypeSettings.hBarStacked3d,
-                            allowSelected: true,
-                            iconCls: 'bar-3d-stack'
-                        },
-                        {
-                            group: 'menu-chart-group-hbar',
-                            type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,
-                            allowSelected: true,
-                            iconCls: 'bar-3d-pstack'
-                        },
-                        {
-                            group: 'menu-chart-group-area',
-                            type: Asc.c_oAscChartTypeSettings.areaNormal,
-                            allowSelected: true,
-                            iconCls: 'area-normal'
-                        },
-                        {
-                            group: 'menu-chart-group-area',
-                            type: Asc.c_oAscChartTypeSettings.areaStacked,
-                            allowSelected: true,
-                            iconCls: 'area-stack'
-                        },
-                        {
-                            group: 'menu-chart-group-area',
-                            type: Asc.c_oAscChartTypeSettings.areaStackedPer,
-                            allowSelected: true,
-                            iconCls: 'area-pstack'
-                        },
-                        {
-                            group: 'menu-chart-group-scatter',
-                            type: Asc.c_oAscChartTypeSettings.scatter,
-                            allowSelected: true,
-                            iconCls: 'point-normal'
-                        },
-                        {
-                            group: 'menu-chart-group-stock',
-                            type: Asc.c_oAscChartTypeSettings.stock,
-                            allowSelected: true,
-                            iconCls: 'stock-normal'
-                        }
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
-                    ]),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
-                });
 
                 this.mnuTablePicker = new Common.UI.DimensionPicker({
                     el: $('#id-toolbar-menu-tablepicker'),
@@ -2097,15 +2002,17 @@ define([
                         this.mnuColorSchema.addItem({
                             caption: '--'
                         });
-                    } else {
-                        this.mnuColorSchema.addItem({
-                            template: itemTemplate,
-                            cls: 'color-schemas-menu',
-                            colors: schemecolors,
-                            caption: (index < 21) ? (me.SchemeNames[index] || schema.get_name()) : schema.get_name(),
-                            value: index
-                        });
                     }
+                    var name = schema.get_name();
+                    this.mnuColorSchema.addItem({
+                        template: itemTemplate,
+                        cls: 'color-schemas-menu',
+                        colors: schemecolors,
+                        caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
+                        value: name,
+                        checkable: true,
+                        toggleGroup: 'menuSchema'
+                    });
                 }, this);
             },
 

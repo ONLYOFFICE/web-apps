@@ -51,7 +51,8 @@ define([
             width: 647,
             style: 'min-width: 350px;',
             cls: 'modal-dlg enable-key-events',
-            animate: {mask: false}
+            animate: {mask: false},
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -75,7 +76,7 @@ define([
                 subscript: undefined,
                 superscript: undefined,
                 fontsize: undefined,
-                fontname: 'Arial'
+                fontname: ''
             };
 
             this.template = [
@@ -156,10 +157,6 @@ define([
                             '</div>',
                         '</div>',
                     '</div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -276,62 +273,58 @@ define([
             });
             this.btnFirst.on('toggle', _.bind(this.onPageTypeToggle, this, Asc.c_oAscHeaderFooterType.first));
 
-            this.cmbPresetsH = new Common.UI.ComboBox({
-                el          : $('#id-dlg-h-presets'),
-                cls         : 'input-group-nr',
-                style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-height: 200px;',
-                editable    : false,
-                scrollAlwaysVisible: true,
-                data: []
+            this.btnPresetsH = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textPresets,
+                style: 'width: 110px;',
+                menu: true
             });
-            this.cmbPresetsH.on('selected', _.bind(this.onPresetSelect, this, false));
-            this.cmbPresetsH.setValue(this.textPresets);
+            this.btnPresetsH.render( $('#id-dlg-h-presets')) ;
 
-            this.cmbPresetsF = new Common.UI.ComboBox({
-                el          : $('#id-dlg-f-presets'),
-                cls         : 'input-group-nr',
-                style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-height: 200px;',
-                editable    : false,
-                scrollAlwaysVisible: true,
-                data: []
+            this.btnPresetsF = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textPresets,
+                style: 'width: 110px;',
+                menu: true
             });
-            this.cmbPresetsF.on('selected', _.bind(this.onPresetSelect, this, true));
-            this.cmbPresetsF.setValue(this.textPresets);
+            this.btnPresetsF.render( $('#id-dlg-f-presets')) ;
 
             var data = [
-                {displayValue: this.textPageNum, value: Asc.c_oAscHeaderFooterField.pageNumber},
-                {displayValue: this.textPageCount, value: Asc.c_oAscHeaderFooterField.pageCount},
-                {displayValue: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
-                {displayValue: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
-                {displayValue: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
-                {displayValue: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
+                {caption: this.textPageNum, value: Asc.c_oAscHeaderFooterField.pageNumber},
+                {caption: this.textPageCount, value: Asc.c_oAscHeaderFooterField.pageCount},
+                {caption: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
+                {caption: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
+                {caption: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
+                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
             ];
 
-            this.cmbInsertH = new Common.UI.ComboBox({
-                el          : $('#id-dlg-h-insert'),
-                cls         : 'input-group-nr',
-                style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
-                editable    : false,
-                data: data
+            this.btnInsertH = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textInsert,
+                style: 'width: 110px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 110px;',
+                    maxHeight: 200,
+                    items: data
+                })
             });
-            this.cmbInsertH.on('selected', _.bind(this.onObjectSelect, this));
-            this.cmbInsertH.setValue(this.textInsert);
-            this.headerControls.push(this.cmbInsertH);
+            this.btnInsertH.render( $('#id-dlg-h-insert')) ;
+            this.btnInsertH.menu.on('item:click', _.bind(this.onObjectSelect, this));
+            this.headerControls.push(this.btnInsertH);
 
-            this.cmbInsertF = new Common.UI.ComboBox({
-                el          : $('#id-dlg-f-insert'),
-                cls         : 'input-group-nr',
-                style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
-                editable    : false,
-                data: data
+            this.btnInsertF = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textInsert,
+                style: 'width: 110px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 110px;',
+                    maxHeight: 200,
+                    items: data
+                })
             });
-            this.cmbInsertF.on('selected', _.bind(this.onObjectSelect, this));
-            this.cmbInsertF.setValue(this.textInsert);
-            this.footerControls.push(this.cmbInsertF);
+            this.btnInsertF.render( $('#id-dlg-f-insert')) ;
+            this.btnInsertF.menu.on('item:click', _.bind(this.onObjectSelect, this));
+            this.footerControls.push(this.btnInsertF);
 
             this.cmbFonts = [];
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
@@ -345,6 +338,7 @@ define([
                 hint        : this.tipFontName
             }));
             this.cmbFonts[0].on('selected', _.bind(this.onFontSelect, this));
+            this.cmbFonts[0].setValue(this._state.fontname);
             this.headerControls.push(this.cmbFonts[0]);
 
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
@@ -358,6 +352,7 @@ define([
                 hint        : this.tipFontName
             }));
             this.cmbFonts[1].on('selected', _.bind(this.onFontSelect, this));
+            this.cmbFonts[1].setValue(this._state.fontname);
             this.footerControls.push(this.cmbFonts[1]);
             Common.NotificationCenter.on('fonts:change', _.bind(this.onApiChangeFont, this));
 
@@ -650,9 +645,7 @@ define([
             this.api.asc_registerCallback('asc_updateEditorCursorPosition', this.wrapEvents.onUpdateEditorCursorPosition);
 
             this.cmbFonts[0].fillFonts(this.fontStore);
-            this.cmbFonts[0].selectRecord(this.fontStore.findWhere({name: this._state.fontname}) || this.fontStore.at(0));
             this.cmbFonts[1].fillFonts(this.fontStore);
-            this.cmbFonts[1].selectRecord(this.fontStore.findWhere({name: this._state.fontname}) || this.fontStore.at(0));
             this.updateThemeColors();
 
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
@@ -667,12 +660,21 @@ define([
         _setDefaults: function (props) {
             var presets = [];
             this.HFObject.getTextPresetsArr().forEach(function(item, index){
-                presets.push({displayValue: item, value: index});
+                presets.push({caption: item, value: index});
             });
-            this.cmbPresetsH.setData(presets);
-            this.cmbPresetsH.setValue(this.textPresets);
-            this.cmbPresetsF.setData(presets);
-            this.cmbPresetsF.setValue(this.textPresets);
+
+            this.btnPresetsH.setMenu(new Common.UI.Menu({
+                style: 'min-width: 110px;',
+                maxHeight: 200,
+                items: presets
+            }));
+            this.btnPresetsH.menu.on('item:click', _.bind(this.onPresetSelect, this, false));
+            this.btnPresetsF.setMenu(new Common.UI.Menu({
+                style: 'min-width: 110px;',
+                maxHeight: 200,
+                items: presets
+            }));
+            this.btnPresetsF.menu.on('item:click', _.bind(this.onPresetSelect, this, true));
 
             this.chOddPage.setValue(this.HFObject.getDifferentOddEven());
             this.chFirstPage.setValue(this.HFObject.getDifferentFirst());
@@ -797,17 +799,15 @@ define([
             }
         },
 
-        onPresetSelect: function(footer, combo, record) {
-            combo.setValue(this.textPresets);
+        onPresetSelect: function(footer, menu, item) {
             if (this.HFObject)
-                this.HFObject.applyPreset(record.value, !!footer);
+                this.HFObject.applyPreset(item.value, !!footer);
             this.onCanvasClick(footer ? '#footer-left-img' : '#header-left-img');
         },
 
-        onObjectSelect: function(combo, record) {
-            combo.setValue(this.textInsert);
+        onObjectSelect: function(menu, item) {
             if (this.HFObject)
-                this.HFObject.addField(record.value);
+                this.HFObject.addField(item.value);
             this.onCanvasClick(this.currentCanvas);
         },
 
@@ -1015,8 +1015,6 @@ define([
             }
         },
 
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         tipFontName: 'Font',
         tipFontSize: 'Font size',
         textBold:    'Bold',

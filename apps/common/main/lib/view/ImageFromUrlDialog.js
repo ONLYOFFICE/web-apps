@@ -46,7 +46,9 @@ define([
         options: {
             width: 330,
             header: false,
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel'],
+            footerCls: 'right'
         },
 
         initialize : function(options) {
@@ -58,10 +60,6 @@ define([
                         '<label>' + (this.options.title || this.textUrl) + '</label>',
                     '</div>',
                     '<div id="id-dlg-url" class="input-row"></div>',
-                '</div>',
-                '<div class="footer right">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -95,7 +93,7 @@ define([
             var me = this;
             _.delay(function(){
                 me.getChild('input').focus();
-            },500);
+            },100);
         },
 
         onPrimary: function(event) {
@@ -123,8 +121,6 @@ define([
         },
 
         textUrl         : 'Paste an image URL:',
-        cancelButtonText: 'Cancel',
-        okButtonText    : 'Ok',
         txtEmpty        : 'This field is required',
         txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"'
     }, Common.Views.ImageFromUrlDialog || {}));
