@@ -254,8 +254,12 @@ define([
             });
             switch (item.value) {
                 case 'ins':
+                    var arrNames = [];
+                    for(var i = 0; i < arrIndex.length; i++) {
+                        arrNames.push(me.createSheetName(arrNames));
+                    }
                     setTimeout(function () {
-                        me.api.asc_insertWorksheet(me.createSheetName());
+                        me.api.asc_insertWorksheet(arrNames);
                      }, 1);
                     break;
                 case 'del':
@@ -278,7 +282,7 @@ define([
             }
         },
 
-        createSheetName: function() {
+        createSheetName: function(curArrNames) {
             var items = [], wc = this.api.asc_getWorksheetsCount();
             while (wc--) {
                 items.push(this.api.asc_getWorksheetName(wc).toLowerCase());
@@ -288,6 +292,17 @@ define([
             while(++index < 1000) {
                 name = this.strSheet + index;
                 if (items.indexOf(name.toLowerCase()) < 0) break;
+            }
+
+            if (curArrNames && curArrNames.length > 0) {
+                var arr = [];
+                curArrNames.forEach(function (item) {
+                    arr.push(item.toLowerCase());
+                });
+                while(arr.indexOf(name.toLowerCase()) !== -1) {
+                    index++;
+                    name = this.strSheet + index;
+                }
             }
 
             return name;
