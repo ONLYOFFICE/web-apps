@@ -182,18 +182,22 @@ define([
                             me.fireEvent('sheet:changename');
                         }
                     }, this),
-                    'tab:move'          : _.bind(function (tabIndex, index) {
+                    'tab:move'          : _.bind(function (selectTabs, index) {
                         me.tabBarScroll = {scrollLeft: me.tabbar.scrollX};
-
-                        if (_.isUndefined(index) || tabIndex === index) {
+                        if (_.isUndefined(selectTabs) || _.isUndefined(index) || selectTabs === index) {
                             return;
                         }
+                        if (_.isArray(selectTabs)) {
+                            me.fireEvent('sheet:move', [selectTabs, false, true, undefined, index]);
+                        } else {
+                            var tabIndex = selectTabs;
 
-                        if (tabIndex < index) {
-                            ++index;
+                            if (tabIndex < index) {
+                                ++index;
+                            }
+
+                            me.fireEvent('sheet:move', [undefined, false, true, tabIndex, index]);
                         }
-
-                        me.fireEvent('sheet:move', [false, true, tabIndex, index]);
 
                     }, this)
                 });
@@ -241,7 +245,10 @@ define([
                         {
                             caption: this.itemTabColor,
                             menu: menuColorItems
-                        }
+                        },
+                        { caption: '--' },
+                        {caption: this.selectAllSheets,  value: 'selectall'},
+                        {caption: this.ungroupSheets,  value: 'noselect'}
                     ]
                 }).on('render:after', function(btn) {
                         var colorVal = $('<div class="btn-color-value-line"></div>');
@@ -409,7 +416,7 @@ define([
                 // Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false); //  hide popover
             },
 
-            onTabMenu: function (o, index, tab) {
+            onTabMenu: function (o, index, tab, select) {
                 if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                     !this.mode.isDisconnected ) {
@@ -431,6 +438,15 @@ define([
                         this.tabMenu.items[5].setDisabled(issheetlocked);
                         this.tabMenu.items[6].setDisabled(isdoclocked);
                         this.tabMenu.items[7].setDisabled(issheetlocked);
+
+                        if (select.length === 1) {
+                            this.tabMenu.items[10].hide();
+                        } else {
+                            this.tabMenu.items[10].show();
+                        }
+
+                        this.tabMenu.items[9].setDisabled(issheetlocked);
+                        this.tabMenu.items[10].setDisabled(issheetlocked);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
@@ -473,6 +489,11 @@ define([
             onTabMenuClick: function (o, item) {
                 if (item && this.api) {
                     this.enableKeyEvents = (item.value === 'ins' || item.value === 'hide');
+                    if (item.value === 'selectall') {
+                        this.tabbar.setSelectAll(true);
+                    } else if (item.value === 'noselect') {
+                        this.tabbar.setSelectAll(false);
+                    }
                 }
             },
 
@@ -544,7 +565,9 @@ define([
             textMin             : 'MIN',
             textMax             : 'MAX',
             filteredRecordsText : '{0} of {1} records filtered',
-            filteredText        : 'Filter mode'
+            filteredText        : 'Filter mode',
+            selectAllSheets     : 'Select All Sheets',
+            ungroupSheets       : 'Ungroup Sheets'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({
