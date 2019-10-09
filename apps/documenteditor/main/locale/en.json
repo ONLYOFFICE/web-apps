@@ -70,6 +70,7 @@
   "Common.Controllers.ReviewChanges.textUnderline": "Underline",
   "Common.Controllers.ReviewChanges.textWidow": "Widow control",
   "Common.Controllers.ReviewChanges.textUrl": "Paste a document URL",
+  "Common.Controllers.ReviewChanges.textAcceptBeforeCompare": "In order to compare documents all the tracked changes in them will be considered to have been accepted. Do you want to continue?",
   "Common.UI.ComboBorderSize.txtNoBorders": "No borders",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "No borders",
   "Common.UI.ComboDataView.emptyComboText": "No styles",

@@ -125,6 +125,7 @@ define([
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
                 }
+                this.api.asc_registerCallback('asc_onAcceptChangesBeforeCompare',_.bind(this.onAcceptChangesBeforeCompare, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             }
         },
@@ -624,6 +625,22 @@ define([
             }
         },
 
+        onAcceptChangesBeforeCompare: function(callback) {
+            var me = this;
+            Common.UI.warning({
+                width: 550,
+                msg: this.textAcceptBeforeCompare,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: function(result) {
+                    _.defer(function() {
+                        if (callback) callback.call(result=='yes');
+                    });
+                    Common.NotificationCenter.trigger('edit:complete', this.view);
+                }
+            });
+        },
+
         turnDisplayMode: function(mode) {
             if (this.api) {
                 if (mode === 'final')
@@ -893,6 +910,7 @@ define([
         textParaMoveTo: '<b>Moved:</b>',
         textParaMoveFromUp: '<b>Moved Up:</b>',
         textParaMoveFromDown: '<b>Moved Down:</b>',
-        textUrl: 'Paste a document URL'
+        textUrl: 'Paste a document URL',
+        textAcceptBeforeCompare: 'In order to compare documents all the tracked changes in them will be considered to have been accepted. Do you want to continue?'
     }, Common.Controllers.ReviewChanges || {}));
 });
