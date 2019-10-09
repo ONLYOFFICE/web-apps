@@ -84,6 +84,9 @@ define([
             if (!me.currentColor) {
                 me.currentColor = me.options.color;
             }
+            if (me.currentColor === 'transparent') {
+                me.currentColor = 'ffffff';
+            }
             var colorRgb = me.colorHexToRgb(me.currentColor);
             me.currentHsl = me.colorRgbToHsl(colorRgb[0],colorRgb[1],colorRgb[2]);
             me.currentHsb = me.colorHslToHsb(me.currentHsl[0],me.currentHsl[1],me.currentHsl[2]);
