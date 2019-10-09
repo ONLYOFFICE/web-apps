@@ -700,7 +700,7 @@ define([
                 //left = tab.position().left;
                 //right = left + tab.width();
 
-                return !(left < leftbound) && !(right > rightbound);
+                return !(left < leftbound) && !(right - rightbound > 0.1);
             }
 
             return false;
