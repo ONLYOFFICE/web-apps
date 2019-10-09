@@ -190,7 +190,7 @@ define([
         function onUsersClick(e) {
             if ( !$btnUsers.menu ) {
                 $panelUsers.removeClass('open');
-                this.fireEvent('click:users', this);
+                Common.NotificationCenter.trigger('collaboration:sharing');
             } else {
                 var usertip = $btnUsers.data('bs.tooltip');
                 if ( usertip ) {
@@ -245,7 +245,7 @@ define([
             var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
             $labelChangeRights.on('click', function(e) {
                 $panelUsers.removeClass('open');
-                me.fireEvent('click:users', me);
+                Common.NotificationCenter.trigger('collaboration:sharing');
             });
 
             $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();

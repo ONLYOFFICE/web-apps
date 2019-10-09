@@ -1260,7 +1260,7 @@ define([
                 var me = this,
                     application         = this.getApplication(),
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
-                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
                 if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode
                     var toolbarController   = application.getController('Toolbar');
@@ -2074,6 +2074,7 @@ define([
                 var filemenu = this.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 filemenu.loadDocument({doc:this.document});
                 filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
+                this.getApplication().getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.document});
                 Common.Gateway.metaChange(meta);
             },
 

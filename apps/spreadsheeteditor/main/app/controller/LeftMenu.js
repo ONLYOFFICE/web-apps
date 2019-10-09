@@ -56,8 +56,7 @@ define([
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this),
-                    'click:users': _.bind(this.clickStatusbarUsers, this)
+                    'file:settings': _.bind(this.clickToolbarSettings,this)
                 },
                 'LeftMenu': {
                     'file:show': _.bind(this.fileShowHide, this, true),
@@ -432,10 +431,6 @@ define([
         },
 
         /** coauthoring begin **/
-        clickStatusbarUsers: function() {
-            this.leftMenu.menuFile.panels['rights'].changeAccessRights();
-        },
-
         onHideChat: function() {
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
