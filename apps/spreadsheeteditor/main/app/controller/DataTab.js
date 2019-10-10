@@ -249,10 +249,10 @@ define([
                 (new SSE.Views.SortDialog({
                     props: props,
                     api: me.api,
-                    handler: function (result) {
+                    handler: function (result, settings) {
                         if (result == 'ok') {
                             if (me && me.api) {
-
+                                me.api.asc_setSortProps(settings);
                             }
                         }
                     }

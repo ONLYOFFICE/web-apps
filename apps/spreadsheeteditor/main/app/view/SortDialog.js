@@ -71,9 +71,18 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.levels     = [];
 
             this.sortOptions = {};
-            this.sortStore = new Common.UI.DataViewStore();
+
+            this.options.handler = function(result, value) {
+                if ( result != 'ok' || this.isListValid() ) {
+                    if (options.handler)
+                        options.handler.call(this, result, value);
+                    return;
+                }
+                return true;
+            };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -161,8 +170,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.sort_data = [
                     { value: Asc.c_oAscSortOptions.ByValue, displayValue: this.textValues },
                     { value: Asc.c_oAscSortOptions.ByColorFill, displayValue: this.textCellColor },
-                    { value: Asc.c_oAscSortOptions.ByColorFont, displayValue: this.textFontColor },
-                    { value: Asc.c_oAscSortOptions.ByIcon, displayValue: this.textCellIcon }
+                    { value: Asc.c_oAscSortOptions.ByColorFont, displayValue: this.textFontColor }
                 ];
                 this.order_data = [
                     { value: Asc.c_oAscSortOptions.Ascending, displayValue: this.textAZ },
@@ -176,10 +184,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         },
 
         refreshList: function(levels) {
-            this.cmbsColumn = [];
-            this.cmbsSort = [];
-            this.cmbsOrder = [];
-
+            this.levels = [];
             if (levels) {
                 var arr = [];
                 for (var i=0; i<levels.length; i++) {
@@ -201,8 +206,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         addControls: function(listView, itemView, item) {
             if (!item) return;
 
-            var cmpEl = this.sortList.cmpEl;
-            var i = item.get('levelIndex');
+            var me = this,
+                cmpEl = this.sortList.cmpEl,
+                i = item.get('levelIndex');
+            if (!this.levels[i])
+                this.levels[i] = {
+                    order_data: this.order_data
+                };
+            var level = this.levels[i];
             var el = cmpEl.find('#sort-dialog-cmb-col-' + i),
                 combo = new Common.UI.ComboBox({
                     el          : el,
@@ -213,10 +224,12 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     data        : this.column_data
                 }).on('selected', function(combo, record) {
                     item.set('columnIndex', record.value);
+                    level.levelProps = me.props.asc_getLevelProps(record.value);
+                    me.updateOrderList(i);
                 });
             var val = item.get('columnIndex');
             (val!==null) && combo.setValue(item.get('columnIndex'));
-            this.cmbsColumn[i] = combo;
+            level.cmbColumn = combo;
 
             el = cmpEl.find('#sort-dialog-cmb-sort-' + i);
             combo = new Common.UI.ComboBox({
@@ -227,10 +240,11 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 data        : this.sort_data
             }).on('selected', function(combo, record) {
                 item.set('sort', record.value);
+                me.updateOrderList(i);
             });
             val = item.get('sort');
             (val!==null) && combo.setValue(val);
-            this.cmbsSort[i] = combo;
+            level.cmbSort = combo;
 
             el = cmpEl.find('#sort-dialog-cmb-order-' + i);
             combo = new Common.UI.ComboBox({
@@ -238,13 +252,13 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 editable    : false,
                 cls         : 'input-group-nr',
                 menuCls     : 'menu-absolute',
-                data        : this.order_data
+                data        : level.order_data
             }).on('selected', function(combo, record) {
                 item.set('order', record.value);
             });
             val = item.get('order');
             (val!==null) && combo.setValue(val);
-            this.cmbsOrder[i] = combo;
+            level.cmbOrder = combo;
         },
 
         onOptions: function () {
@@ -271,20 +285,27 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             var values = this.props.asc_getSortList();
             this.column_data = [];
             for (var i=0; i<values.length; i++) {
-                this.column_data.push({ value: values[i], displayValue: values[i] });
+                this.column_data.push({ value: i, displayValue: values[i] });
             }
-            for (var i=0; i<this.cmbsColumn.length; i++) {
-                var cmb = this.cmbsColumn[i];
-                if (!cmb) continue;
-                cmb.setData(this.column_data);
-            }
+            var me = this;
+            this.sortList.store.each(function(item) {
+                var columnIndex = (item.get('sort')==Asc.c_oAscSortOptions.ByValue) ? null : 0,
+                    levelIndex = item.get('levelIndex');
+                item.set('columnIndex', columnIndex, {silent: true} );
+                item.set('order', Asc.c_oAscSortOptions.Ascending, {silent: true} );
+                me.levels[levelIndex].levelProps = (columnIndex!==null) ? me.props.asc_getLevelProps(columnIndex) : undefined;
+                me.addControls(null, null, item);
+                me.updateOrderList(levelIndex);
+
+            });
         },
 
         onAddLevel: function() {
             var store = this.sortList.store,
                 rec = this.sortList.getSelectedRec();
             rec = store.add({
-                levelIndex: this.cmbsColumn.length,
+                columnIndex: null,
+                levelIndex: this.levels.length,
                 sort: Asc.c_oAscSortOptions.ByValue,
                 order: Asc.c_oAscSortOptions.Ascending
             }, {at: rec ? store.indexOf(rec)+1 : store.length});
@@ -299,8 +320,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             var store = this.sortList.store,
                 rec = this.sortList.getSelectedRec();
             rec = store.add({
-                levelIndex: this.cmbsColumn.length,
-                columnIndex: rec ? rec.get('columnIndex') : '',
+                levelIndex: this.levels.length,
+                columnIndex: rec ? rec.get('columnIndex') : null,
                 sort: rec ? rec.get('sort') : Asc.c_oAscSortOptions.ByValue,
                 order: rec ? rec.get('order') : Asc.c_oAscSortOptions.Ascending,
                 color: rec ? rec.get('color') : null
@@ -317,10 +338,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 rec = this.sortList.getSelectedRec();
             if (rec) {
                 var index = rec.get('levelIndex');
-                this.cmbsColumn[index] = undefined;
-                this.cmbsSort[index] = undefined;
-                this.cmbsOrder[index] = undefined;
-
+                this.levels[index] = undefined;
                 index = store.indexOf(rec);
                 store.remove(rec);
                 (store.length>0) && this.sortList.selectByIndex(index<store.length ? index : store.length-1);
@@ -346,17 +364,52 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.updateMoveButtons();
         },
 
+        updateOrderList: function(levelIndex) {
+            var level = this.levels[levelIndex],
+                istext = level.levelProps ? level.levelProps.asc_getIsTextData() : true,
+                iscolor = (level.cmbSort.getValue() !== Asc.c_oAscSortOptions.ByValue),
+                order = level.cmbOrder.getValue();
+            level.order_data = [
+                { value: Asc.c_oAscSortOptions.Ascending, displayValue: (iscolor) ? (this.sortOptions.sortcol ? this.textTop : this.textLeft) : (istext ? this.textAZ : this.textAsc) },
+                { value: Asc.c_oAscSortOptions.Descending, displayValue: (iscolor) ? (this.sortOptions.sortcol ? this.textBelow : this.textRight): (istext ? this.textZA : this.textDesc)}
+            ];
+            level.cmbOrder.setData(level.order_data);
+            level.cmbOrder.setValue(order);
+        },
+
         getSettings: function() {
             var props = new Asc.CSortProperties();
             props.asc_setHasHeaders(this.sortOptions.headers);
             // props.asc_setCaseSensitive(this.sortOptions.sensitive);
             props.asc_setColumnSort(this.sortOptions.sortcol);
 
-            return {};
+            var me = this,
+                arr = [];
+            this.sortList.store.each(function(item) {
+                var columnIndex = item.get('columnIndex'),
+                    levelProp = me.levels[item.get('levelIndex')];
+                if (columnIndex!==null && levelProp) {
+                    var level = new Asc.CSortPropertiesLevel();
+                    level.asc_setIndex(columnIndex);
+                    level.asc_setSortBy(levelProp.cmbSort.getValue());
+                    level.asc_setDescending(levelProp.cmbOrder.getValue());
+                    // level.asc_setColor(level.color);
+                    arr.push[level];
+                }
+            });
+            props.asc_setLevels(arr);
+            return props;
+        },
+
+        isListValid: function() {
+            var rec = this.sortList.store.findWhere({columnIndex: null});
+            if (rec)
+                Common.UI.warning({msg: this.errorEmpty});
+            return !rec;
         },
 
         close: function () {
-            Common.UI.Window.prototype.close.call(this);
+            Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
         },
 
         onKeyDown: function (lisvView, record, e) {
@@ -395,7 +448,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         textFontColor: 'Font color',
         textCellIcon: 'Cell icon',
         textAZ: 'A to Z',
-        textZA: 'Z to A'
+        textZA: 'Z to A',
+        textDesc: 'Descending',
+        textAsc: 'Ascending',
+        textTop: 'Top',
+        textBelow: 'Below',
+        textLeft: 'Left',
+        textRight: 'Right',
+        errorEmpty: 'All sort criteria must have a column or row specified.'
 
     }, SSE.Views.SortDialog || {}));
 });
