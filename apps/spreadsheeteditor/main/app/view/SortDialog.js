@@ -394,7 +394,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     level.asc_setSortBy(levelProp.cmbSort.getValue());
                     level.asc_setDescending(levelProp.cmbOrder.getValue());
                     // level.asc_setColor(level.color);
-                    arr.push[level];
+                    arr.push(level);
                 }
             });
             props.asc_setLevels(arr);
