@@ -254,6 +254,7 @@ define([
             },
 
             showBorderColor: function () {
+                var me = this;
                 var selector = '#edit-chart-border-color-view';
                 this.showPage(selector, true);
 
