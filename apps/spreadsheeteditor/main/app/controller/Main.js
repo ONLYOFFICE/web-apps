@@ -1355,6 +1355,10 @@ define([
                         config.msg = this.errorLabledColumnsPivot;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotOverlap:
+                        config.msg = this.errorPivotOverlap;
+                        break;
+
                     case Asc.c_oAscError.ID.ForceSaveButton:
                         config.msg = this.errorForceSave;
                         break;
@@ -2441,7 +2445,8 @@ define([
             txtTab: 'Tab',
             txtFile: 'File',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-            errorLabledColumnsPivot: 'To create a pivot table, you must use data that is organized as a list with labeled columns.'
+            errorLabledColumnsPivot: 'To create a pivot table report, you must use data that is organized as a list with labeled columns.',
+            errorPivotOverlap: 'A pivot table report cannot overlap a table.'
         }
     })(), SSE.Controllers.Main || {}))
 });

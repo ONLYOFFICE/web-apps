@@ -211,21 +211,20 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
 
                 this.chHeaders.setValue(props.asc_getShowHeaders(), true);
 
-                // var value = props.getRange();
-                // this.txtDataRange.setValue((value) ? value : '');
-                // this.dataRangeValid = value;
+                var value = props.asc_getDataRef();
+                this.txtDataRange.setValue((value) ? value : '');
+                this.dataRangeValid = value;
 
                 this.txtDataRange.validation = function(value) {
-                    // var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, value, false);
-                    // return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                    return true;
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableData, value, false);
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 };
 
-                // var value = props.asc_getTitle();
-                // this.inputAltTitle.setValue(value ? value : '');
-                //
-                // value = props.asc_getDescription();
-                // this.textareaAltDescription.val(value ? value : '');
+                value = props.asc_getTitle();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.asc_getDescription();
+                this.textareaAltDescription.val(value ? value : '');
             }
         },
 
@@ -237,11 +236,12 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
             props.asc_setPageOverThenDown(this.radioOver.getValue());
             props.asc_setPageWrap(this.numWrap.getNumberValue());
             props.asc_setShowHeaders(this.chHeaders.getValue() == 'checked');
+            props.asc_setDataRef(this.txtDataRange.getValue());
 
-            // if (this.isAltTitleChanged)
-            //     props.asc_putTitle(this.inputAltTitle.getValue());
-            // if (this.isAltDescChanged)
-            //     props.asc_putDescription(this.textareaAltDescription.val());
+            if (this.isAltTitleChanged)
+                props.asc_setTitle(this.inputAltTitle.getValue());
+            if (this.isAltDescChanged)
+                props.asc_setDescription(this.textareaAltDescription.val());
 
             return props;
         },
@@ -254,8 +254,8 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                 isvalid = false;
                 txtError = this.txtEmpty;
             } else {
-                // isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, this.txtDataRange.getValue());
-                // isvalid = (isvalid == Asc.c_oAscError.ID.No);
+                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableData, this.txtDataRange.getValue());
+                isvalid = (isvalid == Asc.c_oAscError.ID.No);
                 !isvalid && (txtError = this.textInvalidRange);
             }
             if (!isvalid) {
@@ -290,7 +290,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.Pivot
+                    type    : Asc.c_oAscSelectionDialogType.PivotTableData
                 });
             }
         },

@@ -191,15 +191,14 @@ define([
                 this.txtSourceRange.setValue((value) ? value : '');
                 this.dataSourceValid = value;
 
+                var me = this;
                 this.txtSourceRange.validation = function(value) {
-                    // var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, value, false);
-                    // return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                    return true;
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableData, value, false);
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 };
                 this.txtDestRange.validation = function(value) {
-                    // var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, value, false);
-                    // return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                    return true;
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableReport, value, false);
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 };
             }
         },
@@ -219,8 +218,8 @@ define([
                 isvalid = false;
                 txtError = this.txtEmpty;
             } else {
-                // isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, this.txtSourceRange.getValue());
-                // isvalid = (isvalid == Asc.c_oAscError.ID.No);
+                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableData, this.txtSourceRange.getValue());
+                isvalid = (isvalid == Asc.c_oAscError.ID.No);
                 !isvalid && (txtError = this.textInvalidRange);
             }
             if (!isvalid) {
@@ -234,8 +233,8 @@ define([
                     isvalid = false;
                     txtError = this.txtEmpty;
                 } else {
-                    // isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, this.txtDestRange.getValue());
-                    // isvalid = (isvalid == Asc.c_oAscError.ID.No);
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableReport, this.txtDestRange.getValue());
+                    isvalid = (isvalid == Asc.c_oAscError.ID.No);
                     !isvalid && (txtError = this.textInvalidRange);
                 }
                 if (!isvalid) {
@@ -274,7 +273,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='source') ? me.dataSourceValid : me.dataDestValid),
-                    type    : Asc.c_oAscSelectionDialogType.Pivot
+                    type    : (type=='source') ? Asc.c_oAscSelectionDialogType.PivotTableData : Asc.c_oAscSelectionDialogType.PivotTableReport
                 });
             }
         },
