@@ -49,7 +49,7 @@ define([
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 340
+            height: 220
         },
 
         initialize : function(options) {
@@ -75,40 +75,31 @@ define([
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td colspan="2" class="padding-small">',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
                             '<td colspan="2" class="padding-large">',
                                 '<label class="header">', me.txtSummarize,'</label>',
                                 '<div id="value-field-settings-summarize" class="input-group-nr" style="width:264px;"></div>',
                             '</td>',
                         '</tr>',
-                        '<tr>',
-                            '<td colspan="2" class="padding-small">',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
-                            '<td colspan="2" class="padding-large">',
-                                '<label class="header">', me.txtShowAs,'</label>',
-                                '<div id="value-field-settings-showas" class="input-group-nr" style="width:264px;"></div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr class="format-code">',
-                            '<td>',
-                                '<label class="header">', me.txtBaseField,'</label>',
-                                '<div id="value-field-settings-field" class="input-group-nr" style="width:125px;"></div>',
-                            '</td>',
-                            '<td>',
-                                '<label class="header">', me.txtBaseItem,'</label>',
-                                '<div id="value-field-settings-item" class="input-group-nr" style="width:125px;"></div>',
-                            '</td>',
-                        '</tr>',
+                        // '<tr>',
+                        //     '<td colspan="2" class="padding-large">',
+                        //         '<label class="header">', me.txtShowAs,'</label>',
+                        //         '<div id="value-field-settings-showas" class="input-group-nr" style="width:264px;"></div>',
+                        //     '</td>',
+                        // '</tr>',
+                        // '<tr class="format-code">',
+                        //     '<td>',
+                        //         '<label class="header">', me.txtBaseField,'</label>',
+                        //         '<div id="value-field-settings-field" class="input-group-nr" style="width:128px;"></div>',
+                        //     '</td>',
+                        //     '<td style="float: right;">',
+                        //         '<label class="header">', me.txtBaseItem,'</label>',
+                        //         '<div id="value-field-settings-item" class="input-group-nr" style="width:128px;"></div>',
+                        //     '</td>',
+                        // '</tr>',
                     '</table>',
                     '</div></div>',
                     '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"/>'
+                    '</div>'
                 ].join('')
             }, options);
 
@@ -135,7 +126,8 @@ define([
             this.cmbSummarize = new Common.UI.ComboBox({
                 el: $('#value-field-settings-summarize'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;',
+                menuStyle: 'min-width: 264px;max-height:160px;',
+                scrollAlwaysVisible: true,
                 editable: false,
                 data: [
                     { value: Asc.c_oAscDataConsolidateFunction.Sum,     displayValue: this.txtSum },
@@ -154,10 +146,11 @@ define([
             this.cmbSummarize.setValue(Asc.c_oAscDataConsolidateFunction.Sum);
             this.cmbSummarize.on('selected', _.bind(this.onSummarizeSelect, this));
 
+            /*
             this.cmbShowAs = new Common.UI.ComboBox({
                 el: $('#value-field-settings-showas'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;',
+                menuStyle: 'min-width: 264px;max-height:160px;',
                 editable: false,
                 data: [
                     { value: Asc.c_oAscShowDataAs.Normal,           displayValue: this.txtNormal },
@@ -177,7 +170,7 @@ define([
             this.cmbBaseField = new Common.UI.ComboBox({
                 el: $('#value-field-settings-field'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:235px;',
+                menuStyle: 'min-width: 100%;max-height:160px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -187,12 +180,13 @@ define([
             this.cmbBaseItem = new Common.UI.ComboBox({
                 el: $('#value-field-settings-item'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:235px;',
+                menuStyle: 'min-width: 100%;max-height:160px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
             });
             this.cmbBaseItem.on('selected', _.bind(this.onBaseItemSelect, this));
+            */
 
             this.lblSourceName = this.$window.find('#value-field-settings-source');
 
@@ -210,15 +204,15 @@ define([
         _setDefaults: function (props) {
             if (props) {
                 var field = this.field,
-                    cache_names = props.asc_getCacheFields(),
-                    show_as = field.asc_getShowDataAs();
+                    cache_names = props.asc_getCacheFields();
 
                 this.lblSourceName.html(Common.Utils.String.htmlEncode(cache_names[field.asc_getIndex()].asc_getName()));
                 this.inputCustomName.setValue(Common.Utils.String.htmlEncode(field.asc_getName()));
-
                 this.cmbSummarize.setValue(field.asc_getSubtotal());
-                this.cmbShowAs.setValue(show_as);
 
+                /*
+                var show_as = field.asc_getShowDataAs();
+                this.cmbShowAs.setValue(show_as);
                 var data = [];
                 this.names.forEach(function(item){
                     data.push({value: item, displayValue: item});
@@ -231,6 +225,7 @@ define([
                 // this.cmbBaseItem.setData(data);
                 this.cmbBaseItem.setDisabled(show_as != c_oAscShowDataAs.Difference && show_as != c_oAscShowDataAs.Percent &&
                                              show_as != c_oAscShowDataAs.PercentDiff);
+                */
             }
         },
 
@@ -262,6 +257,9 @@ define([
         },
 
         onShowAsSelect: function(combo, record) {
+            // var show_as = record.value;
+            // this.cmbBaseField.setDisabled(show_as != c_oAscShowDataAs.Difference && show_as != c_oAscShowDataAs.Percent &&
+            //     show_as != c_oAscShowDataAs.PercentDiff && show_as != c_oAscShowDataAs.RunTotal);
         },
 
         onBaseFieldSelect: function(combo, record) {
