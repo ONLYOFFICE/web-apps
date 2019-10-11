@@ -483,22 +483,22 @@ define([
                         caption     : this.txtMoveFilter,
                         checkable   : false
                     });
-                    // this.miMoveFilter.on('click', _.bind(this.onMoveFilter, this));
+                    this.miMoveFilter.on('click', _.bind(this.onMoveTo, this, 3));
                     this.miMoveRow = new Common.UI.MenuItem({
                         caption     : this.txtMoveRow,
                         checkable   : false
                     });
-                    // this.miMoveRow.on('click', _.bind(this.onMoveRow, this));
+                    this.miMoveRow.on('click', _.bind(this.onMoveTo, this, 1));
                     this.miMoveColumn = new Common.UI.MenuItem({
                         caption     : this.txtMoveColumn,
                         checkable   : false
                     });
-                    // this.miMoveColumn.on('click', _.bind(this.onMoveColumn, this));
+                    this.miMoveColumn.on('click', _.bind(this.onMoveTo, this, 0));
                     this.miMoveValues = new Common.UI.MenuItem({
                         caption     : this.txtMoveValues,
                         checkable   : false
                     });
-                    // this.miMoveValues.on('click', _.bind(this.onMoveValues, this));
+                    this.miMoveValues.on('click', _.bind(this.onMoveTo, this, 2));
 
                     this.miRemove = new Common.UI.MenuItem({
                         caption     : this.txtRemove,
@@ -657,7 +657,10 @@ define([
 
         onRemove: function() {
             if (this.api && !this._locked && this._state.field){
-                this._originalProps.asc_removeField(this.api, this._state.field.record.get('pivotIndex'));
+                if (this._state.field.type==2) // value
+                    this._originalProps.asc_removeDataField(this.api, this._state.field.record.get('pivotIndex'), this._state.field.record.get('index'));
+                else
+                    this._originalProps.asc_removeNoDataField(this.api, this._state.field.record.get('pivotIndex'));
             }
         },
 
@@ -703,6 +706,27 @@ define([
                 case 3:
                     this._originalProps.asc_movePageField(this.api, from, to);
                     break;
+            }
+        },
+
+        onMoveTo: function(type) {
+            if (this.api && !this._locked && this._state.field){
+                var pivotIndex = this._state.field.record.get('pivotIndex'),
+                    index = (this._state.field.type==2) ? this._state.field.record.get('index') : undefined;
+                switch (type) {
+                    case 0:
+                        this._originalProps.asc_moveToColField(this.api, pivotIndex, index);
+                        break;
+                    case 1:
+                        this._originalProps.asc_moveToRowField(this.api, pivotIndex, index);
+                        break;
+                    case 2:
+                        this._originalProps.asc_moveToDataField(this.api, pivotIndex, index);
+                        break;
+                    case 3:
+                        this._originalProps.asc_moveToPageField(this.api, pivotIndex, index);
+                        break;
+                }
             }
         },
         

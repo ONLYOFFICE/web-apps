@@ -141,6 +141,7 @@ define([
                 style       : 'width: 100%;',
                 allowBlank  : true,
                 validateOnChange: true,
+                validateOnBlur: false,
                 disabled: true
             });
 
@@ -158,6 +159,7 @@ define([
             }).on('change', function(field, newValue) {
                 me.txtDestRange.setDisabled(newValue);
                 me.btnSelectDest.setDisabled(newValue);
+                me.txtDestRange.showError();
             });
 
             this.radioExist = new Common.UI.RadioBox({
@@ -167,6 +169,7 @@ define([
             }).on('change', function(field, newValue) {
                 me.txtDestRange.setDisabled(!newValue);
                 me.btnSelectDest.setDisabled(!newValue);
+                me.txtDestRange.cmpEl.find('input').focus();
             });
 
             this.afterRender();
