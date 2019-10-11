@@ -376,6 +376,7 @@ define([
                                 {caption: me.mniSettings, value: 'settings'}
                             ]
                         }));
+                        me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
                         me.btnCompare.updateHint(me.tipCompare);
 
                         me.btnAccept.setDisabled(config.isReviewOnly);

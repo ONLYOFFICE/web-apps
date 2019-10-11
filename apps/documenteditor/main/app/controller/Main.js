@@ -351,6 +351,7 @@ define([
                 this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
                 this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
+                this.appOptions.canRequestCompareFile = this.editorConfig.canRequestCompareFile;
                 this.appOptions.canRequestMailMergeRecipients = this.editorConfig.canRequestMailMergeRecipients;
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
@@ -1384,6 +1385,18 @@ define([
                         config.msg = this.uploadImageFileCountMessage;
                         break;
 
+                    case Asc.c_oAscError.ID.UplDocumentSize:
+                        config.msg = this.uploadDocSizeMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentExt:
+                        config.msg = this.uploadDocExtMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentFileCount:
+                        config.msg = this.uploadDocFileCountMessage;
+                        break;
+
                     case Asc.c_oAscError.ID.SplitCellMaxRows:
                         config.msg = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
                         break;
@@ -2157,7 +2170,7 @@ define([
             uploadImageTextText: 'Uploading image...',
             savePreparingText: 'Preparing to save',
             savePreparingTitle: 'Preparing to save. Please wait...',
-            uploadImageSizeMessage: 'Maximium image size limit exceeded.',
+            uploadImageSizeMessage: 'Maximum image size limit exceeded.',
             uploadImageExtMessage: 'Unknown image format.',
             uploadImageFileCountMessage: 'No images uploaded.',
             reloadButtonText: 'Reload Page',
@@ -2473,7 +2486,10 @@ define([
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
             txtMainDocOnly: 'Error! Main Document Only.',
             txtNotValidBookmark: 'Error! Not a valid bookmark self-reference.',
-            txtNoText: 'Error! No text of specified style in document.'
+            txtNoText: 'Error! No text of specified style in document.',
+            uploadDocSizeMessage: 'Maximum document size limit exceeded.',
+            uploadDocExtMessage: 'Unknown document format.',
+            uploadDocFileCountMessage: 'No documents uploaded.'
         }
     })(), DE.Controllers.Main || {}))
 });

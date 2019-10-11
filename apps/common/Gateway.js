@@ -118,6 +118,10 @@ if (Common === undefined) {
 
             'setMailMergeRecipients': function(data) {
                 $me.trigger('setmailmergerecipients', data);
+            },
+
+            'compareFile': function(data) {
+                $me.trigger('comparefile', data);
             }
         };
 
@@ -306,6 +310,10 @@ if (Common === undefined) {
 
             requestMailMergeRecipients:  function () {
                 _postMessage({event:'onRequestMailMergeRecipients'})
+            },
+
+            requestCompareFile:  function () {
+                _postMessage({event:'onRequestCompareFile'})
             },
 
             on: function(event, handler){

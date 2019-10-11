@@ -127,6 +127,8 @@ define([
                 }
                 this.api.asc_registerCallback('asc_onAcceptChangesBeforeCompare',_.bind(this.onAcceptChangesBeforeCompare, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
+
+                Common.Gateway.on('comparefile', _.bind(this.compareFile, this));
             }
         },
 
@@ -593,13 +595,13 @@ define([
                         }
                     })).show();
                 } else if (item === 'storage') {
-                    // if (this.toolbar.mode.canRequestInsertImage) {
-                    //     Common.Gateway.requestInsertImage();
+                    // if (this.appConfig.canRequestCompareFile) {
+                    //     Common.Gateway.requestCompareFile();
                     // } else {
                     //     (new Common.Views.SelectFileDlg({
-                    //         fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                    //     })).on('selectfile', function(obj, file){
-                    //         me.selectFile(file, me._state.compareSettings);
+                    //         fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "DocumentsOnly")
+                    //     })).on('comparefile', function(obj, file){
+                    //         me.compareFile(file, me._state.compareSettings);
                     //     }).show();
                     // }
                 } else if (item === 'settings') {
@@ -619,9 +621,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        selectFile: function(data) {
+        compareFile: function(data) {
+            if (!this._state.compareSettings) {
+                this._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
+            }
             if (data && data.url) {
-                // this.api.AddDocumentUrl(data.url, this._state.compareSettings, data.token);// for loading from storage
+                this.api.asc_CompareDocumentUrl(data.url, this._state.compareSettings, data.token);// for loading from storage
             }
         },
 
