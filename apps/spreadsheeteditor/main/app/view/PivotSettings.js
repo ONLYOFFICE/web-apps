@@ -532,19 +532,21 @@ define([
                     });
                 }
 
-                this.miMoveFilter.setDisabled(type == 3); // menu for filter
-                this.miMoveRow.setDisabled(type == 1); // menu for row
-                this.miMoveColumn.setDisabled(type == 0); // menu for column
-                this.miMoveValues.setDisabled(type == 2); // menu for value
 
                 var recIndex = (record != undefined) ? record.get('index') : -1,
-                    len = picker.store.length;
+                    len = picker.store.length,
+                    pivotIndex = record.get('pivotIndex');
                 this.miMoveUp.setDisabled(recIndex<1);
                 this.miMoveDown.setDisabled(recIndex>len-2 || recIndex<0);
                 this.miMoveBegin.setDisabled(recIndex<1);
                 this.miMoveEnd.setDisabled(recIndex>len-2 || recIndex<0);
 
-                this.miFieldSettings.setDisabled(record.get('pivotIndex')==-2);
+                this.miMoveFilter.setDisabled(type == 3 || pivotIndex==-2); // menu for filter
+                this.miMoveRow.setDisabled(type == 1); // menu for row
+                this.miMoveColumn.setDisabled(type == 0); // menu for column
+                this.miMoveValues.setDisabled(type == 2 || pivotIndex==-2); // menu for value
+
+                this.miFieldSettings.setDisabled(pivotIndex==-2);
 
                 var menu = this.fieldsMenu,
                     showPoint, me = this,
