@@ -169,7 +169,7 @@ define([
                 tab = this.statusbar.tabbar.getAt(i);
                 if (index == tab.sheetindex) {
                     tab[locked?'addClass':'removeClass']('coauth-locked');
-                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
+                    //tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
                     break;
                 }
             }
@@ -240,7 +240,7 @@ define([
                 if (item.sheetindex !== currentIdx) {
                     item.disable(mode==Asc.c_oAscSelectionDialogType.FormatTable);
                 }
-                item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=Asc.c_oAscSelectionDialogType.None));
+                //item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=Asc.c_oAscSelectionDialogType.None));
             }
             this.statusbar.rangeSelectionMode = mode;
         },

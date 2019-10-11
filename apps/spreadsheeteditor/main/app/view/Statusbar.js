@@ -329,7 +329,7 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked
+//                          isLockTheDrag : locked
                         };
 
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
@@ -434,7 +434,7 @@ define([
                         this.tabMenu.items[1].setDisabled(issheetlocked);
                         this.tabMenu.items[2].setDisabled(issheetlocked);
                         this.tabMenu.items[3].setDisabled(issheetlocked);
-                        this.tabMenu.items[4].setDisabled(issheetlocked);
+                        this.tabMenu.items[4].setDisabled(isdoclocked);
                         this.tabMenu.items[5].setDisabled(issheetlocked);
                         this.tabMenu.items[6].setDisabled(isdoclocked);
                         this.tabMenu.items[7].setDisabled(issheetlocked);
@@ -445,8 +445,8 @@ define([
                             this.tabMenu.items[10].show();
                         }
 
-                        this.tabMenu.items[9].setDisabled(issheetlocked);
-                        this.tabMenu.items[10].setDisabled(issheetlocked);
+                        this.tabMenu.items[9].setDisabled(isdoclocked);
+                        this.tabMenu.items[10].setDisabled(isdoclocked);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
