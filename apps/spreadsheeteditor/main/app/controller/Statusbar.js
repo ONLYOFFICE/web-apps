@@ -149,8 +149,8 @@ define([
         /** coauthoring begin **/
         onWorkbookLocked: function(locked) {
             this.statusbar.tabbar[locked?'addClass':'removeClass']('coauth-locked');
-            this.statusbar.btnAddWorksheet.setDisabled(locked || this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.Chart ||
-                                                                 this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
+            this.statusbar.btnAddWorksheet.setDisabled(locked || this.api.isCellEdited || this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.Chart ||
+                                                                                          this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
@@ -206,6 +206,7 @@ define([
             statusbar.btnZoomUp.setDisabled(disable);
             statusbar.btnZoomDown.setDisabled(disable);
             statusbar.labelZoom[disable?'addClass':'removeClass']('disabled');
+            statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
 
             if (disableAdd && mask.length>0 || !disableAdd && mask.length==0) return;
             statusbar.$el.find('.statusbar').toggleClass('masked', disableAdd);
@@ -232,7 +233,7 @@ define([
         onRangeDialogMode: function (mode) {
             var islocked = this.statusbar.tabbar.hasClass('coauth-locked'),
                 currentIdx = this.api.asc_getActiveWorksheetIndex();
-            this.statusbar.btnAddWorksheet.setDisabled(islocked || mode!=Asc.c_oAscSelectionDialogType.None);
+            this.statusbar.btnAddWorksheet.setDisabled(islocked || this.api.isCellEdited || mode!=Asc.c_oAscSelectionDialogType.None);
 
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
