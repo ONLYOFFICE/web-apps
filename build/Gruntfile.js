@@ -102,10 +102,29 @@ module.exports = function(grunt) {
     }
 
     function doRegisterInitializeAppTask(name, appName, configFile) {
-        if ( !!process.env['EXTRA_CONFIG_PATH'] &&
-                grunt.file.exists(process.env['EXTRA_CONFIG_PATH'] + '/' + configFile) )
+        if (!!process.env['BRANDING_PATH'] &&
+                grunt.file.exists(process.env['BRANDING_PATH'] + '/' + configFile))
         {
-            var _extConfig = require(process.env['EXTRA_CONFIG_PATH'] + '/' + configFile);
+            var _extConfig = require(process.env['BRANDING_PATH'] + '/' + configFile);
+        }
+
+        function _merge(target, ...sources) {
+            if (!sources.length) return target;
+            const source = sources.shift();
+
+            if (_.isObject(target) && _.isObject(source)) {
+                for (const key in source) {
+                    if (_.isObject(source[key])) {
+                        if (!target[key]) Object.assign(target, { [key]: {} });
+                        else if (_.isArray(source[key])) target[key].push(...source[key]);
+                        else _merge(target[key], source[key]);
+                    } else {
+                        Object.assign(target, { [key]: source[key] });
+                    }
+                }
+            }
+
+            return _merge(target, ...sources);
         }
 
         return grunt.registerTask('init-build-' + name, 'Initialize build ' + appName, function(){
@@ -116,25 +135,6 @@ module.exports = function(grunt) {
                 grunt.log.ok(appName + ' config loaded successfully'.green);
 
                 if ( !!_extConfig && _extConfig.name == packageFile.name ) {
-                    function _merge(target, ...sources) {
-                        if (!sources.length) return target;
-                        const source = sources.shift();
-
-                        if (_.isObject(target) && _.isObject(source)) {
-                            for (const key in source) {
-                                if (_.isObject(source[key])) {
-                                    if (!target[key]) Object.assign(target, { [key]: {} });
-                                    else if (_.isArray(source[key])) target[key].push(...source[key]);
-                                    else _merge(target[key], source[key]);
-                                } else {
-                                    Object.assign(target, { [key]: source[key] });
-                                }
-                            }
-                        }
-
-                        return _merge(target, ...sources);
-                    }
-
                     _merge(packageFile, _extConfig);
                 }
             } else grunt.log.error().writeln('Could not load config file'.red);
