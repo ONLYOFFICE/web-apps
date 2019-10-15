@@ -595,14 +595,15 @@ define([
                         }
                     })).show();
                 } else if (item === 'storage') {
+                    var me = this;
                     // if (this.appConfig.canRequestCompareFile) {
                     //     Common.Gateway.requestCompareFile();
                     // } else {
-                    //     (new Common.Views.SelectFileDlg({
-                    //         fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "DocumentsOnly")
-                    //     })).on('comparefile', function(obj, file){
-                    //         me.compareFile(file, me._state.compareSettings);
-                    //     }).show();
+                        (new Common.Views.SelectFileDlg({
+                            fileChoiceUrl: this.appConfig.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "DocumentsOnly")
+                        })).on('selectfile', function(obj, file){
+                            me.compareFile(file, me._state.compareSettings);
+                        }).show();
                     // }
                 } else if (item === 'settings') {
                     var me = this;
