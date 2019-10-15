@@ -120,8 +120,8 @@ if (Common === undefined) {
                 $me.trigger('setmailmergerecipients', data);
             },
 
-            'compareFile': function(data) {
-                $me.trigger('comparefile', data);
+            'setRevisedFile': function(data) {
+                $me.trigger('setrevisedfile', data);
             }
         };
 

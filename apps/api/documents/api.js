@@ -576,6 +576,13 @@
             });
         };
 
+        var _setRevisedFile = function(data) {
+            _sendCommand({
+                command: 'setRevisedFile',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -620,7 +627,8 @@
             showSharingSettings : _showSharingSettings,
             setSharingSettings  : _setSharingSettings,
             insertImage         : _insertImage,
-            setMailMergeRecipients: _setMailMergeRecipients
+            setMailMergeRecipients: _setMailMergeRecipients,
+            setRevisedFile      : _setRevisedFile
         }
     };
 

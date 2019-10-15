@@ -128,7 +128,7 @@ define([
                 this.api.asc_registerCallback('asc_onAcceptChangesBeforeCompare',_.bind(this.onAcceptChangesBeforeCompare, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
 
-                Common.Gateway.on('comparefile', _.bind(this.compareFile, this));
+                Common.Gateway.on('setrevisedfile', _.bind(this.setRevisedFile, this));
             }
         },
 
@@ -570,6 +570,7 @@ define([
 
         onCompareClick: function(item) {
             if (this.api) {
+                var me = this;
                 if (!this._state.compareSettings) {
                     this._state.compareSettings = new AscCommonWord.ComparisonOptions();
                     this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
@@ -579,7 +580,6 @@ define([
                         this.api.asc_CompareDocumentFile(this._state.compareSettings);
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
-                    var me = this;
                     (new Common.Views.ImageFromUrlDialog({
                         title: me.textUrl,
                         handler: function(result, value) {
@@ -595,18 +595,16 @@ define([
                         }
                     })).show();
                 } else if (item === 'storage') {
-                    var me = this;
-                    // if (this.appConfig.canRequestCompareFile) {
-                    //     Common.Gateway.requestCompareFile();
-                    // } else {
+                    if (this.appConfig.canRequestCompareFile) {
+                        Common.Gateway.requestCompareFile();
+                    } else {
                         (new Common.Views.SelectFileDlg({
                             fileChoiceUrl: this.appConfig.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "DocumentsOnly")
                         })).on('selectfile', function(obj, file){
-                            me.compareFile(file, me._state.compareSettings);
+                            me.setRevisedFile(file, me._state.compareSettings);
                         }).show();
-                    // }
+                    }
                 } else if (item === 'settings') {
-                    var me = this;
                     (new DE.Views.CompareSettingsDialog({
                         props: me._state.compareSettings,
                         handler: function(result, value) {
@@ -622,7 +620,7 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        compareFile: function(data) {
+        setRevisedFile: function(data) {
             if (!this._state.compareSettings) {
                 this._state.compareSettings = new AscCommonWord.ComparisonOptions();
                 this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
