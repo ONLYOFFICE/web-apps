@@ -350,6 +350,14 @@ define([
                 ]
             });
 
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
+                    '<%= scope.getDisplayValue(item) %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join(''));
             this.cmbLayout = new Common.UI.ComboBox({
                 el          : $markup.findById('#advsettings-print-combo-layout'),
                 style       : 'width: 242px;',
@@ -361,8 +369,9 @@ define([
                     { value: 1, displayValue: this.textFitPage },
                     { value: 2, displayValue: this.textFitCols },
                     { value: 3, displayValue: this.textFitRows },
-                    { value: 4, displayValue: this.textCustomOptions}
-                ]
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ],
+                itemsTemplate: itemsTemplate
             });
 
             this.chPrintGrid = new Common.UI.CheckBox({
@@ -438,6 +447,27 @@ define([
             return this;
         },
 
+        addCustomScale: function (add) {
+            if (add) {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 4, displayValue: this.textCustom },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ]);
+            } else {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ]);
+            }
+        },
+
         updateMetricUnit: function() {
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
@@ -493,7 +523,8 @@ define([
         textFitPage:            'Fit Sheet on One Page',
         textFitCols:            'Fit All Columns on One Page',
         textFitRows:            'Fit All Rows on One Page',
-        textCustomOptions:      'Custom Options'
+        textCustomOptions:      'Custom Options',
+        textCustom:             'Custom'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({

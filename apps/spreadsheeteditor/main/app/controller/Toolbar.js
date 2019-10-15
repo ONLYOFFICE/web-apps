@@ -362,7 +362,9 @@ define([
                 toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
                 toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
                 toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
-                toolbar.mnuScale.on('item:click',                           _.bind(this.onScaleClick, this));
+                toolbar.mnuScale.on('item:click',                           _.bind(this.onScaleClick, this, 'scale'));
+                toolbar.menuWidthScale.on('item:click',                     _.bind(this.onScaleClick, this, 'width'));
+                toolbar.menuHeightScale.on('item:click',                    _.bind(this.onScaleClick, this, 'height'));
                 toolbar.btnPrintArea.menu.on('item:click',                  _.bind(this.onPrintAreaClick, this));
                 toolbar.btnPrintArea.menu.on('show:after',                  _.bind(this.onPrintAreaMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
@@ -1845,33 +1847,52 @@ define([
         },
 
         onChangeScaleSettings: function(width, height, scale) {
-            var me = this;
             if (this.toolbar.btnScale.menu) {
-                this.toolbar.btnScale.menu.clearAll();
                 if (width !== undefined) {
-                    if ((width === 0 || width === null) && (height === 0 || height === null) && scale === 100) {
-                        this._state.scale = 0;
-                    } else if (width === 1 && height === 1) {
-                        this._state.scale = 1;
-                    } else if (width === 1 && (height === 0 || height === null)) {
-                        this._state.scale = 2;
-                    } else if ((width === 0 || width === null) && height === 1) {
-                        this._state.scale = 3;
-                    } else if ((width === 0 || width === null) && (height === 0 || height === null)) {
-                        this._state.scale = 4;
+                    var isWidth = false,
+                        isHeight = false;
+                    var width = width || 0,
+                        height = height || 0;
+                    if (scale !== undefined) {
+                        this.toolbar.setValueCustomScale(scale);
                     } else {
-                        this._state.scale = 5;
+                        this.toolbar.setValueCustomScale(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
                     }
-                    this.toolbar.setValueCustomScale(scale);
-                } else if (scale === undefined) {
-                    this.toolbar.setValueCustomScale(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
+                    this.toolbar.menuWidthScale.clearAll();
+                    this.toolbar.menuWidthScale.items.forEach(function (item) {
+                        if (item.value === width) {
+                            item.setChecked(true);
+                            isWidth = true;
+                            return false;
+                        }
+                    });
+                    if (!isWidth) {
+                        this.toolbar.menuWidthScale.items[11].setChecked(true);
+                    }
+                    this.toolbar.menuHeightScale.clearAll();
+                    this.toolbar.menuHeightScale.items.forEach(function (item) {
+                        if (item.value === height) {
+                            item.setChecked(true);
+                            isHeight = true;
+                            return false;
+                        }
+                    });
+                    if (!isHeight) {
+                        this.toolbar.menuHeightScale.items[11].setChecked(true);
+                    }
+                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
+                        this.toolbar.btnCustomScaleUp.setDisabled(!(!width && !height));
+                        this.toolbar.btnCustomScaleDown.setDisabled(!(!width && !height));
+                    }
+                    this._state.scaleWidth = width;
+                    this._state.scaleHeight = height;
+                    this._state.scale = scale;
+                } else {
+                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
+                        this.toolbar.btnCustomScaleUp.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
+                        this.toolbar.btnCustomScaleDown.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
+                    }
                 }
-                _.each(this.toolbar.btnScale.menu.items, function(item){
-                    if (item.value === me._state.scale) {
-                        item.setChecked(true);
-                        return false;
-                    }
-                }, this);
             }
         },
 
@@ -3390,50 +3411,40 @@ define([
             }
         },
 
-        onScaleClick: function(menu, item, event, scale) {
+        onScaleClick: function(type, menu, item, event, scale) {
             var me = this;
             if (me.api) {
-                if (scale !== undefined) {
-                    me.api.asc_SetPrintScale(0, 0, scale);
-                    me._state.scale = 4;
-                } else {
-                    switch (item.value) {
-                        case 0:
-                            me.api.asc_SetPrintScale(0, 0, 100);
-                            me._state.scale = 0;
-                            break;
-                        case 1:
-                            me.api.asc_SetPrintScale(1, 1, 100);
-                            me._state.scale = 1;
-                            break;
-                        case 2:
-                            me.api.asc_SetPrintScale(1, 0, 100);
-                            me._state.scale = 2;
-                            break;
-                        case 3:
-                            me.api.asc_SetPrintScale(0, 1, 100);
-                            me._state.scale = 3;
-                            break;
-                        case 5:
-                            var win = new SSE.Views.ScaleDialog({
-                                api: me.api,
-                                props: null,
-                                handler: function (dlg, result) {
-                                    if (dlg == 'ok') {
-                                        if (me.api && result) {
-                                            me.api.asc_SetPrintScale(result.width, result.height, result.scale);
-                                            me.onChangeScaleSettings(result.width, result.height, result.scale);
-                                        }
-                                        me._state.scale = 5;
-                                    } else {
-                                        me.onChangeScaleSettings();
-                                    }
-                                    Common.NotificationCenter.trigger('edit:complete');
-                                }
-                            });
-                            win.show();
-                            break;
+                if (type === 'width' && item.value !== 'more') {
+                    if (me._state.scaleHeight === undefined || me._state.scaleHeight === null) {
+                        me._state.scaleHeight = 0;
                     }
+                    me.api.asc_SetPrintScale(item.value, me._state.scaleHeight, 100);
+                    me.onChangeScaleSettings(item.value, me._state.scaleHeight, 100);
+                } else if (type === 'height' && item.value !== 'more') {
+                    if (me._state.scaleWidth === undefined || me._state.scaleWidth === null) {
+                        me._state.scaleWidth = 0;
+                    }
+                    me.api.asc_SetPrintScale(me._state.scaleWidth, item.value, 100);
+                    me.onChangeScaleSettings(me._state.scaleWidth, item.value, 100);
+                } else if (type === 'scale' && scale !== undefined) {
+                    me.api.asc_SetPrintScale(0, 0, scale);
+                } else if (item.value === 'custom' || item.value === 'more') {
+                    var win = new SSE.Views.ScaleDialog({
+                        api: me.api,
+                        props: null,
+                        handler: function (dlg, result) {
+                            if (dlg == 'ok') {
+                                if (me.api && result) {
+                                    me.api.asc_SetPrintScale(result.width, result.height, result.scale);
+                                    me.onChangeScaleSettings(result.width, result.height, result.scale);
+                                }
+                            } else {
+                                me.onChangeScaleSettings(me._state.scaleWidth, me._state.scaleHeight, me._state.scale);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete');
+                        }
+                    });
+                    win.show();
                 }
             }
 
