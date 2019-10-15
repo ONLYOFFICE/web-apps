@@ -80,6 +80,7 @@ define([
                 }));
 
                 this.editMode = false;
+                this.rangeSelectionMode = Asc.c_oAscSelectionDialogType.None;
 
                 this.btnZoomDown = new Common.UI.Button({
                     el: $('#status-btn-zoomdown',this.el),
