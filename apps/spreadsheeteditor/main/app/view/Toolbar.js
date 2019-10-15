@@ -2481,7 +2481,7 @@ define([
         textSetPrintArea: 'Set Print Area',
         textClearPrintArea: 'Clear Print Area',
         textAddPrintArea: 'Add to Print Area',
-        tipPrintArea: 'Print Area',
+        tipPrintArea: 'Print area',
         capBtnInsHeader: 'Header/Footer',
         tipEditHeader: 'Edit header or footer',
         textTabData: 'Data',
