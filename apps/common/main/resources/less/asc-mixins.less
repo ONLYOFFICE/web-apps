@@ -98,9 +98,11 @@
 
 .button-otherstates-icon(@icon-class, @icon-size) {
     button.over     > .@{icon-class} {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
-    button.active   > .@{icon-class},
-    button:active   > .@{icon-class} {background-position-x: -2*@icon-size !important; --bgX: -(2*@icon-size);}
-    button.disabled > .@{icon-class} {background-position-x: -3*@icon-size !important; --bgX: -(3*@icon-size);}
+    button {
+        &.active, &:active {
+            &:not(.disabled):not(:disabled) > .@{icon-class} {background-position-x: -2*@icon-size !important; --bgX: -(2*@icon-size);}
+        }
+    }
 }
 
 .mx-button-otherstates-icon2(@icon-size) {
@@ -109,7 +111,6 @@
             .icon {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
         }
     }
-    &.disabled {.icon {opacity: .4;}}
 }
 
 .button-otherstates-icon2(@icon-class, @icon-size) {
