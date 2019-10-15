@@ -67,4 +67,118 @@
         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.64645 10.6464L14.1464 6.14642L14.8536 6.85353L10.3536 11.3535L9.64645 10.6464Z"/>
         <path fill-rule="evenodd" clip-rule="evenodd" d="M14 6H11V7H14L14 10H15V7V6H14Z"/>
     </symbol>
+    <symbol id="svg-btn-align-left" viewBox="0 0 20 20">
+		<path d="M16 5H4V6H16V5Z"/>
+		<path d="M11 7H4V8H11V7Z"/>
+		<path d="M14 9H4V10H14V9Z"/>
+		<path d="M11 11H4V12H11V11Z"/>
+		<path d="M11 13H4V14H11V13Z"/>
+		<path d="M16 15H4V16H16V15Z"/>
+    </symbol>
+    <symbol id="svg-btn-align-center" viewBox="0 0 20 20">
+		<path d="M16 5H4V6H16V5Z"/>
+		<path d="M13 7H7V8H13V7Z"/>
+		<path d="M15 9H5V10H15V9Z"/>
+		<path d="M13 11H7V12H13V11Z"/>
+		<path d="M13 13H7V14H13V13Z"/>
+		<path d="M16 15H4V16H16V15Z"/>
+    </symbol>
+    <symbol id="svg-btn-align-right" viewBox="0 0 20 20">
+		<path d="M16 5H4V6H16V5Z"/>
+		<path d="M16 7H9V8H16V7Z"/>
+		<path d="M16 9H6V10H16V9Z"/>
+		<path d="M16 11H9V12H16V11Z"/>
+		<path d="M16 13H9V14H16V13Z"/>
+		<path d="M16 15H4V16H16V15Z"/>
+    </symbol>
+    <symbol id="svg-btn-align-just" viewBox="0 0 20 20">
+		<path d="M16 15H4V16H16V15Z"/>
+		<path d="M16 13H4V14H16V13Z"/>
+		<path d="M16 11H4V12H16V11Z"/>
+		<path d="M16 9H4V10H16V9Z"/>
+		<path d="M16 7H4V8H16V7Z"/>
+		<path d="M16 5H4V6H16V5Z"/>
+    </symbol>
+    <symbol id="svg-btn-hidenchars" viewBox="0 0 20 20">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 11C8.66976 11 8.8367 10.9879 9 10.9646V16H10V5H12V16H13V5H14V4H9V4.03544C8.8367 4.01209 8.66976 4 8.5 4C6.567 4 5 5.567 5 7.5C5 9.433 6.567 11 8.5 11Z"/>
+    </symbol>
+    <symbol id="svg-btn-setmarkers" viewBox="0 0 20 20">
+		<circle cx="5.5" cy="5.5" r="1.5"/>
+		<circle cx="5.5" cy="10.5" r="1.5"/>
+		<circle cx="5.5" cy="15.5" r="1.5"/>
+		<path d="M16 5H8V6H16V5Z"/>
+		<path d="M16 10H8V11H16V10Z"/>
+		<path d="M16 15H8V16H16V15Z"/>
+    </symbol>
+    <symbol id="svg-btn-numbering" viewBox="0 0 20 20">
+		<path d="M16 5H8V6H16V5Z"/>
+		<path d="M16 10H8V11H16V10Z"/>
+		<path d="M16 15H8V16H16V15Z"/>
+		<path d="M7 12V11H5L7 9L6 8H5H4V9H6L4 11V12H7Z"/>
+		<path d="M5 7H6V3H5H4V4H5V7Z"/>
+		<path d="M6 16H4V17H6L7 16L6.5 15L7 14L6 13H4V14H5H6L5.5 15L6 16Z"/>
+    </symbol>
+    <symbol id="svg-btn-multilevels" viewBox="0 0 20 20">
+		<circle cx="4.5" cy="5.5" r="1.5"/>
+		<circle cx="6.5" cy="10.5" r="1.5"/>
+		<circle cx="8.5" cy="15.5" r="1.5"/>
+		<path d="M17 5H7V6H17V5Z"/>
+		<path d="M17 10H9V11H17V10Z"/>
+		<path d="M17 15H11V16H17V15Z"/>
+    </symbol>
+    <symbol id="svg-btn-decoffset" viewBox="0 0 20 20">
+		<path d="M16 5H4V6H16V5Z"/>
+		<path d="M16 7H10V8H16V7Z"/>
+		<path d="M16 9H10V10H16V9Z"/>
+		<path d="M16 11H10V12H16V11Z"/>
+		<path d="M16 13H10V14H16V13Z"/>
+		<path d="M16 15H4V16H16V15Z"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M5.70711 10L7.35355 8.35359L6.64645 7.64648L4.14645 10.1465L3.79289 10.5L4.14645 10.8536L6.64645 13.3536L7.35355 12.6465L5.70711 11H9V10H5.70711Z"/>
+    </symbol>
+    <symbol id="svg-btn-incoffset" viewBox="0 0 20 20">
+		<path d="M16 5H4V6H16V5Z"/>
+		<path d="M16 7H10V8H16V7Z"/>
+		<path d="M16 9H10V10H16V9Z"/>
+		<path d="M16 11H10V12H16V11Z"/>
+		<path d="M16 13H10V14H16V13Z"/>
+		<path d="M16 15H4V16H16V15Z"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M7.29289 11L5.64645 12.6465L6.35355 13.3536L8.85355 10.8536L9.20711 10.5L8.85355 10.1465L6.35355 7.64648L5.64645 8.35359L7.29289 10H4V11H7.29289Z"/>
+    </symbol>
+    <symbol id="svg-btn-linespace" viewBox="0 0 20 20">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M3.64645 6.64652L6.14645 4.14652L6.50001 3.79297L6.85356 4.14652L9.35356 6.64652L8.64645 7.35363L7.00001 5.70718V14.293L8.64645 12.6465L9.35356 13.3536L6.85356 15.8536L6.50001 16.2072L6.14645 15.8536L3.64645 13.3536L4.35356 12.6465L6.00001 14.293V5.70718L4.35356 7.35363L3.64645 6.64652Z"/>
+		<path d="M17 5H10V6H17V5Z"/>
+		<path d="M17 8H10V9H17V8Z"/>
+		<path d="M17 11H10V12H17V11Z"/>
+		<path d="M17 14H10V15H17V14Z"/>
+    </symbol>
+
+    <symbol id="svg-btn-insertimage" viewBox="0 0 28 28">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M5 5H23V18.2928L16.5 11.7928L10.5 17.7928L8.50001 15.7928L5 19.2929V5ZM5 20.7071V23H23V19.7071L16.5 13.2071L10.5 19.2071L8.50001 17.2071L5 20.7071ZM4 5C4 4.44772 4.44772 4 5 4H23C23.5523 4 24 4.44772 24 5V23C24 23.5523 23.5523 24 23 24H5C4.44772 24 4 23.5523 4 23V5Z"/>
+		<circle cx="9" cy="9" r="1.5"/>
+    </symbol>
+    <symbol id="svg-btn-insertchart" viewBox="0 0 28 28">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M4 24H8V18H4V24ZM8 25C8.6 25 9 24.6 9 24V18C9 17.4 8.6 17 8 17H4C3.4 17 3 17.4 3 18V24C3 24.6 3.4 25 4 25H8Z"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M15.9936 24C15.997 23.9822 16 23.9569 16 23.9231V12.0769C16 12.0431 15.997 12.0178 15.9936 12H12.0064C12.003 12.0178 12 12.0431 12 12.0769V23.9231C12 23.9569 12.003 23.9822 12.0064 24H15.9936ZM16 25C16.6 25 17 24.5692 17 23.9231V12.0769C17 11.4308 16.6 11 16 11H12C11.4 11 11 11.4308 11 12.0769V23.9231C11 24.5692 11.4 25 12 25H16Z"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M23.9892 24C23.9947 23.978 24 23.9441 24 23.8947V5.10526C24 5.05594 23.9947 5.02198 23.9892 5H20.0108C20.0053 5.02198 20 5.05594 20 5.10526V23.8947C20 23.9441 20.0053 23.978 20.0108 24H23.9892ZM23.9769 24.0335C23.9769 24.0335 23.9771 24.033 23.9778 24.0321ZM20.0231 24.0335C20.0231 24.0335 20.0228 24.0331 20.0222 24.0321ZM20.0231 4.96647C20.0231 4.96648 20.0229 4.96697 20.0222 4.9679ZM23.9769 4.96647C23.9769 4.96645 23.9772 4.96691 23.9778 4.9679ZM24 25C24.6 25 25 24.5579 25 23.8947V5.10526C25 4.44211 24.6 4 24 4H20C19.4 4 19 4.44211 19 5.10526V23.8947C19 24.5579 19.4 25 20 25H24Z"/>
+    </symbol>
+    <symbol id="svg-btn-insertshape" viewBox="0 0 28 28">
+		<path d="M5 17V5H17V8H18V5C18 4.4 17.6 4 17 4H5C4.4 4 4 4.4 4 5V17C4 17.6 4.4 18 5 18H8V17H5Z"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 23C20.0899 23 23 20.0899 23 16.5C23 12.9101 20.0899 10 16.5 10C12.9101 10 10 12.9101 10 16.5C10 20.0899 12.9101 23 16.5 23ZM16.5 24C20.6421 24 24 20.6421 24 16.5C24 12.3579 20.6421 9 16.5 9C12.3579 9 9 12.3579 9 16.5C9 20.6421 12.3579 24 16.5 24Z"/>
+    </symbol>
+    <symbol id="svg-btn-inserttable" viewBox="0 0 28 28">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 6.89543 3.89543 6 5 6H23C24.1046 6 25 6.89543 25 8C25 9.50659 25 11.1093 25 13V14V17V18V20C25 21.1046 24.1046 22 23 22H5C3.89543 22 3 21.1046 3 20V18V17V14V13C3 11.3333 3 9.66667 3 8ZM4 17H10V14H4V17ZM4 18H10V21H5C4.44771 21 4 20.5523 4 20V18ZM17 21H11V18H17V21ZM18 21H23C23.5523 21 24 20.5523 24 20V18H18V21ZM18 17H24V14H18V17ZM17 14H11V17H17V14ZM17 13H11V10H17V13ZM18 13H24V10H18V13ZM10 10V13H4V10H10Z"/>
+    </symbol>
+    <symbol id="svg-btn-editheader" viewBox="0 0 28 28">
+		<path d="M20 20H8V23H20V20Z"/>
+		<path d="M20 5H8V8H20V5Z"/>
+		<path d="M22 4V24H6V4H22ZM22 3H6C5.4 3 5 3.4 5 4V24C5 24.6 5.4 25 6 25H22C22.6 25 23 24.6 23 24V4C23 3.4 22.5 3 22 3Z"/>
+    </symbol>
+    <symbol id="svg-btn-pagebreak" viewBox="0 0 28 28">
+		<path d="M24 16H23V15H24V16ZM22 16H21V15H22V16ZM20 16H19V15H20V16ZM18 16H17V15H18V16ZM16 16H15V15H16V16ZM14 16H13V15H14V16ZM12 16H11V15H12V16ZM10 16H9V15H10V16ZM8 16H7V15H8V16ZM6 16H5V15H6V16ZM4 16H3V15H4V16Z"/>
+		<path d="M16 8H8V9H16V8Z"/>
+		<path d="M20 5H8V6H20V5Z"/>
+		<path d="M20 22H8V23H20V22Z"/>
+		<path d="M22 3V12H6V3H5V12C5 12.6 5.4 13 6 13H22C22.6 13 23 12.6 23 12V3H22Z"/>
+		<path d="M6 19H22V25H23V19C23 18.4 22.6 18 22 18H6C5.4 18 5 18.4 5 19V25H6V19Z"/>
+    </symbol>
 </svg>

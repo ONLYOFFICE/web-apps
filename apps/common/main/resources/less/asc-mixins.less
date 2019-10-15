@@ -110,6 +110,9 @@
             .icon {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
         }
     }
+
+    &.active   svg.icon,
+    &:active   svg.icon {fill:#fff;}
 }
 
 .button-otherstates-icon2(@icon-class, @icon-size) {

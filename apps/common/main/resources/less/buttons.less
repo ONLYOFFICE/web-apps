@@ -121,10 +121,23 @@
             }
         }
 
-        .icon {
+        .icon:not(svg) {
             width: @icon-size;
             height: @icon-size;
             min-width: 0;
+        }
+
+        svg.icon {
+            width: 28px;
+            height: 28px;
+
+            @media
+            only screen and (-webkit-min-device-pixel-ratio: 1.5),
+            only screen and (min-resolution: 1.5dppx),
+            only screen and (min-resolution: 144dpi) {
+                width:calc(~"40px/1.5");
+                height:calc(~"40px/1.5");
+            }
         }
 
         button.small .icon {
@@ -237,13 +250,39 @@
             line-height: 20px;
 
             &:not(svg) {
+                @media
+                only screen and (-webkit-min-device-pixel-ratio: 1.5),
+                only screen and (min-resolution: 1.5dppx),
+                only screen and (min-resolution: 144dpi) {
+                    background-image: ~"url('@{app-image-const-path}/toolbar-menu@1.5x.png')";
+                    background-size: 60px auto;
+                }
+
                 .background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
+            }
+        }
+
+        svg.icon {
+            @media
+            only screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+            only screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+            only screen and (min-resolution: 144dpi) and (max-resolution: 143dpi) {
+                width:calc(~"28px/1.5");
+                height:calc(~"28px/1.5");
             }
         }
     }
 
     &.x-huge, .btn-group.x-huge > & {
         :not(svg).icon {
+            @media
+            only screen and (-webkit-min-device-pixel-ratio: 1.5),
+            only screen and (min-resolution: 1.5dppx),
+            only screen and (min-resolution: 144dpi) {
+                background-image: ~"url('@{common-image-const-path}/controls/toolbarbig@1.5x.png')";
+                background-size: 78px auto;
+            }
+
             .background-ximage('@{common-image-path}/controls/toolbarbig.png', '@{common-image-path}/controls/toolbarbig@2x.png', 78px);
         }
     }
@@ -333,6 +372,7 @@
     > .dropdown-toggle:first-child {
         .inner-box-caret {
             padding: 0 2px;
+            float: right;
         }
     }
 

@@ -187,8 +187,9 @@ define([
                 '<img src="<%= iconImg %>">' +
             '<% } else { %>' +
                 '<% if (/svgicon/.test(iconCls)) {' +
-                    'print(\'<svg width="26" height="26" class=\"icon\"><use href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
-                '} else ' +
+                    'print(\'<svg class=\"icon\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
+                                                    '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
+            '} else ' +
                     'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
             '<% } %>';
 

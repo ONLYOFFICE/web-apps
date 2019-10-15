@@ -292,7 +292,8 @@ define([
                     this.btnAlignLeft = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-left',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-align-left',
+                        // iconCls: 'btn-align-left',
+                        iconCls: 'svgicon svg-btn-align-left',
                         enableToggle: true,
                         allowDepress: false,
                         toggleGroup: 'alignGroup'
@@ -302,7 +303,8 @@ define([
                     this.btnAlignCenter = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-center',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-align-center',
+                        // iconCls: 'btn-align-center',
+                        iconCls: 'svgicon svg-btn-align-center',
                         enableToggle: true,
                         allowDepress: false,
                         toggleGroup: 'alignGroup'
@@ -312,7 +314,8 @@ define([
                     this.btnAlignRight = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-right',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-align-right',
+                        // iconCls: 'btn-align-right',
+                        iconCls: 'svgicon svg-btn-align-right',
                         enableToggle: true,
                         allowDepress: false,
                         toggleGroup: 'alignGroup'
@@ -322,7 +325,8 @@ define([
                     this.btnAlignJust = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-just',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-align-just',
+                        // iconCls: 'btn-align-just',
+                        iconCls: 'svgicon svg-btn-align-just',
                         enableToggle: true,
                         allowDepress: false,
                         toggleGroup: 'alignGroup'
@@ -378,21 +382,24 @@ define([
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-decoffset'
+                        // iconCls: 'btn-decoffset'
+                        iconCls: 'svgicon svg-btn-decoffset'
                     });
                     this.paragraphControls.push(this.btnDecLeftOffset);
 
                     this.btnIncLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-incoffset'
+                        // iconCls: 'btn-incoffset'
+                        iconCls: 'svgicon svg-btn-incoffset'
                     });
                     this.paragraphControls.push(this.btnIncLeftOffset);
 
                     this.btnLineSpace = new Common.UI.Button({
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-linespace',
+                        // iconCls: 'btn-linespace',
+                        iconCls: 'svgicon svg-btn-linespace',
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -410,7 +417,8 @@ define([
                     this.btnShowHidenChars = new Common.UI.Button({
                         id: 'id-toolbar-btn-hidenchars',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-hidenchars',
+                        // iconCls: 'btn-hidenchars',
+                        iconCls: 'svgicon svg-btn-hidenchars',
                         enableToggle: true,
                         split: true,
                         menu: new Common.UI.Menu({
@@ -426,7 +434,8 @@ define([
                     this.btnMarkers = new Common.UI.Button({
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-setmarkers',
+                        // iconCls: 'btn-setmarkers',
+                        iconCls: 'svgicon svg-btn-setmarkers',
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -438,7 +447,8 @@ define([
                     this.btnNumbers = new Common.UI.Button({
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-numbering',
+                        // iconCls: 'btn-numbering',
+                        iconCls: 'svgicon svg-btn-numbering',
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -450,7 +460,8 @@ define([
                     this.btnMultilevels = new Common.UI.Button({
                         id: 'id-toolbar-btn-multilevels',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-multilevels',
+                        // iconCls: 'btn-multilevels',
+                        iconCls: 'svgicon svg-btn-multilevels',
                         menu: true
                     });
                     this.paragraphControls.push(this.btnMultilevels);
@@ -475,7 +486,8 @@ define([
                     this.btnInsertTable = new Common.UI.Button({
                         id: 'tlbtn-inserttable',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-inserttable',
+                        // iconCls: 'btn-inserttable',
+                        iconCls: 'svgicon svg-btn-inserttable',
                         caption: me.capBtnInsTable,
                         menu: new Common.UI.Menu({
                             items: [
@@ -489,7 +501,8 @@ define([
                     this.btnInsertImage = new Common.UI.Button({
                         id: 'tlbtn-insertimage',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-insertimage',
+                        // iconCls: 'btn-insertimage',
+                        iconCls: 'svgicon svg-btn-insertimage',
                         caption: me.capBtnInsImage,
                         menu: new Common.UI.Menu({
                             items: [
@@ -505,7 +518,8 @@ define([
                         id: 'tlbtn-insertchart',
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: me.capBtnInsChart,
-                        iconCls: 'btn-insertchart',
+                        // iconCls: 'btn-insertchart',
+                        iconCls: 'svgicon svg-btn-insertchart',
                         menu: true
                     });
                     this.paragraphControls.push(this.btnInsertChart);
@@ -535,7 +549,8 @@ define([
                     this.btnEditHeader = new Common.UI.Button({
                         id: 'id-toolbar-btn-editheader',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-editheader',
+                        // iconCls: 'btn-editheader',
+                        iconCls: 'svgicon svg-btn-editheader',
                         caption: me.capBtnInsHeader,
                         menu: true
                     });
@@ -566,7 +581,8 @@ define([
                     this.btnInsertShape = new Common.UI.Button({
                         id: 'tlbtn-insertshape',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-insertshape',
+                        // iconCls: 'btn-insertshape',
+                        iconCls: 'svgicon svg-btn-insertshape',
                         caption: me.capBtnInsShape,
                         enableToggle: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes'})
@@ -1326,7 +1342,7 @@ define([
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
 
-                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true);
+                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', /*'btn-pagebreak'*/'svgicon svg-btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true);
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
 
                 return $host;
