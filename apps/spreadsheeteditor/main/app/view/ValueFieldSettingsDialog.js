@@ -269,7 +269,7 @@ define([
         },
 
         textTitle: 'Value Field Settings',
-        txtSourceName: 'Source name: ',
+        txtSourceName: 'Source name:',
         txtCustomName: 'Custom name',
         txtSummarize: 'Summarize value field by',
         txtShowAs: 'Show values as',

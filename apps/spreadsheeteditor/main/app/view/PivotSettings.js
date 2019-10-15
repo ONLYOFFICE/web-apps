@@ -749,7 +749,6 @@ define([
         textRows                : 'Rows',
         textColumns             : 'Columns',
         textFilters             : 'Filters',
-        notcriticalErrorTitle   : 'Warning',
         textAdvanced:   'Show advanced settings',
         txtMoveUp: 'Move Up',
         txtMoveDown: 'Move Down',

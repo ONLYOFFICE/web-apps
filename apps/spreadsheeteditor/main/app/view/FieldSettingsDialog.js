@@ -360,7 +360,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
         textTitle: 'Field Settings',
         strSubtotals: 'Subtotals',
         strLayout: 'Layout',
-        txtSourceName: 'Source name: ',
+        txtSourceName: 'Source name:',
         txtCustomName: 'Custom name',
         textReport: 'Report Form',
         txtTabular: 'Tabular',
