@@ -204,7 +204,7 @@ define([
                         cls         : 'btn-toolbar  x-huge icon-top',
                         caption     : this.txtCompare,
                         split       : true,
-                        iconCls: 'review-deny'
+                        iconCls: 'btn-compare'
                     });
 
                     this.btnTurnOn = new Common.UI.Button({
