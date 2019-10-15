@@ -391,12 +391,10 @@ define([
             }, this.bar),
             mousedown: $.proxy(function (e) {
                 if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
-                    if (!tab.isLockTheDrag) {
-                        if (this.bar.selectTabs.length > 1) {
-                            dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
-                        } else {
-                            dragHelper.setHook(e, this.bar, tab);
-                        }
+                    if (this.bar.selectTabs.length > 1) {
+                        dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
+                    } else {
+                        dragHelper.setHook(e, this.bar, tab);
                     }
                 }
             }, this)

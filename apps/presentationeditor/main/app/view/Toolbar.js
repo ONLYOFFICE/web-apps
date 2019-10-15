@@ -1520,6 +1520,7 @@ define([
                         if (change && this.mnuSlidePicker)
                             picker.options.layout_index = this.mnuSlidePicker.options.layout_index;
                         this.mnuSlidePicker = picker;
+                        this.mnuSlidePicker._needRecalcSlideLayout = true;
                     };
                     me.btnsAddSlide.concat(me.btnChangeSlide).forEach(function (btn, index) {
                         btn.menu.on('show:before', me.binding.onShowBeforeAddSlide, btn);

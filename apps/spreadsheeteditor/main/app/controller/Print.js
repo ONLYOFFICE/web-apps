@@ -141,10 +141,10 @@ define([
                 panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
                                                          parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
 
-            var fitwidth = opt.asc_getFitToWidth(),
-                fitheight = opt.asc_getFitToHeight(),
-                fitscale = opt.asc_getScale();
-            this.setScaling(panel, fitwidth, fitheight, fitscale);
+            this.fitWidth = opt.asc_getFitToWidth();
+            this.fitHeight = opt.asc_getFitToHeight();
+            this.fitScale = opt.asc_getScale();
+            this.setScaling(panel, this.fitWidth, this.fitHeight, this.fitScale);
 
             item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));

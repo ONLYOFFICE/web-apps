@@ -221,6 +221,12 @@
     <div id="viewport"></div>
 
     <script>
+        var params = getUrlParams(),
+            view = params["mode"] == 'view';
+        if (view) {
+            document.querySelector('.brendpanel > :nth-child(2)').remove();
+            document.querySelector('.sktoolbar').remove();
+        }
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {

@@ -23,7 +23,7 @@
 
         .loadmask > .brendpanel {
             width: 100%;
-            height: 56px;
+            min-height: 32px;
             background: #aa5252;
         }
 
@@ -80,11 +80,6 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
-
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
         }
 
         .loadmask > .sktoolbar li {
@@ -264,6 +259,14 @@
     <div id="viewport"></div>
 
     <script>
+        var params = getUrlParams(),
+            view = params["mode"] == 'view';
+
+        if (view) {
+            document.querySelector('.brendpanel > :nth-child(2)').remove();
+            document.querySelector('.sktoolbar').remove();
+        }
+
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {

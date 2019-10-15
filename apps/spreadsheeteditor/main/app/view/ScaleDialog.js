@@ -228,8 +228,8 @@ define([
                 this._state.width = (width !== null && width !== 0) ? width : null;
                 this._state.height = (height !== null && height !== 0) ? height : null;
 
-                width = (width !== null) ? width : 0;
-                height = (height !== null) ? height : 0;
+                width = (width !== null && width !== undefined) ? width : 0;
+                height = (height !== null && height !== undefined) ? height : 0;
 
                 if (width === 0 && height === 0) {
                     this.radioScaleTo.setValue(true,true);
@@ -248,7 +248,7 @@ define([
                     this.cmbScaleHeight.setRawValue(height.toString() + ' ' + this.getTextPages(height));
                 }
 
-                this.spnScale.setValue((scale !== null) ? scale : '', true);
+                this.spnScale.setValue((scale !== null && scale !== undefined) ? scale : '', true);
             }
         },
 

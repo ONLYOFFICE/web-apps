@@ -739,8 +739,14 @@
             }
         }
 
+        var userAgent = navigator.userAgent.toLowerCase(),
+            check = function(regex){ return regex.test(userAgent); },
+            isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
+            isChrome = !isIE && check(/\bchrome\b/),
+            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0);
+
         path += app + "/";
-        path += config.type === "mobile"
+        path += (config.type === "mobile" || isSafari_mobile)
             ? "mobile"
             : config.type === "embedded"
                 ? "embed"

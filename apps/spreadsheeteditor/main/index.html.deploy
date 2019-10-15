@@ -57,11 +57,6 @@
             border-radius: 12px;
             margin: 4px 10px;
             background: rgba(255, 255, 255, 0.2);
-
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
         }
 
         .loadmask > .brendpanel .rect {
@@ -71,11 +66,6 @@
             border-radius: 3px;
             margin: 0 10px;
             background: rgba(255, 255, 255, 0.2);
-
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
         }
 
         .loadmask > .sktoolbar {
@@ -90,11 +80,6 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
-
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
         }
 
         .loadmask > .sktoolbar li {
@@ -251,10 +236,16 @@
 
     <script>
         var params = getUrlParams(),
-            internal = params["internal"] == 'true';
+            internal = params["internal"] == 'true',
+            view = params["mode"] == 'view';
 
         if (internal) {
             document.querySelector('.brendpanel').remove();
+            document.querySelector('.sktoolbar').remove();
+        }
+
+        if (view) {
+            document.querySelector('.brendpanel > :nth-child(2)').remove();
             document.querySelector('.sktoolbar').remove();
         }
 
