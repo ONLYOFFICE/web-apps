@@ -1014,6 +1014,8 @@ define([
                         });
                     }
                 }, this);
+            if (this.emailMenu && this.emailMenu.rendered)
+                this.emailMenu.cmpEl.css('display', 'none');
         },
 
         isCommentsViewMouseOver: function () {
@@ -1163,8 +1165,10 @@ define([
         },
 
         insertEmailToTextbox: function(str, left, right) {
-            var textBox = this.commentsView.getTextBox(),
-                val = textBox.val();
+            var textBox = this.commentsView.getTextBox();
+            if (!textBox) return;
+
+            var val = textBox.val();
             textBox.val(val.substring(0, left) + '+' + str + ' ' + val.substring(right+1, val.length));
             setTimeout(function(){
                 textBox[0].selectionStart = textBox[0].selectionEnd = left + str.length + 2;
