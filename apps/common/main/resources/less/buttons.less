@@ -1,5 +1,6 @@
 @x-huge-btn-height: 46px;
 @btn-disabled-opacity: .4;
+@x-huge-btn-icon-size: 28px;
 
 .btn {
     border-radius: 1px;
@@ -99,7 +100,7 @@
     }
 
     &.x-huge {
-        @icon-size: 26px;
+        @icon-size: 28px;
 
         min-width: 45px;
         height: @x-huge-btn-height;
@@ -122,8 +123,8 @@
         }
 
         .icon:not(svg) {
-            width: @icon-size;
-            height: @icon-size;
+            width: @x-huge-btn-icon-size;
+            height: @x-huge-btn-icon-size;
             min-width: 0;
         }
 
@@ -186,10 +187,8 @@
 
 .icon-top {
     &.x-huge  {
-        @icon-size: 26px;
-
         .btn&, .btn-group& .btn-toolbar {
-            .mx-button-otherstates-icon2(@icon-size);
+            .mx-button-otherstates-icon2(@x-huge-btn-icon-size);
         }
 
         .btn.small {
