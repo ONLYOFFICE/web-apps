@@ -391,10 +391,12 @@ define([
                     var $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
                         var itemTop = $selected.position().top,
-                            itemHeight = $selected.height(),
-                            listHeight = menuRoot.height();
+                            itemHeight = $selected.outerHeight(),
+                            listHeight = menuRoot.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                            menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                            var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            menuRoot.scrollTop(height);
                         }
                         setTimeout(function(){$selected.focus();}, 1);
                     }
@@ -477,10 +479,12 @@ define([
                     if (this.scroller) {
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
                         var itemTop = item.position().top,
-                            itemHeight = item.height(),
-                            listHeight = this.menuRoot.height();
+                            itemHeight = item.outerHeight(),
+                            listHeight = this.menuRoot.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                            this.menuRoot.scrollTop(this.menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                            var height = this.menuRoot.scrollTop() + itemTop;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            this.menuRoot.scrollTop(height);
                         }
                     }
                     item.focus();
@@ -576,7 +580,6 @@ define([
                     if (top < 0)
                         top = 0;
                 }
-
                 if (this.options.additionalAlign)
                     this.options.additionalAlign.call(this, menuRoot, left, top);
                 else
@@ -856,10 +859,12 @@ define([
                     $selected = menuRoot.find('> li .checked');
                 if ($selected.length) {
                     var itemTop = $selected.position().top,
-                        itemHeight = $selected.height(),
-                        listHeight = menuRoot.height();
+                        itemHeight = $selected.outerHeight(),
+                        listHeight = menuRoot.outerHeight();
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                        menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                        height = (Math.floor(height/itemHeight) * itemHeight);
+                        menuRoot.scrollTop(height);
                     }
                     setTimeout(function(){$selected.focus();}, 1);
                 }
@@ -944,10 +949,12 @@ define([
                 if (this.scroller) {
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                     var itemTop = item.position().top,
-                        itemHeight = item.height(),
-                        listHeight = this.menuRoot.height();
+                        itemHeight = item.outerHeight(),
+                        listHeight = this.menuRoot.outerHeight();
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                        this.menuRoot.scrollTop(this.menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        var height = this.menuRoot.scrollTop() + itemTop;
+                        height = (Math.floor(height/itemHeight) * itemHeight);
+                        this.menuRoot.scrollTop(height);
                     }
                 }
                 item.focus();
