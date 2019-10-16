@@ -380,9 +380,15 @@ define([
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
                 if (this.scroller) {
-                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
-                    var menuRoot = this.menuRoot,
-                        $selected = menuRoot.find('> li .checked');
+                    var menuRoot = this.menuRoot;
+                    if (this.wheelSpeed===undefined) {
+                        var item = menuRoot.find('> li:first'),
+                            itemHeight = (item.length) ? item.outerHeight() : 1;
+                        this.wheelSpeed = Math.min((Math.floor(menuRoot.height()/itemHeight) * itemHeight)/10, 20);
+                    }
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
+
+                    var $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
                         var itemTop = $selected.position().top,
                             itemHeight = $selected.height(),
@@ -469,7 +475,7 @@ define([
                     this._search.index = idxCandidate;
                     var item = itemCandidate.cmpEl.find('a');
                     if (this.scroller) {
-                        this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+                        this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
                         var itemTop = item.position().top,
                             itemHeight = item.height(),
                             listHeight = this.menuRoot.height();
@@ -552,8 +558,10 @@ define([
                                 suppressScrollX: true,
                                 alwaysVisibleY: this.scrollAlwaysVisible
                             }));
+                            this.wheelSpeed = undefined;
                         } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight) {
                             menuRoot.css('max-height', (Math.min(docH - top, this.options.restoreHeight)) + 'px');
+                            this.wheelSpeed = undefined;
                         }
                     }
                 } else {

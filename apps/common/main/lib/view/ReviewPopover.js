@@ -469,7 +469,7 @@ define([
                     });
 
                     this.emailMenu = new Common.UI.Menu({
-                        maxHeight: 190,
+                        maxHeight: 200,
                         cyclic: false,
                         items: []
                     }).on('render:after', function(mnu) {
