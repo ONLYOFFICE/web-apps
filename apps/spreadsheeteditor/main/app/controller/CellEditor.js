@@ -119,6 +119,14 @@ define([
             this.bindViewEvents(this.editor, this.events);
 
             this.editor.$el.parent().find('.after').css({zIndex: '4'}); // for spreadsheets - bug 23127
+
+            var val = Common.localStorage.getItem('sse-celleditor-height');
+            this.editor.keep_height = (val!==null && parseInt(val)>0) ? parseInt(val) : 74;
+            if (Common.localStorage.getBool('sse-celleditor-expand')) {
+                this.editor.$el.height(this.editor.keep_height);
+                this.onLayoutResize(undefined, 'cell:edit');
+            }
+
             this.editor.btnNamedRanges.menu.on('item:click', _.bind(this.onNamedRangesMenu, this))
                                            .on('show:before', _.bind(this.onNameBeforeShow, this));
             this.namedrange_locked = false;
@@ -180,8 +188,11 @@ define([
                 if (this.editor.$el.height() > 19) {
                     if (!this.editor.$btnexpand.hasClass('btn-collapse'))
                         this.editor.$btnexpand['addClass']('btn-collapse');
+                    o && Common.localStorage.setItem('sse-celleditor-height', this.editor.$el.height());
+                    o && Common.localStorage.setBool('sse-celleditor-expand', true);
                 } else {
                     this.editor.$btnexpand['removeClass']('btn-collapse');
+                    o && Common.localStorage.setBool('sse-celleditor-expand', false);
                 }
             }
         },
@@ -218,9 +229,11 @@ define([
                 this.editor.keep_height = this.editor.$el.height();
                 this.editor.$el.height(19);
                 this.editor.$btnexpand['removeClass']('btn-collapse');
+                Common.localStorage.setBool('sse-celleditor-expand', false);
             } else {
-                this.editor.$el.height(this.editor.keep_height||74);
+                this.editor.$el.height(this.editor.keep_height);
                 this.editor.$btnexpand['addClass']('btn-collapse');
+                Common.localStorage.setBool('sse-celleditor-expand', true);
             }
             
             Common.NotificationCenter.trigger('layout:changed', 'celleditor');
