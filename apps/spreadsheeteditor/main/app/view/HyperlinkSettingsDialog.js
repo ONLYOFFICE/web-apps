@@ -152,6 +152,7 @@ define([
                 style       : 'width: 100%;',
                 validateOnChange: true,
                 validateOnBlur: false,
+                value: Common.Utils.InternalSettings.get("sse-settings-r1c1") ? 'R1C1' : 'A1',
                 validation  : function(value) {
                     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
                     if (isvalid == Asc.c_oAscError.ID.No) {
