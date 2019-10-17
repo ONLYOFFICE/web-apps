@@ -164,7 +164,7 @@
 
         .loadmask > .placeholder .slide-container > .line:nth-child(1) {
             height: 30%;
-            margin: 120px 80px 0;
+            margin: 10% 80px 0;
         }
 
         @keyframes flickerAnimation {
