@@ -321,8 +321,7 @@ define([
                 }
                 this.trigger('addcustomcolor', this, color);
             }
-        },
+        }
 
-        textCustomColors: 'Custom Colors'
     }, Common.UI.HsbColorPicker || {}));
 });

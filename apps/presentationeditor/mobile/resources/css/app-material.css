@@ -5854,6 +5854,7 @@ html.phone .document-menu .list-block .item-link {
   height: 72px;
   border-radius: 100px;
   overflow: hidden;
+  border: 1px solid #ededed;
 }
 .custom-colors .new-color-hsb-preview {
   width: 100%;

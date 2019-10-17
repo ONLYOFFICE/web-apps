@@ -6260,6 +6260,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   height: 72px;
   border-radius: 100px;
   overflow: hidden;
+  border: 1px solid #c4c4c4;
 }
 .custom-colors .new-color-hsb-preview {
   width: 100%;
