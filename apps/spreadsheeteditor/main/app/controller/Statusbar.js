@@ -290,7 +290,8 @@ define([
             }
 
             var index = 0, name;
-            while(++index < 1000) {
+            while(true) {
+                index++;
                 name = this.strSheet + index;
                 if (items.indexOf(name.toLowerCase()) < 0) break;
             }
@@ -319,7 +320,8 @@ define([
             var first = re ? re[1] : orig + ' ';
 
             var index = 1, name;
-            while(++index < 1000) {
+            while(true) {
+                index++;
                 name = first + '(' + index + ')';
                 if (names.indexOf(name.toLowerCase()) < 0) break;
             }
