@@ -159,6 +159,16 @@ define([
             me.changeSliderStyle();
         },
 
+        addNewThumb: function(index, lastIndex, color) {
+            var me = this;
+            me.thumbs[index].thumb.on('dblclick', null, function() {
+                me.trigger('thumbdblclick', me);
+            });
+            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> div');
+            (index>0) && this.setColorValue(this.getColorValue(lastIndex), index);
+            me.changeSliderStyle();
+        },
+
         removeThumb: function(index) {
             if (index===undefined) index = this.thumbs.length-1;
             if (index>0) {

@@ -403,7 +403,26 @@ define([
                 $(document).on('mousemove', null, e.data, me.binding.onMouseMove);
             };
 
-            var onTrackMouseDown = function (e) {
+            var onTrackMouseUp = function (e) {
+                if ( me.disabled ) return;
+
+                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
+                    lastIndex = findThumb(pos),
+                    thumbColor = me.thumbs[lastIndex].colorValue,
+                    lastValue = me.thumbs[lastIndex].value,
+                    value = pos/me.delta + me.minValue;
+                me.addThumb();
+                var newIndex = me.thumbs.length - 1;
+                me.setThumbPosition(newIndex, pos);
+                me.thumbs[newIndex].value = value;
+                me.trigger('addthumb', me, newIndex, lastIndex, thumbColor);
+
+                me.sortThumbs();
+
+                me.trigger('change', me);
+            };
+
+            /*var onTrackMouseDown = function (e) {
                 if ( me.disabled ) return;
 
                 var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
@@ -416,7 +435,7 @@ define([
 
                 me.trigger('change', me, value, lastValue);
                 me.trigger('changecomplete', me, value, lastValue);
-            };
+            };*/
 
             var findThumb = function(pos) {
                 var nearest = 100,
@@ -462,7 +481,8 @@ define([
             me.setActiveThumb(0, true);
 
             if (!me.rendered) {
-                el.on('mousedown', '.track', onTrackMouseDown);
+                /*el.on('mousedown', '.track', onTrackMouseDown);*/
+                el.on('mouseup', '.track', onTrackMouseUp);
             }
 
             me.rendered = true;

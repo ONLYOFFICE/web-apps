@@ -1293,6 +1293,11 @@ define([
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
             });
+            this.sldrGradient.on('addthumb', function(cmp, index, lastIndex, color){
+                me.GradColor.currentIdx = index;
+
+                me.sldrGradient.addNewThumb(index, lastIndex, color);
+            });
             this.fillControls.push(this.sldrGradient);
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
