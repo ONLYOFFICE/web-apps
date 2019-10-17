@@ -204,10 +204,7 @@ define([
 
                 // Fill
 
-                var paletteFillColor = new Common.UI.ThemeColorPalette({
-                    el: $('#tab-chart-fill'),
-                    transparent: true
-                });
+                var paletteFillColor = this.getView('EditChart').paletteFillColor;
 
                 paletteFillColor.on('select', _.bind(me.onFillColor, me));
 
@@ -533,9 +530,7 @@ define([
 
             initBorderColorPage: function () {
                 var me = this,
-                    palette = new Common.UI.ThemeColorPalette({
-                        el: $('.page[data-page=edit-chart-border-color] .page-content')
-                    });
+                    palette = me.getView('EditChart').paletteBorderColor;
 
                 if (palette) {
                     palette.select(_borderInfo.color);

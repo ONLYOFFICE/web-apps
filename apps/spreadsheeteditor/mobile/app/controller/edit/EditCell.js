@@ -215,11 +215,9 @@ define([
             },
 
             initBorderColorPage: function () {
-                var me = this,
-                    palette = new Common.UI.ThemeColorPalette({
-                        el: $('.page[data-page=edit-border-color] .page-content')
-                    });
-
+                var me = this;
+                me.getView('EditCell').showBorderColorPage();
+                var palette = me.getView('EditCell').paletteBorderColor;
                 if (palette) {
                     palette.select(_borderInfo.color);
                     palette.on('select', _.bind(function (palette, color) {

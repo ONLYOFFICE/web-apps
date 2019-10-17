@@ -97,6 +97,21 @@ define([
                             '</div>',
                         '</div>',
                     '</li>',
+                    '<li class="dynamic-colors">',
+                        '<div style="padding: 15px 0 0 15px;"><%= me.textCustomColors %></div>',
+                        '<div class="item-content">',
+                            '<div class="item-inner">',
+                                '<% _.each(dynamicColors, function(color, index) { %>',
+                                    '<a data-color="<%=color%>" style="background:#<%=color%>"></a>',
+                                '<% }); %>',
+                                '<% if (dynamicColors.length < me.options.dynamiccolors) { %>',
+                                '<% for(var i = dynamicColors.length; i < me.options.dynamiccolors; i++) { %>',
+                                    '<a data-color="empty" style="background:#ffffff"></a>',
+                                '<% } %>',
+                                '<% } %>',
+                            '</div>',
+                        '</div>',
+                    '</li>',
                 '</ul>',
             '</div>'
         ].join('')),
@@ -133,9 +148,15 @@ define([
                 themeColors[row].push(effect);
             });
 
+            // custom color
+            this.dynamicColors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
+            this.dynamicColors = this.dynamicColors ? this.dynamicColors.toLowerCase().split(',') : [];
+
+
             $(me.el).append(me.template({
                 themeColors: themeColors,
-                standartColors: standartColors
+                standartColors: standartColors,
+                dynamicColors: me.dynamicColors
             }));
 
             return me;
@@ -157,28 +178,25 @@ define([
                 el = $(me.el),
                 $target = $(e.currentTarget);
 
-            el.find('.color-palette a').removeClass('active');
-            $target.addClass('active');
-
             var color = $target.data('color').toString(),
                 effectId = $target.data('effectid');
 
-            me.currentColor = color;
-
-            if (effectId) {
-                me.currentColor = {color: color, effectId: effectId};
+            if (color !== 'empty') {
+                el.find('.color-palette a').removeClass('active');
+                $target.addClass('active');
+                me.currentColor = color;
+                if (effectId) {
+                    me.currentColor = {color: color, effectId: effectId};
+                }
+                me.trigger('select', me, me.currentColor);
+            } else {
+                me.fireEvent('customcolor', me);
             }
-
-            me.trigger('select', me, me.currentColor);
         },
 
         select: function(color) {
             var me = this,
                 el = $(me.el);
-
-            if (color == me.currentColor) {
-                return;
-            }
 
             me.currentColor = color;
 
@@ -195,11 +213,10 @@ define([
                     color = /#?([a-fA-F0-9]{6})/.exec(color)[1];
                 }
 
-                if (/^[a-fA-F0-9]{6}|transparent$/.test(color) || _.indexOf(Common.Utils.ThemeColor.getStandartColors(), color) > -1) {
-                    el.find('.standart-colors a[data-color=' + color + ']').addClass('active');
-                } else {
-                    el.find('.custom-colors a[data-color=' + color + ']').addClass('active');
+                if (/^[a-fA-F0-9]{6}|transparent$/.test(color) || _.indexOf(Common.Utils.ThemeColor.getStandartColors(), color) > -1 || _.indexOf(this.dynamicColors, color) > -1) {
+                    el.find('.color-palette a[data-color=' + color + ']').first().addClass('active');
                 }
+
             }
         },
 
@@ -208,7 +225,43 @@ define([
             $(this.el).find('.color-palette a').removeClass('active');
         },
 
+        saveDynamicColor: function(color) {
+            var key_name = 'asc.'+Common.localStorage.getId()+'.colors.custom';
+            var colors = Common.localStorage.getItem(key_name);
+            colors = colors ? colors.split(',') : [];
+            if (colors.push(color) > this.options.dynamiccolors) colors.shift();
+            this.dynamicColors = colors;
+            Common.localStorage.setItem(key_name, colors.join().toUpperCase());
+        },
+
+        updateDynamicColors: function() {
+            var me = this;
+            var dynamicColors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
+            dynamicColors = dynamicColors ? dynamicColors.toLowerCase().split(',') : [];
+            var templateColors = '';
+            _.each(dynamicColors, function(color) {
+                templateColors += '<a data-color="' + color + '" style="background:#' + color + '"></a>';
+            });
+            if (dynamicColors.length < this.options.dynamiccolors) {
+                for (var i = dynamicColors.length; i < this.options.dynamiccolors; i++) {
+                    templateColors += '<a data-color="empty" style="background-color: #ffffff;"></a>';
+                }
+            }
+            $(this.el).find('.dynamic-colors .item-inner').html(_.template(templateColors));
+            $(this.el).find('.color-palette .dynamic-colors a').on('click', _.bind(this.onColorClick, this));
+        },
+
+        addNewDynamicColor: function(colorPicker, color) {
+            if (color) {
+                this.saveDynamicColor(color);
+                this.updateDynamicColors();
+                this.trigger('select', this, color);
+                this.select(color);
+            }
+        },
+
         textThemeColors: 'Theme Colors',
-        textStandartColors: 'Standard Colors'
+        textStandartColors: 'Standard Colors',
+        textCustomColors: 'Custom Colors'
     }, Common.UI.ThemeColorPalette || {}));
 });

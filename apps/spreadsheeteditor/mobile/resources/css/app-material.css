@@ -5819,11 +5819,129 @@ html.phone .document-menu .list-block .item-link {
   display: inline-block;
   overflow: visible;
 }
-.color-palette .standart-colors .item-inner {
+.color-palette .standart-colors .item-inner,
+.color-palette .dynamic-colors .item-inner {
   overflow: visible;
 }
 .color-palette.list-block:last-child li:last-child a {
   border-radius: 0;
+}
+.custom-colors {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 15px;
+}
+.custom-colors.phone {
+  max-width: 300px;
+  margin: 0 auto;
+  margin-top: 4px;
+}
+.custom-colors.phone .button-round {
+  margin-top: 20px;
+}
+.custom-colors .right-block {
+  margin-left: 20px;
+}
+.custom-colors .button-round {
+  height: 72px;
+  width: 72px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background-color: #40865c;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-color: transparent;
+  margin-top: 25px;
+}
+.custom-colors .button-round.active-state {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.custom-colors .color-hsb-preview {
+  width: 72px;
+  height: 72px;
+  border-radius: 100px;
+  overflow: hidden;
+  border: 1px solid #ededed;
+}
+.custom-colors .new-color-hsb-preview {
+  width: 100%;
+  height: 36px;
+}
+.custom-colors .current-color-hsb-preview {
+  width: 100%;
+  height: 36px;
+}
+.custom-colors .list-block ul:before,
+.custom-colors .list-block ul:after {
+  content: none;
+}
+.custom-colors .list-block ul li {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.custom-colors .color-picker-wheel {
+  position: relative;
+  width: 290px;
+  max-width: 100%;
+  height: auto;
+  font-size: 0;
+}
+.custom-colors .color-picker-wheel svg {
+  width: 100%;
+  height: auto;
+}
+.custom-colors .color-picker-wheel .color-picker-wheel-handle {
+  width: calc(16.66666667%);
+  height: calc(16.66666667%);
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  background: red;
+  border-radius: 50%;
+  left: 0;
+  top: 0;
+}
+.custom-colors .color-picker-wheel .color-picker-sb-spectrum {
+  background-color: #000;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000 100%), linear-gradient(to left, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  position: relative;
+  width: 45%;
+  height: 45%;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  position: absolute;
+}
+.custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle {
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  z-index: 1;
+}
+.custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle:after {
+  background-color: inherit;
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: 150ms;
+  transition-property: transform;
+  transform-origin: center;
+}
+.custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle.color-picker-sb-spectrum-handle-pressed:after {
+  transform: scale(1.5) translate(-33.333%, -33.333%);
 }
 .about .page-content {
   text-align: center;
