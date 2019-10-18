@@ -64,6 +64,7 @@ define([
                 '<div class="separator long sharing"/>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-comment"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-comment-remove"></span>' +
                 '</div>' +
                 '<div class="separator long comments"/>' +
                 '<div class="group">' +
@@ -161,6 +162,16 @@ define([
             this.btnChat && this.btnChat.on('click', function (btn, e) {
                 me.fireEvent('collaboration:chat', [btn.pressed]);
             });
+
+            if (this.btnCommentRemove) {
+                this.btnCommentRemove.on('click', function (e) {
+                    me.fireEvent('comment:removeComments', ['current']);
+                });
+
+                this.btnCommentRemove.menu.on('item:click', function (menu, item, e) {
+                    me.fireEvent('comment:removeComments', [item.value]);
+                });
+            }
         }
 
         return {
@@ -291,6 +302,15 @@ define([
                     });
                 }
 
+                if ( this.appConfig.canCoAuthoring && this.appConfig.canComments ) {
+                    this.btnCommentRemove = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        caption: this.txtCommentRemove,
+                        split: true,
+                        iconCls: 'btn-menu-comments'
+                    });
+                }
+
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
@@ -397,6 +417,28 @@ define([
                         me.turnCoAuthMode((value===null || parseInt(value) == 1) && !(config.isDesktopApp && config.isOffline) && config.canCoAuthoring);
                     }
 
+                    if (me.btnCommentRemove) {
+                        var items = [
+                            {
+                                caption: me.txtCommentRemCurrent,
+                                value: 'current'
+                            },
+                            {
+                                caption: me.txtCommentRemMy,
+                                value: 'my'
+                            }
+                        ];
+                        if (config.canEditComments)
+                            items.push({
+                                caption: me.txtCommentRemAll,
+                                value: 'all'
+                            });
+                        me.btnCommentRemove.setMenu(
+                            new Common.UI.Menu({items: items})
+                        );
+                        me.btnCommentRemove.updateHint([me.tipCommentRemCurrent, me.tipCommentRem]);
+                    }
+
                     var separator_sharing = !(me.btnSharing || me.btnCoAuthMode) ? me.$el.find('.separator.sharing') : '.separator.sharing',
                         separator_comments = !(config.canComments && config.canCoAuthoring) ? me.$el.find('.separator.comments') : '.separator.comments',
                         separator_review = !(config.canReview || config.canViewReview) ? me.$el.find('.separator.review') : '.separator.review',
@@ -448,6 +490,7 @@ define([
                 this.btnCoAuthMode && this.btnCoAuthMode.render(this.$el.find('#slot-btn-coauthmode'));
                 this.btnHistory && this.btnHistory.render(this.$el.find('#slot-btn-history'));
                 this.btnChat && this.btnChat.render(this.$el.find('#slot-btn-chat'));
+                this.btnCommentRemove && this.btnCommentRemove.render(this.$el.find('#slot-comment-remove'));
 
                 return this.$el;
             },
@@ -561,6 +604,7 @@ define([
                     }
                 }, this);
                 this.btnChat && this.btnChat.setDisabled(state);
+                this.btnCommentRemove && this.btnCommentRemove.setDisabled(state);
             },
 
             onLostEditRights: function() {
@@ -609,7 +653,13 @@ define([
             txtFinalCap: 'Final',
             txtOriginalCap: 'Original',
             strFastDesc: 'Real-time co-editing. All changes are saved automatically.',
-            strStrictDesc: 'Use the \'Save\' button to sync the changes you and others make.'
+            strStrictDesc: 'Use the \'Save\' button to sync the changes you and others make.',
+            txtCommentRemove: 'Remove Comments',
+            tipCommentRemCurrent: 'Remove current comments',
+            tipCommentRem: 'Remove comments',
+            txtCommentRemCurrent: 'Remove Current Comments',
+            txtCommentRemMy: 'Remove My Comments',
+            txtCommentRemAll: 'Remove All Comments'
         }
     }()), Common.Views.ReviewChanges || {}));
 

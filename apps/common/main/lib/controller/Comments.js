@@ -126,6 +126,9 @@ define([
                     'comment:closeEditing':     _.bind(this.closeEditing, this),
                     'comment:disableHint':      _.bind(this.disableHint, this),
                     'comment:addDummyComment':  _.bind(this.onAddDummyComment, this)
+                },
+                'Common.Views.ReviewChanges': {
+                    'comment:removeComments':           _.bind(this.onRemoveComments, this)
                 }
             });
 
@@ -180,7 +183,7 @@ define([
                 this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                 this.api.asc_registerCallback('asc_onRemoveComment', _.bind(this.onApiRemoveComment, this));
                 this.api.asc_registerCallback('asc_onChangeComments', _.bind(this.onChangeComments, this));
-                this.api.asc_registerCallback('asc_onRemoveComments', _.bind(this.onRemoveComments, this));
+                this.api.asc_registerCallback('asc_onRemoveComments', _.bind(this.onApiRemoveComments, this));
                 this.api.asc_registerCallback('asc_onChangeCommentData', _.bind(this.onApiChangeCommentData, this));
                 this.api.asc_registerCallback('asc_onLockComment', _.bind(this.onApiLockComment, this));
                 this.api.asc_registerCallback('asc_onUnLockComment', _.bind(this.onApiUnLockComment, this));
@@ -231,6 +234,11 @@ define([
         onRemoveComment: function (id) {
             if (this.api && id) {
                 this.api.asc_removeComment(id);
+            }
+        },
+        onRemoveComments: function (type) {
+            if (this.api) {
+                this.api.asc_removeComments(type!='current', type=='my' || !this.mode.canEditComments);// 1 param = true if remove all comments (not current), 2 param - only my comments
             }
         },
         onResolveComment: function (uid) {
@@ -725,7 +733,7 @@ define([
 
             this.updateComments(true);
         },
-        onRemoveComments: function (data) {
+        onApiRemoveComments: function (data) {
             for (var i = 0; i < data.length; ++i) {
                 this.onApiRemoveComment(data[i], true);
             }
