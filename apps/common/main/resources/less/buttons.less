@@ -249,15 +249,7 @@
             line-height: 20px;
 
             &:not(svg) {
-                @media
-                only screen and (-webkit-min-device-pixel-ratio: 1.5),
-                only screen and (min-resolution: 1.5dppx),
-                only screen and (min-resolution: 144dpi) {
-                    background-image: ~"url('@{app-image-const-path}/toolbar-menu@1.5x.png')";
-                    background-size: 60px auto;
-                }
-
-                .background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
+                .background-ximage-v2('@{app-image-const-path}/toolbar-menu.png', 60px, @usedatauri: false);
             }
         }
 
@@ -274,15 +266,7 @@
 
     &.x-huge, .btn-group.x-huge > & {
         :not(svg).icon {
-            @media
-            only screen and (-webkit-min-device-pixel-ratio: 1.5),
-            only screen and (min-resolution: 1.5dppx),
-            only screen and (min-resolution: 144dpi) {
-                background-image: ~"url('@{common-image-const-path}/controls/toolbarbig@1.5x.png')";
-                background-size: 78px auto;
-            }
-
-            .background-ximage('@{common-image-path}/controls/toolbarbig.png', '@{common-image-path}/controls/toolbarbig@2x.png', 78px);
+            .background-ximage-v2('@{common-image-const-path}/controls/toolbarbig.png', 78px, @usedatauri: false);
         }
     }
 

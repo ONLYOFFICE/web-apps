@@ -149,6 +149,34 @@
     }
 }
 
+.background-ximage-v2(@image, @w: auto, @h: auto, @repeat: no-repeat, @usedatauri: true) {
+    background-image: if(@usedatauri, data-uri(%("%s",@image)), ~"url(@{image})");
+    background-repeat: @repeat;
+
+    @1d5ximage: replace(@image, '\.png$', '@1.5x.png');
+    @1d75ximage: replace(@image, '\.png$', '@1.75x.png');
+    @1d25ximage: replace(@image, '\.png$', '@1.25x.png');
+    @2ximage: replace(@image, '\.png$', '@2x.png');
+
+    @media only screen {
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+            (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{1d5ximage})";
+            background-size: @w @h;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 2dppx),
+            (min-resolution: 192dpi)
+        {
+            background-image: ~"url(@{2ximage})";
+            background-size: @w @h;
+        }
+    }
+}
+
 @common-controls-width: 100px;
 .img-commonctrl, 
         .theme-colorpalette .color-transparent, .palette-color-ext .color-transparent, .dropdown-menu li .checked:before, .input-error:before,
