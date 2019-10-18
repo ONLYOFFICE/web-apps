@@ -135,7 +135,7 @@ define([
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
                 this.handler && this.handler.call(this, state, this.getSettings());
-                Common.localStorage.setItem("de-compare-char", this.radioChar.getValue());
+                Common.localStorage.setBool("de-compare-char", this.radioChar.getValue());
             }
 
             this.close();
