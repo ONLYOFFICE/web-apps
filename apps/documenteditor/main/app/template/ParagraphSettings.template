@@ -54,4 +54,5 @@
         </td>
     </tr>
     <tr class="finish-cell"></tr>
+    <tr><div id="calendar"></div></tr>
 </table>

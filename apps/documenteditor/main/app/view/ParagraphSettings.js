@@ -48,7 +48,8 @@ define([
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
-    'documenteditor/main/app/view/ParagraphSettingsAdvanced'
+    'documenteditor/main/app/view/ParagraphSettingsAdvanced',
+    'common/main/lib/view/Calendar'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -181,6 +182,22 @@ define([
             this.$el.html($markup);
 
             this.TextOnlySettings = $('.text-only', this.$el);
+
+            // begin calendar
+
+            var me = this;
+            this.btnCalendar = new Common.UI.Button({
+                caption: this.textCalendar,
+                style: "width:100px;"
+            });
+            this.btnCalendar.render( $('#calendar'));
+            this.btnCalendar.on('click', _.bind(function (e) {
+                var popover = Common.Views.Calendar.prototype.getCalendarPopover({});
+                popover.showCalendarPopover();
+                popover.setLeftTop(300, 300);
+            }, this));
+
+            // end calendar
 
             this.rendered = true;
         },
@@ -499,6 +516,7 @@ define([
         textAt:                 'At',
         txtAutoText:            'Auto',
         textBackColor:          'Background color',
-        textNewColor:           'Add New Custom Color'
+        textNewColor:           'Add New Custom Color',
+        textCalendar:           'Calendar'
     }, DE.Views.ParagraphSettings || {}));
 });
