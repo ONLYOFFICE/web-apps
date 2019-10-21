@@ -96,10 +96,10 @@
 }
 
 .button-otherstates-icon(@icon-class, @icon-size) {
-    button.over     > .@{icon-class} {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
+    button.over     > .@{icon-class} {background-position-x: -1*@icon-size; --bgX: calc(-1*@icon-size);}
     button {
         &.active, &:active {
-            &:not(.disabled):not(:disabled) > .@{icon-class} {background-position-x: -2*@icon-size !important; --bgX: -(2*@icon-size);}
+            &:not(.disabled):not(:disabled) > .@{icon-class} {background-position-x: -2*@icon-size !important; --bgX: calc(-2*@icon-size);}
         }
     }
 }
@@ -107,7 +107,7 @@
 .mx-button-otherstates-icon2(@icon-size) {
     &.active, &:active{
         &:not(:disabled):not(.disabled) {
-            .icon {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
+            .icon {background-position-x: -1*@icon-size; --bgX: calc(-1 * @icon-size);}
         }
     }
 
@@ -130,8 +130,8 @@
 }
 
 .menu-otherstates-icon(@menu-class, @icon-size) {
-    .@{menu-class} li            > a.checked > .menu-item-icon {background-position-x: -1*@icon-size; --bgX: -(1*@icon-size);}
-    .@{menu-class} li.disabled                 .menu-item-icon {background-position-x: -2*@icon-size; --bgX: -(2*@icon-size);}
+    .@{menu-class} li            > a.checked > .menu-item-icon {background-position-x: -1*@icon-size; --bgX: calc(-1*@icon-size);}
+    .@{menu-class} li.disabled                 .menu-item-icon {background-position-x: -2*@icon-size; --bgX: calc(-2*@icon-size);}
 }
 
 /**/
