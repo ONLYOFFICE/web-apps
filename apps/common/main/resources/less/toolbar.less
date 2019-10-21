@@ -362,7 +362,7 @@
         .extra {
             #header-logo {
                 i {
-                    .background-ximage('@{common-image-path}/header/dark-logo.png', '@{common-image-path}/header/dark-logo@2x.png', 86px);
+                    .background-ximage-v2('header/dark-logo.png', 86px);
                 }
             }
         }
@@ -537,15 +537,16 @@
     .btn-toolbar {
         &:not(.x-huge) {
             .icon:not(svg) {
-                &.btn-bold, &.btn-italic, &.btn-strikeout, &.btn-underline, &.btn-ic-docspell, &.btn-sort-down, &.btn-sort-up, &.btn-currency-style {
-                    .background-ximage('@{common-image-path}/controls/toolbar-menu-ru.png', '@{common-image-path}/controls/toolbar-menu-ru@2x.png', 60px);
+                &.btn-bold, &.btn-italic, &.btn-strikeout, &.btn-underline, &.btn-ic-docspell, &.btn-sort-down, &.btn-sort-up, &.btn-currency-style
+                {
+                    .background-ximage-v2('controls/toolbar-menu-ru.png', @toolbarmenu-sprite-width);
                 }
             }
         }
     }
 
     .img-toolbarmenu.btn-ic-docspell {
-        .background-ximage('@{common-image-path}/controls/toolbar-menu-ru.png', '@{common-image-path}/controls/toolbar-menu-ru@2x.png', 60px);
+        .background-ximage-v2('controls/toolbar-menu-ru.png', @toolbarmenu-sprite-width);
     }
 
     .button-normal-icon(btn-notes,            77, @x-huge-btn-icon-size);

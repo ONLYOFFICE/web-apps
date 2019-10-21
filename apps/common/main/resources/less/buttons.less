@@ -249,7 +249,7 @@
             line-height: 20px;
 
             &:not(svg) {
-                .background-ximage-v2('@{app-image-const-path}/toolbar-menu.png', 60px, @usedatauri: false);
+                .background-ximage-v2('toolbar-menu.png', @toolbarmenu-sprite-width, @commonimage: false);
             }
         }
 
@@ -266,7 +266,7 @@
 
     &.x-huge, .btn-group.x-huge > & {
         :not(svg).icon {
-            .background-ximage-v2('@{common-image-const-path}/controls/toolbarbig.png', 78px, @usedatauri: false);
+            .background-ximage-v2('controls/toolbarbig.png', 78px);
         }
     }
 

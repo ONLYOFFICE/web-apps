@@ -114,7 +114,7 @@
 .button-otherstates-icon2(btn-category, @toolbar-icon-size);
 
 .icon-right-panel {
-    .background-ximage('@{app-image-path}/right-panels/RightPanelBigBtns.png', '@{app-image-path}/right-panels/RightPanelBigBtns@2x.png', 148px);
+    .background-ximage-v2('right-panels/RightPanelBigBtns.png', 148px, @commonimage: false);
 }
 
 .button-normal-icon(btn-colontitul-tl,    3, @huge-icon-size);
@@ -138,11 +138,12 @@
 .button-otherstates-icon(icon-right-panel, @huge-icon-size);
 
 .combo-wrap-item {
-    .background-ximage('@{app-image-path}/right-panels/right_panel_wrap_icons.png', '@{app-image-path}/right-panels/right_panel_wrap_icons@2x.png', 350px);
+    // TODO: dublicate .item-wrap
+    .background-ximage-v2('right-panels/right_panel_wrap_icons.png', 350px, @commonimage: false);
 }
 
 .item-wrap {
-    .background-ximage('@{app-image-path}/right-panels/right_panel_wrap_icons.png', '@{app-image-path}/right-panels/right_panel_wrap_icons@2x.png', 350px);
+    .background-ximage-v2('right-panels/right_panel_wrap_icons.png', 350px, @commonimage: false);
     width:50px;
     height:50px;
     background-size: cover !important;
@@ -177,7 +178,7 @@
 }
 
 .btn-toolbar:not(.x-huge) .icon:not(svg).btn-borders-small {
-   .background-ximage('@{common-image-path}/right-panels/SmallBorders.png', '@{common-image-path}/right-panels/SmallBorders@2x.png', 84px);
+   .background-ximage-v2('right-panels/SmallBorders.png', 84px);
 }
 
 .button-normal-icon(btn-position-all,         0, 21px);
@@ -195,7 +196,7 @@
 
 .btn-edit-table,
 .btn-change-shape {
-    .background-ximage('@{common-image-path}/right-panels/rowscols_icon.png', '@{common-image-path}/right-panels/rowscols_icon@2x.png', 84px);
+    .background-ximage-v2('right-panels/rowscols_icon.png', 84px);
     margin-right: 2px !important;
     margin-bottom: 1px !important;
 }
@@ -213,7 +214,7 @@ button.active:not(.disabled) .btn-change-shape,
 button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -16px;}
 
 .combo-pattern-item {
-    .background-ximage('@{common-image-path}/right-panels/patterns.png', '@{common-image-path}/right-panels/patterns@2x.png', 112px);
+    .background-ximage-v2('right-panels/patterns.png', 112px);
 }
 
 .combo-dataview-menu {
@@ -229,7 +230,8 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 }
 
 .item-gradient {
-    .background-ximage('@{common-image-path}/right-panels/gradients.png', '@{common-image-path}/right-panels/gradients@2x.png', 150px);
+    .background-ximage-v2('right-panels/gradients.png', 150px);
+
     width:50px;
     height:50px;
 }
