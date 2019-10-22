@@ -189,7 +189,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/Private/Locks.js",
     "../../../../sdkjs/common/Private/license.js",
     "../../../../sdkjs/common/Private/versionHistory.js",
-    "../../../../sdkjs/word/Private/comments.js",
     "../../../../sdkjs/word/Private/StyleManager.js",
     "../../../../sdkjs/word/Private/MailMerge.js",
     "../../../../sdkjs/word/Private/TrackRevisions.js",
