@@ -190,7 +190,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/Private/license.js",
     "../../../../sdkjs/common/Private/versionHistory.js",
     "../../../../sdkjs/word/Private/StyleManager.js",
-    "../../../../sdkjs/word/Private/MailMerge.js",
     "../../../../sdkjs/word/Private/TrackRevisions.js",
     "../../../../sdkjs/common/applyDocumentChanges.js",
     "../../../../sdkjs/common/Drawings/Format/OleObject.js",
