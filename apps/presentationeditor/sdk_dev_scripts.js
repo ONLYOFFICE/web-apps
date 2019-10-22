@@ -152,7 +152,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/common/apiBase.js",
     "../../../../sdkjs/slide/api.js",
     "../../../../sdkjs/common/Private/license.js",
-    "../../../../sdkjs/slide/Private/comments.js",
     "../../../../sdkjs/word/Editor/ParagraphContentBase.js",
     "../../../../sdkjs/word/Editor/Hyperlink.js",
 	"../../../../sdkjs/word/Editor/HyperlinkChanges.js",
