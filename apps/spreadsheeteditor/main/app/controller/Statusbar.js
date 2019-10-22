@@ -301,7 +301,7 @@ define([
                 curArrNames.forEach(function (item) {
                     arr.push(item.toLowerCase());
                 });
-                while(arr.indexOf(name.toLowerCase()) !== -1) {
+                while(arr.indexOf(name.toLowerCase()) !== -1 || items.indexOf(name.toLowerCase()) !== -1) {
                     index++;
                     name = this.strSheet + index;
                 }
