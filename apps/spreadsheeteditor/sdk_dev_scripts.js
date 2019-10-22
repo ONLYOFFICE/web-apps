@@ -219,6 +219,5 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/common/text_input.js",
 	"../../../../sdkjs/common/Drawings/Format/OleObject.js",
 	"../../../../sdkjs/common/Drawings/Format/DrawingContent.js",
-	"../../../../sdkjs/common/plugins.js",
-	"../../../../sdkjs/cell/Private/comments.js"
+	"../../../../sdkjs/common/plugins.js"
 ];
