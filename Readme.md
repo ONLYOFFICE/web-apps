@@ -6,7 +6,7 @@ The frontend for [ONLYOFFICE Document Server][2]. Builds the program interface a
 
 ## Previos versions
 
-Until 10/23/2019 the repository was called web-apps-pro
+Until 2019-10-23 the repository was called web-apps-pro
 
 ## Project Information
 
