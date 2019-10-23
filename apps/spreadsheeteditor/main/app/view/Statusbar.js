@@ -418,6 +418,7 @@ define([
             },
 
             onTabMenu: function (o, index, tab, select) {
+                var me = this;
                 if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                     !this.mode.isDisconnected ) {
@@ -428,8 +429,18 @@ define([
 
                         if (!tab.isActive()) this.tabbar.setActive(tab);
 
-                        var issheetlocked   = this.api.asc_isWorksheetLockedOrDeleted(tab.sheetindex),
-                            isdoclocked     = this.api.asc_isWorkbookLocked();
+                        if (!_.isUndefined(select)) {
+                            var issheetlocked = false;
+                            select.forEach(function (item) {
+                                if (me.api.asc_isWorksheetLockedOrDeleted(item.sheetindex)) {
+                                    issheetlocked = true;
+                                }
+                            });
+                        } else {
+                            var issheetlocked = me.api.asc_isWorksheetLockedOrDeleted(tab.sheetindex);
+                        }
+
+                        var isdoclocked     = this.api.asc_isWorkbookLocked();
 
                         this.tabMenu.items[0].setDisabled(isdoclocked);
                         this.tabMenu.items[1].setDisabled(issheetlocked);
