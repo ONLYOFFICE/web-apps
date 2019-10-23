@@ -186,7 +186,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/word/Math/operators.js",
     "../../../../sdkjs/word/Math/accent.js",
     "../../../../sdkjs/word/Math/borderBox.js",
-    "../../../../sdkjs/common/Private/license.js",
     "../../../../sdkjs/common/applyDocumentChanges.js",
     "../../../../sdkjs/common/Drawings/Format/OleObject.js",
     "../../../../sdkjs/common/Drawings/Format/DrawingContent.js",
