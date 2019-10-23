@@ -187,7 +187,6 @@ var sdk_dev_scrpipts = [
     "../../../../sdkjs/slide/Editor/Format/GroupPrototype.js",
     "../../../../sdkjs/slide/Editor/Format/ChartSpacePrototype.js",
     "../../../../sdkjs/common/Drawings/Format/LockedCanvas.js",
-    "../../../../sdkjs/common/Private/Locks.js",
     "../../../../sdkjs/word/apiCommon.js",
     "../../../../sdkjs/common/applyDocumentChanges.js",
     "../../../../sdkjs/common/Drawings/Format/OleObject.js",
