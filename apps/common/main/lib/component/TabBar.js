@@ -328,7 +328,7 @@ define([
                             } else {
                                 $(event.target).parent().parent().find('li.mousemove').removeClass('mousemove right');
                                 $(event.target).parent().addClass('mousemove');
-                                var name = event.target.parentElement.dataset.label,
+                                var name = $(event.target).parent().data('label'),
                                     currentTab = _.findWhere(bar.tabs, {label: name});
                                 if (!_.isUndefined(currentTab)) {
                                     me.drag.place = currentTab.sheetindex;
