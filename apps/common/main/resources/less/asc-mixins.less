@@ -107,7 +107,11 @@
 .mx-button-otherstates-icon2(@icon-size) {
     &.active, &:active{
         &:not(:disabled):not(.disabled) {
-            .icon {background-position-x: -1*@icon-size; --bgX: calc(-1 * @icon-size);}
+            .icon {
+                @btn-active-icon-offset: -1 * @icon-size;
+                background-position-x: @btn-active-icon-offset;
+                --bgX: @btn-active-icon-offset;
+            }
         }
     }
 
