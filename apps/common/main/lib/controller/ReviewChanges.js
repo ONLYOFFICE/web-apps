@@ -639,7 +639,7 @@ define([
                 primary: 'yes',
                 callback: function(result) {
                     _.defer(function() {
-                        if (callback) callback.call(result=='yes');
+                        if (callback) callback(result=='yes');
                     });
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 }
