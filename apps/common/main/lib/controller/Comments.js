@@ -238,7 +238,7 @@ define([
         },
         onRemoveComments: function (type) {
             if (this.api) {
-                this.api.asc_removeComments(type!='current', type=='my' || !this.mode.canEditComments);// 1 param = true if remove all comments (not current), 2 param - only my comments
+                this.api.asc_RemoveAllComments(type=='my' || !this.mode.canEditComments, type=='current');// 1 param = true if remove only my comments, 2 param - remove current comments
             }
         },
         onResolveComment: function (uid) {
