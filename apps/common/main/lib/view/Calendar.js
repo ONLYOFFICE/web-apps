@@ -44,8 +44,8 @@ if (Common === undefined)
 
 define([
     'common/main/lib/component/Window',
-    'underscore'
-], function (base, _) {
+    'common/main/lib/component/Calendar',
+], function () {
     'use strict';
 
     Common.Views.Calendar = Common.UI.Window.extend(_.extend({
@@ -57,8 +57,8 @@ define([
 
             _.extend(_options, {
                 closable: false,
-                width: 192,
-                height: 214,
+                width: 200,
+                height: 220,
                 header: false,
                 modal: false,
                 alias: 'Common.Views.Calendar',
@@ -69,26 +69,10 @@ define([
             this.template = options.template || [
                 '<div class="box">',
                 '<div id="id-popover" class="calendar-popover" style="overflow-y: hidden;position: relative;">',
-                '<div id="id-calendar-popover">',
-                '<div class="calendar-header">',
-                    '<div class="top-row">',
-                        '<div id="prev-arrow"><button type="button" style="width: 24px;height: 24px;"><i class="icon mmerge-prev">&nbsp;</i></button></div>',
-                        '<div class="title"></div>',
-                        '<div id="next-arrow"><button type="button" style="width: 24px;height: 24px;"><i class="icon mmerge-next">&nbsp;</i></button></div>',
-                    '</div>',
-                    '<div class="bottom-row">',
 
-                    '</div>',
-                '</div>',
-                '<div class="calendar-content"></div>',
-                '</div>',
                 '</div>',
                 '</div>'
             ].join('');
-
-            this.monthNames = [this.textJanuary, this.textFebruary, this.textMarch, this.textApril, this.textMay, this.textJune, this.textJuly, this.textAugust, this.textSeptember, this.textOctober, this.textNovember, this.textDecember];
-            this.dayNamesShort = [this.textShortSunday, this.textShortMonday, this.textShortTuesday, this.textShortWednesday, this.textShortThursday, this.textShortFriday, this.textShortSaturday];
-
 
 
             _options.tpl = _.template(this.template)(_options);
@@ -105,7 +89,7 @@ define([
 
             window.css({
                 height: '',
-                minHeight: '',
+                minHeight: 222,
                 overflow: 'hidden',
                 position: 'absolute',
                 zIndex: '990'
@@ -116,29 +100,9 @@ define([
                 body.css('position', 'relative');
             }
 
-            me.btnPrev = new Common.UI.Button({
-                cls: 'btn-toolbar',
-                iconCls: 'mmerge-prev',
+            me.calendar = new Common.UI.Calendar({
+                el: $('#id-popover')
             });
-            me.btnPrev.render(me.$window.find('#prev-arrow'));
-
-            me.btnNext = new Common.UI.Button({
-                cls: 'btn-toolbar',
-                iconCls: 'mmerge-next',
-            });
-            me.btnNext.render(me.$window.find('#next-arrow'));
-
-            me.topTitle = _.template([
-                '<label>' + me.monthNames[0] + '</label>',
-                '<label>' + 2019 + '</label>'
-            ].join(''));
-            me.$window.find('.calendar-header .title').html(me.topTitle);
-
-            var dayNamesTemplate = '';
-            me.dayNamesShort.forEach(function (item) {
-                dayNamesTemplate += '<label>' + item + '</label>';
-            });
-            me.$window.find('.calendar-header .bottom-row').html(_.template(dayNamesTemplate));
 
         },
 
@@ -267,26 +231,6 @@ define([
                 }
             }
         },
-
-        textJanuary: 'January',
-        textFebruary: 'February',
-        textMarch: 'March',
-        textApril: 'April',
-        textMay: 'May',
-        textJune: 'June',
-        textJuly: 'July',
-        textAugust: 'August',
-        textSeptember: 'September',
-        textOctober: 'October',
-        textNovember: 'November',
-        textDecember: 'December',
-        textShortSunday: 'Su',
-        textShortMonday: 'Mo',
-        textShortTuesday: 'Tu',
-        textShortWednesday: 'We',
-        textShortThursday: 'Th',
-        textShortFriday: 'Fr',
-        textShortSaturday: 'Sa'
 
     }, Common.Views.Calendar || {}))
 });

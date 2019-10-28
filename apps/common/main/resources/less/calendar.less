@@ -3,11 +3,11 @@
 .calendar-window {
   border-radius: 0;
   box-shadow: none;
-  border: 1px solid @calendar-bg-color;
 }
-.calendar-popover {
-  width: 190px;
-  height: 214px;
+.calendar-box {
+  width: 198px;
+  height: 220px;
+  border: 1px solid @calendar-bg-color;
   .btn {
     background-color: transparent;
     border: none;
@@ -31,8 +31,8 @@
     }
     .bottom-row {
       display: flex;
-      justify-content: space-between;
-      padding: 0 10px;
+      justify-content: space-around;
+      padding: 0;
     }
     .title {
       padding-top: 6px;
@@ -43,6 +43,54 @@
           margin-right: 6px;
         }
       }
+
+    }
+  }
+  .calendar-content {
+    .item {
+      margin: 0;
+      padding: 0;
+      height: auto;
+      width: auto;
+      box-shadow: none;
+      border: 1px solid #fff;
+      .name-month, .name-year {
+        height: 40px;
+        width: 47px;
+        background-color: #F1F1F1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 13px;
+      }
+      .number-day {
+        height: 26px;
+        width: 26px;
+        background-color: #F1F1F1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &.selected {
+        .number-day, .name-month, .name-year {
+          color: #fff;
+          background-color: #7D858C;
+        }
+      }
+      .weekend {
+        color: #D25252;
+      }
+      .no-current-month, .no-cur-year, .no-current-decade {
+        color: #A5A5A5;
+      }
+      &:not(.disabled):not(.selected) {
+        .number-day, .name-month, .name-year {
+          &:hover {
+            background-color: #D9D9D9;
+          }
+        }
+      }
+
 
     }
   }
