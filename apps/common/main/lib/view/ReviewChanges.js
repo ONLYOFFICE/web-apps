@@ -371,9 +371,9 @@ define([
                             items: [
                                 {caption: me.mniFromFile, value: 'file'},
                                 {caption: me.mniFromUrl, value: 'url'},
-                                {caption: me.mniFromStorage, value: 'storage'},
-                                {caption: '--'},
-                                {caption: me.mniSettings, value: 'settings'}
+                                {caption: me.mniFromStorage, value: 'storage'}
+                                // ,{caption: '--'},
+                                // {caption: me.mniSettings, value: 'settings'}
                             ]
                         }));
                         me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
