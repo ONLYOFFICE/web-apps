@@ -3150,71 +3150,70 @@ define([
                     compactview = true;
             }
 
-            setTimeout(function () {
-                me.toolbar.render(_.extend({isCompactView: compactview}, config));
-                if ( config.isEdit ) {
-                    me.toolbar.setMode(config);
+            me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-                    me.toolbar.btnSave && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-                    me.toolbar.btnUndo && me.toolbar.btnUndo.on('disabled', _.bind(me.onBtnChangeState, me, 'undo:disabled'));
-                    me.toolbar.btnRedo && me.toolbar.btnRedo.on('disabled', _.bind(me.onBtnChangeState, me, 'redo:disabled'));
-                    me.toolbar.btnPrint && me.toolbar.btnPrint.on('disabled', _.bind(me.onBtnChangeState, me, 'print:disabled'));
-                    me.toolbar.setApi(me.api);
+            if ( config.isEdit ) {
+                me.toolbar.setMode(config);
 
-                    if ( !config.isEditDiagram && !config.isEditMailMerge ) {
-                        var datatab = me.getApplication().getController('DataTab');
-                        datatab.setApi(me.api).setConfig({toolbar: me});
+                me.toolbar.btnSave && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+                me.toolbar.btnUndo && me.toolbar.btnUndo.on('disabled', _.bind(me.onBtnChangeState, me, 'undo:disabled'));
+                me.toolbar.btnRedo && me.toolbar.btnRedo.on('disabled', _.bind(me.onBtnChangeState, me, 'redo:disabled'));
+                me.toolbar.btnPrint && me.toolbar.btnPrint.on('disabled', _.bind(me.onBtnChangeState, me, 'print:disabled'));
+                me.toolbar.setApi(me.api);
 
-                        datatab = datatab.getView('DataTab');
-                        Array.prototype.push.apply(me.toolbar.lockControls, datatab.getButtons());
-                        me.toolbar.btnsSortDown = datatab.getButtons('sort-down');
-                        me.toolbar.btnsSortUp = datatab.getButtons('sort-up');
-                        me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
-                        me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
+                if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                    var datatab = me.getApplication().getController('DataTab');
+                    datatab.setApi(me.api).setConfig({toolbar: me});
 
-                        var formulatab = me.getApplication().getController('FormulaDialog');
-                        formulatab.setConfig({toolbar: me});
-                        formulatab = formulatab.getView('FormulaTab');
-                        me.toolbar.btnsFormula = formulatab.getButtons('formula');
-                        Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
+                    datatab = datatab.getView('DataTab');
+                    Array.prototype.push.apply(me.toolbar.lockControls, datatab.getButtons());
+                    me.toolbar.btnsSortDown = datatab.getButtons('sort-down');
+                    me.toolbar.btnsSortUp = datatab.getButtons('sort-up');
+                    me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
+                    me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
 
-                        if ( !config.isOffline ) {
-                            tab = {action: 'pivot', caption: me.textPivot};
-                            $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
-                            if ($panel) {
-                                me.toolbar.addTab(tab, $panel, 5);
-                                me.toolbar.setVisible('pivot', true);
-                            }
+                    var formulatab = me.getApplication().getController('FormulaDialog');
+                    formulatab.setConfig({toolbar: me});
+                    formulatab = formulatab.getView('FormulaTab');
+                    me.toolbar.btnsFormula = formulatab.getButtons('formula');
+                    Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
+
+                    if ( !config.isOffline ) {
+                        tab = {action: 'pivot', caption: me.textPivot};
+                        $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                        if ($panel) {
+                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.setVisible('pivot', true);
                         }
+                    }
 
-                        var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                        var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                        if ( $panel )
-                            me.toolbar.addTab(tab, $panel, 6);
+                    var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                    var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                    if ( $panel )
+                        me.toolbar.addTab(tab, $panel, 6);
 
-                        if (!(config.customization && config.customization.compactHeader)) {
-                            // hide 'print' and 'save' buttons group and next separator
-                            me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                    if (!(config.customization && config.customization.compactHeader)) {
+                        // hide 'print' and 'save' buttons group and next separator
+                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                            // hide 'undo' and 'redo' buttons and get container
-                            var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                        // hide 'undo' and 'redo' buttons and get container
+                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                            // move 'paste' button to the container instead of 'undo' and 'redo'
-                            me.toolbar.btnPaste.$el.detach().appendTo($box);
-                            me.toolbar.btnCopy.$el.removeClass('split');
-                        }
+                        // move 'paste' button to the container instead of 'undo' and 'redo'
+                        me.toolbar.btnPaste.$el.detach().appendTo($box);
+                        me.toolbar.btnCopy.$el.removeClass('split');
+                    }
 
-                        if ( config.isDesktopApp ) {
-                            if ( config.canProtect ) {
-                                tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                                $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                                if ($panel)
-                                    me.toolbar.addTab(tab, $panel, 7);
-                            }
+                    if ( config.isDesktopApp ) {
+                        if ( config.canProtect ) {
+                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                            if ($panel)
+                                me.toolbar.addTab(tab, $panel, 7);
                         }
                     }
                 }
-            }, 0);
+            }
         },
 
         onAppReady: function (config) {

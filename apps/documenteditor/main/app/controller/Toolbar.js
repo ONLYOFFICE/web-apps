@@ -2827,45 +2827,43 @@ define([
                     compactview = true;
             }
 
-            setTimeout(function () {
-                me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                if ( $panel )
-                    me.toolbar.addTab(tab, $panel, 4);
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+            if ( $panel )
+                me.toolbar.addTab(tab, $panel, 4);
 
-                if ( config.isEdit ) {
-                    me.toolbar.setMode(config);
+            if ( config.isEdit ) {
+                me.toolbar.setMode(config);
 
-                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                    if (!(config.customization && config.customization.compactHeader)) {
-                        // hide 'print' and 'save' buttons group and next separator
-                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                if (!(config.customization && config.customization.compactHeader)) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                        // hide 'undo' and 'redo' buttons and retrieve parent container
-                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    // hide 'undo' and 'redo' buttons and retrieve parent container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                        // move 'paste' button to the container instead of 'undo' and 'redo'
-                        me.toolbar.btnPaste.$el.detach().appendTo($box);
-                        me.toolbar.btnCopy.$el.removeClass('split');
-                    }
-
-                    if ( config.isDesktopApp ) {
-                        if ( config.canProtect ) {
-                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-
-                            if ($panel) me.toolbar.addTab(tab, $panel, 5);
-                        }
-                    }
-
-                    var links = me.getApplication().getController('Links');
-                    links.setApi(me.api).setConfig({toolbar: me});
-                    Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnCopy.$el.removeClass('split');
                 }
-            }, 0);
+
+                if ( config.isDesktopApp ) {
+                    if ( config.canProtect ) {
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+
+                        if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                    }
+                }
+
+                var links = me.getApplication().getController('Links');
+                links.setApi(me.api).setConfig({toolbar: me});
+                Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+            }
         },
 
         onAppReady: function (config) {

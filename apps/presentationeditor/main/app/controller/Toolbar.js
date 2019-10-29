@@ -2077,45 +2077,38 @@ define([
                     compactview = true;
             }
 
-            /**
-             * Rendering of toolbar makes rendering of header very slow
-             * Temporary wrapped up in setTimeout to process events
-             * */
-            setTimeout(function () {
-                me.toolbar.render(_.extend({compactview: compactview}, config));
+            me.toolbar.render(_.extend({compactview: compactview}, config));
 
-                if ( config.isEdit ) {
-                    me.toolbar.setMode(config);
+            if ( config.isEdit ) {
+                me.toolbar.setMode(config);
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ( $panel )
+                    me.toolbar.addTab(tab, $panel, 3);
 
-                    var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                    var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                    if ( $panel )
-                        me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+                if (!(config.customization && config.customization.compactHeader)) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                    if (!(config.customization && config.customization.compactHeader)) {
-                        // hide 'print' and 'save' buttons group and next separator
-                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                    // hide 'undo' and 'redo' buttons and get container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                        // hide 'undo' and 'redo' buttons and get container
-                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnCopy.$el.removeClass('split');
+                }
 
-                        // move 'paste' button to the container instead of 'undo' and 'redo'
-                        me.toolbar.btnPaste.$el.detach().appendTo($box);
-                        me.toolbar.btnCopy.$el.removeClass('split');
-                    }
-
-                    if ( config.isDesktopApp ) {
-                        if ( config.canProtect ) { // don't add protect panel to toolbar
-                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                            if ($panel)
-                                me.toolbar.addTab(tab, $panel, 4);
-                        }
+                if ( config.isDesktopApp ) {
+                    if ( config.canProtect ) { // don't add protect panel to toolbar
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                        if ($panel)
+                            me.toolbar.addTab(tab, $panel, 4);
                     }
                 }
-            }, 0);
+            }
         },
 
         onAppReady: function (config) {
