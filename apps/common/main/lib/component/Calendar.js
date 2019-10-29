@@ -59,7 +59,8 @@ define([
                 ].join('')),
 
         options: {
-            date: undefined
+            date: undefined,
+            firstday: 0 // 0 or 1
         },
 
         initialize : function(options) {
@@ -73,6 +74,9 @@ define([
             this.monthShortNames = [this.textShortJanuary, this.textShortFebruary, this.textShortMarch, this.textShortApril, this.textShortMay, this.textShortJune, this.textShortJuly, this.textShortAugust, this.textShortSeptember, this.textShortOctober, this.textShortNovember, this.textShortDecember];
 
             me.options.date = options.date;
+            if (!_.isUndefined(options.firstday) && (options.firstday === 0 || options.firstday === 1)) {
+                me.options.firstday = options.firstday;
+            }
 
             me._state = undefined;
 
@@ -152,7 +156,7 @@ define([
 
         renderYears: function (year) {
             var me = this,
-                year = _.isNumber(year) ? year : (me.currentDate ? me.currentDate.getFullYear() : (new Date()).getFullYear());
+                year = _.isNumber(year) ? year : (me.currentDate ? me.currentDate.getFullYear() : new Date().getFullYear());
 
             me._state = 'years';
 
@@ -182,8 +186,9 @@ define([
 
             for (var i = 0; i < 16; i++) {
                 arrYears.push({
-                    year: tmpYear,
-                    isCurrentDecade: ((tmpYear >= firstYear) && (tmpYear <= lastYear)) ? true : false
+                    year: (tmpYear > 0) ? tmpYear : '',
+                    isCurrentDecade: ((tmpYear >= firstYear) && (tmpYear <= lastYear)) ? true : false,
+                    disabled: (tmpYear > 0) ? false : true
                 });
                 tmpYear++;
             }
@@ -193,10 +198,9 @@ define([
                 store: new Common.UI.DataViewStore(arrYears),
                 itemTemplate: _.template('<div class="name-year <% if (!isCurrentDecade) { %> no-current-decade <% } %>" data-year="<%= year %>"><%= year %></div>')
             });
-            me.yearPicker.on('item:click', function (picker, item) {
-                var selectYear = item.$el.children(),
-                    year = selectYear.data('year');
-                var date = new Date();
+            me.yearPicker.on('item:click', function (picker, item, record, e) {
+                var year = record.get('year'),
+                    date = new Date();
                 date.setFullYear(year);
                 me.renderMonths(date);
             });
@@ -246,11 +250,10 @@ define([
                 store: new Common.UI.DataViewStore(arrMonths),
                 itemTemplate: _.template('<div class="name-month <% if (!curYear) { %> no-cur-year <% } %>" data-month="<%= indexMonth %>" data-year="<%= year %>"><%= nameMonth %></div>')
             });
-            me.monthPicker.on('item:click', function (picker, item) {
-                var selectMonth = item.$el.children(),
-                    month = selectMonth.data('month'),
-                    year = selectMonth.data('year');
-                var date = new Date(year, month);
+            me.monthPicker.on('item:click', function (picker, item, record, e) {
+                var month = record.get('indexMonth'),
+                    year = record.get('year'),
+                    date = new Date(year, month);
                 me.renderMonth(date);
             });
         },
@@ -258,6 +261,8 @@ define([
         renderMonth: function (date) {
             var me = this;
             me._state = 'month';
+            var firstDay = me.options.firstday;
+
             // Current date
             var curDate = date || new Date(),
                 curMonth = curDate.getMonth(),
@@ -275,15 +280,17 @@ define([
 
             // Name days of week
             var dayNamesTemplate = '';
-            me.dayNamesShort.forEach(function (item) {
-                dayNamesTemplate += '<label>' + item + '</label>';
-            });
+            for (var i = firstDay; i < 7; i++) {
+                dayNamesTemplate += '<label>' + me.dayNamesShort[i] + '</label>';
+            }
+            if (firstDay > 0) {
+                dayNamesTemplate += '<label>' + me.dayNamesShort[0] + '</label>';
+            }
             me.cmpEl.find('.calendar-header .bottom-row').html(_.template(dayNamesTemplate));
 
             // Month
             var rows = 6,
-                cols = 7,
-                firstNumber = me.options.firstNumber;
+                cols = 7;
 
             var arrDays = [];
 
@@ -292,12 +299,21 @@ define([
             var firstDayOfMonthIndex = d.getDay();
 
             var daysInPrevMonth = me.daysInMonth(d.getTime() - (10 * 24 * 60 * 60 * 1000)),
-                numberDay = (firstDayOfMonthIndex > 0) ? (daysInPrevMonth - (firstDayOfMonthIndex - 1)) : 1,
+                numberDay,
                 month,
                 year;
-            if (firstDayOfMonthIndex > 0) {
+            if (firstDay === 0) {
+                numberDay = (firstDayOfMonthIndex > 0) ? (daysInPrevMonth - (firstDayOfMonthIndex - 1)) : 1;
+            } else {
+                if (firstDayOfMonthIndex === 0) {
+                    numberDay = daysInPrevMonth - 5;
+                } else {
+                    numberDay = daysInPrevMonth - (firstDayOfMonthIndex - 2);
+                }
+            }
+            if ((firstDayOfMonthIndex > 0 && firstDay === 0) || firstDay === 1) {
                 if (curMonth - 1 >= 0) {
-                    month = curMonth - 1
+                    month = curMonth - 1;
                     year = curYear;
                 } else {
                     month = 11;

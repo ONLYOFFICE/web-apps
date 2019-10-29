@@ -101,7 +101,8 @@ define([
             }
 
             me.calendar = new Common.UI.Calendar({
-                el: $('#id-popover')
+                el: $('#id-popover'),
+                firstday: 1
             });
 
         },

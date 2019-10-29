@@ -35,12 +35,21 @@
       padding: 0;
     }
     .title {
-      padding-top: 6px;
+      margin-top: 4px;
+      margin-bottom: 3px;
+      padding: 2px 10px 0;
       font-size: 13px;
       label {
         font-weight: bold;
         &:not(:last-of-type) {
           margin-right: 6px;
+        }
+      }
+      &:hover {
+        background-color: rgba(255,255,255,0.2);
+        cursor: pointer;
+        label {
+          cursor: pointer;
         }
       }
 
