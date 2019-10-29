@@ -420,7 +420,7 @@ define([
                     if (me.btnCommentRemove) {
                         var items = [
                             {
-                                caption: me.txtCommentRemCurrent,
+                                caption: config.canEditComments ? me.txtCommentRemCurrent : me.txtCommentRemMyCurrent,
                                 value: 'current'
                             },
                             {
@@ -658,6 +658,7 @@ define([
             tipCommentRemCurrent: 'Remove current comments',
             tipCommentRem: 'Remove comments',
             txtCommentRemCurrent: 'Remove Current Comments',
+            txtCommentRemMyCurrent: 'Remove My Current Comments',
             txtCommentRemMy: 'Remove My Comments',
             txtCommentRemAll: 'Remove All Comments'
         }
