@@ -357,7 +357,9 @@ define([
             click: $.proxy(function (event) {
                 if (!tab.disabled) {
                     if (event.ctrlKey || event.metaKey) {
-                        tab.changeState(true);
+                        if (!tab.isActive()) {
+                            tab.changeState(true);
+                        }
                     } else if (event.shiftKey) {
                         this.bar.$el.find('ul > li.selected').removeClass('selected');
                         this.bar.selectTabs.length = 0;
