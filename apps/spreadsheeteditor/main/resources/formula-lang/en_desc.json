@@ -1768,7 +1768,7 @@
 		"d": "logical functions. The function returns FALSE and does not require any argument"
 	},
 	"IF": {
-		"a": "( logical_test , value_if_true , value_if_false )",
+		"a": "( logical_test , value_if_true [ , value_if_false ] )",
 		"d": "Logical function used to check the logical expression and return one value if it is TRUE, or another if it is FALSE"
 	},
 	"IFS": {
