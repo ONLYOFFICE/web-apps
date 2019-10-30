@@ -116,10 +116,7 @@ define([
         }
 
         var _serializeHeaderButton = function(action, config) {
-            var attr = config.btn.$el.find('.icon use').attr('xlink:href');
-            var svgstr = '<svg viewBox="0 0 20 20">' + $(attr).html().replace(/<path/g, '<path fill=\"#fff\"') + '</svg>';
             return {
-                icon: 'svg://' + btoa(svgstr),
                 action: action,
                 width: config.btn.$el.width(),
                 height: config.btn.$el.height(),
