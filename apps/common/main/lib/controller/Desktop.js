@@ -127,7 +127,22 @@ define([
 
         var _onTitleButtonDasabled = function (action, e, status) {
             titlebuttons[action].disabled = status;
-            app.execCommand('title:changed', JSON.stringify({'button':action, 'disabled':status}));
+            var _buttons = {};
+            _buttons[action] = status;
+            app.execCommand('title:button', JSON.stringify({disabled: _buttons}));
+        };
+
+        var _onModalDialog = function (status) {
+            if ( status == 'open' ) {
+                app.execCommand('title:button', JSON.stringify({disabled: {'all':true}}));
+            } else {
+                var _buttons = {};
+                for (var i in titlebuttons) {
+                    _buttons[i] = titlebuttons[i].disabled;
+                }
+
+                app.execCommand('title:button', JSON.stringify({'disabled': _buttons}));
+            }
         };
 
         return {
@@ -166,6 +181,11 @@ define([
                             toolbar.btnSave.on('disabled', _onTitleButtonDasabled.bind(this, 'save'));
                             toolbar.btnPrint.on('disabled', _onTitleButtonDasabled.bind(this, 'print'));
                         }
+                    });
+
+                    Common.NotificationCenter.on({
+                        'modal:show': _onModalDialog.bind(this, 'open'),
+                        'modal:close': _onModalDialog.bind(this, 'close')
                     });
                 }
             },
