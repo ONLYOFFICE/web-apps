@@ -39,7 +39,7 @@ define([
 ], function () {
     'use strict';
 
-    Common.UI.Calendar = Common.UI.BaseView.extend({
+    Common.UI.Calendar = Common.UI.BaseView.extend(_.extend({
 
         template    :
             _.template([
@@ -91,14 +91,14 @@ define([
 
             me.btnPrev = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'mmerge-prev',
+                iconCls: 'mmerge-prev'
             });
             me.btnPrev.render(me.cmpEl.find('#prev-arrow'));
             me.btnPrev.on('click', _.bind(me.onClickPrev, me));
 
             me.btnNext = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'mmerge-next',
+                iconCls: 'mmerge-next'
             });
             me.btnNext.render(me.cmpEl.find('#next-arrow'));
             me.btnNext.on('click', _.bind(me.onClickNext, me));
@@ -407,5 +407,5 @@ define([
         textShortSaturday: 'Sa',
         textMonths: 'Months',
         textYears: 'Years'
-    });
+    }, Common.UI.Calendar || {}));
 });
