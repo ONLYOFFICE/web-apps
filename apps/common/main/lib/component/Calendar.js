@@ -36,7 +36,6 @@ if (Common === undefined)
 define([
     'common/main/lib/component/BaseView',
     'common/main/lib/util/utils'
-
 ], function () {
     'use strict';
 
@@ -60,7 +59,7 @@ define([
 
         options: {
             date: undefined,
-            firstday: 0 // 0 or 1
+            firstday: 0 // 0 - sunday, 1 - monday
         },
 
         initialize : function(options) {
@@ -78,7 +77,7 @@ define([
                 me.options.firstday = options.firstday;
             }
 
-            me._state = undefined;
+            me._state = undefined; // 0 - month, 1 - months, 2 - years
 
             me.render();
         },
@@ -112,13 +111,19 @@ define([
 
         onClickPrev: function () {
             var me = this;
-            if (me._state === 'month') {
-                me.currentDate.setMonth(me.currentDate.getMonth() - 1);
-                me.renderMonth(me.currentDate);
-            } else if (me._state === 'months') {
-                me.currentDate.setFullYear(me.currentDate.getFullYear() - 1);
-                me.renderMonths(me.currentDate);
-            } else if (me._state === 'years') {
+            if (me._state === 0) {
+                var d = new Date(me.currentDate);
+                d.setMonth(d.getMonth() - 1);
+                if (d.getFullYear() > 0) {
+                    me.renderMonth(d);
+                }
+            } else if (me._state === 1) {
+                var d = new Date(me.currentDate);
+                d.setFullYear(d.getFullYear() - 1);
+                if (d.getFullYear() > 0) {
+                    me.renderMonths(d);
+                }
+            } else if (me._state === 2) {
                 var year = me.currentDate.getFullYear(),
                     newYear;
                 if (year % 10 !== 0) {
@@ -127,20 +132,28 @@ define([
                 } else {
                     newYear = year - 1;
                 }
-                me.currentDate.setFullYear(newYear);
-                me.renderYears(newYear);
+                if (newYear > 0) {
+                    me.currentDate.setFullYear(newYear);
+                    me.renderYears(newYear);
+                }
             }
         },
 
         onClickNext: function () {
             var me = this;
-            if (me._state === 'month') {
-                me.currentDate.setMonth(me.currentDate.getMonth() + 1);
-                me.renderMonth(me.currentDate);
-            } else if (me._state === 'months') {
-                me.currentDate.setFullYear(me.currentDate.getFullYear() + 1);
-                me.renderMonths(me.currentDate);
-            } else if (me._state === 'years') {
+            if (me._state === 0) {
+                var d = new Date(me.currentDate);
+                d.setMonth(d.getMonth() + 1);
+                if (d.getFullYear() > 0) {
+                    me.renderMonth(d);
+                }
+            } else if (me._state === 1) {
+                var d = new Date(me.currentDate);
+                d.setFullYear(d.getFullYear() + 1);
+                if (d.getFullYear() > 0) {
+                    me.renderMonths(d);
+                }
+            } else if (me._state === 2) {
                 var year = me.currentDate.getFullYear(),
                     newYear;
                 if (year % 10 !== 9) {
@@ -149,8 +162,10 @@ define([
                 } else {
                     newYear = year + 1;
                 }
-                me.currentDate.setFullYear(newYear);
-                me.renderYears(newYear);
+                if (newYear > 0) {
+                    me.currentDate.setFullYear(newYear);
+                    me.renderYears(newYear);
+                }
             }
         },
 
@@ -158,7 +173,7 @@ define([
             var me = this,
                 year = _.isNumber(year) ? year : (me.currentDate ? me.currentDate.getFullYear() : new Date().getFullYear());
 
-            me._state = 'years';
+            me._state = 2;
 
             var firstYear = year,
                 lastYear = year;
@@ -211,13 +226,15 @@ define([
                 curDate = (_.isDate(date)) ? date : (me.currentDate ? me.currentDate : new Date()),
                 year = curDate.getFullYear();
 
-            me._state = 'months';
+            me._state = 1;
+            me.currentDate = curDate;
 
             // Number of year
             me.topTitle = _.template([
-                '<label>' + year + '</label>'
+                '<div class="button"><label>' + year + '</label></div>'
             ].join(''));
             me.cmpEl.find('.calendar-header .title').html(me.topTitle);
+            me.cmpEl.find('.calendar-header .title').off();
             me.cmpEl.find('.calendar-header .title').on('click', _.bind(me.renderYears, me));
 
             me.bottomTitle = _.template([
@@ -260,7 +277,7 @@ define([
 
         renderMonth: function (date) {
             var me = this;
-            me._state = 'month';
+            me._state = 0;
             var firstDay = me.options.firstday;
 
             // Current date
@@ -270,12 +287,16 @@ define([
                 curNumberDayInMonth = curDate.getDate(),
                 curYear = curDate.getFullYear();
 
+            me.currentDate = curDate;
+
             // Name month
             me.topTitle = _.template([
-                '<label>' + me.monthNames[curMonth] + '</label>',
-                '<label>' + curYear + '</label>'
+                '<div class="button">',
+                '<label>' + me.monthNames[curMonth] + ' ' + curYear + '</label>',
+                '</div>'
             ].join(''));
             me.cmpEl.find('.calendar-header .title').html(me.topTitle);
+            me.cmpEl.find('.calendar-header .title').off();
             me.cmpEl.find('.calendar-header .title').on('click', _.bind(me.renderMonths, me));
 
             // Name days of week
@@ -343,7 +364,7 @@ define([
             me.monthPicker = new Common.UI.DataView({
                 el: $('.calendar-content'),
                 store: new Common.UI.DataViewStore(arrDays),
-                itemTemplate: _.template('<div class="number-day <% if (isToday) { %> today <% } %> <% if (indexInWeek === 6 || indexInWeek === 0) { %> weekend <% } %> <% if (!isCurrentMonth) { %> no-current-month <% } %>" data-number="<%= dayNumber %>" data-month="<%= month %>" data-year="<%= year %>"><%= dayNumber %></div>')
+                itemTemplate: _.template('<div class="number-day<% if (isToday) { %> today<% } %><% if (indexInWeek === 6 || indexInWeek === 0) { %> weekend<% } %><% if (!isCurrentMonth) { %> no-current-month<% } %>" data-number="<%= dayNumber %>" data-month="<%= month %>" data-year="<%= year %>"><%= dayNumber %></div>')
             });
         },
 
