@@ -93,8 +93,10 @@ define([
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
-                this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowControlsActions, this));
+                this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideControlsActions, this));
+                // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
+                // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
 
             }
             return this;
@@ -391,6 +393,36 @@ define([
         onHideContentControlsActions: function() {
             this.view.contentsMenu && this.view.contentsMenu.hide();
             this.view.contentsUpdateMenu && this.view.contentsUpdateMenu.hide();
+        },
+
+        onShowControlsActions: function(action, x, y) {
+            var documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                controlsContainer = documentHolderView.cmpEl.find('#calendar-control-container'),
+                me = this;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control"></div></div>');
+                documentHolderView.cmpEl.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            controlsContainer.css({left: x, top : y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendar)
+                this.cmpCalendar = new Common.UI.Calendar({
+                    el: documentHolderView.cmpEl.find('#id-document-calendar-control'),
+                    firstday: 1
+                });
+
+            documentHolderView._preventClick = true;
+        },
+
+        onHideControlsActions: function() {
+            var controlsContainer = this.getApplication().getController('DocumentHolder').documentHolder.cmpEl.find('#calendar-control-container');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
         }
 
     }, DE.Controllers.Links || {}));
