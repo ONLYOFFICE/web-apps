@@ -1404,7 +1404,7 @@ define([
             textBuyNow: 'Visit website',
             textNoLicenseTitle: '%1 open source version',
             textContactUs: 'Contact sales',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored and page is reloaded.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',

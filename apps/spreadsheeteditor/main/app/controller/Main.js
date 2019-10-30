@@ -2194,7 +2194,7 @@ define([
             textNoLicenseTitle: '%1 open source version',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
