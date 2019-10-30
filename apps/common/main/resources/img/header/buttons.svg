@@ -21,8 +21,8 @@
         <polygon points="14.243,7.585 11,10.829 11,4 9,4 9,10.827 5.758,7.585 4.344,9 10.001,14.656 15.657,9 "/>
     </symbol>
     <symbol id="svg-btn-print" viewBox="0 0 20 20">
-        <rect x="4" y="8" width="1" height="1" fill="#ffffff"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 4H6V6H14V4ZM5 4V6H3C2.44772 6 2 6.44772 2 7V12V13H3H5V15C5 15.5523 5.44772 16 6 16H14C14.5523 16 15 15.5523 15 15V13H17H18V12V7C18 6.44772 17.5523 6 17 6H15V4C15 3.44772 14.5523 3 14 3H6C5.44772 3 5 3.44772 5 4ZM15 12H17V7H14H6H3V12H5V11C5 10.4477 5.44772 10 6 10H14C14.5523 10 15 10.4477 15 11V12ZM6 11H14V15H6V11Z" fill="#ffffff"/>
+        <rect x="4" y="8" width="1" height="1"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 4H6V6H14V4ZM5 4V6H3C2.44772 6 2 6.44772 2 7V12V13H3H5V15C5 15.5523 5.44772 16 6 16H14C14.5523 16 15 15.5523 15 15V13H17H18V12V7C18 6.44772 17.5523 6 17 6H15V4C15 3.44772 14.5523 3 14 3H6C5.44772 3 5 3.44772 5 4ZM15 12H17V7H14H6H3V12H5V11C5 10.4477 5.44772 10 6 10H14C14.5523 10 15 10.4477 15 11V12ZM6 11H14V15H6V11Z"/>
     </symbol>
     <symbol id="svg-btn-edit" viewBox="0 0 20 20">
         <polygon points="11.738,7.891 6.434,13.195 5.02,14.859 4.5,17.5 7,17.5 8.555,15.566 13.859,10.137"/>	
@@ -30,9 +30,9 @@
 		c0.391,0.391,0.391,1.023,0,1.414L15.273,8.598z"/>
     </symbol>
     <symbol id="svg-btn-save" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 15H4V4H6V7H12V4H12.5858L15 6.41421V15ZM11 4H10V6H11V4ZM4 3H13L16 6V15C16 15.5523 15.5523 16 15 16H4C3.44772 16 3 15.5523 3 15V4C3 3.44772 3.44772 3 4 3Z" fill="#ffffff"/>
-        <rect x="6" y="10" width="7" height="1" fill="#ffffff"/>
-        <rect x="6" y="12" width="7" height="1" fill="#ffffff"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 15H4V4H6V7H12V4H12.5858L15 6.41421V15ZM11 4H10V6H11V4ZM4 3H13L16 6V15C16 15.5523 15.5523 16 15 16H4C3.44772 16 3 15.5523 3 15V4C3 3.44772 3.44772 3 4 3Z"/>
+        <rect x="6" y="10" width="7" height="1"/>
+        <rect x="6" y="12" width="7" height="1"/>
     </symbol>
     <symbol id="svg-btn-save-coauth" viewBox="0 0 20 20">
         <rect x="6" y="10" width="3" height="1" fill="#ffffff"/>
