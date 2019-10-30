@@ -6970,6 +6970,7 @@ html.pixel-ratio-3 .numbers li {
   top: 0;
   bottom: 0;
   right: 0;
+  z-index: 1;
   position: absolute;
   padding-top: 22px;
 }
@@ -6979,7 +6980,8 @@ html.pixel-ratio-3 .numbers li {
   justify-content: center;
   flex-grow: 1;
   width: 90%;
-  margin: 15px auto;
+  height: 100%;
+  margin: 0 auto;
 }
 .doc-placeholder .slide-v {
   display: flex;
@@ -7006,7 +7008,7 @@ html.pixel-ratio-3 .numbers li {
 }
 .doc-placeholder .slide-container > .line:nth-child(1) {
   height: 30%;
-  margin: 120px 80px 0;
+  margin: 10% 80px 0;
 }
 .doc-placeholder .slide-container > .line.empty {
   background: transparent;
