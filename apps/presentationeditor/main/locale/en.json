@@ -1103,6 +1103,7 @@
   "PE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "PE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
   "PE.Views.DocumentHolder.addToLayoutText": "Add to Layout",
+  "PE.Views.DocumentHolder.txtResetLayout": "Reset Slide",
   "PE.Views.DocumentPreview.goToSlideText": "Go to Slide",
   "PE.Views.DocumentPreview.slideIndexText": "Slide {0} of {1}",
   "PE.Views.DocumentPreview.txtClose": "Close slideshow",

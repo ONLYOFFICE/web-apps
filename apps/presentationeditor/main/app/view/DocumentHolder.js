@@ -1838,6 +1838,17 @@ define([
                 })
             });
 
+            var mnuResetSlide = new Common.UI.MenuItem({
+                caption     : me.txtResetLayout
+            }).on('click', function(item) {
+                if (me.api){
+                    me.api.ResetSlide();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Reset Slide');
+                }
+            });
+
             var mnuChangeTheme = new Common.UI.MenuItem({
                 caption     : me.txtChangeTheme,
                 menu        : new Common.UI.Menu({
@@ -1915,11 +1926,12 @@ define([
                     mnuSlideHide.setChecked(value.isSlideHidden===true);
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    mnuResetSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
-                    for (var i = 9; i < 14; i++) {
+                    for (var i = 10; i < 15; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
                     mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
@@ -1948,6 +1960,7 @@ define([
                     mnuSelectAll.setDisabled(locked || me.slidesCount<2);
                     mnuDeleteSlide.setDisabled(lockedDeleted || locked);
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
+                    mnuResetSlide.setDisabled(lockedLayout || locked);
                     mnuChangeTheme.setDisabled(me._state.themeLock || locked );
                     mnuSlideHide.setDisabled(lockedLayout || locked);
                     mnuPrintSelection.setDisabled(me.slidesCount<1);
@@ -1980,6 +1993,7 @@ define([
                     mnuSlideHide,
                     {caption: '--'},
                     mnuChangeSlide,
+                    mnuResetSlide,
                     mnuChangeTheme,
                     menuSlideSettings,
                     {caption: '--'},
@@ -3592,7 +3606,8 @@ define([
         textCropFit: 'Fit',
         toDictionaryText: 'Add to Dictionary',
         txtPrintSelection: 'Print Selection',
-        addToLayoutText: 'Add to Layout'
+        addToLayoutText: 'Add to Layout',
+        txtResetLayout: 'Reset Slide'
 
     }, PE.Views.DocumentHolder || {}));
 });
