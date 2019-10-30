@@ -1285,6 +1285,11 @@
   "PE.Views.LeftMenu.tipTitles": "Titles",
   "PE.Views.LeftMenu.txtDeveloper": "DEVELOPER MODE",
   "PE.Views.LeftMenu.txtTrial": "TRIAL MODE",
+  "PE.Views.ListSettingsDialog.txtTitle": "List Settings",
+  "PE.Views.ListSettingsDialog.txtSize": "Size",
+  "PE.Views.ListSettingsDialog.txtColor": "Color",
+  "PE.Views.ListSettingsDialog.txtOfText": "% of text",
+  "PE.Views.ListSettingsDialog.textNewColor": "Add New Custom Color",
   "PE.Views.ParagraphSettings.strLineHeight": "Line Spacing",
   "PE.Views.ParagraphSettings.strParagraphSpacing": "Paragraph Spacing",
   "PE.Views.ParagraphSettings.strSpacingAfter": "After",
@@ -1789,5 +1794,6 @@
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.textListSettings": "List Settings"
 }

@@ -1062,7 +1062,12 @@ define([
                     new Common.UI.Menu({
                         style: 'min-width: 139px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 16px;"></div>')},
+                            this.mnuListSettings = new Common.UI.MenuItem({
+                                caption: this.textListSettings,
+                                disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
+                                value: 'settings'
+                            })
                         ]
                     })
                 );
@@ -1665,7 +1670,8 @@ define([
             tipDateTime: 'Insert current date and time',
             capBtnInsHeader: 'Header/Footer',
             capBtnSlideNum: 'Slide Number',
-            capBtnDateTime: 'Date & Time'
+            capBtnDateTime: 'Date & Time',
+            textListSettings: 'List Settings'
         }
     }()), PE.Views.Toolbar || {}));
 });
