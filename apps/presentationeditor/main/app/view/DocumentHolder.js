@@ -1760,6 +1760,11 @@ define([
             }
         },
 
+        addToLayout: function() {
+            if (this.api)
+                this.api.asc_AddToLayout();
+        },
+
         createDelayedElementsViewer: function() {
             var me = this;
 
@@ -2888,6 +2893,10 @@ define([
             menuAddCommentImg.hide();
             /** coauthoring end **/
 
+            var menuAddToLayoutImg = new Common.UI.MenuItem({
+                caption     : me.addToLayoutText
+            }).on('click', _.bind(me.addToLayout, me));
+
             var menuParaCopy = new Common.UI.MenuItem({
                 caption : me.textCopy,
                 value : 'copy'
@@ -2940,6 +2949,10 @@ define([
             var menuEquationSeparatorInTable = new Common.UI.MenuItem({
                 caption     : '--'
             });
+
+            var menuAddToLayoutTable = new Common.UI.MenuItem({
+                caption     : me.addToLayoutText
+            }).on('click', _.bind(me.addToLayout, me));
 
             me.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
@@ -3245,7 +3258,9 @@ define([
                     menuAddCommentTable,
                 /** coauthoring end **/
                     menuAddHyperlinkTable,
-                    menuHyperlinkTable
+                    menuHyperlinkTable,
+                    { caption: '--' },
+                    menuAddToLayoutTable
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -3329,8 +3344,10 @@ define([
                     ,menuChartEdit
                 /** coauthoring begin **/
                     ,menuCommentSeparatorImg,
-                    menuAddCommentImg
+                    menuAddCommentImg,
                 /** coauthoring end **/
+                    { caption: '--' },
+                    menuAddToLayoutImg
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -3574,7 +3591,8 @@ define([
         textCropFill: 'Fill',
         textCropFit: 'Fit',
         toDictionaryText: 'Add to Dictionary',
-        txtPrintSelection: 'Print Selection'
+        txtPrintSelection: 'Print Selection',
+        addToLayoutText: 'Add to Layout'
 
     }, PE.Views.DocumentHolder || {}));
 });
