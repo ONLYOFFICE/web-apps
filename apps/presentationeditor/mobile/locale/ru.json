@@ -84,6 +84,7 @@
   "PE.Controllers.Main.errorDefaultMessage": "Код ошибки: %1",
   "PE.Controllers.Main.errorEditingDownloadas": "В ходе работы с документом произошла ошибка.<br>Используйте опцию 'Скачать', чтобы сохранить резервную копию файла на жестком диске компьютера.",
   "PE.Controllers.Main.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",
+  "PE.Controllers.Main.errorFileSizeExceed": "Размер файла превышает ограничение, установленное для вашего сервера.<br>Обратитесь к администратору Сервера документов для получения дополнительной информации.",
   "PE.Controllers.Main.errorKeyEncrypt": "Неизвестный дескриптор ключа",
   "PE.Controllers.Main.errorKeyExpire": "Срок действия дескриптора ключа истек",
   "PE.Controllers.Main.errorProcessSaveResult": "Не удалось завершить сохранение.",

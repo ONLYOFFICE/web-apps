@@ -140,6 +140,7 @@
   "SSE.Controllers.Main.errorEditingDownloadas": "Si è verificato un errore mentre si lavorava sul documento.<br> Utilizzare l'opzione 'Scarica' per salvare la copia di backup del file sul disco rigido del computer.",
   "SSE.Controllers.Main.errorFilePassProtect": "Il file è protetto da una password. Impossibile aprirlo.",
   "SSE.Controllers.Main.errorFileRequest": "Errore esterno.<br>Errore di richiesta di file. Si prega di contattare l'assistenza tecnica nel caso in cui l'errore persiste.",
+  "SSE.Controllers.Main.errorFileSizeExceed": "La dimensione del file supera la limitazione impostata per il tuo server.<br>Per i dettagli, contatta l'amministratore del Document server.",
   "SSE.Controllers.Main.errorFileVKey": "Errore esterno.<br>Chiave di sicurezza scorretta. Si prega di contattare l'assistenza tecnica nel caso in cui l'errore persiste.",
   "SSE.Controllers.Main.errorFillRange": "Impossibile riempire l'intervallo di celle selezionato.<br>Tutte le celle uite devono essere della stessa dimensione.",
   "SSE.Controllers.Main.errorFormulaName": "Un errore nella formula inserita.<br>È stato usato un nome errato per la formula.",

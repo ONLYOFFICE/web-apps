@@ -84,6 +84,7 @@
   "PE.Controllers.Main.errorDefaultMessage": "Codice errore: %1",
   "PE.Controllers.Main.errorEditingDownloadas": "Si è verificato un errore mentre si lavorava sul documento.<br> Utilizzare l'opzione 'Scarica' per salvare la copia di backup del file sul disco rigido del computer.",
   "PE.Controllers.Main.errorFilePassProtect": "Il file è protetto da una password. Impossibile aprirlo.",
+  "PE.Controllers.Main.errorFileSizeExceed": "La dimensione del file supera la limitazione impostata per il tuo server.<br>Per i dettagli, contatta l'amministratore del Document server.",
   "PE.Controllers.Main.errorKeyEncrypt": "Descrittore di chiave sconosciuto",
   "PE.Controllers.Main.errorKeyExpire": "Descrittore di chiave scaduto",
   "PE.Controllers.Main.errorProcessSaveResult": "Salvataggio non riuscito",

@@ -93,7 +93,7 @@
   "PE.Controllers.Main.errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
   "PE.Controllers.Main.errorUserDrop": "The file cannot be accessed right now.",
   "PE.Controllers.Main.errorUsersExceed": "The number of users was exceeded",
-  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored and page is reloaded.",
+  "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download it until the connection is restored and page is reloaded.",
   "PE.Controllers.Main.leavePageText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
   "PE.Controllers.Main.loadFontsTextText": "Loading data...",
   "PE.Controllers.Main.loadFontsTitleText": "Loading Data",

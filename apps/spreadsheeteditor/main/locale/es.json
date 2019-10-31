@@ -207,7 +207,7 @@
   "Common.Views.SignSettingsDialog.textShowDate": "Presentar fecha de la firma",
   "Common.Views.SignSettingsDialog.textTitle": "Preparación de la firma",
   "Common.Views.SignSettingsDialog.txtEmpty": "Este campo es obligatorio",
-  "SSE.Controllers.DataTab.textWizard": "Asistente para convertir texto en columnas",
+  "SSE.Controllers.DataTab.textWizard": "Texto en columnas",
   "SSE.Controllers.DocumentHolder.alignmentText": "Alineación",
   "SSE.Controllers.DocumentHolder.centerText": "Al centro",
   "SSE.Controllers.DocumentHolder.deleteColumnText": "Eliminar columna",

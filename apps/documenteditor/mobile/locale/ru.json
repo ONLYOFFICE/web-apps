@@ -147,6 +147,7 @@
   "DE.Controllers.Main.errorDefaultMessage": "Код ошибки: %1",
   "DE.Controllers.Main.errorEditingDownloadas": "В ходе работы с документом произошла ошибка.<br>Используйте опцию 'Скачать', чтобы сохранить резервную копию файла на жестком диске компьютера.",
   "DE.Controllers.Main.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",
+  "DE.Controllers.Main.errorFileSizeExceed": "Размер файла превышает ограничение, установленное для вашего сервера.<br>Обратитесь к администратору Сервера документов для получения дополнительной информации.",
   "DE.Controllers.Main.errorKeyEncrypt": "Неизвестный дескриптор ключа",
   "DE.Controllers.Main.errorKeyExpire": "Срок действия дескриптора ключа истек",
   "DE.Controllers.Main.errorMailMergeLoadFile": "Сбой при загрузке",
