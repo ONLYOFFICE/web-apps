@@ -448,7 +448,7 @@ define([
                     }
                 } else {
                     if (!_.isUndefined(destPos)) {
-                        me.api.asc_moveWorksheet(destPos, arrIndex);
+                        me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex, arrIndex);
                     }
                 }
                 return;
