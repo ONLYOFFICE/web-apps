@@ -1290,6 +1290,7 @@
   "PE.Views.ListSettingsDialog.txtColor": "Color",
   "PE.Views.ListSettingsDialog.txtOfText": "% of text",
   "PE.Views.ListSettingsDialog.textNewColor": "Add New Custom Color",
+  "PE.Views.ListSettingsDialog.txtStart": "Start at",
   "PE.Views.ParagraphSettings.strLineHeight": "Line Spacing",
   "PE.Views.ParagraphSettings.strParagraphSpacing": "Paragraph Spacing",
   "PE.Views.ParagraphSettings.strSpacingAfter": "After",

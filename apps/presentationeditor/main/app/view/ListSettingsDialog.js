@@ -48,6 +48,7 @@ define([
 
     PE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
+            type: 0, // 0 - markers, 1 - numbers
             width: 230,
             height: 156,
             style: 'min-width: 230px;',
@@ -57,18 +58,26 @@ define([
         },
 
         initialize : function(options) {
+            this.type = options.type || 0;
+
             _.extend(this.options, {
-                title: this.txtTitle
+                title: this.txtTitle,
+                height: this.type==1 ? 190 : 156
             }, options || {});
 
             this.template = [
                 '<div class="box">',
-                '<div class="input-row">',
-                '<label class="text" style="width: 70px;">' + this.txtSize + '</label><div id="id-dlg-list-size"></div><label class="text" style="margin-left: 10px;">' + this.txtOfText + '</label>',
-                '</div>',
-                '<div style="margin-top: 10px;">',
-                '<label class="text" style="width: 70px;">' + this.txtColor + '</label><div id="id-dlg-list-color" style="display: inline-block;"></div>',
-                '</div>',
+                    '<div class="input-row">',
+                    '<label class="text" style="width: 70px;">' + this.txtSize + '</label><div id="id-dlg-list-size"></div><label class="text" style="margin-left: 10px;">' + this.txtOfText + '</label>',
+                    '</div>',
+                    '<div style="margin-top: 10px;">',
+                    '<label class="text" style="width: 70px;">' + this.txtColor + '</label><div id="id-dlg-list-color" style="display: inline-block;"></div>',
+                    '</div>',
+                    '<% if (type == 1) { %>',
+                    '<div class="input-row" style="margin-top: 10px;">',
+                    '<label class="text" style="width: 70px;">' + this.txtStart + '</label><div id="id-dlg-list-start"></div>',
+                    '</div>',
+                    '<% } %>',
                 '</div>'
             ].join('');
 
@@ -136,6 +145,21 @@ define([
                 }
             };
 
+            this.spnStart = new Common.UI.MetricSpinner({
+                el          : $window.find('#id-dlg-list-start'),
+                step        : 1,
+                width       : 45,
+                value       : 1,
+                defaultUnit : '',
+                maxValue    : 32767,
+                minValue    : 1,
+                allowDecimal: false
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                if (me._changedProps) {
+                    me._changedProps.put_NumStartAt(field.getNumberValue());
+                }
+            });
+
             this.afterRender();
         },
 
@@ -178,6 +202,7 @@ define([
         _setDefaults: function (props) {
             if (props) {
                 this.spnSize.setValue(props.asc_getBulletSize() || '', true);
+                this.spnStart.setValue(props.get_NumStartAt() || '', true);
                 var color = props.asc_getBulletColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -208,6 +233,7 @@ define([
         txtSize: 'Size',
         txtColor: 'Color',
         txtOfText: '% of text',
-        textNewColor: 'Add New Custom Color'
+        textNewColor: 'Add New Custom Color',
+        txtStart: 'Start at'
     }, PE.Views.ListSettingsDialog || {}))
 });

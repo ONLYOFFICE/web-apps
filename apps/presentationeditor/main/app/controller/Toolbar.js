@@ -276,8 +276,9 @@ define([
             toolbar.btnDecLeftOffset.on('click',                        _.bind(this.onDecOffset, this));
             toolbar.btnIncLeftOffset.on('click',                        _.bind(this.onIncOffset, this));
             toolbar.btnMarkers.on('click',                              _.bind(this.onMarkers, this));
-            toolbar.mnuListSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this));
             toolbar.btnNumbers.on('click',                              _.bind(this.onNumbers, this));
+            toolbar.mnuMarkerSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 0));
+            toolbar.mnuNumberSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
             toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
             toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
@@ -472,7 +473,7 @@ define([
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
                         this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
-                        this.toolbar.mnuListSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx = 0;
@@ -501,6 +502,7 @@ define([
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
                         this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
+                        this.toolbar.mnuNumberSettings.setDisabled(idx==0);
                         break;
                 }
             }
@@ -1095,7 +1097,7 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
-        onMarkerSettingsClick: function() {
+        onMarkerSettingsClick: function(type) {
             var me      = this,
                 props;
 
@@ -1111,6 +1113,7 @@ define([
             if (props) {
                 (new PE.Views.ListSettingsDialog({
                     props: props,
+                    type: type,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
@@ -1664,8 +1667,9 @@ define([
             this.toolbar.btnNumbers.toggle(false, true);
 
             this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
-            this.toolbar.mnuListSettings.setDisabled(true);
             this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
+            this.toolbar.mnuMarkerSettings.setDisabled(true);
+            this.toolbar.mnuNumberSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {
