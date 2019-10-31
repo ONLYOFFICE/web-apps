@@ -41,6 +41,7 @@
 
 define([
     'core',
+    'common/main/lib/component/Calendar',
     'documenteditor/main/app/view/Links',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
@@ -410,11 +411,17 @@ define([
             controlsContainer.css({left: x, top : y});
             controlsContainer.show();
 
-            if (!this.cmpCalendar)
+            if (!this.cmpCalendar) {
                 this.cmpCalendar = new Common.UI.Calendar({
                     el: documentHolderView.cmpEl.find('#id-document-calendar-control'),
                     firstday: 1
                 });
+                this.cmpCalendar.on('date:click', function (cmp, date) {
+                    me.selectDate = new  Date(date);
+                });
+            }
+            this.cmpCalendar.setDate(this.selectDate ? this.selectDate : new Date());
+
 
             documentHolderView._preventClick = true;
         },
