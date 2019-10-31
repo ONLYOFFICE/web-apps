@@ -142,6 +142,10 @@ define([
                     }
                 }
             });
+            this.inputName._input.on('input', function (input, value) {
+                me.isInputFirstChange && me.inputName.showError();
+                me.isInputFirstChange = false;
+            });
 
             this.cmbScope = new Common.UI.ComboBox({
                 el          : $('#named-range-combo-scope'),
@@ -272,6 +276,7 @@ define([
                     checkrange = this.txtDataRange.checkValidate();
                 if (checkname !== true)  {
                     this.inputName.cmpEl.find('input').focus();
+                    this.isInputFirstChange = true;
                     return;
                 }
                 if (checkrange !== true) {
