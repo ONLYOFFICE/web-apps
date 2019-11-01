@@ -653,7 +653,8 @@ define([
             var i = -1, type,
                 paragraph_locked = false,
                 header_locked = false,
-                image_locked = false;
+                image_locked = false,
+                in_image = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -663,11 +664,15 @@ define([
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = selectedObjects[i].get_ObjectValue().get_Locked();
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
+                    in_image = true;
                     image_locked = selectedObjects[i].get_ObjectValue().get_Locked();
                 }
             }
 
             var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            if (this.mode.compatibleFeatures) {
+                need_disable = need_disable || in_image;
+            }
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
         },
@@ -829,6 +834,9 @@ define([
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
             need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            if (this.mode.compatibleFeatures) {
+                need_disable = need_disable || in_image;
+            }
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
 
