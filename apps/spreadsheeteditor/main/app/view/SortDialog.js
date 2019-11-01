@@ -156,7 +156,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.sortOptions = {
                     headers: props.asc_getHasHeaders(),
                     // sensitive: props.asc_getCaseSensitive(),
-                    sortcol: props.asc_getColumnSort()
+                    sortcol: props.asc_getColumnSort(),
+                    infilter: !!props.asc_getFilterInside()
                 };
 
                 this.lblColumn.text(props.asc_getColumnSort() ? this.textColumn : this.textRow);
