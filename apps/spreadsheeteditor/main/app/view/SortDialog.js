@@ -188,7 +188,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             if (levels) {
                 var arr = [];
                 for (var i=0; i<levels.length; i++) {
-                    var level = levels[i];
+                    var level = levels[i],
+                        levelProps = this.props.asc_getLevelProps(level.asc_getIndex()),
+                        istext = levelProps ? levelProps.asc_getIsTextData() : true,
+                        iscolor = (level.asc_getSortBy() !== Asc.c_oAscSortOptions.ByValue);
                     arr.push({
                         columnIndex: level.asc_getIndex(),
                         levelIndex: i,
@@ -196,6 +199,13 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         order: level.asc_getDescending(),
                         color: level.asc_getColor()
                     });
+                    this.levels[i] = {
+                        levelProps: levelProps,
+                        order_data: [
+                            { value: Asc.c_oAscSortOptions.Ascending, displayValue: (iscolor) ? (this.sortOptions.sortcol ? this.textTop : this.textLeft) : (istext ? this.textAZ : this.textAsc) },
+                            { value: Asc.c_oAscSortOptions.Descending, displayValue: (iscolor) ? (this.sortOptions.sortcol ? this.textBelow : this.textRight): (istext ? this.textZA : this.textDesc)}
+                        ]
+                    };
                 }
                 this.sortList.store.reset(arr);
                 (this.sortList.store.length>0) && this.sortList.selectByIndex(0);
