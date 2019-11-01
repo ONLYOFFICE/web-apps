@@ -262,7 +262,7 @@ define([
 
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.btnGroup, this.view.btnUngroup]});
+                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
             }
         },
 

@@ -170,16 +170,16 @@ define([
                     iconCls: 'btn-to-columns',
                     caption: this.capBtnTextCustomSort,
                     disabled: true,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-custom-sort'), this.btnCustomSort);
                 this.lockedControls.push(this.btnCustomSort);
 
                 this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'btn-sort-down', '',
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]);
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]);
 
                 this.btnsSortUp = Common.Utils.injectButtons($host.find('.slot-sortasc'), '', 'btn-sort-up', '',
-                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter]);
+                    [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]);
 
                 this.btnsSetAutofilter = Common.Utils.injectButtons($host.find('.slot-btn-setfilter'), '', 'btn-autofilter', '',
                     [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter],
