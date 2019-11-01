@@ -737,6 +737,8 @@
   "SSE.Controllers.Main.warnNoLicense": "This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "SSE.Controllers.Main.txtColumn": "Column",
+  "SSE.Controllers.Main.txtRow": "Row",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textWarning": "Warning",
   "SSE.Controllers.Print.txtCustom": "Custom",

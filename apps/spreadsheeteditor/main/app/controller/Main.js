@@ -119,7 +119,9 @@ define([
                         'Date': this.txtDate,
                         'Time': this.txtTime,
                         'Tab': this.txtTab,
-                        'File': this.txtFile
+                        'File': this.txtFile,
+                        'Column': this.txtColumn,
+                        'Row': this.txtRow
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2433,7 +2435,9 @@ define([
             txtTime: 'Time',
             txtTab: 'Tab',
             txtFile: 'File',
-            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            txtColumn: 'Column',
+            txtRow: 'Row'
         }
     })(), SSE.Controllers.Main || {}))
 });
