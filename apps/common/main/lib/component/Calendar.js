@@ -66,7 +66,6 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             var me = this;
-            me.cmpEl = me.$el || $(this.el);
 
             this.monthNames = [this.textJanuary, this.textFebruary, this.textMarch, this.textApril, this.textMay, this.textJune, this.textJuly, this.textAugust, this.textSeptember, this.textOctober, this.textNovember, this.textDecember];
             this.dayNamesShort = [this.textShortSunday, this.textShortMonday, this.textShortTuesday, this.textShortWednesday, this.textShortThursday, this.textShortFriday, this.textShortSaturday];
@@ -77,15 +76,17 @@ define([
                 me.options.firstday = options.firstday;
             }
 
+            me.enableKeyEvents= me.options.enableKeyEvents;
+
             me._state = undefined; // 0 - month, 1 - months, 2 - years
 
             me.render();
         },
 
         render: function () {
-            (this.$el || $(this.el)).html(this.template());
-
             var me = this;
+            me.cmpEl = me.$el || $(this.el);
+            me.cmpEl.html(this.template());
 
             me.currentDate = me.options.date || new Date();
 
@@ -102,6 +103,10 @@ define([
             });
             me.btnNext.render(me.cmpEl.find('#next-arrow'));
             me.btnNext.on('click', _.bind(me.onClickNext, me));
+
+            me.cmpEl.on('keydown', function(e) {
+                me.trigger('calendar:keydown', me, e);
+            });
 
             me.renderMonth(me.currentDate);
 
@@ -211,17 +216,29 @@ define([
                 tmpYear++;
             }
 
-            me.yearPicker = new Common.UI.DataView({
-                el: me.cmpEl.find('.calendar-content'),
-                store: new Common.UI.DataViewStore(arrYears),
-                itemTemplate: _.template('<div class="name-year <% if (!isCurrentDecade) { %> no-current-decade <% } %>" data-year="<%= year %>"><%= year %></div>')
-            });
-            me.yearPicker.on('item:click', function (picker, item, record, e) {
-                var year = record.get('year'),
-                    date = new Date();
-                date.setFullYear(year);
-                me.renderMonths(date);
-            });
+            if (!me.yearPicker) {
+                me.yearPicker = new Common.UI.DataView({
+                    el: me.cmpEl.find('.calendar-content'),
+                    store: new Common.UI.DataViewStore(arrYears),
+                    itemTemplate: _.template('<div class="name-year <% if (!isCurrentDecade) { %> no-current-decade <% } %>" data-year="<%= year %>"><%= year %></div>')
+                });
+                me.yearPicker.on('item:click', function (picker, item, record, e) {
+                    var year = record.get('year'),
+                        date = new Date();
+                    date.setFullYear(year);
+                    me.renderMonths(date);
+                });
+                me.enableKeyEvents && this.yearPicker.on('item:keydown', function(view, record, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        Common.NotificationCenter.trigger('dataview:blur');
+                    }
+                });
+            } else
+                me.yearPicker.store.reset(arrYears);
+
+            me.enableKeyEvents && _.delay(function() {
+                me.monthPicker.cmpEl.find('.dataview').focus();
+            }, 10);
         },
 
         renderMonths: function (date) {
@@ -273,18 +290,30 @@ define([
                 });
             }
 
-            me.monthsPicker = new Common.UI.DataView({
-                el: me.cmpEl.find('.calendar-content'),
-                store: new Common.UI.DataViewStore(arrMonths),
-                itemTemplate: _.template('<div class="name-month <% if (!curYear) { %> no-cur-year <% } %>" data-month="<%= indexMonth %>" data-year="<%= year %>"><%= nameMonth %></div>')
-            });
-            me.monthsPicker.on('item:click', function (picker, item, record, e) {
-                var month = record.get('indexMonth'),
-                    year = record.get('year'),
-                    date = new Date();
-                date.setFullYear(year, month);
-                me.renderMonth(date);
-            });
+            if (!me.monthsPicker) {
+                me.monthsPicker = new Common.UI.DataView({
+                    el: me.cmpEl.find('.calendar-content'),
+                    store: new Common.UI.DataViewStore(arrMonths),
+                    itemTemplate: _.template('<div class="name-month <% if (!curYear) { %> no-cur-year <% } %>" data-month="<%= indexMonth %>" data-year="<%= year %>"><%= nameMonth %></div>')
+                });
+                me.monthsPicker.on('item:click', function (picker, item, record, e) {
+                    var month = record.get('indexMonth'),
+                        year = record.get('year'),
+                        date = new Date();
+                    date.setFullYear(year, month);
+                    me.renderMonth(date);
+                });
+                me.enableKeyEvents && this.monthsPicker.on('item:keydown', function(view, record, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        Common.NotificationCenter.trigger('dataview:blur');
+                    }
+                });
+            } else
+                me.monthsPicker.store.reset(arrMonths);
+
+            me.enableKeyEvents && _.delay(function() {
+                me.monthPicker.cmpEl.find('.dataview').focus();
+            }, 10);
         },
 
         renderMonth: function (date) {
@@ -381,21 +410,33 @@ define([
                 }
             }
 
-            me.monthPicker = new Common.UI.DataView({
-                el: me.cmpEl.find('.calendar-content'),
-                store: new Common.UI.DataViewStore(arrDays),
-                itemTemplate: _.template('<div class="number-day<% if (indexInWeek === 6 || indexInWeek === 0) { %> weekend<% } %><% if (!isCurrentMonth) { %> no-current-month<% } %>" data-number="<%= dayNumber %>" data-month="<%= month %>" data-year="<%= year %>"><%= dayNumber %></div>')
-            });
-            me.monthPicker.on('item:click', function(picker, item, record, e) {
-                var day = record.get('dayNumber'),
-                    month = record.get('month'),
-                    year = record.get('year');
-                if (_.isUndefined(me.selectedDate)) {
-                    me.selectedDate = new Date();
-                }
-                me.selectedDate.setFullYear(year, month, day);
-                me.trigger('date:click', me, me.selectedDate);
-            });
+            if (!me.monthPicker) {
+                me.monthPicker = new Common.UI.DataView({
+                    el: me.cmpEl.find('.calendar-content'),
+                    store: new Common.UI.DataViewStore(arrDays),
+                    itemTemplate: _.template('<div class="number-day<% if (indexInWeek === 6 || indexInWeek === 0) { %> weekend<% } %><% if (!isCurrentMonth) { %> no-current-month<% } %>" data-number="<%= dayNumber %>" data-month="<%= month %>" data-year="<%= year %>"><%= dayNumber %></div>')
+                });
+                me.monthPicker.on('item:click', function(picker, item, record, e) {
+                    var day = record.get('dayNumber'),
+                        month = record.get('month'),
+                        year = record.get('year');
+                    if (_.isUndefined(me.selectedDate)) {
+                        me.selectedDate = new Date();
+                    }
+                    me.selectedDate.setFullYear(year, month, day);
+                    me.trigger('date:click', me, me.selectedDate);
+                });
+                me.enableKeyEvents && this.monthPicker.on('item:keydown', function(view, record, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        Common.NotificationCenter.trigger('dataview:blur');
+                    }
+                });
+            } else
+                me.monthPicker.store.reset(arrDays);
+
+            me.enableKeyEvents && _.delay(function() {
+                me.monthPicker.cmpEl.find('.dataview').focus();
+            }, 10);
         },
 
         daysInMonth: function (date) {

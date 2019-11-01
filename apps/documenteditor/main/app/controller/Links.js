@@ -414,10 +414,17 @@ define([
             if (!this.cmpCalendar) {
                 this.cmpCalendar = new Common.UI.Calendar({
                     el: documentHolderView.cmpEl.find('#id-document-calendar-control'),
+                    enableKeyEvents: true,
                     firstday: 1
                 });
                 this.cmpCalendar.on('date:click', function (cmp, date) {
                     me.selectDate = new  Date(date);
+                });
+                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
                 });
             }
             this.cmpCalendar.setDate(this.selectDate ? this.selectDate : new Date());
