@@ -127,7 +127,7 @@
   "SSE.Controllers.Main.errorBadImageUrl": "URL de imagen es incorrecto",
   "SSE.Controllers.Main.errorChangeArray": "No se puede cambiar parte de una matriz.",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Se ha perdido la conexión con servidor. No se puede editar el documento ahora.",
-  "SSE.Controllers.Main.errorConnectToServer": "No se consiguió guardar el documento. Por favor, compruebe los ajustes de conexión o póngase en contacto con su administrador.<br>Al hacer clic en el botón 'OK' se le solicitará que descargue el documento.<br><br>Encuentre más información acerca de la conexión de Servidor de Documentos <a href=\"%1\" target=\"_blank\">aquí</a>",
+  "SSE.Controllers.Main.errorConnectToServer": "No se consiguió guardar el documento. Por favor, compruebe los ajustes de conexión o póngase en contacto con su administrador.<br>Al hacer clic en el botón 'OK' se le solicitará que descargue el documento.",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "No se puede usar este comando con varias selecciones.<br>Seleccione un solo rango y intente de nuevo.",
   "SSE.Controllers.Main.errorCountArg": "Hay un error en la fórmula introducida.<br>Se usa un número de argumentos incorrecto.",
   "SSE.Controllers.Main.errorCountArgExceed": "Un error en la fórmula introducida.<br>Número de argumentos es excedido.",

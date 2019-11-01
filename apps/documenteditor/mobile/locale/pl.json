@@ -55,7 +55,7 @@
   "DE.Controllers.Main.downloadTitleText": "Pobieranie dokumentu",
   "DE.Controllers.Main.errorBadImageUrl": "Adres URL obrazu jest błędny",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Połączenie z serwerem zostało utracone. Nie możesz już edytować.",
-  "DE.Controllers.Main.errorConnectToServer": "Nie można zapisać dokumentu. Sprawdź ustawienia połączenia lub skontaktuj się z administratorem.<br>Po kliknięciu przycisku \"OK\" zostanie wyświetlony monit o pobranie dokumentu.<br><br>Dowiedz się więcej o połączeniu serwera dokumentów <a href=\"%1\" target=\"_blank\">tutaj</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Nie można zapisać dokumentu. Sprawdź ustawienia połączenia lub skontaktuj się z administratorem.<br>Po kliknięciu przycisku \"OK\" zostanie wyświetlony monit o pobranie dokumentu.",
   "DE.Controllers.Main.errorDatabaseConnection": "Zewnętrzny błąd.<br>Błąd połączenia z bazą danych. Proszę skontaktuj się z administratorem.",
   "DE.Controllers.Main.errorDataRange": "Błędny zakres danych.",
   "DE.Controllers.Main.errorDefaultMessage": "Kod błędu: %1",

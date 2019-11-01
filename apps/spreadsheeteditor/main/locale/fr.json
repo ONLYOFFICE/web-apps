@@ -403,7 +403,7 @@
   "SSE.Controllers.Main.errorCannotUngroup": "Impossible de dissocier. Pour construire un plan, sélectionnez les lignes ou les colonnes de détail et groupez-les.",
   "SSE.Controllers.Main.errorChangeArray": "Vous ne pouvez pas modifier des parties d'une tableau. ",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Connexion au serveur perdue. Le document ne peut être modifié en ce moment.",
-  "SSE.Controllers.Main.errorConnectToServer": "Impossible d'enregistrer le document. Veuillez vérifier vos paramètres de connexion ou contactez l'administrateur.<br>Lorsque vous cliquez sur le bouton 'OK', vous serez invité à télécharger le document.<br><br>Trouvez plus d'informations sur la connexion au Serveur de Documents <a href=\"%1\" target=\"_blank\">ici</a>",
+  "SSE.Controllers.Main.errorConnectToServer": "Impossible d'enregistrer le document. Veuillez vérifier vos paramètres de connexion ou contactez l'administrateur.<br>Lorsque vous cliquez sur le bouton 'OK', vous serez invité à télécharger le document.",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "Impossible d'exécuter cette commande sur des sélections multiples.<br>Sélectionnez une seule plage et essayez à nouveau.",
   "SSE.Controllers.Main.errorCountArg": "Une erreur dans la formule entrée.<br>Nombre d'arguments utilisé est incorrect.",
   "SSE.Controllers.Main.errorCountArgExceed": "Une erreur dans la formule entrée.<br>Nombre d'arguments est dépassé.",

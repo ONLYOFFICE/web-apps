@@ -404,7 +404,7 @@
   "SSE.Controllers.Main.errorCannotUngroup": "Impossibile separare. Per iniziare una struttura, seleziona le righe o le colonne interessate e raggruppale.",
   "SSE.Controllers.Main.errorChangeArray": "Non è possibile modificare parte di un array.",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Connessione al server persa. Impossibile modificare il documento.",
-  "SSE.Controllers.Main.errorConnectToServer": "Il documento non può essere salvato. Controllare le impostazioni di rete o contatta l'Amministratore.<br>Quando clicchi 'OK' Ti verrà richiesto di scaricare il documento.<br><br>Per maggiori dettagli sulla connessione al Document Server  <a href=\"%1\" target=\"_blank\">clicca qui</a>",
+  "SSE.Controllers.Main.errorConnectToServer": "Il documento non può essere salvato. Controllare le impostazioni di rete o contatta l'Amministratore.<br>Quando clicchi 'OK' Ti verrà richiesto di scaricare il documento.",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "Questo comando non può essere applicato a selezioni multiple.<br>Seleziona un intervallo singolo e riprova.",
   "SSE.Controllers.Main.errorCountArg": "Un errore nella formula inserita.<br>E' stato utilizzato un numero di argomento scorretto.",
   "SSE.Controllers.Main.errorCountArgExceed": "Un errore nella formula inserita.<br>E' stato superato il numero di argomenti.",

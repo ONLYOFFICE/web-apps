@@ -322,7 +322,7 @@
   "DE.Controllers.Main.errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter l'administrateur de Document Server.",
   "DE.Controllers.Main.errorBadImageUrl": "L'URL de l'image est incorrecte",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Connexion au serveur perdue. Le document ne peut être modifié en ce moment.",
-  "DE.Controllers.Main.errorConnectToServer": "Impossible d'enregistrer le document. Veuillez vérifier vos paramètres de connexion ou contactez l'administrateur.<br>Lorsque vous cliquez sur le bouton 'OK', vous serez invité à télécharger le document.<br><br>Trouvez plus d'informations sur la connexion au Serveur de Documents <a href=\"%1\" target=\"_blank\">ici</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Impossible d'enregistrer le document. Veuillez vérifier vos paramètres de connexion ou contactez l'administrateur.<br>Lorsque vous cliquez sur le bouton 'OK', vous serez invité à télécharger le document.",
   "DE.Controllers.Main.errorDatabaseConnection": "Erreur externe.<br>Erreur de connexion à la base de données. Si l'erreur persiste veillez contactez l'assistance technique.",
   "DE.Controllers.Main.errorDataEncrypted": "Les modifications chiffrées ont été reçues, elle ne peuvent pas être déchiffrées.",
   "DE.Controllers.Main.errorDataRange": "Plage de données incorrecte.",

@@ -170,7 +170,7 @@
   "DE.Controllers.Main.downloadTextText": "Prenašanje dokumenta...",
   "DE.Controllers.Main.downloadTitleText": "Prenašanje dokumenta",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Povezava s strežnikom izgubljena. Dokument v tem trenutku ne more biti urejen.",
-  "DE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "DE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.",
   "DE.Controllers.Main.errorDatabaseConnection": "Zunanja napaka.<br>Napaka povezave baze podatkov. V primeru, da napaka ni odpravljena, prosim kontaktirajte ekipo za pomoč.",
   "DE.Controllers.Main.errorDataRange": "Nepravilen obseg podatkov.",
   "DE.Controllers.Main.errorDefaultMessage": "Koda napake: %1",

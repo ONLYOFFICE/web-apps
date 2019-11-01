@@ -111,7 +111,7 @@
   "SSE.Controllers.Main.errorAutoFilterHiddenRange": "The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.",
   "SSE.Controllers.Main.errorBadImageUrl": "URL slike je nepravilen",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Povezava s strežnikom izgubljena. Dokument v tem trenutku ne more biti urejen.",
-  "SSE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "SSE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.",
   "SSE.Controllers.Main.errorCountArg": "Napaka v vneseni formuli.<br>Uporabljena je nepravilna številka argumentov.",
   "SSE.Controllers.Main.errorCountArgExceed": "Napaka v vneseni formuli.<br>Število argumentov je preseženo.",
   "SSE.Controllers.Main.errorCreateDefName": "The existing named ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.",

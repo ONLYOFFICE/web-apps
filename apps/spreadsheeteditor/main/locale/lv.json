@@ -341,7 +341,7 @@
   "SSE.Controllers.Main.errorAutoFilterHiddenRange": "The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.",
   "SSE.Controllers.Main.errorBadImageUrl": "Image URL is incorrect",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
-  "SSE.Controllers.Main.errorConnectToServer": "Dokumentu neizdevās noglabāt. Lūdzu, pārbaudiet savienojuma uzstādījumus vai sazinieties ar savu administratoru.<br>Nospiežot \"OK\", jūs varēsit lejupielādēt dokumentu.<br><br>Uzziniet vairāk par dokumentu servera pieslēgšanu <a href=\"%1\" target=\"_blank\">šeit</a>",
+  "SSE.Controllers.Main.errorConnectToServer": "Dokumentu neizdevās noglabāt. Lūdzu, pārbaudiet savienojuma uzstādījumus vai sazinieties ar savu administratoru.<br>Nospiežot \"OK\", jūs varēsit lejupielādēt dokumentu.",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "Šo komandu nevar izmantot nesaistītiem diapazoniem.<br>Izvēlieties vienu diapazonu un mēģiniet vēlreiz.",
   "SSE.Controllers.Main.errorCountArg": "Kļūda ievadītā formulā.<br>Ir izmantots nepareizs argumentu skaits.",
   "SSE.Controllers.Main.errorCountArgExceed": "Kļūda ievadītā formulā.<br>Ir pārsniegts argumentu skaits.",

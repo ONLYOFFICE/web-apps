@@ -138,7 +138,7 @@
   "DE.Controllers.Main.errorAccessDeny": "Stai tentando di eseguire un'azione per la quale non disponi di permessi sufficienti.<br>Si prega di contattare l'amministratore del Server dei Documenti.",
   "DE.Controllers.Main.errorBadImageUrl": "URL dell'immagine non corretto",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Scollegato dal server. Non è possibile modificare.",
-  "DE.Controllers.Main.errorConnectToServer": "Il documento non può essere salvato. Controllare le impostazioni di rete o contatta l'Amministratore.<br>Quando clicchi 'OK' Ti verrà richiesto di scaricare il documento.<br><br>Per maggiori dettagli sulla connessione al Document Server  <a href=\"%1\" target=\"_blank\">clicca qui</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Il documento non può essere salvato. Controllare le impostazioni di rete o contatta l'Amministratore.<br>Quando clicchi 'OK' Ti verrà richiesto di scaricare il documento.",
   "DE.Controllers.Main.errorDatabaseConnection": "Errore esterno.<br>Errore di connessione al database. Si prega di contattare il supporto.",
   "DE.Controllers.Main.errorDataEncrypted": "Le modifiche crittografate sono state ricevute, non possono essere decifrate.",
   "DE.Controllers.Main.errorDataRange": "Intervallo di dati non corretto.",
