@@ -587,8 +587,7 @@ define([
                 header: false,
                 width: 280,
                 cls: 'modal-dlg',
-                buttons: ['ok', 'cancel'],
-                footerCls: 'right'
+                buttons: ['ok', 'cancel']
             },
 
             template:   '<div class="box">' +
@@ -694,10 +693,8 @@ define([
         SSE.Views.Statusbar.CopyDialog = Common.UI.Window.extend(_.extend({
             options: {
                 width: 270,
-                height: 300,
                 cls: 'modal-dlg',
-                buttons: ['ok', 'cancel'],
-                footerCls: 'right'
+                buttons: ['ok', 'cancel']
             },
 
             template:   '<div class="box">' +

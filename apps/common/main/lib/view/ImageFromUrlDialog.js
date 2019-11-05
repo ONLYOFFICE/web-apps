@@ -47,8 +47,7 @@ define([
             width: 330,
             header: false,
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            footerCls: 'right'
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
