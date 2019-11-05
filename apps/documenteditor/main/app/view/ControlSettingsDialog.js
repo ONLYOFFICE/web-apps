@@ -39,17 +39,19 @@
  *
  */
 
-define([
+define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
     'common/main/lib/util/utils',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/InputField',
     'common/main/lib/view/AdvancedSettingsWindow'
-], function () { 'use strict';
+], function (contentTemplate) { 'use strict';
 
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 412
+            height: 412,
+            toggleGroup: 'control-adv-settings-group',
+            storageName: 'de-control-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -57,83 +59,13 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
-                                '<table cols="1" style="width: 100%;">',
-                                '<tr>',
-                                    '<td class="padding-small">',
-                                        '<label class="input-label">', me.textName, '</label>',
-                                        '<div id="control-settings-txt-name"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-large">',
-                                        '<label class="input-label">', me.textTag, '</label>',
-                                        '<div id="control-settings-txt-tag"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-large">',
-                                        '<div class="separator horizontal"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '</table>',
-                                '<table cols="2" style="width: auto;">',
-                                '<tr>',
-                                    '<td class="padding-small" colspan="2">',
-                                        '<label class="header">', me.textAppearance, '</label>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-small">',
-                                        '<label class="input-label" style="margin-right: 10px;">', me.textShowAs,'</label>',
-                                    '</td>',
-                                    '<td class="padding-small">',
-                                        '<div id="control-settings-combo-show" class="input-group-nr" style="display: inline-block; width:120px;"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-small">',
-                                        '<label class="input-label" style="margin-right: 10px;">', me.textColor, '</label>',
-                                    '</td>',
-                                    '<td class="padding-small">',
-                                        '<div id="control-settings-color-btn" style="display: inline-block;"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-large" colspan="2">',
-                                        '<button type="button" class="btn btn-text-default auto" id="control-settings-btn-all" style="min-width: 98px;">', me.textApplyAll,'</button>',
-                                    '</td>',
-                                '</tr>',
-                                '</table>',
-                                '<table cols="1" style="width: 100%;">',
-                                '<tr>',
-                                    '<td class="padding-large">',
-                                        '<div class="separator horizontal"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-small">',
-                                        '<label class="header">', me.textLock, '</label>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-small">',
-                                        '<div id="control-settings-chb-lock-delete"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '<tr>',
-                                    '<td class="padding-small">',
-                                        '<div id="control-settings-chb-lock-edit"></div>',
-                                    '</td>',
-                                '</tr>',
-                                '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>'
-                ].join('')
+                items: [
+                    {panelId: 'id-adv-control-settings-general', panelCaption: this.strGeneral},
+                    {panelId: 'id-adv-control-settings-lock',    panelCaption: this.textLock}
+                ],
+                contentTemplate: _.template(contentTemplate)({
+                    scope: this
+                })
             }, options);
 
             this.handler    = options.handler;
@@ -252,6 +184,10 @@ define([
         afterRender: function() {
             this.updateThemeColors();
             this._setDefaults(this.props);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         show: function() {
@@ -352,7 +288,8 @@ define([
         textNewColor: 'Add New Custom Color',
         textApplyAll: 'Apply to All',
         textAppearance: 'Appearance',
-        textSystemColor: 'System'
+        textSystemColor: 'System',
+        strGeneral: 'General'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });
