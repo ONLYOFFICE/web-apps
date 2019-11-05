@@ -46,6 +46,11 @@ define([
         var app = window.AscDesktopEditor,
             webapp = window.DE || window.PE || window.SSE;
         var titlebuttons;
+        var btnsave_icons = {
+            'btn-save': 'save',
+            'btn-save-coauth': 'coauth',
+            'btn-synch': 'synch' };
+
 
         if ( !!app ) {
             window.on_native_message = function (cmd, param) {
@@ -116,8 +121,7 @@ define([
         var _serializeHeaderButton = function(action, config) {
             return {
                 action: action,
-                width: config.btn.$el.width(),
-                height: config.btn.$el.height(),
+                icon: config.icon || undefined,
                 hint: config.btn.options.hint,
                 disabled: config.disabled
             };
@@ -128,6 +132,10 @@ define([
             var _buttons = {};
             _buttons[action] = status;
             app.execCommand('title:button', JSON.stringify({disabled: _buttons}));
+        };
+
+        var _onSaveIconChanged = function (e, opts) {
+            app.execCommand('title:button', JSON.stringify({'icon:changed': {'save': btnsave_icons[opts.next]}}));
         };
 
         var _onModalDialog = function (status) {
@@ -176,6 +184,12 @@ define([
                             titlebuttons[i].btn.options.signals = ['disabled'];
                             titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
                         }
+
+                        header.btnSave.options.signals.push('icon:changed');
+                        header.btnSave.on('icon:changed', _onSaveIconChanged.bind(this));
+
+                        var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
+                        !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
                     });
 
                     Common.NotificationCenter.on({

@@ -648,6 +648,24 @@ define([
             btnIconEl.addClass(cls || '');
         },
 
+        changeIcon: function(opts) {
+            var me = this;
+            if ( opts && (opts.prev || opts.next)) {
+                !!opts.prev && (me.$icon.removeClass(opts.prev));
+                !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
+
+                if ( !!me.options.signals ) {
+                    if ( !(me.options.signals.indexOf('icon:changed') < 0) ) {
+                        me.trigger('icon:changed', me, opts);
+                    }
+                }
+            }
+        },
+
+        hasIcon: function(iconcls) {
+            return this.$icon.hasClass(iconcls);
+        },
+
         setVisible: function(visible) {
             if (this.cmpEl) this.cmpEl.toggleClass('hidden', !visible);
             this.visible = visible;
