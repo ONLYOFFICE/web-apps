@@ -631,12 +631,37 @@ define([
                                 {
                                     caption: this.textPlainControl,
                                     iconCls: 'mnu-control-plain',
-                                    value: Asc.c_oAscSdtLevelType.Inline
+                                    value: 'plain'
                                 },
                                 {
                                     caption: this.textRichControl,
                                     iconCls: 'mnu-control-rich',
-                                    value: Asc.c_oAscSdtLevelType.Block
+                                    value: 'rich'
+                                },
+                                {
+                                    caption: this.textPictureControl,
+                                    iconCls: 'mnu-control-rich',
+                                    value: 'picture'
+                                },
+                                {
+                                    caption: this.textComboboxControl,
+                                    iconCls: 'mnu-control-rich',
+                                    value: 'combobox'
+                                },
+                                {
+                                    caption: this.textDropdownControl,
+                                    iconCls: 'mnu-control-rich',
+                                    value: 'dropdown'
+                                },
+                                {
+                                    caption: this.textDateControl,
+                                    iconCls: 'mnu-control-rich',
+                                    value: 'date'
+                                },
+                                {
+                                    caption: this.textCheckboxControl,
+                                    iconCls: 'mnu-control-rich',
+                                    value: 'checkbox'
                                 },
                                 {caption: '--'},
                                 {
@@ -2324,7 +2349,12 @@ define([
             capBtnWatermark: 'Watermark',
             textEditWatermark: 'Custom Watermark',
             textRemWatermark: 'Remove Watermark',
-            tipWatermark: 'Edit watermark'
+            tipWatermark: 'Edit watermark',
+            textPictureControl: 'Insert picture content control',
+            textComboboxControl: 'Insert combo box content control',
+            textCheckboxControl: 'Insert check box content control',
+            textDropdownControl: 'Insert drop-down list content control',
+            textDateControl: 'Insert date content control'
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -750,10 +750,11 @@ define([
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
 
             if (!paragraph_locked && !header_locked) {
-                toolbar.btnContentControls.menu.items[0].setDisabled(control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked);
-                toolbar.btnContentControls.menu.items[1].setDisabled(control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked);
-                toolbar.btnContentControls.menu.items[3].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                toolbar.btnContentControls.menu.items[5].setDisabled(!in_control);
+                var control_disable = control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+                for (var i=0; i<7; i++)
+                    toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
+                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                toolbar.btnContentControls.menu.items[10].setDisabled(!in_control);
             }
 
             var need_text_disable = paragraph_locked || header_locked || in_chart;
@@ -1745,7 +1746,17 @@ define([
                     }
                 }
             } else {
-                this.api.asc_AddContentControl(item.value);
+                if (item.value == 'plain' || item.value == 'rich')
+                    this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);
+                else if (item.value == 'picture')
+                    this.api.asc_AddContentControlPicture();
+                else if (item.value == 'checkbox')
+                    this.api.asc_AddContentControlCheckBox();
+                else if (item.value == 'date')
+                    this.api.asc_AddContentControlDatePicker();
+                else if (item.value == 'combobox' || item.value == 'dropdown')
+                    this.api.asc_AddContentControlList(item.value == 'combobox');
+
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
             }
 
