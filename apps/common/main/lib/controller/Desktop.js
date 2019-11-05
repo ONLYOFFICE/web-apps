@@ -104,13 +104,11 @@ define([
                 if (/button:click/.test(cmd)) {
                     var obj = JSON.parse(param);
                     if ( !!obj.action ) {
-                        // TODO: add method 'click' to button
-                        titlebuttons[obj.action].btn.cmpEl.trigger({type:'click',which:1});
+                        titlebuttons[obj.action].btn.click();
                     }
                 }
             };
 
-            // app.execCommand('webapps:events', 'loading');
             // app.execCommand('window:features', {version: config.version, action: 'request'});
             app.execCommand('webapps:features', {version: config.version, eventloading:true, titlebuttons:true});
         }
@@ -125,7 +123,7 @@ define([
             };
         };
 
-        var _onTitleButtonDasabled = function (action, e, status) {
+        var _onTitleButtonDisabled = function (action, e, status) {
             titlebuttons[action].disabled = status;
             var _buttons = {};
             _buttons[action] = status;
@@ -174,12 +172,9 @@ define([
                             'redo': {btn: header.btnRedo,  disabled:false}
                         };
 
-                        var toolbar = webapp.getController('Toolbar').getView();
-                        if ( toolbar ) {
-                            toolbar.btnUndo.on('disabled', _onTitleButtonDasabled.bind(this, 'undo'));
-                            toolbar.btnRedo.on('disabled', _onTitleButtonDasabled.bind(this, 'redo'));
-                            toolbar.btnSave.on('disabled', _onTitleButtonDasabled.bind(this, 'save'));
-                            toolbar.btnPrint.on('disabled', _onTitleButtonDasabled.bind(this, 'print'));
+                        for (var i in titlebuttons) {
+                            titlebuttons[i].btn.options.signals = ['disabled'];
+                            titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
                         }
                     });
 

@@ -573,6 +573,13 @@ define([
                 this.trigger('toggle', this, state);
         },
 
+        click: function(opts) {
+            if ( !this.disabled ) {
+                this.doToggle();
+                this.trigger('click', this, opts);
+            }
+        },
+
         isActive: function() {
             if (this.enableToggle)
                 return this.pressed;
