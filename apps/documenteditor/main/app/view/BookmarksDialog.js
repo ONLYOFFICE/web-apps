@@ -110,7 +110,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="footer right">',
+                    '<div class="footer center">',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textClose + '</button>',
                     '</div>'
                 ].join('')
