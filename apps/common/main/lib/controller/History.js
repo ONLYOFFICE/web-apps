@@ -81,6 +81,7 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             if (!mode.canHistoryClose) {
                 this.panelHistory.$el.find('#history-header').hide();
                 this.panelHistory.$el.find('#history-list').css('padding-top', 0);
@@ -163,6 +164,8 @@ define([
         },
 
         onSetHistoryData: function(opts) {
+            if (!this.mode.canUseHistory) return;
+
             if (opts.data.error) {
                  var config = {
                     title: this.notcriticalErrorTitle,
