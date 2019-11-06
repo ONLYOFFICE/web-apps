@@ -2324,7 +2324,8 @@ define([
             capBtnWatermark: 'Watermark',
             textEditWatermark: 'Custom Watermark',
             textRemWatermark: 'Remove Watermark',
-            tipWatermark: 'Edit watermark'
+            tipWatermark: 'Edit watermark',
+            capBtnAddComment: 'Add Comment'
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -2520,6 +2520,7 @@ define([
         textManyPages: 'pages',
         textHeight: 'Height',
         textWidth: 'Width',
-        textMorePages: 'More pages'
+        textMorePages: 'More pages',
+        capBtnAddComment: 'Add Comment'
     }, SSE.Views.Toolbar || {}));
 });

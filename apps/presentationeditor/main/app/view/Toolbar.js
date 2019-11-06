@@ -1676,7 +1676,8 @@ define([
             capBtnInsHeader: 'Header/Footer',
             capBtnSlideNum: 'Slide Number',
             capBtnDateTime: 'Date & Time',
-            textListSettings: 'List Settings'
+            textListSettings: 'List Settings',
+            capBtnAddComment: 'Add Comment'
         }
     }()), PE.Views.Toolbar || {}));
 });

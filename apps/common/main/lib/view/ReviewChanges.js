@@ -307,7 +307,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentRemove,
                         split: true,
-                        iconCls: 'btn-menu-comments'
+                        iconCls: 'btn-rem-comment'
                     });
                 }
 
@@ -654,7 +654,7 @@ define([
             txtOriginalCap: 'Original',
             strFastDesc: 'Real-time co-editing. All changes are saved automatically.',
             strStrictDesc: 'Use the \'Save\' button to sync the changes you and others make.',
-            txtCommentRemove: 'Remove Comments',
+            txtCommentRemove: 'Remove',
             tipCommentRemCurrent: 'Remove current comments',
             tipCommentRem: 'Remove comments',
             txtCommentRemCurrent: 'Remove Current Comments',
