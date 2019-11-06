@@ -2025,7 +2025,7 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                this.btnCollabChanges.changeIcon({prev:this.btnSaveCls, next:'btn-synch'});
+                this.btnCollabChanges.changeIcon({curr:this.btnSaveCls, next:'btn-synch'});
                 if (this.showSynchTip) {
                     this.btnCollabChanges.updateHint('');
                     if (this.synchTooltip === undefined)
@@ -2061,8 +2061,8 @@ define([
                 if ( !this._state.previewmode && this.btnCollabChanges.rendered ) {
                     var me = this;
 
-                    if ( me.btnCollabChanges.isIcon('btn-synch') ) {
-                        me.btnCollabChanges.changeIcon({prev:'btn-synch', next:me.btnSaveCls});
+                    if ( me.btnCollabChanges.hasIcon('btn-synch') ) {
+                        me.btnCollabChanges.changeIcon({curr:'btn-synch', next:me.btnSaveCls});
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
@@ -2086,8 +2086,8 @@ define([
                 if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
                     me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
 
-                    if ( !me.btnCollabChanges.isIcon('btn-synch') ) {
-                        me.btnCollabChanges.changeIcon({prev:me.btnSaveCls, next:cls});
+                    if ( !me.btnCollabChanges.hasIcon('btn-synch') ) {
+                        me.btnCollabChanges.changeIcon({curr:me.btnSaveCls, next:cls});
                         me.btnCollabChanges.updateHint(me.btnSaveTip);
                     }
                     me.btnSaveCls = cls;

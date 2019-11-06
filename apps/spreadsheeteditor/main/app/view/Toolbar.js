@@ -2103,7 +2103,7 @@ define([
             }
 
             this._state.hasCollaborativeChanges = true;
-            this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
+            this.btnCollabChanges.changeIcon({curr:this.btnSaveCls,next:'btn-synch'});
 
             if (this.showSynchTip){
                 this.btnCollabChanges.updateHint('');
@@ -2140,8 +2140,8 @@ define([
             if (this.btnCollabChanges.rendered) {
                 var me = this;
 
-                if ( me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
-                    me.btnCollabChanges.$icon.removeClass('btn-synch').addClass(this.btnSaveCls);
+                if ( me.btnCollabChanges.hasIcon('btn-synch') ) {
+                    me.btnCollabChanges.changeIcon({curr:'btn-synch',next:this.btnSaveCls});
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnCollabChanges.updateHint(this.btnSaveTip);
@@ -2164,8 +2164,8 @@ define([
             if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
                 this.btnSaveTip = ((length>1) ? this.tipSaveCoauth : this.tipSave )+ Common.Utils.String.platformKey('Ctrl+S');
 
-                if ( !this.btnCollabChanges.$icon.hasClass('btn-synch') ) {
-                    this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
+                if ( !this.btnCollabChanges.hasIcon('btn-synch') ) {
+                    this.btnCollabChanges.changeIcon({curr:this.btnSaveCls, next:cls});
                     this.btnCollabChanges.updateHint(this.btnSaveTip);
                 }
                 this.btnSaveCls = cls;

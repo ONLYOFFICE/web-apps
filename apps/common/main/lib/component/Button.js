@@ -650,8 +650,8 @@ define([
 
         changeIcon: function(opts) {
             var me = this;
-            if ( opts && (opts.prev || opts.next)) {
-                !!opts.prev && (me.$icon.removeClass(opts.prev));
+            if ( opts && (opts.curr || opts.next)) {
+                !!opts.curr && (me.$icon.removeClass(opts.curr));
                 !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
 
                 if ( !!me.options.signals ) {
