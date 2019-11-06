@@ -3982,7 +3982,7 @@ define([
         mergeCellsText          : 'Merge Cells',
         splitCellsText          : 'Split Cell...',
         splitCellTitleText      : 'Split Cell',
-        originalSizeText        : 'Default Size',
+        originalSizeText        : 'Actual Size',
         advancedText            : 'Advanced Settings',
         breakBeforeText         : 'Page break before',
         keepLinesText           : 'Keep lines together',

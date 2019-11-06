@@ -466,7 +466,7 @@
   "SSE.Views.EditImage.textAddress": "Address",
   "SSE.Views.EditImage.textBack": "Back",
   "SSE.Views.EditImage.textBackward": "Move Backward",
-  "SSE.Views.EditImage.textDefault": "Default Size",
+  "SSE.Views.EditImage.textDefault": "Actual Size",
   "SSE.Views.EditImage.textForward": "Move Forward",
   "SSE.Views.EditImage.textFromLibrary": "Picture from Library",
   "SSE.Views.EditImage.textFromURL": "Picture from URL",

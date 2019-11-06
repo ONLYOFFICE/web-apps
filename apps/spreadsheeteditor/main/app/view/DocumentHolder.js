@@ -1057,7 +1057,7 @@ define([
         strDetails: 'Signature Details',
         strSetup: 'Signature Setup',
         strDelete: 'Remove Signature',
-        originalSizeText: 'Default Size',
+        originalSizeText: 'Actual Size',
         textReplace: 'Replace image',
         textFromUrl: 'From URL',
         textFromFile: 'From File',
