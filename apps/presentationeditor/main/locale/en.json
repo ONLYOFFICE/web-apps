@@ -1244,6 +1244,7 @@
   "PE.Views.ImageSettings.textCropFit": "Fit",
   "PE.Views.ImageSettings.textEdit": "Edit",
   "PE.Views.ImageSettings.textEditObject": "Edit Object",
+  "PE.Views.ImageSettings.textFitSlide": "Fit to Slide",
   "PE.Views.ImageSettings.textFlip": "Flip",
   "PE.Views.ImageSettings.textFromFile": "From File",
   "PE.Views.ImageSettings.textFromUrl": "From URL",

@@ -176,6 +176,12 @@ define([
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
             this.lockedControls.push(this.btnCrop);
 
+            this.btnFitSlide = new Common.UI.Button({
+                el: $('#image-button-fit-slide')
+            });
+            this.lockedControls.push(this.btnFitSlide);
+            this.btnFitSlide.on('click', _.bind(this.setFitSlide, this));
+
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'rotate-270',
@@ -378,6 +384,11 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        setFitSlide:  function() {
+            this.api && this.api.asc_FitImagesToSlide();
+            this.fireEvent('editcomplete', this);
+        },
+
         onBtnRotateClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
             properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
@@ -431,7 +442,8 @@ define([
         textHintFlipH: 'Flip Horizontally',
         textCrop: 'Crop',
         textCropFill: 'Fill',
-        textCropFit: 'Fit'
+        textCropFit: 'Fit',
+        textFitSlide: 'Fit to Slide'
 
     }, PE.Views.ImageSettings || {}));
 });
