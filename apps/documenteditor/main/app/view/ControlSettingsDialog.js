@@ -63,7 +63,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 items: [
                     {panelId: 'id-adv-control-settings-general', panelCaption: this.strGeneral},
                     {panelId: 'id-adv-control-settings-lock',    panelCaption: this.textLock},
-                    {panelId: 'id-adv-control-settings-list',    panelCaption: this.textCombobox}
+                    {panelId: 'id-adv-control-settings-list',    panelCaption: this.textCombobox},
+                    {panelId: 'id-adv-control-settings-date',    panelCaption: this.textDate}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -196,6 +197,35 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             });
             this.btnDown.on('click', _.bind(this.onMoveItem, this, false));
 
+            // date picker
+            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+                { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
+            data.forEach(function(item) {
+                var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
+                item.displayValue = langinfo[1];
+                item.langName = langinfo[0];
+            });
+
+            this.cmbLang = new Common.UI.ComboBox({
+                el          : $('#control-settings-lang'),
+                menuStyle   : 'min-width: 100%; max-height: 185px;',
+                cls         : 'input-group-nr',
+                editable    : false,
+                data        : data
+            });
+            this.cmbLang.setValue(0x0409);
+            this.cmbLang.on('selected',function(combo, record) {
+                me.updateFormats(record.value);
+            });
+
+            this.listFormats = new Common.UI.ListView({
+                el: $('#control-settings-format'),
+                store: new Common.UI.DataViewStore(),
+                scrollAlwaysVisible: true
+            });
+            // this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
+
             this.afterRender();
         },
 
@@ -283,6 +313,15 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 }
                 */
                 this.disableListButtons();
+
+                //for date picker
+                // this.btnsCategory[3].setVisible(type == 'date');
+                if (this.options.lang) {
+                    var item = this.cmbLang.store.findWhere({value: this.options.lang});
+                    item = item ? item.get('value') : 0x0409;
+                    this.cmbLang.setValue(item)
+                }
+                this.updateFormats(this.cmbLang.getValue());
             }
         },
 
@@ -315,6 +354,12 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             //     arr.push(new Asc.asc_CListItem(item.get('name'), item.get('value')));
             // }, this);
             // props.set_ListItems(arr);
+
+            //for date picker
+            // var rec = this.listFormats.getSelectedRec();
+            // if (rec) {
+            //     props.set_DateFormat(rec.get('format'));
+            // }
 
             return props;
         },
@@ -426,6 +471,28 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.list.cmpEl.find('.listview').focus();
         },
 
+        updateFormats: function(lang) {
+            // this.props.put_Lang(lang);
+            // var data = this.props.get_DateTimeExamples(),
+            //     arr = [];
+            // var store = this.listFormats.store;
+            // for (var name in data) {
+            //     if (data[name])  {
+            //         var rec = new Common.UI.DataViewModel();
+            //         rec.set({
+            //             format: name,
+            //             value: data[name]
+            //         });
+            //         arr.push(rec);
+            //     }
+            // }
+            // store.reset(arr);
+            // this.listFormats.selectByIndex(0);
+            // var rec = this.listFormats.getSelectedRec();
+            // this.listFormats.scrollToRecord(rec);
+            // this.onSelectFormat(this.listFormats, null, rec);
+        },
+
         textTitle:    'Content Control Settings',
         textName: 'Title',
         textTag: 'Tag',
@@ -448,7 +515,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textDown: 'Down',
         textCombobox: 'Combo box',
         textDisplayName: 'Display name',
-        textValue: 'Value'
+        textValue: 'Value',
+        textDate: 'Date Format',
+        textLang: 'Language',
+        textFormat: 'Formats'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

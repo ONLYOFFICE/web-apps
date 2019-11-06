@@ -90,3 +90,29 @@
         </table>
     </div>
 </div>
+<div id="id-adv-control-settings-date" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textLang %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="control-settings-lang"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textFormat %></label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="control-settings-format" style="width: 100%; height: 165px;"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
