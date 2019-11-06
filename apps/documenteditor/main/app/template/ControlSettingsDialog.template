@@ -65,3 +65,28 @@
         </table>
     </div>
 </div>
+<div id="id-adv-control-settings-list" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td>
+                    <label class="header" style="width: 99px;"><%= scope.textDisplayName %></label>
+                    <label class="header" style=""><%= scope.textValue %></label>
+                </td>
+                <td></td>
+            </tr>
+            <tr style="vertical-align: top;">
+                <td class="padding-small">
+                    <div id="control-settings-list" style="width:200px; height: 192px;margin-right: 10px;"></div>
+                </td>
+                <td class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-add" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textAdd %></button>
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-change" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textChange %></button>
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-delete" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textDelete %></button>
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-up" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textUp %></button>
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-down" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textDown %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

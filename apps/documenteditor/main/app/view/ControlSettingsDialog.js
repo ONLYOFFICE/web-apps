@@ -43,7 +43,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
     'common/main/lib/util/utils',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/InputField',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
+    'documenteditor/main/app/view/EditListItemDialog'
 ], function (contentTemplate) { 'use strict';
 
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
@@ -61,7 +62,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 title: this.textTitle,
                 items: [
                     {panelId: 'id-adv-control-settings-general', panelCaption: this.strGeneral},
-                    {panelId: 'id-adv-control-settings-lock',    panelCaption: this.textLock}
+                    {panelId: 'id-adv-control-settings-lock',    panelCaption: this.textLock},
+                    {panelId: 'id-adv-control-settings-list',    panelCaption: this.textCombobox}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -154,6 +156,46 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 labelText: this.txtLockEdit
             });
 
+            // combobox & dropdown list
+            this.list = new Common.UI.ListView({
+                el: $('#control-settings-list', this.$window),
+                store: new Common.UI.DataViewStore(),
+                emptyText: '',
+                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
+                    '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= name %></div>',
+                    '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>',
+                    '</div>'
+                ].join(''))
+            });
+            this.list.on('item:select', _.bind(this.onSelectItem, this));
+
+            this.btnAdd = new Common.UI.Button({
+                el: $('#control-settings-btn-add')
+            });
+            this.btnAdd.on('click', _.bind(this.onAddItem, this));
+
+            this.btnChange = new Common.UI.Button({
+                el: $('#control-settings-btn-change')
+            });
+            this.btnChange.on('click', _.bind(this.onChangeItem, this));
+
+            this.btnDelete = new Common.UI.Button({
+                el: $('#control-settings-btn-delete')
+            });
+            this.btnDelete.on('click', _.bind(this.onDeleteItem, this));
+
+            this.btnUp = new Common.UI.Button({
+                el: $('#control-settings-btn-up')
+            });
+            this.btnUp.on('click', _.bind(this.onMoveItem, this, true));
+
+            this.btnDown = new Common.UI.Button({
+                el: $('#control-settings-btn-down')
+            });
+            this.btnDown.on('click', _.bind(this.onMoveItem, this, false));
+
             this.afterRender();
         },
 
@@ -222,6 +264,25 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
                 this.chLockDelete.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
                 this.chLockEdit.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
+
+                //for list controls
+                /*
+                // this.btnsCategory[2].setVisible(type == 'list');
+
+                var items = props.get_ListItems();
+                if (items) {
+                    var arr = [];
+                    for (var i=0; i<items.length; i++) {
+                        arr.push({
+                            value: items[i].get_Value(),
+                            name: items[i].get_Name()
+                        });
+                    }
+
+                    this.list.store.reset(arr);
+                }
+                */
+                this.disableListButtons();
             }
         },
 
@@ -247,6 +308,13 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             else if (this.chLockEdit.getValue()=='checked')
                 lock = Asc.c_oAscSdtLockType.ContentLocked;
             props.put_Lock(lock);
+
+            // for list controls
+            // var arr = [];
+            // this.list.store.each(function (item, index) {
+            //     arr.push(new Asc.asc_CListItem(item.get('name'), item.get('value')));
+            // }, this);
+            // props.set_ListItems(arr);
 
             return props;
         },
@@ -275,6 +343,89 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             }
         },
 
+        onSelectItem: function(listView, itemView, record) {
+            this.disableListButtons(false);
+        },
+
+        disableListButtons: function(disabled) {
+            if (disabled===undefined)
+                disabled = !this.list.getSelectedRec();
+            this.btnChange.setDisabled(disabled);
+            this.btnDelete.setDisabled(disabled);
+            this.btnUp.setDisabled(disabled);
+            this.btnDown.setDisabled(disabled);
+        },
+
+        onAddItem: function() {
+            var me = this,
+                win = new DE.Views.EditListItemDialog({
+                    handler: function(result, name, value) {
+                        if (result == 'ok') {
+                            var rec = me.list.store.add({
+                                    value: value,
+                                    name: name
+                                });
+                            if (rec) {
+                                me.list.selectRecord(rec);
+                                me.list.scrollToRecord(rec);
+                                me.disableListButtons();
+                            }
+                        }
+                        me.list.cmpEl.find('.listview').focus();
+                    }
+                });
+            win.show();
+        },
+
+        onChangeItem: function() {
+            var me = this,
+                rec = this.list.getSelectedRec(),
+                win = new DE.Views.EditListItemDialog({
+                    handler: function(result, name, value) {
+                        if (result == 'ok') {
+                            if (rec) {
+                                rec.set({
+                                    value: value,
+                                    name: name
+                                });
+                            }
+                        }
+                        me.list.cmpEl.find('.listview').focus();
+                    }
+                });
+            rec && win.show();
+            rec && win.setSettings({name: rec.get('name'), value: rec.get('value')});
+        },
+
+        onDeleteItem: function(btn, eOpts){
+            var rec = this.list.getSelectedRec();
+            if (rec) {
+                var store = this.list.store;
+                var idx = _.indexOf(store.models, rec);
+                store.remove(rec);
+                if (idx>store.length-1) idx = store.length-1;
+                if (store.length>0) {
+                    this.list.selectByIndex(idx);
+                    this.list.scrollToRecord(store.at(idx));
+                }
+            }
+            this.disableListButtons();
+            this.list.cmpEl.find('.listview').focus();
+        },
+
+        onMoveItem: function(up) {
+            var store = this.list.store,
+                length = store.length,
+                rec = this.list.getSelectedRec();
+            if (rec) {
+                var index = store.indexOf(rec);
+                store.add(store.remove(rec), {at: up ? Math.max(0, index-1) : Math.min(length-1, index+1)});
+                this.list.selectRecord(rec);
+                this.list.scrollToRecord(rec);
+            }
+            this.list.cmpEl.find('.listview').focus();
+        },
+
         textTitle:    'Content Control Settings',
         textName: 'Title',
         textTag: 'Tag',
@@ -289,7 +440,15 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textApplyAll: 'Apply to All',
         textAppearance: 'Appearance',
         textSystemColor: 'System',
-        strGeneral: 'General'
+        strGeneral: 'General',
+        textAdd: 'Add',
+        textChange: 'Edit',
+        textDelete: 'Delete',
+        textUp: 'Up',
+        textDown: 'Down',
+        textCombobox: 'Combo box',
+        textDisplayName: 'Display name',
+        textValue: 'Value'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });
