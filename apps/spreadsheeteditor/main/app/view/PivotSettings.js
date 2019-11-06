@@ -113,12 +113,16 @@ define([
                     '<input type="button" class="img-commonctrl"/>',
                     '<% } %>',
                     '</label>',
-                    '<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                    '<div id="<%= id %>" class="list-item" style="pointer-events:none;"><span style="background-color: transparent;"><%= Common.Utils.String.htmlEncode(value) %></span></div>',
                     '<div class="listitem-icon img-commonctrl"></div>',
                     '</div>'
                 ].join(''))
             });
             this.fieldsList.on('item:click', _.bind(this.onFieldsCheck, this));
+            this.fieldsList.$el.on('dragenter', _.bind(this.onDragEnter, this));
+            this.fieldsList.$el.on('dragover', _.bind(this.onDragOver, this, this.fieldsList));
+            this.fieldsList.$el.on('dragleave', _.bind(this.onDragLeave, this, this.fieldsList));
+            this.fieldsList.$el.on('drop', _.bind(this.onDrop, this));
             // this.fieldsList.onKeyDown = _.bind(this.onFieldsListKeyDown, this);
             this.lockedControls.push(this.fieldsList);
 
@@ -126,7 +130,7 @@ define([
 
             var itemTemplate = _.template([
                 '<div id="<%= id %>" class="list-item" style="display:inline-block;">',
-                '<div style=""><%= Common.Utils.String.htmlEncode(value) %></div>',
+                '<div style=""><span><%= Common.Utils.String.htmlEncode(value) %></span></div>',
                 '<div class="listitem-icon img-commonctrl"></div>',
                 '</div>'
             ].join(''));
@@ -138,6 +142,10 @@ define([
                 itemTemplate: itemTemplate
             });
             this.columnsList.on('item:click', _.bind(this.onColumnsSelect, this, 0));
+            this.columnsList.$el.on('dragenter', _.bind(this.onDragEnter, this));
+            this.columnsList.$el.on('dragover', _.bind(this.onDragOver, this, this.columnsList));
+            this.columnsList.$el.on('dragleave', _.bind(this.onDragLeave, this, this.columnsList));
+            this.columnsList.$el.on('drop', _.bind(this.onDrop, this));
             // this.columnsList.onKeyDown = _.bind(this.onColumnsListKeyDown, this);
             this.lockedControls.push(this.columnsList);
 
@@ -149,6 +157,10 @@ define([
                 itemTemplate: itemTemplate
             });
             this.rowsList.on('item:click', _.bind(this.onColumnsSelect, this, 1));
+            this.rowsList.$el.on('dragenter', _.bind(this.onDragEnter, this));
+            this.rowsList.$el.on('dragover', _.bind(this.onDragOver, this, this.rowsList));
+            this.rowsList.$el.on('dragleave', _.bind(this.onDragLeave, this, this.rowsList));
+            this.rowsList.$el.on('drop', _.bind(this.onDrop, this));
             // this.rowsList.onKeyDown = _.bind(this.onRowsListKeyDown, this);
             this.lockedControls.push(this.rowsList);
 
@@ -160,6 +172,10 @@ define([
                 itemTemplate: itemTemplate
             });
             this.valuesList.on('item:click', _.bind(this.onColumnsSelect, this, 2));
+            this.valuesList.$el.on('dragenter', _.bind(this.onDragEnter, this));
+            this.valuesList.$el.on('dragover', _.bind(this.onDragOver, this, this.valuesList));
+            this.valuesList.$el.on('dragleave', _.bind(this.onDragLeave, this, this.valuesList));
+            this.valuesList.$el.on('drop', _.bind(this.onDrop, this));
             // this.valuesList.onKeyDown = _.bind(this.onValuesListKeyDown, this);
             this.lockedControls.push(this.valuesList);
 
@@ -171,12 +187,129 @@ define([
                 itemTemplate: itemTemplate
             });
             this.filtersList.on('item:click', _.bind(this.onColumnsSelect, this,3));
+            this.filtersList.$el.on('dragenter', _.bind(this.onDragEnter, this));
+            this.filtersList.$el.on('dragover', _.bind(this.onDragOver, this, this.filtersList));
+            this.filtersList.$el.on('dragleave', _.bind(this.onDragLeave, this, this.filtersList));
+            this.filtersList.$el.on('drop', _.bind(this.onDrop, this));
             // this.filtersList.onKeyDown = _.bind(this.onFiltersListKeyDown, this);
             this.lockedControls.push(this.filtersList);
 
             $(this.el).on('click', '#pivot-advanced-link', _.bind(this.openAdvancedSettings, this));
 
             this._initSettings = false;
+        },
+
+        onFieldsDragStart: function (item, index, event) {
+            event.originalEvent.dataTransfer.effectAllowed = 'move';
+            event.originalEvent.dataTransfer.setDragImage(item.$el.find('.list-item span')[0], 14, 14);
+            this.pivotIndex = index;
+            this.fromListView = this.fieldsList.$el[0].id;
+        },
+
+        onItemsDragStart: function (listview, item, index, event) {
+            event.originalEvent.dataTransfer.effectAllowed = 'move';
+            event.originalEvent.dataTransfer.setDragImage(item.$el.find('.list-item span')[0], 14, 14);
+            this.itemIndex = index;
+            this.pivotIndex = listview.store.at(index).attributes.pivotIndex;
+            this.fromListView = listview.$el[0].id;
+        },
+
+        onDragItemEnter: function (item, index, event) {
+            event.preventDefault();
+            item.$el.css({'border-top-color': '#b7b7b7'});
+            this.indexMoveTo = index;
+        },
+
+        onDragItemLeave: function (item, index, event) {
+            item.$el.css({'border-top-color': '#fafafa'});
+            this.indexMoveTo = undefined;
+        },
+
+        onDragItemOver: function (item, index, event) {
+            if (this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) {
+                event.originalEvent.dataTransfer.dropEffect = 'none';
+            } else {
+                event.preventDefault(); // Necessary. Allows us to drop.
+                event.originalEvent.dataTransfer.dropEffect = 'move';
+                item.$el.css({'border-top-color': '#b7b7b7'});
+                this.indexMoveTo = index;
+                return false;
+            }
+        },
+
+        onDragEnter: function (event) {
+            this.enterListView = event.currentTarget.id;
+        },
+
+        onDragOver: function (listview, event) {
+            if ((this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) ||
+                (this.fromListView === 'pivot-list-fields' && this.enterListView === 'pivot-list-fields')) {
+                event.originalEvent.dataTransfer.dropEffect = 'none';
+            } else {
+                event.preventDefault(); // Necessary. Allows us to drop.
+                event.originalEvent.dataTransfer.dropEffect = 'move';
+                listview.$el.find('.item').last().css({'border-bottom-color': '#b7b7b7'});
+                return false;
+            }
+        },
+
+        onDragLeave: function (listview, event) {
+            listview.$el.find('.item').css({'border-top-color': '#fafafa', 'border-bottom-color': '#ddd'});
+        },
+
+        onDrop: function (event) {
+            event.stopPropagation(); // Stops some browsers from redirecting.
+            if (this.enterListView === 'pivot-list-fields') {
+                if (_.isNumber(this.pivotIndex)) {
+                    if (this.fromListView === 'pivot-list-values' && _.isNumber(this.itemIndex)) {
+                        this.onRemove(this.pivotIndex, this.itemIndex);
+                    } else {
+                        this.onRemove(this.pivotIndex);
+                    }
+                }
+            } else if (this.fromListView === this.enterListView) {
+                if (_.isNumber(this.itemIndex)) {
+                    if (this.enterListView === 'pivot-list-columns') {
+                        this.onMove(0, this.itemIndex, this.indexMoveTo);
+                    } else if (this.enterListView === 'pivot-list-rows') {
+                        this.onMove(1, this.itemIndex, this.indexMoveTo);
+                    } else if (this.enterListView === 'pivot-list-filters') {
+                        this.onMove(3, this.itemIndex, this.indexMoveTo);
+                    } else if (this.enterListView === 'pivot-list-values') {
+                        this.onMove(2, this.itemIndex, this.indexMoveTo);
+                    }
+                    this.itemIndex = undefined;
+                }
+            } else {
+                if (_.isNumber(this.pivotIndex)) {
+                    if (this.enterListView === 'pivot-list-columns') {
+                        if (this.pivotIndex === -2) {
+                            this.onMoveTo(0, this.pivotIndex, this.indexMoveTo);
+                        } else {
+                            this.onAddColumn(this.pivotIndex, this.indexMoveTo);
+                        }
+                    } else if (this.enterListView === 'pivot-list-rows') {
+                        if (this.pivotIndex === -2) {
+                            this.onMoveTo(1, this.pivotIndex, this.indexMoveTo);
+                        } else {
+                            this.onAddRow(this.pivotIndex, this.indexMoveTo);
+                        }
+                    } else if (this.enterListView === 'pivot-list-filters') {
+                        if (this.pivotIndex === -2) {
+                            this.onMoveTo(3, this.pivotIndex, this.indexMoveTo);
+                        } else {
+                            this.onAddFilter(this.pivotIndex, this.indexMoveTo);
+                        }
+                    } else if (this.enterListView === 'pivot-list-values') {
+                        if (this.pivotIndex === -2) {
+                            this.onMoveTo(2, this.pivotIndex, this.indexMoveTo);
+                        } else {
+                            this.onAddValues(this.pivotIndex, this.indexMoveTo);
+                        }
+                    }
+                    this.pivotIndex = undefined;
+                }
+            }
         },
 
         openAdvancedSettings: function(e) {
@@ -314,6 +447,43 @@ define([
                 });
                 this.fieldsList.store.reset(arr);
                 this.fieldsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+
+                this.fieldsList.dataViewItems.forEach(function (item, index) {
+                    item.$el.attr('draggable', true);
+                    item.$el.on('dragstart', _.bind(me.onFieldsDragStart, me, item, index));
+                });
+                this.columnsList.dataViewItems.forEach(function (item, index) {
+                    item.$el.attr('draggable', true);
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.columnsList, item, index));
+                    item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
+                    item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
+                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
+                    item.$el.on('drop', _.bind(me.onDrop, me));
+                });
+                this.rowsList.dataViewItems.forEach(function (item, index) {
+                    item.$el.attr('draggable', true);
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.rowsList, item, index));
+                    item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
+                    item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
+                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
+                    item.$el.on('drop', _.bind(me.onDrop, me));
+                });
+                this.valuesList.dataViewItems.forEach(function (item, index) {
+                    item.$el.attr('draggable', true);
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.valuesList, item, index));
+                    item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
+                    item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
+                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
+                    item.$el.on('drop', _.bind(me.onDrop, me));
+                });
+                this.filtersList.dataViewItems.forEach(function (item, index) {
+                    item.$el.attr('draggable', true);
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.filtersList, item, index));
+                    item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
+                    item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
+                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
+                    item.$el.on('drop', _.bind(me.onDrop, me));
+                });
             }
         },
 
@@ -633,36 +803,36 @@ define([
             }
         },
 
-        onAddFilter: function() {
+        onAddFilter: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
-                this._originalProps.asc_addPageField(this.api, this._state.field.record.get('index'));
+                this._originalProps.asc_addPageField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
             }
         },
 
-        onAddRow: function() {
+        onAddRow: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
-                this._originalProps.asc_addRowField(this.api, this._state.field.record.get('index'));
+                this._originalProps.asc_addRowField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
             }
         },
 
-        onAddColumn: function() {
+        onAddColumn: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
-                this._originalProps.asc_addColField(this.api, this._state.field.record.get('index'));
+                this._originalProps.asc_addColField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
             }
         },
 
-        onAddValues: function() {
+        onAddValues: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
-                this._originalProps.asc_addDataField(this.api, this._state.field.record.get('index'));
+                this._originalProps.asc_addDataField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
             }
         },
 
-        onRemove: function() {
+        onRemove: function(pivotindex, index) {
             if (this.api && !this._locked && this._state.field){
-                if (this._state.field.type==2) // value
-                    this._originalProps.asc_removeDataField(this.api, this._state.field.record.get('pivotIndex'), this._state.field.record.get('index'));
+                if (this._state.field.type==2 || _.isNumber(index)) // value
+                    this._originalProps.asc_removeDataField(this.api, _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'), _.isNumber(index) ? index : this._state.field.record.get('index'));
                 else
-                    this._originalProps.asc_removeNoDataField(this.api, this._state.field.record.get('pivotIndex'));
+                    this._originalProps.asc_removeNoDataField(this.api, _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'));
             }
         },
 
@@ -711,10 +881,10 @@ define([
             }
         },
 
-        onMoveTo: function(type) {
+        onMoveTo: function(type, pivotindex, to) {
             if (this.api && !this._locked && this._state.field){
-                var pivotIndex = this._state.field.record.get('pivotIndex'),
-                    index = (this._state.field.type==2) ? this._state.field.record.get('index') : undefined;
+                var pivotIndex = _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'),
+                    index = _.isNumber(to) ? to : ((this._state.field.type==2) ? this._state.field.record.get('index') : undefined);
                 switch (type) {
                     case 0:
                         this._originalProps.asc_moveToColField(this.api, pivotIndex, index);
