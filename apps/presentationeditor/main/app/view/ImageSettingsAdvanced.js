@@ -316,7 +316,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 };
         },
 
-        textOriginalSize: 'Default Size',
+        textOriginalSize: 'Actual Size',
         textPosition:   'Position',
         textSize:       'Size',
         textWidth:      'Width',
