@@ -1768,7 +1768,7 @@
 		"d": "Funciones lógicas La función devolverá FALSO y no requiere ningún argumento."
 	},
 	"IF": {
-		"a": "(prueba_lógica, valor_si_verdadero, valor_si_falso)",
+		"a": "(prueba_lógica, valor_si_verdadero [ , valor_si_falso ] )",
 		"d": "Se usa para comprobar la expresión lógica y devolver un valor si es VERDADERO, u otro valor si es FALSO."
 	},
 	"IFS": {

@@ -314,7 +314,7 @@
   "DE.Controllers.Main.errorAccessDeny": "Olyan műveletet próbál végrehajtani, melyre nincs jogosultsága.<br>Vegye fel a kapcsolatot a Document Server adminisztrátorával.",
   "DE.Controllers.Main.errorBadImageUrl": "Hibás kép URL",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Elveszett a kapcsolat a szerverrel. A dokumentum jelenleg nem szerkeszthető.",
-  "DE.Controllers.Main.errorConnectToServer": "A dokumentum mentése nem lehetséges. Kérjük ellenőrizze a kapcsolódási beállításokat vagy lépjen kapcsolatba a rendszer adminisztrátorral.<br>Ha az 'OK'-ra kattint letöltheti a dokumentumot.<br><br>Bővebb információk a Dokumentum Szerverhez kapcsolódásról <a href=\"%1\" target=\"_blank\">itt</a> találhat.",
+  "DE.Controllers.Main.errorConnectToServer": "A dokumentum mentése nem lehetséges. Kérjük ellenőrizze a kapcsolódási beállításokat vagy lépjen kapcsolatba a rendszer adminisztrátorral.<br>Ha az 'OK'-ra kattint letöltheti a dokumentumot.",
   "DE.Controllers.Main.errorDatabaseConnection": "Külső hiba.<br>Adatbázis-kapcsolati hiba. Ha a hiba továbbra is fennáll, lépjen kapcsolatba a rendszer támogatással.",
   "DE.Controllers.Main.errorDataEncrypted": "Titkosított változások érkeztek, melyek feloldása sikertelen.",
   "DE.Controllers.Main.errorDataRange": "Hibás adattartomány.",

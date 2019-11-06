@@ -159,7 +159,7 @@ define([
             textWrap: 'Wrap',
             textReplace: 'Replace',
             textReorder: 'Reorder',
-            textDefault: 'Default Size',
+            textDefault: 'Actual Size',
             textRemove: 'Remove Image',
             textBack: 'Back',
             textToForeground: 'Bring to Foreground',

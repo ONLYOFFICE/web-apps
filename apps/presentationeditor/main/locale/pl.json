@@ -125,7 +125,7 @@
   "PE.Controllers.Main.errorAccessDeny": "Próbujesz wykonać działanie, na które nie masz uprawnień.<br>Proszę skontaktować się z administratorem serwera dokumentów.",
   "PE.Controllers.Main.errorBadImageUrl": "Adres URL obrazu jest błędny",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Połączenie z serwerem zostało utracone. Nie można teraz edytować dokumentu.",
-  "PE.Controllers.Main.errorConnectToServer": "Nie można zapisać dokumentu. Sprawdź ustawienia połączenia lub skontaktuj się z administratorem.<br>Po kliknięciu przycisku \"OK\" zostanie wyświetlony monit o pobranie dokumentu.<br><br>Dowiedz się więcej o połączeniu serwera dokumentów <a href=\"%1\" target=\"_blank\">tutaj</a>",
+  "PE.Controllers.Main.errorConnectToServer": "Nie można zapisać dokumentu. Sprawdź ustawienia połączenia lub skontaktuj się z administratorem.<br>Po kliknięciu przycisku \"OK\" zostanie wyświetlony monit o pobranie dokumentu.",
   "PE.Controllers.Main.errorDatabaseConnection": "Błąd zewnętrzny.<br>Błąd połączenia z bazą danych. W przypadku wystąpienia błędu należy skontaktować się z pomocą techniczną.",
   "PE.Controllers.Main.errorDataRange": "Błędny zakres danych.",
   "PE.Controllers.Main.errorDefaultMessage": "Kod błędu: %1",

@@ -317,7 +317,7 @@
   "DE.Controllers.Main.errorAccessDeny": "U probeert een actie uit te voeren waarvoor u geen rechten hebt.<br>Neem contact op met de beheerder van de documentserver.",
   "DE.Controllers.Main.errorBadImageUrl": "URL afbeelding is onjuist",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Verbinding met server is verbroken. Het document kan op dit moment niet worden bewerkt.",
-  "DE.Controllers.Main.errorConnectToServer": "Het document kan niet worden opgeslagen. Controleer de verbindingsinstellingen of neem contact op met de beheerder.<br>Wanneer u op de knop 'OK' klikt, wordt u gevraagd het document te downloaden.<br><br>Meer informatie over verbindingen met de documentserver is <a href=\"%1\" target=\"_blank\">hier</a> te vinden.",
+  "DE.Controllers.Main.errorConnectToServer": "Het document kan niet worden opgeslagen. Controleer de verbindingsinstellingen of neem contact op met de beheerder.<br>Wanneer u op de knop 'OK' klikt, wordt u gevraagd het document te downloaden.",
   "DE.Controllers.Main.errorDatabaseConnection": "Externe fout.<br>Fout in databaseverbinding. Neem contact op met Support als deze fout zich blijft voordoen.",
   "DE.Controllers.Main.errorDataRange": "Onjuist gegevensbereik.",
   "DE.Controllers.Main.errorDefaultMessage": "Foutcode: %1",

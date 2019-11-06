@@ -263,7 +263,7 @@
   "SSE.Controllers.Main.errorAutoFilterHiddenRange": "Operacja nie może zostać wykonana, ponieważ obszar zawiera filtrowane komórki.<br>Proszę ukryj filtrowane elementy i spróbuj ponownie.",
   "SSE.Controllers.Main.errorBadImageUrl": "Adres URL obrazu jest błędny",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Połączenie z serwerem zostało utracone. Nie można teraz edytować dokumentu.",
-  "SSE.Controllers.Main.errorConnectToServer": "Nie można zapisać dokumentu. Sprawdź ustawienia połączenia lub skontaktuj się z administratorem.<br>Po kliknięciu przycisku \"OK\" zostanie wyświetlony monit o pobranie dokumentu.<br><br>Dowiedz się więcej o połączeniu serwera dokumentów <a href=\"%1\" target=\"_blank\">tutaj</a>",
+  "SSE.Controllers.Main.errorConnectToServer": "Nie można zapisać dokumentu. Sprawdź ustawienia połączenia lub skontaktuj się z administratorem.<br>Po kliknięciu przycisku \"OK\" zostanie wyświetlony monit o pobranie dokumentu.",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "To polecenie nie może być użyte z wieloma wyborami.<br>Wybierz jeden zakres i spróbuj ponownie.",
   "SSE.Controllers.Main.errorCountArg": "Wprowadzona formuła jest błędna.<br>Niepoprawna ilość argumentów.",
   "SSE.Controllers.Main.errorCountArgExceed": "Wprowadzona formuła jest błędna.<br>Przekroczono liczbę argumentów.",

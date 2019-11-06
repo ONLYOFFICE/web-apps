@@ -1362,6 +1362,7 @@ define([
                     me.authors.push(item);
                 });
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
+                !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
             this.SetDisabled();
         },
@@ -1382,6 +1383,12 @@ define([
             this.inputAuthor.setVisible(mode.isEdit);
             this.btnApply.setVisible(mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
+            if (!mode.isEdit) {
+                this.inputTitle._input.attr('placeholder', '');
+                this.inputSubject._input.attr('placeholder', '');
+                this.inputComment._input.attr('placeholder', '');
+                this.inputAuthor._input.attr('placeholder', '');
+            }
             this.SetDisabled();
             return this;
         },

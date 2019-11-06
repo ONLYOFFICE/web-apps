@@ -55,7 +55,8 @@ define([
     'presentationeditor/main/app/view/HeaderFooterDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
-    'presentationeditor/main/app/view/SlideshowSettings'
+    'presentationeditor/main/app/view/SlideshowSettings',
+    'presentationeditor/main/app/view/ListSettingsDialog'
 ], function () { 'use strict';
 
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -276,6 +277,8 @@ define([
             toolbar.btnIncLeftOffset.on('click',                        _.bind(this.onIncOffset, this));
             toolbar.btnMarkers.on('click',                              _.bind(this.onMarkers, this));
             toolbar.btnNumbers.on('click',                              _.bind(this.onNumbers, this));
+            toolbar.mnuMarkerSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 0));
+            toolbar.mnuNumberSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
             toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
             toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
@@ -470,6 +473,7 @@ define([
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
                         this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
+                        this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx = 0;
@@ -498,6 +502,7 @@ define([
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
                         this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
+                        this.toolbar.mnuNumberSettings.setDisabled(idx==0);
                         break;
                 }
             }
@@ -1092,6 +1097,35 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onMarkerSettingsClick: function(type) {
+            var me      = this,
+                props;
+
+            var selectedElements = me.api.getSelectedElements();
+            if (selectedElements && _.isArray(selectedElements)) {
+                for (var i = 0; i< selectedElements.length; i++) {
+                    if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                        props = selectedElements[i].get_ObjectValue();
+                        break;
+                    }
+                }
+            }
+            if (props) {
+                (new PE.Views.ListSettingsDialog({
+                    props: props,
+                    type: type,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.paraApply(value);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            }
+        },
+
         onComboBlur: function() {
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -1634,6 +1668,8 @@ define([
 
             this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
             this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
+            this.toolbar.mnuMarkerSettings.setDisabled(true);
+            this.toolbar.mnuNumberSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {
@@ -2077,45 +2113,38 @@ define([
                     compactview = true;
             }
 
-            /**
-             * Rendering of toolbar makes rendering of header very slow
-             * Temporary wrapped up in setTimeout to process events
-             * */
-            setTimeout(function () {
-                me.toolbar.render(_.extend({compactview: compactview}, config));
+            me.toolbar.render(_.extend({compactview: compactview}, config));
 
-                if ( config.isEdit ) {
-                    me.toolbar.setMode(config);
+            if ( config.isEdit ) {
+                me.toolbar.setMode(config);
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ( $panel )
+                    me.toolbar.addTab(tab, $panel, 3);
 
-                    var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                    var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                    if ( $panel )
-                        me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+                if (!(config.customization && config.customization.compactHeader)) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                    if (!(config.customization && config.customization.compactHeader)) {
-                        // hide 'print' and 'save' buttons group and next separator
-                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                    // hide 'undo' and 'redo' buttons and get container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                        // hide 'undo' and 'redo' buttons and get container
-                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnCopy.$el.removeClass('split');
+                }
 
-                        // move 'paste' button to the container instead of 'undo' and 'redo'
-                        me.toolbar.btnPaste.$el.detach().appendTo($box);
-                        me.toolbar.btnCopy.$el.removeClass('split');
-                    }
-
-                    if ( config.isDesktopApp ) {
-                        if ( config.canProtect ) { // don't add protect panel to toolbar
-                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                            if ($panel)
-                                me.toolbar.addTab(tab, $panel, 4);
-                        }
+                if ( config.isDesktopApp ) {
+                    if ( config.canProtect ) { // don't add protect panel to toolbar
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                        if ($panel)
+                            me.toolbar.addTab(tab, $panel, 4);
                     }
                 }
-            }, 0);
+            }
         },
 
         onAppReady: function (config) {

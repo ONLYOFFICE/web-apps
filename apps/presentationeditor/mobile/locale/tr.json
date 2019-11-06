@@ -69,7 +69,7 @@
   "PE.Controllers.Main.downloadTitleText": "Belge indiriliyor",
   "PE.Controllers.Main.errorBadImageUrl": "Resim URL'si yanlış",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Sunucu bağlantısı kayboldu. Artık düzenleyemezsiniz.",
-  "PE.Controllers.Main.errorConnectToServer": "Belge kaydedilemedi. Lütfen internet bağlantınızı kontrol edin veya yöneticiniz ile iletişime geçin. <br>'TAMAM' tuşuna tıkladığınızda belgeyi indirebileceksiniz.<br><br>Belge Sunucusuna bağlanma konusunda daha fazla bilgi için <a href=\"%1\" target=\"_blank\">buraya</a> tıklayın",
+  "PE.Controllers.Main.errorConnectToServer": "Belge kaydedilemedi. Lütfen internet bağlantınızı kontrol edin veya yöneticiniz ile iletişime geçin. <br>'TAMAM' tuşuna tıkladığınızda belgeyi indirebileceksiniz.",
   "PE.Controllers.Main.errorDatabaseConnection": "Dışsal hata.<br>Veritabanı bağlantı hatası. Lütfen destek ile iletişime geçin.",
   "PE.Controllers.Main.errorDataRange": "Yanlış veri aralığı.",
   "PE.Controllers.Main.errorDefaultMessage": "Hata kodu: %1",

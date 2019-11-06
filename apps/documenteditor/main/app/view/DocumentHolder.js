@@ -1995,10 +1995,13 @@ define([
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
+                        isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties())),
                         signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         signProps = (signGuid) ? me.api.asc_getSignatureSetup(signGuid) : null,
                         isInSign = !!signProps && me._canProtect,
                         canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled;
+                    if (me.mode.compatibleFeatures)
+                        canComment = canComment && !isInShape;
 
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
@@ -3625,8 +3628,11 @@ define([
                         text = me.api.can_AddHyperlink();
                     }
                     /** coauthoring begin **/
-                    menuCommentSeparatorPara.setVisible(!isInChart && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
-                    menuAddCommentPara.setVisible(!isInChart && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
+                    var isVisible = !isInChart && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments;
+                    if (me.mode.compatibleFeatures)
+                        isVisible = isVisible && !isInShape;
+                    menuCommentSeparatorPara.setVisible(isVisible);
+                    menuAddCommentPara.setVisible(isVisible);
                     menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
                     /** coauthoring end **/
 
@@ -3976,7 +3982,7 @@ define([
         mergeCellsText          : 'Merge Cells',
         splitCellsText          : 'Split Cell...',
         splitCellTitleText      : 'Split Cell',
-        originalSizeText        : 'Default Size',
+        originalSizeText        : 'Actual Size',
         advancedText            : 'Advanced Settings',
         breakBeforeText         : 'Page break before',
         keepLinesText           : 'Keep lines together',

@@ -113,6 +113,8 @@ define([
                             this.bounds.push(me.bar.tabs[i].$el.get(0).getBoundingClientRect());
                         }
 
+                        me.lastTabRight = me.bounds[length - 1].right;
+
                         me.tabBarLeft   = me.bounds[0].left;
                         me.tabBarRight  = me.bounds[length - 1].right;
                         me.tabBarRight  = Math.min(me.tabBarRight, barBounds.right - 1);
@@ -322,17 +324,18 @@ define([
                     function dragMove (event) {
                         if (!_.isUndefined(me.drag)) {
                             me.drag.moveX = event.clientX*Common.Utils.zoom();
-                            if (me.drag.moveX > me.tabBarRight) {
+                            if (me.drag.moveX < me.tabBarRight && me.drag.moveX > me.tabBarLeft) {
+                                var name = $(event.target).parent().data('label'),
+                                    currentTab = _.findIndex(bar.tabs, {label: name});
+                                if (currentTab !== -1 && (me.bounds[currentTab].left - me.scrollLeft >= me.tabBarLeft)) {
+                                    me.drag.place = currentTab;
+                                    $(event.target).parent().parent().find('li.mousemove').removeClass('mousemove right');
+                                    $(event.target).parent().addClass('mousemove');
+                                }
+                            } else if ((me.drag.moveX > me.lastTabRight - me.scrollLeft) && (me.tabBarRight >= me.lastTabRight - me.scrollLeft)) { //move to end of list, right border of the right tab is visible
+                                bar.$el.find('li.mousemove').removeClass('mousemove right');
                                 bar.tabs[bar.tabs.length - 1].$el.addClass('mousemove right');
                                 me.drag.place = bar.tabs.length;
-                            } else {
-                                $(event.target).parent().parent().find('li.mousemove').removeClass('mousemove right');
-                                $(event.target).parent().addClass('mousemove');
-                                var name = event.target.parentElement.dataset.label,
-                                    currentTab = _.findWhere(bar.tabs, {label: name});
-                                if (!_.isUndefined(currentTab)) {
-                                    me.drag.place = currentTab.sheetindex;
-                                }
                             }
                         }
                     }
@@ -357,7 +360,9 @@ define([
             click: $.proxy(function (event) {
                 if (!tab.disabled) {
                     if (event.ctrlKey || event.metaKey) {
-                        tab.changeState(true);
+                        if (!tab.isActive()) {
+                            tab.changeState(true);
+                        }
                     } else if (event.shiftKey) {
                         this.bar.$el.find('ul > li.selected').removeClass('selected');
                         this.bar.selectTabs.length = 0;

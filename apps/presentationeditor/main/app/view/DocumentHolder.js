@@ -1760,6 +1760,11 @@ define([
             }
         },
 
+        addToLayout: function() {
+            if (this.api)
+                this.api.asc_AddToLayout();
+        },
+
         createDelayedElementsViewer: function() {
             var me = this;
 
@@ -1831,6 +1836,17 @@ define([
                         { template: _.template('<div id="id-docholder-menu-changeslide" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>') }
                     ]
                 })
+            });
+
+            var mnuResetSlide = new Common.UI.MenuItem({
+                caption     : me.txtResetLayout
+            }).on('click', function(item) {
+                if (me.api){
+                    me.api.ResetSlide();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Reset Slide');
+                }
             });
 
             var mnuChangeTheme = new Common.UI.MenuItem({
@@ -1910,11 +1926,12 @@ define([
                     mnuSlideHide.setChecked(value.isSlideHidden===true);
                     me.slideMenu.items[5].setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
+                    mnuResetSlide.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     mnuChangeTheme.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.setVisible(value.isSlideSelect===true || value.fromThumbs!==true);
                     menuSlideSettings.options.value = null;
 
-                    for (var i = 9; i < 14; i++) {
+                    for (var i = 10; i < 15; i++) {
                         me.slideMenu.items[i].setVisible(value.fromThumbs===true);
                     }
                     mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
@@ -1943,6 +1960,7 @@ define([
                     mnuSelectAll.setDisabled(locked || me.slidesCount<2);
                     mnuDeleteSlide.setDisabled(lockedDeleted || locked);
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
+                    mnuResetSlide.setDisabled(lockedLayout || locked);
                     mnuChangeTheme.setDisabled(me._state.themeLock || locked );
                     mnuSlideHide.setDisabled(lockedLayout || locked);
                     mnuPrintSelection.setDisabled(me.slidesCount<1);
@@ -1975,6 +1993,7 @@ define([
                     mnuSlideHide,
                     {caption: '--'},
                     mnuChangeSlide,
+                    mnuResetSlide,
                     mnuChangeTheme,
                     menuSlideSettings,
                     {caption: '--'},
@@ -2888,6 +2907,10 @@ define([
             menuAddCommentImg.hide();
             /** coauthoring end **/
 
+            var menuAddToLayoutImg = new Common.UI.MenuItem({
+                caption     : me.addToLayoutText
+            }).on('click', _.bind(me.addToLayout, me));
+
             var menuParaCopy = new Common.UI.MenuItem({
                 caption : me.textCopy,
                 value : 'copy'
@@ -2940,6 +2963,10 @@ define([
             var menuEquationSeparatorInTable = new Common.UI.MenuItem({
                 caption     : '--'
             });
+
+            var menuAddToLayoutTable = new Common.UI.MenuItem({
+                caption     : me.addToLayoutText
+            }).on('click', _.bind(me.addToLayout, me));
 
             me.textMenu = new Common.UI.Menu({
                 initMenu: function(value){
@@ -3245,7 +3272,9 @@ define([
                     menuAddCommentTable,
                 /** coauthoring end **/
                     menuAddHyperlinkTable,
-                    menuHyperlinkTable
+                    menuHyperlinkTable,
+                    { caption: '--' },
+                    menuAddToLayoutTable
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -3329,8 +3358,10 @@ define([
                     ,menuChartEdit
                 /** coauthoring begin **/
                     ,menuCommentSeparatorImg,
-                    menuAddCommentImg
+                    menuAddCommentImg,
                 /** coauthoring end **/
+                    { caption: '--' },
+                    menuAddToLayoutImg
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 if (me.suppressEditComplete) {
@@ -3412,7 +3443,7 @@ define([
         mergeCellsText          : 'Merge Cells',
         splitCellsText          : 'Split Cell...',
         splitCellTitleText      : 'Split Cell',
-        originalSizeText        : 'Default Size',
+        originalSizeText        : 'Actual Size',
         advancedImageText       : 'Image Advanced Settings',
         hyperlinkText           : 'Hyperlink',
         editHyperlinkText       : 'Edit Hyperlink',
@@ -3574,7 +3605,9 @@ define([
         textCropFill: 'Fill',
         textCropFit: 'Fit',
         toDictionaryText: 'Add to Dictionary',
-        txtPrintSelection: 'Print Selection'
+        txtPrintSelection: 'Print Selection',
+        addToLayoutText: 'Add to Layout',
+        txtResetLayout: 'Reset Slide'
 
     }, PE.Views.DocumentHolder || {}));
 });

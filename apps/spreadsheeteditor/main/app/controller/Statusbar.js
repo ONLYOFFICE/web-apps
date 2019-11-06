@@ -301,7 +301,7 @@ define([
                 curArrNames.forEach(function (item) {
                     arr.push(item.toLowerCase());
                 });
-                while(arr.indexOf(name.toLowerCase()) !== -1) {
+                while(arr.indexOf(name.toLowerCase()) !== -1 || items.indexOf(name.toLowerCase()) !== -1) {
                     index++;
                     name = this.strSheet + index;
                 }
@@ -448,7 +448,7 @@ define([
                     }
                 } else {
                     if (!_.isUndefined(destPos)) {
-                        me.api.asc_moveWorksheet(destPos, arrIndex);
+                        me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex, arrIndex);
                     }
                 }
                 return;
