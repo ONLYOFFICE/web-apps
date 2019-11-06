@@ -91,19 +91,26 @@ define([
                 } else
                 if (/editor:config/.test(cmd)) {
                     if ( param == 'request' ) {
-                        var opts = {
-                            user: config.user,
-                            title: { buttons: [] }
-                        };
+                        if ( !!titlebuttons ) {
+                            var opts = {
+                                user: config.user,
+                                title: { buttons: [] }
+                            };
 
-                        var header = webapp.getController('Viewport').getView('Common.Views.Header');
-                        if ( header ) {
-                            for (var i in titlebuttons) {
-                                opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                            var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                            if ( header ) {
+                                for (var i in titlebuttons) {
+                                    opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                                }
+                            }
+
+                            app.execCommand('editor:config', JSON.stringify(opts));
+                        } else
+                        if ( !config.callback_editorconfig ) {
+                            config.callback_editorconfig = function() {
+                                setTimeout(function(){window.on_native_message(cmd, param);},0);
                             }
                         }
-
-                        app.execCommand('editor:config', JSON.stringify(opts));
                     }
                 } else
                 if (/button:click/.test(cmd)) {
@@ -113,6 +120,12 @@ define([
                     }
                 }
             };
+
+            if ( !!window.native_message_cmd ) {
+                for ( var c in window.native_message_cmd ) {
+                    window.on_native_message(c, window.native_message_cmd[c]);
+                }
+            }
 
             // app.execCommand('window:features', {version: config.version, action: 'request'});
             app.execCommand('webapps:features', {version: config.version, eventloading:true, titlebuttons:true});
@@ -190,6 +203,11 @@ define([
 
                         var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
                         !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
+
+                        if ( !!config.callback_editorconfig ) {
+                            config.callback_editorconfig();
+                            delete config.callback_editorconfig;
+                        }
                     });
 
                     Common.NotificationCenter.on({

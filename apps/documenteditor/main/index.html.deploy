@@ -212,6 +212,13 @@
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
         window.frameEditorId = params["frameEditorId"];
+
+        if ( window.AscDesktopEditor ) {
+            window.on_native_message = function (cmd, param) {
+                !window.native_message_cmd && (window.native_message_cmd = []);
+                window.native_message_cmd[cmd] = param;
+            }
+        }
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/documenteditor/main/resources/css/app.css">
