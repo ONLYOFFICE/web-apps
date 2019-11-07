@@ -388,8 +388,18 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
     width: 95px;
     height: 130px;
 
-    .item {
+    .listview:not(.disabled) > .item {
         padding: 3px;
+        border-top: none;
+        &.insert {
+            background: linear-gradient(to bottom, #656565, #fff 5%);
+            &.last {
+                background: linear-gradient(to top, #656565, #fff 5%);
+            }
+        }
+        &:hover {
+            border-top: none;
+        }
     }
 
     .list-item > div:nth-child(1) {

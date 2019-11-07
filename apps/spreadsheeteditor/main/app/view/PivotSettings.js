@@ -216,12 +216,12 @@ define([
 
         onDragItemEnter: function (item, index, event) {
             event.preventDefault();
-            item.$el.css({'border-top-color': '#b7b7b7'});
+            item.$el.addClass('insert');
             this.indexMoveTo = index;
         },
 
         onDragItemLeave: function (item, index, event) {
-            item.$el.css({'border-top-color': '#fafafa'});
+            item.$el.removeClass('insert');
             this.indexMoveTo = undefined;
         },
 
@@ -231,7 +231,7 @@ define([
             } else {
                 event.preventDefault(); // Necessary. Allows us to drop.
                 event.originalEvent.dataTransfer.dropEffect = 'move';
-                item.$el.css({'border-top-color': '#b7b7b7'});
+                item.$el.addClass('insert');
                 this.indexMoveTo = index;
                 return false;
             }
@@ -248,13 +248,13 @@ define([
             } else {
                 event.preventDefault(); // Necessary. Allows us to drop.
                 event.originalEvent.dataTransfer.dropEffect = 'move';
-                listview.$el.find('.item').last().css({'border-bottom-color': '#b7b7b7'});
+                listview.$el.find('.item').last().addClass('insert last');
                 return false;
             }
         },
 
         onDragLeave: function (listview, event) {
-            listview.$el.find('.item').css({'border-top-color': '#fafafa', 'border-bottom-color': '#ddd'});
+            listview.$el.find('.item').removeClass('insert last');
         },
 
         onDrop: function (event) {
