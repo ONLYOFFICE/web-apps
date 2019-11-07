@@ -2350,11 +2350,11 @@ define([
             textEditWatermark: 'Custom Watermark',
             textRemWatermark: 'Remove Watermark',
             tipWatermark: 'Edit watermark',
-            textPictureControl: 'Insert picture content control',
-            textComboboxControl: 'Insert combo box content control',
-            textCheckboxControl: 'Insert check box content control',
-            textDropdownControl: 'Insert drop-down list content control',
-            textDateControl: 'Insert date content control'
+            textPictureControl: 'Picture',
+            textComboboxControl: 'Combo box',
+            textCheckboxControl: 'Check box',
+            textDropdownControl: 'Drop-down list',
+            textDateControl: 'Date'
         }
     })(), DE.Views.Toolbar || {}));
 });
