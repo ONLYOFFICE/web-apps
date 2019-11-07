@@ -39,14 +39,17 @@
  *
  */
 
+if (Common === undefined)
+    var Common = {};
+
 define([
-    'common/main/lib/component/Window',
+    '../component/Window',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton'
 ], function () { 'use strict';
 
-    PE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
+    Common.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers
             width: 230,
@@ -235,5 +238,5 @@ define([
         txtOfText: '% of text',
         textNewColor: 'Add New Custom Color',
         txtStart: 'Start at'
-    }, PE.Views.ListSettingsDialog || {}))
+    }, Common.Views.ListSettingsDialog || {}))
 });
