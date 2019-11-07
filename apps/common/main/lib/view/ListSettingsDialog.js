@@ -43,7 +43,7 @@ if (Common === undefined)
     var Common = {};
 
 define([
-    '../component/Window',
+    'common/main/lib/component/Window',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton'
