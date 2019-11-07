@@ -199,16 +199,27 @@ define([
             this._initSettings = false;
         },
 
+        getDragElement: function(value) {
+            this._dragEl = $('<div style="font-weight: bold;position: absolute;left:-10000px;">' + value + '</div>');
+            $(document.body).append(this._dragEl);
+            return this._dragEl[0];
+        },
+
+        onDragEnd: function() {
+            this._dragEl && this._dragEl.remove();
+            this._dragEl = null;
+        },
+
         onFieldsDragStart: function (item, index, event) {
             event.originalEvent.dataTransfer.effectAllowed = 'move';
-            event.originalEvent.dataTransfer.setDragImage(item.$el.find('.list-item span')[0], 14, 14);
+            event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
             this.pivotIndex = index;
             this.fromListView = this.fieldsList.$el[0].id;
         },
 
         onItemsDragStart: function (listview, item, index, event) {
             event.originalEvent.dataTransfer.effectAllowed = 'move';
-            event.originalEvent.dataTransfer.setDragImage(item.$el.find('.list-item span')[0], 14, 14);
+            event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
             this.itemIndex = index;
             this.pivotIndex = listview.store.at(index).attributes.pivotIndex;
             this.fromListView = listview.$el[0].id;
@@ -259,6 +270,7 @@ define([
 
         onDrop: function (event) {
             event.stopPropagation(); // Stops some browsers from redirecting.
+            this.onDragEnd();
             if (this.enterListView === 'pivot-list-fields') {
                 if (_.isNumber(this.pivotIndex)) {
                     if (this.fromListView === 'pivot-list-values' && _.isNumber(this.itemIndex)) {
@@ -451,6 +463,7 @@ define([
                 this.fieldsList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
                     item.$el.on('dragstart', _.bind(me.onFieldsDragStart, me, item, index));
+                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
                 this.columnsList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
@@ -459,6 +472,7 @@ define([
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
                     item.$el.on('drop', _.bind(me.onDrop, me));
+                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
                 this.rowsList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
@@ -467,6 +481,7 @@ define([
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
                     item.$el.on('drop', _.bind(me.onDrop, me));
+                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
                 this.valuesList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
@@ -475,6 +490,7 @@ define([
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
                     item.$el.on('drop', _.bind(me.onDrop, me));
+                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
                 this.filtersList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
@@ -483,6 +499,7 @@ define([
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
                     item.$el.on('drop', _.bind(me.onDrop, me));
+                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
             }
         },
