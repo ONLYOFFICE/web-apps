@@ -295,33 +295,47 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 this.chLockDelete.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
                 this.chLockEdit.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
 
+                var type = props.get_SpecificType();
+
                 //for list controls
-                /*
-                // this.btnsCategory[2].setVisible(type == 'list');
-
-                var items = props.get_ListItems();
-                if (items) {
-                    var arr = [];
-                    for (var i=0; i<items.length; i++) {
-                        arr.push({
-                            value: items[i].get_Value(),
-                            name: items[i].get_Name()
-                        });
+                this.btnsCategory[2].setVisible(type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList);
+                if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
+                    var specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr();
+                    if (specProps) {
+                        var count = specProps.get_ItemsCount();
+                        var arr = [];
+                        for (var i=0; i<count; i++) {
+                            arr.push({
+                                value: specProps.get_ItemValue(i),
+                                name: specProps.get_ItemDisplayText(i)
+                            });
+                        }
+                        this.list.store.reset(arr);
                     }
-
-                    this.list.store.reset(arr);
+                    this.disableListButtons();
                 }
-                */
-                this.disableListButtons();
 
                 //for date picker
-                // this.btnsCategory[3].setVisible(type == 'date');
-                if (this.options.lang) {
-                    var item = this.cmbLang.store.findWhere({value: this.options.lang});
-                    item = item ? item.get('value') : 0x0409;
-                    this.cmbLang.setValue(item)
+                this.btnsCategory[3].setVisible(type == Asc.c_oAscContentControlSpecificType.DateTime);
+                if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
+                    var specProps = props.get_DateTimePr();
+                    if (specProps) {
+                        var lang = specProps.get_LangId() || this.options.lang;
+                        if (lang) {
+                            var item = this.cmbLang.store.findWhere({value: lang});
+                            item = item ? item.get('value') : 0x0409;
+                            this.cmbLang.setValue(item);
+                        }
+                        this.updateFormats(this.cmbLang.getValue());
+                        // var rec = this.listFormats.store.find({format: specProps.get_DateFormat()});
+                        // if (rec) {
+                        //     this.listFormats.selectRecord(rec);
+                        //     this.listFormats.scrollToRecord(rec);
+                        // }
+                    }
                 }
-                this.updateFormats(this.cmbLang.getValue());
+
+                this.type = type;
             }
         },
 
@@ -349,11 +363,13 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             props.put_Lock(lock);
 
             // for list controls
-            // var arr = [];
-            // this.list.store.each(function (item, index) {
-            //     arr.push(new Asc.asc_CListItem(item.get('name'), item.get('value')));
-            // }, this);
-            // props.set_ListItems(arr);
+            if (this.type == Asc.c_oAscContentControlSpecificType.ComboBox || this.type == Asc.c_oAscContentControlSpecificType.DropDownList) {
+                var specProps = new AscCommon.CSdtComboBoxPr();
+                this.list.store.each(function (item, index) {
+                    specProps.add_Item(item.get('name'), item.get('value'));
+                });
+                (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.put_ComboBoxPr(specProps) : props.put_DropDownListPr(specProps);
+            }
 
             //for date picker
             // var rec = this.listFormats.getSelectedRec();
