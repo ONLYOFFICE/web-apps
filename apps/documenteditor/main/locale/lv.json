@@ -296,7 +296,7 @@
   "DE.Controllers.LeftMenu.newDocumentTitle": "Dokuments bez nosaukuma",
   "DE.Controllers.LeftMenu.notcriticalErrorTitle": "Warning",
   "DE.Controllers.LeftMenu.requestEditRightsText": "Pieprasa rediģēšanas tiesības...",
-  "DE.Controllers.LeftMenu.textLoadHistory": "Loading versions history...",
+  "DE.Controllers.LeftMenu.textLoadHistory": "Loading version history...",
   "DE.Controllers.LeftMenu.textNoTextFound": "Text not found",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Replace was done. Some occurrences was skipped.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "All occurrences was replaced",

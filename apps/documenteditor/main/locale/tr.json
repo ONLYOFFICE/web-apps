@@ -252,7 +252,7 @@
   "DE.Controllers.LeftMenu.newDocumentTitle": "İsimlendirilmemiş döküman",
   "DE.Controllers.LeftMenu.notcriticalErrorTitle": "Warning",
   "DE.Controllers.LeftMenu.requestEditRightsText": "Düzenleme hakları isteniyor...",
-  "DE.Controllers.LeftMenu.textLoadHistory": "Loading versions history...",
+  "DE.Controllers.LeftMenu.textLoadHistory": "Loading version history...",
   "DE.Controllers.LeftMenu.textNoTextFound": "Aradığınız veri bulunamadı. Lütfen arama seçeneklerinizi ayarlayınız.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Değiştirme yapıldı. {0} olay atlandı.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Arama yapıldı. {0} olay değiştirildi.",
