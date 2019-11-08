@@ -236,7 +236,7 @@ define([
             this.indexMoveTo = undefined;
         },
 
-        onDragItemOver: function (item, index, event) {
+        onDragItemOver: function (listview, item, index, event) {
             if (this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) {
                 event.originalEvent.dataTransfer.dropEffect = 'none';
             } else {
@@ -244,6 +244,19 @@ define([
                 event.originalEvent.dataTransfer.dropEffect = 'move';
                 item.$el.addClass('insert');
                 this.indexMoveTo = index;
+
+                // scroll
+                var heightListView = item.$el.parent().height(),
+                    positionTopItem = item.$el.position().top,
+                    heightItem = item.$el.outerHeight(),
+                    scrollTop = item.$el.parent().scrollTop();
+                if (positionTopItem < heightItem && scrollTop > 0) {
+                    listview.scrollToRecord(listview.store.at((index === 0) ? 0 : index - 1));
+                }
+                if (positionTopItem > heightListView - heightItem && index < listview.store.length) {
+                    listview.scrollToRecord(listview.store.at((index === listview.store.length - 1) ? index : index + 1));
+                }
+
                 return false;
             }
         },
@@ -271,55 +284,75 @@ define([
         onDrop: function (event) {
             event.stopPropagation(); // Stops some browsers from redirecting.
             this.onDragEnd();
-            if (this.enterListView === 'pivot-list-fields') {
+            if (this.fromListView === 'pivot-list-fields' && this.enterListView !== 'pivot-list-fields') { //insert field
+                if (_.isNumber(this.pivotIndex)) {
+                    switch (this.enterListView) {
+                        case 'pivot-list-columns':
+                            this.onAddColumn(this.pivotIndex, this.indexMoveTo);
+                            break;
+                        case 'pivot-list-rows':
+                            this.onAddRow(this.pivotIndex, this.indexMoveTo);
+                            break;
+                        case 'pivot-list-filters':
+                            this.onAddFilter(this.pivotIndex, this.indexMoveTo);
+                            break;
+                        case 'pivot-list-values':
+                            this.onAddValues(this.pivotIndex, this.indexMoveTo);
+                            break;
+                    }
+                    this.pivotIndex = undefined;
+                    this.indexMoveTo = undefined;
+                }
+            } else if (this.enterListView === 'pivot-list-fields') { //remove field
                 if (_.isNumber(this.pivotIndex)) {
                     if (this.fromListView === 'pivot-list-values' && _.isNumber(this.itemIndex)) {
                         this.onRemove(this.pivotIndex, this.itemIndex);
                     } else {
                         this.onRemove(this.pivotIndex);
                     }
+                    this.pivotIndex = undefined;
                 }
-            } else if (this.fromListView === this.enterListView) {
-                if (_.isNumber(this.itemIndex)) {
-                    if (this.enterListView === 'pivot-list-columns') {
-                        this.onMove(0, this.itemIndex, this.indexMoveTo);
-                    } else if (this.enterListView === 'pivot-list-rows') {
-                        this.onMove(1, this.itemIndex, this.indexMoveTo);
-                    } else if (this.enterListView === 'pivot-list-filters') {
-                        this.onMove(3, this.itemIndex, this.indexMoveTo);
-                    } else if (this.enterListView === 'pivot-list-values') {
-                        this.onMove(2, this.itemIndex, this.indexMoveTo);
+            } else if (this.fromListView !== this.enterListView) { //move to
+                if (_.isNumber(this.itemIndex) && this.enterListView) {
+                    switch (this.enterListView) {
+                        case 'pivot-list-columns':
+                            this.onMoveTo(0, this.pivotIndex, this.indexMoveTo);
+                            break;
+                        case 'pivot-list-rows':
+                            this.onMoveTo(1, this.pivotIndex, this.indexMoveTo);
+                            break;
+                        case 'pivot-list-filters':
+                            this.onMoveTo(3, this.pivotIndex, this.indexMoveTo);
+                            break;
+                        case 'pivot-list-values':
+                            this.onMoveTo(2, this.pivotIndex, this.indexMoveTo);
+                            break;
                     }
                     this.itemIndex = undefined;
+                    this.indexMoveTo = undefined;
                 }
-            } else {
-                if (_.isNumber(this.pivotIndex)) {
-                    if (this.enterListView === 'pivot-list-columns') {
-                        if (this.pivotIndex === -2) {
-                            this.onMoveTo(0, this.pivotIndex, this.indexMoveTo);
-                        } else {
-                            this.onAddColumn(this.pivotIndex, this.indexMoveTo);
+            } else if (this.fromListView === this.enterListView) { //move
+                if (_.isNumber(this.itemIndex) && this.enterListView) {
+                    if (this.itemIndex !== this.indexMoveTo) {
+                        switch (this.enterListView) {
+                            case 'pivot-list-columns':
+                                this.onMove(0, this.itemIndex, _.isNumber(this.indexMoveTo) ? (this.indexMoveTo !== 0 && this.itemIndex < this.indexMoveTo ? this.indexMoveTo - 1 : this.indexMoveTo)  : this.columnsList.store.length - 1);
+                                break;
+                            case 'pivot-list-rows':
+                                this.onMove(1, this.itemIndex, _.isNumber(this.indexMoveTo) ? (this.indexMoveTo !== 0 && this.itemIndex < this.indexMoveTo ? this.indexMoveTo - 1 : this.indexMoveTo) : this.rowsList.store.length - 1);
+                                break;
+                            case 'pivot-list-filters':
+                                this.onMove(3, this.itemIndex, _.isNumber(this.indexMoveTo) ? (this.indexMoveTo !== 0 && this.itemIndex < this.indexMoveTo ? this.indexMoveTo - 1 : this.indexMoveTo) : this.filtersList.store.length - 1);
+                                break;
+                            case 'pivot-list-values':
+                                this.onMove(2, this.itemIndex, _.isNumber(this.indexMoveTo) ? (this.indexMoveTo !== 0 && this.itemIndex < this.indexMoveTo ? this.indexMoveTo - 1 : this.indexMoveTo) : this.valuesList.store.length - 1);
+                                break;
                         }
-                    } else if (this.enterListView === 'pivot-list-rows') {
-                        if (this.pivotIndex === -2) {
-                            this.onMoveTo(1, this.pivotIndex, this.indexMoveTo);
-                        } else {
-                            this.onAddRow(this.pivotIndex, this.indexMoveTo);
-                        }
-                    } else if (this.enterListView === 'pivot-list-filters') {
-                        if (this.pivotIndex === -2) {
-                            this.onMoveTo(3, this.pivotIndex, this.indexMoveTo);
-                        } else {
-                            this.onAddFilter(this.pivotIndex, this.indexMoveTo);
-                        }
-                    } else if (this.enterListView === 'pivot-list-values') {
-                        if (this.pivotIndex === -2) {
-                            this.onMoveTo(2, this.pivotIndex, this.indexMoveTo);
-                        } else {
-                            this.onAddValues(this.pivotIndex, this.indexMoveTo);
-                        }
+                    } else {
+                        $(this.el).find('.item').removeClass('insert last');
                     }
-                    this.pivotIndex = undefined;
+                    this.itemIndex = undefined;
+                    this.indexMoveTo = undefined;
                 }
             }
         },
@@ -470,37 +503,41 @@ define([
                     item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.columnsList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
-                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
+                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.columnsList, item, index));
                     item.$el.on('drop', _.bind(me.onDrop, me));
                     item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
+                this.columnsList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.rowsList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
                     item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.rowsList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
-                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
+                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.rowsList, item, index));
                     item.$el.on('drop', _.bind(me.onDrop, me));
                     item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
+                this.rowsList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.valuesList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
                     item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.valuesList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
-                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
+                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.valuesList, item, index));
                     item.$el.on('drop', _.bind(me.onDrop, me));
                     item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
+                this.valuesList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.filtersList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
                     item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.filtersList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
-                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, item, index));
+                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.filtersList, item, index));
                     item.$el.on('drop', _.bind(me.onDrop, me));
                     item.$el.on('dragend', _.bind(me.onDragEnd, me));
                 });
+                this.filtersList.$el.find('.item').last().css({'margin-bottom': '10px'});
             }
         },
 
