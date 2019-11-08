@@ -366,6 +366,7 @@ define([
 
                 if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
                     (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
+                    $('#editor-container').css('overflow', 'hidden');
                     $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
                 }
 
@@ -1055,6 +1056,7 @@ define([
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
 
+                $('#editor-container').css('overflow', '');
                 $('.doc-placeholder').remove();
             },
 
