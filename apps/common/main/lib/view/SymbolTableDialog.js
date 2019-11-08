@@ -1,0 +1,961 @@
+/*
+ *
+ * (c) Copyright Ascensio System SIA 2010-2019
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
+
+/**
+ *  SymbolTableDialog.js
+ *
+ *  Created by Julia Radzhabova on 07.11.2019
+ *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *
+ */
+if (Common === undefined)
+    var Common = {};
+define([
+    'common/main/lib/util/utils',
+    'common/main/lib/util/character',
+    'common/main/lib/component/InputField',
+    'common/main/lib/component/Window'
+], function () { 'use strict';
+
+    var oRangeNames = {};
+    oRangeNames[1] =  'Basic Latin';
+    oRangeNames[2] =  'Latin 1 Supplement';
+    oRangeNames[3] =  'Latin Extended A';
+    oRangeNames[4] =  'Latin Extended B';
+    oRangeNames[5] =  'IPA Extensions';
+    oRangeNames[6] =  'Spacing Modifier Letters';
+    oRangeNames[7] =  'Combining Diacritical Marks';
+    oRangeNames[8] =  'Greek and Coptic';
+    oRangeNames[9] =  'Cyrillic';
+    oRangeNames[10] =  'Cyrillic Supplement';
+    oRangeNames[11] =  'Armenian';
+    oRangeNames[12] =  'Hebrew';
+    oRangeNames[13] =  'Arabic';
+    oRangeNames[14] =  'Syriac';
+    oRangeNames[15] =  'Arabic Supplement';
+    oRangeNames[16] =  'Thaana';
+    oRangeNames[17] =  'NKo';
+    oRangeNames[18] =  'Samaritan';
+    oRangeNames[19] =  'Mandaic';
+    oRangeNames[20] =  'Arabic Extended A';
+    oRangeNames[21] =  'Devanagari';
+    oRangeNames[22] =  'Bengali';
+    oRangeNames[23] =  'Gurmukhi';
+    oRangeNames[24] =  'Gujarati';
+    oRangeNames[25] =  'Oriya';
+    oRangeNames[26] =  'Tamil';
+    oRangeNames[27] =  'Telugu';
+    oRangeNames[28] =  'Kannada';
+    oRangeNames[29] =  'Malayalam';
+    oRangeNames[30] =  'Sinhala';
+    oRangeNames[31] =  'Thai';
+    oRangeNames[32] =  'Lao';
+    oRangeNames[33] =  'Tibetan';
+    oRangeNames[34] =  'Myanmar';
+    oRangeNames[35] =  'Georgian';
+    oRangeNames[36] =  'Hangul Jamo';
+    oRangeNames[37] =  'Ethiopic';
+    oRangeNames[38] =  'Ethiopic Supplement';
+    oRangeNames[39] =  'Cherokee';
+    oRangeNames[40] =  'Unified Canadian Aboriginal Syllabics';
+    oRangeNames[41] =  'Ogham';
+    oRangeNames[42] =  'Runic';
+    oRangeNames[43] =  'Tagalog';
+    oRangeNames[44] =  'Hanunoo';
+    oRangeNames[45] =  'Buhid';
+    oRangeNames[46] =  'Tagbanwa';
+    oRangeNames[47] =  'Khmer';
+    oRangeNames[48] =  'Mongolian';
+    oRangeNames[49] =  'Unified Canadian Aboriginal Syllabics Extended';
+    oRangeNames[50] =  'Limbu';
+    oRangeNames[51] =  'Tai Le';
+    oRangeNames[52] =  'New Tai Lue';
+    oRangeNames[53] =  'Khmer Symbols';
+    oRangeNames[54] =  'Buginese';
+    oRangeNames[55] =  'Tai Tham';
+    oRangeNames[56] =  'Combining Diacritical Marks Extended';
+    oRangeNames[57] =  'Balinese';
+    oRangeNames[58] =  'Sundanese';
+    oRangeNames[59] =  'Batak';
+    oRangeNames[60] =  'Lepcha';
+    oRangeNames[61] =  'Ol Chiki';
+    oRangeNames[62] =  'Cyrillic Extended C';
+    oRangeNames[63] =  'Sundanese Supplement';
+    oRangeNames[64] =  'Vedic Extensions';
+    oRangeNames[65] =  'Phonetic Extensions';
+    oRangeNames[66] =  'Phonetic Extensions Supplement';
+    oRangeNames[67] =  'Combining Diacritical Marks Supplement';
+    oRangeNames[68] =  'Latin Extended Additional';
+    oRangeNames[69] =  'Greek Extended';
+    oRangeNames[70] =  'General Punctuation';
+    oRangeNames[71] =  'Superscripts and Subscripts';
+    oRangeNames[72] =  'Currency Symbols';
+    oRangeNames[73] =  'Combining Diacritical Marks for Symbols';
+    oRangeNames[74] =  'Letterlike Symbols';
+    oRangeNames[75] =  'Number Forms';
+    oRangeNames[76] =  'Arrows';
+    oRangeNames[77] =  'Mathematical Operators';
+    oRangeNames[78] =  'Miscellaneous Technical';
+    oRangeNames[79] =  'Control Pictures';
+    oRangeNames[80] =  'Optical Character Recognition';
+    oRangeNames[81] =  'Enclosed Alphanumerics';
+    oRangeNames[82] =  'Box Drawing';
+    oRangeNames[83] =  'Block Elements';
+    oRangeNames[84] =  'Geometric Shapes';
+    oRangeNames[85] =  'Miscellaneous Symbols';
+    oRangeNames[86] =  'Dingbats';
+    oRangeNames[87] =  'Miscellaneous Mathematical Symbols A';
+    oRangeNames[88] =  'Supplemental Arrows A';
+    oRangeNames[89] =  'Braille Patterns';
+    oRangeNames[90] =  'Supplemental Arrows B';
+    oRangeNames[91] =  'Miscellaneous Mathematical Symbols B';
+    oRangeNames[92] =  'Supplemental Mathematical Operators';
+    oRangeNames[93] =  'Miscellaneous Symbols and Arrows';
+    oRangeNames[94] =  'Glagolitic';
+    oRangeNames[95] =  'Latin Extended C';
+    oRangeNames[96] =  'Coptic';
+    oRangeNames[97] =  'Georgian Supplement';
+    oRangeNames[98] =  'Tifinagh';
+    oRangeNames[99] =  'Ethiopic Extended';
+    oRangeNames[100] =  'Cyrillic Extended A';
+    oRangeNames[101] =  'Supplemental Punctuation';
+    oRangeNames[102] =  'CJK Radicals Supplement';
+    oRangeNames[103] =  'Kangxi Radicals';
+    oRangeNames[104] =  'Ideographic Description Characters';
+    oRangeNames[105] =  'CJK Symbols and Punctuation';
+    oRangeNames[106] =  'Hiragana';
+    oRangeNames[107] =  'Katakana';
+    oRangeNames[108] =  'Bopomofo';
+    oRangeNames[109] =  'Hangul Compatibility Jamo';
+    oRangeNames[110] =  'Kanbun';
+    oRangeNames[111] =  'Bopomofo Extended';
+    oRangeNames[112] =  'CJK Strokes';
+    oRangeNames[113] =  'Katakana Phonetic Extensions';
+    oRangeNames[114] =  'Enclosed CJK Letters and Months';
+    oRangeNames[115] =  'CJK Compatibility';
+    oRangeNames[116] =  'CJK Unified Ideographs Extension';
+    oRangeNames[117] =  'Yijing Hexagram Symbols';
+    oRangeNames[118] =  'CJK Unified Ideographs';
+    oRangeNames[119] =  'Yi Syllables';
+    oRangeNames[120] =  'Yi Radicals';
+    oRangeNames[121] =  'Lisu';
+    oRangeNames[122] =  'Vai';
+    oRangeNames[123] =  'Cyrillic Extended B';
+    oRangeNames[124] =  'Bamum';
+    oRangeNames[125] =  'Modifier Tone Letters';
+    oRangeNames[126] =  'Latin Extended D';
+    oRangeNames[127] =  'Syloti Nagri';
+    oRangeNames[128] =  'Common Indic Number Forms';
+    oRangeNames[129] =  'Phags pa';
+    oRangeNames[130] =  'Saurashtra';
+    oRangeNames[131] =  'Devanagari Extended';
+    oRangeNames[132] =  'Kayah Li';
+    oRangeNames[133] =  'Rejang';
+    oRangeNames[134] =  'Hangul Jamo Extended A';
+    oRangeNames[135] =  'Javanese';
+    oRangeNames[136] =  'Myanmar Extended B';
+    oRangeNames[137] =  'Cham';
+    oRangeNames[138] =  'Myanmar Extended A';
+    oRangeNames[139] =  'Tai Viet';
+    oRangeNames[140] =  'Meetei Mayek Extensions';
+    oRangeNames[141] =  'Ethiopic Extended A';
+    oRangeNames[142] =  'Latin Extended E';
+    oRangeNames[143] =  'Cherokee Supplement';
+    oRangeNames[144] =  'Meetei Mayek';
+    oRangeNames[145] =  'Hangul Syllables';
+    oRangeNames[146] =  'Hangul Jamo Extended B';
+    oRangeNames[147] =  'High Surrogates';
+    oRangeNames[148] =  'High Private Use Surrogates';
+    oRangeNames[149] =  'Low Surrogates';
+    oRangeNames[150] =  'Private Use Area';
+    oRangeNames[151] =  'CJK Compatibility Ideographs';
+    oRangeNames[152] =  'Alphabetic Presentation Forms';
+    oRangeNames[153] =  'Arabic Presentation Forms A';
+    oRangeNames[154] =  'Variation Selectors';
+    oRangeNames[155] =  'Vertical Forms';
+    oRangeNames[156] =  'Combining Half Marks';
+    oRangeNames[157] =  'CJK Compatibility Forms';
+    oRangeNames[158] =  'Small Form Variants';
+    oRangeNames[159] =  'Arabic Presentation Forms B';
+    oRangeNames[160] =  'Halfwidth and Fullwidth Forms';
+    oRangeNames[161] =  'Specials';
+    oRangeNames[162] =  'Linear B Syllabary';
+    oRangeNames[163] =  'Linear B Ideograms';
+    oRangeNames[164] =  'Aegean Numbers';
+    oRangeNames[165] =  'Ancient Greek Numbers';
+    oRangeNames[166] =  'Ancient Symbols';
+    oRangeNames[167] =  'Phaistos Disc';
+    oRangeNames[168] =  'Lycian';
+    oRangeNames[169] =  'Carian';
+    oRangeNames[170] =  'Coptic Epact Numbers';
+    oRangeNames[171] =  'Old Italic';
+    oRangeNames[172] =  'Gothic';
+    oRangeNames[173] =  'Old Permic';
+    oRangeNames[174] =  'Ugaritic';
+    oRangeNames[175] =  'Old Persian';
+    oRangeNames[176] =  'Deseret';
+    oRangeNames[177] =  'Shavian';
+    oRangeNames[178] =  'Osmanya';
+    oRangeNames[179] =  'Osage';
+    oRangeNames[180] =  'Elbasan';
+    oRangeNames[181] =  'Caucasian Albanian';
+    oRangeNames[182] =  'Linear A';
+    oRangeNames[183] =  'Cypriot Syllabary';
+    oRangeNames[184] =  'Imperial Aramaic';
+    oRangeNames[185] =  'Palmyrene';
+    oRangeNames[186] =  'Nabataean';
+    oRangeNames[187] =  'Hatran';
+    oRangeNames[188] =  'Phoenician';
+    oRangeNames[189] =  'Lydian';
+    oRangeNames[190] =  'Meroitic Hieroglyphs';
+    oRangeNames[191] =  'Meroitic Cursive';
+    oRangeNames[192] =  'Kharoshthi';
+    oRangeNames[193] =  'Old South Arabian';
+    oRangeNames[194] =  'Old North Arabian';
+    oRangeNames[195] =  'Manichaean';
+    oRangeNames[196] =  'Avestan';
+    oRangeNames[197] =  'Inscriptional Parthian';
+    oRangeNames[198] =  'Inscriptional Pahlavi';
+    oRangeNames[199] =  'Psalter Pahlavi';
+    oRangeNames[200] =  'Old Turkic';
+    oRangeNames[201] =  'Old Hungarian';
+    oRangeNames[202] =  'Rumi Numeral Symbols';
+    oRangeNames[203] =  'Brahmi';
+    oRangeNames[204] =  'Kaithi';
+    oRangeNames[205] =  'Sora Sompeng';
+    oRangeNames[206] =  'Chakma';
+    oRangeNames[207] =  'Mahajani';
+    oRangeNames[208] =  'Sharada';
+    oRangeNames[209] =  'Sinhala Archaic Numbers';
+    oRangeNames[210] =  'Khojki';
+    oRangeNames[211] =  'Multani';
+    oRangeNames[212] =  'Khudawadi';
+    oRangeNames[213] =  'Grantha';
+    oRangeNames[214] =  'Newa';
+    oRangeNames[215] =  'Tirhuta';
+    oRangeNames[216] =  'Siddham';
+    oRangeNames[217] =  'Modi';
+    oRangeNames[218] =  'Mongolian Supplement';
+    oRangeNames[219] =  'Takri';
+    oRangeNames[220] =  'Ahom';
+    oRangeNames[221] =  'Warang Citi';
+    oRangeNames[222] =  'Pau Cin Hau';
+    oRangeNames[223] =  'Bhaiksuki';
+    oRangeNames[224] =  'Marchen';
+    oRangeNames[225] =  'Cuneiform';
+    oRangeNames[226] =  'Cuneiform Numbers and Punctuation';
+    oRangeNames[227] =  'Early Dynastic Cuneiform';
+    oRangeNames[228] =  'Egyptian Hieroglyphs';
+    oRangeNames[229] =  'Anatolian Hieroglyphs';
+    oRangeNames[230] =  'Bamum Supplement';
+    oRangeNames[231] =  'Mro';
+    oRangeNames[232] =  'Bassa Vah';
+    oRangeNames[233] =  'Pahawh Hmong';
+    oRangeNames[234] =  'Miao';
+    oRangeNames[235] =  'Ideographic Symbols and Punctuation';
+    oRangeNames[236] =  'Tangut';
+    oRangeNames[237] =  'Tangut Components';
+    oRangeNames[238] =  'Kana Supplement';
+    oRangeNames[239] =  'Duployan';
+    oRangeNames[240] =  'Shorthand Format Controls';
+    oRangeNames[241] =  'Byzantine Musical Symbols';
+    oRangeNames[242] =  'Musical Symbols';
+    oRangeNames[243] =  'Ancient Greek Musical Notation';
+    oRangeNames[244] =  'Tai Xuan Jing Symbols';
+    oRangeNames[245] =  'Counting Rod Numerals';
+    oRangeNames[246] =  'Mathematical Alphanumeric Symbols';
+    oRangeNames[247] =  'Sutton SignWriting';
+    oRangeNames[248] =  'Glagolitic Supplement';
+    oRangeNames[249] =  'Mende Kikakui';
+    oRangeNames[250] =  'Adlam';
+    oRangeNames[251] =  'Arabic Mathematical Alphabetic Symbols';
+    oRangeNames[252] =  'Mahjong Tiles';
+    oRangeNames[253] =  'Domino Tiles';
+    oRangeNames[254] =  'Playing Cards';
+    oRangeNames[255] =  'Enclosed Alphanumeric Supplement';
+    oRangeNames[256] =  'Enclosed Ideographic Supplement';
+    oRangeNames[257] =  'Miscellaneous Symbols and Pictographs';
+    oRangeNames[258] =  'Emoticons';
+    oRangeNames[259] =  'Ornamental Dingbats';
+    oRangeNames[260] =  'Transport and Map Symbols';
+    oRangeNames[261] =  'Alchemical Symbols';
+    oRangeNames[262] =  'Geometric Shapes Extended';
+    oRangeNames[263] =  'Supplemental Arrows C';
+    oRangeNames[264] =  'Supplemental Symbols and Pictographs';
+    oRangeNames[265] =  'CJK Unified Ideographs Extension B';
+    oRangeNames[266] =  'CJK Unified Ideographs Extension C';
+    oRangeNames[267] =  'CJK Unified Ideographs Extension D';
+    oRangeNames[268] =  'CJK Unified Ideographs Extension E';
+    oRangeNames[269] =  'CJK Compatibility Ideographs Supplement';
+    oRangeNames[270] =  'Tags';
+    oRangeNames[271] =  'Variation Selectors Supplement';
+    oRangeNames[272] =  'Supplementary Private Use Area A';
+    oRangeNames[273] =  'Supplementary Private Use Area B';
+
+    var aFontSelects = [];
+    var aRanges = [];
+    var aRecents = [];
+    var nCurrentFont = -1;// индекс в aFontSelects
+    var nCurrentSymbol = -1;// code
+    var bMainFocus = true;//фокус в основной таблице
+    var nFontNameRecent = -1;
+
+    var nMaxRecent = 36;
+    var bScrollMouseUp = false;
+
+    var sInitFont = "";
+    var sInitSymbol = "";
+
+    var nLastScroll = -1000;
+    var bShowTooltip = true;
+
+    Common.Views.SymbolTableDialog = Common.UI.Window.extend(_.extend({
+        options: {
+            width: 400,
+            style: 'min-width: 230px;',
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel']
+        },
+
+        initialize : function(options) {
+            _.extend(this.options, {
+                title: this.textTitle
+            }, options || {});
+
+            this.template = [
+                '<div class="box" style="height: 260px;">',
+                    '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
+                        '<tr>',
+                            '<td style="padding-right: 10px;padding-bottom: 8px;">',
+                                '<label class="input-label">' + this.textFont + '</label>',
+                                '<div id="symbol-table-cmb-fonts"></div>',
+                            '</td>',
+                            '<td style="padding-bottom: 8px;">',
+                                '<label class="input-label">' + this.textRange + '</label>',
+                                '<div id="symbol-table-cmb-range"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2" style="padding-bottom: 8px;">',
+                                '<div id="scrollable-table-div"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2" style="padding-bottom: 8px;">',
+                                '<label class="input-label">' + this.textRecent + '</label>',
+                                '<div id="symbol-table-recent"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2">',
+                                '<label class="input-label">' + this.textCode + '</label>',
+                                '<div id="symbol-table-text-code"></div>',
+                            '</td>',
+                        '</tr>',
+                    '</table>',
+                '</div>'
+            ].join('');
+
+            this.options.tpl = _.template(this.template)(this.options);
+            this.api = this.options.api;
+
+            var fontList = this.api.pluginMethod_GetFontList();
+            fontList.sort(function(a, b){
+                if(a.m_wsFontName < b.m_wsFontName) return -1;
+                if(a.m_wsFontName > b.m_wsFontName) return 1;
+                return 0;
+            });
+
+            var oCurFont, oLastFont;
+            var data = [];
+            var oFontsByName = {};
+            var sCurFontNameInMap;
+            for(var i = 0; i < fontList.length; ++i){
+                oCurFont = fontList[i];
+                sCurFontNameInMap = oCurFont.m_wsFontName;
+                oLastFont = oFontsByName[sCurFontNameInMap];
+                if(!oLastFont){
+                    oFontsByName[sCurFontNameInMap] = oCurFont;
+                }
+                else{
+                    if(oLastFont.m_bBold && oLastFont.m_bItalic){
+                        oFontsByName[sCurFontNameInMap] = oCurFont;
+                    }
+                    else if(oLastFont.m_bBold && !oCurFont.m_bBold){
+                        oFontsByName[sCurFontNameInMap] = oCurFont;
+                    }
+                    else if(oLastFont.m_bItalic && !oCurFont.m_bBold && !oCurFont.m_bItalic){
+                        oFontsByName[sCurFontNameInMap] = oCurFont;
+                    }
+                }
+            }
+            delete oFontsByName['ASCW3'];
+            var i = 0;
+            for(var key in oFontsByName){
+                if(oFontsByName.hasOwnProperty(key)){
+                    data.push(oFontsByName[key]);
+                    data[data.length-1].value = i++;
+                    data[data.length-1].displayValue = oFontsByName[key].m_wsFontName;
+                }
+            }
+
+            //initialize params
+            aFontSelects = data;
+            aFontSelects.sort(function(a, b){return (a.displayValue.toLowerCase() > b.displayValue.toLowerCase()) ? 1 : -1;});
+            if(!oFontsByName[sInitFont]){
+                if(oFontsByName['Cambria Math']){
+                    sInitFont = 'Cambria Math';
+                }
+                else if(oFontsByName['Asana-Math']){
+                    sInitFont = 'Asana-Math';
+                }
+            }
+            if(oFontsByName[sInitFont]){
+                for(i = 0; i < aFontSelects.length; ++i){
+                    if(aFontSelects[i].displayValue === sInitFont){
+                        nCurrentFont = i;
+                        break;
+                    }
+                }
+            }
+            if (nCurrentFont < 0)
+                nCurrentFont = 0;
+
+
+            aRanges = this.getArrRangesByFont(nCurrentFont);
+            if(sInitSymbol && sInitSymbol.length > 0){
+                nCurrentSymbol = this.fixedCharCodeAt(sInitSymbol, 0);
+                if(false === nCurrentSymbol){
+                    nCurrentSymbol = -1;
+                }
+                else{
+                    for(i = 0; i < aRanges.length; ++i){
+                        if(nCurrentSymbol >= aRanges[i].Start && nCurrentSymbol <= aRanges[i].End){
+                            break;
+                        }
+                    }
+                    if(i === aRanges.length){
+                        nCurrentSymbol = -1;
+                    }
+                }
+            }
+            if(nCurrentSymbol === -1){
+                nCurrentSymbol = aRanges[0].Start;
+            }
+
+            Common.UI.Window.prototype.initialize.call(this, this.options);
+        },
+
+        render: function() {
+            Common.UI.Window.prototype.render.call(this);
+
+            var me = this,
+                $window = this.getChild();
+
+            this.cmbFonts = new Common.UI.ComboBox({
+                el          : $window.find('#symbol-table-cmb-fonts'),
+                cls         : 'input-group-nr',
+                data        : aFontSelects,
+                editable    : false,
+                menuStyle   : 'min-width: 100%; max-height: 200px;'
+            }).on('selected', function(combo, record) {
+                var oCurrentRange = me.getRangeBySymbol(aRanges, nCurrentSymbol);
+                nCurrentFont = record.value;
+                aRanges = me.getArrRangesByFont(nCurrentFont);
+                if(oCurrentRange){
+                    for(var i = 0; i < aRanges.length; ++i){
+                        if(oCurrentRange.Name === aRanges[i].Name){
+                            break;
+                        }
+                    }
+                    if(i === aRanges.length){
+                        nCurrentSymbol = aRanges[0].Start;
+                    }
+                }
+                else{
+                    nCurrentSymbol = aRanges[0].Start;
+                }
+                bMainFocus = true;
+                me.updateView();
+            });
+            this.cmbFonts.setValue(nCurrentFont);
+
+            this.cmbRange = new Common.UI.ComboBox({
+                el          : $window.find('#symbol-table-cmb-range'),
+                cls         : 'input-group-nr',
+                editable    : false,
+                menuStyle   : 'min-width: 100%; max-height: 200px;'
+            });
+            this.updateRangeSelector();
+
+            me.inputCode = new Common.UI.InputField({
+                el          : $window.find('#symbol-table-text-code'),
+                allowBlank  : false,
+                blankError  : me.txtEmpty,
+                style       : 'width: 100%;',
+                validateOnBlur: false,
+                validateOnChange: true
+            }).on('changing', function(cmp, newValue, oldValue) {
+                me.isTextChanged = true;
+            });
+
+            // this.updateView(undefined, undefined, undefined, true);
+
+            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+        },
+
+        show: function() {
+            Common.UI.Window.prototype.show.apply(this, arguments);
+
+            var me = this;
+            _.delay(function(){
+                // me.inputUrl.cmpEl.find('input').focus();
+            },50);
+        },
+
+        setSettings: function (props) {
+        },
+
+        getSettings: function () {
+        },
+
+        onBtnClick: function(event) {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function(event) {
+            this._handleInput('ok');
+            return false;
+        },
+
+        _handleInput: function(state) {
+            if (this.options.handler) {
+                this.options.handler.call(this, this, state);
+            }
+
+            this.close();
+        },
+
+        encodeSurrogateChar: function(nUnicode) {
+            if (nUnicode < 0x10000)
+            {
+                return String.fromCharCode(nUnicode);
+            }
+            else
+            {
+                nUnicode = nUnicode - 0x10000;
+                var nLeadingChar = 0xD800 | (nUnicode >> 10);
+                var nTrailingChar = 0xDC00 | (nUnicode & 0x3FF);
+                return String.fromCharCode(nLeadingChar) + String.fromCharCode(nTrailingChar);
+            }
+        },
+
+        fixedCharCodeAt: function(str, idx) {
+            idx = idx || 0;
+            var code = str.charCodeAt(idx);
+            var hi, low;
+            if (0xD800 <= code && code <= 0xDBFF) {
+                hi = code;
+                low = str.charCodeAt(idx + 1);
+                if (isNaN(low)) {
+                    throw 'Старшая часть суррогатной пары без следующей младшей в fixedCharCodeAt()';
+                }
+                return ((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000;
+            }
+            if (0xDC00 <= code && code <= 0xDFFF) {
+                return false;
+            }
+            return code;
+        },
+
+        getArrRangesByFont: function(nFontName){
+            var _ret = getSupportedRangesByFont(aFontSelects[nFontName]);
+            if(_ret.length === 0){
+                _ret.push({Start:0x20, End: 0xFF});
+            }
+            if(_ret[0].Start < 0x20){
+                _ret[0].Start = 0x20;
+            }
+            return _ret;
+        },
+
+        getRangeBySymbol: function(arrRanges, nCode){
+            for(var i = 0; i < arrRanges.length; ++i){
+                if(arrRanges[i].Start <= nCode && arrRanges[i].End >= nCode){
+                    return arrRanges[i];
+                }
+            }
+            return null;
+        },
+
+        getRangeByName: function(arrRanges, nName){
+            for(var i = 0; i < arrRanges.length; ++i){
+                if(arrRanges[i].Name === nName){
+                    return arrRanges[i];
+                }
+            }
+            return null;
+        },
+
+        getLinearIndexByCode: function(arrRanges, nCode){
+            var nLinearIndex = -1;
+            var nCounter = 0;
+            var oCurRange;
+            for(var i = 0; i < arrRanges.length; ++i){
+                oCurRange = arrRanges[i];
+                if(oCurRange.Start > nCode){
+                    return -1;
+                }
+                if(oCurRange.Start <= nCode && oCurRange.End >= nCode){
+                    return nCounter + (nCode - oCurRange.Start);
+                }
+                nCounter += (oCurRange.End - oCurRange.Start + 1);
+            }
+            return nLinearIndex;
+        },
+
+        getCodeByLinearIndex: function(arrRanges, nIndex){
+            if(nIndex < 0){
+                return -1;
+            }
+            var nCount = 0;
+            var oCurRange = arrRanges[0];
+            var nDiff;
+            for(var i = 0; i < arrRanges.length; ++i){
+                oCurRange = arrRanges[i];
+                nDiff = oCurRange.End - oCurRange.Start + 1;
+                if(nCount + nDiff > nIndex){
+                    return oCurRange.Start + nIndex - nCount;
+                }
+                nCount += nDiff;
+            }
+            return -1;
+        },
+
+        createTable: function(arrSym, nRowsCount, nColsCount, oDiv){
+
+            var nDivCount = nRowsCount*nColsCount;
+            var nCellsCounter = 0;
+            var sInnerHtml = '';
+            var sId;
+            var sStyle = 'style=\'border-bottom: none\'';
+            var sCellStyle;
+            for(var i = 0; i < nDivCount; ++i){
+
+
+                if(((i / nColsCount) >> 0) === (nRowsCount - 1)){
+                    sCellStyle = sStyle;
+                }
+                else{
+                    sCellStyle = '';
+                }
+                if(i < arrSym.length){
+                    sId = 'c' + arrSym[i];
+                    sInnerHtml += '<div class=\"cell\" '+sCellStyle +' id=\"' + sId + '\">' + '&#' + arrSym[i].toString(10) + '</div>';
+                }
+                else{
+                    sInnerHtml += '<div class=\"cell\"'+sCellStyle +'></div>';
+                }
+                ++nCellsCounter;
+                if(nCellsCounter >= nColsCount){
+                    sInnerHtml +=  '<br class=\"noselect\">';
+                    nCellsCounter = 0;
+                }
+            }
+            oDiv.innerHTML = sInnerHtml;
+        },
+
+        fillRecentSymbols: function(){
+            var sRecents = window.localStorage.getItem('recentSymbols');
+            var aRecentCookies;
+            if(sRecents != ''){
+                aRecentCookies = JSON.parse(sRecents);
+            }
+            if(Array.isArray(aRecentCookies)){
+                aRecents = aRecentCookies;
+            }
+        },
+
+        saveRecent: function(){
+            var sJSON = JSON.stringify(aRecents);
+            window.localStorage.setItem('recentSymbols', sJSON);
+        },
+
+        checkRecent: function(sSymbol, sFont){
+            if(aRecents.length === 0){
+                aRecents.push({symbol: sSymbol, font: sFont});
+                return;
+            }
+            for(var i = 0; i < aRecents.length; ++i){
+                if(aRecents[i].symbol === sSymbol && aRecents[i].font === sFont){
+                    aRecents.splice(i, 1);
+                    break;
+                }
+            }
+            aRecents.splice(0, 0, {symbol: sSymbol, font: sFont});
+            if(aRecents.length > nMaxRecent){
+                aRecents.splice(nMaxRecent, aRecents.length - nMaxRecent);
+            }
+            this.saveRecent();
+        },
+
+        createCell: function(nSymbolCode, sFontName){
+            var sId;
+            if(sFontName){
+                var nFontIndex = 0;
+                aFontSelects[nCurrentFont].displayValue
+                for(var i = 0; i < aFontSelects.length; ++i){
+                    if(aFontSelects[i].displayValue === sFontName){
+                        nFontIndex = i;
+                        break;
+                    }
+                }
+                sId = 'r_' + nSymbolCode + '_' + nFontIndex;
+            }
+            else{
+                sId = 'r' + nSymbolCode;
+            }
+            var _ret = $('<div id=\"' + sId + '\">&#' + nSymbolCode.toString() + '</div>');
+            _ret.addClass('cell');
+            _ret.addClass('noselect');
+            _ret.mousedown(cellClickHandler);
+            if(sFontName){
+                _ret.css('font-family', '\'' + sFontName + '\'');
+            }
+            //_ret.mouseup(function (e) {
+            //    e.stopPropagation();
+            //});
+            return _ret;
+        },
+
+        updateRecents: function(){
+            var oRecentsDiv = $('#recent-table');
+            oRecentsDiv.empty();
+            var nRecents = Math.min(this.getColsCount(), aRecents.length);
+            if(aRecents.length === 0){
+                oRecentsDiv.css('border', '1px solid rgb(247, 247, 247)');
+                return;
+            }
+            oRecentsDiv.css('border', '1px solid rgb(122, 122, 122)');
+            for(var i = 0; i < nRecents; ++i){
+                var oCell = this.createCell(aRecents[i].symbol, aRecents[i].font);
+
+                oCell.css('border-bottom', 'none');
+                oRecentsDiv.append(oCell);
+                if(i === (nRecents - 1)){
+                    oCell.css('border-right', 'none');
+                }
+            }
+        },
+
+        getColsCount: function(){
+            var nMaxWidth = $('#main-div').innerWidth() - 17 - 2;
+            return ((nMaxWidth/CELL_WIDTH) >> 0);
+        },
+
+        getMaxHeight: function(){
+
+            var nMaxHeight = $('#main-div').innerHeight() - 10 - $('#header-div').outerHeight(true) - $('#recent-symbols-wrap').outerHeight(true)
+                - $('#value-wrap').outerHeight(true) - $('#insert-button').outerHeight(true) - 2;
+            return nMaxHeight;
+        },
+
+        getRowsCount: function() {
+            return  Math.max(1, ((this.getMaxHeight()/CELL_HEIGHT) >> 0));
+        },
+
+        getAllSymbolsCount: function(arrRanges){
+            var _count = 0;
+            var oRange;
+            for(var i = 0; i < arrRanges.length; ++i){
+                oRange = arrRanges[i];
+                _count += (oRange.End - oRange.Start + 1);
+            }
+            return _count;
+        },
+
+        setTable: function(nStartCode){
+            var nColsCount = this.getColsCount();
+            var nRowsCount = this.getRowsCount();
+            var nIndexSymbol = this.getLinearIndexByCode(aRanges, nStartCode);
+            var nAllSymbolsCount = this.getAllSymbolsCount(aRanges);
+            var nAllRowsCount = Math.ceil(nAllSymbolsCount/nColsCount);
+            var nRowsSkip = Math.max(0, Math.min(nAllRowsCount - nRowsCount, ((nIndexSymbol / nColsCount) >> 0)));
+            var nFirst = nRowsSkip*nColsCount;
+            var nSymbolsCount = nRowsCount*nColsCount;
+            var aSymbols = [];
+            var nCode;
+            for(var i = 0; i < nSymbolsCount; ++i){
+                nCode = this.getCodeByLinearIndex(aRanges, nFirst + i);
+                if(nCode === -1){
+                    break;
+                }
+                aSymbols.push(nCode);
+            }
+            var oSymbolTable = $('#symbols-table')[0];
+            $('#symbols-table').css('font-family',  '\'' + aFontSelects[nCurrentFont].displayValue + '\'');
+            this.createTable(aSymbols, nRowsCount, nColsCount, oSymbolTable);
+            return nRowsSkip;
+        },
+
+        updateView: function(bUpdateTable, nTopSymbol, bUpdateInput, bUpdateRecents, bUpdateRanges) {
+            //fill ranges combo box
+            if(bMainFocus){
+                if(bUpdateRanges !== false){
+                    this.updateRangeSelector();
+                }
+            }
+
+            if(bMainFocus){
+                if(aFontSelects[nCurrentFont]){
+                    $("#font-name-label").text(aFontSelects[nCurrentFont].displayValue);
+                }
+                else{
+                    $("#font-name-label").text('');
+                }
+            }
+            else{
+                if(aFontSelects[nFontNameRecent]){
+                    $("#font-name-label").text(aFontSelects[nFontNameRecent].displayValue);
+                }
+                else{
+                    $("#font-name-label").text('');
+                }
+            }
+
+            if(bUpdateTable !== false){
+                //fill fonts combo box
+                this.cmbFonts.setValue(nCurrentFont);
+            }
+/*
+            //main table
+            var nRowsCount = this.getRowsCount();
+
+            var nHeight = nRowsCount*CELL_HEIGHT - 1;
+            $('#scrollable-table-div').height(nHeight);
+            $('#scrollable-table-div').css('margin-bottom', this.getMaxHeight() - nHeight);
+
+
+            bScrollMouseUp = false;
+            if(bUpdateTable !== false){
+                //fill table
+                var nSymbol = (nTopSymbol !== null && nTopSymbol !== undefined)? nTopSymbol : nCurrentSymbol;
+                var nRowSkip = this.setTable(nSymbol);
+                //update scroll
+                var nSymbolsCount = this.getAllSymbolsCount(aRanges);
+                var nAllRowsCount = Math.ceil(nSymbolsCount/this.getColsCount());
+                var nFullHeight = nAllRowsCount*CELL_HEIGHT;
+
+                var nOldHeight = $("#fake-symbol-table-wrap").height();
+                $("#fake-symbol-table-wrap").height(nHeight);
+                $("#fake-symbol-table").height(nFullHeight);
+
+
+                var container = document.getElementById('fake-symbol-table-wrap');
+                // if(nOldHeight !== nHeight){
+                //     Ps.destroy();
+                //     Ps = new PerfectScrollbar('#' + container.id, {
+                //         minScrollbarLength: Math.max((CELL_HEIGHT*2.0/3.0 + 0.5) >> 0, ((nHeight/8.0 + 0.5) >> 0))
+                //     });
+                // }
+                bShowTooltip = false;
+                container.scrollTop = nRowSkip*CELL_HEIGHT;
+                // Ps.update();
+                bShowTooltip = true;
+                var aCells = $('#symbols-table > .cell');
+                aCells.mousedown(cellClickHandler);
+                //aCells.mouseup(function (e) {
+                //    e.stopPropagation();
+                //});
+            }
+
+            //fill recent
+            if(bUpdateRecents){
+                this.updateRecents();
+            }
+
+            //reset selection
+            $('.cell').removeClass('cell-selected');
+
+            //select current cell
+            if(bMainFocus){
+                $('#c' + nCurrentSymbol).addClass('cell-selected');
+            }
+            else{
+                $('#r_' + nCurrentSymbol + '_' + nFontNameRecent).addClass('cell-selected');
+            }
+
+            //update input
+            if(bUpdateInput !== false){
+                this.updateInput();
+            }
+*/
+        },
+
+        updateInput: function(){
+
+            var sVal = nCurrentSymbol.toString(16).toUpperCase();
+            var sValLen = sVal.length;
+            for(var i = sValLen; i < 5; ++i){
+                sVal = '0' + sVal;
+            }
+            $('#symbol-code-input').val(sVal);
+        },
+
+        updateRangeSelector: function() {
+            var oCurrentRange = this.getRangeBySymbol(aRanges, nCurrentSymbol);
+            if(!oCurrentRange || !oCurrentRange.Name){
+                this.cmbRange.setDisabled(true);
+                this.cmbRange.setValue('');
+            }
+            else{
+                this.cmbRange.setDisabled(false);
+                var oOption, i, data = [];
+                for(i = 0; i < aRanges.length; ++i){
+                    data.push({
+                        value: aRanges[i].Name,
+                        displayValue: oRangeNames[aRanges[i].Name]
+                    });
+                }
+                this.cmbRange.setData(data);
+                this.cmbRange.setValue(oCurrentRange.Name);
+            }
+        },
+
+        textTitle: 'Symbol Table',
+        textFont: 'Font',
+        textRange: 'Range',
+        textRecent: 'Recently used symbols',
+        textCode: 'Unicode HEX value'
+    }, Common.Views.SymbolTableDialog || {}))
+});

@@ -583,6 +583,14 @@ define([
                     });
                     this.paragraphControls.push(this.btnInsertEquation);
 
+                    this.btnInsertSymbol = new Common.UI.Button({
+                        id: 'tlbtn-insertsymbol',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-insertequation',
+                        caption: me.capBtnInsSymbol
+                    });
+                    this.paragraphControls.push(this.btnInsertSymbol);
+
                     this.btnDropCap = new Common.UI.Button({
                         id: 'tlbtn-dropcap',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1309,6 +1317,7 @@ define([
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
+                _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-pageorient', this.btnPageOrient);
                 _injectComponent('#slot-btn-pagemargins', this.btnPageMargins);
                 _injectComponent('#slot-btn-pagesize', this.btnPageSize);
@@ -1579,6 +1588,7 @@ define([
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
+                this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
                 this.btnDropCap.updateHint(this.tipDropCap);
                 this.btnContentControls.updateHint(this.tipControls);
                 this.btnColumns.updateHint(this.tipColumns);
@@ -2324,7 +2334,9 @@ define([
             capBtnWatermark: 'Watermark',
             textEditWatermark: 'Custom Watermark',
             textRemWatermark: 'Remove Watermark',
-            tipWatermark: 'Edit watermark'
+            tipWatermark: 'Edit watermark',
+            capBtnInsSymbol: 'Symbol',
+            tipInsertSymbol: 'Insert symbol'
         }
     })(), DE.Views.Toolbar || {}));
 });

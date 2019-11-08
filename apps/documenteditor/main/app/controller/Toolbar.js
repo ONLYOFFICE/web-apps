@@ -47,6 +47,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
@@ -324,6 +325,7 @@ define([
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
@@ -819,6 +821,8 @@ define([
 
             need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation || control_plain;
             toolbar.btnInsertEquation.setDisabled(need_disable);
+
+            toolbar.btnInsertSymbol.setDisabled(!in_para || paragraph_locked || header_locked);
 
             need_disable = paragraph_locked || header_locked || in_equation;
             toolbar.btnSuperscript.setDisabled(need_disable);
@@ -2468,6 +2472,24 @@ define([
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
+        },
+
+        onInsertSymbolClick: function() {
+            if (this.api) {
+                var me = this,
+                    win = new Common.Views.SymbolTableDialog({
+                    api: me.api,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            // dlg.getSettings();
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                win.show();
+                // win.setSettings();
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertSymbol);
         },
 
         onApiMathTypes: function(equation) {
