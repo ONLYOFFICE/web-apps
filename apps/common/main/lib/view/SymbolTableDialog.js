@@ -350,6 +350,7 @@ define([
     Common.Views.SymbolTableDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 450,
+            height: 395,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
@@ -413,6 +414,7 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
+            this.type = this.options.type || 0; // 0 - close on OK, single adding symbol
 
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -619,13 +621,6 @@ define([
             Common.UI.Window.prototype.close.apply(this, arguments);
         },
 
-        setSettings: function (props) {
-        },
-
-        getSettings: function () {
-            return this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'));
-        },
-
         getPasteSymbol: function(cellId) {
             var bUpdateRecents = cellId[0] === 'c';
             var sFont;
@@ -649,14 +644,15 @@ define([
 
         _handleInput: function(state) {
             var settings = this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'));
-            if (state=='ok') {
-                settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
-                settings.updateRecents && this.updateRecents();
-            }
             if (this.options.handler) {
                 this.options.handler.call(this, this, state, settings);
             }
-
+            if (state=='ok') {
+                settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+                settings.updateRecents && this.updateRecents();
+                if (this.type)
+                    return;
+            }
             this.close();
         },
 
@@ -877,10 +873,14 @@ define([
         },
 
         cellDblClickHandler: function (e){
-            var settings = this.getPasteSymbol($(e.target).attr('id'));
-            settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
-            settings.updateRecents && this.updateView(false, undefined, undefined, true);
-            this.fireEvent('symbol:dblclick', [this, settings]);
+            if (!this.type)
+                this._handleInput('ok');
+            else {
+                var settings = this.getPasteSymbol($(e.target).attr('id'));
+                settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+                settings.updateRecents && this.updateView(false, undefined, undefined, true);
+                this.fireEvent('symbol:dblclick', this, settings);
+            }
         },
 
         updateRecents: function(){
@@ -1149,8 +1149,8 @@ define([
                     }
                 }
                 else if(value === 13){//enter
-                    this.checkRecent(nCurrentSymbol, aFontSelects[nCurrentFont].displayName);
-                    this.fireEvent('symbol:dblclick', {font: aFontSelects[nCurrentFont].displayName, symbol: this.encodeSurrogateChar(nCurrentSymbol)});
+                    this.checkRecent(nCurrentSymbol, aFontSelects[nCurrentFont].displayValue);
+                    this.fireEvent('symbol:dblclick', this, {font: aFontSelects[nCurrentFont].displayValue, symbol: this.encodeSurrogateChar(nCurrentSymbol)});
                 }
                 else{
                     bFill = false;
@@ -1207,7 +1207,7 @@ define([
                     }
                 }
                 else if(value === 13){//enter
-                    this.fireEvent('symbol:dblclick', {font: aFontSelects[nFontNameRecent].displayName, symbol: this.encodeSurrogateChar(nCurrentSymbol)});
+                    this.fireEvent('symbol:dblclick', this, {font: aFontSelects[nFontNameRecent].displayValue, symbol: this.encodeSurrogateChar(nCurrentSymbol)});
                 }
                 else{
                     bFill = false;

@@ -2478,17 +2478,21 @@ define([
             if (this.api) {
                 var me = this,
                     win = new Common.Views.SymbolTableDialog({
-                    api: me.api,
-                    handler: function(dlg, result) {
-                        if (result == 'ok') {
-                            var settings = dlg.getSettings();
-                            me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                        api: me.api,
+                        // modal: false,
+                        // type: 1,
+                        // buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        handler: function(dlg, result, settings) {
+                            if (result == 'ok') {
+                                me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    }
-                });
+                    });
                 win.show();
-                // win.setSettings();
+                win.on('symbol:dblclick', function(cmp, settings) {
+                    me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                });
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertSymbol);
         },
@@ -3291,7 +3295,8 @@ define([
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height',
+        textInsert: 'Insert'
 
     }, DE.Controllers.Toolbar || {}));
 });
