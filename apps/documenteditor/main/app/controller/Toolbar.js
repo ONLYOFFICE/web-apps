@@ -2481,7 +2481,8 @@ define([
                     api: me.api,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
-                            // dlg.getSettings();
+                            var settings = dlg.getSettings();
+                            me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }

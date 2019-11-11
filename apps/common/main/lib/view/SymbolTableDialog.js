@@ -322,6 +322,9 @@ define([
     oRangeNames[272] =  'Supplementary Private Use Area A';
     oRangeNames[273] =  'Supplementary Private Use Area B';
 
+    var CELL_WIDTH = 31;
+    var CELL_HEIGHT = 33;
+
     var aFontSelects = [];
     var aRanges = [];
     var aRecents = [];
@@ -337,11 +340,16 @@ define([
     var sInitSymbol = "";
 
     var nLastScroll = -1000;
-    var bShowTooltip = true;
+
+    var sLastId = "";
+    var nLastTime = -1000;
+
+    var lastTime = -1;
+    var lastKeyCode = -1;
 
     Common.Views.SymbolTableDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 400,
+            width: 450,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
@@ -353,8 +361,8 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
-                    '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
+                '<div class="box">',
+                    '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td style="padding-right: 10px;padding-bottom: 8px;">',
                                 '<label class="input-label">' + this.textFont + '</label>',
@@ -366,20 +374,37 @@ define([
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td colspan="2" style="padding-bottom: 8px;">',
-                                '<div id="scrollable-table-div"></div>',
+                            '<td colspan="2" style="padding-bottom: 16px;">',
+                                '<div id="symbol-table-scrollable-div" style="position: relative;">',
+                                    '<div style="width: 100%;">',
+                                        '<div id="id-preview">',
+                                            '<div>',
+                                                '<div style="position: absolute; top: 0;"><div id="id-preview-data" tabindex="0"></div></div>',
+                                            '</div>',
+                                        '</div>',
+                                    '</div>',
+                                '</div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td colspan="2" style="padding-bottom: 8px;">',
+                            '<td colspan="2" style="padding-bottom: 16px;">',
                                 '<label class="input-label">' + this.textRecent + '</label>',
-                                '<div id="symbol-table-recent"></div>',
+                                '<div style="width: 100%; padding-right: 10px;"><div id="symbol-table-recent" tabindex="0"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td colspan="2">',
+                            '<td style="padding-right: 10px;">',
                                 '<label class="input-label">' + this.textCode + '</label>',
+                            '</td>',
+                            '<td>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td style="padding-right: 10px;">',
                                 '<div id="symbol-table-text-code"></div>',
+                            '</td>',
+                            '<td>',
+                                '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -388,6 +413,9 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
+
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             var fontList = this.api.pluginMethod_GetFontList();
             fontList.sort(function(a, b){
@@ -487,7 +515,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : aFontSelects,
                 editable    : false,
-                menuStyle   : 'min-width: 100%; max-height: 200px;'
+                search      : true,
+                menuStyle   : 'min-width: 100%; max-height: 209px;'
             }).on('selected', function(combo, record) {
                 var oCurrentRange = me.getRangeBySymbol(aRanges, nCurrentSymbol);
                 nCurrentFont = record.value;
@@ -507,6 +536,7 @@ define([
                 }
                 bMainFocus = true;
                 me.updateView();
+                me.previewPanel.focus();
             });
             this.cmbFonts.setValue(nCurrentFont);
 
@@ -514,7 +544,13 @@ define([
                 el          : $window.find('#symbol-table-cmb-range'),
                 cls         : 'input-group-nr',
                 editable    : false,
-                menuStyle   : 'min-width: 100%; max-height: 200px;'
+                menuStyle   : 'min-width: 100%; max-height: 209px;'
+            }).on('selected', function(combo, record) {
+                var oCurrentRange = me.getRangeByName(aRanges, parseInt(record.value));
+                nCurrentSymbol = oCurrentRange.Start;
+                bMainFocus = true;
+                me.updateView(undefined, undefined, undefined, undefined, false);
+                me.previewPanel.focus();
             });
             this.updateRangeSelector();
 
@@ -526,10 +562,36 @@ define([
                 validateOnBlur: false,
                 validateOnChange: true
             }).on('changing', function(cmp, newValue, oldValue) {
-                me.isTextChanged = true;
+                var value = parseInt(newValue, 16);
+                if(!isNaN(value) && value > 0x1F){
+                    var oRange = me.getRangeBySymbol(aRanges, value);
+                    if(oRange){
+                        var bUpdateTable = (me.$window.find("#c" + value).length === 0);
+                        nCurrentSymbol = value;
+                        bMainFocus = true;
+                        me.updateView(bUpdateTable, undefined, false);
+                    }
+                }
+            }).on('change:after', function(cmp, newValue, oldValue) {
+                me.updateInput();
             });
 
-            // this.updateView(undefined, undefined, undefined, true);
+            //fill recents
+            this.fillRecentSymbols();
+
+            var container = this.$window.find('#fake-symbol-table-wrap');
+            container.perfectScrollbar({
+                theme: 'custom-theme',
+                minScrollbarLength: 50
+            });
+
+            this.previewPanel = this.$window.find('#id-preview-data');
+            this.previewParent = this.previewPanel.parent();
+            this.previewScrolled = this.$window.find('#id-preview');
+            this.previewInner = this.previewScrolled.find('div:first-child');
+            this.recentPanel = this.$window.find('#symbol-table-recent');
+            this.fontLabel = this.$window.find("#symbol-table-label-font");
+            this.updateView(undefined, undefined, undefined, true);
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
@@ -537,16 +599,43 @@ define([
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
 
+            if (!this.binding)
+                this.binding = {};
+            this.binding.keydownSymbols = _.bind(this.onKeyDown,this);
+            this.binding.keypressSymbols = _.bind(this.onKeyPress,this);
+            $(document).on('keydown.' + this.cid, '#symbol-table-scrollable-div #id-preview-data, #symbol-table-recent', this.binding.keydownSymbols);
+            $(document).on('keypress.' + this.cid, '#symbol-table-scrollable-div #id-preview-data, #symbol-table-recent', this.binding.keypressSymbols);
+
             var me = this;
             _.delay(function(){
-                // me.inputUrl.cmpEl.find('input').focus();
+                me.previewPanel.focus();
             },50);
+        },
+
+        close: function(suppressevent) {
+            $(document).off('keydown.' + this.cid, this.binding.keydownSymbols);
+            $(document).off('keypress.' + this.cid, this.binding.keypressSymbols);
+
+            Common.UI.Window.prototype.close.apply(this, arguments);
         },
 
         setSettings: function (props) {
         },
 
         getSettings: function () {
+            return this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'));
+        },
+
+        getPasteSymbol: function(cellId) {
+            var bUpdateRecents = cellId[0] === 'c';
+            var sFont;
+            if(bUpdateRecents){
+                sFont = aFontSelects[nCurrentFont].displayValue;
+            } else {
+                var nFontId = parseInt(cellId.split('_')[2]);
+                sFont = aFontSelects[nFontId].displayValue;
+            }
+            return {font: sFont, symbol: this.encodeSurrogateChar(nCurrentSymbol), updateRecents: bUpdateRecents};
         },
 
         onBtnClick: function(event) {
@@ -559,8 +648,13 @@ define([
         },
 
         _handleInput: function(state) {
+            var settings = this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'));
+            if (state=='ok') {
+                settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+                settings.updateRecents && this.updateRecents();
+            }
             if (this.options.handler) {
-                this.options.handler.call(this, this, state);
+                this.options.handler.call(this, this, state, settings);
             }
 
             this.close();
@@ -662,8 +756,7 @@ define([
             return -1;
         },
 
-        createTable: function(arrSym, nRowsCount, nColsCount, oDiv){
-
+        createTable: function(arrSym, nRowsCount, nColsCount){
             var nDivCount = nRowsCount*nColsCount;
             var nCellsCounter = 0;
             var sInnerHtml = '';
@@ -692,23 +785,24 @@ define([
                     nCellsCounter = 0;
                 }
             }
-            oDiv.innerHTML = sInnerHtml;
+            this.previewPanel.html(sInnerHtml);
+            // this.previewPanel[0].innerHTML = sInnerHtml;
         },
 
         fillRecentSymbols: function(){
-            var sRecents = window.localStorage.getItem('recentSymbols');
+            var sRecents = Common.localStorage.getItem(this.appPrefix + 'recentSymbols');
             var aRecentCookies;
             if(sRecents != ''){
                 aRecentCookies = JSON.parse(sRecents);
             }
-            if(Array.isArray(aRecentCookies)){
+            if(_.isArray(aRecentCookies)){
                 aRecents = aRecentCookies;
             }
         },
 
         saveRecent: function(){
             var sJSON = JSON.stringify(aRecents);
-            window.localStorage.setItem('recentSymbols', sJSON);
+            Common.localStorage.setItem(this.appPrefix + 'recentSymbols', sJSON);
         },
 
         checkRecent: function(sSymbol, sFont){
@@ -730,10 +824,10 @@ define([
         },
 
         createCell: function(nSymbolCode, sFontName){
-            var sId;
+            var sId = '',
+                symbol = '';
             if(sFontName){
                 var nFontIndex = 0;
-                aFontSelects[nCurrentFont].displayValue
                 for(var i = 0; i < aFontSelects.length; ++i){
                     if(aFontSelects[i].displayValue === sFontName){
                         nFontIndex = i;
@@ -741,52 +835,77 @@ define([
                     }
                 }
                 sId = 'r_' + nSymbolCode + '_' + nFontIndex;
-            }
-            else{
+                symbol = '&#' + nSymbolCode.toString();
+            } else if (nSymbolCode!==undefined) {
                 sId = 'r' + nSymbolCode;
+                symbol = '&#' + nSymbolCode.toString();
             }
-            var _ret = $('<div id=\"' + sId + '\">&#' + nSymbolCode.toString() + '</div>');
+            var _ret = $('<div id=\"' + sId + '\">' + symbol + '</div>');
             _ret.addClass('cell');
             _ret.addClass('noselect');
-            _ret.mousedown(cellClickHandler);
+            _ret.mousedown(_.bind(this.cellClickHandler, this));
             if(sFontName){
                 _ret.css('font-family', '\'' + sFontName + '\'');
             }
-            //_ret.mouseup(function (e) {
-            //    e.stopPropagation();
-            //});
             return _ret;
         },
 
-        updateRecents: function(){
-            var oRecentsDiv = $('#recent-table');
-            oRecentsDiv.empty();
-            var nRecents = Math.min(this.getColsCount(), aRecents.length);
-            if(aRecents.length === 0){
-                oRecentsDiv.css('border', '1px solid rgb(247, 247, 247)');
+        cellClickHandler: function (e) {
+            var id = $(e.target).attr('id');
+            if(!id){
                 return;
             }
-            oRecentsDiv.css('border', '1px solid rgb(122, 122, 122)');
-            for(var i = 0; i < nRecents; ++i){
-                var oCell = this.createCell(aRecents[i].symbol, aRecents[i].font);
+            var nTime = (new Date()).getTime();
+            if(id === sLastId && (nTime - nLastTime) < 300 ){
+                this.cellDblClickHandler(e)
+            }
+            else{
+                if(id[0] === 'c'){
+                    nCurrentSymbol = parseInt(id.slice(1, id.length));
+                    bMainFocus = true;
+                }
+                else{
+                    var aStrings = id.split('_');
+                    nCurrentSymbol = parseInt(aStrings[1]);
+                    nFontNameRecent = parseInt(aStrings[2]);
+                    bMainFocus = false;
+                }
+                this.updateView(false);
+            }
+            sLastId = e.target.id;
+            nLastTime = nTime;
+        },
 
+        cellDblClickHandler: function (e){
+            var settings = this.getPasteSymbol($(e.target).attr('id'));
+            settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+            settings.updateRecents && this.updateView(false, undefined, undefined, true);
+            this.fireEvent('symbol:dblclick', [this, settings]);
+        },
+
+        updateRecents: function(){
+            var oRecentsDiv = this.recentPanel;
+            oRecentsDiv.empty();
+            var nCols = this.getColsCount(),
+                nRecents = aRecents.length;
+            oRecentsDiv.width(nCols * CELL_WIDTH);
+            for(var i = 0; i < nCols; ++i){
+                var oCell = (i<nRecents) ? this.createCell(aRecents[i].symbol, aRecents[i].font) : this.createCell();
                 oCell.css('border-bottom', 'none');
                 oRecentsDiv.append(oCell);
-                if(i === (nRecents - 1)){
+                if(i === (nCols - 1)){
                     oCell.css('border-right', 'none');
                 }
             }
         },
 
         getColsCount: function(){
-            var nMaxWidth = $('#main-div').innerWidth() - 17 - 2;
+            var nMaxWidth = this.$window.find('#symbol-table-scrollable-div').innerWidth();
             return ((nMaxWidth/CELL_WIDTH) >> 0);
         },
 
         getMaxHeight: function(){
-
-            var nMaxHeight = $('#main-div').innerHeight() - 10 - $('#header-div').outerHeight(true) - $('#recent-symbols-wrap').outerHeight(true)
-                - $('#value-wrap').outerHeight(true) - $('#insert-button').outerHeight(true) - 2;
+            var nMaxHeight = this.$window.find('#symbol-table-scrollable-div').innerHeight();
             return nMaxHeight;
         },
 
@@ -822,9 +941,8 @@ define([
                 }
                 aSymbols.push(nCode);
             }
-            var oSymbolTable = $('#symbols-table')[0];
-            $('#symbols-table').css('font-family',  '\'' + aFontSelects[nCurrentFont].displayValue + '\'');
-            this.createTable(aSymbols, nRowsCount, nColsCount, oSymbolTable);
+            this.previewPanel.css('font-family',  '\'' + aFontSelects[nCurrentFont].displayValue + '\'');
+            this.createTable(aSymbols, nRowsCount, nColsCount);
             return nRowsSkip;
         },
 
@@ -838,18 +956,18 @@ define([
 
             if(bMainFocus){
                 if(aFontSelects[nCurrentFont]){
-                    $("#font-name-label").text(aFontSelects[nCurrentFont].displayValue);
+                    this.fontLabel.text(aFontSelects[nCurrentFont].displayValue);
                 }
                 else{
-                    $("#font-name-label").text('');
+                    this.fontLabel.text('');
                 }
             }
             else{
                 if(aFontSelects[nFontNameRecent]){
-                    $("#font-name-label").text(aFontSelects[nFontNameRecent].displayValue);
+                    this.fontLabel.text(aFontSelects[nFontNameRecent].displayValue);
                 }
                 else{
-                    $("#font-name-label").text('');
+                    this.fontLabel.text('');
                 }
             }
 
@@ -857,15 +975,10 @@ define([
                 //fill fonts combo box
                 this.cmbFonts.setValue(nCurrentFont);
             }
-/*
+
             //main table
             var nRowsCount = this.getRowsCount();
-
             var nHeight = nRowsCount*CELL_HEIGHT - 1;
-            $('#scrollable-table-div').height(nHeight);
-            $('#scrollable-table-div').css('margin-bottom', this.getMaxHeight() - nHeight);
-
-
             bScrollMouseUp = false;
             if(bUpdateTable !== false){
                 //fill table
@@ -876,27 +989,35 @@ define([
                 var nAllRowsCount = Math.ceil(nSymbolsCount/this.getColsCount());
                 var nFullHeight = nAllRowsCount*CELL_HEIGHT;
 
-                var nOldHeight = $("#fake-symbol-table-wrap").height();
-                $("#fake-symbol-table-wrap").height(nHeight);
-                $("#fake-symbol-table").height(nFullHeight);
+                this.previewInner.height(nFullHeight);
 
+                if (!this.scrollerY)
+                    this.scrollerY = new Common.UI.Scroller({
+                        el: this.previewScrolled,
+                        minScrollbarLength: Math.max((CELL_HEIGHT*2.0/3.0 + 0.5) >> 0, ((nHeight/8.0 + 0.5) >> 0)),
+                        alwaysVisibleY: true,
+                        wheelSpeed: Math.min((Math.floor(this.previewPanel.height()/CELL_HEIGHT) * CELL_HEIGHT)/10, 20),
+                        useKeyboard: false,
+                        onChange: _.bind(function(){
+                            if (this.scrollerY) {
+                                this._preventUpdateScroll = true;
+                                this.onScrollEnd();
+                                this._preventUpdateScroll = false;
+                                this.previewParent.height(nHeight);
+                                this.previewParent.css({top: this.scrollerY.getScrollTop()});
+                            }
+                        }, this)
+                    });
+                if (!this._preventUpdateScroll) {
+                    this.scrollerY.update({
+                        minScrollbarLength: Math.max((CELL_HEIGHT*2.0/3.0 + 0.5) >> 0, ((nHeight/8.0 + 0.5) >> 0))
+                    });
+                    this.scrollerY.scrollTop(nRowSkip*CELL_HEIGHT);
+                }
 
-                var container = document.getElementById('fake-symbol-table-wrap');
-                // if(nOldHeight !== nHeight){
-                //     Ps.destroy();
-                //     Ps = new PerfectScrollbar('#' + container.id, {
-                //         minScrollbarLength: Math.max((CELL_HEIGHT*2.0/3.0 + 0.5) >> 0, ((nHeight/8.0 + 0.5) >> 0))
-                //     });
-                // }
-                bShowTooltip = false;
-                container.scrollTop = nRowSkip*CELL_HEIGHT;
-                // Ps.update();
-                bShowTooltip = true;
-                var aCells = $('#symbols-table > .cell');
-                aCells.mousedown(cellClickHandler);
-                //aCells.mouseup(function (e) {
-                //    e.stopPropagation();
-                //});
+                var aCells = this.previewPanel.find('.cell');
+                aCells.off('mousedown');
+                aCells.mousedown(_.bind(this.cellClickHandler, this));
             }
 
             //fill recent
@@ -905,31 +1026,74 @@ define([
             }
 
             //reset selection
-            $('.cell').removeClass('cell-selected');
+            this.$window.find('.cell').removeClass('cell-selected');
 
             //select current cell
             if(bMainFocus){
-                $('#c' + nCurrentSymbol).addClass('cell-selected');
+                this.$window.find('#c' + nCurrentSymbol).addClass('cell-selected');
             }
             else{
-                $('#r_' + nCurrentSymbol + '_' + nFontNameRecent).addClass('cell-selected');
+                this.$window.find('#r_' + nCurrentSymbol + '_' + nFontNameRecent).addClass('cell-selected');
             }
 
             //update input
             if(bUpdateInput !== false){
                 this.updateInput();
             }
-*/
+        },
+
+        onScrollEnd: function(){
+            if(this.scrollerY.getScrollTop() === nLastScroll){
+                return;
+            }
+
+            var nSymbolsCount = this.getAllSymbolsCount(aRanges);
+            var nColsCount = this.getColsCount();
+            var nRows = this.getRowsCount();
+            var nAllRowsCount = Math.ceil(nSymbolsCount/nColsCount);
+            var nFullHeight = nAllRowsCount*CELL_HEIGHT;
+            var nRowSkip = Math.max(0, Math.min(nAllRowsCount - nRows, (nAllRowsCount*this.scrollerY.getScrollTop()/nFullHeight + 0.5) >> 0));
+            nLastScroll = this.scrollerY.getScrollTop();
+            if(!bMainFocus){
+                nCurrentSymbol = this.getCodeByLinearIndex(aRanges, nRowSkip*nColsCount);
+                bMainFocus = true;
+            }
+            else{
+                var oFirstCell = this.previewPanel.children()[0];
+                if(oFirstCell){
+                    var id = oFirstCell.id;
+                    if(id){
+                        var nOldFirstCode = parseInt(id.slice(1, id.length));
+                        var nOldFirstLinearIndex = this.getLinearIndexByCode(aRanges, nOldFirstCode);
+                        var nOldCurrentLinearIndex = this.getLinearIndexByCode(aRanges, nCurrentSymbol);
+                        var nDiff = nOldCurrentLinearIndex - nOldFirstLinearIndex;
+                        var nNewCurLinearIndex = nRowSkip*nColsCount + nDiff;
+                        nCurrentSymbol = this.getCodeByLinearIndex(aRanges, nNewCurLinearIndex);
+                        var nFirstIndex = nRowSkip*nColsCount;
+                        nNewCurLinearIndex -= nColsCount;
+                        while(nCurrentSymbol === -1 && nNewCurLinearIndex >= nFirstIndex){
+                            nCurrentSymbol = this.getCodeByLinearIndex(aRanges, nNewCurLinearIndex);
+                            nNewCurLinearIndex -= nColsCount;
+                        }
+                        if(nCurrentSymbol === -1){
+                            nCurrentSymbol = this.getCodeByLinearIndex(aRanges, nFirstIndex);
+                        }
+                    }
+                    else{
+                        nCurrentSymbol = this.getCodeByLinearIndex(aRanges, nRowSkip*nColsCount);
+                    }
+                }
+            }
+            this.updateView(true, this.getCodeByLinearIndex(aRanges, nRowSkip*nColsCount));
         },
 
         updateInput: function(){
-
             var sVal = nCurrentSymbol.toString(16).toUpperCase();
             var sValLen = sVal.length;
             for(var i = sValLen; i < 5; ++i){
                 sVal = '0' + sVal;
             }
-            $('#symbol-code-input').val(sVal);
+            this.inputCode.setValue(sVal);
         },
 
         updateRangeSelector: function() {
@@ -950,6 +1114,134 @@ define([
                 this.cmbRange.setData(data);
                 this.cmbRange.setValue(oCurrentRange.Name);
             }
+        },
+
+        onKeyDown: function(e){
+            if(document.activeElement){
+                if(document.activeElement.nodeName && document.activeElement.nodeName.toLowerCase() === 'span'){
+                    return;
+                }
+            }
+            var value = e.which || e.charCode || e.keyCode || 0;
+            var bFill = true;
+            if(bMainFocus){
+                var nCode = -1;
+                if ( value === 37 ){//left
+                    nCode = this.getCodeByLinearIndex(aRanges, this.getLinearIndexByCode(aRanges, nCurrentSymbol) - 1);
+                }
+                else if ( value === 38 ){//top
+                    nCode = this.getCodeByLinearIndex(aRanges, this.getLinearIndexByCode(aRanges, nCurrentSymbol) - this.getColsCount());
+                }
+                else if ( value === 39 ){//right
+                    nCode = this.getCodeByLinearIndex(aRanges, this.getLinearIndexByCode(aRanges, nCurrentSymbol) + 1);
+                }
+                else if ( value === 40 ){//bottom
+                    nCode = this.getCodeByLinearIndex(aRanges, this.getLinearIndexByCode(aRanges, nCurrentSymbol) + this.getColsCount());
+                }
+                else if(value === 36){//home
+                    if(aRanges.length > 0){
+                        nCode = aRanges[0].Start;
+                    }
+                }
+                else if(value === 35){//end
+                    if(aRanges.length > 0){
+                        nCode = aRanges[aRanges.length - 1].End;
+                    }
+                }
+                else if(value === 13){//enter
+                    this.checkRecent(nCurrentSymbol, aFontSelects[nCurrentFont].displayName);
+                    this.fireEvent('symbol:dblclick', {font: aFontSelects[nCurrentFont].displayName, symbol: this.encodeSurrogateChar(nCurrentSymbol)});
+                }
+                else{
+                    bFill = false;
+                }
+                if(nCode > -1){
+                    nCurrentSymbol = nCode;
+                    var bUpdateTable =  this.$window.find('#c' + nCurrentSymbol).length === 0;
+                    this.updateView(bUpdateTable);
+                }
+            }
+            else{
+                var oSelectedCell, aStrings;
+                if ( value === 37 ){//left
+                    oSelectedCell = this.$window.find('.cell-selected')[0];
+                    if(oSelectedCell && oSelectedCell.id[0] === 'r'){
+                        var oPresCell = this.$window.find(oSelectedCell).prev();
+                        if(oPresCell.length > 0){
+                            aStrings = this.$window.find(oPresCell).attr('id').split('_');
+                            nCurrentSymbol = parseInt(aStrings[1]);
+                            nFontNameRecent = parseInt(aStrings[2]);
+                            this.updateView(false);
+                        }
+                    }
+                }
+                else if ( value === 39 ){//right
+                    oSelectedCell = this.$window.find('.cell-selected')[0];
+                    if(oSelectedCell && oSelectedCell.id[0] === 'r'){
+                        var oNextCell = this.$window.find(oSelectedCell).next();
+                        if(oNextCell.length > 0){
+                            aStrings = this.$window.find(oNextCell).attr('id').split('_');
+                            nCurrentSymbol = parseInt(aStrings[1]);
+                            nFontNameRecent = parseInt(aStrings[2]);
+                            this.updateView(false);
+                        }
+                    }
+                }
+                else if(value === 36){//home
+                    var oFirstCell = this.$window.find('#recent-table').children()[0];
+                    if(oFirstCell){
+                        aStrings = oFirstCell.id.split('_');
+                        nCurrentSymbol = parseInt(aStrings[1]);
+                        nFontNameRecent = parseInt(aStrings[2]);
+                        this.updateView(false);
+                    }
+                }
+                else if(value === 35){//end
+                    var aChildren = this.recentPanel.children();
+                    var oLastCell = aChildren[aChildren.length - 1];
+                    if(oLastCell){
+                        aStrings = oLastCell.id.split('_');
+                        nCurrentSymbol = parseInt(aStrings[1]);
+                        nFontNameRecent = parseInt(aStrings[2]);
+                        this.updateView(false);
+                    }
+                }
+                else if(value === 13){//enter
+                    this.fireEvent('symbol:dblclick', {font: aFontSelects[nFontNameRecent].displayName, symbol: this.encodeSurrogateChar(nCurrentSymbol)});
+                }
+                else{
+                    bFill = false;
+                }
+            }
+
+            if(bFill){
+                lastKeyCode = value;
+                lastTime = (new Date()).getTime();
+            }
+        },
+
+        onKeyPress: function(e){
+            if(document.activeElement){
+                if(document.activeElement.nodeName && document.activeElement.nodeName.toLowerCase() === 'span'){
+                    return;
+                }
+            }
+            var value = e.which || e.charCode || e.keyCode || 0;
+            if(lastKeyCode === value){
+                if(Math.abs(lastTime - (new Date()).getTime()) < 1000){
+                    return;
+                }
+            }
+            if(!isNaN(value) && value > 0x1F){
+                var oRange = this.getRangeBySymbol(aRanges, value);
+                if(oRange){
+                    var bUpdateTable = (this.$window.find("#c" + value).length === 0);
+                    nCurrentSymbol = value;
+                    bMainFocus = true;
+                    this.updateView(bUpdateTable, undefined, true);
+                }
+            }
+            e.preventDefault && e.preventDefault();
         },
 
         textTitle: 'Symbol Table',
