@@ -100,7 +100,7 @@ define([
             this.spnSize = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-size'),
                 step        : 1,
-                width       : 45,
+                width       : 53,
                 value       : 100,
                 defaultUnit : '',
                 maxValue    : 400,
@@ -113,7 +113,7 @@ define([
             });
 
             this.btnColor = new Common.UI.ColorButton({
-                style: "width:45px;",
+                style: "width:53px;",
                 menu        : new Common.UI.Menu({
                     additionalAlign: this.menuAddAlign,
                     items: [
@@ -151,7 +151,7 @@ define([
             this.spnStart = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-start'),
                 step        : 1,
-                width       : 45,
+                width       : 53,
                 value       : 1,
                 defaultUnit : '',
                 maxValue    : 32767,
