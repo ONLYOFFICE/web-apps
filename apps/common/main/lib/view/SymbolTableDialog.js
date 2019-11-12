@@ -419,6 +419,37 @@ define([
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
+            if (aFontSelects.length<1)
+                this.initFonts();
+
+            if (nCurrentFont < 0)
+                nCurrentFont = 0;
+
+            aRanges = this.getArrRangesByFont(nCurrentFont);
+            if(sInitSymbol && sInitSymbol.length > 0){
+                nCurrentSymbol = this.fixedCharCodeAt(sInitSymbol, 0);
+                if(false === nCurrentSymbol){
+                    nCurrentSymbol = -1;
+                }
+                else{
+                    for(var i = 0; i < aRanges.length; ++i){
+                        if(nCurrentSymbol >= aRanges[i].Start && nCurrentSymbol <= aRanges[i].End){
+                            break;
+                        }
+                    }
+                    if(i === aRanges.length){
+                        nCurrentSymbol = -1;
+                    }
+                }
+            }
+            if(nCurrentSymbol === -1){
+                nCurrentSymbol = aRanges[0].Start;
+            }
+
+            Common.UI.Window.prototype.initialize.call(this, this.options);
+        },
+
+        initFonts: function() {
             var fontList = this.api.pluginMethod_GetFontList();
             fontList.sort(function(a, b){
                 if(a.m_wsFontName < b.m_wsFontName) return -1;
@@ -478,32 +509,6 @@ define([
                     }
                 }
             }
-            if (nCurrentFont < 0)
-                nCurrentFont = 0;
-
-
-            aRanges = this.getArrRangesByFont(nCurrentFont);
-            if(sInitSymbol && sInitSymbol.length > 0){
-                nCurrentSymbol = this.fixedCharCodeAt(sInitSymbol, 0);
-                if(false === nCurrentSymbol){
-                    nCurrentSymbol = -1;
-                }
-                else{
-                    for(i = 0; i < aRanges.length; ++i){
-                        if(nCurrentSymbol >= aRanges[i].Start && nCurrentSymbol <= aRanges[i].End){
-                            break;
-                        }
-                    }
-                    if(i === aRanges.length){
-                        nCurrentSymbol = -1;
-                    }
-                }
-            }
-            if(nCurrentSymbol === -1){
-                nCurrentSymbol = aRanges[0].Start;
-            }
-
-            Common.UI.Window.prototype.initialize.call(this, this.options);
         },
 
         render: function() {
