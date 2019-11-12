@@ -347,6 +347,17 @@ define([
     var lastTime = -1;
     var lastKeyCode = -1;
 
+    var loadTranslation = function(lang, callback) {
+        lang = lang.split(/[\-_]/)[0].toLocaleLowerCase();
+        Common.Utils.loadConfig('resources/symboltable/' + lang + '.json', function (langJson) {
+            for (var i=1; i<274; i++) {
+                var val = oRangeNames[i];
+                oRangeNames[i] = langJson[val] || val;
+            }
+            callback && callback();
+        });
+    };
+
     Common.Views.SymbolTableDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 450,
@@ -419,8 +430,8 @@ define([
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
-            if (aFontSelects.length<1)
-                this.initFonts();
+            var init = (aFontSelects.length<1);
+            init && this.initFonts();
 
             if (nCurrentFont < 0)
                 nCurrentFont = 0;
@@ -444,6 +455,13 @@ define([
             }
             if(nCurrentSymbol === -1){
                 nCurrentSymbol = aRanges[0].Start;
+            }
+
+            if (init && this.options.lang && this.options.lang != 'en') {
+                var me = this;
+                loadTranslation(this.options.lang, function(){
+                    me.updateRangeSelector();
+                });
             }
 
             Common.UI.Window.prototype.initialize.call(this, this.options);

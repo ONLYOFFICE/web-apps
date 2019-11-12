@@ -2479,6 +2479,7 @@ define([
                 var me = this,
                     win = new Common.Views.SymbolTableDialog({
                         api: me.api,
+                        lang: me.mode.lang,
                         // modal: false,
                         // type: 1,
                         // buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
