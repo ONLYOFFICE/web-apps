@@ -391,7 +391,7 @@ define([
                                     '<div style="width: 100%;">',
                                         '<div id="id-preview">',
                                             '<div>',
-                                                '<div style="position: absolute; top: 0;"><div id="id-preview-data" tabindex="0"></div></div>',
+                                                '<div style="position: absolute; top: 0;"><div id="id-preview-data" tabindex="0" oo_editor_input="true"></div></div>',
                                             '</div>',
                                         '</div>',
                                     '</div>',
@@ -401,7 +401,7 @@ define([
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 16px;">',
                                 '<label class="input-label">' + this.textRecent + '</label>',
-                                '<div style="width: 100%; padding-right: 10px;"><div id="symbol-table-recent" tabindex="0"></div>',
+                                '<div style="width: 100%; padding-right: 10px;"><div id="symbol-table-recent" tabindex="0" oo_editor_input="true"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
@@ -413,7 +413,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td style="padding-right: 10px;">',
-                                '<div id="symbol-table-text-code"></div>',
+                                '<div id="symbol-table-text-code" oo_editor_input="true"></div>',
                             '</td>',
                             '<td>',
                                 '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
@@ -561,7 +561,9 @@ define([
                 }
                 bMainFocus = true;
                 me.updateView();
-                me.previewPanel.focus();
+                setTimeout(function(){
+                    me.previewPanel.focus();
+                }, 1);
             });
             this.cmbFonts.setValue(nCurrentFont);
 
@@ -575,7 +577,9 @@ define([
                 nCurrentSymbol = oCurrentRange.Start;
                 bMainFocus = true;
                 me.updateView(undefined, undefined, undefined, undefined, false);
-                me.previewPanel.focus();
+                setTimeout(function(){
+                    me.previewPanel.focus();
+                }, 1);
             });
             this.updateRangeSelector();
 
@@ -1149,31 +1153,27 @@ define([
             var bFill = true;
             if(bMainFocus){
                 var nCode = -1;
-                if ( value === 37 ){//left
+                if ( value === Common.UI.Keys.LEFT ){//left
                     nCode = this.getCodeByLinearIndex(aRanges, this.getLinearIndexByCode(aRanges, nCurrentSymbol) - 1);
                 }
-                else if ( value === 38 ){//top
+                else if ( value === Common.UI.Keys.UP ){//top
                     nCode = this.getCodeByLinearIndex(aRanges, this.getLinearIndexByCode(aRanges, nCurrentSymbol) - this.getColsCount());
                 }
-                else if ( value === 39 ){//right
+                else if ( value === Common.UI.Keys.RIGHT ){//right
                     nCode = this.getCodeByLinearIndex(aRanges, this.getLinearIndexByCode(aRanges, nCurrentSymbol) + 1);
                 }
-                else if ( value === 40 ){//bottom
+                else if ( value === Common.UI.Keys.DOWN ){//bottom
                     nCode = this.getCodeByLinearIndex(aRanges, this.getLinearIndexByCode(aRanges, nCurrentSymbol) + this.getColsCount());
                 }
-                else if(value === 36){//home
+                else if(value === Common.UI.Keys.HOME){//home
                     if(aRanges.length > 0){
                         nCode = aRanges[0].Start;
                     }
                 }
-                else if(value === 35){//end
+                else if(value === Common.UI.Keys.END){//end
                     if(aRanges.length > 0){
                         nCode = aRanges[aRanges.length - 1].End;
                     }
-                }
-                else if(value === 13){//enter
-                    this.checkRecent(nCurrentSymbol, aFontSelects[nCurrentFont].displayValue);
-                    this.fireEvent('symbol:dblclick', this, {font: aFontSelects[nCurrentFont].displayValue, symbol: this.encodeSurrogateChar(nCurrentSymbol)});
                 }
                 else{
                     bFill = false;
@@ -1186,7 +1186,7 @@ define([
             }
             else{
                 var oSelectedCell, aStrings;
-                if ( value === 37 ){//left
+                if ( value === Common.UI.Keys.LEFT ){//left
                     oSelectedCell = this.$window.find('.cell-selected')[0];
                     if(oSelectedCell && oSelectedCell.id[0] === 'r'){
                         var oPresCell = this.$window.find(oSelectedCell).prev();
@@ -1198,7 +1198,7 @@ define([
                         }
                     }
                 }
-                else if ( value === 39 ){//right
+                else if ( value === Common.UI.Keys.RIGHT ){//right
                     oSelectedCell = this.$window.find('.cell-selected')[0];
                     if(oSelectedCell && oSelectedCell.id[0] === 'r'){
                         var oNextCell = this.$window.find(oSelectedCell).next();
@@ -1210,7 +1210,7 @@ define([
                         }
                     }
                 }
-                else if(value === 36){//home
+                else if(value === Common.UI.Keys.HOME){//home
                     var oFirstCell = this.$window.find('#recent-table').children()[0];
                     if(oFirstCell){
                         aStrings = oFirstCell.id.split('_');
@@ -1219,7 +1219,7 @@ define([
                         this.updateView(false);
                     }
                 }
-                else if(value === 35){//end
+                else if(value === Common.UI.Keys.END){//end
                     var aChildren = this.recentPanel.children();
                     var oLastCell = aChildren[aChildren.length - 1];
                     if(oLastCell){
@@ -1228,9 +1228,6 @@ define([
                         nFontNameRecent = parseInt(aStrings[2]);
                         this.updateView(false);
                     }
-                }
-                else if(value === 13){//enter
-                    this.fireEvent('symbol:dblclick', this, {font: aFontSelects[nFontNameRecent].displayValue, symbol: this.encodeSurrogateChar(nCurrentSymbol)});
                 }
                 else{
                     bFill = false;

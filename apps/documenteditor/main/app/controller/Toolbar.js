@@ -2480,14 +2480,14 @@ define([
                     win = new Common.Views.SymbolTableDialog({
                         api: me.api,
                         lang: me.mode.lang,
-                        // modal: false,
-                        // type: 1,
-                        // buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        modal: false,
+                        type: 1,
+                        buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
                                 me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            } else
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
@@ -2495,7 +2495,6 @@ define([
                     me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
                 });
             }
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertSymbol);
         },
 
         onApiMathTypes: function(equation) {
