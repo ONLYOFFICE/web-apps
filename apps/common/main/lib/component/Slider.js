@@ -405,21 +405,21 @@ define([
 
             var onTrackMouseUp = function (e) {
                 if ( me.disabled ) return;
+                if ( me.thumbs.length > 9 ) return;
 
                 var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
-                    lastIndex = findThumb(pos),
-                    thumbColor = me.thumbs[lastIndex].colorValue,
-                    lastValue = me.thumbs[lastIndex].value,
+                    nearIndex = findThumb(pos),
+                    thumbColor = me.thumbs[nearIndex].colorValue,
+                    thumbValue = me.thumbs[nearIndex].value,
                     value = pos/me.delta + me.minValue;
                 me.addThumb();
-                var newIndex = me.thumbs.length - 1;
-                me.setThumbPosition(newIndex, pos);
-                me.thumbs[newIndex].value = value;
-                me.trigger('addthumb', me, newIndex, lastIndex, thumbColor);
-
-                me.sortThumbs();
+                var index = me.thumbs.length - 1;
+                me.setThumbPosition(index, pos);
+                me.thumbs[index].value = value;
+                me.trigger('addthumb', me, index, nearIndex, thumbColor);
 
                 me.trigger('change', me);
+                me.trigger('changecomplete', me);
             };
 
             /*var onTrackMouseDown = function (e) {
@@ -492,6 +492,7 @@ define([
 
         setActiveThumb: function(index, suspend) {
             this.currentThumb = index;
+            this.$thumbs = this.cmpEl.find('.thumb');
             this.$thumbs.removeClass('active');
             this.thumbs[index].thumb.addClass('active');
             if (suspend!==true) this.trigger('thumbclick', this, index);
