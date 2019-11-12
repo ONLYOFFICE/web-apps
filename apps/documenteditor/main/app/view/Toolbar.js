@@ -586,7 +586,7 @@ define([
                     this.btnInsertSymbol = new Common.UI.Button({
                         id: 'tlbtn-insertsymbol',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-insertequation',
+                        iconCls: 'btn-symbol',
                         caption: me.capBtnInsSymbol
                     });
                     this.paragraphControls.push(this.btnInsertSymbol);
