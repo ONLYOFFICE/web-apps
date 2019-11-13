@@ -821,6 +821,7 @@ define([
             }
         },
         onApiShowComment: function (uids, posX, posY, leftX, opts, hint) {
+            var apihint = hint;
             var same_uids = (0 === _.difference(this.uids, uids).length) && (0 === _.difference(uids, this.uids).length);
             
             if (hint && this.isSelectedComment && same_uids && !this.isModeChanged) {
@@ -886,7 +887,7 @@ define([
                         this.animate = false;
                     }
 
-                    this.isSelectedComment = !hint || !this.hintmode;
+                    this.isSelectedComment = !apihint || !this.hintmode;
                     this.uids = _.clone(uids);
 
                     comments.push(comment);
