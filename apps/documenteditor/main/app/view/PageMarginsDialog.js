@@ -45,9 +45,9 @@ define([
 
     DE.Views.PageMarginsDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 215,
+            width: 404,
             header: true,
-            style: 'min-width: 216px;',
+            style: 'min-width: 404px;',
             cls: 'modal-dlg',
             id: 'window-page-margins',
             buttons: ['ok', 'cancel']
@@ -59,31 +59,50 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 85px;">',
-                    '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
-                        '<tr>',
-                            '<td style="padding-right: 10px;padding-bottom: 8px;">',
+                '<div class="box" style="height: 260px;">',
+                    '<div style="float: left;>',
+                        '<label class="input-label">' + this.textMultiplePages + '</label>',
+                        '<div id="page-margins-cmb-multiple-pages"></div>',
+                        '<div style="margin-top: 10px;">',
+                            '<div style="display: inline-block;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
                                 '<div id="page-margins-spin-top"></div>',
-                            '</td>',
-                            '<td style="padding-bottom: 8px;">',
+                            '</div>',
+                            '<div style="display: inline-block; margin-left: 8px;">',
                                 '<label class="input-label">' + this.textBottom + '</label>',
                                 '<div id="page-margins-spin-bottom"></div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
-                            '<td class="padding-small" style="padding-right: 10px;">',
+                            '</div>',
+                        '</div>',
+                        '<div style="margin-top: 10px;">',
+                            '<div style="display: inline-block;">',
                                 '<label class="input-label">' + this.textLeft + '</label>',
                                 '<div id="page-margins-spin-left"></div>',
-                            '</td>',
-                            '<td class="padding-small">',
+                            '</div>',
+                            '<div style="display: inline-block; margin-left: 8px;">',
                                 '<label class="input-label">' + this.textRight + '</label>',
                                 '<div id="page-margins-spin-right"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
+                            '</div>',
+                        '</div>',
+                        '<div style="margin-top: 10px;">',
+                            '<div style="display: inline-block;">',
+                                '<label class="input-label">' + this.textGutter + '</label>',
+                                '<div id="page-margins-spin-gutter"></div>',
+                            '</div>',
+                            '<div style="display: inline-block; margin-left: 8px;">',
+                                '<label class="input-label">' + this.textGutterPosition + '</label>',
+                                '<div id="page-margins-spin-gutter-position"></div>',
+                            '</div>',
+                        '</div>',
+                        '<div style="margin-top: 10px;">',
+                            '<label class="input-label">' + this.textOrientation + '</label>',
+                            '<div id="page-margins-cmb-orientation"></div>',
+                        '</div>',
+                    '</div>',
+                    '<div style="float: right;">',
+                        '<label class="input-label">' + this.textPreview + '</label>',
+                        '<div id="page-margins-preview" style="height: 93px; width: 160px;"></div>',
+                    '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -97,6 +116,18 @@ define([
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
+
+            this.cmbMultiplePages = new Common.UI.ComboBox({
+                el          : $('#page-margins-cmb-multiple-pages'),
+                menuStyle   : 'min-width: 180px;',
+                style       : 'width: 180px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textNormal },
+                    { value: 1, displayValue: this.textMirrorMargins }
+                ]
+            });
 
             this.spnTop = new Common.UI.MetricSpinner({
                 el: $('#page-margins-spin-top'),
@@ -141,6 +172,41 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnRight);
+
+            this.spnGutter = new Common.UI.MetricSpinner({
+                el: $('#page-margins-spin-gutter'),
+                step: .1,
+                width: 86,
+                defaultUnit : "cm",
+                value: '1 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.spinners.push(this.spnLeft);
+
+            this.cmbGutterPosition = new Common.UI.ComboBox({
+                el          : $('#page-margins-spin-gutter-position'),
+                menuStyle   : 'min-width: 86px;',
+                style       : 'width: 86px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textLeft },
+                    { value: 1, displayValue: this.textTop }
+                ]
+            });
+
+            this.cmbOrientation = new Common.UI.ComboBox({
+                el          : $('#page-margins-cmb-orientation'),
+                menuStyle   : 'min-width: 180px;',
+                style       : 'width: 180px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textPortrait },
+                    { value: 1, displayValue: this.textLandscape }
+                ]
+            });
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -221,6 +287,15 @@ define([
         textRight: 'Right',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height',
+        textMultiplePages: 'Multiple pages',
+        textGutter: 'Gutter',
+        textGutterPosition: 'Gutter position',
+        textOrientation: 'Orientation',
+        textPreview: 'Preview',
+        textPortrait: 'Portrait',
+        textLandscape: 'Landscape',
+        textMirrorMargins: 'Mirror margins',
+        textNormal: 'Normal'
     }, DE.Views.PageMarginsDialog || {}))
 });
