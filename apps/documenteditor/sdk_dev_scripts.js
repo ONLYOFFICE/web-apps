@@ -160,6 +160,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/word/Editor/Footnotes.js",
 	"../../../../sdkjs/word/Editor/FootnotesChanges.js",
 	"../../../../sdkjs/word/Editor/FootEndNote.js",
+	"../../../../sdkjs/word/Drawing/buttons.js",
     "../../../../sdkjs/word/Drawing/Graphics.js",
     "../../../../sdkjs/word/Drawing/ShapeDrawer.js",
     "../../../../sdkjs/word/Drawing/DrawingDocument.js",

@@ -111,6 +111,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/word/Editor/StylesChanges.js",
 	"../../../../sdkjs/word/Editor/RevisionsChange.js",
     "../../../../sdkjs/slide/Editor/Format/StylesPrototype.js",
+	"../../../../sdkjs/word/Drawing/buttons.js",
     "../../../../sdkjs/word/Drawing/Graphics.js",
     "../../../../sdkjs/word/Drawing/ShapeDrawer.js",
     "../../../../sdkjs/slide/Drawing/Transitions.js",

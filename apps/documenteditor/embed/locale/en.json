@@ -22,6 +22,7 @@
   "DE.ApplicationController.unknownErrorText": "Unknown error.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "DE.ApplicationController.waitText": "Please, wait...",
+  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "The file version has been changed.<br>Use the 'Download' option to save the file backup copy to your computer hard drive.",
   "DE.ApplicationView.txtDownload": "Download",
   "DE.ApplicationView.txtEmbed": "Embed",
   "DE.ApplicationView.txtFullScreen": "Full Screen",
