@@ -39,6 +39,9 @@
  *
  */
 
+if (Common === undefined)
+    var Common = {};
+
 define([
     'common/main/lib/component/Window',
     'common/main/lib/component/MetricSpinner',
@@ -46,7 +49,7 @@ define([
     'common/main/lib/component/ColorButton'
 ], function () { 'use strict';
 
-    PE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
+    Common.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers
             width: 230,
@@ -97,7 +100,7 @@ define([
             this.spnSize = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-size'),
                 step        : 1,
-                width       : 45,
+                width       : 53,
                 value       : 100,
                 defaultUnit : '',
                 maxValue    : 400,
@@ -110,7 +113,7 @@ define([
             });
 
             this.btnColor = new Common.UI.ColorButton({
-                style: "width:45px;",
+                style: "width:53px;",
                 menu        : new Common.UI.Menu({
                     additionalAlign: this.menuAddAlign,
                     items: [
@@ -148,7 +151,7 @@ define([
             this.spnStart = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-start'),
                 step        : 1,
-                width       : 45,
+                width       : 53,
                 value       : 1,
                 defaultUnit : '',
                 maxValue    : 32767,
@@ -235,5 +238,5 @@ define([
         txtOfText: '% of text',
         textNewColor: 'Add New Custom Color',
         txtStart: 'Start at'
-    }, PE.Views.ListSettingsDialog || {}))
+    }, Common.Views.ListSettingsDialog || {}))
 });

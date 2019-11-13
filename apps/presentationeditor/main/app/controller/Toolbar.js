@@ -48,6 +48,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/ListSettingsDialog',
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
@@ -55,8 +56,7 @@ define([
     'presentationeditor/main/app/view/HeaderFooterDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
-    'presentationeditor/main/app/view/SlideshowSettings',
-    'presentationeditor/main/app/view/ListSettingsDialog'
+    'presentationeditor/main/app/view/SlideshowSettings'
 ], function () { 'use strict';
 
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -1111,7 +1111,7 @@ define([
                 }
             }
             if (props) {
-                (new PE.Views.ListSettingsDialog({
+                (new Common.Views.ListSettingsDialog({
                     props: props,
                     type: type,
                     handler: function(result, value) {

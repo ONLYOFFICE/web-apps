@@ -410,6 +410,10 @@ SSE.ApplicationController = new(function(){
                 message = me.errorFileSizeExceed;
                 break;
 
+            case Asc.c_oAscError.ID.UpdateVersion:
+                message = me.errorUpdateVersionOnDisconnect;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -576,6 +580,7 @@ SSE.ApplicationController = new(function(){
         waitText: 'Please, wait...',
         textLoadingDocument: 'Loading spreadsheet',
         txtClose: 'Close',
-        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
+        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+        errorUpdateVersionOnDisconnect: 'The file version has been changed.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.'
     }
 })();
