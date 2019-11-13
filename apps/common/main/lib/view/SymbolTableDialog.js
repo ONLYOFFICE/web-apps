@@ -347,6 +347,10 @@ define([
     var lastTime = -1;
     var lastKeyCode = -1;
 
+    var minScrollbarLength = 20;
+    var wheelSpeed = 20;
+
+
     var loadTranslation = function(lang, callback) {
         lang = lang.split(/[\-_]/)[0].toLocaleLowerCase();
         Common.Utils.loadConfig('resources/symboltable/' + lang + '.json', function (langJson) {
@@ -360,16 +364,31 @@ define([
 
     Common.Views.SymbolTableDialog = Common.UI.Window.extend(_.extend({
         options: {
+            resizable       : true,
+            minwidth        : 450,
+            minheight       : 394,
             width: 450,
-            height: 395,
-            style: 'min-width: 230px;',
+            height: 396,
             cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+            var path = this.appPrefix + 'settings-size-symbol-table',
+                size = Common.Utils.InternalSettings.get(path);
+            if (size==null || size==undefined) {
+                size = Common.localStorage.getItem(path) || '';
+                Common.Utils.InternalSettings.set(path, size);
+            }
+            size = size ? JSON.parse(size) : [];
+
             _.extend(this.options, {
-                title: this.textTitle
+                title: this.textTitle,
+                width           : size[0] || 450,
+                height          : size[1] || 396
             }, options || {});
 
             this.template = [
@@ -387,7 +406,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 16px;">',
-                                '<div id="symbol-table-scrollable-div" style="position: relative;">',
+                                '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-264) + 'px;">',
                                     '<div style="width: 100%;">',
                                         '<div id="id-preview">',
                                             '<div>',
@@ -401,7 +420,7 @@ define([
                         '<tr>',
                             '<td colspan="2" style="padding-bottom: 16px;">',
                                 '<label class="input-label">' + this.textRecent + '</label>',
-                                '<div style="width: 100%; padding-right: 10px;"><div id="symbol-table-recent" tabindex="0" oo_editor_input="true"></div>',
+                                '<div id="symbol-table-recent" tabindex="0" oo_editor_input="true" style="width: 100%;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr>',
@@ -426,9 +445,6 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
             this.type = this.options.type || 0; // 0 - close on OK, single adding symbol
-
-            var filter = Common.localStorage.getKeysFilter();
-            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             var init = (aFontSelects.length<1);
             init && this.initFonts();
@@ -465,6 +481,9 @@ define([
             }
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
+
+            this.on('resizing', _.bind(this.onWindowResizing, this));
+            this.on('resize', _.bind(this.onWindowResize, this));
         },
 
         initFonts: function() {
@@ -535,6 +554,9 @@ define([
             var me = this,
                 $window = this.getChild();
 
+            var $border = $window.find('.resize-border');
+            $border.css({'background': 'none', 'border': 'none'});
+
             this.cmbFonts = new Common.UI.ComboBox({
                 el          : $window.find('#symbol-table-cmb-fonts'),
                 cls         : 'input-group-nr',
@@ -595,7 +617,7 @@ define([
                 if(!isNaN(value) && value > 0x1F){
                     var oRange = me.getRangeBySymbol(aRanges, value);
                     if(oRange){
-                        var bUpdateTable = (me.$window.find("#c" + value).length === 0);
+                        var bUpdateTable = ($window.find("#c" + value).length === 0);
                         nCurrentSymbol = value;
                         bMainFocus = true;
                         me.updateView(bUpdateTable, undefined, false);
@@ -608,18 +630,14 @@ define([
             //fill recents
             this.fillRecentSymbols();
 
-            var container = this.$window.find('#fake-symbol-table-wrap');
-            container.perfectScrollbar({
-                theme: 'custom-theme',
-                minScrollbarLength: 50
-            });
-
-            this.previewPanel = this.$window.find('#id-preview-data');
+            this.symbolTablePanel = $window.find('#symbol-table-scrollable-div');
+            this.previewPanel = $window.find('#id-preview-data');
             this.previewParent = this.previewPanel.parent();
-            this.previewScrolled = this.$window.find('#id-preview');
+            this.previewScrolled = $window.find('#id-preview');
             this.previewInner = this.previewScrolled.find('div:first-child');
-            this.recentPanel = this.$window.find('#symbol-table-recent');
-            this.fontLabel = this.$window.find("#symbol-table-label-font");
+            this.recentPanel = $window.find('#symbol-table-recent');
+            this.fontLabel = $window.find("#symbol-table-label-font");
+            this.boxPanel = $window.find('.box');
             this.updateView(undefined, undefined, undefined, true);
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -809,7 +827,6 @@ define([
                 }
             }
             this.previewPanel.html(sInnerHtml);
-            // this.previewPanel[0].innerHTML = sInnerHtml;
         },
 
         fillRecentSymbols: function(){
@@ -927,13 +944,12 @@ define([
         },
 
         getColsCount: function(){
-            var nMaxWidth = this.$window.find('#symbol-table-scrollable-div').innerWidth();
+            var nMaxWidth = this.boxPanel.innerWidth()-13;
             return ((nMaxWidth/CELL_WIDTH) >> 0);
         },
 
         getMaxHeight: function(){
-            var nMaxHeight = this.$window.find('#symbol-table-scrollable-div').innerHeight();
-            return nMaxHeight;
+            return this.symbolTablePanel.innerHeight();
         },
 
         getRowsCount: function() {
@@ -982,20 +998,9 @@ define([
             }
 
             if(bMainFocus){
-                if(aFontSelects[nCurrentFont]){
-                    this.fontLabel.text(aFontSelects[nCurrentFont].displayValue);
-                }
-                else{
-                    this.fontLabel.text('');
-                }
-            }
-            else{
-                if(aFontSelects[nFontNameRecent]){
-                    this.fontLabel.text(aFontSelects[nFontNameRecent].displayValue);
-                }
-                else{
-                    this.fontLabel.text('');
-                }
+                this.fontLabel.text(aFontSelects[nCurrentFont] ? aFontSelects[nCurrentFont].displayValue : '');
+            } else {
+                this.fontLabel.text(aFontSelects[nFontNameRecent] ? aFontSelects[nFontNameRecent].displayValue : '');
             }
 
             if(bUpdateTable !== false){
@@ -1005,7 +1010,7 @@ define([
 
             //main table
             var nRowsCount = this.getRowsCount();
-            var nHeight = nRowsCount*CELL_HEIGHT - 1;
+            var nHeight = nRowsCount*CELL_HEIGHT;
             bScrollMouseUp = false;
             if(bUpdateTable !== false){
                 //fill table
@@ -1017,13 +1022,17 @@ define([
                 var nFullHeight = nAllRowsCount*CELL_HEIGHT;
 
                 this.previewInner.height(nFullHeight);
+                this.previewPanel.height(nHeight);
+                this.previewScrolled.height(nHeight);
 
-                if (!this.scrollerY)
+                if (!this.scrollerY) {
+                    minScrollbarLength = Math.max((CELL_HEIGHT*2.0/3.0 + 0.5) >> 0, ((nHeight/8.0 + 0.5) >> 0));
+                    wheelSpeed = Math.min((Math.floor(this.previewPanel.height()/CELL_HEIGHT) * CELL_HEIGHT)/10, 20);
                     this.scrollerY = new Common.UI.Scroller({
                         el: this.previewScrolled,
-                        minScrollbarLength: Math.max((CELL_HEIGHT*2.0/3.0 + 0.5) >> 0, ((nHeight/8.0 + 0.5) >> 0)),
+                        minScrollbarLength: minScrollbarLength,
                         alwaysVisibleY: true,
-                        wheelSpeed: Math.min((Math.floor(this.previewPanel.height()/CELL_HEIGHT) * CELL_HEIGHT)/10, 20),
+                        wheelSpeed: wheelSpeed,
                         useKeyboard: false,
                         onChange: _.bind(function(){
                             if (this.scrollerY) {
@@ -1035,9 +1044,11 @@ define([
                             }
                         }, this)
                     });
+                }
                 if (!this._preventUpdateScroll) {
                     this.scrollerY.update({
-                        minScrollbarLength: Math.max((CELL_HEIGHT*2.0/3.0 + 0.5) >> 0, ((nHeight/8.0 + 0.5) >> 0))
+                        minScrollbarLength: minScrollbarLength,
+                        wheelSpeed: wheelSpeed
                     });
                     this.scrollerY.scrollTop(nRowSkip*CELL_HEIGHT);
                 }
@@ -1058,8 +1069,7 @@ define([
             //select current cell
             if(bMainFocus){
                 this.$window.find('#c' + nCurrentSymbol).addClass('cell-selected');
-            }
-            else{
+            } else {
                 this.$window.find('#r_' + nCurrentSymbol + '_' + nFontNameRecent).addClass('cell-selected');
             }
 
@@ -1262,6 +1272,52 @@ define([
                 }
             }
             e.preventDefault && e.preventDefault();
+        },
+
+        onWindowResize: function (args) {
+            var size = this.getSize();
+            if (args && args[1]=='start') {
+                this._preventUpdateScroll = true;
+                this.curSize = {resize: false, width: size[0], height: size[1]};
+            } else if (this.curSize.resize) {
+                this._preventUpdateScroll = false;
+                this.curSize.height = size[1] - 264;
+                var rows = Math.max(1, ((this.curSize.height/CELL_HEIGHT) >> 0)),
+                    height = rows*CELL_HEIGHT;
+
+                this.symbolTablePanel.css({'height': this.curSize.height + 'px'});
+                this.previewPanel.css({'height': height + 'px'});
+                this.previewScrolled.css({'height': height + 'px'});
+                this.scrollerY = null;
+
+                this.updateView(undefined, undefined, undefined, true);
+
+                var valJson = JSON.stringify(size);
+                Common.localStorage.setItem(this.appPrefix + 'settings-size-symbol-table', valJson);
+                Common.Utils.InternalSettings.set(this.appPrefix + 'settings-size-symbol-table', valJson);
+            }
+        },
+
+        onWindowResizing: function () {
+            if (!this.curSize) return;
+
+            var size = this.getSize();
+            if (size[0] !== this.curSize.width || size[1] !== this.curSize.height) {
+                if (!this.curSize.resize)
+                    this.curSize.resize = true;
+
+                this.curSize.width = size[0];
+                this.curSize.height = size[1] - 264;
+
+                var rows = Math.max(1, ((this.curSize.height/CELL_HEIGHT) >> 0)),
+                    height = rows*CELL_HEIGHT;
+
+                this.symbolTablePanel.css({'height': this.curSize.height + 'px'});
+                this.previewPanel.css({'height': height  + 'px'});
+                this.previewScrolled.css({'height': height + 'px'});
+
+                this.updateView(undefined, undefined, undefined, true);
+            }
         },
 
         textTitle: 'Symbol Table',
