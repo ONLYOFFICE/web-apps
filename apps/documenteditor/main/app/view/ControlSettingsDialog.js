@@ -44,6 +44,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/InputField',
     'common/main/lib/view/AdvancedSettingsWindow',
+    'common/main/lib/view/SymbolTableDialog',
     'documenteditor/main/app/view/EditListItemDialog'
 ], function (contentTemplate) { 'use strict';
 
@@ -64,7 +65,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     {panelId: 'id-adv-control-settings-general', panelCaption: this.strGeneral},
                     {panelId: 'id-adv-control-settings-lock',    panelCaption: this.textLock},
                     {panelId: 'id-adv-control-settings-list',    panelCaption: this.textCombobox},
-                    {panelId: 'id-adv-control-settings-date',    panelCaption: this.textDate}
+                    {panelId: 'id-adv-control-settings-date',    panelCaption: this.textDate},
+                    {panelId: 'id-adv-control-settings-checkbox',panelCaption: this.textCheckbox}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -226,6 +228,39 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             });
             // this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
 
+            // Check Box
+            this.txtChecked = new Common.UI.InputField({
+                el          : $('#control-settings-input-checked'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 30px;',
+                value       : ''
+            });
+            this.txtChecked._input.attr('disabled', true);
+            this.txtChecked._input.css({'text-align': 'center', 'font-size': '16px'});
+
+            this.txtUnchecked = new Common.UI.InputField({
+                el          : $('#control-settings-input-unchecked'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 30px;',
+                value       : ''
+            });
+            this.txtUnchecked._input.attr('disabled', true);
+            this.txtUnchecked._input.css({'text-align': 'center', 'font-size': '16px'});
+
+            this.btnEditChecked = new Common.UI.Button({
+                el: $('#control-settings-btn-checked-edit')
+            });
+            this.btnEditChecked.on('click', _.bind(this.onEditCheckbox, this, true));
+
+            this.btnEditUnchecked = new Common.UI.Button({
+                el: $('#control-settings-btn-unchecked-edit')
+            });
+            this.btnEditUnchecked.on('click', _.bind(this.onEditCheckbox, this, false));
+
             this.afterRender();
         },
 
@@ -320,7 +355,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
                     var specProps = props.get_DateTimePr();
                     if (specProps) {
-                        var lang = specProps.get_LangId() || this.options.lang;
+                        var lang = specProps.get_LangId() || this.options.controlLang;
                         if (lang) {
                             var item = this.cmbLang.store.findWhere({value: lang});
                             item = item ? item.get('value') : 0x0409;
@@ -332,6 +367,25 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         //     this.listFormats.selectRecord(rec);
                         //     this.listFormats.scrollToRecord(rec);
                         // }
+                    }
+                }
+
+                // for check box
+                this.btnsCategory[4].setVisible(type == Asc.c_oAscContentControlSpecificType.CheckBox);
+                if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
+                    var specProps = props.get_CheckBoxPr();
+                    if (specProps) {
+                        var code = specProps.get_CheckedSymbol(),
+                            font = specProps.get_CheckedFont();
+                        font && this.txtChecked.cmpEl.css('font-family', font);
+                        code && this.txtChecked.setValue(String.fromCharCode(code));
+                        this.checkedBox = {code: code, font: font};
+
+                        code = specProps.get_UncheckedSymbol();
+                        font = specProps.get_UncheckedFont();
+                        font && this.txtUnchecked.cmpEl.css('font-family', font);
+                        code && this.txtUnchecked.setValue(String.fromCharCode(code));
+                        this.uncheckedBox = {code: code, font: font};
                     }
                 }
 
@@ -376,6 +430,22 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             // if (rec) {
             //     props.set_DateFormat(rec.get('format'));
             // }
+
+            // for check box
+            if (this.type == Asc.c_oAscContentControlSpecificType.CheckBox) {
+                if (this.checkedBox && this.checkedBox.changed || this.uncheckedBox && this.uncheckedBox.changed) {
+                    var specProps = new AscCommon.CSdtCheckBoxPr();
+                    if (this.checkedBox) {
+                        specProps.put_CheckedSymbol(this.checkedBox.code);
+                        specProps.put_CheckedFont(this.checkedBox.font);
+                    }
+                    if (this.uncheckedBox) {
+                        specProps.put_UncheckedSymbol(this.uncheckedBox.code);
+                        specProps.put_UncheckedFont(this.uncheckedBox.font);
+                    }
+                    props.put_CheckBoxPr(specProps);
+                }
+            }
 
             return props;
         },
@@ -509,6 +579,34 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             // this.onSelectFormat(this.listFormats, null, rec);
         },
 
+        onEditCheckbox: function(checked) {
+            if (this.api) {
+                var me = this,
+                    props = (checked) ? me.checkedBox : me.uncheckedBox,
+                    cmp = (checked) ? me.txtChecked : me.txtUnchecked,
+                    handler = function(dlg, result, settings) {
+                        if (result == 'ok') {
+                            props.changed = true;
+                            props.code = settings.code;
+                            props.font = settings.font;
+                            props.font && cmp.cmpEl.css('font-family', props.font);
+                            settings.symbol && cmp.setValue(settings.symbol);
+                        }
+                    },
+                    win = new Common.Views.SymbolTableDialog({
+                        api: me.api,
+                        lang: me.options.interfaceLang,
+                        modal: true,
+                        type: 0,
+                        font: props.font,
+                        code: props.code,
+                        handler: handler
+                    });
+                win.show();
+                win.on('symbol:dblclick', handler);
+            }
+        },
+
         textTitle:    'Content Control Settings',
         textName: 'Title',
         textTag: 'Tag',
@@ -534,7 +632,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textValue: 'Value',
         textDate: 'Date Format',
         textLang: 'Language',
-        textFormat: 'Formats'
+        textFormat: 'Formats',
+        textCheckbox: 'Check box',
+        textChecked: 'Checked symbol',
+        textUnchecked: 'Unchecked symbol'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

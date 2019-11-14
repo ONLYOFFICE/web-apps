@@ -1735,7 +1735,8 @@ define([
                             (new DE.Views.ControlSettingsDialog({
                                 props: props,
                                 api: me.api,
-                                lang: me._state.lang,
+                                controlLang: me._state.lang,
+                                interfaceLang: me.mode.lang,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         me.api.asc_SetContentControlProperties(value, id);
@@ -2504,7 +2505,7 @@ define([
                         }
                     });
                 win.show();
-                win.on('symbol:dblclick', function(cmp, settings) {
+                win.on('symbol:dblclick', function(cmp, result, settings) {
                     me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
                 });
             }

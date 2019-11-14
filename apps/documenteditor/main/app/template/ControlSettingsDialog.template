@@ -116,3 +116,31 @@
         </table>
     </div>
 </div>
+<div id="id-adv-control-settings-checkbox" class="settings-panel">
+    <div class="inner-content">
+        <table cols="3" style="width: auto;">
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label" style="margin-right: 10px;"><%= scope.textChecked %></label>
+                </td>
+                <td class="padding-small">
+                    <div id="control-settings-input-checked" style="margin-right: 10px;"></div>
+                </td>
+                <td class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-checked-edit" style="min-width:86px;"><%= scope.textChange %></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label" style="margin-right: 10px;"><%= scope.textUnchecked %></label>
+                </td>
+                <td class="padding-small">
+                    <div id="control-settings-input-unchecked" style="margin-right: 10px;"></div>
+                </td>
+                <td class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-unchecked-edit" style="min-width:86px;"><%= scope.textChange %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

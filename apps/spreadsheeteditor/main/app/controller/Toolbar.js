@@ -2781,7 +2781,7 @@ define([
                         }
                     });
                 win.show();
-                win.on('symbol:dblclick', function(cmp, settings) {
+                win.on('symbol:dblclick', function(cmp, result, settings) {
                     me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
                 });
             }
