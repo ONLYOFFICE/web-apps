@@ -531,17 +531,16 @@ define([
                 });
                 fill.get_fill().put_positions(arr);
 
-                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
-                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                        fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
-                        fill.get_fill().put_linear_scale(true);
-                    }
-                    arr = [];
-                    this.GradColor.colors.forEach(function(item){
-                        arr.push(Common.Utils.ThemeColor.getRgbColor(item));
-                    });
-                    fill.get_fill().put_colors(arr);
+                if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
+                    fill.get_fill().put_linear_scale(true);
                 }
+                arr = [];
+                this.GradColor.colors.forEach(function(item){
+                    arr.push(Common.Utils.ThemeColor.getRgbColor(item));
+                });
+                fill.get_fill().put_colors(arr);
+                
                 props.put_fill(fill);
                 this.api.ShapeApply(props);
                 this._sliderChanged = false;
@@ -1268,6 +1267,16 @@ define([
                 me.OriginalFillType = null;
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
+            });
+            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
+                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+                me.sldrGradient.addNewThumb(index, color);
+            });
+            this.sldrGradient.on('removethumb', function(cmp, index){
+                me.GradColor.colors.splice(index, 1);
+                me.GradColor.values.splice(index, 1);
+                me.sldrGradient.removeThumb(index);
+                me.sldrGradient.changeGradientStyle();
             });
             this.fillControls.push(this.sldrGradient);
 
