@@ -124,6 +124,8 @@ define([
                 if (this.appConfig.canReview || this.appConfig.canViewReview) {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
+                    this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
+                    this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
                 }
                 this.api.asc_registerCallback('asc_onAcceptChangesBeforeCompare',_.bind(this.onAcceptChangesBeforeCompare, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
@@ -854,6 +856,17 @@ define([
                 var user = users.findOriginalUser(model.get('userid'));
                 model.set('usercolor', (user) ? user.get('color') : null);
             });
+        },
+
+        onAuthParticipantsChanged: function(users) {
+            if (this.view && this.view.btnCompare) {
+                var length = 0;
+                _.each(users, function(item){
+                    if (!item.asc_getView())
+                        length++;
+                });
+                this.view.btnCompare.setDisabled(length>1 || this.viewmode);
+            }
         },
 
         textInserted: '<b>Inserted:</b>',
