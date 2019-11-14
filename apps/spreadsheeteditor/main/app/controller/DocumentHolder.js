@@ -64,6 +64,7 @@ define([
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/ListSettingsDialog',
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
@@ -213,7 +214,7 @@ define([
                 view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
-                view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectNoneBullet, me));
+                view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectBulletMenu, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
                 view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onRemoveHyperlinkShape, me));
@@ -744,11 +745,37 @@ define([
             }
         },
 
-        onSelectNoneBullet: function(menu, item) {
-            if (this.api && item.options.value == -1) {
-                this.api.asc_setListType(item.options.value);
-                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
+        onSelectBulletMenu: function(menu, item) {
+            if (this.api) {
+                if (item.options.value == -1) {
+                    this.api.asc_setListType(item.options.value);
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
+                } else if (item.options.value == 'settings') {
+                    var me      = this,
+                        props;
+                    var selectedObjects = me.api.asc_getGraphicObjectProps();
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            props = selectedObjects[i].asc_getObjectValue();
+                            break;
+                        }
+                    }
+                    if (props) {
+                        (new Common.Views.ListSettingsDialog({
+                            props: props,
+                            type: this.api.asc_getCurrentListType().get_ListType(),
+                            handler: function(result, value) {
+                                if (result == 'ok') {
+                                    if (me.api) {
+                                        me.api.asc_setGraphicObjectProps(value);
+                                    }
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+                        })).show();
+                    }
+                }
             }
         },
 
@@ -1645,6 +1672,7 @@ define([
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
 
                         documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
+                        documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
                         var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {

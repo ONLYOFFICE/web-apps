@@ -330,7 +330,7 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-//                          isLockTheDrag : locked
+                            isLockTheDrag : locked
                         };
 
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
@@ -418,6 +418,7 @@ define([
             },
 
             onTabMenu: function (o, index, tab, select) {
+                var me = this;
                 if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                     !this.mode.isDisconnected ) {
@@ -428,14 +429,24 @@ define([
 
                         if (!tab.isActive()) this.tabbar.setActive(tab);
 
-                        var issheetlocked   = this.api.asc_isWorksheetLockedOrDeleted(tab.sheetindex),
-                            isdoclocked     = this.api.asc_isWorkbookLocked();
+                        if (!_.isUndefined(select)) {
+                            var issheetlocked = false;
+                            select.forEach(function (item) {
+                                if (me.api.asc_isWorksheetLockedOrDeleted(item.sheetindex)) {
+                                    issheetlocked = true;
+                                }
+                            });
+                        } else {
+                            var issheetlocked = me.api.asc_isWorksheetLockedOrDeleted(tab.sheetindex);
+                        }
+
+                        var isdoclocked     = this.api.asc_isWorkbookLocked();
 
                         this.tabMenu.items[0].setDisabled(isdoclocked);
                         this.tabMenu.items[1].setDisabled(issheetlocked);
                         this.tabMenu.items[2].setDisabled(issheetlocked);
                         this.tabMenu.items[3].setDisabled(issheetlocked);
-                        this.tabMenu.items[4].setDisabled(isdoclocked);
+                        this.tabMenu.items[4].setDisabled(issheetlocked);
                         this.tabMenu.items[5].setDisabled(issheetlocked);
                         this.tabMenu.items[6].setDisabled(isdoclocked);
                         this.tabMenu.items[7].setDisabled(issheetlocked);
@@ -446,8 +457,8 @@ define([
                             this.tabMenu.items[10].show();
                         }
 
-                        this.tabMenu.items[9].setDisabled(isdoclocked);
-                        this.tabMenu.items[10].setDisabled(isdoclocked);
+                        this.tabMenu.items[9].setDisabled(issheetlocked);
+                        this.tabMenu.items[10].setDisabled(issheetlocked);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
@@ -560,11 +571,11 @@ define([
             textNoColor         : 'No Color',
             textNewColor        : 'Add New Custom Color',
             zoomText            : 'Zoom {0}%',
-            textSum             : 'SUM',
-            textCount           : 'COUNT',
-            textAverage         : 'AVERAGE',
-            textMin             : 'MIN',
-            textMax             : 'MAX',
+            textSum             : 'Sum',
+            textCount           : 'Count',
+            textAverage         : 'Average',
+            textMin             : 'Min',
+            textMax             : 'Max',
             filteredRecordsText : '{0} of {1} records filtered',
             filteredText        : 'Filter mode',
             selectAllSheets     : 'Select All Sheets',
@@ -576,8 +587,7 @@ define([
                 header: false,
                 width: 280,
                 cls: 'modal-dlg',
-                buttons: ['ok', 'cancel'],
-                footerCls: 'right'
+                buttons: ['ok', 'cancel']
             },
 
             template:   '<div class="box">' +
@@ -683,10 +693,8 @@ define([
         SSE.Views.Statusbar.CopyDialog = Common.UI.Window.extend(_.extend({
             options: {
                 width: 270,
-                height: 300,
                 cls: 'modal-dlg',
-                buttons: ['ok', 'cancel'],
-                footerCls: 'right'
+                buttons: ['ok', 'cancel']
             },
 
             template:   '<div class="box">' +

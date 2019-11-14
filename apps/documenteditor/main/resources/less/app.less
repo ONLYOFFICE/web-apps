@@ -118,6 +118,7 @@
 @import "../../../../common/main/resources/less/toolbar.less";
 @import "../../../../common/main/resources/less/language-dialog.less";
 @import "../../../../common/main/resources/less/winxp_fix.less";
+@import "../../../../common/main/resources/less/symboltable.less";
 
 // App
 // --------------------------------------------------
@@ -150,12 +151,17 @@
 
 .doc-placeholder {
     background: #fbfbfb;
-    width: 100%;
-    max-width: 796px;
+    width: 796px;
     margin: 40px auto;
     height: 100%;
     border: 1px solid #dfdfdf;
     padding-top: 50px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
 
     -webkit-animation: flickerAnimation 2s infinite ease-in-out;
     -moz-animation: flickerAnimation 2s infinite ease-in-out;

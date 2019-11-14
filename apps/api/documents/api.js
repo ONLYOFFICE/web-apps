@@ -129,7 +129,8 @@
                     toolbarNoTabs: false,
                     toolbarHideFileName: false,
                     reviewDisplay: 'original',
-                    spellcheck: true
+                    spellcheck: true,
+                    compatibleFeatures: false
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -806,7 +807,8 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-		
+        iframe.setAttribute("allow", "autoplay");
+        
 		if (config.type == "mobile")
 		{
 			iframe.style.position = "fixed";

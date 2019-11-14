@@ -169,10 +169,10 @@ define([
         },
 
         _handleInput: function(state) {
-            if (this.options.handler) {
-                this.options.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
+            if (this.options.handler && state === 'ok') {
+                this.options.handler.call(this, 'ok', this.getSettings());
             }
-            this.close();
+            this.close(state);
         },
 
         onBtnClick: function(event) {
@@ -314,6 +314,13 @@ define([
                 }
                 me._state.height = value;
             }
+        },
+
+        close: function(state) {
+            if (this.options.handler && state !== 'ok') {
+                this.options.handler.call(this, 'cancel', undefined);
+            }
+            Common.UI.Window.prototype.close.call(this);
         },
 
         textTitle: 'Scale Settings',

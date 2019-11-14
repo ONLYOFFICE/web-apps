@@ -61,7 +61,7 @@ define([
             this.template = [
                 '<div class="box" style="height: 148px;">',
                     '<div class="input-row">',
-                        '<label class="text columns-text" style="font-weight: bold;">' + this.textSlideSize + '</label>',
+                        '<label class="text" style="font-weight: bold;">' + this.textSlideSize + '</label>',
                     '</div>',
                     '<div id="slide-size-combo" class="" style="margin-bottom: 10px;"></div>',
                     '<table cols="2" style="width: 100%;margin-bottom: 7px;">',
@@ -77,7 +77,7 @@ define([
                         '</tr>',
                     '</table>',
                     '<div class="input-row">',
-                        '<label class="text columns-text" style="font-weight: bold;">' + this.textSlideOrientation + '</label>',
+                        '<label class="text" style="font-weight: bold;">' + this.textSlideOrientation + '</label>',
                     '</div>',
                     '<div id="slide-orientation-combo" class="" style="margin-bottom: 10px;"></div>',
                 '</div>',

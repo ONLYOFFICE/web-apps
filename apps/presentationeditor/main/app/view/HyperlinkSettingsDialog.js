@@ -61,8 +61,7 @@ define([
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             id: 'window-hyperlink-settings',
-            buttons: ['ok', 'cancel'],
-            footerCls: 'right'
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {

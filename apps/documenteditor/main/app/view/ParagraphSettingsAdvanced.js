@@ -124,9 +124,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             }
 
             this._arrTabAlign = [
-                { value: 1, displayValue: this.textTabLeft },
-                { value: 3, displayValue: this.textTabCenter },
-                { value: 2, displayValue: this.textTabRight }
+                { value: Asc.c_oAscTabType.Left, displayValue: this.textTabLeft },
+                { value: Asc.c_oAscTabType.Center, displayValue: this.textTabCenter },
+                { value: Asc.c_oAscTabType.Right, displayValue: this.textTabRight }
             ];
             this._arrKeyTabAlign = [];
             this._arrTabAlign.forEach(function(item) {
@@ -577,7 +577,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 cls         : 'input-group-nr',
                 data        : this._arrTabAlign
             });
-            this.cmbAlign.setValue(1);
+            this.cmbAlign.setValue(Asc.c_oAscTabType.Left);
 
             this.cmbLeader = new Common.UI.ComboBox({
                 el          : $('#paraadv-cmb-leader'),

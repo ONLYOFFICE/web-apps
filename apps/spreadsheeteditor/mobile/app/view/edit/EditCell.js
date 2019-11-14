@@ -45,7 +45,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'common/mobile/lib/component/ThemeColorPalette'
+    'common/mobile/lib/component/ThemeColorPalette',
+    'common/mobile/lib/component/HsbColorPicker'
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
@@ -234,26 +235,140 @@ define([
             },
 
             showTextColor: function () {
+                var me = this;
                 this.showPage('#edit-text-color', true);
 
                 this.paletteTextColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-text-color] .page-content')
                 });
+                this.paletteTextColor.on('customcolor', function () {
+                    me.showCustomTextColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-cell-add-custom-text-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-text-color] .page-content').append(template({scope: this}));
+                $('#edit-cell-add-custom-text-color').single('click', _.bind(this.showCustomTextColor, this));
                 
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-text-color]', '.page[data-page=edit-text-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-text-color']);
             },
 
+            showCustomTextColor: function () {
+                var me = this,
+                    selector = '#edit-cell-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customTextColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-cell-custom-color] .page-content'),
+                    color: me.paletteTextColor.currentColor
+                });
+                me.customTextColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteTextColor.addNewDynamicColor(colorPicker, color);
+                    SSE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
+            },
+
             showFillColor: function () {
+                var me = this;
                 this.showPage('#edit-fill-color', true);
 
                 this.paletteFillColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-fill-color] .page-content'),
                     transparent: true
                 });
+                this.paletteFillColor.on('customcolor', function () {
+                    me.showCustomFillColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-cell-add-custom-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-fill-color] .page-content').append(template({scope: this}));
+                $('#edit-cell-add-custom-color').single('click', _.bind(this.showCustomFillColor, this));
 
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-fill-color]', '.page[data-page=edit-fill-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-fill-color']);
+            },
+
+            showCustomFillColor: function () {
+                var me = this,
+                    selector = '#edit-cell-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customFillColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-cell-custom-color] .page-content'),
+                    color: me.paletteFillColor.currentColor
+                });
+                me.customFillColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteFillColor.addNewDynamicColor(colorPicker, color);
+                    SSE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
+            },
+
+            showBorderColorPage: function () {
+                var me = this;
+                this.paletteBorderColor = new Common.UI.ThemeColorPalette({
+                    el: $('.page[data-page=edit-border-color] .page-content')
+                });
+                this.paletteBorderColor.on('customcolor', function () {
+                    me.showCustomBorderColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-cell-add-custom-border-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-border-color] .page-content').append(template({scope: this}));
+                $('#edit-cell-add-custom-border-color').single('click', _.bind(this.showCustomBorderColor, this));
+            },
+
+            showCustomBorderColor: function () {
+                var me = this,
+                    selector = '#edit-cell-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customBorderColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-cell-custom-color] .page-content'),
+                    color: me.paletteBorderColor.currentColor
+                });
+                me.customBorderColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteBorderColor.addNewDynamicColor(colorPicker, color);
+                    SSE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
             },
 
             textBack: 'Back',
@@ -305,7 +420,9 @@ define([
             textYen: 'Yen',
             textCharacterBold: 'B',
             textCharacterItalic: 'I',
-            textCharacterUnderline: 'U'
+            textCharacterUnderline: 'U',
+            textAddCustomColor: 'Add Custom Color',
+            textCustomColor: 'Custom Color'
     }
     })(), SSE.Views.EditCell || {}))
 });

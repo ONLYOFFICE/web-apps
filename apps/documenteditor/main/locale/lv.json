@@ -295,7 +295,7 @@
   "DE.Controllers.Main.errorAccessDeny": "Jūs mēģināt veikt darbību, kuru nedrīkstat veikt.<br>Lūdzu, sazinieties ar savu dokumentu servera administratoru.",
   "DE.Controllers.Main.errorBadImageUrl": "Nav pareizs attēla URL",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
-  "DE.Controllers.Main.errorConnectToServer": "Dokumentu neizdevās noglabāt. Lūdzu, pārbaudiet savienojuma uzstādījumus vai sazinieties ar savu administratoru.<br>Nospiežot \"OK\", jūs varēsit lejupielādēt dokumentu.<br><br>Uzziniet vairāk par dokumentu servera pieslēgšanu <a href=\"%1\" target=\"_blank\">šeit</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Dokumentu neizdevās noglabāt. Lūdzu, pārbaudiet savienojuma uzstādījumus vai sazinieties ar savu administratoru.<br>Nospiežot \"OK\", jūs varēsit lejupielādēt dokumentu.",
   "DE.Controllers.Main.errorDatabaseConnection": "External error.<br>Database connection error. Please contact support in case the error persists.",
   "DE.Controllers.Main.errorDataRange": "Incorrect data range.",
   "DE.Controllers.Main.errorDefaultMessage": "Kļūdas kods: %1",

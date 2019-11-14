@@ -76,7 +76,7 @@
   "PE.Controllers.Main.errorAccessDeny": "Usted no tiene permisos para realizar la acción que está intentando hacer.<br> Por favor, contacte con su Administrador del Servidor de Documentos.",
   "PE.Controllers.Main.errorBadImageUrl": "URL de imagen es incorrecto",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "La conexión al servidor se ha perdido. Usted ya no puede editar.",
-  "PE.Controllers.Main.errorConnectToServer": "No se consiguió guardar el documento. Por favor, compruebe los ajustes de conexión o póngase en contacto con su administrador.<br>Al hacer clic en el botón 'OK' se le solicitará que descargue el documento.<br><br>Encuentre más información acerca de la conexión de Servidor de Documentos <a href=\"%1\" target=\"_blank\">aquí</a>",
+  "PE.Controllers.Main.errorConnectToServer": "No se consiguió guardar el documento. Por favor, compruebe los ajustes de conexión o póngase en contacto con su administrador.<br>Al hacer clic en el botón 'OK' se le solicitará que descargue el documento.",
   "PE.Controllers.Main.errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
   "PE.Controllers.Main.errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
   "PE.Controllers.Main.errorDataRange": "Rango de datos incorrecto.",

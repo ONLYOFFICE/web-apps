@@ -714,6 +714,14 @@ define([
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'})
                 });
 
+                me.btnInsertSymbol = new Common.UI.Button({
+                    id: 'tlbtn-insertsymbol',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-symbol',
+                    caption: me.capBtnInsSymbol,
+                    lock: [_set.selImage, _set.selChart, _set.selShape, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
+                });
+
                 me.btnTableTemplate = new Common.UI.Button({
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
@@ -1345,8 +1353,6 @@ define([
                         '</div>'
                     ].join('')),
                     stopPropagation: true,
-                    toggleGroup: 'menuScale',
-                    checkable: true,
                     value: 4
                 });
 
@@ -1358,39 +1364,58 @@ define([
                     lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
                         items: [
-                            {
-                                caption: me.textActualSize,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 0
-                            },
-                            {
-                                caption: me.textFitSheetOnOnePage,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 1
-                            },
-                            {
-                                caption: me.textFitAllColumnsOnOnePage,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 2
-                            },
-                            {
-                                caption: me.textFitAllRowsOnOnePage,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 3
-                            },
-                            me.mnuCustomScale,
-                            {caption: '--'},
-                            {   caption: me.textScaleCustom,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 5
-                            }
                         ]})
                 });
+                var menuWidthItem = new Common.UI.MenuItem({
+                    caption: me.textWidth,
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tl-tr',
+                        items: [
+                            {caption: this.textAuto, value: 0, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '1 ' + this.textOnePage, value: 1, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '2 ' + this.textFewPages, value: 2, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '3 ' + this.textFewPages, value: 3, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '4 ' + this.textFewPages, value: 4, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '5 ' + this.textManyPages, value: 5, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '6 ' + this.textManyPages, value: 6, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '7 ' + this.textManyPages, value: 7, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '8 ' + this.textManyPages, value: 8, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '9 ' + this.textManyPages, value: 9, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '--'},
+                            {caption: this.textMorePages, value: 'more', checkable: true, toggleGroup : 'scaleWidth'}
+                        ]
+                    })
+                });
+                var menuHeightItem = new Common.UI.MenuItem({
+                    caption: me.textHeight,
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tl-tr',
+                        items: [
+                            {caption: this.textAuto, value: 0, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '1 ' + this.textOnePage, value: 1, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '2 ' + this.textFewPages, value: 2, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '3 ' + this.textFewPages, value: 3, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '4 ' + this.textFewPages, value: 4, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '5 ' + this.textManyPages, value: 5, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '6 ' + this.textManyPages, value: 6, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '7 ' + this.textManyPages, value: 7, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '8 ' + this.textManyPages, value: 8, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '9 ' + this.textManyPages, value: 9, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '--'},
+                            {caption: this.textMorePages, value: 'more', checkable: true, toggleGroup : 'scaleHeight'}
+                        ]
+                    })
+                });
+                me.btnScale.menu.addItem(menuWidthItem);
+                me.btnScale.menu.addItem(menuHeightItem);
+                me.btnScale.menu.addItem(me.mnuCustomScale);
+                me.btnScale.menu.addItem({caption: '--'});
+                me.btnScale.menu.addItem(
+                    {   caption: me.textScaleCustom, value: 'custom'
+                    });
+                me.menuWidthScale = me.btnScale.menu.items[0].menu;
+                me.menuHeightScale = me.btnScale.menu.items[1].menu;
+
                 me.mnuScale = me.btnScale.menu;
                 me.mnuScale.on('show:after', _.bind(me.onAfterShowMenuScale, me));
 
@@ -1442,7 +1467,7 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -1472,7 +1497,7 @@ define([
             }
             if (!me.itemCustomScale) {
                 me.itemCustomScale = $('.custom-scale', me.mnuCustomScale.$el).on('click', _.bind(function () {
-                    me.fireEvent('click:customscale', [undefined, undefined, undefined, me.valueCustomScale], this);
+                    me.fireEvent('click:customscale', ['scale', undefined, undefined, undefined, me.valueCustomScale], this);
                 }, this));
             }
             if (!me.btnCustomScaleUp) {
@@ -1491,6 +1516,7 @@ define([
                     me.fireEvent('change:scalespn', ['down', me.valueCustomScale], this);
                 }, this));
             }
+            SSE.getController('Toolbar').onChangeScaleSettings();
         },
 
         setValueCustomScale: function(val) {
@@ -1617,6 +1643,7 @@ define([
             _injectComponent('#slot-btn-instext',        this.btnInsertText);
             _injectComponent('#slot-btn-instextart',     this.btnInsertTextArt);
             _injectComponent('#slot-btn-insequation',    this.btnInsertEquation);
+            _injectComponent('#slot-btn-inssymbol',      this.btnInsertSymbol);
             _injectComponent('#slot-btn-sortdesc',       this.btnSortDown);
             _injectComponent('#slot-btn-sortasc',        this.btnSortUp);
             _injectComponent('#slot-btn-setfilter',      this.btnSetAutofilter);
@@ -1699,6 +1726,7 @@ define([
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             _updateHint(this.btnInsertShape, this.tipInsertShape);
             _updateHint(this.btnInsertEquation, this.tipInsertEquation);
+            _updateHint(this.btnInsertSymbol, this.tipInsertSymbol);
             _updateHint(this.btnSortDown, this.txtSortAZ);
             _updateHint(this.btnSortUp, this.txtSortZA);
             _updateHint(this.btnSetAutofilter, this.txtFilter + ' (Ctrl+Shift+L)');
@@ -2481,7 +2509,7 @@ define([
         textSetPrintArea: 'Set Print Area',
         textClearPrintArea: 'Clear Print Area',
         textAddPrintArea: 'Add to Print Area',
-        tipPrintArea: 'Print Area',
+        tipPrintArea: 'Print area',
         capBtnInsHeader: 'Header/Footer',
         tipEditHeader: 'Edit header or footer',
         textTabData: 'Data',
@@ -2495,6 +2523,15 @@ define([
         textFitAllColumnsOnOnePage: 'Fit All Columns on One Page',
         textFitAllRowsOnOnePage: 'Fit All Rows on One Page',
         textScaleCustom: 'Custom',
-        textScale: 'Scale'
+        textScale: 'Scale',
+        textAuto: 'Auto',
+        textOnePage: 'page',
+        textFewPages: 'pages',
+        textManyPages: 'pages',
+        textHeight: 'Height',
+        textWidth: 'Width',
+        textMorePages: 'More pages',
+        capBtnInsSymbol: 'Symbol',
+        tipInsertSymbol: 'Insert symbol'
     }, SSE.Views.Toolbar || {}));
 });

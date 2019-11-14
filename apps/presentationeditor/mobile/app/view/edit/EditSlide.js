@@ -44,7 +44,9 @@ define([
     'text!presentationeditor/mobile/app/template/EditSlide.template',
     'jquery',
     'underscore',
-    'backbone'
+    'backbone',
+    'common/mobile/lib/component/ThemeColorPalette',
+    'common/mobile/lib/component/HsbColorPicker'
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
@@ -173,14 +175,50 @@ define([
             },
 
             showStyle: function () {
+                var me = this;
                 this.showPage('#edit-slide-style', true);
 
                 this.paletteFillColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-slide-style] .page-content'),
                     transparent: true
                 });
+                this.paletteFillColor.on('customcolor', function () {
+                    me.showCustomSlideColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-slide-add-custom-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-slide-style] .page-content').append(template({scope: this}));
+                $('#edit-slide-add-custom-color').single('click', _.bind(this.showCustomSlideColor, this));
 
                 this.fireEvent('page:show', [this, '#edit-slide-style']);
+            },
+
+            showCustomSlideColor: function () {
+                var me = this,
+                    selector = '#edit-slide-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-slide-custom-color] .page-content'),
+                    color: me.paletteFillColor.currentColor
+                });
+                me.customColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteFillColor.addNewDynamicColor(colorPicker, color);
+                    PE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
             },
 
             showLayout: function () {
@@ -397,7 +435,9 @@ define([
             textZoomRotate: 'Zoom and Rotate',
             textStartOnClick: 'Start On Click',
             textDelay: 'Delay',
-            textApplyAll: 'Apply to All Slides'
+            textApplyAll: 'Apply to All Slides',
+            textAddCustomColor: 'Add Custom Color',
+            textCustomColor: 'Custom Color'
         }
     })(), PE.Views.EditSlide || {}))
 });

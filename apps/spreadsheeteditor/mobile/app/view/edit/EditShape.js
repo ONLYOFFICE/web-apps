@@ -43,7 +43,9 @@ define([
     'text!spreadsheeteditor/mobile/app/template/EditShape.template',
     'jquery',
     'underscore',
-    'backbone'
+    'backbone',
+    'common/mobile/lib/component/ThemeColorPalette',
+    'common/mobile/lib/component/HsbColorPicker'
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
@@ -61,17 +63,18 @@ define([
             initialize: function () {
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 Common.NotificationCenter.on('editcategory:show',  _.bind(this.categoryShow, this));
-                this.on('page:show', _.bind(this.updateItemHandlers, this));
+                //this.on('page:show', _.bind(this.updateItemHandlers, this));
                 this.isShapeCanFill = true;
             },
 
             initEvents: function () {
                 var me = this;
 
+                me.updateItemHandlers();
+
                 $('.edit-shape-style .categories a').single('click', _.bind(me.showStyleCategory, me));
 
                 Common.Utils.addScrollIfNeed('#edit-shape .pages', '#edit-shape .page');
-                me.updateItemHandlers();
                 me.initControls();
             },
 
@@ -121,6 +124,8 @@ define([
 
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-shape-border-color-view]', '.page[data-page=edit-shape-border-color-view] .page-content');
                 $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
+                $('#shape-style').single('click', _.bind(this.showStyle, this));
+                $('#edit-shape-bordercolor').single('click', _.bind(this.showBorderColor, this));
             },
 
             showPage: function (templateId, suspendEvent) {
@@ -146,6 +151,111 @@ define([
                 }
             },
 
+            showStyle: function () {
+                var me = this;
+                var page = '#edit-shape-style';
+                if (!this.isShapeCanFill) {
+                    page = '#edit-shape-style-nofill';
+                }
+                this.showPage(page, true);
+
+                this.paletteFillColor = new Common.UI.ThemeColorPalette({
+                    el: $('#tab-shape-fill'),
+                    transparent: true
+                });
+                this.paletteFillColor.on('customcolor', function () {
+                    me.showCustomFillColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-cell-add-custom-fill-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('#tab-shape-fill').append(template({scope: this}));
+                $('#edit-cell-add-custom-fill-color').single('click', _.bind(this.showCustomFillColor, this));
+
+                if (!this.isShapeCanFill)
+                    this.showStyleCategory();
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-shape-style]', '.page[data-page=edit-shape-style] .page-content');
+                this.fireEvent('page:show', [this, page]);
+            },
+
+            showCustomFillColor: function () {
+                var me = this,
+                    selector = '#edit-shape-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customFillColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-shape-custom-color] .page-content'),
+                    color: me.paletteFillColor.currentColor
+                });
+                me.customFillColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteFillColor.addNewDynamicColor(colorPicker, color);
+                    SSE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
+            },
+
+            showBorderColor: function () {
+                var me = this;
+                var selector = '#edit-shape-border-color-view';
+                this.showPage(selector, true);
+
+                this.paletteBorderColor = new Common.UI.ThemeColorPalette({
+                    el: $('.page[data-page=edit-shape-border-color-view] .page-content')
+                });
+                this.paletteBorderColor.on('customcolor', function () {
+                    me.showCustomBorderColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-shape-add-custom-border-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-shape-border-color-view] .page-content').append(template({scope: this}));
+                $('#edit-shape-add-custom-border-color').single('click', _.bind(this.showCustomBorderColor, this));
+
+                this.fireEvent('page:show', [this, selector]);
+
+            },
+
+            showCustomBorderColor: function () {
+                var me = this,
+                    selector = '#edit-shape-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customBorderColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-shape-custom-color] .page-content'),
+                    color: me.paletteBorderColor.currentColor
+                });
+                me.customBorderColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteBorderColor.addNewDynamicColor(colorPicker, color);
+                    me.paletteFillColor.updateDynamicColors();
+                    me.paletteFillColor.select(me.paletteFillColor.currentColor);
+                    SSE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
+            },
+
             showStyleCategory: function (e) {
                 // remove android specific style
                 $('.page[data-page=edit-shape-style] .list-block.inputs-list').removeClass('inputs-list');
@@ -156,13 +266,9 @@ define([
                     page = $target.data('page');
 
                 if (page && page.length > 0 ) {
-                    if (page == '#edit-shape-style' && !this.isShapeCanFill)
-                        page = '#edit-shape-style-nofill';
 
                     this.showPage(page);
 
-                    if (!this.isShapeCanFill)
-                        this.showStyleCategory();
                 }
 
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-shape-style]', '.page[data-page=edit-shape-style] .page-content');
@@ -184,7 +290,9 @@ define([
             textEffects: 'Effects',
             textSize: 'Size',
             textColor: 'Color',
-            textOpacity: 'Opacity'
+            textOpacity: 'Opacity',
+            textAddCustomColor: 'Add Custom Color',
+            textCustomColor: 'Custom Color'
         }
     })(), SSE.Views.EditShape || {}))
 });

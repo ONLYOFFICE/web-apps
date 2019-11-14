@@ -210,7 +210,7 @@
   "PE.Controllers.Main.errorAccessDeny": "Jūs mēģināt veikt darbību, kuru nedrīkstat veikt.<br>Lūdzu, sazinieties ar savu dokumentu servera administratoru.",
   "PE.Controllers.Main.errorBadImageUrl": "Nav pareizs attēla URL",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Server connection lost. The document cannot be edited right now.",
-  "PE.Controllers.Main.errorConnectToServer": "Dokumentu neizdevās noglabāt. Lūdzu, pārbaudiet savienojuma uzstādījumus vai sazinieties ar savu administratoru.<br>Nospiežot \"OK\", jūs varēsit lejupielādēt dokumentu.<br><br>Uzziniet vairāk par dokumentu servera pieslēgšanu <a href=\"%1\" target=\"_blank\">šeit</a>",
+  "PE.Controllers.Main.errorConnectToServer": "Dokumentu neizdevās noglabāt. Lūdzu, pārbaudiet savienojuma uzstādījumus vai sazinieties ar savu administratoru.<br>Nospiežot \"OK\", jūs varēsit lejupielādēt dokumentu.",
   "PE.Controllers.Main.errorDatabaseConnection": "External error.<br>Database connection error. Please contact support in case the error persists.",
   "PE.Controllers.Main.errorDataRange": "Incorrect data range.",
   "PE.Controllers.Main.errorDefaultMessage": "Error code: %1",

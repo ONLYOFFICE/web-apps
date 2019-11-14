@@ -183,7 +183,7 @@ define([
 
         function onLostEditRights() {
             _readonlyRights = true;
-            $panelUsers.find('#tlb-change-rights').hide();
+            $panelUsers && $panelUsers.find('#tlb-change-rights').hide();
             $btnUsers && !$btnUsers.menu && $panelUsers.hide();
         }
 

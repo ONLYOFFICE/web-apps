@@ -469,7 +469,7 @@ define([
                     });
 
                     this.emailMenu = new Common.UI.Menu({
-                        maxHeight: 190,
+                        maxHeight: 200,
                         cyclic: false,
                         items: []
                     }).on('render:after', function(mnu) {
@@ -1014,6 +1014,8 @@ define([
                         });
                     }
                 }, this);
+            if (this.emailMenu && this.emailMenu.rendered)
+                this.emailMenu.cmpEl.css('display', 'none');
         },
 
         isCommentsViewMouseOver: function () {
@@ -1121,7 +1123,10 @@ define([
                             return (item.email && 0 === item.email.toLowerCase().indexOf(str) || item.name && 0 === item.name.toLowerCase().indexOf(str))
                         });
                     }
-                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;"><div><%= Common.Utils.String.htmlEncode(caption) %></div><div style="color: #909090;"><%= Common.Utils.String.htmlEncode(options.value) %></div></a>'),
+                    var tpl = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" style="font-size: 12px;">' +
+                                            '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px;"><%= Common.Utils.String.htmlEncode(caption) %></div>' +
+                                            '<div style="overflow: hidden; text-overflow: ellipsis; max-width: 195px; color: #909090;"><%= Common.Utils.String.htmlEncode(options.value) %></div>' +
+                                        '</a>'),
                         divider = false;
                     _.each(users, function(menuItem, index) {
                         if (divider && !menuItem.hasAccess) {
@@ -1160,8 +1165,10 @@ define([
         },
 
         insertEmailToTextbox: function(str, left, right) {
-            var textBox = this.commentsView.getTextBox(),
-                val = textBox.val();
+            var textBox = this.commentsView.getTextBox();
+            if (!textBox) return;
+
+            var val = textBox.val();
             textBox.val(val.substring(0, left) + '+' + str + ' ' + val.substring(right+1, val.length));
             setTimeout(function(){
                 textBox[0].selectionStart = textBox[0].selectionEnd = left + str.length + 2;

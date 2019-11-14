@@ -58,6 +58,7 @@ define([
                         me.onClickNext();
                     },
                     'hide': function() {
+                        me.api && me.api.asc_cancelSpellCheck();
                     }
                 }
             });
