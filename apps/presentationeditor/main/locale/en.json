@@ -908,6 +908,7 @@
   "PE.Controllers.Toolbar.txtSymbol_vdots": "Vertical ellipsis",
   "PE.Controllers.Toolbar.txtSymbol_xsi": "Xi",
   "PE.Controllers.Toolbar.txtSymbol_zeta": "Zeta",
+  "PE.Controllers.Toolbar.textInsert": "Insert",
   "PE.Controllers.Viewport.textFitPage": "Fit to Slide",
   "PE.Controllers.Viewport.textFitWidth": "Fit to Width",
   "PE.Views.ChartSettings.textAdvanced": "Show advanced settings",
@@ -1798,5 +1799,7 @@
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.capBtnInsSymbol": "Symbol",
+  "PE.Views.Toolbar.tipInsertSymbol": "Insert symbol"
 }
