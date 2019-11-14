@@ -526,7 +526,6 @@ define([
             for(var key in oFontsByName){
                 if(oFontsByName.hasOwnProperty(key)){
                     data.push(oFontsByName[key]);
-                    data[data.length-1].value = i++;
                     data[data.length-1].displayValue = oFontsByName[key].m_wsFontName;
                 }
             }
@@ -534,6 +533,9 @@ define([
             //initialize params
             aFontSelects = data;
             aFontSelects.sort(function(a, b){return (a.displayValue.toLowerCase() > b.displayValue.toLowerCase()) ? 1 : -1;});
+            for(i = 0; i < aFontSelects.length; ++i){
+                aFontSelects[i].value = i;
+            }
             if(!oFontsByName[sInitFont]){
                 if(oFontsByName['Cambria Math']){
                     sInitFont = 'Cambria Math';
