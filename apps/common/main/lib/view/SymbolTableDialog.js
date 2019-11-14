@@ -366,7 +366,7 @@ define([
         options: {
             resizable       : true,
             minwidth        : 448,
-            minheight       : 394,
+            minheight       : 396,
             width: 448,
             height: 396,
             cls: 'modal-dlg',
