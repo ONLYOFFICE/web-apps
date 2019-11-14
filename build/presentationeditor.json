@@ -145,6 +145,12 @@
                     "cwd": "../apps/presentationeditor/main/locale/",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/locale/"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/main/resources/symboltable",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/symboltable"
                 }
             ],
             "help": [
