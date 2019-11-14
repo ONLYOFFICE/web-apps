@@ -299,7 +299,7 @@
   "Common.Views.SignSettingsDialog.textShowDate": "Show sign date in signature line",
   "Common.Views.SignSettingsDialog.textTitle": "Signature Setup",
   "Common.Views.SignSettingsDialog.txtEmpty": "This field is required",
-  "Common.Views.SymbolTableDialog.textTitle": "Symbol Table",
+  "Common.Views.SymbolTableDialog.textTitle": "Symbol",
   "Common.Views.SymbolTableDialog.textFont": "Font",
   "Common.Views.SymbolTableDialog.textRange": "Range",
   "Common.Views.SymbolTableDialog.textRecent": "Recently used symbols",

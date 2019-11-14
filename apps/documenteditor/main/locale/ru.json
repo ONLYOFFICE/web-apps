@@ -299,7 +299,7 @@
   "Common.Views.SignSettingsDialog.textShowDate": "Показывать дату подписи в строке подписи",
   "Common.Views.SignSettingsDialog.textTitle": "Настройка подписи",
   "Common.Views.SignSettingsDialog.txtEmpty": "Это поле необходимо заполнить",
-  "Common.Views.SymbolTableDialog.textTitle": "Symbol Table",
+  "Common.Views.SymbolTableDialog.textTitle": "Symbol",
   "Common.Views.SymbolTableDialog.textFont": "Шрифт",
   "Common.Views.SymbolTableDialog.textRange": "Набор",
   "Common.Views.SymbolTableDialog.textRecent": "Ранее использовавшиеся символы",

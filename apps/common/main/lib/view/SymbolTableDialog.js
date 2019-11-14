@@ -1324,7 +1324,7 @@ define([
             }
         },
 
-        textTitle: 'Symbol Table',
+        textTitle: 'Symbol',
         textFont: 'Font',
         textRange: 'Range',
         textRecent: 'Recently used symbols',
