@@ -151,6 +151,12 @@
                     "cwd": "../apps/documenteditor/main/resources/watermark",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/resources/watermark"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/main/resources/symboltable",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/documenteditor/main/resources/symboltable"
                 }
             ],
             "help": [

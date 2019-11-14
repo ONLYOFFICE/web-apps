@@ -3443,7 +3443,7 @@ define([
         mergeCellsText          : 'Merge Cells',
         splitCellsText          : 'Split Cell...',
         splitCellTitleText      : 'Split Cell',
-        originalSizeText        : 'Default Size',
+        originalSizeText        : 'Actual Size',
         advancedImageText       : 'Image Advanced Settings',
         hyperlinkText           : 'Hyperlink',
         editHyperlinkText       : 'Edit Hyperlink',

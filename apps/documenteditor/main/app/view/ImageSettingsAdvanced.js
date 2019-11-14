@@ -2013,7 +2013,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textLeft:       'Left',
         textBottom:     'Bottom',
         textRight:      'Right',
-        textOriginalSize: 'Default Size',
+        textOriginalSize: 'Actual Size',
         textPosition:   'Position',
         textDistance:   'Distance From Text',
         textSize:       'Size',

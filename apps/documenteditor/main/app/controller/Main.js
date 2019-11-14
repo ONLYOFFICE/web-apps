@@ -366,6 +366,7 @@ define([
 
                 if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
                     (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
+                    $('#editor-container').css('overflow', 'hidden');
                     $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
                 }
 
@@ -1055,6 +1056,7 @@ define([
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
 
+                $('#editor-container').css('overflow', '');
                 $('.doc-placeholder').remove();
             },
 
@@ -1495,6 +1497,10 @@ define([
 
                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
                         config.msg = this.errorFileSizeExceed;
+                        break;
+
+                   case Asc.c_oAscError.ID.UpdateVersion:
+                        config.msg = this.errorUpdateVersionOnDisconnect;
                         break;
 
                     default:
@@ -2473,7 +2479,8 @@ define([
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
             txtMainDocOnly: 'Error! Main Document Only.',
             txtNotValidBookmark: 'Error! Not a valid bookmark self-reference.',
-            txtNoText: 'Error! No text of specified style in document.'
+            txtNoText: 'Error! No text of specified style in document.',
+            errorUpdateVersionOnDisconnect: 'The file version has been changed.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
         }
     })(), DE.Controllers.Main || {}))
 });

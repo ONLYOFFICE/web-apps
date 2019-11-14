@@ -714,6 +714,14 @@ define([
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'})
                 });
 
+                me.btnInsertSymbol = new Common.UI.Button({
+                    id: 'tlbtn-insertsymbol',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-symbol',
+                    caption: me.capBtnInsSymbol,
+                    lock: [_set.selImage, _set.selChart, _set.selShape, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
+                });
+
                 me.btnTableTemplate = new Common.UI.Button({
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
@@ -1459,7 +1467,7 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -1635,6 +1643,7 @@ define([
             _injectComponent('#slot-btn-instext',        this.btnInsertText);
             _injectComponent('#slot-btn-instextart',     this.btnInsertTextArt);
             _injectComponent('#slot-btn-insequation',    this.btnInsertEquation);
+            _injectComponent('#slot-btn-inssymbol',      this.btnInsertSymbol);
             _injectComponent('#slot-btn-sortdesc',       this.btnSortDown);
             _injectComponent('#slot-btn-sortasc',        this.btnSortUp);
             _injectComponent('#slot-btn-setfilter',      this.btnSetAutofilter);
@@ -1717,6 +1726,7 @@ define([
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             _updateHint(this.btnInsertShape, this.tipInsertShape);
             _updateHint(this.btnInsertEquation, this.tipInsertEquation);
+            _updateHint(this.btnInsertSymbol, this.tipInsertSymbol);
             _updateHint(this.btnSortDown, this.txtSortAZ);
             _updateHint(this.btnSortUp, this.txtSortZA);
             _updateHint(this.btnSetAutofilter, this.txtFilter + ' (Ctrl+Shift+L)');
@@ -2520,6 +2530,8 @@ define([
         textManyPages: 'pages',
         textHeight: 'Height',
         textWidth: 'Width',
-        textMorePages: 'More pages'
+        textMorePages: 'More pages',
+        capBtnInsSymbol: 'Symbol',
+        tipInsertSymbol: 'Insert symbol'
     }, SSE.Views.Toolbar || {}));
 });

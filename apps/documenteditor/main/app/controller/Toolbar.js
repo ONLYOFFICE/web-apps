@@ -47,6 +47,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
@@ -324,6 +325,7 @@ define([
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
@@ -821,6 +823,8 @@ define([
 
             need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation || control_plain;
             toolbar.btnInsertEquation.setDisabled(need_disable);
+
+            toolbar.btnInsertSymbol.setDisabled(!in_para || paragraph_locked || header_locked);
 
             need_disable = paragraph_locked || header_locked || in_equation;
             toolbar.btnSuperscript.setDisabled(need_disable);
@@ -2483,6 +2487,29 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
         },
 
+        onInsertSymbolClick: function() {
+            if (this.api) {
+                var me = this,
+                    win = new Common.Views.SymbolTableDialog({
+                        api: me.api,
+                        lang: me.mode.lang,
+                        modal: false,
+                        type: 1,
+                        buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        handler: function(dlg, result, settings) {
+                            if (result == 'ok') {
+                                me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                            } else
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                win.show();
+                win.on('symbol:dblclick', function(cmp, settings) {
+                    me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                });
+            }
+        },
+
         onApiMathTypes: function(equation) {
             this._equationTemp = equation;
             var me = this;
@@ -3285,7 +3312,8 @@ define([
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height',
+        textInsert: 'Insert'
 
     }, DE.Controllers.Toolbar || {}));
 });

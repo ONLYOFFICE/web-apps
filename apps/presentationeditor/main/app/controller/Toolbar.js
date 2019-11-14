@@ -48,6 +48,8 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/ListSettingsDialog',
+    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/view/Toolbar',
@@ -55,8 +57,7 @@ define([
     'presentationeditor/main/app/view/HeaderFooterDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
-    'presentationeditor/main/app/view/SlideshowSettings',
-    'presentationeditor/main/app/view/ListSettingsDialog'
+    'presentationeditor/main/app/view/SlideshowSettings'
 ], function () { 'use strict';
 
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -310,6 +311,7 @@ define([
             toolbar.btnSlideSize.menu.on('item:click',                  _.bind(this.onSlideSize, this));
             toolbar.listTheme.on('click',                               _.bind(this.onListThemeSelect, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
             toolbar.btnEditHeader.on('click',                           _.bind(this.onEditHeaderClick, this, 'header'));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
             toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
@@ -473,7 +475,7 @@ define([
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
                         this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
-                        this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx = 0;
@@ -502,7 +504,7 @@ define([
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
                         this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
-                        this.toolbar.mnuNumberSettings.setDisabled(idx==0);
+                        this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
                         break;
                 }
             }
@@ -1111,7 +1113,7 @@ define([
                 }
             }
             if (props) {
-                (new PE.Views.ListSettingsDialog({
+                (new Common.Views.ListSettingsDialog({
                     props: props,
                     type: type,
                     handler: function(result, value) {
@@ -1668,8 +1670,8 @@ define([
 
             this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
             this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
-            this.toolbar.mnuMarkerSettings.setDisabled(true);
-            this.toolbar.mnuNumberSettings.setDisabled(true);
+            this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
+            this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {
@@ -1823,6 +1825,28 @@ define([
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
+        },
+
+        onInsertSymbolClick: function() {
+            if (this.api) {
+                var me = this,
+                    win = new Common.Views.SymbolTableDialog({
+                        api: me.api,
+                        lang: me.toolbar.mode.lang,
+                        type: 1,
+                        buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        handler: function(dlg, result, settings) {
+                            if (result == 'ok') {
+                                me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                            } else
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                win.show();
+                win.on('symbol:dblclick', function(cmp, settings) {
+                    me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                });
+            }
         },
 
         onApiMathTypes: function(equation) {
@@ -2528,7 +2552,8 @@ define([
         txtMatrix_2_2_LineBracket                  : 'Empty Matrix with Brackets',
         txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
         txtMatrix_Flat_Round                       : 'Sparse Matrix',
-        txtMatrix_Flat_Square                      : 'Sparse Matrix'
+        txtMatrix_Flat_Square                      : 'Sparse Matrix',
+        textInsert: 'Insert'
 
     }, PE.Controllers.Toolbar || {}));
 });
