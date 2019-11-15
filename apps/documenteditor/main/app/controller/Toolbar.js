@@ -2914,6 +2914,8 @@ define([
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
                         });
+                        if (btn.cmpEl.closest('#review-changes-panel').length>0)
+                            btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
                 }
             }

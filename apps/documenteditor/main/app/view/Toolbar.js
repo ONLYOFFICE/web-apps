@@ -2335,6 +2335,7 @@ define([
             textEditWatermark: 'Custom Watermark',
             textRemWatermark: 'Remove Watermark',
             tipWatermark: 'Edit watermark',
+            capBtnAddComment: 'Add Comment',
             capBtnInsSymbol: 'Symbol',
             tipInsertSymbol: 'Insert symbol'
         }

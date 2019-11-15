@@ -3258,6 +3258,8 @@ define([
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
                         });
+                        if (btn.cmpEl.closest('#review-changes-panel').length>0)
+                            btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
                 }
             }

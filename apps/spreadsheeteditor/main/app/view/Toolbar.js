@@ -2531,6 +2531,7 @@ define([
         textHeight: 'Height',
         textWidth: 'Width',
         textMorePages: 'More pages',
+        capBtnAddComment: 'Add Comment',
         capBtnInsSymbol: 'Symbol',
         tipInsertSymbol: 'Insert symbol'
     }, SSE.Views.Toolbar || {}));

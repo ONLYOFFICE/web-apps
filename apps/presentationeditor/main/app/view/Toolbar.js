@@ -1688,6 +1688,7 @@ define([
             capBtnSlideNum: 'Slide Number',
             capBtnDateTime: 'Date & Time',
             textListSettings: 'List Settings',
+            capBtnAddComment: 'Add Comment',
             capBtnInsSymbol: 'Symbol',
             tipInsertSymbol: 'Insert symbol'
         }
