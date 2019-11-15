@@ -1298,6 +1298,7 @@ define([
             });
             this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
                 me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+                me.GradColor.currentIdx = index;
                 me.sldrGradient.addNewThumb(index, color);
             });
             this.sldrGradient.on('removethumb', function(cmp, index){
