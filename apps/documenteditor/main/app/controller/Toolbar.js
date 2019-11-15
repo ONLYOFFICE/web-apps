@@ -2475,23 +2475,25 @@ define([
         },
 
         onInsertSymbolClick: function() {
+            if (this.dlgSymbolTable && this.dlgSymbolTable.isVisible()) return;
+
             if (this.api) {
-                var me = this,
-                    win = new Common.Views.SymbolTableDialog({
-                        api: me.api,
-                        lang: me.mode.lang,
-                        modal: false,
-                        type: 1,
-                        buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
-                        handler: function(dlg, result, settings) {
-                            if (result == 'ok') {
-                                me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
-                            } else
-                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                        }
-                    });
-                win.show();
-                win.on('symbol:dblclick', function(cmp, settings) {
+                var me = this;
+                me.dlgSymbolTable = new Common.Views.SymbolTableDialog({
+                    api: me.api,
+                    lang: me.mode.lang,
+                    modal: false,
+                    type: 1,
+                    buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                    handler: function(dlg, result, settings) {
+                        if (result == 'ok') {
+                            me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                        } else
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                me.dlgSymbolTable.show();
+                me.dlgSymbolTable.on('symbol:dblclick', function(cmp, settings) {
                     me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
                 });
             }
