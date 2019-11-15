@@ -682,7 +682,7 @@ define([
                 var nFontId = parseInt(cellId.split('_')[2]);
                 sFont = aFontSelects[nFontId].displayValue;
             }
-            return {font: sFont, symbol: this.encodeSurrogateChar(nCurrentSymbol), updateRecents: bUpdateRecents};
+            return {font: sFont, symbol: this.encodeSurrogateChar(nCurrentSymbol), code: nCurrentSymbol, updateRecents: bUpdateRecents};
         },
 
         onBtnClick: function(event) {
@@ -930,7 +930,7 @@ define([
                 var settings = this.getPasteSymbol($(e.target).attr('id'));
                 settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
                 settings.updateRecents && this.updateView(false, undefined, undefined, true);
-                this.fireEvent('symbol:dblclick', this, settings);
+                this.fireEvent('symbol:dblclick', this, 'ok', settings);
             }
         },
 
