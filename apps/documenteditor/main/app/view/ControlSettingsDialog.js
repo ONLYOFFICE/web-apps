@@ -502,6 +502,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         onAddItem: function() {
             var me = this,
                 win = new DE.Views.EditListItemDialog({
+                    store: me.list.store,
                     handler: function(result, name, value) {
                         if (result == 'ok') {
                             var rec = me.list.store.add({
@@ -524,6 +525,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             var me = this,
                 rec = this.list.getSelectedRec(),
                 win = new DE.Views.EditListItemDialog({
+                    store: me.list.store,
                     handler: function(result, name, value) {
                         if (result == 'ok') {
                             if (rec) {

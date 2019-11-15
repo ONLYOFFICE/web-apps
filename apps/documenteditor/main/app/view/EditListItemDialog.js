@@ -60,7 +60,7 @@ define([
                 '<div class="input-row">',
                     '<label>' + this.textDisplayName + '</label>',
                 '</div>',
-                '<div id="id-dlg-label-name" class="input-row"></div>',
+                '<div id="id-dlg-label-name" class="input-row" style="margin-bottom: 8px;"></div>',
                 '<div class="input-row">',
                 '<label>' + this.textValue + '</label>',
                 '</div>',
@@ -99,7 +99,15 @@ define([
             me.inputValue = new Common.UI.InputField({
                 el          : $('#id-dlg-label-value'),
                 style       : 'width: 100%;',
-                validateOnBlur: false
+                validateOnBlur: false,
+                validation  : function(value) {
+                    if (value!=='' && me.options.store) {
+                        var rec = me.options.store.findWhere({value: value});
+                        if (rec)
+                            return me.textValueError
+                    }
+                    return true;
+                }
             });
             me.inputValue._input.on('input', function (e) {
                 if (me.copyvalue==undefined && me.inputValue.getValue()==me.inputName.getValue()) {
@@ -140,6 +148,10 @@ define([
                         this.inputName.cmpEl.find('input').focus();
                         return;
                     }
+                    if (this.inputValue.checkValidate() !== true)  {
+                        this.inputValue.cmpEl.find('input').focus();
+                        return;
+                    }
                 }
 
                 this.options.handler.call(this, state, this.inputName.getValue(), this.inputValue.getValue());
@@ -157,6 +169,7 @@ define([
 
         textDisplayName: 'Display name',
         textValue: 'Value',
-        textNameError: 'Display name must not be empty.'
+        textNameError: 'Display name must not be empty.',
+        textValueError: 'An item with the same value already exists.'
     }, DE.Views.EditListItemDialog || {}));
 });
