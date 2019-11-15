@@ -230,7 +230,7 @@
   "PE.Controllers.Main.errorAccessDeny": "Olyan műveletet próbál végrehajtani, melyre nincs jogosultsága.<br>Vegye fel a kapcsolatot a Document Server adminisztrátorával.",
   "PE.Controllers.Main.errorBadImageUrl": "Hibás kép URL",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Elveszett a kapcsolat a szerverrel. A dokumentum jelenleg nem szerkeszthető.",
-  "PE.Controllers.Main.errorConnectToServer": "A dokumentum mentése nem lehetséges. Kérjük ellenőrizze a kapcsolódási beállításokat vagy lépjen kapcsolatba a rendszer adminisztrátorral.<br>Ha az 'OK'-ra kattint letöltheti a dokumentumot.<br><br>Bővebb információk a Dokumentum Szerverhez kapcsolódásról <a href=\"%1\" target=\"_blank\">itt</a> találhat.",
+  "PE.Controllers.Main.errorConnectToServer": "A dokumentum mentése nem lehetséges. Kérjük ellenőrizze a kapcsolódási beállításokat vagy lépjen kapcsolatba a rendszer adminisztrátorral.<br>Ha az 'OK'-ra kattint letöltheti a dokumentumot.",
   "PE.Controllers.Main.errorDatabaseConnection": "Külső hiba.<br>Adatbázis-kapcsolati hiba. Ha a hiba továbbra is fennáll, lépjen kapcsolatba a rendszer támogatással.",
   "PE.Controllers.Main.errorDataEncrypted": "Titkosított változások érkeztek, melyek feloldása sikertelen.",
   "PE.Controllers.Main.errorDataRange": "Hibás adattartomány.",

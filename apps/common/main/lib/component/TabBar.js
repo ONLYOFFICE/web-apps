@@ -103,6 +103,8 @@ define([
                     var me = this,
                         length = me.bar.tabs.length,
                         barBounds = me.bar.$bar.get(0).getBoundingClientRect();
+                    me.leftBorder = barBounds.left;
+                    me.rightBorder = barBounds.right;
 
                     if (barBounds) {
                         me.bounds       = [];
@@ -112,6 +114,8 @@ define([
                         for (var i = 0; i < length; ++i) {
                             this.bounds.push(me.bar.tabs[i].$el.get(0).getBoundingClientRect());
                         }
+
+                        me.lastTabRight = me.bounds[length - 1].right;
 
                         me.tabBarLeft   = me.bounds[0].left;
                         me.tabBarRight  = me.bounds[length - 1].right;
@@ -322,18 +326,30 @@ define([
                     function dragMove (event) {
                         if (!_.isUndefined(me.drag)) {
                             me.drag.moveX = event.clientX*Common.Utils.zoom();
-                            if (me.drag.moveX > me.tabBarRight) {
+                           if (me.drag.moveX < me.leftBorder) {
+                                me.scrollLeft -= 20;
+                                me.bar.$bar.scrollLeft(me.scrollLeft);
+                                me.calculateBounds();
+                           } else if (me.drag.moveX < me.tabBarRight && me.drag.moveX > me.tabBarLeft) {
+                                var name = $(event.target).parent().data('label'),
+                                    currentTab = _.findIndex(bar.tabs, {label: name});
+                                if (currentTab === -1) {
+                                    bar.$el.find('li.mousemove').removeClass('mousemove right');
+                                    me.drag.place = undefined;
+                                } else if (me.bounds[currentTab].left - me.scrollLeft >= me.tabBarLeft) {
+                                    me.drag.place = currentTab;
+                                    $(event.target).parent().parent().find('li.mousemove').removeClass('mousemove right');
+                                    $(event.target).parent().addClass('mousemove');
+                                }
+                           } else if (me.drag.moveX > me.lastTabRight && Math.abs(me.tabBarRight - me.bounds[me.bar.tabs.length - 1].right) < 1) { //move to end of list, right border of the right tab is visible
+                                bar.$el.find('li.mousemove').removeClass('mousemove right');
                                 bar.tabs[bar.tabs.length - 1].$el.addClass('mousemove right');
                                 me.drag.place = bar.tabs.length;
-                            } else {
-                                $(event.target).parent().parent().find('li.mousemove').removeClass('mousemove right');
-                                $(event.target).parent().addClass('mousemove');
-                                var name = event.target.parentElement.dataset.label,
-                                    currentTab = _.findWhere(bar.tabs, {label: name});
-                                if (!_.isUndefined(currentTab)) {
-                                    me.drag.place = currentTab.sheetindex;
-                                }
-                            }
+                           } else if (me.drag.moveX - me.rightBorder > 3) {
+                               me.scrollLeft += 20;
+                               me.bar.$bar.scrollLeft(me.scrollLeft);
+                               me.calculateBounds();
+                           }
                         }
                     }
                     if (!_.isUndefined(bar) && !_.isUndefined(tabs) && bar.tabs.length > 1) {
@@ -357,7 +373,9 @@ define([
             click: $.proxy(function (event) {
                 if (!tab.disabled) {
                     if (event.ctrlKey || event.metaKey) {
-                        tab.changeState(true);
+                        if (!tab.isActive()) {
+                            tab.changeState(true);
+                        }
                     } else if (event.shiftKey) {
                         this.bar.$el.find('ul > li.selected').removeClass('selected');
                         this.bar.selectTabs.length = 0;
@@ -391,10 +409,12 @@ define([
             }, this.bar),
             mousedown: $.proxy(function (e) {
                 if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
-                    if (this.bar.selectTabs.length > 1) {
-                        dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
-                    } else {
-                        dragHelper.setHook(e, this.bar, tab);
+                    if (!tab.isLockTheDrag) {
+                        if (this.bar.selectTabs.length > 1) {
+                            dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
+                        } else {
+                            dragHelper.setHook(e, this.bar, tab);
+                        }
                     }
                 }
             }, this)

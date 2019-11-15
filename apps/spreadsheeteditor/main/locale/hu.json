@@ -385,7 +385,7 @@
   "SSE.Controllers.Main.errorBadImageUrl": "Hibás kép URL",
   "SSE.Controllers.Main.errorChangeArray": "Nem módosíthatja a tömb egy részét.",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Elveszett a kapcsolat a szerverrel. A dokumentum jelenleg nem szerkeszthető.",
-  "SSE.Controllers.Main.errorConnectToServer": "A dokumentum mentése nem lehetséges. Kérjük ellenőrizze a kapcsolódási beállításokat vagy lépjen kapcsolatba a rendszer adminisztrátorral.<br>Ha az 'OK'-ra kattint letöltheti a dokumentumot.<br><br>Bővebb információk a Dokumentum Szerverhez kapcsolódásról <a href=\"%1\" target=\"_blank\">itt</a> találhat.",
+  "SSE.Controllers.Main.errorConnectToServer": "A dokumentum mentése nem lehetséges. Kérjük ellenőrizze a kapcsolódási beállításokat vagy lépjen kapcsolatba a rendszer adminisztrátorral.<br>Ha az 'OK'-ra kattint letöltheti a dokumentumot.",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "Ez a parancs nem használható többes kiválasztással.<br>Válasszon ki egy tartományt és próbálja újra.",
   "SSE.Controllers.Main.errorCountArg": "Hiba a megadott képletben.<br>Nem megfelelő számú argumentum használata.",
   "SSE.Controllers.Main.errorCountArgExceed": "Hiba a megadott képletben.<br>Az argumentumok száma túllépve.",

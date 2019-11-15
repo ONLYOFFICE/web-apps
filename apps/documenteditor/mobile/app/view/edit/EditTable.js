@@ -190,12 +190,31 @@ define([
             },
 
             showTableStyle: function () {
+                var me = this;
                 this.showPage('#edit-table-style', true);
 
                 this.paletteFillColor = new Common.UI.ThemeColorPalette({
                     el: $('#tab-table-fill'),
                     transparent: true
                 });
+                this.paletteFillColor.on('customcolor', function () {
+                    me.showCustomFillColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-table-add-custom-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('#tab-table-fill').append(template({scope: this}));
+                $('#edit-table-add-custom-color').single('click', _.bind(this.showCustomFillColor, this));
 
                 this.fireEvent('page:show', [this, '#edit-table-style']);
             },
@@ -206,6 +225,24 @@ define([
                 this.paletteBorderColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-table-border-color] .page-content')
                 });
+                this.paletteBorderColor.on('customcolor', function () {
+                    me.showCustomBorderColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-table-add-custom-border-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-table-border-color] .page-content').append(template({scope: this}));
+                $('#edit-table-add-custom-border-color').single('click', _.bind(this.showCustomBorderColor, this));
 
                 this.fireEvent('page:show', [this, '#edit-table-border-color-view']);
             },
@@ -216,6 +253,42 @@ define([
 
             showTableStyleOptions: function () {
                 this.showPage('#edit-table-style-options-view');
+            },
+
+            showCustomFillColor: function () {
+                var me = this,
+                    selector = '#edit-table-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-table-custom-color] .page-content'),
+                    color: me.paletteFillColor.currentColor
+                });
+                me.customColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteFillColor.addNewDynamicColor(colorPicker, color);
+                    DE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
+            },
+
+            showCustomBorderColor: function() {
+                var me = this,
+                    selector = '#edit-table-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customBorderColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-table-custom-color] .page-content'),
+                    color: me.paletteBorderColor.currentColor
+                });
+                me.customBorderColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteBorderColor.addNewDynamicColor(colorPicker, color);
+                    me.paletteFillColor.updateDynamicColors();
+                    me.paletteFillColor.select(me.paletteFillColor.currentColor);
+                    DE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
             },
 
             textRemoveTable: 'Remove Table',
@@ -242,7 +315,9 @@ define([
             textBandedRow: 'Banded Row',
             textFirstColumn: 'First Column',
             textLastColumn: 'Last Column',
-            textBandedColumn: 'Banded Column'
+            textBandedColumn: 'Banded Column',
+            textAddCustomColor: 'Add Custom Color',
+            textCustomColor: 'Custom Color'
         }
     })(), DE.Views.EditTable || {}))
 });

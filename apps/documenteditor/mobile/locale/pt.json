@@ -53,7 +53,7 @@
   "DE.Controllers.Main.downloadTitleText": "Baixando Documento",
   "DE.Controllers.Main.errorBadImageUrl": "URL de imagem está incorreta",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Conexão ao servidor perdida. Você não pode mais editar.",
-  "DE.Controllers.Main.errorConnectToServer": "O documento não pôde ser salvo. Verifique as configurações de conexão ou entre em contato com o administrador.<br>Quando você clicar no botão 'OK', você será solicitado à fazer o download do documento. <br><br>Encontre mais informações sobre como conecta ao Document Server <a href=\"%1\" target=\"_blank\">aqui</a>",
+  "DE.Controllers.Main.errorConnectToServer": "O documento não pôde ser salvo. Verifique as configurações de conexão ou entre em contato com o administrador.<br>Quando você clicar no botão 'OK', você será solicitado à fazer o download do documento.",
   "DE.Controllers.Main.errorDatabaseConnection": "Erro externo. <br> Erro de conexão do banco de dados. Entre em contato com o suporte.",
   "DE.Controllers.Main.errorDataRange": "Intervalo de dados incorreto.",
   "DE.Controllers.Main.errorDefaultMessage": "Código do Erro: %1",

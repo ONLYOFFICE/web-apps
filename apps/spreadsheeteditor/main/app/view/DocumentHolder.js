@@ -836,6 +836,10 @@ define([
                             checkable   : true,
                             checked     : false,
                             value       : -1
+                        }),
+                        me.mnuListSettings = new Common.UI.MenuItem({
+                            caption: me.textListSettings,
+                            value: 'settings'
                         })
                     ]
                 })
@@ -1057,7 +1061,7 @@ define([
         strDetails: 'Signature Details',
         strSetup: 'Signature Setup',
         strDelete: 'Remove Signature',
-        originalSizeText: 'Default Size',
+        originalSizeText: 'Actual Size',
         textReplace: 'Replace image',
         textFromUrl: 'From URL',
         textFromFile: 'From File',
@@ -1090,7 +1094,8 @@ define([
         textAlign: 'Align',
         textCrop: 'Crop',
         textCropFill: 'Fill',
-        textCropFit: 'Fit'
+        textCropFit: 'Fit',
+        textListSettings: 'List Settings'
 
     }, SSE.Views.DocumentHolder || {}));
 });

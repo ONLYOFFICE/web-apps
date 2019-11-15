@@ -90,7 +90,7 @@
   "PE.Controllers.Main.downloadTextText": "Prenašanje predstavitve...",
   "PE.Controllers.Main.downloadTitleText": "Prenašanje predstavitve",
   "PE.Controllers.Main.errorCoAuthoringDisconnect": "Povezava s strežnikom izgubljena. Dokument v tem trenutku ne more biti urejen.",
-  "PE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "PE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.",
   "PE.Controllers.Main.errorDatabaseConnection": "Zunanja napaka.<br>Napaka povezave baze podatkov. V primeru, da napaka ni odpravljena, prosim kontaktirajte ekipo za pomoč.",
   "PE.Controllers.Main.errorDataRange": "Nepravilen obseg podatkov.",
   "PE.Controllers.Main.errorDefaultMessage": "Koda napake: %1",

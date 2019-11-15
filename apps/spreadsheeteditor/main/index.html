@@ -29,6 +29,7 @@
         .loadmask > .brendpanel > div {
             display: flex;
             align-items: center;
+            height: 28px;
         }
 
         .loadmask > .brendpanel .loading-logo {
@@ -48,15 +49,6 @@
             margin-left: auto;
         }
 
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 12px;
-            margin: 4px 10px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
         .loadmask > .brendpanel .rect {
             vertical-align: middle;
             width: 50px;
@@ -67,7 +59,7 @@
         }
 
         .loadmask > .sktoolbar {
-            background: #fafafa;
+            background: #f1f1f1;
             height: 46px;
             padding: 10px 12px;
             box-sizing: content-box;
@@ -135,22 +127,22 @@
 
         @keyframes flickerAnimation {
             0%   { opacity:1; }
-            50%  { opacity:0.3; }
+            50%  { opacity:0.5; }
             100% { opacity:1; }
         }
         @-o-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.3; }
+            50%  { opacity:0.5; }
             100% { opacity:1; }
         }
         @-moz-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.3; }
+            50%  { opacity:0.5; }
             100% { opacity:1; }
         }
         @-webkit-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.3; }
+            50%  { opacity:0.5; }
             100% { opacity:1; }
         }
     </style>
@@ -216,7 +208,7 @@
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel"><div>
             <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo@2x.png"></div>
-            <div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div>
+            <div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar">
             <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/><li class="fat"/></ul>

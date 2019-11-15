@@ -169,7 +169,7 @@ define([
                 tab = this.statusbar.tabbar.getAt(i);
                 if (index == tab.sheetindex) {
                     tab[locked?'addClass':'removeClass']('coauth-locked');
-                    //tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
+                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
                     break;
                 }
             }
@@ -241,7 +241,7 @@ define([
                 if (item.sheetindex !== currentIdx) {
                     item.disable(mode==Asc.c_oAscSelectionDialogType.FormatTable);
                 }
-                //item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=Asc.c_oAscSelectionDialogType.None));
+                item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=Asc.c_oAscSelectionDialogType.None));
             }
             this.statusbar.rangeSelectionMode = mode;
         },
@@ -290,7 +290,8 @@ define([
             }
 
             var index = 0, name;
-            while(++index < 1000) {
+            while(true) {
+                index++;
                 name = this.strSheet + index;
                 if (items.indexOf(name.toLowerCase()) < 0) break;
             }
@@ -300,7 +301,7 @@ define([
                 curArrNames.forEach(function (item) {
                     arr.push(item.toLowerCase());
                 });
-                while(arr.indexOf(name.toLowerCase()) !== -1) {
+                while(arr.indexOf(name.toLowerCase()) !== -1 || items.indexOf(name.toLowerCase()) !== -1) {
                     index++;
                     name = this.strSheet + index;
                 }
@@ -319,7 +320,8 @@ define([
             var first = re ? re[1] : orig + ' ';
 
             var index = 1, name;
-            while(++index < 1000) {
+            while(true) {
+                index++;
                 name = first + '(' + index + ')';
                 if (names.indexOf(name.toLowerCase()) < 0) break;
             }
@@ -446,7 +448,7 @@ define([
                     }
                 } else {
                     if (!_.isUndefined(destPos)) {
-                        me.api.asc_moveWorksheet(destPos, arrIndex);
+                        me.api.asc_moveWorksheet(items.length === destPos ? wc : items[destPos].inindex, arrIndex);
                     }
                 }
                 return;

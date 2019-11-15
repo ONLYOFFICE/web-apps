@@ -83,9 +83,9 @@ define([
                 step: this.step,
                 defaultUnit : this.defaultUnit,
                 minValue    : 0,
-                maxValue    : this.maxvalue,
-                value       : (this.startvalue!==null) ? (this.startvalue + ' ' + this.defaultUnit) : ''
+                maxValue    : this.maxvalue
             });
+            this.spnSize.setValue((this.startvalue!==null) ? (this.startvalue + ' ' + this.defaultUnit) : '');
 
             if (this.startvalue!==null) {
                 var me = this;

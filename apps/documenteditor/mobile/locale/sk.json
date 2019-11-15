@@ -54,7 +54,7 @@
   "DE.Controllers.Main.downloadTitleText": "Sťahovanie dokumentu",
   "DE.Controllers.Main.errorBadImageUrl": "Adresa URL obrázku je nesprávna",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Spojenie so serverom sa stratilo. Už nemôžete upravovať.",
-  "DE.Controllers.Main.errorConnectToServer": "Dokument sa nepodarilo uložiť. Prosím, skontrolujte nastavenia pripojenia alebo kontaktujte správcu.<br>Po kliknutí na tlačidlo 'OK' sa zobrazí výzva na prevzatie dokumentu.<br><br>Viac informácií o pripojení dokumentového servera nájdete <a href=\"%1\" target=\"_blank\">tu</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Dokument sa nepodarilo uložiť. Prosím, skontrolujte nastavenia pripojenia alebo kontaktujte správcu.<br>Po kliknutí na tlačidlo 'OK' sa zobrazí výzva na prevzatie dokumentu.",
   "DE.Controllers.Main.errorDatabaseConnection": "Externá chyba.<br>Chyba spojenia databázy. Obráťte sa prosím na podporu.",
   "DE.Controllers.Main.errorDataRange": "Nesprávny rozsah údajov.",
   "DE.Controllers.Main.errorDefaultMessage": "Kód chyby: %1",
