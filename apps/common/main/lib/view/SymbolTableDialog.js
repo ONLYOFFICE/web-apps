@@ -599,6 +599,7 @@ define([
                 el          : $window.find('#symbol-table-cmb-range'),
                 cls         : 'input-group-nr',
                 editable    : false,
+                search      : true,
                 menuStyle   : 'min-width: 100%; max-height: 209px;'
             }).on('selected', function(combo, record) {
                 var oCurrentRange = me.getRangeByName(aRanges, parseInt(record.value));
