@@ -44,6 +44,7 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
@@ -323,6 +324,7 @@ define([
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+                toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -2763,6 +2765,28 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
         },
 
+        onInsertSymbolClick: function() {
+            if (this.api) {
+                var me = this,
+                    win = new Common.Views.SymbolTableDialog({
+                        api: me.api,
+                        lang: me.toolbar.mode.lang,
+                        type: 1,
+                        buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        handler: function(dlg, result, settings) {
+                            if (result == 'ok') {
+                                me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                            } else
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                win.show();
+                win.on('symbol:dblclick', function(cmp, settings) {
+                    me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                });
+            }
+        },
+
         onApiMathTypes: function(equation) {
             this._equationTemp = equation;
             var me = this;
@@ -3813,7 +3837,8 @@ define([
         textPivot: 'Pivot Table',
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
-        txtTable_TableStyleLight: 'Table Style Light'
+        txtTable_TableStyleLight: 'Table Style Light',
+        textInsert: 'Insert'
 
     }, SSE.Controllers.Toolbar || {}));
 });

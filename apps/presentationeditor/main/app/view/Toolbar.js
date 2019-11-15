@@ -543,6 +543,15 @@ define([
                     });
                     me.slideOnlyControls.push(this.btnInsertEquation);
 
+                    me.btnInsertSymbol = new Common.UI.Button({
+                        id: 'tlbtn-insertsymbol',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-symbol',
+                        caption: me.capBtnInsSymbol,
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
+                    });
+                    me.paragraphControls.push(me.btnInsertSymbol);
+
                     me.btnInsertHyperlink = new Common.UI.Button({
                         id: 'tlbtn-insertlink',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -815,7 +824,7 @@ define([
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign,
                         this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart,
-                        this.btnInsertEquation, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings
+                        this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings
                     ];
 
                     // Disable all components before load document
@@ -933,6 +942,7 @@ define([
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
+                _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-inserttable', this.btnInsertTable);
                 _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
@@ -1044,6 +1054,7 @@ define([
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
+                this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
@@ -1677,7 +1688,9 @@ define([
             capBtnSlideNum: 'Slide Number',
             capBtnDateTime: 'Date & Time',
             textListSettings: 'List Settings',
-            capBtnAddComment: 'Add Comment'
+            capBtnAddComment: 'Add Comment',
+            capBtnInsSymbol: 'Symbol',
+            tipInsertSymbol: 'Insert symbol'
         }
     }()), PE.Views.Toolbar || {}));
 });
