@@ -394,7 +394,7 @@ define([
                     me.sortThumbs();
 
                 var positionY = e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top;
-                me.isRemoveThumb = positionY > me.cmpEl.height();
+                me.isRemoveThumb = positionY > me.cmpEl.height() || positionY < 0;
                 me.setRemoveThumb(index, me.isRemoveThumb);
 
                 if (Math.abs(value-lastValue)>0.001)
