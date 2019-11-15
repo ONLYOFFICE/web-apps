@@ -161,9 +161,6 @@ define([
 
         addNewThumb: function(index, color) {
             var me = this;
-            me.thumbs[index].thumb.on('dblclick', null, function() {
-                me.trigger('thumbdblclick', me);
-            });
             me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> div');
             (index>0) && this.setColorValue(color, index);
             me.sortThumbs();

@@ -850,6 +850,10 @@ define([
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
                     }
+                    if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
+                        me.GradColor.currentIdx = 0;
+                    }
+                    me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1256,6 +1260,15 @@ define([
                 me.OriginalFillType = null;
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
+            });
+            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
+                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+                me.sldrGradient.addNewThumb(index, color);
+            });
+            this.sldrGradient.on('removethumb', function(cmp, index){
+                me.sldrGradient.removeThumb(index);
+                me.GradColor.values.splice(index, 1);
+                me.sldrGradient.changeGradientStyle();
             });
             this.lockedControls.push(this.sldrGradient);
 

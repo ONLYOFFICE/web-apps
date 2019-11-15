@@ -419,8 +419,7 @@ define([
             };
 
             var onTrackMouseUp = function (e) {
-                if ( me.disabled ) return;
-                if ( me.thumbs.length > 9 ) return;
+                if ( me.disabled || !_.isUndefined(me._dragstart) || me.thumbs.length > 9) return;
 
                 var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
                     nearIndex = findThumb(pos),
@@ -517,9 +516,9 @@ define([
             var ind = _.findIndex(this.thumbs, {index: index});
             if (ind !== -1) {
                 if (remove && this.thumbs.length > 2) {
-                    this.thumbs[index].thumb.addClass('remove');
+                    this.$el.find('.active').addClass('remove');
                 } else {
-                    this.thumbs[index].thumb.removeClass('remove');
+                    this.$el.find('.remove').removeClass('remove');
                 }
             }
         },
