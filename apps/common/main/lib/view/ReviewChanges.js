@@ -468,7 +468,7 @@ define([
                     if (!me.btnHistory && separator_last)
                         me.$el.find(separator_last).hide();
 
-                    Common.NotificationCenter.trigger('tab:visible', 'review', config.isEdit || config.canViewReview);
+                    Common.NotificationCenter.trigger('tab:visible', 'review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
 
                     setEvents.call(me);
                 });

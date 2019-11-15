@@ -1460,7 +1460,7 @@ define([
                     }
                 );
             }
-
+            me.lockControls = [];
             if (config.isEdit) {
                 me.lockControls = [
                     me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,

@@ -389,18 +389,21 @@ define([
             this.api = api;
 
             var config = SSE.getController('Main').appOptions;
-            if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
-                this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
-                this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
-                this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
-            }
+            if (config.isEdit) {
+                if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
+                    this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
+                    this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
+                    this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+                }
+                this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
+                this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
+                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+            } else if (config.isRestrictedEdit)
+                this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChangedRestricted, this));
 
-            this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
-            Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
-            this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
-            this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
-            Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
         },
 
         // onNewDocument: function(btn, e) {
@@ -2429,6 +2432,13 @@ define([
             toolbar.lockToolbar(SSE.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
         },
 
+        onApiSelectionChangedRestricted: function(info) {
+            var selectionType = info.asc_getFlags().asc_getSelectionType();
+            this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
+                                    this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
+                                    { array: this.btnsComment });
+        },
+
         onApiSelectionChanged_DiagramEditor: function(info) {
             if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
 
@@ -3177,6 +3187,13 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
+            if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ($panel)
+                    me.toolbar.addTab(tab, $panel, 6);
+            }
+
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
 
@@ -3204,18 +3221,13 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
                     if ( !config.isOffline ) {
-                        tab = {action: 'pivot', caption: me.textPivot};
-                        $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                        var tab = {action: 'pivot', caption: me.textPivot};
+                        var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
                         if ($panel) {
                             me.toolbar.addTab(tab, $panel, 5);
                             me.toolbar.setVisible('pivot', true);
                         }
                     }
-
-                    var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                    var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                    if ( $panel )
-                        me.toolbar.addTab(tab, $panel, 6);
 
                     if (!(config.customization && config.customization.compactHeader)) {
                         // hide 'print' and 'save' buttons group and next separator
@@ -3231,8 +3243,8 @@ define([
 
                     if ( config.isDesktopApp ) {
                         if ( config.canProtect ) {
-                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                            var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                             if ($panel)
                                 me.toolbar.addTab(tab, $panel, 7);
                         }

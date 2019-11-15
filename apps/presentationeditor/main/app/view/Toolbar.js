@@ -121,7 +121,7 @@ define([
 
             applyLayout: function (config) {
                 var me = this;
-
+                me.lockControls = [];
                 if ( config.isEdit ) {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
