@@ -1269,7 +1269,7 @@ define([
                     var toolbarController   = application.getController('Toolbar');
                     toolbarController   && toolbarController.setApi(me.api);
 
-                    if (this.appOptions.isRestrictedEdit) return;
+                    if (!this.appOptions.isEdit) return;
 
                     var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');

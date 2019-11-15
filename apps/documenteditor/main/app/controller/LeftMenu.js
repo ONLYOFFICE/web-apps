@@ -467,6 +467,7 @@ define([
             if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
+            this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
             /** coauthoring end **/
 
             value = Common.localStorage.getItem("de-settings-fontrender");

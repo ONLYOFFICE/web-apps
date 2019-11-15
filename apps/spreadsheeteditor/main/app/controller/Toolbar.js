@@ -44,6 +44,7 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
@@ -323,6 +324,7 @@ define([
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+                toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -387,18 +389,21 @@ define([
             this.api = api;
 
             var config = SSE.getController('Main').appOptions;
-            if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
-                this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
-                this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
-                this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
-            }
+            if (config.isEdit) {
+                if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
+                    this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
+                    this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
+                    this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+                }
+                this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
+                this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
+                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+            } else if (config.isRestrictedEdit)
+                this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChangedRestricted, this));
 
-            this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
-            Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
-            this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
-            this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
-            Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
         },
 
         // onNewDocument: function(btn, e) {
@@ -2427,6 +2432,13 @@ define([
             toolbar.lockToolbar(SSE.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
         },
 
+        onApiSelectionChangedRestricted: function(info) {
+            var selectionType = info.asc_getFlags().asc_getSelectionType();
+            this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
+                                    this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
+                                    { array: this.btnsComment });
+        },
+
         onApiSelectionChanged_DiagramEditor: function(info) {
             if ( !this.editMode || this.api.isCellEdited || this.api.isRangeSelection) return;
 
@@ -2761,6 +2773,28 @@ define([
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
+        },
+
+        onInsertSymbolClick: function() {
+            if (this.api) {
+                var me = this,
+                    win = new Common.Views.SymbolTableDialog({
+                        api: me.api,
+                        lang: me.toolbar.mode.lang,
+                        type: 1,
+                        buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        handler: function(dlg, result, settings) {
+                            if (result == 'ok') {
+                                me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                            } else
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                win.show();
+                win.on('symbol:dblclick', function(cmp, settings) {
+                    me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                });
+            }
         },
 
         onApiMathTypes: function(equation) {
@@ -3153,6 +3187,13 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
+            if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ($panel)
+                    me.toolbar.addTab(tab, $panel, 6);
+            }
+
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
 
@@ -3180,18 +3221,13 @@ define([
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
                     if ( !config.isOffline ) {
-                        tab = {action: 'pivot', caption: me.textPivot};
-                        $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                        var tab = {action: 'pivot', caption: me.textPivot};
+                        var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
                         if ($panel) {
                             me.toolbar.addTab(tab, $panel, 5);
                             me.toolbar.setVisible('pivot', true);
                         }
                     }
-
-                    var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                    var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                    if ( $panel )
-                        me.toolbar.addTab(tab, $panel, 6);
 
                     if (!(config.customization && config.customization.compactHeader)) {
                         // hide 'print' and 'save' buttons group and next separator
@@ -3207,8 +3243,8 @@ define([
 
                     if ( config.isDesktopApp ) {
                         if ( config.canProtect ) {
-                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                            var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
                             if ($panel)
                                 me.toolbar.addTab(tab, $panel, 7);
                         }
@@ -3234,6 +3270,8 @@ define([
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
                         });
+                        if (btn.cmpEl.closest('#review-changes-panel').length>0)
+                            btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
                 }
             }
@@ -3811,7 +3849,8 @@ define([
         textPivot: 'Pivot Table',
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
-        txtTable_TableStyleLight: 'Table Style Light'
+        txtTable_TableStyleLight: 'Table Style Light',
+        textInsert: 'Insert'
 
     }, SSE.Controllers.Toolbar || {}));
 });
