@@ -173,9 +173,10 @@ define([
 
         removeThumb: function(index) {
             if (index===undefined) index = this.thumbs.length-1;
-            if (index>0) {
+            if (this.thumbs.length > 2) {
                 this.thumbs[index].thumb.remove();
                 this.thumbs.splice(index, 1);
+                this.sortThumbs();
                 this.changeSliderStyle();
             }
         },

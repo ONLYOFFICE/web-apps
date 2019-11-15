@@ -348,23 +348,27 @@ define([
                     value = pos/me.delta + me.minValue;
 
                 if (me.isRemoveThumb) {
-                    if (me.thumbs.length < 3) return;
-                    me.trigger('removethumb', me, index);
-                    me.trigger('change', me);
-                    me.trigger('changecomplete', me);
+                    if (me.thumbs.length < 3) {
+                        $(document).off('mouseup', me.binding.onMouseUp);
+                        $(document).off('mousemove', me.binding.onMouseMove);
+                        return;
+                    }
+                    me.trigger('removethumb', me, _.findIndex(me.thumbs, {index: index}));
+                    me.trigger('changecomplete', me, value, lastValue);
+                } else {
+                    me.setThumbPosition(index, pos);
+                    me.thumbs[index].value = value;
+
+                    if (need_sort)
+                        me.sortThumbs();
                 }
-
-                me.setThumbPosition(index, pos);
-                me.thumbs[index].value = value;
-
-                if (need_sort)
-                    me.sortThumbs();
 
                 $(document).off('mouseup', me.binding.onMouseUp);
                 $(document).off('mousemove', me.binding.onMouseMove);
 
                 me._dragstart = undefined;
-                me.trigger('changecomplete', me, value, lastValue);
+                !me.isRemoveThumb && me.trigger('changecomplete', me, value, lastValue);
+                me.isRemoveThumb = undefined;
             };
 
             var onMouseMove = function (e) {
@@ -383,15 +387,15 @@ define([
                     pos = Math.max(0, Math.min(100, position)),
                     value = pos/me.delta + me.minValue;
 
-                var positionY = e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top;
-                me.isRemoveThumb = positionY > me.cmpEl.height();
-                me.setRemoveThumb(index, me.isRemoveThumb);
-
                 me.setThumbPosition(index, pos);
                 me.thumbs[index].value = value;
 
                 if (need_sort)
                     me.sortThumbs();
+
+                var positionY = e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top;
+                me.isRemoveThumb = positionY > me.cmpEl.height();
+                me.setRemoveThumb(index, me.isRemoveThumb);
 
                 if (Math.abs(value-lastValue)>0.001)
                     me.trigger('change', me, value, lastValue);
@@ -510,10 +514,13 @@ define([
         },
 
         setRemoveThumb: function(index, remove) {
-            if (remove) {
-                this.thumbs[index].thumb.addClass('remove');
-            } else {
-                this.thumbs[index].thumb.removeClass('remove');
+            var ind = _.findIndex(this.thumbs, {index: index});
+            if (ind !== -1) {
+                if (remove && this.thumbs.length > 2) {
+                    this.thumbs[index].thumb.addClass('remove');
+                } else {
+                    this.thumbs[index].thumb.removeClass('remove');
+                }
             }
         },
 

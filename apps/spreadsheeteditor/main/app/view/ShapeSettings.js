@@ -1300,9 +1300,8 @@ define([
                 me.sldrGradient.addNewThumb(index, color);
             });
             this.sldrGradient.on('removethumb', function(cmp, index){
-                me.GradColor.colors.splice(index, 1);
-                me.GradColor.values.splice(index, 1);
                 me.sldrGradient.removeThumb(index);
+                me.GradColor.values.splice(index, 1);
                 me.sldrGradient.changeGradientStyle();
             });
             this.fillControls.push(this.sldrGradient);
