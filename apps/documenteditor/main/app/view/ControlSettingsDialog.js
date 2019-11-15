@@ -226,7 +226,16 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 store: new Common.UI.DataViewStore(),
                 scrollAlwaysVisible: true
             });
-            // this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
+            this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
+
+            this.txtDate = new Common.UI.InputField({
+                el          : $('#control-settings-txt-format'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : ''
+            });
 
             // Check Box
             this.txtChecked = new Common.UI.InputField({
@@ -355,6 +364,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
                     var specProps = props.get_DateTimePr();
                     if (specProps) {
+                        this.datetime = specProps;
                         var lang = specProps.get_LangId() || this.options.controlLang;
                         if (lang) {
                             var item = this.cmbLang.store.findWhere({value: lang});
@@ -362,11 +372,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                             this.cmbLang.setValue(item);
                         }
                         this.updateFormats(this.cmbLang.getValue());
-                        // var rec = this.listFormats.store.find({format: specProps.get_DateFormat()});
-                        // if (rec) {
-                        //     this.listFormats.selectRecord(rec);
-                        //     this.listFormats.scrollToRecord(rec);
-                        // }
+                        var format = specProps.get_DateFormat();
+                        var rec = this.listFormats.store.findWhere({format: format});
+                        this.listFormats.selectRecord(rec);
+                        this.listFormats.scrollToRecord(rec);
+                        this.txtDate.setValue(format);
                     }
                 }
 
@@ -426,10 +436,12 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             }
 
             //for date picker
-            // var rec = this.listFormats.getSelectedRec();
-            // if (rec) {
-            //     props.set_DateFormat(rec.get('format'));
-            // }
+            if (this.type == Asc.c_oAscContentControlSpecificType.DateTime) {
+                var specProps = new AscCommon.CSdtDatePickerPr();
+                specProps.put_DateFormat(this.txtDate.getValue());
+                specProps.put_LangId(this.cmbLang.getValue());
+                props.put_DateTimePr(specProps);
+            }
 
             // for check box
             if (this.type == Asc.c_oAscContentControlSpecificType.CheckBox) {
@@ -558,25 +570,26 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         },
 
         updateFormats: function(lang) {
-            // this.props.put_Lang(lang);
-            // var data = this.props.get_DateTimeExamples(),
-            //     arr = [];
-            // var store = this.listFormats.store;
-            // for (var name in data) {
-            //     if (data[name])  {
-            //         var rec = new Common.UI.DataViewModel();
-            //         rec.set({
-            //             format: name,
-            //             value: data[name]
-            //         });
-            //         arr.push(rec);
-            //     }
-            // }
-            // store.reset(arr);
-            // this.listFormats.selectByIndex(0);
-            // var rec = this.listFormats.getSelectedRec();
-            // this.listFormats.scrollToRecord(rec);
-            // this.onSelectFormat(this.listFormats, null, rec);
+            if (this.datetime) {
+                var props = this.datetime,
+                    formats = props.get_FormatsExamples(),
+                    arr = [];
+                for (var i = 0, len = formats.length; i < len; i++)
+                {
+                    props.get_String(formats[i], undefined, lang);
+                    var rec = new Common.UI.DataViewModel();
+                    rec.set({
+                        format: formats[i],
+                        value: props.get_String(formats[i], undefined, lang)
+                    });
+                    arr.push(rec);
+                }
+                this.listFormats.store.reset(arr);
+                this.listFormats.selectByIndex(0);
+                var rec = this.listFormats.getSelectedRec();
+                this.listFormats.scrollToRecord(rec);
+                this.txtDate.setValue(rec.get('format'));
+            }
         },
 
         onEditCheckbox: function(checked) {
@@ -607,6 +620,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             }
         },
 
+        onSelectFormat: function(lisvView, itemView, record) {
+            if (!record) return;
+            this.txtDate.setValue(record.get('format'));
+        },
+
         textTitle:    'Content Control Settings',
         textName: 'Title',
         textTag: 'Tag',
@@ -632,7 +650,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textValue: 'Value',
         textDate: 'Date Format',
         textLang: 'Language',
-        textFormat: 'Formats',
+        textFormat: 'Display the date like this',
         textCheckbox: 'Check box',
         textChecked: 'Checked symbol',
         textUnchecked: 'Unchecked symbol'

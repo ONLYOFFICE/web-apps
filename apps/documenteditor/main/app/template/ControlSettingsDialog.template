@@ -95,22 +95,27 @@
         <table cols="1" style="width: 100%;">
             <tr>
                 <td>
-                    <label class="header"><%= scope.textLang %></label>
+                    <label><%= scope.textFormat %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="control-settings-txt-format" style="width: 100%;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="control-settings-format" style="width: 100%; height: 165px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textLang %></label>
                 </td>
             </tr>
             <tr>
                 <td class="padding-small">
                     <div id="control-settings-lang"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="header"><%= scope.textFormat %></label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id="control-settings-format" style="width: 100%; height: 165px;"></div>
                 </td>
             </tr>
         </table>
