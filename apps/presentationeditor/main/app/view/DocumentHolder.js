@@ -1586,7 +1586,9 @@ define([
                         me.api.asc_registerCallback('asc_onShowSpecialPasteOptions',  _.bind(onShowSpecialPasteOptions, me));
                         me.api.asc_registerCallback('asc_onHideSpecialPasteOptions',  _.bind(onHideSpecialPasteOptions, me));
                         me.api.asc_registerCallback('asc_ChangeCropState',            _.bind(onChangeCropState, me));
-
+                        me.api.asc_registerCallback('asc_onHidePlaceholderActions',   _.bind(onChangeCropState, me));
+                        me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(me.onInsertImage, me, true));
+                        me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(me.onInsertImageUrl, me, true));
                     }
                     me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(onCoAuthoringDisconnect, me));
                     Common.NotificationCenter.on('api:disconnect',              _.bind(onCoAuthoringDisconnect, me));
@@ -2781,29 +2783,12 @@ define([
                             caption     : this.textFromFile
                         }).on('click', function(item) {
                             setTimeout(function(){
-                                if (me.api) me.api.ChangeImageFromFile();
-                                me.fireEvent('editcomplete', me);
+                                me.onInsertImage();
                             }, 10);
                         }),
                         new Common.UI.MenuItem({
                             caption     : this.textFromUrl
-                        }).on('click', function(item) {
-                            (new Common.Views.ImageFromUrlDialog({
-                                handler: function(result, value) {
-                                    if (result == 'ok') {
-                                        if (me.api) {
-                                            var checkUrl = value.replace(/ /g, '');
-                                            if (!_.isEmpty(checkUrl)) {
-                                                var props = new Asc.asc_CImgProperty();
-                                                props.put_ImageUrl(checkUrl);
-                                                me.api.ImgApply(props);
-                                            }
-                                        }
-                                    }
-                                    me.fireEvent('editcomplete', me);
-                                }
-                            })).show();
-                        })
+                        }).on('click', _.bind(me.onInsertImageUrl, me, false))
                     ]
                 })
             });
@@ -3430,6 +3415,35 @@ define([
 
         SetDisabled: function(state) {
             this._isDisabled = state;
+        },
+
+        onInsertImage: function(placeholder, obj, x, y) {
+            if (this.api)
+                (placeholder) ? this.api.asc_addImage() : this.api.ChangeImageFromFile();
+            this.fireEvent('editcomplete', this);
+        },
+
+        onInsertImageUrl: function(placeholder, obj, x, y) {
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                if (placeholder)
+                                    me.api.AddImageUrl(checkUrl);
+                                else {
+                                    var props = new Asc.asc_CImgProperty();
+                                    props.put_ImageUrl(checkUrl);
+                                    me.api.ImgApply(props);
+                                }
+                            }
+                        }
+                    }
+                    me.fireEvent('editcomplete', me);
+                }
+            })).show();
         },
 
         insertRowAboveText      : 'Row Above',
