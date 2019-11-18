@@ -150,6 +150,7 @@ define([
                     if (a.shortName > b.shortName) return 1;
                     return 0;
                 });
+                this.langs = langs;
                 combo.setData(langs);
                 var item = combo.store.findWhere({value: value});
                 if (!item && allLangs[value]) {
@@ -164,8 +165,11 @@ define([
                 combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
                 combo.setDisabled(true);
             }
+            this.langValue = value;
             this.api.asc_setDefaultLanguage(value);
             this._initSettings = false;
+
+            return [this.langs, this.langValue];
         },
 
         onSelectLanguage: function (combo, record) {

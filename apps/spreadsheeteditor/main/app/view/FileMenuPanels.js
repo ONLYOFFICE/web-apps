@@ -171,6 +171,7 @@ define([
                 '<div id="id-settings-content" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
                     '<div id="panel-settings-general" style="width:100%; height:100%;" class="no-padding main-settings-panel active"></div>',
                     '<div id="panel-settings-print" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
+                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -192,11 +193,15 @@ define([
             this.printSettings.menu = this.menu;
             this.printSettings.render($markup.findById('#panel-settings-print'));
 
+            this.spellcheckSettings = new SSE.Views.FileMenuPanels.MainSpellCheckSettings({menu: this.menu});
+            this.spellcheckSettings.render($markup.findById('#panel-settings-spellcheck'));
+
             this.viewSettingsPicker = new Common.UI.DataView({
                 el: $markup.findById('#id-settings-menu'),
                 store: new Common.UI.DataViewStore([
                     {name: this.txtGeneral, panel: this.generalSettings, iconCls:'mnu-settings-general', selected: true},
-                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'mnu-print'}
+                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'mnu-print'},
+                    {name: this.txtSpellСhecking, panel: this.spellcheckSettings, iconCls:'btn-ic-docspell'}
                 ]),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="settings-item-wrap">',
@@ -234,7 +239,8 @@ define([
         },
 
         txtGeneral: 'General',
-        txtPageSettings: 'Page Settings'
+        txtPageSettings: 'Page Settings',
+        txtSpellСhecking: 'Spell checking'
     }, SSE.Views.FileMenuPanels.Settings || {}));
 
     SSE.Views.MainSettingsPrint = Common.UI.BaseView.extend(_.extend({
@@ -947,6 +953,109 @@ define([
         textRefStyle: 'Reference Style',
         strR1C1: 'Turn on R1C1 style'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
+
+    SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-settings-spellcheck',
+        menu: undefined,
+
+        template: _.template([
+            '<table class="main"><tbody>',
+            '<tr><td style="padding-left: 40px;">',
+            '<div id="fms-chb-ignore-uppercase-words"></div>',
+            '</td></tr>',
+            '<tr><td style="padding-left: 40px;">',
+            '<div id="fms-chb-ignore-numbers-words"></div>',
+            '</td></tr>',
+            '<tr><td style="padding-left: 40px;">',
+            '<label class="input-label"><%= scope.strDictionaryLanguage %></label>',
+            '<div id="fms-cmb-dictionary-language" style="width: 200px;"></div>',
+            '</td></tr>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function(node) {
+            var me = this;
+            var $markup = $(this.template({scope: this}));
+
+            this.chIgnoreUppercase = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
+                labelText: this.strIgnoreWordsInUPPERCASE
+            }).on('change', function(field, newValue, oldValue, eOpts){
+            });
+
+            this.chIgnoreNumbers = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-numbers-words'),
+                labelText: this.strIgnoreWordsWithNumbers
+            }).on('change', function(field, newValue, oldValue, eOpts){
+            });
+
+            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+                el:  $markup.findById('#fms-cmb-dictionary-language'),
+                cls: 'input-group-nr',
+                editable: false,
+                menuStyle: 'min-width: 100%; max-height: 209px;'
+            });
+
+            this.btnApply = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-apply')
+            });
+
+            this.btnApply.on('click', _.bind(this.applySettings, this));
+
+            this.$el = $(node).html($markup);
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el,
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+
+            this.updateSettings();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+        },
+
+        setApi: function(api) {
+            this.api = api;
+        },
+
+        updateSettings: function() {
+            var array = SSE.getController('Spellcheck').loadLanguages(),
+                lang = array[0],
+                value = array[1];
+            if (lang) {
+                this.cmbDictionaryLanguage.setData(lang);
+                this.cmbDictionaryLanguage.setValue(value);
+            } else {
+                this.cmbDictionaryLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                this.cmbDictionaryLanguage.setDisabled(true);
+            }
+        },
+
+        applySettings: function() {
+
+        },
+
+        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
+        strDictionaryLanguage: 'Dictionary language'
+
+    }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         el: '#panel-recentfiles',
