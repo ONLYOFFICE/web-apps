@@ -55,15 +55,14 @@ define([
 
         initialize : function(options) {
             _.extend(this.options, {
-                title: this.textTitle
+                title: this.textMargins
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
-                    '<div style="float: left;>',
-                        '<label class="input-label">' + this.textMultiplePages + '</label>',
-                        '<div id="page-margins-cmb-multiple-pages"></div>',
-                        '<div style="margin-top: 10px;">',
+                '<div class="box" style="height: 245px;">',
+                    '<div style="float: left;">',
+                        '<label style="font-weight: bold;">' + this.textMargins + '</label>',
+                        '<div style="margin-top: 2px;">',
                             '<div style="display: inline-block;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
                                 '<div id="page-margins-spin-top"></div>',
@@ -73,34 +72,35 @@ define([
                                 '<div id="page-margins-spin-bottom"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="margin-top: 10px;">',
+                        '<div style="margin-top: 4px;">',
                             '<div style="display: inline-block;">',
-                                '<label class="input-label">' + this.textLeft + '</label>',
+                                '<label class="input-label" id="margin-left-label">' + this.textLeft + '</label>',
                                 '<div id="page-margins-spin-left"></div>',
                             '</div>',
                             '<div style="display: inline-block; margin-left: 8px;">',
-                                '<label class="input-label">' + this.textRight + '</label>',
+                                '<label class="input-label" id="margin-right-label">' + this.textRight + '</label>',
                                 '<div id="page-margins-spin-right"></div>',
                             '</div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
-                            '<div style="display: inline-block;">',
-                                '<label class="input-label">' + this.textGutter + '</label>',
-                                '<div id="page-margins-spin-gutter"></div>',
-                            '</div>',
-                            '<div style="display: inline-block; margin-left: 8px;">',
-                                '<label class="input-label">' + this.textGutterPosition + '</label>',
-                                '<div id="page-margins-spin-gutter-position"></div>',
+                            '<label style="font-weight: bold;">' + this.textGutterPosition + '</label>',
+                            '<div>',
+                                '<div style="display: inline-block;" id="page-margins-spin-gutter"></div>',
+                                '<div style="display: inline-block; margin-left: 8px;" id="page-margins-spin-gutter-position"></div>',
                             '</div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
-                            '<label class="input-label">' + this.textOrientation + '</label>',
+                            '<label style="font-weight: bold;">' + this.textOrientation + '</label>',
                             '<div id="page-margins-cmb-orientation"></div>',
+                        '</div>',
+                        '<div style="margin-top: 10px;">',
+                            '<label style="font-weight: bold;">' + this.textMultiplePages + '</label>',
+                            '<div id="page-margins-cmb-multiple-pages"></div>',
                         '</div>',
                     '</div>',
                     '<div style="float: right;">',
-                        '<label class="input-label">' + this.textPreview + '</label>',
-                        '<div id="page-margins-preview" style="height: 93px; width: 160px;"></div>',
+                        '<label style="font-weight: bold;">' + this.textPreview + '</label>',
+                        '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px; border: 1px solid #cfcfcf;"></div>',
                     '</div>',
                 '</div>',
             ].join('');
@@ -116,18 +116,6 @@ define([
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
-
-            this.cmbMultiplePages = new Common.UI.ComboBox({
-                el          : $('#page-margins-cmb-multiple-pages'),
-                menuStyle   : 'min-width: 180px;',
-                style       : 'width: 180px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 0, displayValue: this.textNormal },
-                    { value: 1, displayValue: this.textMirrorMargins }
-                ]
-            });
 
             this.spnTop = new Common.UI.MetricSpinner({
                 el: $('#page-margins-spin-top'),
@@ -208,8 +196,29 @@ define([
                 ]
             });
 
-            var $window = this.getChild();
-            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            this.cmbMultiplePages = new Common.UI.ComboBox({
+                el          : $('#page-margins-cmb-multiple-pages'),
+                menuStyle   : 'min-width: 180px;',
+                style       : 'width: 180px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textNormal },
+                    { value: 1, displayValue: this.textMirrorMargins }
+                ]
+            });
+            this.cmbMultiplePages.on('selected', _.bind(function(combo, record) {
+                if (record.value === 0) {
+                    this.window.find('#margin-left-label').html(this.textLeft);
+                    this.window.find('#margin-right-label').html(this.textRight);
+                } else {
+                    this.window.find('#margin-left-label').html(this.textInside);
+                    this.window.find('#margin-right-label').html(this.textOutside);
+                }
+            }, this));
+
+            this.window = this.getChild();
+            this.window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
         },
@@ -258,6 +267,7 @@ define([
                 this.spnBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_BottomMargin()), true);
                 this.spnLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_LeftMargin()), true);
                 this.spnRight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_RightMargin()), true);
+                this.cmbOrientation.setValue(props.get_Orientation());
             }
         },
 
@@ -267,6 +277,7 @@ define([
             props.put_BottomMargin(Common.Utils.Metric.fnRecalcToMM(this.spnBottom.getNumberValue()));
             props.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(this.spnLeft.getNumberValue()));
             props.put_RightMargin(Common.Utils.Metric.fnRecalcToMM(this.spnRight.getNumberValue()));
+            props.put_Orientation(this.cmbOrientation.getValue());
             return props;
         },
 
@@ -280,7 +291,7 @@ define([
             }
         },
 
-        textTitle: 'Margins',
+        textMargins: 'Margins',
         textTop: 'Top',
         textLeft: 'Left',
         textBottom: 'Bottom',
@@ -296,6 +307,8 @@ define([
         textPortrait: 'Portrait',
         textLandscape: 'Landscape',
         textMirrorMargins: 'Mirror margins',
-        textNormal: 'Normal'
+        textNormal: 'Normal',
+        textInside: 'Inside',
+        textOutside: 'Outside'
     }, DE.Views.PageMarginsDialog || {}))
 });
