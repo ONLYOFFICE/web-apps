@@ -676,9 +676,9 @@ define([
 
                 if (color.length) {
                     if (!tab.isActive()) {
-                        color = '0px 3px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+                        color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(1) + ' inset';
                     } else {
-                        color = '0px 3px 0 ' + color + ' inset';
+                        color = '0px 4px 0 ' + color + ' inset';
                     }
 
                     tab.$el.find('a').css('box-shadow', color);

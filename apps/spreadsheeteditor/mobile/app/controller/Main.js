@@ -1630,7 +1630,7 @@ define([
             errorFrmlMaxTextLength: 'Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)',
             waitText: 'Please, wait...',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-            errorUpdateVersionOnDisconnect: 'The file version has been changed.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.'
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), SSE.Controllers.Main || {}))
 });

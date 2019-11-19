@@ -976,14 +976,17 @@ define([
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
                 reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
-                if (this.appOptions.isEdit) {
-                    var toolbarController   = application.getController('Toolbar'),
-                        rightmenuController = application.getController('RightMenu'),
+                if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode)
+                    var toolbarController   = application.getController('Toolbar');
+                    toolbarController   && toolbarController.setApi(me.api);
+
+                    if (!this.appOptions.isEdit) return;
+
+                    var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
 
 //                    me.getStore('SlideLayouts');
                     fontsControllers    && fontsControllers.setApi(me.api);
-                    toolbarController   && toolbarController.setApi(me.api);
                     rightmenuController && rightmenuController.setApi(me.api);
 
                     if (me.appOptions.canProtect)
@@ -1206,6 +1209,7 @@ define([
 
                     case Asc.c_oAscError.ID.UpdateVersion:
                         config.msg = this.errorUpdateVersionOnDisconnect;
+                        config.maxwidth = 600;
                         break;
 
                     default:
@@ -2194,7 +2198,7 @@ define([
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
             waitText: 'Please, wait...',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-            errorUpdateVersionOnDisconnect: 'The file version has been changed.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), PE.Controllers.Main || {}))
 });
