@@ -453,6 +453,15 @@ define([
             var init = (aFontSelects.length<1);
             init && this.initFonts();
 
+            if (options.font) {
+                for(var i = 0; i < aFontSelects.length; ++i){
+                    if(aFontSelects[i].displayValue === options.font){
+                        nCurrentFont = i;
+                        break;
+                    }
+                }
+            }
+
             if (nCurrentFont < 0)
                 nCurrentFont = 0;
 
@@ -475,6 +484,10 @@ define([
             }
             if(nCurrentSymbol === -1){
                 nCurrentSymbol = aRanges[0].Start;
+            }
+
+            if (options.code) {
+                nCurrentSymbol = options.code;
             }
 
             if (init && this.options.lang && this.options.lang != 'en') {
@@ -536,6 +549,7 @@ define([
             for(i = 0; i < aFontSelects.length; ++i){
                 aFontSelects[i].value = i;
             }
+
             if(!oFontsByName[sInitFont]){
                 if(oFontsByName['Cambria Math']){
                     sInitFont = 'Cambria Math';
