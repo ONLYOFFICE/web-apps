@@ -20,7 +20,6 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/cell/view/HandlerList.js",
 	"../../../../sdkjs/cell/model/CollaborativeEditing.js",
 	"../../../../sdkjs/common/apiBase.js",
-	"../../../../sdkjs/common/Private/license.js",
 	"../../../../sdkjs/word/apiCommon.js",
 	"../../../../sdkjs/cell/api.js",
 	"../../../../sdkjs/common/downloaderfiles.js",
@@ -219,6 +218,5 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/common/text_input.js",
 	"../../../../sdkjs/common/Drawings/Format/OleObject.js",
 	"../../../../sdkjs/common/Drawings/Format/DrawingContent.js",
-	"../../../../sdkjs/common/plugins.js",
-	"../../../../sdkjs/cell/Private/comments.js"
+	"../../../../sdkjs/common/plugins.js"
 ];

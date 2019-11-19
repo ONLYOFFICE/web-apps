@@ -129,47 +129,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     el: $('#id-chart-dlg-menu-type'),
                     parentMenu: btn.menu,
                     restoreHeight: 421,
-                    groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-bar',     caption: me.textColumn },
-                        { id: 'menu-chart-group-line',    caption: me.textLine },
-                        { id: 'menu-chart-group-pie',     caption: me.textPie },
-                        { id: 'menu-chart-group-hbar',    caption: me.textBar },
-                        { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
-                        { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
-                        { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
-                        // { id: 'menu-chart-group-surface', caption: me.textSurface}
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
-                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   iconCls: 'contour-wireframe'}
-                    ]),
+                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
+                    store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
             });
@@ -790,16 +751,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     el: $('#id-spark-dlg-menu-type'),
                     parentMenu: btn.menu,
                     restoreHeight: 120,
-                    groups: new Common.UI.DataViewGroupStore([
-                        { id: 'menu-chart-group-sparkcolumn',   inline: true },
-                        { id: 'menu-chart-group-sparkline',     inline: true },
-                        { id: 'menu-chart-group-sparkwin',      inline: true }
-                    ]),
-                    store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
-                        { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line',   tip: me.textLineSpark},
-                        { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win',    tip: me.textWinLossSpark}
-                    ]),
+                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
+                    store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
             });
@@ -1680,13 +1633,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textTitle:          'Chart - Advanced Settings',
         textShowValues:     'Display chart values',
         textShowBorders:    'Display chart borders',
-        textLine:           'Line',
-        textColumn:         'Column',
-        textBar:            'Bar',
-        textArea:           'Area',
-        textPie:            'Pie',
-        textPoint:          'XY (Scatter)',
-        textStock:          'Stock',
         textDataRows:       'in rows',
         textDataColumns:    'in columns',
         textDisplayLegend:  'Display Legend',
@@ -1797,9 +1743,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textGaps: 'Gaps',
         textZero: 'Zero',
         textEmptyLine: 'Connect data points with line',
-        textLineSpark:      'Line',
-        textColumnSpark:    'Column',
-        textWinLossSpark:   'Win/Loss',
         textShowSparkAxis: 'Show Axis',
         textReverseOrder: 'Reverse order',
         textAutoEach: 'Auto for Each',
@@ -1809,7 +1752,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textAltTitle: 'Title',
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
-        textSurface: 'Surface',
         errorMaxPoints: 'ERROR! The maximum number of points in series per chart is 4096.',
         textSnap: 'Cell Snapping',
         textAbsolute: 'Don\'t move or size with cells',

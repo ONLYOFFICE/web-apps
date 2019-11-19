@@ -47,6 +47,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
@@ -324,6 +325,7 @@ define([
             toolbar.listStyles.on('contextmenu',                        _.bind(this.onListStyleContextMenu, this));
             toolbar.styleMenu.on('hide:before',                         _.bind(this.onListStyleBeforeHide, this));
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+            toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
@@ -378,6 +380,7 @@ define([
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
+                this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
@@ -653,7 +656,8 @@ define([
             var i = -1, type,
                 paragraph_locked = false,
                 header_locked = false,
-                image_locked = false;
+                image_locked = false,
+                in_image = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -663,11 +667,15 @@ define([
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = selectedObjects[i].get_ObjectValue().get_Locked();
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
+                    in_image = true;
                     image_locked = selectedObjects[i].get_ObjectValue().get_Locked();
                 }
             }
 
             var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            if (this.mode.compatibleFeatures) {
+                need_disable = need_disable || in_image;
+            }
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
         },
@@ -745,10 +753,11 @@ define([
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
 
             if (!paragraph_locked && !header_locked) {
-                toolbar.btnContentControls.menu.items[0].setDisabled(control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked);
-                toolbar.btnContentControls.menu.items[1].setDisabled(control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked);
-                toolbar.btnContentControls.menu.items[3].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                toolbar.btnContentControls.menu.items[5].setDisabled(!in_control);
+                var control_disable = control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+                for (var i=0; i<7; i++)
+                    toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
+                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                toolbar.btnContentControls.menu.items[10].setDisabled(!in_control);
             }
 
             var need_text_disable = paragraph_locked || header_locked || in_chart;
@@ -815,6 +824,8 @@ define([
             need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation || control_plain;
             toolbar.btnInsertEquation.setDisabled(need_disable);
 
+            toolbar.btnInsertSymbol.setDisabled(!in_para || paragraph_locked || header_locked);
+
             need_disable = paragraph_locked || header_locked || in_equation;
             toolbar.btnSuperscript.setDisabled(need_disable);
             toolbar.btnSubscript.setDisabled(need_disable);
@@ -829,6 +840,9 @@ define([
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
             need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            if (this.mode.compatibleFeatures) {
+                need_disable = need_disable || in_image;
+            }
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
 
@@ -1721,6 +1735,8 @@ define([
                             (new DE.Views.ControlSettingsDialog({
                                 props: props,
                                 api: me.api,
+                                controlLang: me._state.lang,
+                                interfaceLang: me.mode.lang,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         me.api.asc_SetContentControlProperties(value, id);
@@ -1737,7 +1753,17 @@ define([
                     }
                 }
             } else {
-                this.api.asc_AddContentControl(item.value);
+                if (item.value == 'plain' || item.value == 'rich')
+                    this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);
+                else if (item.value == 'picture')
+                    this.api.asc_AddContentControlPicture();
+                else if (item.value == 'checkbox')
+                    this.api.asc_AddContentControlCheckBox();
+                else if (item.value == 'date')
+                    this.api.asc_AddContentControlDatePicker();
+                else if (item.value == 'combobox' || item.value == 'dropdown')
+                    this.api.asc_AddContentControlList(item.value == 'combobox');
+
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
             }
 
@@ -2462,6 +2488,31 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
         },
 
+        onInsertSymbolClick: function() {
+            if (this.dlgSymbolTable && this.dlgSymbolTable.isVisible()) return;
+
+            if (this.api) {
+                var me = this;
+                me.dlgSymbolTable = new Common.Views.SymbolTableDialog({
+                    api: me.api,
+                    lang: me.mode.lang,
+                    modal: false,
+                    type: 1,
+                    buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                    handler: function(dlg, result, settings) {
+                        if (result == 'ok') {
+                            me.api.asc_insertSymbol(settings.font, settings.code);
+                        } else
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                me.dlgSymbolTable.show();
+                me.dlgSymbolTable.on('symbol:dblclick', function(cmp, result, settings) {
+                    me.api.asc_insertSymbol(settings.font, settings.code);
+                });
+            }
+        },
+
         onApiMathTypes: function(equation) {
             this._equationTemp = equation;
             var me = this;
@@ -2827,45 +2878,43 @@ define([
                     compactview = true;
             }
 
-            setTimeout(function () {
-                me.toolbar.render(_.extend({isCompactView: compactview}, config));
+            me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                if ( $panel )
-                    me.toolbar.addTab(tab, $panel, 4);
+            var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+            var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+            if ( $panel )
+                me.toolbar.addTab(tab, $panel, 4);
 
-                if ( config.isEdit ) {
-                    me.toolbar.setMode(config);
+            if ( config.isEdit ) {
+                me.toolbar.setMode(config);
 
-                    me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                    if (!(config.customization && config.customization.compactHeader)) {
-                        // hide 'print' and 'save' buttons group and next separator
-                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                if (!(config.customization && config.customization.compactHeader)) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                        // hide 'undo' and 'redo' buttons and retrieve parent container
-                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                    // hide 'undo' and 'redo' buttons and retrieve parent container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                        // move 'paste' button to the container instead of 'undo' and 'redo'
-                        me.toolbar.btnPaste.$el.detach().appendTo($box);
-                        me.toolbar.btnCopy.$el.removeClass('split');
-                    }
-
-                    if ( config.isDesktopApp ) {
-                        if ( config.canProtect ) {
-                            tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                            $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-
-                            if ($panel) me.toolbar.addTab(tab, $panel, 5);
-                        }
-                    }
-
-                    var links = me.getApplication().getController('Links');
-                    links.setApi(me.api).setConfig({toolbar: me});
-                    Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnCopy.$el.removeClass('split');
                 }
-            }, 0);
+
+                if ( config.isDesktopApp ) {
+                    if ( config.canProtect ) {
+                        tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                        $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+
+                        if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                    }
+                }
+
+                var links = me.getApplication().getController('Links');
+                links.setApi(me.api).setConfig({toolbar: me});
+                Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+            }
         },
 
         onAppReady: function (config) {
@@ -2881,6 +2930,8 @@ define([
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
                         });
+                        if (btn.cmpEl.closest('#review-changes-panel').length>0)
+                            btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
                 }
             }
@@ -2913,6 +2964,10 @@ define([
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
             }
+        },
+
+        onTextLanguage: function(langId) {
+            this._state.lang = langId;
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
@@ -3262,7 +3317,8 @@ define([
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height',
+        textInsert: 'Insert'
 
     }, DE.Controllers.Toolbar || {}));
 });

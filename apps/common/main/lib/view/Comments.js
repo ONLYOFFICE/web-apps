@@ -559,9 +559,13 @@ define([
                 add = $('.new-comment-ct', this.el),
                 to = $('.add-link-ct', this.el),
                 msgs = $('.messages-ct', this.el);
-            msgs.toggleClass('stretch', !mode.canComments);
-            if (!mode.canComments) {
-                add.hide(); to.hide();
+            msgs.toggleClass('stretch', !mode.canComments || mode.compatibleFeatures);
+            if (!mode.canComments || mode.compatibleFeatures) {
+                if (mode.compatibleFeatures) {
+                    add.remove(); to.remove();
+                } else {
+                    add.hide(); to.hide();
+                }
                 this.layout.changeLayout([{el: msgs[0], rely: false, stretch: true}]);
             } else {
                 var container = $('#comments-box', this.el),

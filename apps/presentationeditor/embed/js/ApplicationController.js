@@ -502,6 +502,10 @@ PE.ApplicationController = new(function(){
                 message = me.errorFileSizeExceed;
                 break;
 
+            case Asc.c_oAscError.ID.UpdateVersion:
+                message = me.errorUpdateVersionOnDisconnect;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -629,6 +633,7 @@ PE.ApplicationController = new(function(){
         waitText: 'Please, wait...',
         textLoadingDocument: 'Loading presentation',
         txtClose: 'Close',
-        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
+        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
     }
 })();

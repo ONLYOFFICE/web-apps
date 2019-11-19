@@ -53,7 +53,7 @@
   "DE.Controllers.Main.downloadTitleText": "Dokumenta lejupielāde",
   "DE.Controllers.Main.errorBadImageUrl": "Nav pareizs attēla URL",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Zudis servera savienojums. Jūs vairs nevarat rediģēt.",
-  "DE.Controllers.Main.errorConnectToServer": "Dokumentu neizdevās noglabāt. Lūdzu, pārbaudiet savienojuma uzstādījumus vai sazinieties ar savu administratoru.<br>Nospiežot \"OK\", jūs varēsit lejupielādēt dokumentu.<br><br>Uzziniet vairāk par dokumentu servera pieslēgšanu <a href=\"%1\" target=\"_blank\">šeit</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Dokumentu neizdevās noglabāt. Lūdzu, pārbaudiet savienojuma uzstādījumus vai sazinieties ar savu administratoru.<br>Nospiežot \"OK\", jūs varēsit lejupielādēt dokumentu.",
   "DE.Controllers.Main.errorDatabaseConnection": "Ārējā kļūda.<br>Datubāzes piekļuves kļūda. Lūdzu, sazinieties ar atbalsta daļu.",
   "DE.Controllers.Main.errorDataRange": "Nepareizs datu diapazons",
   "DE.Controllers.Main.errorDefaultMessage": "Kļūdas kods: %1",

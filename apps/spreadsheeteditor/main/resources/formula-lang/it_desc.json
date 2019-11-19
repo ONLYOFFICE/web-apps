@@ -1732,7 +1732,7 @@
 		"d": "Restituisce il valore logico FALSO"
 	},
 	"IF": {
-		"a": "(logico_test, val_se_vero, val_se_falso)",
+		"a": "( logico_test, val_se_vero [ , val_se_falso ] )",
 		"d": "Restituisce un valore se una condizione specificata dà come risultato VERO e un altro valore se dà come risultato FALSO"
 	},
 	"IFNA": {

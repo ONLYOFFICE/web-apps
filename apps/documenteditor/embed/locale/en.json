@@ -22,6 +22,7 @@
   "DE.ApplicationController.unknownErrorText": "Unknown error.",
   "DE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "DE.ApplicationController.waitText": "Please, wait...",
+  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "DE.ApplicationView.txtDownload": "Download",
   "DE.ApplicationView.txtEmbed": "Embed",
   "DE.ApplicationView.txtFullScreen": "Full Screen",

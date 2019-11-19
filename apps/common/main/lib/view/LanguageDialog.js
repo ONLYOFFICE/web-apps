@@ -52,8 +52,7 @@ define([
         header: false,
         width: 350,
         cls: 'modal-dlg',
-        buttons: ['ok', 'cancel'],
-        footerCls: 'right'
+        buttons: ['ok', 'cancel']
     },
 
     template:   '<div class="box">' +
