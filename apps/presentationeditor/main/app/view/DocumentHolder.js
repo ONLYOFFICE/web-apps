@@ -1581,7 +1581,7 @@ define([
                         me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Image, _.bind(me.onInsertImage, me, true));
                         me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.ImageUrl, _.bind(me.onInsertImageUrl, me, true));
                         me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Chart, _.bind(me.onClickPlaceholderChart, me));
-                        me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Table, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Table));
+                        me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Table, _.bind(me.onClickPlaceholderTable, me));
                         me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Video, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Video));
                         me.api.asc_registerPlaceholderCallback(AscCommon.PlaceholderButtonType.Audio, _.bind(me.onClickPlaceholder, me, AscCommon.PlaceholderButtonType.Audio));
                     }
@@ -3492,24 +3492,78 @@ define([
             this._fromShowPlaceholder = false;
         },
 
+        onClickPlaceholderTable: function(obj, x, y) {
+            if (!this.api) return;
+            var menu = this.placeholderMenuTable,
+                menuContainer = menu ? this.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+            this._fromShowPlaceholder = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.placeholderMenuTable = menu = new Common.UI.Menu({
+                    items: [
+                        {template: _.template('<div id="id-placeholder-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
+                        {caption: me.mniCustomTable, value: 'custom'}
+                    ]
+                });
+                // Prepare menu container
+                menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                this.cmpEl.append(menuContainer);
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowPlaceholder)
+                        me.api.asc_uncheckPlaceholders();
+                });
+
+                var picker = new Common.UI.DimensionPicker({
+                    el: $('#id-placeholder-menu-tablepicker'),
+                    minRows: 8,
+                    minColumns: 10,
+                    maxRows: 8,
+                    maxColumns: 10
+                });
+                picker.on('select', function(picker, columns, rows){
+                    me.api.put_Table(columns, rows);
+                    me.fireEvent('editcomplete', me);
+                });
+                menu.on('item:click', function(menu, item, e){
+                    if (item.value === 'custom') {
+                        (new Common.Views.InsertTableDialog({
+                            handler: function(result, value) {
+                                if (result == 'ok')
+                                    me.api.put_Table(value.columns, value.rows);
+                                me.fireEvent('editcomplete', me);
+                            }
+                        })).show();
+                    }
+                });
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            menu.alignPosition();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowPlaceholder = false;
+        },
+
         onHidePlaceholderActions: function() {
             this.placeholderMenuChart && this.placeholderMenuChart.hide();
         },
 
         onClickPlaceholder: function(type, obj, x, y) {
             if (!this.api) return;
-
-            switch (type) {
-                case AscCommon.PlaceholderButtonType.Table:
-                    break;
-                case AscCommon.PlaceholderButtonType.Video:
-                    // this.api.addVideo();
-                    break;
-                case AscCommon.PlaceholderButtonType.Audio:
-                    // this.api.addAudio();
-                    break;
+            if (type == AscCommon.PlaceholderButtonType.Video) {
+                // this.api.addVideo();
+            } else if (type == AscCommon.PlaceholderButtonType.Audio) {
+                // this.api.addAudio();
             }
-
+            this.fireEvent('editcomplete', this);
         },
 
         insertRowAboveText      : 'Row Above',
@@ -3687,7 +3741,8 @@ define([
         toDictionaryText: 'Add to Dictionary',
         txtPrintSelection: 'Print Selection',
         addToLayoutText: 'Add to Layout',
-        txtResetLayout: 'Reset Slide'
+        txtResetLayout: 'Reset Slide',
+        mniCustomTable: 'Insert custom table'
 
     }, PE.Views.DocumentHolder || {}));
 });
