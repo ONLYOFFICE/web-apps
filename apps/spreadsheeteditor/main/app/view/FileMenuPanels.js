@@ -585,6 +585,18 @@ define([
                         '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strSeparator %></label></td>',
+                    '<td class="right"><div id="fms-chb-separator-settings"/></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-decimal-separator"/><label style="margin-left: 10px; padding-top: 3px;"><%= scope.strDecimalSeparator %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-thousands-separator"/><label style="margin-left: 10px; padding-top: 3px;"><%= scope.strThousandsSeparator %></label></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
@@ -753,6 +765,36 @@ define([
                 me.updateRegionalExample(record.value);
             });
             if (this.cmbRegSettings.scroller) this.cmbRegSettings.scroller.update({alwaysVisibleY: true});
+
+            this.chSeparator = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-separator-settings'),
+                labelText: this.strUseSeparatorsBasedOnRegionalSettings
+            });
+
+            var keyDown = function(event){
+                var key = event.key,
+                    value = event.target.value;
+                if (key !== 'ArrowLeft' && key !== 'ArrowDown' && key !== 'ArrowUp' && key !== 'ArrowRight' &&
+                    key !== 'Home' && key !== 'End' && key !== 'Backspace' && key !== 'Delete' && value.length > 0) {
+                    event.preventDefault();
+                }
+            };
+
+            this.inputDecimalSeparator = new Common.UI.InputField({
+                el: $markup.findById('#fms-decimal-separator'),
+                style: 'width: 50px;',
+                validateOnBlur: false
+            });
+            var $decimalSeparatorInput = this.inputDecimalSeparator.$el.find('input');
+            $decimalSeparatorInput.on('keydown', keyDown);
+
+            this.inputThousandsSeparator = new Common.UI.InputField({
+                el: $markup.findById('#fms-thousands-separator'),
+                style: 'width: 50px;',
+                validateOnBlur: false
+            });
+            var $thousandsSeparatorInput = this.inputThousandsSeparator.$el.find('input');
+            $thousandsSeparatorInput.on('keydown', keyDown);
 
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
@@ -945,7 +987,11 @@ define([
         strForcesave: 'Always save to server (otherwise save to server on document close)',
         strResolvedComment: 'Turn on display of the resolved comments',
         textRefStyle: 'Reference Style',
-        strR1C1: 'Turn on R1C1 style'
+        strR1C1: 'Turn on R1C1 style',
+        strSeparator: 'Separator',
+        strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
+        strDecimalSeparator: 'Decimal separator',
+        strThousandsSeparator: 'Thousands separator'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
