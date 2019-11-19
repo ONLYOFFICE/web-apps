@@ -488,6 +488,8 @@ define([
 
             if (options.code) {
                 nCurrentSymbol = options.code;
+            } else if (options.symbol) {
+                nCurrentSymbol = this.fixedCharCodeAt(options.symbol, 0);
             }
 
             if (init && this.options.lang && this.options.lang != 'en') {

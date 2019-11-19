@@ -763,8 +763,10 @@ define([
                     }
                     if (props) {
                         (new Common.Views.ListSettingsDialog({
+                            api: me.api,
                             props: props,
-                            type: this.api.asc_getCurrentListType().get_ListType(),
+                            type: me.api.asc_getCurrentListType().get_ListType(),
+                            interfaceLang: me.permissions.lang,
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {

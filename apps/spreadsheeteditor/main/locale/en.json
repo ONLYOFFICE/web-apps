@@ -113,6 +113,8 @@
   "Common.Views.ListSettingsDialog.txtSize": "Size",
   "Common.Views.ListSettingsDialog.txtStart": "Start at",
   "Common.Views.ListSettingsDialog.txtTitle": "List Settings",
+  "Common.Views.ListSettingsDialog.txtBullet": "Bullet",
+  "Common.Views.ListSettingsDialog.tipChange": "Change bullet",
   "Common.Views.OpenDialog.closeButtonText": "Close File",
   "Common.Views.OpenDialog.txtColon": "Colon",
   "Common.Views.OpenDialog.txtComma": "Comma",
