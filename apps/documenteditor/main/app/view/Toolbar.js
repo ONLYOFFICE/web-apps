@@ -638,43 +638,43 @@ define([
                             items: [
                                 {
                                     caption: this.textPlainControl,
-                                    iconCls: 'mnu-control-plain',
+                                    // iconCls: 'mnu-control-plain',
                                     value: 'plain'
                                 },
                                 {
                                     caption: this.textRichControl,
-                                    iconCls: 'mnu-control-rich',
+                                    // iconCls: 'mnu-control-rich',
                                     value: 'rich'
                                 },
                                 {
                                     caption: this.textPictureControl,
-                                    iconCls: 'mnu-control-rich',
+                                    // iconCls: 'mnu-control-rich',
                                     value: 'picture'
                                 },
                                 {
                                     caption: this.textComboboxControl,
-                                    iconCls: 'mnu-control-rich',
+                                    // iconCls: 'mnu-control-rich',
                                     value: 'combobox'
                                 },
                                 {
                                     caption: this.textDropdownControl,
-                                    iconCls: 'mnu-control-rich',
+                                    // iconCls: 'mnu-control-rich',
                                     value: 'dropdown'
                                 },
                                 {
                                     caption: this.textDateControl,
-                                    iconCls: 'mnu-control-rich',
+                                    // iconCls: 'mnu-control-rich',
                                     value: 'date'
                                 },
                                 {
                                     caption: this.textCheckboxControl,
-                                    iconCls: 'mnu-control-rich',
+                                    // iconCls: 'mnu-control-rich',
                                     value: 'checkbox'
                                 },
                                 {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
-                                    iconCls: 'mnu-control-remove',
+                                    // iconCls: 'mnu-control-remove',
                                     value: 'remove'
                                 },
                                 {caption: '--'},

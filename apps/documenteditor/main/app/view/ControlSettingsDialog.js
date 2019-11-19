@@ -51,7 +51,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 412,
+            height: 392,
             toggleGroup: 'control-adv-settings-group',
             storageName: 'de-control-settings-adv-category'
         },
@@ -344,6 +344,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 //for list controls
                 this.btnsCategory[2].setVisible(type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList);
                 if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
+                    this.btnsCategory[2].setCaption(type == Asc.c_oAscContentControlSpecificType.ComboBox ? this.textCombobox : this.textDropDown);
                     var specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr();
                     if (specProps) {
                         var count = specProps.get_ItemsCount();
@@ -648,9 +649,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textUp: 'Up',
         textDown: 'Down',
         textCombobox: 'Combo box',
+        textDropDown: 'Drop-down list',
         textDisplayName: 'Display name',
         textValue: 'Value',
-        textDate: 'Date Format',
+        textDate: 'Date format',
         textLang: 'Language',
         textFormat: 'Display the date like this',
         textCheckbox: 'Check box',
