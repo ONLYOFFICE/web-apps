@@ -445,7 +445,7 @@ define([
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
                 menuH   = this.cmpCalendar.cmpEl.outerHeight(),
                 buttonOffset = 22,
-                left = offset.left - menuW + buttonOffset,
+                left = offset.left - menuW,
                 top  = offset.top;
             if (top + menuH > docH) {
                 top = docH - menuH;
@@ -508,7 +508,7 @@ define([
                 }
             }
 
-            menuContainer.css({left: x + 22, top : y});
+            menuContainer.css({left: x, top : y});
             menuContainer.attr('data-value', 'prevent-canvas-click');
             documentHolderView._preventClick = true;
             menu.show();
