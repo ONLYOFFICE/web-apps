@@ -41,6 +41,7 @@
 
 define([
     'core',
+    'common/main/lib/component/Calendar',
     'documenteditor/main/app/view/Links',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
@@ -351,8 +352,9 @@ define([
             })).show();
         },
 
-        onShowContentControlsActions: function(action, x, y) {
-            var menu = (action==1) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
+        onShowTOCActions: function(obj, x, y) {
+            var action = obj.button,
+                menu = (action==AscCommon.CCButtonType.Toc) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
                 documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
                 menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
                 me = this;
@@ -391,6 +393,88 @@ define([
         onHideContentControlsActions: function() {
             this.view.contentsMenu && this.view.contentsMenu.hide();
             this.view.contentsUpdateMenu && this.view.contentsUpdateMenu.hide();
+            var controlsContainer = this.getApplication().getController('DocumentHolder').documentHolder.cmpEl.find('#calendar-control-container');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
+        },
+
+        onShowDateActions: function(obj, x, y) {
+            var action = obj.button,
+                props = obj.pr,
+                specProps = props.get_DateTimePr(),
+                id = props.get_InternalId(),
+                documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                controlsContainer = documentHolderView.cmpEl.find('#calendar-control-container'),
+                me = this;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                documentHolderView.cmpEl.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            controlsContainer.css({left: x, top : y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendar) {
+                this.cmpCalendar = new Common.UI.Calendar({
+                    el: documentHolderView.cmpEl.find('#id-document-calendar-control'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendar.on('date:click', function (cmp, date) {
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetContentControlProperties(props, id);
+                    controlsContainer.hide();
+                    me.api.asc_UncheckContentControlButtons();
+                });
+                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+            }
+            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+
+            // align
+            var offset  = controlsContainer.offset(),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendar.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendar.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW + buttonOffset,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendar.cmpEl.css({left: left, top : top});
+
+            documentHolderView._preventClick = true;
+        },
+
+        onShowContentControlsActions: function(obj, x, y) {
+            var type = obj.type;
+            switch (type) {
+                case Asc.c_oAscContentControlSpecificType.TOC:
+                    this.onShowTOCActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    break;
+            }
         }
 
     }, DE.Controllers.Links || {}));
