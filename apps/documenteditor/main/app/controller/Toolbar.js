@@ -382,6 +382,8 @@ define([
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+                this.api.asc_registerCallback('asc_TableDrawModeCallback', _.bind(this.onTableDraw, this));
+                this.api.asc_registerCallback('asc_TableEraseModeCallback', _.bind(this.onTableErase, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -854,6 +856,13 @@ define([
         onApiStyleChange: function(v) {
             this.toolbar.btnCopyStyle.toggle(v, true);
             this.modeAlwaysSetStyle = false;
+        },
+
+        onTableDraw: function(v) {
+            this.toolbar.mnuInsertTable && this.toolbar.mnuInsertTable.items[2].setChecked(!!v, true);
+        },
+        onTableErase: function(v) {
+            this.toolbar.mnuInsertTable && this.toolbar.mnuInsertTable.items[3].setChecked(!!v, true);
         },
 
         onApiParagraphStyleChange: function(name) {
@@ -1412,6 +1421,12 @@ define([
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 })).show();
+            } else if (item.value == 'draw') {
+                item.isChecked() && menu.items[3].setChecked(false, true);
+                this.api.SetTableDrawMode(item.isChecked());
+            } else if (item.value == 'erase') {
+                item.isChecked() && menu.items[2].setChecked(false, true);
+                this.api.SetTableEraseMode(item.isChecked());
             }
         },
 

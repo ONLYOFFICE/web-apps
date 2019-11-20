@@ -480,7 +480,9 @@ define([
                         menu: new Common.UI.Menu({
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                                {caption: this.mniCustomTable, value: 'custom'}
+                                {caption: this.mniCustomTable, value: 'custom'},
+                                {caption: this.mniDrawTable, value: 'draw', checkable: true},
+                                {caption: this.mniEraseTable, value: 'erase', checkable: true}
                             ]
                         })
                     });
@@ -2318,7 +2320,9 @@ define([
             textDateControl: 'Date',
             capBtnAddComment: 'Add Comment',
             capBtnInsSymbol: 'Symbol',
-            tipInsertSymbol: 'Insert symbol'
+            tipInsertSymbol: 'Insert symbol',
+            mniDrawTable: 'Draw table',
+            mniEraseTable: 'Erase table'
         }
     })(), DE.Views.Toolbar || {}));
 });

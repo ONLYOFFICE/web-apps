@@ -2305,6 +2305,8 @@
   "DE.Views.Toolbar.textCheckboxControl": "Check box",
   "DE.Views.Toolbar.textDropdownControl": "Drop-down list",
   "DE.Views.Toolbar.textDateControl": "Date",
+  "DE.Views.Toolbar.mniDrawTable": "Draw table",
+  "DE.Views.Toolbar.mniEraseTable": "Erase table",
   "DE.Views.WatermarkSettingsDialog.textAuto": "Auto",
   "DE.Views.WatermarkSettingsDialog.textBold": "Bold",
   "DE.Views.WatermarkSettingsDialog.textColor": "Text color",
