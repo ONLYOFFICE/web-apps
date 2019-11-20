@@ -47,7 +47,7 @@
             background-color: @dropdown-link-hover-bg;
         }
 
-        .checked {
+        .checked:not(.no-checkmark) {
             &:before {
                 content: '';
                 width: 16px;
@@ -71,11 +71,18 @@
         .menu-item-icon {
             display: inline-block;
             float: left;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             margin: -3px 5px 0 -15px;
             .background-ximage-v2('popupmenu-btns.png', 66px, @commonimage: false);
             background-repeat: no-repeat;
+        }
+
+        .no-checkmark.checked {
+            .menu-item-icon {
+                background-color: @primary;
+                border-radius: 2px;
+            }
         }
     }
 }
