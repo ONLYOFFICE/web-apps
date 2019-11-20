@@ -329,51 +329,6 @@ define([
                     });
                     this.paragraphControls.push(this.btnAlignJust);
 
-                    this.btnHorizontalAlign = new Common.UI.Button({
-                        id: 'id-toolbar-btn-halign',
-                        cls: 'btn-toolbar',
-                        iconCls: 'btn-align-left',
-                        icls: 'btn-align-left',
-                        menu: new Common.UI.Menu({
-                            cls: 'ppm-toolbar',
-                            items: [
-                                {
-                                    caption: this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
-                                    iconCls: 'mnu-align-left',
-                                    icls: 'btn-align-left',
-                                    checkable: true,
-                                    toggleGroup: 'halignGroup',
-                                    checked: true,
-                                    value: 1
-                                },
-                                {
-                                    caption: this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
-                                    iconCls: 'mnu-align-center',
-                                    icls: 'btn-align-center',
-                                    checkable: true,
-                                    toggleGroup: 'halignGroup',
-                                    value: 2
-                                },
-                                {
-                                    caption: this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
-                                    iconCls: 'mnu-align-right',
-                                    icls: 'btn-align-right',
-                                    checkable: true,
-                                    toggleGroup: 'halignGroup',
-                                    value: 0
-                                },
-                                {
-                                    caption: this.tipAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
-                                    iconCls: 'mnu-align-just',
-                                    icls: 'btn-align-just',
-                                    checkable: true,
-                                    toggleGroup: 'halignGroup',
-                                    value: 3
-                                }
-                            ]
-                        })
-                    });
-                    this.paragraphControls.push(this.btnHorizontalAlign);
 
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
@@ -1317,7 +1272,6 @@ define([
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
                 _injectComponent('#slot-field-styles', this.listStyles);
-                _injectComponent('#slot-btn-halign', this.btnHorizontalAlign);
                 _injectComponent('#slot-btn-mailrecepients', this.btnMailRecepients);
                 _injectComponent('#slot-img-align', this.btnImgAlign);
                 _injectComponent('#slot-img-group', this.btnImgGroup);
@@ -1562,7 +1516,6 @@ define([
                 this.btnAlignCenter.updateHint(this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'));
                 this.btnAlignRight.updateHint(this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'));
                 this.btnAlignJust.updateHint(this.tipAlignJust + Common.Utils.String.platformKey('Ctrl+J'));
-                this.btnHorizontalAlign.updateHint(this.tipHAligh);
                 this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft + Common.Utils.String.platformKey('Ctrl+M'));
                 this.btnLineSpace.updateHint(this.tipLineSpace);
@@ -2200,7 +2153,6 @@ define([
             tipColorSchemas: 'Change Color Scheme',
             tipInsertText: 'Insert Text',
             tipInsertTextArt: 'Insert Text Art',
-            tipHAligh: 'Horizontal Align',
             mniEditDropCap: 'Drop Cap Settings',
             textNone: 'None',
             textInText: 'In Text',

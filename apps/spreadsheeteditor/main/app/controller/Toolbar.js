@@ -308,8 +308,6 @@ define([
                 toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, AscCommon.align_Center));
                 toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, AscCommon.align_Right));
                 toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Justify));
-                toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
-                toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
                 toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Top));
@@ -713,38 +711,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Horizontal align');
-        },
-
-        onHorizontalAlignMenu: function(menu, item) {
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-
-            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
-            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
-
-            this._state.pralign = undefined;
-            if (this.api)
-                this.api.asc_setCellAlign(!item.checked ? null : item.value);
-
-            this.toolbar.btnWrap.allowDepress = !(item.value == AscCommon.align_Justify);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
-        },
-
-        onVerticalAlignMenu: function(menu, item) {
-            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
-
-            btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls);
-            btnVerticalAlign.options.icls = !item.checked ? 'btn-valign-bottom' : item.options.icls;
-            btnVerticalAlign.$icon.addClass(btnVerticalAlign.options.icls);
-
-            this._state.valign = undefined;
-            if (this.api)
-                this.api.asc_setCellVertAlign(!item.checked ? Asc.c_oAscVAlign.Bottom : item.value);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Vertical Align');
         },
 
         onVerticalAlign: function(type, btn, e) {
@@ -2210,20 +2176,11 @@ define([
                             toolbar.btnAlignLeft.toggle(index===0, true);
                             toolbar.btnAlignCenter.toggle(index===1, true);
                             toolbar.btnAlignJust.toggle(index===3, true);
-                            toolbar.btnHorizontalAlign.menu.items[index].setChecked(true, false);
                         } else if (index == -255) {
                             toolbar.btnAlignRight.toggle(false, true);
                             toolbar.btnAlignLeft.toggle(false, true);
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
-
-                            toolbar.btnHorizontalAlign.menu.clearAll();
-                        }
-
-                        var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-                        if ( btnHorizontalAlign.rendered ) {
-                            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
-                            btnHorizontalAlign.options.icls = align;
                         }
                     }
 
@@ -2248,13 +2205,6 @@ define([
                             toolbar.btnAlignTop.toggle(index===0, true);
                             toolbar.btnAlignMiddle.toggle(index===1, true);
                             toolbar.btnAlignBottom.toggle(index===2, true);
-                            toolbar.btnVerticalAlign.menu.items[index].setChecked(true, false);
-
-                            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
-                            if ( btnVerticalAlign.rendered ) {
-                                btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls).addClass(align);
-                                btnVerticalAlign.options.icls = align;
-                            }
                         }
                     }
 

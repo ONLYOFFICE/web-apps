@@ -1011,97 +1011,6 @@ define([
                     })
                 });
 
-                // Is unique for the short view
-
-                me.btnHorizontalAlign = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-halign',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-align-left',
-                    icls        : 'btn-align-left',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth, _set.coAuthText],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            {
-                                caption     : me.tipAlignLeft,
-                                iconCls     : 'mnu-align-left',
-                                icls        : 'btn-align-left',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'halignGroup',
-                                checked     : true,
-                                value       : AscCommon.align_Left
-                            },
-                            {
-                                caption     : me.tipAlignCenter,
-                                iconCls     : 'mnu-align-center',
-                                icls        : 'btn-align-center',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'halignGroup',
-                                value       : AscCommon.align_Center
-                            },
-                            {
-                                caption     : me.tipAlignRight,
-                                iconCls     : 'mnu-align-right',
-                                icls        : 'btn-align-right',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'halignGroup',
-                                value       : AscCommon.align_Right
-                            },
-                            {
-                                caption     : me.tipAlignJust,
-                                iconCls     : 'mnu-align-just',
-                                icls        : 'btn-align-just',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'halignGroup',
-                                value       : AscCommon.align_Justify
-                            }
-                        ]
-                    })
-                });
-
-                me.btnVerticalAlign = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-valign',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-valign-bottom',
-                    icls        : 'btn-valign-bottom',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth, _set.coAuthText],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            {
-                                caption     : me.tipAlignTop,
-                                iconCls     : 'mnu-valign-top',
-                                icls        : 'btn-valign-top',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'valignGroup',
-                                value       : Asc.c_oAscVAlign.Top
-                            },
-                            {
-                                caption     : me.tipAlignMiddle,
-                                iconCls     : 'mnu-valign-middle',
-                                icls        : 'btn-valign-middle',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'valignGroup',
-                                value       : Asc.c_oAscVAlign.Center
-                            },
-                            {
-                                caption     : me.tipAlignBottom,
-                                iconCls     : 'mnu-valign-bottom',
-                                icls        : 'btn-valign-bottom',
-                                checkable   : true,
-                                allowDepress: true,
-                                checked     : true,
-                                toggleGroup : 'valignGroup',
-                                value       : Asc.c_oAscVAlign.Bottom
-                            }
-                        ]
-                    })
-                });
-
                 var hidetip = Common.localStorage.getItem("sse-hide-synch");
                 me.showSynchTip = !(hidetip && parseInt(hidetip) == 1);
                 // me.needShowSynchTip = false;
@@ -1439,8 +1348,8 @@ define([
             if (config.isEdit) {
                 me.lockControls = [
                     me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
-                    me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
-                    me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
+                    me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
+                    me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
@@ -1651,9 +1560,6 @@ define([
                                 [SSE.enumLock.editCell, SSE.enumLock.selRangeEdit, SSE.enumLock.headerLock, SSE.enumLock.lostConnect, SSE.enumLock.coAuth]);
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
 
-            // replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                this.btnHorizontalAlign);
-            // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
-
             return $host;
         },
 
@@ -1716,8 +1622,6 @@ define([
             _updateHint(this.btnAddCell, this.tipInsertOpt);
             _updateHint(this.btnDeleteCell, this.tipDeleteOpt);
             _updateHint(this.btnColorSchemas, this.tipColorSchemas);
-            _updateHint(this.btnHorizontalAlign, this.tipHAligh);
-            _updateHint(this.btnVerticalAlign, this.tipVAligh);
             _updateHint(this.btnPageOrient, this.tipPageOrient);
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
@@ -2277,8 +2181,6 @@ define([
         tipClearStyle:      'Clear',
         tipCopyStyle:       'Copy Style',
         tipBack:            'Back',
-        tipHAligh:          'Horizontal Align',
-        tipVAligh:          'Vertical Align',
         tipAlignLeft:       'Align Left',
         tipAlignRight:      'Align Right',
         tipAlignCenter:     'Align Center',
