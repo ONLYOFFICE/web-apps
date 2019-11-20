@@ -1831,6 +1831,8 @@ define([
                 documentHolder.menuParagraphDirection.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.pmiTextAdvanced.setVisible(false);
                 documentHolder.textInShapeMenu.items[9].setVisible(false);
+                documentHolder.menuParagraphBullets.setVisible(false);
+                documentHolder.textInShapeMenu.items[3].setVisible(false);
                 documentHolder.pmiTextCopy.setDisabled(false);
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             }
