@@ -393,14 +393,14 @@ define([
         onHideContentControlsActions: function() {
             this.view.contentsMenu && this.view.contentsMenu.hide();
             this.view.contentsUpdateMenu && this.view.contentsUpdateMenu.hide();
+            this.view.listControlMenu && this.view.listControlMenu.isVisible() && this.view.listControlMenu.hide();
             var controlsContainer = this.getApplication().getController('DocumentHolder').documentHolder.cmpEl.find('#calendar-control-container');
             if (controlsContainer.is(':visible'))
                 controlsContainer.hide();
         },
 
         onShowDateActions: function(obj, x, y) {
-            var action = obj.button,
-                props = obj.pr,
+            var props = obj.pr,
                 specProps = props.get_DateTimePr(),
                 id = props.get_InternalId(),
                 documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
@@ -460,6 +460,66 @@ define([
             documentHolderView._preventClick = true;
         },
 
+        onShowListActions: function(obj, x, y) {
+            var type = obj.type,
+                props = obj.pr,
+                id = props.get_InternalId(),
+                specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
+                menu = this.view.listControlMenu,
+                documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                menuContainer = menu ? documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.view.listControlMenu = menu = new Common.UI.Menu({
+                    menuAlign: 'tr-bl',
+                    items: []
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        me.api.asc_SelectContentControlListItem(item.value, id);
+                    }, 1);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    documentHolderView.cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    me.view.listControlMenu.removeAll();
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            if (specProps) {
+                var count = specProps.get_ItemsCount();
+                for (var i=0; i<count; i++) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : specProps.get_ItemDisplayText(i),
+                        value       : specProps.get_ItemValue(i)
+                    }));
+                }
+            }
+
+            menuContainer.css({left: x + 22, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            documentHolderView._preventClick = true;
+            menu.show();
+
+            menu.alignPosition();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
         onShowContentControlsActions: function(obj, x, y) {
             var type = obj.type;
             switch (type) {
@@ -470,9 +530,11 @@ define([
                     this.onShowDateActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
+                    this.api.asc_addImage(obj);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
                     break;
             }
         }
