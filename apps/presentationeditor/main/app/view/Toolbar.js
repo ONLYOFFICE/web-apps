@@ -1340,7 +1340,7 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
+                this.btnCollabChanges.cmpEl.addClass('notify');
                 if (this.showSynchTip) {
                     this.btnCollabChanges.updateHint('');
                     if (this.synchTooltip === undefined)
@@ -1376,8 +1376,8 @@ define([
                 if (this.btnCollabChanges.rendered) {
                     var me = this;
 
-                    if ( me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
-                        me.btnCollabChanges.$icon.removeClass('btn-synch').addClass(this.btnSaveCls);
+                    if ( me.btnCollabChanges.cmpEl.hasClass('notify') ) {
+                        me.btnCollabChanges.cmpEl.removeClass('notify');
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
@@ -1399,11 +1399,8 @@ define([
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
                 if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
-
-                    if ( !this.btnCollabChanges.$icon.hasClass('btn-synch') ) {
-                        this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
-                        this.btnCollabChanges.updateHint(this.btnSaveTip);
-                    }
+                    this.btnCollabChanges.updateHint(this.btnSaveTip);
+                    this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
                     this.btnSaveCls = cls;
                 }
             },
