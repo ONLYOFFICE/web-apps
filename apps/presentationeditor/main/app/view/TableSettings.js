@@ -280,22 +280,22 @@ define([
             this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, 5));
 
             var _arrBorderPosition = [
-                ['l', 'btn-borders-small btn-position-left', 'table-button-border-left',            this.tipLeft],
-                ['c','btn-borders-small btn-position-inner-vert', 'table-button-border-inner-vert', this.tipInnerVert],
-                ['r','btn-borders-small btn-position-right', 'table-button-border-right',           this.tipRight],
-                ['t','btn-borders-small btn-position-top', 'table-button-border-top',               this.tipTop],
-                ['m','btn-borders-small btn-position-inner-hor', 'table-button-border-inner-hor',   this.tipInnerHor],
-                ['b', 'btn-borders-small btn-position-bottom', 'table-button-border-bottom',        this.tipBottom],
-                ['cm', 'btn-borders-small btn-position-inner', 'table-button-border-inner',         this.tipInner],
-                ['lrtb', 'btn-borders-small btn-position-outer', 'table-button-border-outer',       this.tipOuter],
-                ['lrtbcm', 'btn-borders-small btn-position-all', 'table-button-border-all',         this.tipAll],
-                ['', 'btn-borders-small btn-position-none', 'table-button-border-none',             this.tipNone]
+                ['l', 'toolbar__icon btn-border-left', 'table-button-border-left',              this.tipLeft],
+                ['c', 'toolbar__icon btn-border-insidevert', 'table-button-border-inner-vert',  this.tipInnerVert],
+                ['r', 'toolbar__icon btn-border-right', 'table-button-border-right',            this.tipRight],
+                ['t', 'toolbar__icon btn-border-top', 'table-button-border-top',                this.tipTop],
+                ['m', 'toolbar__icon btn-border-insidehor', 'table-button-border-inner-hor',    this.tipInnerHor],
+                ['b', 'toolbar__icon btn-border-bottom', 'table-button-border-bottom',          this.tipBottom],
+                ['cm', 'toolbar__icon btn-border-inside', 'table-button-border-inner',          this.tipInner],
+                ['lrtb', 'toolbar__icon btn-border-out', 'table-button-border-outer',           this.tipOuter],
+                ['lrtbcm', 'toolbar__icon btn-border-all', 'table-button-border-all',           this.tipAll],
+                ['', 'toolbar__icon btn-border-no', 'table-button-border-none',                 this.tipNone]
             ];
 
             this._btnsBorderPosition = [];
             _.each(_arrBorderPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar borders--small',
                     iconCls: item[1],
                     strId   :item[0],
                     hint: item[3]
