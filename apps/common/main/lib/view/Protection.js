@@ -126,7 +126,7 @@ define([
 
                     this.btnPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-protect',
+                        iconCls: 'toolbar__icon btn-ic-protect',
                         caption: this.txtEncrypt,
                         menu: true,
                         visible: false

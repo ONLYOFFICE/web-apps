@@ -126,14 +126,14 @@ define([
                 var me = this,
                     $host = me.toolbar.$el;
 
-                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'btn-contents', me.capBtnInsContents, undefined, true, true );
-                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'btn-notes', me.capBtnInsFootnote, undefined, true, true);
-                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'btn-inserthyperlink', me.capBtnInsLink);
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-contents', me.capBtnInsContents, undefined, true, true );
+                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote, undefined, true, true);
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink);
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-contents-update',
+                    iconCls: 'toolbar__icon btn-contents-update',
                     caption: this.capBtnContentsUpdate,
                     split: true,
                     menu: true,
@@ -144,7 +144,7 @@ define([
 
                 this.btnBookmarks = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-bookmarks',
+                    iconCls: 'toolbar__icon btn-bookmarks',
                     caption: this.capBtnBookmarks,
                     disabled: true
                 });
@@ -153,7 +153,7 @@ define([
 
                 this.btnCaption = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-caption',
+                    iconCls: 'toolbar__icon btn-caption',
                     caption: this.capBtnCaption,
                     disabled: true
                 });
@@ -229,8 +229,8 @@ define([
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
                                         '<label class="title">' + me.textGotoFootnote + '</label>',
-                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon mmerge-next">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon mmerge-prev">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')),
                                     stopPropagation: true

@@ -275,9 +275,6 @@
             height: 20px;
             line-height: 20px;
 
-            &:not(svg) {
-                .background-ximage-v2('toolbar-menu.png', @toolbarmenu-sprite-width, @commonimage: false);
-            }
         }
 
         svg.icon {
@@ -288,18 +285,6 @@
                 width:calc(~"28px/1.5");
                 height:calc(~"28px/1.5");
             }
-        }
-    }
-
-    &.x-huge, .btn-group.x-huge > & {
-        :not(svg).icon {
-            .background-ximage-v2('controls/toolbarbig.png', 78px);
-        }
-    }
-
-    &:not(.x-huge) {
-        .icon {
-            //.background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
         }
     }
 
