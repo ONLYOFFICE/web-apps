@@ -382,8 +382,8 @@ define([
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
-                this.api.asc_registerCallback('asc_TableDrawModeCallback', _.bind(this.onTableDraw, this));
-                this.api.asc_registerCallback('asc_TableEraseModeCallback', _.bind(this.onTableErase, this));
+                this.api.asc_registerCallback('asc_onTableDrawModeChanged', _.bind(this.onTableDraw, this));
+                this.api.asc_registerCallback('asc_onTableEraseModeChanged', _.bind(this.onTableErase, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
