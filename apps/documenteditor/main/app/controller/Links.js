@@ -130,7 +130,8 @@ define([
                 in_header = false,
                 in_equation = false,
                 in_image = false,
-                in_table = false;
+                in_table = false,
+                frame_pr = null;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -138,6 +139,7 @@ define([
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
+                    frame_pr = pr;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
@@ -154,12 +156,19 @@ define([
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : true,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : true,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : true,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : true;
 
-            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
+            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
             this.view.btnsNotes.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_header || control_plain;
             this.view.btnBookmarks.setDisabled(need_disable);
+
+            need_disable = in_header || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
+            this.view.btnsContents.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
