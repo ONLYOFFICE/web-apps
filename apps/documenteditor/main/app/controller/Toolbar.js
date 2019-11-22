@@ -759,11 +759,12 @@ define([
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
             var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
 
-            if (!need_disable) {
+            toolbar.btnContentControls.setDisabled(paragraph_locked || header_locked);
+            if (!(paragraph_locked || header_locked)) {
                 var control_disable = control_plain || content_locked;
                 for (var i=0; i<7; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
-                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || content_locked);
+                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control);
             }
 

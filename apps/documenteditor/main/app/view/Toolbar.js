@@ -704,7 +704,7 @@ define([
                             ]
                         })
                     });
-                    this.paragraphControls.push(this.btnContentControls);
+                    // this.paragraphControls.push(this.btnContentControls);
 
                     this.btnColumns = new Common.UI.Button({
                         id: 'tlbtn-columns',
