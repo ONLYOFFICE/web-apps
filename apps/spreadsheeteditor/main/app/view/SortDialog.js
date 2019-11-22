@@ -97,9 +97,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div class="list-item" style="width: 100%;display:inline-block;">',
-                            '<div style="width:150px;padding-right: 5px;display: inline-block;"><div id="sort-dialog-cmb-col-<%= levelIndex %>" class="input-group-nr" style="width:100%;"></div></div>',
-                            '<div style="width:150px;padding-right: 5px;display: inline-block;"><div id="sort-dialog-cmb-sort-<%= levelIndex %>" class="input-group-nr" style="width:100%;"></div></div>',
-                            '<div style="width:150px;display: inline-block;"><div id="sort-dialog-cmb-order-<%= levelIndex %>" class="input-group-nr" style="width:100%;"></div></div>',
+                            '<div style="width:33%;padding-right: 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-col-<%= levelIndex %>" class="input-group-nr"></div></div>',
+                            '<div style="width:33%;padding-right: 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-sort-<%= levelIndex %>" class="input-group-nr"></div></div>',
+                            '<% if (sort==Asc.c_oAscSortOptions.ByColorFill || sort==Asc.c_oAscSortOptions.ByColorFont) { %>',
+                                '<div style="width:17%;display: inline-block;vertical-align: top;"><div id="sort-dialog-btn-color-<%= levelIndex %>" class="input-group-nr"></div></div>',
+                                '<div style="width:17%;padding-left: 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-order-<%= levelIndex %>" class="input-group-nr" style="display: inline-block;"></div></div>',
+                            '<% } else { %>',
+                                '<div style="width:34%;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-order-<%= levelIndex %>" class="input-group-nr" style="display: inline-block;"></div></div>',
+                            '<% } %>',
                         '</div>'
                 ].join(''))
             });
@@ -257,6 +262,21 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             (val!==null) && combo.setValue(val);
             level.cmbSort = combo;
 
+            var sort = item.get('sort');
+            if (sort==Asc.c_oAscSortOptions.ByColorFill || sort==Asc.c_oAscSortOptions.ByColorFont) {
+                combo = new Common.UI.ComboBoxColor({
+                    el          : cmpEl.find('#sort-dialog-btn-color-' + i),
+                    editable    : false,
+                    menuCls     : 'menu-absolute',
+                    data        : level.color_data
+                }).on('selected', function(combo, record) {
+                    item.set('color', record.value);
+                });
+                val = item.get('color');
+                (val!==null) && combo.setValue(val);
+                level.cmbColor = combo;
+            }
+
             el = cmpEl.find('#sort-dialog-cmb-order-' + i);
             combo = new Common.UI.ComboBox({
                 el          : el,
@@ -304,10 +324,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     levelIndex = item.get('levelIndex');
                 item.set('columnIndex', columnIndex, {silent: true} );
                 item.set('order', Asc.c_oAscSortOptions.Ascending, {silent: true} );
+                item.set('color', -1, {silent: true} );
                 me.levels[levelIndex].levelProps = (columnIndex!==null) ? me.props.asc_getLevelProps(columnIndex) : undefined;
                 me.addControls(null, null, item);
                 me.updateOrderList(levelIndex);
-
             });
         },
 
@@ -386,6 +406,28 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             ];
             level.cmbOrder.setData(level.order_data);
             level.cmbOrder.setValue(order);
+
+            if (iscolor) {
+                level.color_data = [{ value: -1, displayValue: (level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? this.textNone : this.textAuto , color: null}];
+                if (level.levelProps) {
+                    var levelColors = (level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? level.levelProps.asc_getColorsFill() : level.levelProps.asc_getColorsFont();
+                    levelColors.forEach(function(item, index) {
+                        item && level.color_data.push({
+                                    value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                    displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                    color: item
+                                });
+                    });
+                }
+                level.cmbColor.setData(level.color_data);
+                level.cmbColor.setDisabled(level.color_data.length<1);
+                (level.color_data.length>0) && level.cmbColor.setValue(level.color_data[0].value);
+
+                var item = this.sortList.store.at(levelIndex);
+                if (item) {
+                    item.set('color', -1);
+                }
+            }
         },
 
         getSettings: function() {
@@ -404,7 +446,12 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     level.asc_setIndex(columnIndex);
                     level.asc_setSortBy(levelProp.cmbSort.getValue());
                     level.asc_setDescending(levelProp.cmbOrder.getValue());
-                    // level.asc_setColor(level.color);
+                    if (levelProp.cmbSort.getValue() == Asc.c_oAscSortOptions.ByColorFill || levelProp.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFont) {
+                        var rec = levelProp.cmbColor.getSelectedRecord();
+                        if (rec) {
+                            level.asc_setColor(rec.color);
+                        }
+                    }
                     arr.push(level);
                 }
             });
@@ -466,7 +513,9 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         textBelow: 'Below',
         textLeft: 'Left',
         textRight: 'Right',
-        errorEmpty: 'All sort criteria must have a column or row specified.'
+        errorEmpty: 'All sort criteria must have a column or row specified.',
+        textAuto: 'Automatic',
+        textNone: 'None'
 
     }, SSE.Views.SortDialog || {}));
 });
