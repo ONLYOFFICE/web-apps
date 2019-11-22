@@ -117,7 +117,7 @@ define([
                 labelText: this.textTopBottom,
                 name: 'asc-radio-sort-orient'
             }).on('change', _.bind(function(field, newValue, eOpts) {
-                newValue && this.chHeaders.setDisabled(this.props.infilter);
+                newValue && this.chHeaders.setDisabled(this.props.lockHeaders);
             }, this));
 
             this.radioLeft = new Common.UI.RadioBox({
@@ -139,13 +139,13 @@ define([
             if (props) {
                 this.chHeaders.setValue(props.headers);
                 this.chCase.setValue(props.sensitive);
-                (props.sortcol || props.infilter) ? this.radioTop.setValue(true) : this.radioLeft.setValue(true);
-                this.radioLeft.setDisabled(props.infilter);
+                (props.sortcol || props.lockOrientation) ? this.radioTop.setValue(true) : this.radioLeft.setValue(true);
+                this.radioLeft.setDisabled(props.lockOrientation);
             }
         },
 
         getSettings: function () {
-            return {headers: this.radioTop.getValue() && (this.chHeaders.getValue()=='checked'), sensitive: this.chCase.getValue()=='checked', sortcol: this.radioTop.getValue(), infilter: this.props.infilter};
+            return {headers: this.radioTop.getValue() && (this.chHeaders.getValue()=='checked'), sensitive: this.chCase.getValue()=='checked', sortcol: this.radioTop.getValue(), lockHeaders: this.props.lockHeaders, lockOrientation: this.props.lockOrientation};
         },
 
         textTitle: 'Sort Options',

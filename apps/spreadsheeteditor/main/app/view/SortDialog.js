@@ -162,7 +162,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     headers: props.asc_getHasHeaders(),
                     // sensitive: props.asc_getCaseSensitive(),
                     sortcol: props.asc_getColumnSort(),
-                    infilter: !!props.asc_getFilterInside()
+                    lockHeaders: !!props.asc_getLockChangeHeaders(),
+                    lockOrientation: !!props.asc_getLockChangeOrientation()
                 };
 
                 this.lblColumn.text(props.asc_getColumnSort() ? this.textColumn : this.textRow);
