@@ -268,4 +268,71 @@ define([
             formcontrol.css('background-position', '0 -' + record.get('offsety') + 'px');
         }
     }, Common.UI.ComboBorderType || {}));
+
+    Common.UI.ComboBoxColor = Common.UI.ComboBox.extend(_.extend({
+        template: _.template([
+            '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+            '<div class="form-control" style="padding:2px 14px 2px 3px; <%= style %> display: block;">',
+                '<div style="display: inline-block;overflow: hidden;width: 100%;height: 100%;"></div>',
+            '</div>',
+            '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+            '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+            '<% _.each(items, function(item) { %>',
+                '<% if (item.value==-1) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                '<% } else { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                    '<a tabindex="-1" type="menuitem" style="padding: 5px;"><div style="height: 15px;background-color: #<%= item.value %>"></div></a>',
+                    '</li>',
+                '<% } %>',
+            '<% }); %>',
+            '</ul>',
+            '</div>'
+        ].join('')),
+
+        itemClicked: function (e) {
+            var el = $(e.currentTarget).parent();
+
+            this._selectedItem = this.store.findWhere({
+                id: el.attr('id')
+            });
+            if (this._selectedItem) {
+                $('.selected', $(this.el)).removeClass('selected');
+                el.addClass('selected');
+                this.updateFormControl(this._selectedItem);
+
+                this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
+                e.preventDefault();
+            }
+        },
+
+        updateFormControl: function(record) {
+            var formcontrol = $(this.el).find('.form-control > div');
+
+            if (record.get('value')!=-1) {
+                formcontrol[0].innerHTML = '';
+                formcontrol.css({'background': '#' + record.get('value'), 'margin-top': '0'});
+            } else {
+                formcontrol[0].innerHTML = record.get('displayValue');
+                formcontrol.css({'background': '', 'margin-top': '1px'});
+            }
+        },
+
+        setValue: function(value) {
+            var obj;
+            this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
+
+            $('.selected', $(this.el)).removeClass('selected');
+
+            if (this._selectedItem) {
+                this.updateFormControl(this._selectedItem);
+                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+            } else {
+                var formcontrol = $(this.el).find('.form-control > div');
+                formcontrol[0].innerHTML = '';
+                formcontrol.css('background', '');
+            }
+        }
+    }, Common.UI.ComboBoxColor || {}));
+
 });
