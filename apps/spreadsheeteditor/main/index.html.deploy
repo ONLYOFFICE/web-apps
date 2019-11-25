@@ -238,6 +238,7 @@
 
         if (view) {
             document.querySelector('.brendpanel > :nth-child(2)').remove();
+            document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
             document.querySelector('.sktoolbar').remove();
         }
 
