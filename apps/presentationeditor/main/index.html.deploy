@@ -258,11 +258,14 @@
 
     <script>
         var params = getUrlParams(),
+            compact = params["compact"] == 'true',
             view = params["mode"] == 'view';
 
-        if (view) {
+        if (compact || view) {
             document.querySelector('.brendpanel > :nth-child(2)').remove();
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+        }
+        if (view) {
             document.querySelector('.sktoolbar').remove();
         }
 

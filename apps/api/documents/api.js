@@ -783,9 +783,12 @@
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
 
-        if (config.editorConfig && (config.editorConfig.mode == 'view' || config.editorConfig.customization && !!config.editorConfig.customization.compactHeader) ||
+        if (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review ))
             params += "&mode=view";
+
+        if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
+            params += "&compact=true";
 
         return params;
     }
