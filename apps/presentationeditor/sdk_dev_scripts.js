@@ -151,6 +151,7 @@ var sdk_dev_scrpipts = [
 	"../../../../sdkjs/word/Editor/StructuredDocumentTags/SdtPrChanges.js",
     "../../../../sdkjs/slide/apiCommon.js",
     "../../../../sdkjs/common/apiBase.js",
+	"../../../../sdkjs/common/apiBase_plugins.js",
     "../../../../sdkjs/slide/api.js",
     "../../../../sdkjs/word/Editor/ParagraphContentBase.js",
     "../../../../sdkjs/word/Editor/Hyperlink.js",
