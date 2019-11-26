@@ -236,12 +236,26 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         order: level.asc_getDescending(),
                         color: level.asc_getColor()
                     });
+                    if (iscolor) {
+                        var color_data = [{ value: -1, displayValue: (level.asc_getSortBy()==Asc.c_oAscSortOptions.ByColorFill) ? this.textNone : this.textAuto , color: null}];
+                        if (levelProps) {
+                            var levelColors = (level.asc_getSortBy()==Asc.c_oAscSortOptions.ByColorFill) ? levelProps.asc_getColorsFill() : levelProps.asc_getColorsFont();
+                            levelColors.forEach(function(item, index) {
+                                item && color_data.push({
+                                    value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                    displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                    color: item
+                                });
+                            });
+                        }
+                    }
                     this.levels[i] = {
                         levelProps: levelProps,
                         order_data: [
                             { value: Asc.c_oAscSortOptions.Ascending, displayValue: (iscolor) ? (this.sortOptions.sortcol ? this.textTop : this.textLeft) : (istext ? this.textAZ : this.textAsc) },
                             { value: Asc.c_oAscSortOptions.Descending, displayValue: (iscolor) ? (this.sortOptions.sortcol ? this.textBelow : this.textRight): (istext ? this.textZA : this.textDesc)}
-                        ]
+                        ],
+                        color_data: color_data
                     };
                 }
                 this.sortList.store.reset(arr);
@@ -300,10 +314,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     menuStyle   : 'max-height: 135px;',
                     data        : level.color_data
                 }).on('selected', function(combo, record) {
-                    item.set('color', record.value);
+                    item.set('color', record.color);
                 });
                 val = item.get('color');
-                (val!==null) && combo.setValue(val);
+                combo.setValue(val ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()).toLocaleUpperCase() : -1);
                 level.cmbColor = combo;
             }
 
@@ -358,7 +372,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     levelIndex = item.get('levelIndex');
                 item.set('columnIndex', columnIndex, {silent: true} );
                 item.set('order', Asc.c_oAscSortOptions.Ascending, {silent: true} );
-                item.set('color', -1, {silent: true} );
+                item.set('color', null, {silent: true} );
                 me.levels[levelIndex].levelProps = (columnIndex!==null) ? me.props.asc_getLevelProps(columnIndex) : undefined;
                 me.addControls(null, null, item);
                 me.updateOrderList(levelIndex);
@@ -459,7 +473,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
                 var item = this.sortList.store.at(levelIndex);
                 if (item) {
-                    item.set('color', -1);
+                    item.set('color', null);
                 }
             }
         },
