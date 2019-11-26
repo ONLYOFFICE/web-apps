@@ -112,7 +112,7 @@ define([
                     if (this.api) {
                         ( diagramEditor.isEditMode() )
                             ? this.api.asc_editChartDrawingObject(data)
-                            : this.api.asc_addChartDrawingObject(data);
+                            : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
                     }
                 }, this));
                 diagramEditor.on('hide', _.bind(function(cmp, message) {

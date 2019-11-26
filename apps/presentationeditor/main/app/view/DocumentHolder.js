@@ -1698,7 +1698,7 @@ define([
             }
         },
         /** coauthoring end **/
-        editChartClick: function(chart){
+        editChartClick: function(chart, placeholder){
             if (this.mode.isEdit && !this._isDisabled) {
                 var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
 
@@ -1708,6 +1708,7 @@ define([
                     if (typeof chart !== 'object')
                         chart = this.api.asc_getChartObject(chart);
                     diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
+                    diagramEditor.setPlaceholder(placeholder);
                 }
             }
         },
@@ -3428,11 +3429,11 @@ define([
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
                                 if (placeholder)
-                                    me.api.AddImageUrl(checkUrl);
+                                    me.api.AddImageUrl(checkUrl, obj);
                                 else {
                                     var props = new Asc.asc_CImgProperty();
                                     props.put_ImageUrl(checkUrl);
-                                    me.api.ImgApply(props);
+                                    me.api.ImgApply(props, obj);
                                 }
                             }
                         }
@@ -3477,7 +3478,7 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
-                    me.editChartClick(record.get('type'));
+                    me.editChartClick(record.get('type'), obj);
                 });
             }
             menuContainer.css({left: x, top : y});
@@ -3525,7 +3526,7 @@ define([
                     maxColumns: 10
                 });
                 picker.on('select', function(picker, columns, rows){
-                    me.api.put_Table(columns, rows);
+                    me.api.put_Table(columns, rows, obj);
                     me.fireEvent('editcomplete', me);
                 });
                 menu.on('item:click', function(menu, item, e){
@@ -3533,7 +3534,7 @@ define([
                         (new Common.Views.InsertTableDialog({
                             handler: function(result, value) {
                                 if (result == 'ok')
-                                    me.api.put_Table(value.columns, value.rows);
+                                    me.api.put_Table(value.columns, value.rows, obj);
                                 me.fireEvent('editcomplete', me);
                             }
                         })).show();
@@ -3559,9 +3560,9 @@ define([
         onClickPlaceholder: function(type, obj, x, y) {
             if (!this.api) return;
             if (type == AscCommon.PlaceholderButtonType.Video) {
-                // this.api.addVideo();
+                // this.api.addVideo(obj);
             } else if (type == AscCommon.PlaceholderButtonType.Audio) {
-                // this.api.addAudio();
+                // this.api.addAudio(obj);
             }
             this.fireEvent('editcomplete', this);
         },
