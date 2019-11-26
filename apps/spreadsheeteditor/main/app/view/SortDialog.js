@@ -49,7 +49,29 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
     SSE.Views = SSE.Views || {};
 
+    var _CustomItem = Common.UI.DataViewItem.extend({
+        initialize : function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this, options);
+
+            var me = this;
+
+            me.template = me.options.template || me.template;
+
+            me.listenTo(me.model, 'change:sort', function() {
+                me.render();
+                me.trigger('change', me, me.model);
+            });
+            me.listenTo(me.model, 'change:selected', function() {
+                var el = me.$el || $(me.el);
+                el.toggleClass('selected', me.model.get('selected') && me.model.get('allowSelected'));
+                me.onSelectChange();
+            });
+            me.listenTo(me.model, 'remove',             me.remove);
+        }
+    });
+
     SSE.Views.SortDialog =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+
         options: {
             alias: 'SortDialog',
             contentWidth: 500,
@@ -94,9 +116,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 el: $('#sort-dialog-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
+                enableKeyEvents: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                        '<div class="list-item" style="width: 100%;display:inline-block;">',
+                        '<div class="list-item" style="width: 100%;display:inline-block;" id="sort-dialog-item-<%= levelIndex %>">',
                             '<div style="width:33%;padding-right: 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-col-<%= levelIndex %>" class="input-group-nr"></div></div>',
                             '<div style="width:33%;padding-right: 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-sort-<%= levelIndex %>" class="input-group-nr"></div></div>',
                             '<% if (sort==Asc.c_oAscSortOptions.ByColorFill || sort==Asc.c_oAscSortOptions.ByColorFont) { %>',
@@ -108,6 +131,12 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         '</div>'
                 ].join(''))
             });
+            this.sortList.createNewItem = function(record) {
+                return new _CustomItem({
+                    template: this.itemTemplate,
+                    model: record
+                });
+            };
             this.sortList.on('item:select', _.bind(this.onSelectLevel, this))
                          .on('item:keydown', _.bind(this.onKeyDown, this));
 
@@ -170,8 +199,9 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
                 // get name from props
                 this.column_data = [];
-                var values = props.asc_getSortList();
-                for (var i=0; i<values.length; i++) {
+                var values = props.asc_getSortList(),
+                    len = Math.min(values.length, 500);
+                for (var i=0; i<len; i++) {
                     this.column_data.push({ value: i, displayValue: values[i] });
                 }
                 this.sort_data = [
@@ -224,16 +254,15 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             if (!item) return;
 
             var me = this,
-                cmpEl = this.sortList.cmpEl,
-                i = item.get('levelIndex');
+                i = item.get('levelIndex'),
+                cmpEl = this.sortList.cmpEl.find('#sort-dialog-item-' + i);
             if (!this.levels[i])
                 this.levels[i] = {
                     order_data: this.order_data
                 };
             var level = this.levels[i];
-            var el = cmpEl.find('#sort-dialog-cmb-col-' + i),
-                combo = new Common.UI.ComboBox({
-                    el          : el,
+            var combo = new Common.UI.ComboBox({
+                    el          : cmpEl.find('#sort-dialog-cmb-col-' + i),
                     editable    : false,
                     cls         : 'input-group-nr',
                     menuCls     : 'menu-absolute',
@@ -248,9 +277,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             (val!==null) && combo.setValue(item.get('columnIndex'));
             level.cmbColumn = combo;
 
-            el = cmpEl.find('#sort-dialog-cmb-sort-' + i);
             combo = new Common.UI.ComboBox({
-                el          : el,
+                el          : cmpEl.find('#sort-dialog-cmb-sort-' + i),
                 editable    : false,
                 cls         : 'input-group-nr',
                 menuCls     : 'menu-absolute',
@@ -269,6 +297,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     el          : cmpEl.find('#sort-dialog-btn-color-' + i),
                     editable    : false,
                     menuCls     : 'menu-absolute',
+                    menuStyle   : 'max-height: 135px;',
                     data        : level.color_data
                 }).on('selected', function(combo, record) {
                     item.set('color', record.value);
@@ -278,9 +307,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 level.cmbColor = combo;
             }
 
-            el = cmpEl.find('#sort-dialog-cmb-order-' + i);
             combo = new Common.UI.ComboBox({
-                el          : el,
+                el          : cmpEl.find('#sort-dialog-cmb-order-' + i),
                 editable    : false,
                 cls         : 'input-group-nr',
                 menuCls     : 'menu-absolute',
@@ -291,6 +319,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             val = item.get('order');
             (val!==null) && combo.setValue(val);
             level.cmbOrder = combo;
+
+            cmpEl.on('mousedown', '.combobox', function(){
+                me.sortList.selectRecord(item);
+            });
         },
 
         onOptions: function () {
@@ -314,9 +346,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         },
 
         updateSortValues: function() {
-            var values = this.props.asc_getSortList();
+            var values = this.props.asc_getSortList(),
+                len = Math.min(values.length, 500);
             this.column_data = [];
-            for (var i=0; i<values.length; i++) {
+            for (var i=0; i<len; i++) {
                 this.column_data.push({ value: i, displayValue: values[i] });
             }
             var me = this;
