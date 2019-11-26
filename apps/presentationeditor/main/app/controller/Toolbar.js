@@ -1126,8 +1126,10 @@ define([
             }
             if (props) {
                 (new Common.Views.ListSettingsDialog({
+                    api: me.api,
                     props: props,
                     type: type,
+                    interfaceLang: me.toolbar.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {

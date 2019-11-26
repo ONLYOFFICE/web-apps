@@ -102,10 +102,10 @@ define([
 
         updateMetricUnit: function() {
             var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
-            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
 
             value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
-            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
         },
 
         createDelayedControls: function() {
@@ -143,6 +143,17 @@ define([
                 this.fireEvent('editcomplete', this);
             }, this));
 
+            this.btnFitSlide = new Common.UI.Button({
+                el: $('#image-button-fit-slide')
+            });
+            this.lockedControls.push(this.btnFitSlide);
+            this.btnFitSlide.on('click', _.bind(this.setFitSlide, this));
+
+            var w = Math.max(this.btnOriginalSize.cmpEl.width(), this.btnFitSlide.cmpEl.width());
+            this.btnOriginalSize.cmpEl.width(w);
+            this.btnFitSlide.cmpEl.width(w);
+
+            w = this.btnOriginalSize.cmpEl.outerWidth();
             this.btnCrop = new Common.UI.Button({
                 cls: 'btn-text-split-default',
                 caption: this.textCrop,
@@ -150,9 +161,9 @@ define([
                 enableToggle: true,
                 allowDepress: true,
                 pressed: this._state.cropMode,
-                width: 100,
+                width: w,
                 menu        : new Common.UI.Menu({
-                    style       : 'min-width: 100px;',
+                    style       : 'min-width:' + w + 'px;',
                     items: [
                         {
                             caption: this.textCrop,
@@ -175,12 +186,6 @@ define([
             this.btnCrop.on('click', _.bind(this.onCrop, this));
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
             this.lockedControls.push(this.btnCrop);
-
-            this.btnFitSlide = new Common.UI.Button({
-                el: $('#image-button-fit-slide')
-            });
-            this.lockedControls.push(this.btnFitSlide);
-            this.btnFitSlide.on('click', _.bind(this.setFitSlide, this));
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
@@ -244,13 +249,13 @@ define([
 
                 var value = props.get_Width();
                 if ( Math.abs(this._state.Width-value)>0.001 ) {
-                    this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                    this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
                     this._state.Width = value;
                 }
 
                 value = props.get_Height();
                 if ( Math.abs(this._state.Height-value)>0.001 ) {
-                    this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                    this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
                     this._state.Height = value;
                 }
 
@@ -286,8 +291,8 @@ define([
                 var w = imgsize.get_ImageWidth();
                 var h = imgsize.get_ImageHeight();
 
-                this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
-                this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
 
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(w);
