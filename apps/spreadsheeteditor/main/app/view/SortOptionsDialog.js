@@ -48,7 +48,7 @@ define([
     SSE.Views.SortOptionsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 230,
-            height: 225
+            height: 200
         },
 
         initialize : function(options) {
@@ -62,15 +62,15 @@ define([
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
-                                        '<td class="padding-small">',
+                                        '<td class="padding-large">',
                                             '<div id="sort-options-chk-headers"></div>',
                                         '</td>',
                                     '</tr>',
-                                    '<tr>',
-                                        '<td class="padding-large">',
-                                            '<div id="sort-options-chk-case"></div>',
-                                        '</td>',
-                                    '</tr>',
+                                    // '<tr>',
+                                    //     '<td class="padding-large">',
+                                    //         '<div id="sort-options-chk-case"></div>',
+                                    //     '</td>',
+                                    // '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
                                             '<label class="input-label">' + me.textOrientation + '</label>',
@@ -100,17 +100,16 @@ define([
 
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
-            var me = this;
 
             this.chHeaders = new Common.UI.CheckBox({
                 el: $('#sort-options-chk-headers'),
                 labelText: this.textHeaders
             });
 
-            this.chCase = new Common.UI.CheckBox({
-                el: $('#sort-options-chk-case'),
-                labelText: this.textCase
-            });
+            // this.chCase = new Common.UI.CheckBox({
+            //     el: $('#sort-options-chk-case'),
+            //     labelText: this.textCase
+            // });
 
             this.radioTop = new Common.UI.RadioBox({
                 el: $('#sort-options-radio-row'),
@@ -138,14 +137,14 @@ define([
         _setDefaults: function (props) {
             if (props) {
                 this.chHeaders.setValue(props.headers);
-                this.chCase.setValue(props.sensitive);
+                // this.chCase.setValue(props.sensitive);
                 (props.sortcol || props.lockOrientation) ? this.radioTop.setValue(true) : this.radioLeft.setValue(true);
                 this.radioLeft.setDisabled(props.lockOrientation);
             }
         },
 
         getSettings: function () {
-            return {headers: this.radioTop.getValue() && (this.chHeaders.getValue()=='checked'), sensitive: this.chCase.getValue()=='checked', sortcol: this.radioTop.getValue(), lockHeaders: this.props.lockHeaders, lockOrientation: this.props.lockOrientation};
+            return {headers: this.radioTop.getValue() && (this.chHeaders.getValue()=='checked'), /*sensitive: this.chCase.getValue()=='checked',*/ sortcol: this.radioTop.getValue(), lockHeaders: this.props.lockHeaders, lockOrientation: this.props.lockOrientation};
         },
 
         textTitle: 'Sort Options',
