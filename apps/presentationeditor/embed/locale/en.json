@@ -22,7 +22,7 @@
   "PE.ApplicationController.unknownErrorText": "Unknown error.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "PE.ApplicationController.waitText": "Please, wait...",
-  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "The file version has been changed.<br>Use the 'Download' option to save the file backup copy to your computer hard drive.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "PE.ApplicationView.txtDownload": "Download",
   "PE.ApplicationView.txtEmbed": "Embed",
   "PE.ApplicationView.txtFullScreen": "Full Screen",

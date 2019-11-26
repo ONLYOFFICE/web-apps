@@ -1126,8 +1126,10 @@ define([
             }
             if (props) {
                 (new Common.Views.ListSettingsDialog({
+                    api: me.api,
                     props: props,
                     type: type,
+                    interfaceLang: me.toolbar.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
@@ -1849,14 +1851,14 @@ define([
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                                me.api.asc_insertSymbol(settings.font, settings.code);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
-                win.on('symbol:dblclick', function(cmp, settings) {
-                    me.api.pluginMethod_PasteHtml("<span style=\"font-family:'" + settings.font + "'\">" + settings.symbol + "</span>");
+                win.on('symbol:dblclick', function(cmp, result, settings) {
+                    me.api.asc_insertSymbol(settings.font, settings.code);
                 });
             }
         },

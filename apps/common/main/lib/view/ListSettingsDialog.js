@@ -46,15 +46,16 @@ define([
     'common/main/lib/component/Window',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton'
+    'common/main/lib/component/ColorButton',
+    'common/main/lib/view/SymbolTableDialog'
 ], function () { 'use strict';
 
     Common.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers
             width: 230,
-            height: 156,
-            style: 'min-width: 230px;',
+            height: 200,
+            style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
             buttons: ['ok', 'cancel']
@@ -64,20 +65,25 @@ define([
             this.type = options.type || 0;
 
             _.extend(this.options, {
-                title: this.txtTitle,
-                height: this.type==1 ? 190 : 156
+                title: this.txtTitle
             }, options || {});
 
             this.template = [
                 '<div class="box">',
-                    '<div class="input-row">',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
                     '<label class="text" style="width: 70px;">' + this.txtSize + '</label><div id="id-dlg-list-size"></div><label class="text" style="margin-left: 10px;">' + this.txtOfText + '</label>',
                     '</div>',
-                    '<div style="margin-top: 10px;">',
+                    '<div style="margin-bottom: 10px;">',
                     '<label class="text" style="width: 70px;">' + this.txtColor + '</label><div id="id-dlg-list-color" style="display: inline-block;"></div>',
                     '</div>',
+                    '<% if (type == 0) { %>',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
+                    '<label class="text" style="width: 70px;vertical-align: top;">' + this.txtBullet + '</label>',
+                    '<button type="button" class="btn btn-text-default" id="id-dlg-list-edit" style="width:53px;display: inline-block;vertical-align: top;"></button>',
+                    '</div>',
+                    '<% } %>',
                     '<% if (type == 1) { %>',
-                    '<div class="input-row" style="margin-top: 10px;">',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
                     '<label class="text" style="width: 70px;">' + this.txtStart + '</label><div id="id-dlg-list-start"></div>',
                     '</div>',
                     '<% } %>',
@@ -163,6 +169,13 @@ define([
                 }
             });
 
+            this.btnEdit = new Common.UI.Button({
+                el: $window.find('#id-dlg-list-edit'),
+                hint: this.tipChange
+            });
+            this.btnEdit.on('click', _.bind(this.onEditBullet, this));
+            this.btnEdit.cmpEl.css({'font-size': '12px'});
+
             this.afterRender();
         },
 
@@ -184,6 +197,36 @@ define([
             if (this._changedProps) {
                 this._changedProps.asc_putBulletColor(Common.Utils.ThemeColor.getRgbColor(color));
             }
+        },
+
+        onEditBullet: function() {
+            var me = this,
+                props = me.bulletProps,
+                handler = function(dlg, result, settings) {
+                    if (result == 'ok') {
+                        props.changed = true;
+                        props.code = settings.code;
+                        props.font = settings.font;
+                        props.symbol = settings.symbol;
+                        props.font && me.btnEdit.cmpEl.css('font-family', props.font);
+                        settings.symbol && me.btnEdit.setCaption(settings.symbol);
+                        if (me._changedProps) {
+                            me._changedProps.asc_putBulletFont(props.font);
+                            me._changedProps.asc_putBulletSymbol(props.symbol);
+                        }
+                    }
+                },
+                win = new Common.Views.SymbolTableDialog({
+                    api: me.options.api,
+                    lang: me.options.interfaceLang,
+                    modal: true,
+                    type: 0,
+                    font: props.font,
+                    symbol: props.symbol,
+                    handler: handler
+                });
+            win.show();
+            win.on('symbol:dblclick', handler);
         },
 
         _handleInput: function(state) {
@@ -228,6 +271,12 @@ define([
                     if (!isselected) this.colors.clearSelection();
                 } else
                     this.colors.select(color,true);
+
+                if (this.type==0) {
+                    this.bulletProps = {symbol: props.asc_getBulletSymbol(), font: props.asc_getBulletFont()};
+                    this.bulletProps.font && this.btnEdit.cmpEl.css('font-family', this.bulletProps.font);
+                    this.bulletProps.symbol && this.btnEdit.setCaption(this.bulletProps.symbol);
+                }
             }
             this._changedProps = new Asc.asc_CParagraphProperty();
         },
@@ -237,6 +286,8 @@ define([
         txtColor: 'Color',
         txtOfText: '% of text',
         textNewColor: 'Add New Custom Color',
-        txtStart: 'Start at'
+        txtStart: 'Start at',
+        txtBullet: 'Bullet',
+        tipChange: 'Change bullet'
     }, Common.Views.ListSettingsDialog || {}))
 });

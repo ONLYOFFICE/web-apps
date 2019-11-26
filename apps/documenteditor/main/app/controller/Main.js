@@ -1501,6 +1501,7 @@ define([
 
                    case Asc.c_oAscError.ID.UpdateVersion:
                         config.msg = this.errorUpdateVersionOnDisconnect;
+                        config.maxwidth = 600;
                         break;
 
                     default:
@@ -2480,7 +2481,7 @@ define([
             txtMainDocOnly: 'Error! Main Document Only.',
             txtNotValidBookmark: 'Error! Not a valid bookmark self-reference.',
             txtNoText: 'Error! No text of specified style in document.',
-            errorUpdateVersionOnDisconnect: 'The file version has been changed.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), DE.Controllers.Main || {}))
 });

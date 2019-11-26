@@ -188,7 +188,7 @@ define([
                 editable: false,
                 data: this._arrFillSrc
             });
-            this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
+            this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_NOFILL);
             this.fillControls.push(this.cmbFillSrc);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
 

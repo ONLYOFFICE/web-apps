@@ -159,6 +159,10 @@ define([
             });
             this.lockedControls.push(this.btnFitMargins);
 
+            var w = Math.max(this.btnOriginalSize.cmpEl.width(), this.btnFitMargins.cmpEl.width());
+            this.btnOriginalSize.cmpEl.width(w);
+            this.btnFitMargins.cmpEl.width(w);
+
             this.btnInsertFromFile = new Common.UI.Button({
                 el: $('#image-button-from-file')
             });
@@ -229,6 +233,7 @@ define([
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
 
+            var w = this.btnOriginalSize.cmpEl.outerWidth();
             this.btnCrop = new Common.UI.Button({
                 cls: 'btn-text-split-default',
                 caption: this.textCrop,
@@ -236,9 +241,9 @@ define([
                 enableToggle: true,
                 allowDepress: true,
                 pressed: this._state.cropMode,
-                width: 100,
+                width: w,
                 menu        : new Common.UI.Menu({
-                    style       : 'min-width: 100px;',
+                    style       : 'min-width:' + w + 'px;',
                     items: [
                         {
                             caption: this.textCrop,
