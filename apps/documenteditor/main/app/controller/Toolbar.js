@@ -382,8 +382,8 @@ define([
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
-                this.api.asc_registerCallback('asc_TableDrawModeCallback', _.bind(this.onTableDraw, this));
-                this.api.asc_registerCallback('asc_TableEraseModeCallback', _.bind(this.onTableErase, this));
+                this.api.asc_registerCallback('asc_onTableDrawModeChanged', _.bind(this.onTableDraw, this));
+                this.api.asc_registerCallback('asc_onTableEraseModeChanged', _.bind(this.onTableErase, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -739,7 +739,11 @@ define([
             if (sh)
                 this.onParagraphColor(sh);
 
-            var need_disable = paragraph_locked || header_locked;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : true,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : true,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : true,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : true;
+            var need_disable = paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock;
 
             if (this._state.prcontrolsdisable != need_disable) {
                 if (this._state.activated) this._state.prcontrolsdisable = need_disable;
@@ -753,16 +757,18 @@ define([
                 lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
                 control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
             (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
+            var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
 
-            if (!paragraph_locked && !header_locked) {
-                var control_disable = control_plain || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+            toolbar.btnContentControls.setDisabled(paragraph_locked || header_locked);
+            if (!(paragraph_locked || header_locked)) {
+                var control_disable = control_plain || content_locked;
                 for (var i=0; i<7; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
                 toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                 toolbar.btnContentControls.menu.items[10].setDisabled(!in_control);
             }
 
-            var need_text_disable = paragraph_locked || header_locked || in_chart;
+            var need_text_disable = paragraph_locked || header_locked || in_chart || rich_edit_lock || plain_edit_lock;
             if (this._state.textonlycontrolsdisable != need_text_disable) {
                 if (this._state.activated) this._state.textonlycontrolsdisable = need_text_disable;
                 if (!need_disable) {
@@ -770,7 +776,7 @@ define([
                         item.setDisabled(need_text_disable);
                     }, this);
                 }
-                toolbar.btnCopyStyle.setDisabled(need_text_disable);
+                // toolbar.btnCopyStyle.setDisabled(need_text_disable);
                 toolbar.btnClearStyle.setDisabled(need_text_disable);
             }
 
@@ -796,22 +802,22 @@ define([
             if ( !toolbar.btnDropCap.isDisabled() )
                 toolbar.mnuDropCapAdvanced.setDisabled(disable_dropcapadv);
 
-            need_disable = !can_add_table || header_locked || in_equation || control_plain;
+            need_disable = !can_add_table || header_locked || in_equation || control_plain || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             toolbar.btnInsertTable.setDisabled(need_disable);
 
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled() || control_plain;
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
             var in_footnote = this.api.asc_IsCursorInFootnote();
-            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control;
+            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control || rich_edit_lock || plain_edit_lock || rich_del_lock;
             toolbar.btnsPageBreak.setDisabled(need_disable);
             toolbar.btnBlankPage.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_equation || control_plain;
+            need_disable = paragraph_locked || header_locked || in_equation || control_plain || content_locked;
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked  || in_para && !can_add_image || in_equation || control_plain;
+            need_disable = paragraph_locked || header_locked  || in_para && !can_add_image || in_equation || control_plain || rich_del_lock || plain_del_lock || content_locked;
             toolbar.btnInsertImage.setDisabled(need_disable);
             toolbar.btnInsertTextArt.setDisabled(need_disable || in_footnote);
 
@@ -820,28 +826,28 @@ define([
                 this._state.in_chart = in_chart;
             }
 
-            need_disable = in_chart && image_locked || !in_chart && need_disable || control_plain;
+            need_disable = in_chart && image_locked || !in_chart && need_disable || control_plain || rich_del_lock || plain_del_lock || content_locked;
             toolbar.btnInsertChart.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation || control_plain;
+            need_disable = paragraph_locked || header_locked || in_chart || !can_add_image&&!in_equation || control_plain || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             toolbar.btnInsertEquation.setDisabled(need_disable);
 
-            toolbar.btnInsertSymbol.setDisabled(!in_para || paragraph_locked || header_locked);
+            toolbar.btnInsertSymbol.setDisabled(!in_para || paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock);
 
-            need_disable = paragraph_locked || header_locked || in_equation;
+            need_disable = paragraph_locked || header_locked || in_equation || rich_edit_lock || plain_edit_lock;
             toolbar.btnSuperscript.setDisabled(need_disable);
             toolbar.btnSubscript.setDisabled(need_disable);
 
             toolbar.btnEditHeader.setDisabled(in_equation);
 
-            need_disable = paragraph_locked || header_locked || in_image || control_plain;
+            need_disable = paragraph_locked || header_locked || in_image || control_plain || rich_edit_lock || plain_edit_lock;
             if (need_disable != toolbar.btnColumns.isDisabled())
                 toolbar.btnColumns.setDisabled(need_disable);
 
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
 
-            need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked || rich_del_lock || rich_edit_lock || plain_del_lock || plain_edit_lock;
             if (this.mode.compatibleFeatures) {
                 need_disable = need_disable || in_image;
             }

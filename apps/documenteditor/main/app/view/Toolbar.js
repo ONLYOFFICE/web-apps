@@ -704,7 +704,7 @@ define([
                             ]
                         })
                     });
-                    this.paragraphControls.push(this.btnContentControls);
+                    // this.paragraphControls.push(this.btnContentControls);
 
                     this.btnColumns = new Common.UI.Button({
                         id: 'tlbtn-columns',
@@ -1955,8 +1955,7 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
-                this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
-                this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[10].setVisible(mode.canEditContentControl);
                 this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
