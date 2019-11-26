@@ -332,7 +332,44 @@ define([
                 formcontrol[0].innerHTML = '';
                 formcontrol.css('background', '');
             }
+        },
+
+        onResetItems: function() {
+            if (this.itemsTemplate) {
+                $(this.el).find('ul').html( $(this.itemsTemplate({
+                    items: this.store.toJSON(),
+                    scope: this
+                })));
+            } else {
+                $(this.el).find('ul').html(_.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<% if (item.value==-1) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% } else { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                    '<a tabindex="-1" type="menuitem" style="padding: 5px;"><div style="height: 15px;background-color: #<%= item.value %>"></div></a>',
+                    '</li>',
+                    '<% } %>',
+                    '<% }); %>'
+                ].join(''))({
+                    items: this.store.toJSON(),
+                    scope: this
+                }));
+            }
+
+            if (!_.isUndefined(this.scroller)) {
+                this.scroller.destroy();
+                delete this.scroller;
+            }
+            this.scroller = new Common.UI.Scroller(_.extend({
+                el: $('.dropdown-menu', this.cmpEl),
+                minScrollbarLength : 40,
+                includePadding     : true,
+                wheelSpeed: 10,
+                alwaysVisibleY: this.scrollAlwaysVisible
+            }, this.options.scroller));
         }
+
     }, Common.UI.ComboBoxColor || {}));
 
 });
