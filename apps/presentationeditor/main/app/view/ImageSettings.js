@@ -143,6 +143,17 @@ define([
                 this.fireEvent('editcomplete', this);
             }, this));
 
+            this.btnFitSlide = new Common.UI.Button({
+                el: $('#image-button-fit-slide')
+            });
+            this.lockedControls.push(this.btnFitSlide);
+            this.btnFitSlide.on('click', _.bind(this.setFitSlide, this));
+
+            var w = Math.max(this.btnOriginalSize.cmpEl.width(), this.btnFitSlide.cmpEl.width());
+            this.btnOriginalSize.cmpEl.width(w);
+            this.btnFitSlide.cmpEl.width(w);
+
+            w = this.btnOriginalSize.cmpEl.outerWidth();
             this.btnCrop = new Common.UI.Button({
                 cls: 'btn-text-split-default',
                 caption: this.textCrop,
@@ -150,9 +161,9 @@ define([
                 enableToggle: true,
                 allowDepress: true,
                 pressed: this._state.cropMode,
-                width: 100,
+                width: w,
                 menu        : new Common.UI.Menu({
-                    style       : 'min-width: 100px;',
+                    style       : 'min-width:' + w + 'px;',
                     items: [
                         {
                             caption: this.textCrop,
@@ -175,12 +186,6 @@ define([
             this.btnCrop.on('click', _.bind(this.onCrop, this));
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));
             this.lockedControls.push(this.btnCrop);
-
-            this.btnFitSlide = new Common.UI.Button({
-                el: $('#image-button-fit-slide')
-            });
-            this.lockedControls.push(this.btnFitSlide);
-            this.btnFitSlide.on('click', _.bind(this.setFitSlide, this));
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',

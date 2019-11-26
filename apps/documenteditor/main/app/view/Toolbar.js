@@ -480,7 +480,9 @@ define([
                         menu: new Common.UI.Menu({
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                                {caption: this.mniCustomTable, value: 'custom'}
+                                {caption: this.mniCustomTable, value: 'custom'},
+                                {caption: this.mniDrawTable, value: 'draw', checkable: true},
+                                {caption: this.mniEraseTable, value: 'erase', checkable: true}
                             ]
                         })
                     });
@@ -638,18 +640,43 @@ define([
                             items: [
                                 {
                                     caption: this.textPlainControl,
-                                    iconCls: 'mnu-control-plain',
-                                    value: Asc.c_oAscSdtLevelType.Inline
+                                    // iconCls: 'mnu-control-plain',
+                                    value: 'plain'
                                 },
                                 {
                                     caption: this.textRichControl,
-                                    iconCls: 'mnu-control-rich',
-                                    value: Asc.c_oAscSdtLevelType.Block
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'rich'
+                                },
+                                {
+                                    caption: this.textPictureControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'picture'
+                                },
+                                {
+                                    caption: this.textComboboxControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'combobox'
+                                },
+                                {
+                                    caption: this.textDropdownControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'dropdown'
+                                },
+                                {
+                                    caption: this.textDateControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'date'
+                                },
+                                {
+                                    caption: this.textCheckboxControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'checkbox'
                                 },
                                 {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
-                                    iconCls: 'mnu-control-remove',
+                                    // iconCls: 'mnu-control-remove',
                                     value: 'remove'
                                 },
                                 {caption: '--'},
@@ -677,7 +704,7 @@ define([
                             ]
                         })
                     });
-                    this.paragraphControls.push(this.btnContentControls);
+                    // this.paragraphControls.push(this.btnContentControls);
 
                     this.btnColumns = new Common.UI.Button({
                         id: 'tlbtn-columns',
@@ -1928,8 +1955,7 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
-                this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
-                this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[10].setVisible(mode.canEditContentControl);
                 this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
@@ -2286,9 +2312,16 @@ define([
             textEditWatermark: 'Custom Watermark',
             textRemWatermark: 'Remove Watermark',
             tipWatermark: 'Edit watermark',
+            textPictureControl: 'Picture',
+            textComboboxControl: 'Combo box',
+            textCheckboxControl: 'Check box',
+            textDropdownControl: 'Drop-down list',
+            textDateControl: 'Date',
             capBtnAddComment: 'Add Comment',
             capBtnInsSymbol: 'Symbol',
-            tipInsertSymbol: 'Insert symbol'
+            tipInsertSymbol: 'Insert symbol',
+            mniDrawTable: 'Draw table',
+            mniEraseTable: 'Erase table'
         }
     })(), DE.Views.Toolbar || {}));
 });
