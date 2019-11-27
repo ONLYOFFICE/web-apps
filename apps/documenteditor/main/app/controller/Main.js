@@ -599,7 +599,7 @@ define([
                                                 docId: version.key,
                                                 docIdPrev: docIdPrev,
                                                 selected: false,
-                                                canRestore: this.appOptions.canHistoryRestore,
+                                                canRestore: this.appOptions.canHistoryRestore && this.appOptions.canDownload,
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion
