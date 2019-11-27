@@ -383,6 +383,10 @@
 
         // TODO: move to appropriate module
         .btn-header, .btn-users {
+            &:not(:active) .icon--inverse {
+                background-position-x: 0;
+            }
+
             svg.icon {
                 fill: @gray-deep;
             }

@@ -86,10 +86,6 @@ define([
                                 // '<span class="btn-slot text" id="slot-btn-users"></span>' +
                                 '<section id="tlb-box-users" class="box-cousers dropdown"">' +
                                     '<div class="btn-users">' +
-                                        '<svg class="icon">' +
-                                            '<use class="zoom-int" xlink:href="#svg-btn-users"></use>' +
-                                            '<use class="zoom-grit" xlink:href="#svg-btn-users-150"></use>' +
-                                        '</svg>' +
                                         '<label class="caption">&plus;</label>' +
                                     '</div>' +
                                     '<div class="cousers-menu dropdown-menu">' +
@@ -400,7 +396,7 @@ define([
                 me.btnGoBack = new Common.UI.Button({
                     id: 'btn-goback',
                     cls: 'btn-header',
-                    iconCls: 'svgicon svg-btn-goback',
+                    iconCls: 'toolbar__icon icon--inverse btn-goback',
                     split: true
                 });
 
@@ -413,7 +409,7 @@ define([
 
                 me.btnOptions = new Common.UI.Button({
                     cls: 'btn-header no-caret',
-                    iconCls: 'svgicon svg-btn-options',
+                    iconCls: 'toolbar__icon icon--inverse btn-options',
                     menu: true
                 });
 
@@ -440,7 +436,7 @@ define([
                 function createTitleButton(iconid, slot, disabled) {
                     return (new Common.UI.Button({
                         cls: 'btn-header',
-                        iconCls: 'svgicon ' + iconid,
+                        iconCls: iconid,
                         disabled: disabled === true
                     })).render(slot);
                 }
@@ -492,13 +488,13 @@ define([
 
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
-                            this.btnDownload = createTitleButton('svg-btn-download', $html.findById('#slot-hbtn-download'));
+                            this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'));
 
                         if ( config.canPrint )
-                            this.btnPrint = createTitleButton('svg-btn-print', $html.findById('#slot-hbtn-print'));
+                            this.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-hbtn-print'));
 
                         if ( config.canEdit && config.canRequestEditRights )
-                            this.btnEdit = createTitleButton('svg-btn-edit', $html.findById('#slot-hbtn-edit'));
+                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'));
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
@@ -522,12 +518,12 @@ define([
                     me.setUserName(me.options.userName);
 
                     if ( config.canPrint && config.isEdit ) {
-                        me.btnPrint = createTitleButton('svg-btn-print', $html.findById('#slot-btn-dt-print'), true);
+                        me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true);
                     }
 
-                    me.btnSave = createTitleButton('svg-btn-save', $html.findById('#slot-btn-dt-save'), true);
-                    me.btnUndo = createTitleButton('svg-btn-undo', $html.findById('#slot-btn-dt-undo'), true);
-                    me.btnRedo = createTitleButton('svg-btn-redo', $html.findById('#slot-btn-dt-redo'), true);
+                    me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true);
+                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true);
+                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true);
 
                     if ( me.btnSave.$icon.is('svg') ) {
                         me.btnSave.$icon.addClass('icon-save');
