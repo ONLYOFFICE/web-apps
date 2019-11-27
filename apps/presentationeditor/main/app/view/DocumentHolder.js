@@ -1706,7 +1706,7 @@ define([
                     diagramEditor.setEditMode(chart===undefined || typeof chart == 'object'); //edit from doubleclick or context menu
                     diagramEditor.show();
                     if (typeof chart !== 'object')
-                        chart = this.api.asc_getChartObject(chart);
+                        chart = this.api.asc_getChartObject(chart, placeholder);
                     diagramEditor.setChartData(new Asc.asc_CChartBinary(chart));
                     diagramEditor.setPlaceholder(placeholder);
                 }
