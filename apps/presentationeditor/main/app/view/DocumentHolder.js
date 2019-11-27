@@ -3416,7 +3416,7 @@ define([
 
         onInsertImage: function(placeholder, obj, x, y) {
             if (this.api)
-                (placeholder) ? this.api.asc_addImage() : this.api.ChangeImageFromFile();
+                (placeholder) ? this.api.asc_addImage(obj) : this.api.ChangeImageFromFile();
             this.fireEvent('editcomplete', this);
         },
 
@@ -3429,7 +3429,7 @@ define([
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
                                 if (placeholder)
-                                    me.api.AddImageUrl(checkUrl, obj);
+                                    me.api.AddImageUrl(checkUrl, undefined, undefined, obj);
                                 else {
                                     var props = new Asc.asc_CImgProperty();
                                     props.put_ImageUrl(checkUrl);
