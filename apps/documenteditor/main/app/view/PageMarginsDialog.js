@@ -126,6 +126,13 @@ define([
                 maxValue: 55.88,
                 minValue: -55.87
             });
+            this.spnTop.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_TopMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnTop);
 
             this.spnBottom = new Common.UI.MetricSpinner({
@@ -137,6 +144,13 @@ define([
                 maxValue: 55.88,
                 minValue: -55.87
             });
+            this.spnBottom.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_BottomMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnBottom);
 
             this.spnLeft = new Common.UI.MetricSpinner({
@@ -148,6 +162,13 @@ define([
                 maxValue: 55.88,
                 minValue: 0
             });
+            this.spnLeft.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnLeft);
 
             this.spnRight = new Common.UI.MetricSpinner({
@@ -159,6 +180,13 @@ define([
                 maxValue: 55.88,
                 minValue: 0
             });
+            this.spnRight.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_RightMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnRight);
 
             this.spnGutter = new Common.UI.MetricSpinner({
@@ -170,6 +198,13 @@ define([
                 maxValue: 55.88,
                 minValue: 0
             });
+            this.spnGutter.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_Gutter(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnLeft);
 
             this.cmbGutterPosition = new Common.UI.ComboBox({
@@ -183,6 +218,13 @@ define([
                     { value: 1, displayValue: this.textTop }
                 ]
             });
+            this.cmbGutterPosition.on('selected', _.bind(function (combo, record) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_GutterAtTop(record.value);
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
 
             this.cmbOrientation = new Common.UI.ComboBox({
                 el          : $('#page-margins-cmb-orientation'),
@@ -195,6 +237,13 @@ define([
                     { value: 1, displayValue: this.textLandscape }
                 ]
             });
+            this.cmbOrientation.on('selected', _.bind(function (combo, record) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_Orientation(record.value);
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
 
             this.cmbMultiplePages = new Common.UI.ComboBox({
                 el          : $('#page-margins-cmb-multiple-pages'),
@@ -214,6 +263,11 @@ define([
                 } else {
                     this.window.find('#margin-left-label').html(this.textInside);
                     this.window.find('#margin-right-label').html(this.textOutside);
+                }
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_MirrorMargins(record.value);
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
 
@@ -256,6 +310,7 @@ define([
 
         setSettings: function (props) {
             if (props) {
+                this.properties = props;
                 this.maxMarginsH = Common.Utils.Metric.fnRecalcFromMM(props.get_H() - 2.6);
                 this.maxMarginsW = Common.Utils.Metric.fnRecalcFromMM(props.get_W() - 12.7);
                 this.spnTop.setMaxValue(this.maxMarginsH);
@@ -268,6 +323,10 @@ define([
                 this.spnLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_LeftMargin()), true);
                 this.spnRight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_RightMargin()), true);
                 this.cmbOrientation.setValue(props.get_Orientation());
+
+                if (this.api) {
+                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
             }
         },
 
