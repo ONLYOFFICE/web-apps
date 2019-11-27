@@ -198,12 +198,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.lblColumn.text(props.asc_getColumnSort() ? this.textColumn : this.textRow);
 
                 // get name from props
-                this.column_data = [];
-                var values = props.asc_getSortList(),
-                    len = Math.min(values.length, 500);
-                for (var i=0; i<len; i++) {
-                    this.column_data.push({ value: i, displayValue: values[i] });
-                }
+                this.fillSortValues();
+
                 this.sort_data = [
                     { value: Asc.c_oAscSortOptions.ByValue, displayValue: this.textValues },
                     { value: Asc.c_oAscSortOptions.ByColorFill, displayValue: this.textCellColor },
@@ -283,9 +279,15 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     menuStyle   : 'max-height: 135px;',
                     data        : this.column_data
                 }).on('selected', function(combo, record) {
-                    item.set('columnIndex', record.value);
-                    level.levelProps = me.props.asc_getLevelProps(record.value);
-                    me.updateOrderList(i);
+                    if (record.value==-1) {
+                        var index = item.get('columnIndex');
+                        combo.setValue(index!==null ? index : '');
+                        me.onSelectOther(combo, item);
+                    } else {
+                        item.set('columnIndex', record.value);
+                        level.levelProps = me.props.asc_getLevelProps(record.value);
+                        me.updateOrderList(i);
+                    }
                 });
             var val = item.get('columnIndex');
             (val!==null) && combo.setValue(item.get('columnIndex'));
@@ -359,13 +361,19 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             win.show();
         },
 
-        updateSortValues: function() {
+        fillSortValues: function() {
             var values = this.props.asc_getSortList(),
-                len = Math.min(values.length, 500);
+                len = values.length;
             this.column_data = [];
             for (var i=0; i<len; i++) {
                 this.column_data.push({ value: i, displayValue: values[i] });
             }
+            if (len>500)
+                this.column_data.push({ value: -1, displayValue: '(' + (this.sortOptions.sortcol ? this.textMoreCols : this.textMoreRows) + '...)' });
+        },
+
+        updateSortValues: function() {
+            this.fillSortValues();
             var me = this;
             this.sortList.store.each(function(item) {
                 var columnIndex = (item.get('sort')==Asc.c_oAscSortOptions.ByValue) ? null : 0,
@@ -538,6 +546,53 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.btnDown.setDisabled(index<0 || index==this.sortList.store.length-1);
         },
 
+        onSelectOther: function(combo, item) {
+            var me = this;
+            if (me.api) {
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        var range = dlg.getSettings();
+                        var isvalid;
+                        if (!_.isEmpty(range)) {
+                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.CustomSort, range, true, !this.sortOptions.sortcol);
+                        }
+
+                        if (isvalid == Asc.c_oAscError.ID.No) {
+                            var index = me.props.asc_addBySortList(range);
+                            me.fillSortValues();
+                            combo.setData(this.column_data);
+                            combo.setValue(index);
+                            item.set('columnIndex', index);
+                            this.levels[item.get('levelIndex')].levelProps = me.props.asc_getLevelProps(index);
+                            me.updateOrderList(item.get('levelIndex'));
+                            return false;
+                        } else if (isvalid == Asc.c_oAscError.ID.CustomSortMoreOneSelectedError)
+                            Common.UI.warning({msg: this.sortOptions.sortcol ? this.errorMoreOneCol: this.errorMoreOneRow});
+                        else if (isvalid == Asc.c_oAscError.ID.CustomSortNotOriginalSelectError)
+                            Common.UI.warning({msg: this.sortOptions.sortcol ? this.errorNotOriginalCol : this.errorNotOriginalRow});
+                        else
+                            Common.UI.warning({msg: this.txtInvalidRange});
+                        return true;
+                    }
+                };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg
+                }).on('close', function() {
+                    me.show();
+                });
+
+                var xy = me.$window.offset();
+                me.hide();
+                win.show(xy.left + 65, xy.top + 77);
+                win.setSettings({
+                    api     : me.api,
+                    range   : me.props.asc_getRangeStr(),
+                    type    : Asc.c_oAscSelectionDialogType.CustomSort
+                });
+            }
+        },
+
         txtTitle: 'Sort',
         textAdd: 'Add level',
         textDelete: 'Delete level',
@@ -563,7 +618,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         textRight: 'Right',
         errorEmpty: 'All sort criteria must have a column or row specified.',
         textAuto: 'Automatic',
-        textNone: 'None'
+        textNone: 'None',
+        errorNotOriginalCol: 'The column you selected is not in the original selected range.',
+        errorNotOriginalRow: 'The row you selected is not in the original selected range.',
+        errorMoreOneRow: 'More than one row is selected.',
+        errorMoreOneCol: 'More than one column is selected.',
+        txtInvalidRange: 'Invalid cells range.',
+        textMoreRows: 'More rows',
+        textMoreCols: 'More columns'
 
     }, SSE.Views.SortDialog || {}));
 });

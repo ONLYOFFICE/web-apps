@@ -155,7 +155,8 @@ define([
                     if (this.inputRange.checkValidate() !== true)
                         return;
                 }
-                this.options.handler.call(this, this, state);
+                if (this.options.handler.call(this, this, state))
+                    return;
             }
 
             this.close();
