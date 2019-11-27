@@ -1608,6 +1608,7 @@
   "SSE.Views.FileMenuPanels.ProtectDoc.txtView": "View signatures",
   "SSE.Views.FileMenuPanels.Settings.txtGeneral": "General",
   "SSE.Views.FileMenuPanels.Settings.txtPageSettings": "Page Settings",
+  "SSE.Views.FileMenuPanels.Settings.txtSpellChecking": "Spell checking",
   "SSE.Views.FormatSettingsDialog.textCategory": "Category",
   "SSE.Views.FormatSettingsDialog.textDecimal": "Decimal",
   "SSE.Views.FormatSettingsDialog.textFormat": "Format",

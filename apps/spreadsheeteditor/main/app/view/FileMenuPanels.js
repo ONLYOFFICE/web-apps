@@ -201,7 +201,7 @@ define([
                 store: new Common.UI.DataViewStore([
                     {name: this.txtGeneral, panel: this.generalSettings, iconCls:'mnu-settings-general', selected: true},
                     {name: this.txtPageSettings, panel: this.printSettings, iconCls:'mnu-print'},
-                    {name: this.txtSpellСhecking, panel: this.spellcheckSettings, iconCls:'mu-settings-spellcheck'}
+                    {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'mu-settings-spellcheck'}
                 ]),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="settings-item-wrap">',
@@ -241,7 +241,7 @@ define([
 
         txtGeneral: 'General',
         txtPageSettings: 'Page Settings',
-        txtSpellСhecking: 'Spell checking'
+        txtSpellChecking: 'Spell checking'
     }, SSE.Views.FileMenuPanels.Settings || {}));
 
     SSE.Views.MainSettingsPrint = Common.UI.BaseView.extend(_.extend({
