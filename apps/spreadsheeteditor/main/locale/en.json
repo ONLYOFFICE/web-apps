@@ -1202,6 +1202,7 @@
   "SSE.Views.CellSettings.tipOuter": "Set outer border only",
   "SSE.Views.CellSettings.tipRight": "Set outer right border only",
   "SSE.Views.CellSettings.tipTop": "Set outer top border only",
+  "SSE.Views.CellSettings.textGradient": "Gradient",
   "SSE.Views.ChartSettings.strLineWeight": "Line Weight",
   "SSE.Views.ChartSettings.strSparkColor": "Color",
   "SSE.Views.ChartSettings.strTemplate": "Template",
