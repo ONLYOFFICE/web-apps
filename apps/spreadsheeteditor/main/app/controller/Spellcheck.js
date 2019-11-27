@@ -55,6 +55,7 @@ define([
                 'Spellcheck': {
                     'show': function() {
                         me._initSettings && me.loadLanguages();
+                        me.updateLanguages();
                         me.onClickNext();
                     },
                     'hide': function() {
@@ -124,20 +125,16 @@ define([
         },
 
         loadLanguages: function () {
-            var value = Common.localStorage.getItem("sse-spellcheck-locale");
-            if (value)
-                value = parseInt(value);
-            else
-                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+            var me = this;
+            Common.Utils.InternalSettings.set("sse-spellcheck-locale", Common.localStorage.getItem("sse-spellcheck-locale"));
 
-            var combo = this.panelSpellcheck.cmbDictionaryLanguage;
             if (this.languages && this.languages.length>0) {
-                var langs = [], info,
-                    allLangs = Common.util.LanguageInfo.getLanguages();
+                var langs = [], info;
+                this.allLangs = Common.util.LanguageInfo.getLanguages();
                 this.languages.forEach(function (code) {
                     code = parseInt(code);
-                    if (allLangs.hasOwnProperty(code)) {
-                        info = allLangs[code];
+                    if (me.allLangs.hasOwnProperty(code)) {
+                        info = me.allLangs[code];
                         langs.push({
                             displayValue:   info[1],
                             shortName:      info[0],
@@ -151,13 +148,30 @@ define([
                     return 0;
                 });
                 this.langs = langs;
-                combo.setData(langs);
+            } else {
+                this.langs = undefined;
+            }
+            this._initSettings = false;
+
+            return [this.allLangs, this.langs];
+        },
+
+        updateLanguages: function() {
+            var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
+                value;
+            if (sessionValue)
+                value = parseInt(sessionValue);
+            else
+                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+            var combo = this.panelSpellcheck.cmbDictionaryLanguage;
+            if (this.langs && this.langs.length>0) {
+                combo.setData(this.langs);
                 var item = combo.store.findWhere({value: value});
-                if (!item && allLangs[value]) {
-                    value = allLangs[value][0].split(/[\-\_]/)[0];
+                if (!item && this.allLangs[value]) {
+                    value = this.allLangs[value][0].split(/[\-\_]/)[0];
                     item = combo.store.find(function(model){
-                                return model.get('shortName').indexOf(value)==0;
-                            });
+                        return model.get('shortName').indexOf(value)==0;
+                    });
                 }
                 combo.setValue(item ? item.get('value') : langs[0].value);
                 value = combo.getValue();
@@ -165,18 +179,21 @@ define([
                 combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
                 combo.setDisabled(true);
             }
-            this.langValue = value;
-            this.api.asc_setDefaultLanguage(value);
-            this._initSettings = false;
-
-            return [this.langs, this.langValue];
+            if (this.api) {
+                this.api.asc_setDefaultLanguage(value);
+                if (value !== sessionValue) {
+                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                }
+            }
         },
 
         onSelectLanguage: function (combo, record) {
             var lang = record.value;
             if (this.api && lang) {
                 this.api.asc_setDefaultLanguage(lang);
-                Common.localStorage.setItem("sse-spellcheck-locale", this.panelSpellcheck.cmbDictionaryLanguage.getValue());
+                var value = this.panelSpellcheck.cmbDictionaryLanguage.getValue();
+                Common.localStorage.setItem("sse-spellcheck-locale", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
             }
             Common.NotificationCenter.trigger('edit:complete', this, {restorefocus:true});
         },
@@ -250,7 +267,7 @@ define([
         onApiEditCell: function(state) {
             if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.panelSpellcheck.buttonNext.setDisabled(!this.panelSpellcheck.lblComplete.hasClass('hidden'));
-                this.panelSpellcheck.cmbDictionaryLanguage.setDisabled(false);
+                this.panelSpellcheck.cmbDictionaryLanguage.setDisabled((this.languages && this.languages.length > 0) ? false : true);
             } else {
                 this.panelSpellcheck.buttonNext.setDisabled(true);
                 this.panelSpellcheck.currentWord.setDisabled(true);

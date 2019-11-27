@@ -232,6 +232,7 @@ define([
             if (!this.mode.canPrint)
                 this.viewSettingsPicker.store.pop();
             this.generalSettings && this.generalSettings.setMode(this.mode);
+            this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
         },
 
         setApi: function(api) {
@@ -970,6 +971,11 @@ define([
             '<label class="input-label"><%= scope.strDictionaryLanguage %></label>',
             '<div id="fms-cmb-dictionary-language" style="width: 200px;"></div>',
             '</td></tr>',
+            '<tr class="divider"></tr>',
+            '<tr>',
+            '<td class="left"></td>',
+            '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+            '</tr>',
             '</tbody></table>'
         ].join('')),
 
@@ -986,13 +992,11 @@ define([
             this.chIgnoreUppercase = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-ignore-uppercase-words'),
                 labelText: this.strIgnoreWordsInUPPERCASE
-            }).on('change', function(field, newValue, oldValue, eOpts){
             });
 
             this.chIgnoreNumbers = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-ignore-numbers-words'),
                 labelText: this.strIgnoreWordsWithNumbers
-            }).on('change', function(field, newValue, oldValue, eOpts){
             });
 
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
@@ -1003,7 +1007,7 @@ define([
             });
 
             this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-apply')
+                el: $markup.findById('#fms-spellcheck-btn-apply')
             });
 
             this.btnApply.on('click', _.bind(this.applySettings, this));
@@ -1035,25 +1039,60 @@ define([
         },
 
         updateSettings: function() {
-            var array = SSE.getController('Spellcheck').loadLanguages(),
-                lang = array[0],
-                value = array[1];
-            if (lang) {
+            var lang = SSE.getController('Spellcheck').loadLanguages(),
+                allLangs = lang[0],
+                lang = lang[1];
+            var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
+                value;
+            if (sessionValue)
+                value = parseInt(sessionValue);
+            else
+                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+            if (lang && lang.length > 0) {
                 this.cmbDictionaryLanguage.setData(lang);
-                this.cmbDictionaryLanguage.setValue(value);
+                var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
+                if (!item && allLangs[value]) {
+                    value = allLangs[value][0].split(/[\-\_]/)[0];
+                    item = combo.store.find(function(model){
+                        return model.get('shortName').indexOf(value)==0;
+                    });
+                }
+                this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
+                value = this.cmbDictionaryLanguage.getValue();
+                if (value !== sessionValue) {
+                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                }
             } else {
                 this.cmbDictionaryLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
                 this.cmbDictionaryLanguage.setDisabled(true);
             }
+
+            this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
+            this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
         },
 
         applySettings: function() {
+            var value = this.chIgnoreUppercase.isChecked();
+            Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);
+            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", value);
+            value = this.chIgnoreNumbers.isChecked();
+            Common.localStorage.setBool("sse-spellcheck-ignore-numbers-words", value);
+            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", value);
 
+            value = this.cmbDictionaryLanguage.getValue();
+            Common.localStorage.setItem("sse-spellcheck-locale", value);
+            Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+
+            Common.localStorage.save();
+            if (this.menu) {
+                this.menu.fireEvent('spellcheck:apply', [this.menu]);
+            }
         },
 
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
         strIgnoreWordsWithNumbers: 'Ignore words with numbers',
-        strDictionaryLanguage: 'Dictionary language'
+        strDictionaryLanguage: 'Dictionary language',
+        okButtonText: 'Apply'
 
     }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
 
