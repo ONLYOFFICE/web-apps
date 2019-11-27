@@ -199,6 +199,7 @@ define([
 
             this.lblReplace = $('#image-lbl-replace');
 
+            var w = this.btnOriginalSize.cmpEl.outerWidth();
             this.btnCrop = new Common.UI.Button({
                 cls: 'btn-text-split-default',
                 caption: this.textCrop,
@@ -206,9 +207,9 @@ define([
                 enableToggle: true,
                 allowDepress: true,
                 pressed: this._state.cropMode,
-                width: 100,
+                width: w,
                 menu        : new Common.UI.Menu({
-                    style       : 'min-width: 100px;',
+                    style       : 'min-width:' + w + 'px;',
                     items: [
                         {
                             caption: this.textCrop,
@@ -514,7 +515,7 @@ define([
         textSize:       'Size',
         textWidth:      'Width',
         textHeight:     'Height',
-        textOriginalSize: 'Default Size',
+        textOriginalSize: 'Actual Size',
         textInsert:     'Replace Image',
         textFromUrl:    'From URL',
         textFromFile:   'From File',

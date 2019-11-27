@@ -18,19 +18,20 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background-color: #f4f4f4;
+            background: #e2e2e2;
             z-index: 1001;
         }
 
         .loadmask > .brendpanel {
             width: 100%;
-            height: 56px;
+            min-height: 32px;
             background: #446995;
         }
 
         .loadmask > .brendpanel > div {
             display: flex;
             align-items: center;
+            height: 28px;
         }
 
         .loadmask > .brendpanel .spacer {
@@ -50,15 +51,6 @@
             opacity: 0;
         }
 
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 12px;
-            margin: 4px 10px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
         .loadmask > .brendpanel .rect {
             vertical-align: middle;
             width: 50px;
@@ -68,12 +60,51 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        .loadmask > .sktoolbar {
+            background: #f1f1f1;
+            border-bottom: 1px solid #cfcfcf;
+            height: 46px;
+            padding: 10px 12px;
+            box-sizing: content-box;
+        }
+
+        .loadmask > .sktoolbar ul {
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .loadmask > .sktoolbar li {
+            background: #e2e2e2;
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .loadmask > .sktoolbar li.space {
+            background: none;
+            width: 12px;
+        }
+
+        .loadmask > .sktoolbar li.fat {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            left: 612px;
+            width: inherit;
+            height: 44px;
+        }
+
         .loadmask > .placeholder {
             background: #fbfbfb;
-            width: 796px;
-            margin: 112px auto;
+            width: 794px;
+            margin: 46px auto;
             height: 100%;
-            border: 1px solid #dfdfdf;
+            border: 1px solid #bebebe;
             padding-top: 50px;
         }
 
@@ -91,28 +122,30 @@
         }
 
         @keyframes flickerAnimation {
-            0%   { opacity:0.1; }
+            0%   { opacity:0.5; }
             50%  { opacity:1; }
-            100% { opacity:0.1; }
+            100% { opacity:0.5; }
         }
         @-o-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
+            0%   { opacity:0.5; }
             50%  { opacity:1; }
-            100% { opacity:0.1; }
+            100% { opacity:0.5; }
         }
         @-moz-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
+            0%   { opacity:0.5; }
             50%  { opacity:1; }
-            100% { opacity:0.1; }
+            100% { opacity:0.5; }
         }
         @-webkit-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
+            0%   { opacity:0.5; }
             50%  { opacity:1; }
-            100% { opacity:0.1; }
+            100% { opacity:0.5; }
         }
     </style>
 
     <script>
+        document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
+
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
             stopLoading = false;
@@ -174,10 +207,33 @@
     <!-- debug end -->
 </head>
 <body>
-    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo.png"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+    <div id="loading-mask" class="loadmask">
+        <div class="brendpanel">
+            <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo@2x.png"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div>
+        <div class="sktoolbar">
+            <ul><li></li><li class="space"></li><li style="width: 255px;"></li><li class="space"></li><li style="width: 180px;"></li><li class="space"></li><li style="width: 60px;"></li><li class="fat"></li></ul>
+            <ul><li></li><li class="space"></li><li style="width: 255px;"></li><li class="space"></li><li style="width: 180px;"></li><li class="space"></li><li style="width: 60px;"></li></ul>
+        </div>
+        <div class="placeholder">
+            <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+        </div>
+    </div>
+
     <div id="viewport"></div>
 
     <script>
+        var params = getUrlParams(),
+            compact = params["compact"] == 'true',
+            view = params["mode"] == 'view';
+
+        if (compact || view) {
+            document.querySelector('.brendpanel > :nth-child(2)').remove();
+            document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+        }
+        if (view) {
+            document.querySelector('.sktoolbar').remove();
+        }
+
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {

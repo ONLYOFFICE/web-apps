@@ -1,7 +1,7 @@
 {
     "name": "spreadsheeteditor",
     "version": "4.3.0",
-    "build": 884,
+    "build": 886,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
@@ -159,6 +159,12 @@
                     "cwd": "../apps/spreadsheeteditor/main/resources/formula-lang",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/formula-lang"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/common/main/resources/symboltable",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/symboltable"
                 }
             ],
             "help": [

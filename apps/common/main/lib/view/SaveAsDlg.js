@@ -122,6 +122,8 @@ define([
             if (msg && msg.Referer == "onlyoffice") {
                 if ( !_.isEmpty(msg.error) ) {
                     this.trigger('saveaserror', this, msg.error);
+                } else if (!_.isEmpty(msg.message)) {
+                    Common.NotificationCenter.trigger('showmessage', {msg: msg.message});
                 }
 //                if ( !_.isEmpty(msg.folder) ) {
 //                    this.trigger('saveasfolder', this, msg.folder); // save last folder url

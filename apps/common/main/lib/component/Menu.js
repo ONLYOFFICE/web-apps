@@ -380,15 +380,23 @@ define([
             onAfterShowMenu: function(e) {
                 this.trigger('show:after', this, e);
                 if (this.scroller) {
-                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
-                    var menuRoot = this.menuRoot,
-                        $selected = menuRoot.find('> li .checked');
+                    var menuRoot = this.menuRoot;
+                    if (this.wheelSpeed===undefined) {
+                        var item = menuRoot.find('> li:first'),
+                            itemHeight = (item.length) ? item.outerHeight() : 1;
+                        this.wheelSpeed = Math.min((Math.floor(menuRoot.height()/itemHeight) * itemHeight)/10, 20);
+                    }
+                    this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
+
+                    var $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
                         var itemTop = $selected.position().top,
-                            itemHeight = $selected.height(),
-                            listHeight = menuRoot.height();
+                            itemHeight = $selected.outerHeight(),
+                            listHeight = menuRoot.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                            menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                            var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            menuRoot.scrollTop(height);
                         }
                         setTimeout(function(){$selected.focus();}, 1);
                     }
@@ -469,12 +477,14 @@ define([
                     this._search.index = idxCandidate;
                     var item = itemCandidate.cmpEl.find('a');
                     if (this.scroller) {
-                        this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
+                        this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
                         var itemTop = item.position().top,
-                            itemHeight = item.height(),
-                            listHeight = this.menuRoot.height();
+                            itemHeight = item.outerHeight(),
+                            listHeight = this.menuRoot.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                            this.menuRoot.scrollTop(this.menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                            var height = this.menuRoot.scrollTop() + itemTop;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            this.menuRoot.scrollTop(height);
                         }
                     }
                     item.focus();
@@ -552,8 +562,10 @@ define([
                                 suppressScrollX: true,
                                 alwaysVisibleY: this.scrollAlwaysVisible
                             }));
+                            this.wheelSpeed = undefined;
                         } else if ( top + menuH < docH && menuRoot.height() < this.options.restoreHeight) {
                             menuRoot.css('max-height', (Math.min(docH - top, this.options.restoreHeight)) + 'px');
+                            this.wheelSpeed = undefined;
                         }
                     }
                 } else {
@@ -568,7 +580,6 @@ define([
                     if (top < 0)
                         top = 0;
                 }
-
                 if (this.options.additionalAlign)
                     this.options.additionalAlign.call(this, menuRoot, left, top);
                 else
@@ -848,10 +859,12 @@ define([
                     $selected = menuRoot.find('> li .checked');
                 if ($selected.length) {
                     var itemTop = $selected.position().top,
-                        itemHeight = $selected.height(),
-                        listHeight = menuRoot.height();
+                        itemHeight = $selected.outerHeight(),
+                        listHeight = menuRoot.outerHeight();
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                        menuRoot.scrollTop(menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        var height = menuRoot.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                        height = (Math.floor(height/itemHeight) * itemHeight);
+                        menuRoot.scrollTop(height);
                     }
                     setTimeout(function(){$selected.focus();}, 1);
                 }
@@ -936,10 +949,12 @@ define([
                 if (this.scroller) {
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                     var itemTop = item.position().top,
-                        itemHeight = item.height(),
-                        listHeight = this.menuRoot.height();
+                        itemHeight = item.outerHeight(),
+                        listHeight = this.menuRoot.outerHeight();
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                        this.menuRoot.scrollTop(this.menuRoot.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        var height = this.menuRoot.scrollTop() + itemTop;
+                        height = (Math.floor(height/itemHeight) * itemHeight);
+                        this.menuRoot.scrollTop(height);
                     }
                 }
                 item.focus();

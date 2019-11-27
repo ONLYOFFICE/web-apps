@@ -141,7 +141,18 @@
             height: 20px;
             display: inline-block;
             vertical-align: middle;
-            .background-ximage('@{common-image-path}/header/header-logo.png', '@{common-image-path}/header/header-logo@2x.png', 86px);
+
+            background-image: ~"url('@{common-image-const-path}/header/header-logo.png')";
+            background-repeat: no-repeat;
+
+            @media
+            only screen and (-webkit-min-device-pixel-ratio: 2),
+            only screen and (min-resolution: 2dppx),
+            only screen and (min-resolution: 192dpi) {
+                background-image: ~"url('@{common-image-const-path}/header/header-logo@2x.png')";
+                background-size: 86px auto;
+            }
+
         }
 
         &.link img {

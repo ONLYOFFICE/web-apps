@@ -42,11 +42,11 @@
     </symbol>
     <symbol id="svg-btn-save-sync" viewBox="0 0 20 20">
         <rect x="6" y="10" width="3" height="1" fill="#ffffff"/>
-        <rect x="6" y="12" width="2" height="1" fill="#ffffff"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M15 15H4V4H6V7H12V4H12.5858L15 6.41421V15ZM11 4H10V6H11V4ZM4 3H13L16 6V15C16 15.5523 15.5523 16 15 16H4C3.44772 16 3 15.5523 3 15V4C3 3.44772 3.44772 3 4 3Z" fill="#ffffff"/>
-        <rect x="8" y="10" width="9" height="7" rx="1" fill="#FFD114"/>
-        <rect x="10" y="12" width="5" height="1" fill="#444444"/>
-        <rect x="10" y="14" width="5" height="1" fill="#444444"/>
+        <rect x="6" y="12" width="3" height="1" fill="#ffffff"/>
+        <rect x="10" y="10" width="9" height="7" rx="1" fill="#FFD114"/>
+        <rect x="12" y="12" width="5" height="1" fill="#444444"/>
+        <rect x="12" y="14" width="5" height="1" fill="#444444"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 15H9V16H4C3.44772 16 3 15.5523 3 15V4C3 3.44772 3.44772 3 4 3H13L16 6V9H15V6.41421L12.5858 4H12V7H6V4H4V15ZM10 4H11V6H10V4Z" fill="#ffffff"/>
     </symbol>
     <symbol id="svg-btn-undo" viewBox="0 0 20 20">
         <path d="M11.355,7.625c-1.965,0-3.864,0.777-5.151,2.033L4,7.625V14h6.407l-2.091-2.219

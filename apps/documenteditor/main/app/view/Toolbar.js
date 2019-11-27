@@ -480,7 +480,9 @@ define([
                         menu: new Common.UI.Menu({
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
-                                {caption: this.mniCustomTable, value: 'custom'}
+                                {caption: this.mniCustomTable, value: 'custom'},
+                                {caption: this.mniDrawTable, value: 'draw', checkable: true},
+                                {caption: this.mniEraseTable, value: 'erase', checkable: true}
                             ]
                         })
                     });
@@ -583,6 +585,14 @@ define([
                     });
                     this.paragraphControls.push(this.btnInsertEquation);
 
+                    this.btnInsertSymbol = new Common.UI.Button({
+                        id: 'tlbtn-insertsymbol',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'btn-symbol',
+                        caption: me.capBtnInsSymbol
+                    });
+                    this.paragraphControls.push(this.btnInsertSymbol);
+
                     this.btnDropCap = new Common.UI.Button({
                         id: 'tlbtn-dropcap',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -630,18 +640,43 @@ define([
                             items: [
                                 {
                                     caption: this.textPlainControl,
-                                    iconCls: 'mnu-control-plain',
-                                    value: Asc.c_oAscSdtLevelType.Inline
+                                    // iconCls: 'mnu-control-plain',
+                                    value: 'plain'
                                 },
                                 {
                                     caption: this.textRichControl,
-                                    iconCls: 'mnu-control-rich',
-                                    value: Asc.c_oAscSdtLevelType.Block
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'rich'
+                                },
+                                {
+                                    caption: this.textPictureControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'picture'
+                                },
+                                {
+                                    caption: this.textComboboxControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'combobox'
+                                },
+                                {
+                                    caption: this.textDropdownControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'dropdown'
+                                },
+                                {
+                                    caption: this.textDateControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'date'
+                                },
+                                {
+                                    caption: this.textCheckboxControl,
+                                    // iconCls: 'mnu-control-rich',
+                                    value: 'checkbox'
                                 },
                                 {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
-                                    iconCls: 'mnu-control-remove',
+                                    // iconCls: 'mnu-control-remove',
                                     value: 'remove'
                                 },
                                 {caption: '--'},
@@ -669,7 +704,7 @@ define([
                             ]
                         })
                     });
-                    this.paragraphControls.push(this.btnContentControls);
+                    // this.paragraphControls.push(this.btnContentControls);
 
                     this.btnColumns = new Common.UI.Button({
                         id: 'tlbtn-columns',
@@ -1309,6 +1344,7 @@ define([
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
+                _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-pageorient', this.btnPageOrient);
                 _injectComponent('#slot-btn-pagemargins', this.btnPageMargins);
                 _injectComponent('#slot-btn-pagesize', this.btnPageSize);
@@ -1579,6 +1615,7 @@ define([
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
+                this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
                 this.btnDropCap.updateHint(this.tipDropCap);
                 this.btnContentControls.updateHint(this.tipControls);
                 this.btnColumns.updateHint(this.tipColumns);
@@ -1664,48 +1701,8 @@ define([
                         parentMenu: menu,
                         showLast: false,
                         restoreHeight: 421,
-                        groups: new Common.UI.DataViewGroupStore([
-                            {id: 'menu-chart-group-bar', caption: me.textColumn, headername: me.textCharts},
-                            {id: 'menu-chart-group-line', caption: me.textLine},
-                            {id: 'menu-chart-group-pie', caption: me.textPie},
-                            {id: 'menu-chart-group-hbar', caption: me.textBar},
-                            {id: 'menu-chart-group-area', caption: me.textArea, inline: true},
-                            {id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true},
-                            {id: 'menu-chart-group-stock', caption: me.textStock, inline: true}
-                            // {id: 'menu-chart-group-surface', caption: me.textSurface}
-                        ]),
-                        store: new Common.UI.DataViewStore([
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
-                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
-                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
-                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
-                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
-                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
-                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
-                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
-                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
-                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
-                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
-                            { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
-                            { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
-                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
-                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
-                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
-                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   iconCls: 'contour-wireframe'}
-
-                        ]),
+                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)),
+                        store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
@@ -1958,8 +1955,7 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
-                this.btnContentControls.menu.items[4].setVisible(mode.canEditContentControl);
-                this.btnContentControls.menu.items[5].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[10].setVisible(mode.canEditContentControl);
                 this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
@@ -2194,13 +2190,6 @@ define([
             textNewColor: 'Add New Custom Color',
             textAutoColor: 'Automatic',
             tipInsertChart: 'Insert Chart',
-            textLine: 'Line',
-            textColumn: 'Column',
-            textBar: 'Bar',
-            textArea: 'Area',
-            textPie: 'Pie',
-            textPoint: 'XY (Scatter)',
-            textStock: 'Stock',
             tipColorSchemas: 'Change Color Scheme',
             tipInsertText: 'Insert Text',
             tipInsertTextArt: 'Insert Text Art',
@@ -2268,7 +2257,6 @@ define([
             textPortrait: 'Portrait',
             textLandscape: 'Landscape',
             textInsertPageCount: 'Insert number of pages',
-            textCharts: 'Charts',
             tipChangeChart: 'Change Chart Type',
             capBtnInsPagebreak: 'Page Break',
             capBtnInsImage: 'Image',
@@ -2301,7 +2289,6 @@ define([
             capImgWrapping: 'Wrapping',
             capBtnComment: 'Comment',
             textColumnsCustom: 'Custom Columns',
-            textSurface: 'Surface',
             textTabCollaboration: 'Collaboration',
             textTabProtect: 'Protection',
             textTabLinks: 'References',
@@ -2324,7 +2311,17 @@ define([
             capBtnWatermark: 'Watermark',
             textEditWatermark: 'Custom Watermark',
             textRemWatermark: 'Remove Watermark',
-            tipWatermark: 'Edit watermark'
+            tipWatermark: 'Edit watermark',
+            textPictureControl: 'Picture',
+            textComboboxControl: 'Combo box',
+            textCheckboxControl: 'Check box',
+            textDropdownControl: 'Drop-down list',
+            textDateControl: 'Date',
+            capBtnAddComment: 'Add Comment',
+            capBtnInsSymbol: 'Symbol',
+            tipInsertSymbol: 'Insert symbol',
+            mniDrawTable: 'Draw table',
+            mniEraseTable: 'Erase table'
         }
     })(), DE.Views.Toolbar || {}));
 });

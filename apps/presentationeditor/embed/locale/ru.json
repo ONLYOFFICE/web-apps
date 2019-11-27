@@ -12,6 +12,7 @@
   "PE.ApplicationController.errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "PE.ApplicationController.errorDefaultMessage": "Код ошибки: %1",
   "PE.ApplicationController.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",
+  "PE.ApplicationController.errorFileSizeExceed": "Размер файла превышает ограничение, установленное для вашего сервера.<br>Обратитесь к администратору Сервера документов для получения дополнительной информации.",
   "PE.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "PE.ApplicationController.notcriticalErrorTitle": "Внимание",
   "PE.ApplicationController.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",

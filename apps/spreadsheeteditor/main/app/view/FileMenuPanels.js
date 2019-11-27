@@ -350,6 +350,14 @@ define([
                 ]
             });
 
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
+                    '<%= scope.getDisplayValue(item) %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join(''));
             this.cmbLayout = new Common.UI.ComboBox({
                 el          : $markup.findById('#advsettings-print-combo-layout'),
                 style       : 'width: 242px;',
@@ -361,8 +369,9 @@ define([
                     { value: 1, displayValue: this.textFitPage },
                     { value: 2, displayValue: this.textFitCols },
                     { value: 3, displayValue: this.textFitRows },
-                    { value: 4, displayValue: this.textCustomOptions}
-                ]
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ],
+                itemsTemplate: itemsTemplate
             });
 
             this.chPrintGrid = new Common.UI.CheckBox({
@@ -438,6 +447,27 @@ define([
             return this;
         },
 
+        addCustomScale: function (add) {
+            if (add) {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 4, displayValue: this.textCustom },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ]);
+            } else {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ]);
+            }
+        },
+
         updateMetricUnit: function() {
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
@@ -493,7 +523,8 @@ define([
         textFitPage:            'Fit Sheet on One Page',
         textFitCols:            'Fit All Columns on One Page',
         textFitRows:            'Fit All Rows on One Page',
-        textCustomOptions:      'Custom Options'
+        textCustomOptions:      'Custom Options',
+        textCustom:             'Custom'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
@@ -687,7 +718,7 @@ define([
             });
 
             var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                            { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+                            { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                             { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             regdata.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -1211,7 +1242,7 @@ define([
             }).on('keydown:before', keyDownBefore);
 
             this.btnApply = new Common.UI.Button({
-                el: '#fminfo-btn-apply'
+                el: $markup.findById('#fminfo-btn-apply')
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
@@ -1331,6 +1362,7 @@ define([
                     me.authors.push(item);
                 });
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
+                !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
             this.SetDisabled();
         },
@@ -1351,6 +1383,12 @@ define([
             this.inputAuthor.setVisible(mode.isEdit);
             this.btnApply.setVisible(mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
+            if (!mode.isEdit) {
+                this.inputTitle._input.attr('placeholder', '');
+                this.inputSubject._input.attr('placeholder', '');
+                this.inputComment._input.attr('placeholder', '');
+                this.inputAuthor._input.attr('placeholder', '');
+            }
             this.SetDisabled();
             return this;
         },
@@ -1461,7 +1499,7 @@ define([
                 });
             }
 
-            Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
+            Common.NotificationCenter.on('collaboration:sharingupdate', this.updateSharingSettings.bind(this));
             Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
 
             return this;
@@ -1501,36 +1539,16 @@ define([
 
         setMode: function(mode) {
             this.sharingSettingsUrl = mode.sharingSettingsUrl;
-            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
-            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
             return this;
         },
 
         changeAccessRights: function(btn,event,opts) {
-            if (this._docAccessDlg || this._readonlyRights) return;
-
-            var me = this;
-            me._docAccessDlg = new Common.Views.DocumentAccessDialog({
-                settingsurl: this.sharingSettingsUrl
-            });
-            me._docAccessDlg.on('accessrights', function(obj, rights){
-                me.updateSharingSettings(rights);
-            }).on('close', function(obj){
-                me._docAccessDlg = undefined;
-            });
-
-            me._docAccessDlg.show();
-        },
-
-        setSharingSettings: function(data) {
-            data && this.updateSharingSettings(data.sharingSettings);
+            Common.NotificationCenter.trigger('collaboration:sharing');
         },
 
         updateSharingSettings: function(rights) {
-            this.doc.info.sharingSettings = rights;
             this._ShowHideInfoItem('rights', this.doc.info.sharingSettings!==undefined && this.doc.info.sharingSettings!==null && this.doc.info.sharingSettings.length>0);
             this.cntRights.html(this.templateRights({users: this.doc.info.sharingSettings}));
-            Common.NotificationCenter.trigger('mentions:clearusers', this);
         },
 
         onLostEditRights: function() {

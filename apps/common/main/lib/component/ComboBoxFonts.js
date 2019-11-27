@@ -430,7 +430,7 @@ define([
             },
 
             addItemToRecent: function(record, silent) {
-                if (this.recent<1) return;
+                if (!record || this.recent<1) return;
 
                 var font = this.store.findWhere({name: record.get('name'),type:FONT_TYPE_RECENT});
                 font && this.store.remove(font);

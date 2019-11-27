@@ -61,6 +61,8 @@ define([
                     'changerange': _.bind(this.onChangeRange,this)
                 }
             });
+            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
+            Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
         },
 
         onLaunch: function() {
@@ -70,8 +72,6 @@ define([
         onAfterRender: function(view) {
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
-            Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
-            Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
             this.registerControlEvents(this.printSettings);
         },
 
@@ -141,10 +141,10 @@ define([
                 panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
                                                          parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
 
-            var fitwidth = opt.asc_getFitToWidth(),
-                fitheight = opt.asc_getFitToHeight(),
-                fitscale = opt.asc_getScale();
-            this.setScaling(panel, fitwidth, fitheight, fitscale);
+            this.fitWidth = opt.asc_getFitToWidth();
+            this.fitHeight = opt.asc_getFitToHeight();
+            this.fitScale = opt.asc_getScale();
+            this.setScaling(panel, this.fitWidth, this.fitHeight, this.fitScale);
 
             item = panel.cmbPaperOrientation.store.findWhere({value: opt.asc_getOrientation()});
             if (item) panel.cmbPaperOrientation.setValue(item.get('value'));
@@ -198,6 +198,7 @@ define([
                 opt.asc_setFitToWidth(fitToWidth);
                 opt.asc_setFitToHeight(fitToHeight);
                 !fitToWidth && !fitToHeight && opt.asc_setScale(100);
+                this.setScaling(panel, fitToWidth, fitToHeight, 100);
             } else {
                 opt.asc_setFitToWidth(this.fitWidth);
                 opt.asc_setFitToHeight(this.fitHeight);
@@ -355,7 +356,7 @@ define([
         },
 
         propertyChange: function(panel, scale, combo, record) {
-            if (scale === 'scale' && record.value === 4) {
+            if (scale === 'scale' && record.value === 'customoptions') {
                 var me = this,
                     props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue());
                 var win = new SSE.Views.ScaleDialog({
@@ -396,11 +397,14 @@ define([
         },
 
         setScaling: function (panel, width, height, scale) {
-            if (!width && !height && scale === 100) panel.cmbLayout.setValue(0, true);
-            else if (width === 1 && height === 1) panel.cmbLayout.setValue(1, true);
-            else if (width === 1 && !height) panel.cmbLayout.setValue(2, true);
-            else if (!width && height === 1) panel.cmbLayout.setValue(3, true);
-            else panel.cmbLayout.setValue(4, true);
+            var value;
+            if (!width && !height && scale === 100) value = 0;
+            else if (width === 1 && height === 1) value = 1;
+            else if (width === 1 && !height) value = 2;
+            else if (!width && height === 1) value = 3;
+            else value = 4;
+            panel.addCustomScale(value === 4);
+            panel.cmbLayout.setValue(value, true);
         },
 
         warnCheckMargings:      'Margins are incorrect',

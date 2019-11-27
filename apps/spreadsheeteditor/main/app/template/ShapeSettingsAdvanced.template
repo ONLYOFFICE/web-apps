@@ -138,6 +138,27 @@
         </table>
     </div>
 </div>
+<div id="id-adv-shape-snap" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1">
+            <tr>
+                <td class="padding-small">
+                    <div id="shape-radio-twocell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="shape-radio-onecell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="shape-radio-absolute"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 <div id="id-adv-shape-alttext" class="settings-panel">
     <div class="inner-content">
         <table cols="1" width="100%">

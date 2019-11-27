@@ -1,7 +1,7 @@
 {
     "name": "common",
     "version": "4.3.0",
-    "build": 37,
+    "build": 39,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "sdk": {
@@ -16,6 +16,8 @@
                         "cwd": "../../sdkjs/common/",
                         "src": [
                             "Images/*",
+                            "Images/placeholders/*",
+							"Images/content_controls/*",
                             "Native/*.js",
                             "libfont/js/fonts.*",
                             "libfont/wasm/fonts.*"

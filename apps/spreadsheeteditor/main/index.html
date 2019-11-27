@@ -22,13 +22,14 @@
 
         .loadmask > .brendpanel {
             width: 100%;
-            height: 56px;
+            min-height: 32px;
             background: #40865c;
         }
 
         .loadmask > .brendpanel > div {
             display: flex;
             align-items: center;
+            height: 28px;
         }
 
         .loadmask > .brendpanel .loading-logo {
@@ -48,20 +49,6 @@
             margin-left: auto;
         }
 
-        .loadmask > .brendpanel .circle {
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            border-radius: 12px;
-            margin: 4px 10px;
-            background: rgba(255, 255, 255, 0.2);
-
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
-        }
-
         .loadmask > .brendpanel .rect {
             vertical-align: middle;
             width: 50px;
@@ -69,11 +56,44 @@
             border-radius: 3px;
             margin: 0 10px;
             background: rgba(255, 255, 255, 0.2);
+        }
 
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
+        .loadmask > .sktoolbar {
+            background: #f1f1f1;
+            height: 46px;
+            padding: 10px 12px;
+            box-sizing: content-box;
+        }
+
+        .loadmask > .sktoolbar ul {
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .loadmask > .sktoolbar li {
+            background: #e2e2e2;
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .loadmask > .sktoolbar li.space {
+            background: none;
+            width: 12px;
+        }
+
+        .loadmask > .sktoolbar li.fat {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            left: 905px;
+            width: inherit;
+            height: 44px;
         }
 
         .loadmask > .placeholder {
@@ -93,8 +113,8 @@
             width: 100%;
             height: 100%;
             display: inline-block;
-            background: linear-gradient(90deg, #d5d5d5 0px, rgba(0,0,0,0) 1px) 0 0,
-                        linear-gradient(rgba(0,255,0,0) 19px, #d5d5d5 20px) 0 0,
+            background: linear-gradient(90deg, #d5d5d5 0px, rgba(223,223,223,0) 1px) 0 0,
+                        linear-gradient(rgba(223,223,223,0) 19px, #d5d5d5 20px) 0 0,
                         linear-gradient( #f1f1f1 0px, #f1f1f1 20px) 0 0 repeat-x;
             background-size: 80px 20px;
         }
@@ -107,27 +127,29 @@
 
         @keyframes flickerAnimation {
             0%   { opacity:1; }
-            50%  { opacity:0.3; }
+            50%  { opacity:0.5; }
             100% { opacity:1; }
         }
         @-o-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.3; }
+            50%  { opacity:0.5; }
             100% { opacity:1; }
         }
         @-moz-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.3; }
+            50%  { opacity:0.5; }
             100% { opacity:1; }
         }
         @-webkit-keyframes flickerAnimation{
             0%   { opacity:1; }
-            50%  { opacity:0.3; }
+            50%  { opacity:0.5; }
             100% { opacity:1; }
         }
     </style>
 
     <script>
+        document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
+
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
             stopLoading = false;
@@ -183,10 +205,41 @@
     <!-- debug end -->
 </head>
 <body>
-    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo.png"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="columns"></div><div class="columns"></div></div></div>
+    <div id="loading-mask" class="loadmask">
+        <div class="brendpanel"><div>
+            <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo@2x.png"></div>
+            <div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+        </div>
+        <div class="sktoolbar">
+            <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/><li class="fat"/></ul>
+            <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/></ul>
+        </div>
+        <div class="placeholder">
+            <div class="columns"></div><div class="columns"></div>
+        </div>
+    </div>
+
     <div id="viewport"></div>
 
     <script>
+        var params = getUrlParams(),
+            internal = params["internal"] == 'true',
+            compact = params["compact"] == 'true',
+            view = params["mode"] == 'view';
+
+        if (internal) {
+            document.querySelector('.brendpanel').remove();
+            document.querySelector('.sktoolbar').remove();
+        }
+
+        if (compact || view) {
+            document.querySelector('.brendpanel > :nth-child(2)').remove();
+            document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+        }
+        if (view) {
+            document.querySelector('.sktoolbar').remove();
+        }
+
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {

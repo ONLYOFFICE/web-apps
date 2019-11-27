@@ -12,6 +12,7 @@
   "DE.ApplicationController.errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "DE.ApplicationController.errorDefaultMessage": "Код ошибки: %1",
   "DE.ApplicationController.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",
+  "DE.ApplicationController.errorFileSizeExceed": "Размер файла превышает ограничение, установленное для вашего сервера.<br>Обратитесь к администратору Сервера документов для получения дополнительной информации.",
   "DE.ApplicationController.errorUserDrop": "В настоящий момент файл недоступен.",
   "DE.ApplicationController.notcriticalErrorTitle": "Внимание",
   "DE.ApplicationController.scriptLoadError": "Слишком медленное подключение, некоторые компоненты не удалось загрузить. Пожалуйста, обновите страницу.",

@@ -178,6 +178,7 @@ define([
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
+                Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -223,7 +224,7 @@ define([
                         if (!e.relatedTarget ||
                             !/area_id/.test(e.target.id)
                             && !(e.target.localName == 'input' && $(e.target).parent().find(e.relatedTarget).length>0) /* Check if focus in combobox goes from input to it's menu button or menu items, or from comment editing area to Ok/Cancel button */
-                            && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
+                            && !(e.target.localName == 'textarea' && $(e.target).closest('.asc-window').find('.dropdown-menu').find(e.relatedTarget).length>0) /* Check if focus in comment goes from textarea to it's email menu */
                             && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                             && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                             if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
@@ -327,15 +328,17 @@ define([
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.isEditDiagram   = this.editorConfig.mode == 'editdiagram';
                 this.appOptions.isEditMailMerge = this.editorConfig.mode == 'editmerge';
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.customization   = this.editorConfig.customization;
-                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
-                                                  && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
+                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
+                                                  && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
                 this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
                 this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
+                this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -361,8 +364,10 @@ define([
                 if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
 
-                if (!this.editorConfig.customization || !(this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo))
+                if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
+                    (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
                     $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
+                }
 
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 Common.Controllers.Desktop.init(this.appOptions);
@@ -475,11 +480,16 @@ define([
             goBack: function(current) {
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
-                    var href = me.appOptions.customization.goback.url;
-                    if (!current && me.appOptions.customization.goback.blank!==false) {
-                        window.open(href, "_blank");
+                    if (me.appOptions.customization.goback.requestClose && me.appOptions.canRequestClose) {
+                        Common.Gateway.requestClose();
+                        // Common.Controllers.Desktop.requestClose();
                     } else {
-                        parent.location.href = href;
+                        var href = me.appOptions.customization.goback.url;
+                        if (!current && me.appOptions.customization.goback.blank!==false) {
+                            window.open(href, "_blank");
+                        } else {
+                            parent.location.href = href;
+                        }
                     }
                 }
             },
@@ -948,7 +958,6 @@ define([
                     this.appOptions.canModifyFilter = true;
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
-                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = (this.appOptions.canLicense || this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) && this.permissions.edit !== false && this.editorConfig.mode !== 'view';
@@ -1043,23 +1052,24 @@ define([
                         this.api);
                 }
                 /** coauthoring end **/
+                var me = this,
+                    application         = this.getApplication(),
+                    reviewController    = application.getController('Common.Controllers.ReviewChanges');
+                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.appOptions.spreadsheet});
 
-                if (this.appOptions.isEdit) {
-                    var me = this,
-                        application         = this.getApplication(),
-                        toolbarController   = application.getController('Toolbar'),
-                        statusbarController = application.getController('Statusbar'),
+                if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode
+                    var toolbarController   = application.getController('Toolbar');
+                    toolbarController   && toolbarController.setApi(me.api);
+
+                    if (!this.appOptions.isEdit) return;
+
+                    var statusbarController = application.getController('Statusbar'),
                         rightmenuController = application.getController('RightMenu'),
-                        fontsControllers    = application.getController('Common.Controllers.Fonts'),
-                        reviewController    = application.getController('Common.Controllers.ReviewChanges');
+                        fontsControllers    = application.getController('Common.Controllers.Fonts');
 
                     fontsControllers    && fontsControllers.setApi(me.api);
-                    toolbarController   && toolbarController.setApi(me.api);
 //                    statusbarController && statusbarController.setApi(me.api);
-
                     rightmenuController && rightmenuController.setApi(me.api);
-
-                    reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     if (me.appOptions.canProtect)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
@@ -1310,7 +1320,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.Warning:
-                        config.msg = this.errorConnectToServer.replace('%1', '{{API_URL_EDITING_CALLBACK}}');
+                        config.msg = this.errorConnectToServer;
                         config.closable = false;
                         break;
 
@@ -1404,6 +1414,11 @@ define([
 
                     case Asc.c_oAscError.ID.ConvertationOpenLimitError:
                         config.msg = this.errorFileSizeExceed;
+                        break;
+
+                    case Asc.c_oAscError.ID.UpdateVersion:
+                        config.msg = this.errorUpdateVersionOnDisconnect;
+                        config.maxwidth = 600;
                         break;
 
                     default:
@@ -2044,7 +2059,8 @@ define([
                 this.updateWindowTitle(this.api.asc_isDocumentModified(), true);
                 this.appOptions.spreadsheet.title = meta.title;
                 filemenu.loadDocument({doc:this.appOptions.spreadsheet});
-                filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
+                filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.appOptions.spreadsheet);
+                app.getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.appOptions.spreadsheet});
                 Common.Gateway.metaChange(meta);
             },
 
@@ -2183,8 +2199,7 @@ define([
             errorInvalidRef: 'Enter a correct name for the selection or a valid reference to go to.',
             errorCreateDefName: 'The existing named ranges cannot be edited and the new ones cannot be created<br>at the moment as some of them are being edited.',
             errorPasteMaxRange: 'The copy and paste area does not match. Please select an area with the same size or click the first cell in a row to paste the copied cells.',
-            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
-                                  'Find more information about connecting Document Server <a href=\"%1\" target=\"_blank\">here</a>',
+            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
             errorLockedWorksheetRename: 'The sheet cannot be renamed at the moment as it is being renamed by another user',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
             textStrict: 'Strict mode',
@@ -2194,7 +2209,7 @@ define([
             textNoLicenseTitle: '%1 open source version',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
@@ -2437,7 +2452,8 @@ define([
             txtFile: 'File',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
             txtColumn: 'Column',
-            txtRow: 'Row'
+            txtRow: 'Row',
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -424,13 +424,19 @@ define([
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
                     if (hasSymbols) {
                         if (!me.CurrencySymbolsData) {
-                            me.CurrencySymbolsData = [{value: null, displayValue: me.txtNone}];
+                            me.CurrencySymbolsData = [];
                             var symbolssarr = this.api.asc_getCurrencySymbols();
                             for (var code in symbolssarr) {
                                 if (symbolssarr.hasOwnProperty(code)) {
                                     me.CurrencySymbolsData.push({value: parseInt(code), displayValue: symbolssarr[code] + ' ' + Common.util.LanguageInfo.getLocalLanguageName(code)[1]});
                                 }
                             }
+                            me.CurrencySymbolsData.sort(function(a, b){
+                                if (a.displayValue < b.displayValue) return -1;
+                                if (a.displayValue > b.displayValue) return 1;
+                                return 0;
+                            });
+                            me.CurrencySymbolsData.unshift({value: null, displayValue: me.txtNone});
                             this.cmbSymbols.setData(this.CurrencySymbolsData);
                             this.cmbSymbols.setValue(valSymbol);
                         }

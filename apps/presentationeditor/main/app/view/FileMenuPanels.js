@@ -758,7 +758,7 @@ define([
             }).on('keydown:before', keyDownBefore);
 
             this.btnApply = new Common.UI.Button({
-                el: '#fminfo-btn-apply'
+                el: $markup.findById('#fminfo-btn-apply')
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
@@ -878,6 +878,7 @@ define([
                     me.authors.push(item);
                 });
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
+                !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
             this.SetDisabled();
         },
@@ -898,6 +899,12 @@ define([
             this.inputAuthor.setVisible(mode.isEdit);
             this.btnApply.setVisible(mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
+            if (!mode.isEdit) {
+                this.inputTitle._input.attr('placeholder', '');
+                this.inputSubject._input.attr('placeholder', '');
+                this.inputComment._input.attr('placeholder', '');
+                this.inputAuthor._input.attr('placeholder', '');
+            }
             this.SetDisabled();
             return this;
         },
@@ -1010,7 +1017,7 @@ define([
                 });
             }
 
-            Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
+            Common.NotificationCenter.on('collaboration:sharingupdate', this.updateSharingSettings.bind(this));
             Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
 
             return this;
@@ -1051,36 +1058,16 @@ define([
 
         setMode: function(mode) {
             this.sharingSettingsUrl = mode.sharingSettingsUrl;
-            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
-            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
             return this;
         },
 
         changeAccessRights: function(btn,event,opts) {
-            if (this._docAccessDlg || this._readonlyRights) return;
-
-            var me = this;
-            me._docAccessDlg = new Common.Views.DocumentAccessDialog({
-                settingsurl: this.sharingSettingsUrl
-            });
-            me._docAccessDlg.on('accessrights', function(obj, rights){
-                me.updateSharingSettings(rights);
-            }).on('close', function(obj){
-                me._docAccessDlg = undefined;
-            });
-
-            me._docAccessDlg.show();
-        },
-
-        setSharingSettings: function(data) {
-            data && this.updateSharingSettings(data.sharingSettings);
+            Common.NotificationCenter.trigger('collaboration:sharing');
         },
 
         updateSharingSettings: function(rights) {
-            this.doc.info.sharingSettings = rights;
             this._ShowHideInfoItem('rights', this.doc.info.sharingSettings!==undefined && this.doc.info.sharingSettings!==null && this.doc.info.sharingSettings.length>0);
             this.cntRights.html(this.templateRights({users: this.doc.info.sharingSettings}));
-            Common.NotificationCenter.trigger('mentions:clearusers', this);
         },
 
         onLostEditRights: function() {

@@ -60,6 +60,7 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
                 title: this.textTitle,
                 items: [
                     {panelId: 'id-adv-image-rotate',     panelCaption: this.textRotation},
+                    {panelId: 'id-adv-image-snap',       panelCaption: this.textSnap},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
@@ -98,6 +99,31 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
                 labelText: this.textVertically
             });
 
+            // Snapping
+            this.radioTwoCell = new Common.UI.RadioBox({
+                el: $('#image-advanced-radio-twocell'),
+                name: 'asc-radio-snap',
+                labelText: this.textTwoCell,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorTwoCell
+            });
+            this.radioTwoCell.on('change', _.bind(this.onRadioSnapChange, this));
+
+            this.radioOneCell = new Common.UI.RadioBox({
+                el: $('#image-advanced-radio-onecell'),
+                name: 'asc-radio-snap',
+                labelText: this.textOneCell,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorOneCell
+            });
+            this.radioOneCell.on('change', _.bind(this.onRadioSnapChange, this));
+
+            this.radioAbsolute = new Common.UI.RadioBox({
+                el: $('#image-advanced-radio-absolute'),
+                name: 'asc-radio-snap',
+                labelText: this.textAbsolute,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorAbsolute
+            });
+            this.radioAbsolute.on('change', _.bind(this.onRadioSnapChange, this));
+
             // Alt Text
 
             this.inputAltTitle = new Common.UI.InputField({
@@ -120,6 +146,12 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
             this.afterRender();
         },
 
+        onRadioSnapChange: function(field, newValue, eOpts) {
+            if (newValue && this._changedProps) {
+                this._changedProps.asc_putAnchor(field.options.value);
+            }
+        },
+
         afterRender: function() {
             this._setDefaults(this._originalProps);
             if (this.storageName) {
@@ -140,6 +172,19 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
                 this.spnAngle.setValue((value==undefined || value===null) ? '' : Math.floor(value*180/3.14159265358979+0.5), true);
                 this.chFlipHor.setValue(props.asc_getFlipH());
                 this.chFlipVert.setValue(props.asc_getFlipV());
+
+                value = props.asc_getAnchor();
+                switch (value) {
+                    case AscCommon.c_oAscCellAnchorType.cellanchorTwoCell:
+                        this.radioTwoCell.setValue(true, true);
+                        break;
+                    case AscCommon.c_oAscCellAnchorType.cellanchorOneCell:
+                        this.radioOneCell.setValue(true, true);
+                        break;
+                    case AscCommon.c_oAscCellAnchorType.cellanchorAbsolute:
+                        this.radioAbsolute.setValue(true, true);
+                        break;
+                }
 
                 var pluginGuid = props.asc_getPluginGuid();
                 this.btnsCategory[0].setVisible(pluginGuid === null || pluginGuid === undefined); // Rotation
@@ -171,7 +216,11 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
         textAngle: 'Angle',
         textFlipped: 'Flipped',
         textHorizontally: 'Horizontally',
-        textVertically: 'Vertically'
+        textVertically: 'Vertically',
+        textSnap: 'Cell Snapping',
+        textAbsolute: 'Don\'t move or size with cells',
+        textOneCell: 'Move but don\'t size with cells',
+        textTwoCell: 'Move and size with cells'
 
     }, SSE.Views.ImageSettingsAdvanced || {}));
 });
