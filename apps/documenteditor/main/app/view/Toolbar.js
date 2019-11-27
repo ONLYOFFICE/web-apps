@@ -548,7 +548,7 @@ define([
                             items: [
                                 {
                                     caption: this.textNone,
-                                    iconCls: 'menu__icon dropcap-none',
+                                    iconCls: 'menu__icon columns-one',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
