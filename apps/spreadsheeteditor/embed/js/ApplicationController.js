@@ -109,8 +109,6 @@ SSE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
-            if ( !embedConfig.saveUrl && permissions.print === false)
-                $('#idt-copy').hide();
         }
     }
 
@@ -170,6 +168,9 @@ SSE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         hidePreloader();
 
+        if ( !embedConfig.saveUrl && permissions.print === false)
+            $('#idt-download').hide();
+
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
@@ -178,6 +179,9 @@ SSE.ApplicationController = new(function(){
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
+
+        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+            $('#box-tools').addClass('hidden');
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -532,7 +536,8 @@ SSE.ApplicationController = new(function(){
         });
 
         api = new Asc.spreadsheet_api({
-            'id-view': 'editor_sdk'
+            'id-view': 'editor_sdk',
+            'embedded' : true
         });
 
         if (api){
