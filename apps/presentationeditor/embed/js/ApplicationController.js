@@ -76,7 +76,7 @@ PE.ApplicationController = new(function(){
             $('#editor_sdk').addClass('top');
         }
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url)) {
+        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose))) {
             $('#id-btn-close').hide();
 
             // Hide last separator
@@ -310,8 +310,12 @@ PE.ApplicationController = new(function(){
         });
 
         $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback && config.customization.goback.url)
-                window.parent.location.href = config.customization.goback.url;
+            if (config.customization && config.customization.goback) {
+                if (config.customization.goback.requestClose && config.canRequestClose)
+                    Common.Gateway.requestClose();
+                else if (config.customization.goback.url)
+                    window.parent.location.href = config.customization.goback.url;
+            }
         });
 
         $('#btn-left').on('click', function(){

@@ -51,7 +51,6 @@ define([
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend((function() {
         // private
-        var _backUrl;
         var locked = {
             book: false,
             sheet: false
@@ -70,9 +69,7 @@ define([
 
             loadConfig: function (data) {
                 if (data && data.config && data.config.canBackToFolder !== false &&
-                    data.config.customization && data.config.customization.goback && data.config.customization.goback.url) {
-                    _backUrl = data.config.customization.goback.url;
-
+                    data.config.customization && data.config.customization.goback && (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose)) {
                     $('#document-back').show().single('click', _.bind(this.onBack, this));
                 }
             },
@@ -124,7 +121,7 @@ define([
                             {
                                 text: me.leaveButtonText,
                                 onClick: function() {
-                                    window.parent.location.href = _backUrl;
+                                    Common.NotificationCenter.trigger('goback', true);
                                 }
                             },
                             {
@@ -134,7 +131,7 @@ define([
                         ]
                     });
                 } else {
-                    window.parent.location.href = _backUrl;
+                    Common.NotificationCenter.trigger('goback', true);
                 }
             },
 

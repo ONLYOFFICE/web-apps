@@ -68,7 +68,7 @@ SSE.ApplicationController = new(function(){
 
         common.controller.modals.init(embedConfig);
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url))
+        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose)))
             $('#id-btn-close').hide();
 
         // Docked toolbar
@@ -211,8 +211,12 @@ SSE.ApplicationController = new(function(){
             });
 
         $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback && config.customization.goback.url)
-                window.parent.location.href = config.customization.goback.url;
+            if (config.customization && config.customization.goback) {
+                if (config.customization.goback.requestClose && config.canRequestClose)
+                    Common.Gateway.requestClose();
+                else if (config.customization.goback.url)
+                    window.parent.location.href = config.customization.goback.url;
+            }
         });
 
         $('#id-btn-zoom-in').on('click', function () {
