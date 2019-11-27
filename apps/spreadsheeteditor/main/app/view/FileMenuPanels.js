@@ -201,7 +201,7 @@ define([
                 store: new Common.UI.DataViewStore([
                     {name: this.txtGeneral, panel: this.generalSettings, iconCls:'mnu-settings-general', selected: true},
                     {name: this.txtPageSettings, panel: this.printSettings, iconCls:'mnu-print'},
-                    {name: this.txtSpellСhecking, panel: this.spellcheckSettings, iconCls:'btn-ic-docspell'}
+                    {name: this.txtSpellСhecking, panel: this.spellcheckSettings, iconCls:'mu-settings-spellcheck'}
                 ]),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="settings-item-wrap">',
@@ -961,20 +961,21 @@ define([
 
         template: _.template([
             '<table class="main"><tbody>',
-            '<tr><td style="padding-left: 40px;">',
-            '<div id="fms-chb-ignore-uppercase-words"></div>',
-            '</td></tr>',
-            '<tr><td style="padding-left: 40px;">',
-            '<div id="fms-chb-ignore-numbers-words"></div>',
-            '</td></tr>',
-            '<tr><td style="padding-left: 40px;">',
-            '<label class="input-label"><%= scope.strDictionaryLanguage %></label>',
-            '<div id="fms-cmb-dictionary-language" style="width: 200px;"></div>',
-            '</td></tr>',
-            '<tr class="divider"></tr>',
             '<tr>',
-            '<td class="left"></td>',
-            '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                '<td class="left" style="padding-bottom: 8px;"><label><%= scope.strDictionaryLanguage %></label></td>',
+                '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language" /></td>',
+            '</tr>',
+            '<tr>',
+                '<td class="left" style="padding-bottom: 8px;"></td>',
+                '<td class="right" style="padding-bottom: 8px;"><span id="fms-chb-ignore-uppercase-words" /></td>',
+            '</tr>',
+            '<tr>',
+                '<td class="left"></td>',
+                '<td class="right"><span id="fms-chb-ignore-numbers-words" /></td>',
+            '</tr>','<tr class="divider"></tr>',
+            '<tr>',
+                '<td class="left"></td>',
+                '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
             '</tr>',
             '</tbody></table>'
         ].join('')),
@@ -1002,8 +1003,9 @@ define([
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
                 el:  $markup.findById('#fms-cmb-dictionary-language'),
                 cls: 'input-group-nr',
+                style: 'width: 267px;',
                 editable: false,
-                menuStyle: 'min-width: 100%; max-height: 209px;'
+                menuStyle: 'min-width: 267px; max-height: 209px;'
             });
 
             this.btnApply = new Common.UI.Button({

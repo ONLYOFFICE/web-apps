@@ -692,7 +692,7 @@ define([
                 this.api.asc_ignoreUppercase(ignoreUppercase);
                 var ignoreNumbers = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words", true);
                 Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", ignoreNumbers);
-                this.api.asc_ignoreUppercase(ignoreNumbers);
+                this.api.asc_ignoreNumbers(ignoreNumbers);
                 /** spellcheck settings end **/
 
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
