@@ -109,7 +109,8 @@
                     goback: {
                         url: 'http://...',
                         text: 'Go to London',
-                        blank: true
+                        blank: true,
+                        requestClose: false // if true - goback send onRequestClose event instead opening url
                     },
                     chat: true,
                     comments: true,
