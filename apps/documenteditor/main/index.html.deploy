@@ -19,7 +19,7 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background: #f1f1f1;
+            background: #e2e2e2;
             z-index: 1001;
         }
 
@@ -102,10 +102,10 @@
 
         .loadmask > .placeholder {
             background: #fbfbfb;
-            width: 796px;
+            width: 794px;
             margin: 46px auto;
             height: 100%;
-            border: 1px solid #dfdfdf;
+            border: 1px solid #bebebe;
             padding-top: 50px;
         }
 
@@ -209,11 +209,17 @@
 
     <script>
         var params = getUrlParams(),
+            compact = params["compact"] == 'true',
             view = params["mode"] == 'view';
-        if (view) {
+
+        if (compact || view) {
             document.querySelector('.brendpanel > :nth-child(2)').remove();
+            document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+        }
+        if (view) {
             document.querySelector('.sktoolbar').remove();
         }
+
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {

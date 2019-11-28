@@ -763,8 +763,10 @@ define([
                     }
                     if (props) {
                         (new Common.Views.ListSettingsDialog({
+                            api: me.api,
                             props: props,
-                            type: this.api.asc_getCurrentListType().get_ListType(),
+                            type: me.api.asc_getCurrentListType().get_ListType(),
+                            interfaceLang: me.permissions.lang,
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
@@ -1687,10 +1689,12 @@ define([
                 var hyperinfo = cellinfo.asc_getHyperlink(),
                     can_add_hyperlink = this.api.asc_canAddShapeHyperlink();
 
+                documentHolder.menuParagraphBullets.setVisible(istextchartmenu!==true);
                 documentHolder.menuHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && hyperinfo);
                 documentHolder.menuAddHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && !hyperinfo);
                 documentHolder.menuParagraphVAlign.setVisible(istextchartmenu!==true && !isEquation); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.menuParagraphDirection.setVisible(istextchartmenu!==true && !isEquation); // убрать после того, как заголовок можно будет растягивать по вертикали!!
+                documentHolder.textInShapeMenu.items[3].setVisible(istextchartmenu!==true || istextshapemenu && can_add_hyperlink!==false);
                 documentHolder.pmiTextAdvanced.setVisible(documentHolder.pmiTextAdvanced.textInfo!==undefined);
 
                 _.each(documentHolder.textInShapeMenu.items, function(item) {
@@ -1829,6 +1833,8 @@ define([
                 documentHolder.menuParagraphDirection.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.pmiTextAdvanced.setVisible(false);
                 documentHolder.textInShapeMenu.items[9].setVisible(false);
+                documentHolder.menuParagraphBullets.setVisible(false);
+                documentHolder.textInShapeMenu.items[3].setVisible(false);
                 documentHolder.pmiTextCopy.setDisabled(false);
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             }

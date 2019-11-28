@@ -68,7 +68,7 @@ SSE.ApplicationController = new(function(){
 
         common.controller.modals.init(embedConfig);
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url))
+        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose)))
             $('#id-btn-close').hide();
 
         // Docked toolbar
@@ -211,8 +211,12 @@ SSE.ApplicationController = new(function(){
             });
 
         $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback && config.customization.goback.url)
-                window.parent.location.href = config.customization.goback.url;
+            if (config.customization && config.customization.goback) {
+                if (config.customization.goback.requestClose && config.canRequestClose)
+                    Common.Gateway.requestClose();
+                else if (config.customization.goback.url)
+                    window.parent.location.href = config.customization.goback.url;
+            }
         });
 
         $('#id-btn-zoom-in').on('click', function () {
@@ -581,6 +585,6 @@ SSE.ApplicationController = new(function(){
         textLoadingDocument: 'Loading spreadsheet',
         txtClose: 'Close',
         errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-        errorUpdateVersionOnDisconnect: 'The file version has been changed.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.'
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
     }
 })();

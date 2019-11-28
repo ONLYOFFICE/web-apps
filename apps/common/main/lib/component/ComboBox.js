@@ -348,6 +348,8 @@ define([
                     this.onAfterHideMenu(e);
                     return false;
                 }  else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
+                    if (typeof this._search !== 'object') return;
+
                     var me = this;
                     clearTimeout(this._search.timer);
                     this._search.timer = setTimeout(function () { me._search = {}; }, 1000);

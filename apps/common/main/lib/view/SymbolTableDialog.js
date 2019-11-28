@@ -453,6 +453,15 @@ define([
             var init = (aFontSelects.length<1);
             init && this.initFonts();
 
+            if (options.font) {
+                for(var i = 0; i < aFontSelects.length; ++i){
+                    if(aFontSelects[i].displayValue === options.font){
+                        nCurrentFont = i;
+                        break;
+                    }
+                }
+            }
+
             if (nCurrentFont < 0)
                 nCurrentFont = 0;
 
@@ -475,6 +484,12 @@ define([
             }
             if(nCurrentSymbol === -1){
                 nCurrentSymbol = aRanges[0].Start;
+            }
+
+            if (options.code) {
+                nCurrentSymbol = options.code;
+            } else if (options.symbol) {
+                nCurrentSymbol = this.fixedCharCodeAt(options.symbol, 0);
             }
 
             if (init && this.options.lang && this.options.lang != 'en') {
@@ -526,7 +541,6 @@ define([
             for(var key in oFontsByName){
                 if(oFontsByName.hasOwnProperty(key)){
                     data.push(oFontsByName[key]);
-                    data[data.length-1].value = i++;
                     data[data.length-1].displayValue = oFontsByName[key].m_wsFontName;
                 }
             }
@@ -534,6 +548,10 @@ define([
             //initialize params
             aFontSelects = data;
             aFontSelects.sort(function(a, b){return (a.displayValue.toLowerCase() > b.displayValue.toLowerCase()) ? 1 : -1;});
+            for(i = 0; i < aFontSelects.length; ++i){
+                aFontSelects[i].value = i;
+            }
+
             if(!oFontsByName[sInitFont]){
                 if(oFontsByName['Cambria Math']){
                     sInitFont = 'Cambria Math';
@@ -597,6 +615,7 @@ define([
                 el          : $window.find('#symbol-table-cmb-range'),
                 cls         : 'input-group-nr',
                 editable    : false,
+                search      : true,
                 menuStyle   : 'min-width: 100%; max-height: 209px;'
             }).on('selected', function(combo, record) {
                 var oCurrentRange = me.getRangeByName(aRanges, parseInt(record.value));
@@ -679,7 +698,7 @@ define([
                 var nFontId = parseInt(cellId.split('_')[2]);
                 sFont = aFontSelects[nFontId].displayValue;
             }
-            return {font: sFont, symbol: this.encodeSurrogateChar(nCurrentSymbol), updateRecents: bUpdateRecents};
+            return {font: sFont, symbol: this.encodeSurrogateChar(nCurrentSymbol), code: nCurrentSymbol, updateRecents: bUpdateRecents};
         },
 
         onBtnClick: function(event) {
@@ -927,7 +946,7 @@ define([
                 var settings = this.getPasteSymbol($(e.target).attr('id'));
                 settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
                 settings.updateRecents && this.updateView(false, undefined, undefined, true);
-                this.fireEvent('symbol:dblclick', this, settings);
+                this.fireEvent('symbol:dblclick', this, 'ok', settings);
             }
         },
 
@@ -1324,7 +1343,7 @@ define([
             }
         },
 
-        textTitle: 'Symbol Table',
+        textTitle: 'Symbol',
         textFont: 'Font',
         textRange: 'Range',
         textRecent: 'Recently used symbols',

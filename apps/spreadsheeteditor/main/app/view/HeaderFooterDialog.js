@@ -167,6 +167,22 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
+            this.menuAddAlign = function(menuRoot, left, top) {
+                var self = this;
+                if (!$window.hasClass('notransform')) {
+                    $window.addClass('notransform');
+                    menuRoot.addClass('hidden');
+                    setTimeout(function() {
+                        menuRoot.removeClass('hidden');
+                        menuRoot.css({left: left, top: top});
+                        self.options.additionalAlign = null;
+                    }, 300);
+                } else {
+                    menuRoot.css({left: left, top: top});
+                    self.options.additionalAlign = null;
+                }
+            };
+
             var me = this,
                 $window = this.getChild();
 
@@ -305,6 +321,7 @@ define([
                 menu: new Common.UI.Menu({
                     style: 'min-width: 110px;',
                     maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
                     items: data
                 })
             });
@@ -319,6 +336,7 @@ define([
                 menu: new Common.UI.Menu({
                     style: 'min-width: 110px;',
                     maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
                     items: data
                 })
             });
@@ -560,6 +578,7 @@ define([
                 hint        : this.textColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-h-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
@@ -578,6 +597,7 @@ define([
                 hint        : this.textColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-f-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
@@ -666,12 +686,14 @@ define([
             this.btnPresetsH.setMenu(new Common.UI.Menu({
                 style: 'min-width: 110px;',
                 maxHeight: 200,
+                additionalAlign: this.menuAddAlign,
                 items: presets
             }));
             this.btnPresetsH.menu.on('item:click', _.bind(this.onPresetSelect, this, false));
             this.btnPresetsF.setMenu(new Common.UI.Menu({
                 style: 'min-width: 110px;',
                 maxHeight: 200,
+                additionalAlign: this.menuAddAlign,
                 items: presets
             }));
             this.btnPresetsF.menu.on('item:click', _.bind(this.onPresetSelect, this, true));

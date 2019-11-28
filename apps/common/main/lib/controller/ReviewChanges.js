@@ -69,6 +69,10 @@ define([
                 'FileMenu': {
                     'settings:apply': this.applySettings.bind(this)
                 },
+                'LeftMenu': {
+                    'comments:show': _.bind(this.commentsShowHide, this, 'show'),
+                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
+                },
                 'Common.Views.ReviewChanges': {
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
@@ -779,7 +783,9 @@ define([
                     if (state !== me.view.btnChat.pressed)
                         me.view.turnChat(state);
                 });
-
+            }
+            if (me.view && me.view.btnCommentRemove) {
+                me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
             }
         },
 
@@ -867,6 +873,12 @@ define([
                 });
                 this.view.btnCompare.setDisabled(length>1 || this.viewmode);
             }
+        },
+
+        commentsShowHide: function(mode) {
+            if (!this.view) return;
+            var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
+            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(mode != 'show' && !value);
         },
 
         textInserted: '<b>Inserted:</b>',

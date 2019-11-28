@@ -41,6 +41,7 @@
 
 define([
     'core',
+    'common/main/lib/component/Calendar',
     'documenteditor/main/app/view/Links',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
@@ -129,7 +130,8 @@ define([
                 in_header = false,
                 in_equation = false,
                 in_image = false,
-                in_table = false;
+                in_table = false,
+                frame_pr = null;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -137,6 +139,7 @@ define([
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
+                    frame_pr = pr;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
@@ -153,12 +156,19 @@ define([
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : true,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : true,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : true,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : true;
 
-            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
+            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
             this.view.btnsNotes.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_header || control_plain;
             this.view.btnBookmarks.setDisabled(need_disable);
+
+            need_disable = in_header || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
+            this.view.btnsContents.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -351,8 +361,9 @@ define([
             })).show();
         },
 
-        onShowContentControlsActions: function(action, x, y) {
-            var menu = (action==1) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
+        onShowTOCActions: function(obj, x, y) {
+            var action = obj.button,
+                menu = (action==AscCommon.CCButtonType.Toc) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
                 documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
                 menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
                 me = this;
@@ -391,6 +402,155 @@ define([
         onHideContentControlsActions: function() {
             this.view.contentsMenu && this.view.contentsMenu.hide();
             this.view.contentsUpdateMenu && this.view.contentsUpdateMenu.hide();
+            this.view.listControlMenu && this.view.listControlMenu.isVisible() && this.view.listControlMenu.hide();
+            var controlsContainer = this.getApplication().getController('DocumentHolder').documentHolder.cmpEl.find('#calendar-control-container');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
+        },
+
+        onShowDateActions: function(obj, x, y) {
+            var props = obj.pr,
+                specProps = props.get_DateTimePr(),
+                documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                controlsContainer = documentHolderView.cmpEl.find('#calendar-control-container'),
+                me = this;
+
+            this._state.dateObj = props;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                documentHolderView.cmpEl.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            controlsContainer.css({left: x, top : y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendar) {
+                this.cmpCalendar = new Common.UI.Calendar({
+                    el: documentHolderView.cmpEl.find('#id-document-calendar-control'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendar.on('date:click', function (cmp, date) {
+                    var props = me._state.dateObj,
+                        specProps = props.get_DateTimePr(),
+                        id = props.get_InternalId();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetContentControlProperties(props, id);
+                    controlsContainer.hide();
+                    me.api.asc_UncheckContentControlButtons();
+                });
+                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+            }
+            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+
+            // align
+            var offset  = controlsContainer.offset(),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendar.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendar.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendar.cmpEl.css({left: left, top : top});
+
+            documentHolderView._preventClick = true;
+        },
+
+        onShowListActions: function(obj, x, y) {
+            var type = obj.type,
+                props = obj.pr,
+                specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
+                menu = this.view.listControlMenu,
+                documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
+                menuContainer = menu ? documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this._state.listObj = props;
+
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.view.listControlMenu = menu = new Common.UI.Menu({
+                    menuAlign: 'tr-bl',
+                    items: []
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        me.api.asc_SelectContentControlListItem(item.value, me._state.listObj.get_InternalId());
+                    }, 1);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    documentHolderView.cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    me.view.listControlMenu.removeAll();
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            if (specProps) {
+                var count = specProps.get_ItemsCount();
+                for (var i=0; i<count; i++) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : specProps.get_ItemDisplayText(i),
+                        value       : specProps.get_ItemValue(i)
+                    }));
+                }
+            }
+
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            documentHolderView._preventClick = true;
+            menu.show();
+
+            menu.alignPosition();
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onShowContentControlsActions: function(obj, x, y) {
+            var type = obj.type;
+            switch (type) {
+                case Asc.c_oAscContentControlSpecificType.TOC:
+                    this.onShowTOCActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    this.api.asc_addImage(obj);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
+                    break;
+            }
         }
 
     }, DE.Controllers.Links || {}));

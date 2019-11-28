@@ -341,9 +341,10 @@ define([
                 this.appOptions.mergeFolderUrl  = this.editorConfig.mergeFolderUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.canAnalytics    = false;
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.customization   = this.editorConfig.customization;
-                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
-                                                  && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
+                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
+                                                  && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
@@ -599,7 +600,7 @@ define([
                                                 docId: version.key,
                                                 docIdPrev: docIdPrev,
                                                 selected: false,
-                                                canRestore: this.appOptions.canHistoryRestore,
+                                                canRestore: this.appOptions.canHistoryRestore && this.appOptions.canDownload,
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion
@@ -649,11 +650,16 @@ define([
 
             goBack: function(current) {
                 if ( !Common.Controllers.Desktop.process('goback') ) {
-                    var href = this.appOptions.customization.goback.url;
-                    if (!current && this.appOptions.customization.goback.blank!==false) {
-                        window.open(href, "_blank");
+                    if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose) {
+                        Common.Gateway.requestClose();
+                        // Common.Controllers.Desktop.requestClose();
                     } else {
-                        parent.location.href = href;
+                        var href = this.appOptions.customization.goback.url;
+                        if (!current && this.appOptions.customization.goback.blank!==false) {
+                            window.open(href, "_blank");
+                        } else {
+                            parent.location.href = href;
+                        }
                     }
                 }
             },
@@ -1156,7 +1162,6 @@ define([
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.isReviewOnly   = this.permissions.review === true && this.permissions.edit === false;
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
-                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canEdit        = (this.permissions.edit !== false || this.permissions.review === true) && // can edit or review
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                                                  (!this.appOptions.isReviewOnly || this.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
@@ -1270,7 +1275,7 @@ define([
                     var toolbarController   = application.getController('Toolbar');
                     toolbarController   && toolbarController.setApi(me.api);
 
-                    if (this.appOptions.isRestrictedEdit) return;
+                    if (!this.appOptions.isEdit) return;
 
                     var rightmenuController = application.getController('RightMenu'),
                         fontsControllers    = application.getController('Common.Controllers.Fonts');
@@ -1514,6 +1519,7 @@ define([
 
                    case Asc.c_oAscError.ID.UpdateVersion:
                         config.msg = this.errorUpdateVersionOnDisconnect;
+                        config.maxwidth = 600;
                         break;
 
                     default:
@@ -2496,7 +2502,7 @@ define([
             uploadDocSizeMessage: 'Maximum document size limit exceeded.',
             uploadDocExtMessage: 'Unknown document format.',
             uploadDocFileCountMessage: 'No documents uploaded.',
-            errorUpdateVersionOnDisconnect: 'The file version has been changed.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.'
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), DE.Controllers.Main || {}))
 });

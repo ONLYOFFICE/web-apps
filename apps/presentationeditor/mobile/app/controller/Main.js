@@ -209,9 +209,10 @@ define([
                 me.appOptions.fileChoiceUrl   = me.editorConfig.fileChoiceUrl;
                 me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
                 me.appOptions.canAnalytics    = false;
+                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.customization   = me.editorConfig.customization;
-                me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object')
-                    && (typeof (me.editorConfig.customization.goback) == 'object') && !_.isEmpty(me.editorConfig.customization.goback.url);
+                me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object') && (typeof (me.editorConfig.customization.goback) == 'object')
+                    && (!_.isEmpty(me.editorConfig.customization.goback.url) || me.editorConfig.customization.goback.requestClose && me.appOptions.canRequestClose);
                 me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
@@ -322,11 +323,15 @@ define([
             },
 
             goBack: function(current) {
-                var href = this.appOptions.customization.goback.url;
-                if (!current && this.appOptions.customization.goback.blank!==false) {
-                    window.open(href, "_blank");
+                if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose) {
+                    Common.Gateway.requestClose();
                 } else {
-                    parent.location.href = href;
+                    var href = this.appOptions.customization.goback.url;
+                    if (!current && this.appOptions.customization.goback.blank!==false) {
+                        window.open(href, "_blank");
+                    } else {
+                        parent.location.href = href;
+                    }
                 }
             },
 
@@ -662,7 +667,6 @@ define([
                 me.appOptions.isOffline       = me.api.asc_isOffline();
                 me.appOptions.isReviewOnly    = (me.permissions.review === true) && (me.permissions.edit === false);
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
-                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.canEdit         = (me.permissions.edit !== false || me.permissions.review === true) && // can edit or review
                     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                     (!me.appOptions.isReviewOnly || me.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
@@ -1402,7 +1406,7 @@ define([
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
             waitText: 'Please, wait...',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-            errorUpdateVersionOnDisconnect: 'The file version has been changed.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.'
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), PE.Controllers.Main || {}))
 });
