@@ -218,8 +218,9 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
         refreshList: function(levels) {
             this.levels = [];
+
+            var arr = [];
             if (levels) {
-                var arr = [];
                 for (var i=0; i<levels.length; i++) {
                     var level = levels[i],
                         levelProps = this.props.asc_getLevelProps(level.asc_getIndex()),
@@ -254,9 +255,17 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         color_data: color_data
                     };
                 }
-                this.sortList.store.reset(arr);
-                (this.sortList.store.length>0) && this.sortList.selectByIndex(0);
+            } else {
+                arr.push({
+                    columnIndex: null,
+                    levelIndex: 0,
+                    sort: Asc.c_oAscSortOptions.ByValue,
+                    order: Asc.c_oAscSortOptions.Ascending
+                });
             }
+            this.sortList.store.reset(arr);
+            (this.sortList.store.length>0) && this.sortList.selectByIndex(0);
+
             this.updateButtons();
         },
 
