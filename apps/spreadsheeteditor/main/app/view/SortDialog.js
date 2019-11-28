@@ -366,9 +366,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 len = values.length;
             this.column_data = [];
             for (var i=0; i<len; i++) {
+                if (values[i]==undefined) continue;
                 this.column_data.push({ value: i, displayValue: values[i] });
             }
-            if (len>500)
+            if (this.column_data.length>500)
                 this.column_data.push({ value: -1, displayValue: '(' + (this.sortOptions.sortcol ? this.textMoreCols : this.textMoreRows) + '...)' });
         },
 
