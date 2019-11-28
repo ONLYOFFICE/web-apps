@@ -102,7 +102,7 @@ define([
                         '<label style="font-weight: bold;">' + this.textPreview + '</label>',
                         '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px; border: 1px solid #cfcfcf;"></div>',
                     '</div>',
-                '</div>',
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
