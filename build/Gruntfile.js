@@ -188,6 +188,11 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.registerTask('prebuild-icons-sprite', function() {
+        require('./sprites/Gruntfile.js')(grunt, '../');
+        grunt.task.run('all-icons-sprite');
+    });
+
     grunt.registerTask('main-app-init', function() {
         grunt.initConfig({
             pkg: packageFile,
@@ -514,8 +519,8 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
 
-    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean:prebuild', 'imagemin', 'less', 'requirejs', 'concat',
-                                                            'copy', 'svgmin', 'inline', 'json-minify',
+    grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
+                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
