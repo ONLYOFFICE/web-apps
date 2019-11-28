@@ -1041,27 +1041,27 @@ define([
         },
 
         updateSettings: function() {
-            var lang = SSE.getController('Spellcheck').loadLanguages(),
-                allLangs = lang[0],
-                lang = lang[1];
+            var arrLang = SSE.getController('Spellcheck').loadLanguages(),
+                allLangs = arrLang[0],
+                langs = arrLang[1];
             var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
                 value;
             if (sessionValue)
                 value = parseInt(sessionValue);
             else
                 value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
-            if (lang && lang.length > 0) {
-                this.cmbDictionaryLanguage.setData(lang);
+            if (langs && langs.length > 0) {
+                this.cmbDictionaryLanguage.setData(langs);
                 var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
                 if (!item && allLangs[value]) {
                     value = allLangs[value][0].split(/[\-\_]/)[0];
-                    item = combo.store.find(function(model){
+                    item = this.cmbDictionaryLanguage.store.find(function(model){
                         return model.get('shortName').indexOf(value)==0;
                     });
                 }
                 this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
                 value = this.cmbDictionaryLanguage.getValue();
-                if (value !== sessionValue) {
+                if (value !== parseInt(sessionValue)) {
                     Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
                 }
             } else {

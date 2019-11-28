@@ -126,7 +126,9 @@ define([
 
         loadLanguages: function () {
             var me = this;
-            Common.Utils.InternalSettings.set("sse-spellcheck-locale", Common.localStorage.getItem("sse-spellcheck-locale"));
+            if (this._initSettings) {
+                Common.Utils.InternalSettings.set("sse-spellcheck-locale", Common.localStorage.getItem("sse-spellcheck-locale"));
+            }
 
             if (this.languages && this.languages.length>0) {
                 var langs = [], info;
@@ -173,7 +175,7 @@ define([
                         return model.get('shortName').indexOf(value)==0;
                     });
                 }
-                combo.setValue(item ? item.get('value') : langs[0].value);
+                combo.setValue(item ? item.get('value') : this.langs[0].value);
                 value = combo.getValue();
             } else {
                 combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
@@ -181,7 +183,7 @@ define([
             }
             if (this.api) {
                 this.api.asc_setDefaultLanguage(value);
-                if (value !== sessionValue) {
+                if (value !== parseInt(sessionValue)) {
                     Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
                 }
             }
