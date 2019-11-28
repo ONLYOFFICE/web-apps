@@ -55,13 +55,13 @@ define([
 
         initialize : function(options) {
             _.extend(this.options, {
-                title: this.textMargins
+                title: this.textTitle
             }, options || {});
 
             this.template = [
                 '<div class="box" style="height: 245px;">',
                     '<div style="float: left;">',
-                        '<label style="font-weight: bold;">' + this.textMargins + '</label>',
+                        '<label style="font-weight: bold;">' + this.textTitle + '</label>',
                         '<div style="margin-top: 2px;">',
                             '<div style="display: inline-block;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
@@ -368,7 +368,7 @@ define([
             }
         },
 
-        textMargins: 'Margins',
+        textTitle: 'Margins',
         textTop: 'Top',
         textLeft: 'Left',
         textBottom: 'Bottom',
