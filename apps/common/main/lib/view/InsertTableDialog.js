@@ -110,8 +110,8 @@ define([
         onBtnClick: function(event) {
             if (this.options.handler) {
                 this.options.handler.call(this, event.currentTarget.attributes['result'].value, {
-                    columns : this.udColumns.getValue(),
-                    rows    : this.udRows.getValue()
+                    columns : this.udColumns.getNumberValue(),
+                    rows    : this.udRows.getNumberValue()
                 });
             }
 
@@ -121,8 +121,8 @@ define([
         onPrimary: function() {
             if (this.options.handler) {
                 this.options.handler.call(this, 'ok', {
-                    columns : this.udColumns.getValue(),
-                    rows    : this.udRows.getValue()
+                    columns : this.udColumns.getNumberValue(),
+                    rows    : this.udRows.getNumberValue()
                 });
             }
 

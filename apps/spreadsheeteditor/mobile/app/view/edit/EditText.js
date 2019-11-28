@@ -44,7 +44,9 @@ define([
     'text!spreadsheeteditor/mobile/app/template/EditText.template',
     'jquery',
     'underscore',
-    'backbone'
+    'backbone',
+    'common/mobile/lib/component/ThemeColorPalette',
+    'common/mobile/lib/component/HsbColorPicker'
 ], function (editTemplate, $, _, Backbone) {
     'use strict';
 
@@ -62,7 +64,6 @@ define([
             initialize: function () {
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
                 Common.NotificationCenter.on('fonts:load', _.bind(this.onApiFontsLoad, this));
-                this.on('page:show', _.bind(this.updateItemHandlers, this));
             },
 
             initEvents: function () {
@@ -105,6 +106,7 @@ define([
                 }).join(', ');
 
                 $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
+                $('#font-color').single('click', _.bind(this.showFontColor, this));
             },
 
             showPage: function (templateId, suspendEvent) {
@@ -128,6 +130,55 @@ define([
 
                     this.initEvents();
                 }
+            },
+
+            showFontColor: function () {
+                var me = this;
+                var page = '#edit-text-color';
+                this.showPage(page, true);
+
+                this.paletteTextColor = new Common.UI.ThemeColorPalette({
+                    el: $('.page[data-page=edit-text-color] .page-content'),
+                    transparent: true
+                });
+                this.paletteTextColor.on('customcolor', function () {
+                    me.showCustomFillColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-text-add-custom-fill-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-text-color] .page-content').append(template({scope: this}));
+                $('#edit-text-add-custom-fill-color').single('click', _.bind(this.showCustomTextColor, this));
+
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text]', '.page[data-page=edit-text] .page-content');
+                this.fireEvent('page:show', [this, page]);
+            },
+
+            showCustomTextColor: function () {
+                var me = this,
+                    selector = '#edit-text-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customTextColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-text-custom-color] .page-content'),
+                    color: me.paletteTextColor.currentColor
+                });
+                me.customTextColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteTextColor.addNewDynamicColor(colorPicker, color);
+                    SSE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
             },
 
             renderFonts: function () {
@@ -180,7 +231,9 @@ define([
             textSize: 'Size',
             textCharacterBold: 'B',
             textCharacterItalic: 'I',
-            textCharacterUnderline: 'U'
+            textCharacterUnderline: 'U',
+            textAddCustomColor: 'Add Custom Color',
+            textCustomColor: 'Custom Color'
         }
     })(), SSE.Views.EditText || {}))
 });

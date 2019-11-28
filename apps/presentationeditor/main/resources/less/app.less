@@ -114,6 +114,7 @@
 @import "../../../../common/main/resources/less/toolbar.less";
 @import "../../../../common/main/resources/less/language-dialog.less";
 @import "../../../../common/main/resources/less/winxp_fix.less";
+@import "../../../../common/main/resources/less/symboltable.less";
 
 // App
 // --------------------------------------------------
@@ -179,14 +180,14 @@
 .doc-placeholder {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    height: 100%;
     padding: 0 100px;
-    background: rgb(226, 226, 226);
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    background: rgb(226, 226, 226);
 
     .slide-h {
         display: flex;
@@ -195,7 +196,7 @@
         flex-grow: 1;
         max-width: 1350px;
         width: 100%;
-        margin: 0 auto 56px;
+        margin: 0 auto;
     }
 
     .slide-v {
@@ -225,7 +226,7 @@
 
             &:nth-child(1) {
                 height: 30%;
-                margin: 120px 80px 0;
+                margin: 10% 80px 0;
             }
 
             &.empty {

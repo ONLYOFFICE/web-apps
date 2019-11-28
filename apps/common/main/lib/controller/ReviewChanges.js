@@ -69,12 +69,17 @@ define([
                 'FileMenu': {
                     'settings:apply': this.applySettings.bind(this)
                 },
+                'LeftMenu': {
+                    'comments:show': _.bind(this.commentsShowHide, this, 'show'),
+                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
+                },
                 'Common.Views.ReviewChanges': {
                     'reviewchange:accept':      _.bind(this.onAcceptClick, this),
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:preview':     _.bind(this.onBtnPreviewClick, this),
-                    'reviewchanges:view':       _.bind(this.onReviewViewClick, this),
+                    'reviewchange:view':        _.bind(this.onReviewViewClick, this),
+                    'reviewchange:compare':     _.bind(this.onCompareClick, this),
                     'lang:document':            _.bind(this.onDocLanguage, this),
                     'collaboration:coauthmode': _.bind(this.onCoAuthMode, this)
                 },
@@ -95,12 +100,14 @@ define([
             this.collection     =   this.getApplication().getCollection('Common.Collections.ReviewChanges');
             this.userCollection =   this.getApplication().getCollection('Common.Collections.Users');
 
-            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false};
+            this._state = {posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null /*new AscCommon.CComparisonPr()*/};
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
             Common.NotificationCenter.on('spelling:turn', this.onTurnSpelling.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+            Common.NotificationCenter.on('collaboration:sharing', this.changeAccessRights.bind(this));
+            Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
 
             this.userCollection.on('reset', _.bind(this.onUpdateUsers, this));
             this.userCollection.on('add',   _.bind(this.onUpdateUsers, this));
@@ -112,6 +119,7 @@ define([
                 this.currentUserId      =   data.config.user.id;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
+            return this;
         },
         setApi: function (api) {
             if (api) {
@@ -120,8 +128,13 @@ define([
                 if (this.appConfig.canReview || this.appConfig.canViewReview) {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.onApiShowChange, this));
                     this.api.asc_registerCallback('asc_onUpdateRevisionsChangesPosition', _.bind(this.onApiUpdateChangePosition, this));
+                    this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
+                    this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
                 }
+                this.api.asc_registerCallback('asc_onAcceptChangesBeforeCompare',_.bind(this.onAcceptChangesBeforeCompare, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
+
+                Common.Gateway.on('setrevisedfile', _.bind(this.setRevisedFile, this));
             }
         },
 
@@ -130,7 +143,14 @@ define([
             this.popoverChanges = new Common.Collections.ReviewChanges();
             this.view = this.createView('Common.Views.ReviewChanges', { mode: mode });
 
+            !!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
+            !!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
+
             return this;
+        },
+
+        loadDocument: function(data) {
+            this.document = data.doc;
         },
 
         SetDisabled: function(state) {
@@ -554,6 +574,84 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
+        onCompareClick: function(item) {
+            if (this.api) {
+                var me = this;
+                if (!this._state.compareSettings) {
+                    this._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                    this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
+                }
+                if (item === 'file') {
+                    if (this.api)
+                        this.api.asc_CompareDocumentFile(this._state.compareSettings);
+                    Common.NotificationCenter.trigger('edit:complete', this.view);
+                } else if (item === 'url') {
+                    (new Common.Views.ImageFromUrlDialog({
+                        title: me.textUrl,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                if (me.api) {
+                                    var checkUrl = value.replace(/ /g, '');
+                                    if (!_.isEmpty(checkUrl)) {
+                                        me.api.asc_CompareDocumentUrl(checkUrl, me._state.compareSettings);
+                                    }
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.view);
+                            }
+                        }
+                    })).show();
+                } else if (item === 'storage') {
+                    if (this.appConfig.canRequestCompareFile) {
+                        Common.Gateway.requestCompareFile();
+                    } else {
+                        (new Common.Views.SelectFileDlg({
+                            fileChoiceUrl: this.appConfig.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "DocumentsOnly")
+                        })).on('selectfile', function(obj, file){
+                            me.setRevisedFile(file, me._state.compareSettings);
+                        }).show();
+                    }
+                } else if (item === 'settings') {
+                    (new DE.Views.CompareSettingsDialog({
+                        props: me._state.compareSettings,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                me._state.compareSettings = value;
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        setRevisedFile: function(data) {
+            if (!this._state.compareSettings) {
+                this._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
+            }
+            if (data && data.url) {
+                this.api.asc_CompareDocumentUrl(data.url, this._state.compareSettings, data.token);// for loading from storage
+            }
+        },
+
+        onAcceptChangesBeforeCompare: function(callback) {
+            var me = this;
+            Common.UI.warning({
+                width: 550,
+                msg: this.textAcceptBeforeCompare,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: function(result) {
+                    _.defer(function() {
+                        if (callback) callback(result=='yes');
+                    });
+                    Common.NotificationCenter.trigger('edit:complete', this.view);
+                }
+            });
+        },
+
         turnDisplayMode: function(mode) {
             if (this.api) {
                 if (mode === 'final')
@@ -685,7 +783,9 @@ define([
                     if (state !== me.view.btnChat.pressed)
                         me.view.turnChat(state);
                 });
-
+            }
+            if (me.view && me.view.btnCommentRemove) {
+                me.view.btnCommentRemove.setDisabled(!Common.localStorage.getBool(me.view.appPrefix + "settings-livecomment", true));
             }
         },
 
@@ -724,7 +824,32 @@ define([
         },
 
         onLostEditRights: function() {
+            this._readonlyRights = true;
             this.view && this.view.onLostEditRights();
+        },
+
+        changeAccessRights: function(btn,event,opts) {
+            if (this._docAccessDlg || this._readonlyRights) return;
+
+            var me = this;
+            me._docAccessDlg = new Common.Views.DocumentAccessDialog({
+                settingsurl: this.appConfig.sharingSettingsUrl
+            });
+            me._docAccessDlg.on('accessrights', function(obj, rights){
+                me.setSharingSettings({sharingSettings: rights});
+            }).on('close', function(obj){
+                me._docAccessDlg = undefined;
+            });
+
+            me._docAccessDlg.show();
+        },
+
+        setSharingSettings: function(data) {
+            if (data) {
+                this.document.info.sharingSettings = data.sharingSettings;
+                Common.NotificationCenter.trigger('collaboration:sharingupdate', data.sharingSettings);
+                Common.NotificationCenter.trigger('mentions:clearusers', this);
+            }
         },
 
         onCoAuthoringDisconnect: function() {
@@ -737,6 +862,23 @@ define([
                 var user = users.findOriginalUser(model.get('userid'));
                 model.set('usercolor', (user) ? user.get('color') : null);
             });
+        },
+
+        onAuthParticipantsChanged: function(users) {
+            if (this.view && this.view.btnCompare) {
+                var length = 0;
+                _.each(users, function(item){
+                    if (!item.asc_getView())
+                        length++;
+                });
+                this.view.btnCompare.setDisabled(length>1 || this.viewmode);
+            }
+        },
+
+        commentsShowHide: function(mode) {
+            if (!this.view) return;
+            var value = Common.Utils.InternalSettings.get(this.view.appPrefix + "settings-livecomment");
+            (value!==undefined) && this.view.btnCommentRemove && this.view.btnCommentRemove.setDisabled(mode != 'show' && !value);
         },
 
         textInserted: '<b>Inserted:</b>',
@@ -797,6 +939,8 @@ define([
         textTableRowsDel: '<b>Table Rows Deleted<b/>',
         textParaMoveTo: '<b>Moved:</b>',
         textParaMoveFromUp: '<b>Moved Up:</b>',
-        textParaMoveFromDown: '<b>Moved Down:</b>'
+        textParaMoveFromDown: '<b>Moved Down:</b>',
+        textUrl: 'Paste a document URL',
+        textAcceptBeforeCompare: 'In order to compare documents all the tracked changes in them will be considered to have been accepted. Do you want to continue?'
     }, Common.Controllers.ReviewChanges || {}));
 });

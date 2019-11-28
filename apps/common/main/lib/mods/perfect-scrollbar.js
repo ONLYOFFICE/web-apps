@@ -155,8 +155,8 @@
         else
             $scrollbarYRail.css({top: $this.scrollTop(), right: scrollbarYRight - $this.scrollLeft(), height: scrollbarYRailHeight, display: scrollbarYActive ? "inherit": "none"});
 
-        $scrollbarX.css({left: scrollbarXLeft, width: scrollbarXWidth});
-        $scrollbarY.css({top: scrollbarYTop, height: scrollbarYHeight});
+        $scrollbarX && $scrollbarX.css({left: scrollbarXLeft, width: scrollbarXWidth});
+        $scrollbarY && $scrollbarY.css({top: scrollbarYTop, height: scrollbarYHeight});
       };
 
       var updateBarSizeAndPosition = function () {

@@ -348,20 +348,11 @@ define([
                 maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
                 maxheight = (this.initConfig.maxheight) ? this.initConfig.maxheight : main_height;
 
-            if (this.resizing.type[0]>0) {
-                this.resizing.maxx  = Math.min(main_width, left+maxwidth);
-                this.resizing.minx  = left+this.initConfig.minwidth;
-            } else if (this.resizing.type[0]<0) {
-                this.resizing.maxx  = left+this.resizing.initw-this.initConfig.minwidth;
-                this.resizing.minx  = Math.max(0, left+this.resizing.initw-maxwidth);
-            }
-            if (this.resizing.type[1]>0) {
-                this.resizing.maxy  = Math.min(main_height, top+maxheight);
-                this.resizing.miny  = top+this.initConfig.minheight;
-            } else if (this.resizing.type[1]<0) {
-                this.resizing.maxy  = top+this.resizing.inith-this.initConfig.minheight;
-                this.resizing.miny  = Math.max(0, top+this.resizing.inith-maxheight);
-            }
+            this.resizing.minw  = this.initConfig.minwidth;
+            this.resizing.maxw = (this.resizing.type[0]>0) ? Math.min(main_width-left, maxwidth) : Math.min(left+this.resizing.initw, maxwidth);
+
+            this.resizing.minh  = this.initConfig.minheight;
+            this.resizing.maxh  = (this.resizing.type[1]>0) ? Math.min(main_height-top, maxheight) : Math.min(top+this.resizing.inith, maxheight);
 
             $(document.body).css('cursor', el.css('cursor'));
             this.$window.find('.resize-border').addClass('resizing');
@@ -378,16 +369,34 @@ define([
                     zoom = (event instanceof jQuery.Event) ? Common.Utils.zoom() : 1,
                     pageX = event.pageX*zoom,
                     pageY = event.pageY*zoom;
-                if (this.resizing.type[0] && pageX<this.resizing.maxx && pageX>this.resizing.minx) {
+                if (this.resizing.type[0]) {
+                    var new_width = this.resizing.initw + (pageX - this.resizing.initpage_x) * this.resizing.type[0];
+                    if (new_width>this.resizing.maxw) {
+                        pageX = pageX - (new_width-this.resizing.maxw) * this.resizing.type[0];
+                        new_width = this.resizing.maxw;
+                    } else if (new_width<this.resizing.minw) {
+                        pageX = pageX - (new_width-this.resizing.minw) * this.resizing.type[0];
+                        new_width = this.resizing.minw;
+                    }
+
                     if (this.resizing.type[0]<0)
                         this.$window.css({left: pageX - this.resizing.initx});
-                    this.setWidth(this.resizing.initw + (pageX - this.resizing.initpage_x) * this.resizing.type[0]);
+                    this.setWidth(new_width);
                     resized = true;
                 }
-                if (this.resizing.type[1] && pageY<this.resizing.maxy && pageY>this.resizing.miny) {
+                if (this.resizing.type[1]) {
+                    var new_height = this.resizing.inith + (pageY - this.resizing.initpage_y) * this.resizing.type[1];
+                    if (new_height>this.resizing.maxh) {
+                        pageY = pageY - (new_height-this.resizing.maxh) * this.resizing.type[1];
+                        new_height = this.resizing.maxh;
+                    } else if (new_height<this.resizing.minh) {
+                        pageY = pageY - (new_height-this.resizing.minh) * this.resizing.type[1];
+                        new_height = this.resizing.minh;
+                    }
+
                     if (this.resizing.type[1]<0)
                         this.$window.css({top: pageY - this.resizing.inity});
-                    this.setHeight(this.resizing.inith + (pageY - this.resizing.initpage_y) * this.resizing.type[1]);
+                    this.setHeight(new_height);
                     resized = true;
                 }
                 if (resized) this.fireEvent('resizing');

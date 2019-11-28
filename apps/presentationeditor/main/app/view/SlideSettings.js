@@ -129,8 +129,22 @@ define([
                 data: this._arrFillSrc,
                 disabled: true
             });
-            this.cmbFillSrc.setValue('');
+            this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_SOLID);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
+
+            this.btnBackColor = new Common.UI.ColorButton({
+                style: "width:45px;",
+                disabled: true,
+                menu        : new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="slide-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="slide-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                    ]
+                })
+            });
+            this.btnBackColor.render( $('#slide-back-color-btn'));
+            this.btnBackColor.setColor('ffffff');
+            this.FillItems.push(this.btnBackColor);
 
             this.FillColorContainer = $('#slide-panel-color-fill');
             this.FillImageContainer = $('#slide-panel-image-fill');
@@ -804,6 +818,16 @@ define([
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
             });
+            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
+                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+                me.GradColor.currentIdx = index;
+                me.sldrGradient.addNewThumb(index, color);
+            });
+            this.sldrGradient.on('removethumb', function(cmp, index){
+                me.sldrGradient.removeThumb(index);
+                me.GradColor.values.splice(index, 1);
+                me.sldrGradient.changeGradientStyle();
+            });
             this.FillItems.push(this.sldrGradient);
 
         },
@@ -1046,20 +1070,7 @@ define([
 
         UpdateThemeColors: function() {
             if (this._initSettings) return;
-            if (!this.btnBackColor) {
-                this.btnBackColor = new Common.UI.ColorButton({
-                    style: "width:45px;",
-                    disabled: true,
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { template: _.template('<div id="slide-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                            { template: _.template('<a id="slide-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                        ]
-                    })
-                });
-                this.btnBackColor.render( $('#slide-back-color-btn'));
-                this.btnBackColor.setColor('ffffff');
-                this.FillItems.push(this.btnBackColor);
+            if (!this.colorsBack) {
                 this.colorsBack = new Common.UI.ThemeColorPalette({
                     el: $('#slide-back-color-menu'),
                     value: 'ffffff',
@@ -1282,6 +1293,10 @@ define([
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
                     }
+                    if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
+                        me.GradColor.currentIdx = 0;
+                    }
+                    me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};

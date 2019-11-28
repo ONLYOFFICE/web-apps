@@ -721,6 +721,14 @@ define([
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'})
                 });
 
+                me.btnInsertSymbol = new Common.UI.Button({
+                    id: 'tlbtn-insertsymbol',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'btn-symbol',
+                    caption: me.capBtnInsSymbol,
+                    lock: [_set.selImage, _set.selChart, _set.selShape, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
+                });
+
                 me.btnTableTemplate = new Common.UI.Button({
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
@@ -1263,8 +1271,6 @@ define([
                         '</div>'
                     ].join('')),
                     stopPropagation: true,
-                    toggleGroup: 'menuScale',
-                    checkable: true,
                     value: 4
                 });
 
@@ -1275,40 +1281,59 @@ define([
                     caption: me.capBtnScale,
                     lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
-                        items: [
-                            {
-                                caption: me.textActualSize,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 0
-                            },
-                            {
-                                caption: me.textFitSheetOnOnePage,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 1
-                            },
-                            {
-                                caption: me.textFitAllColumnsOnOnePage,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 2
-                            },
-                            {
-                                caption: me.textFitAllRowsOnOnePage,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 3
-                            },
-                            me.mnuCustomScale,
-                            {caption: '--'},
-                            {   caption: me.textScaleCustom,
-                                checkable: true,
-                                toggleGroup: 'menuScale',
-                                value: 5
-                            }
-                        ]})
+                        items: [],
+                        cls: 'scale-menu'})
                 });
+                var menuWidthItem = new Common.UI.MenuItem({
+                    caption: me.textWidth,
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tl-tr',
+                        items: [
+                            {caption: this.textAuto, value: 0, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '1 ' + this.textOnePage, value: 1, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '2 ' + this.textFewPages, value: 2, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '3 ' + this.textFewPages, value: 3, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '4 ' + this.textFewPages, value: 4, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '5 ' + this.textManyPages, value: 5, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '6 ' + this.textManyPages, value: 6, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '7 ' + this.textManyPages, value: 7, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '8 ' + this.textManyPages, value: 8, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '9 ' + this.textManyPages, value: 9, checkable: true, toggleGroup : 'scaleWidth'},
+                            {caption: '--'},
+                            {caption: this.textMorePages, value: 'more', checkable: true, toggleGroup : 'scaleWidth'}
+                        ]
+                    })
+                });
+                var menuHeightItem = new Common.UI.MenuItem({
+                    caption: me.textHeight,
+                    menu: new Common.UI.Menu({
+                        menuAlign: 'tl-tr',
+                        items: [
+                            {caption: this.textAuto, value: 0, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '1 ' + this.textOnePage, value: 1, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '2 ' + this.textFewPages, value: 2, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '3 ' + this.textFewPages, value: 3, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '4 ' + this.textFewPages, value: 4, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '5 ' + this.textManyPages, value: 5, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '6 ' + this.textManyPages, value: 6, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '7 ' + this.textManyPages, value: 7, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '8 ' + this.textManyPages, value: 8, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '9 ' + this.textManyPages, value: 9, checkable: true, toggleGroup : 'scaleHeight'},
+                            {caption: '--'},
+                            {caption: this.textMorePages, value: 'more', checkable: true, toggleGroup : 'scaleHeight'}
+                        ]
+                    })
+                });
+                me.btnScale.menu.addItem(menuWidthItem);
+                me.btnScale.menu.addItem(menuHeightItem);
+                me.btnScale.menu.addItem(me.mnuCustomScale);
+                me.btnScale.menu.addItem({caption: '--'});
+                me.btnScale.menu.addItem(
+                    {   caption: me.textScaleCustom, value: 'custom'
+                    });
+                me.menuWidthScale = me.btnScale.menu.items[0].menu;
+                me.menuHeightScale = me.btnScale.menu.items[1].menu;
+
                 me.mnuScale = me.btnScale.menu;
                 me.mnuScale.on('show:after', _.bind(me.onAfterShowMenuScale, me));
 
@@ -1353,14 +1378,14 @@ define([
                     }
                 );
             }
-
+            me.lockControls = [];
             if (config.isEdit) {
                 me.lockControls = [
                     me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -1390,7 +1415,7 @@ define([
             }
             if (!me.itemCustomScale) {
                 me.itemCustomScale = $('.custom-scale', me.mnuCustomScale.$el).on('click', _.bind(function () {
-                    me.fireEvent('click:customscale', [undefined, undefined, undefined, me.valueCustomScale], this);
+                    me.fireEvent('click:customscale', ['scale', undefined, undefined, undefined, me.valueCustomScale], this);
                 }, this));
             }
             if (!me.btnCustomScaleUp) {
@@ -1409,6 +1434,7 @@ define([
                     me.fireEvent('change:scalespn', ['down', me.valueCustomScale], this);
                 }, this));
             }
+            SSE.getController('Toolbar').onChangeScaleSettings();
         },
 
         setValueCustomScale: function(val) {
@@ -1535,6 +1561,7 @@ define([
             _injectComponent('#slot-btn-instext',        this.btnInsertText);
             _injectComponent('#slot-btn-instextart',     this.btnInsertTextArt);
             _injectComponent('#slot-btn-insequation',    this.btnInsertEquation);
+            _injectComponent('#slot-btn-inssymbol',      this.btnInsertSymbol);
             _injectComponent('#slot-btn-sortdesc',       this.btnSortDown);
             _injectComponent('#slot-btn-sortasc',        this.btnSortUp);
             _injectComponent('#slot-btn-setfilter',      this.btnSetAutofilter);
@@ -1614,6 +1641,7 @@ define([
             _updateHint(this.btnInsertHyperlink, this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
             _updateHint(this.btnInsertShape, this.tipInsertShape);
             _updateHint(this.btnInsertEquation, this.tipInsertEquation);
+            _updateHint(this.btnInsertSymbol, this.tipInsertSymbol);
             _updateHint(this.btnSortDown, this.txtSortAZ);
             _updateHint(this.btnSortUp, this.txtSortZA);
             _updateHint(this.btnSetAutofilter, this.txtFilter + ' (Ctrl+Shift+L)');
@@ -1787,53 +1815,8 @@ define([
                         parentMenu: menu,
                         showLast: false,
                         restoreHeight: 421,
-                        groups: new Common.UI.DataViewGroupStore([
-                            {id: 'menu-chart-group-bar', caption: me.textColumn, headername: me.textCharts},
-                            {id: 'menu-chart-group-line', caption: me.textLine},
-                            {id: 'menu-chart-group-pie', caption: me.textPie},
-                            {id: 'menu-chart-group-hbar', caption: me.textBar},
-                            {id: 'menu-chart-group-area', caption: me.textArea, inline: true},
-                            {id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true},
-                            {id: 'menu-chart-group-stock', caption: me.textStock, inline: true}
-                            // { id: 'menu-chart-group-surface', caption: me.textSurface}
-                            // ,{ id: 'menu-chart-group-sparkcolumn', inline: true, headername: me.textSparks },
-                            // { id: 'menu-chart-group-sparkline',   inline: true },
-                            // { id: 'menu-chart-group-sparkwin',    inline: true }
-                        ]),
-                        store: new Common.UI.DataViewStore([
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
-                            { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
-                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
-                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
-                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
-                            { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
-                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
-                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
-                            { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
-                            { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
-                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
-                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
-                            { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
-                            { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
-                            { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
-                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
-                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
-                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
-                            // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   iconCls: 'contour-wireframe'}
-                            // ,{ group: 'menu-chart-group-sparkcolumn',   type: Asc.c_oAscSparklineType.Column,    allowSelected: true, iconCls: 'spark-column', tip: me.textColumnSpark},
-                            // { group: 'menu-chart-group-sparkline',     type: Asc.c_oAscSparklineType.Line,      allowSelected: true, iconCls: 'spark-line', tip: me.textLineSpark},
-                            // { group: 'menu-chart-group-sparkwin',      type: Asc.c_oAscSparklineType.Stacked,   allowSelected: true, iconCls: 'spark-win', tip: me.textWinLossSpark}
-                        ]),
+                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
+                        store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()/*.concat(Common.define.chartData.getSparkData())*/),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
@@ -2328,19 +2311,7 @@ define([
         txtManageRange:     'Name manager',
         txtPasteRange:      'Paste name',
         textInsCharts:      'Charts',
-        textLine:           'Line',
-        textColumn:         'Column',
-        textBar:            'Bar',
-        textArea:           'Area',
-        textPie:            'Pie',
-        textPoint:          'XY (Scatter)',
-        textStock:          'Stock',
-        textLineSpark:      'Line',
-        textColumnSpark:    'Column',
-        textWinLossSpark:   'Win/Loss',
         tipInsertEquation:  'Insert Equation',
-        textCharts:         'Charts',
-        textSparks:         'Sparklines',
         tipInsertChartSpark: 'Insert Chart',
         textMoreFormats: 'More formats',
         capInsertText: 'Text',
@@ -2354,7 +2325,6 @@ define([
         textTabFile: 'File',
         textTabHome: 'Home',
         textTabInsert: 'Insert',
-        textSurface: 'Surface',
         tipChangeChart: 'Change Chart Type',
         textTabCollaboration: 'Collaboration',
         textTabProtect: 'Protection',
@@ -2389,7 +2359,7 @@ define([
         textSetPrintArea: 'Set Print Area',
         textClearPrintArea: 'Clear Print Area',
         textAddPrintArea: 'Add to Print Area',
-        tipPrintArea: 'Print Area',
+        tipPrintArea: 'Print area',
         capBtnInsHeader: 'Header/Footer',
         tipEditHeader: 'Edit header or footer',
         textTabData: 'Data',
@@ -2403,6 +2373,16 @@ define([
         textFitAllColumnsOnOnePage: 'Fit All Columns on One Page',
         textFitAllRowsOnOnePage: 'Fit All Rows on One Page',
         textScaleCustom: 'Custom',
-        textScale: 'Scale'
+        textScale: 'Scale',
+        textAuto: 'Auto',
+        textOnePage: 'page',
+        textFewPages: 'pages',
+        textManyPages: 'pages',
+        textHeight: 'Height',
+        textWidth: 'Width',
+        textMorePages: 'More pages',
+        capBtnAddComment: 'Add Comment',
+        capBtnInsSymbol: 'Symbol',
+        tipInsertSymbol: 'Insert symbol'
     }, SSE.Views.Toolbar || {}));
 });

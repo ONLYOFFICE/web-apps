@@ -300,11 +300,13 @@ define([
 
                 if ($selected.length) {
                     var itemTop = $selected.position().top,
-                        itemHeight = $selected.height(),
-                        listHeight = $list.height();
+                        itemHeight = $selected.outerHeight(),
+                        listHeight = $list.outerHeight();
 
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                        $list.scrollTop($list.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        var height = $list.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                        height = (Math.floor(height/itemHeight) * itemHeight);
+                        $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
                 }
@@ -346,6 +348,8 @@ define([
                     this.onAfterHideMenu(e);
                     return false;
                 }  else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
+                    if (typeof this._search !== 'object') return;
+
                     var me = this;
                     clearTimeout(this._search.timer);
                     this._search.timer = setTimeout(function () { me._search = {}; }, 1000);
@@ -389,10 +393,12 @@ define([
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                         var $list = $(this.el).find('ul');
                         var itemTop = item.position().top,
-                            itemHeight = item.height(),
-                            listHeight = $list.height();
+                            itemHeight = item.outerHeight(),
+                            listHeight = $list.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                            $list.scrollTop($list.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                            var height = $list.scrollTop() + itemTop;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            $list.scrollTop(height);
                         }
                     }
                     item.focus();

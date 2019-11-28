@@ -712,7 +712,7 @@ define([
                 this.caption = caption;
 
                 if (this.rendered) {
-                    var captionNode = this.cmpEl.find('button:first > .caption').addBack().filter('button > .caption');
+                    var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
                         captionNode.text(caption);

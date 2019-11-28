@@ -1,0 +1,54 @@
+#symbol-table-scrollable-div, #symbol-table-recent {
+  div{
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .cell{
+    width: 31px;
+    height: 33px;
+    border-right: 1px solid @gray-soft;
+    border-bottom: 1px solid @gray-soft;
+    background: #ffffff;
+    align-content: center;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 22px;
+    -khtml-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+    overflow:hidden;
+    display: inline-block;
+  }
+
+  .cell-selected{
+    background-color: @gray-darker;
+    color: white;
+  }
+}
+
+#symbol-table-recent {
+  width: 100%;
+  height: 32px;
+  overflow: hidden;
+  border: @gray-soft solid 1px;
+}
+
+#symbol-table-scrollable-div {
+  #id-preview {
+    width: 100%;
+    height: 132px;
+    position:relative;
+    overflow:hidden;
+    border: @gray-soft solid 1px;
+  }
+
+  #id-preview-data {
+    width: 100%;
+    height: 132px;
+    position:relative;
+    overflow:hidden;
+  }
+}
