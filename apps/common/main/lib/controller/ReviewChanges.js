@@ -143,8 +143,10 @@ define([
             this.popoverChanges = new Common.Collections.ReviewChanges();
             this.view = this.createView('Common.Views.ReviewChanges', { mode: mode });
 
-            !!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
-            !!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
+            if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length || this.appConfig.canRequestSharingSettings) {
+                Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
+                Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
+            }
 
             return this;
         },
@@ -831,17 +833,21 @@ define([
         changeAccessRights: function(btn,event,opts) {
             if (this._docAccessDlg || this._readonlyRights) return;
 
-            var me = this;
-            me._docAccessDlg = new Common.Views.DocumentAccessDialog({
-                settingsurl: this.appConfig.sharingSettingsUrl
-            });
-            me._docAccessDlg.on('accessrights', function(obj, rights){
-                me.setSharingSettings({sharingSettings: rights});
-            }).on('close', function(obj){
-                me._docAccessDlg = undefined;
-            });
+            if (this.appConfig.canRequestSharingSettings) {
+                Common.Gateway.requestSharingSettings();
+            } else {
+                var me = this;
+                me._docAccessDlg = new Common.Views.DocumentAccessDialog({
+                    settingsurl: this.appConfig.sharingSettingsUrl
+                });
+                me._docAccessDlg.on('accessrights', function(obj, rights){
+                    me.setSharingSettings({sharingSettings: rights});
+                }).on('close', function(obj){
+                    me._docAccessDlg = undefined;
+                });
 
-            me._docAccessDlg.show();
+                me._docAccessDlg.show();
+            }
         },
 
         setSharingSettings: function(data) {

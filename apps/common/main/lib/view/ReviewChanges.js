@@ -287,7 +287,7 @@ define([
                     }
                 }
 
-                if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && this._readonlyRights!==true) {
+                if ((!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length || this.appConfig.canRequestSharingSettings) && this._readonlyRights!==true) {
                     this.btnSharing = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'btn-ic-sharing',

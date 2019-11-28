@@ -354,6 +354,7 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestCompareFile = this.editorConfig.canRequestCompareFile;
                 this.appOptions.canRequestMailMergeRecipients = this.editorConfig.canRequestMailMergeRecipients;
+                this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
 

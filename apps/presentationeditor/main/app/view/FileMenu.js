@@ -280,7 +280,7 @@ define([
             this.miNew.$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
 
             this.miAccess[(!this.mode.isOffline && this.document&&this.document.info&&(this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
-                                                                                       this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length))?'show':'hide']();
+                                                                                      (this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length || this.mode.canRequestSharingSettings)))?'show':'hide']();
 
             this.mode.canBack ? this.$el.find('#fm-btn-back').show().prev().show() :
                                     this.$el.find('#fm-btn-back').hide().prev().hide();

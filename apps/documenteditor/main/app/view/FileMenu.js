@@ -297,7 +297,7 @@ define([
 
             this.miAccess[(!this.mode.isOffline && !this.mode.isReviewOnly && this.document&&this.document.info &&
                           (this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
-                          this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length))?'show':'hide']();
+                          (this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length || this.mode.canRequestSharingSettings)))?'show':'hide']();
 
             this.miHelp[this.mode.canHelp ?'show':'hide']();
             this.miHelp.$el.prev()[this.mode.canHelp ?'show':'hide']();

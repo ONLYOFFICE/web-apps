@@ -337,6 +337,7 @@ define([
                 this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
+                this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')

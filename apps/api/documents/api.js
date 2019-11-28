@@ -209,6 +209,7 @@
         _config.editorConfig.canRequestInsertImage = _config.events && !!_config.events.onRequestInsertImage;
         _config.editorConfig.canRequestMailMergeRecipients = _config.events && !!_config.events.onRequestMailMergeRecipients;
         _config.editorConfig.canRequestCompareFile = _config.events && !!_config.events.onRequestCompareFile;
+        _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.frameEditorId = placeholderId;
 
         var onMouseUp = function (evt) {

@@ -166,7 +166,7 @@ define([
                     .removeClass('dropdown-toggle')
                     .menu = false;
 
-                $panelUsers[(!_readonlyRights && appConfig && !appConfig.isReviewOnly && appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length) ? 'show' : 'hide']();
+                $panelUsers[(!_readonlyRights && appConfig && !appConfig.isReviewOnly && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings)) ? 'show' : 'hide']();
             }
 
             $btnUsers.find('.caption')
@@ -248,8 +248,8 @@ define([
                 Common.NotificationCenter.trigger('collaboration:sharing');
             });
 
-            $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length)?'show':'hide']();
-            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && !mode.isReviewOnly && mode.sharingSettingsUrl && mode.sharingSettingsUrl.length) ? 'show' : 'hide']();
+            $labelChangeRights[(!mode.isOffline && !mode.isReviewOnly && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
+            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && !mode.isReviewOnly && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
 
             if ( $saveStatus ) {
                 $saveStatus.attr('data-width', me.textSaveExpander);
