@@ -3445,6 +3445,8 @@ define([
 
         onClickPlaceholderChart: function(obj, x, y) {
             if (!this.api) return;
+
+            this._state.placeholderObj = obj;
             var menu = this.placeholderMenuChart,
                 menuContainer = menu ? this.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
@@ -3478,7 +3480,7 @@ define([
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
-                    me.editChartClick(record.get('type'), obj);
+                    me.editChartClick(record.get('type'), me._state.placeholderObj);
                 });
             }
             menuContainer.css({left: x, top : y});
@@ -3495,6 +3497,8 @@ define([
 
         onClickPlaceholderTable: function(obj, x, y) {
             if (!this.api) return;
+
+            this._state.placeholderObj = obj;
             var menu = this.placeholderMenuTable,
                 menuContainer = menu ? this.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
@@ -3526,7 +3530,7 @@ define([
                     maxColumns: 10
                 });
                 picker.on('select', function(picker, columns, rows){
-                    me.api.put_Table(columns, rows, obj);
+                    me.api.put_Table(columns, rows, me._state.placeholderObj);
                     me.fireEvent('editcomplete', me);
                 });
                 menu.on('item:click', function(menu, item, e){
@@ -3534,7 +3538,7 @@ define([
                         (new Common.Views.InsertTableDialog({
                             handler: function(result, value) {
                                 if (result == 'ok')
-                                    me.api.put_Table(value.columns, value.rows, obj);
+                                    me.api.put_Table(value.columns, value.rows, me._state.placeholderObj);
                                 me.fireEvent('editcomplete', me);
                             }
                         })).show();
@@ -3555,6 +3559,7 @@ define([
 
         onHidePlaceholderActions: function() {
             this.placeholderMenuChart && this.placeholderMenuChart.hide();
+            this.placeholderMenuTable && this.placeholderMenuTable.hide();
         },
 
         onClickPlaceholder: function(type, obj, x, y) {
