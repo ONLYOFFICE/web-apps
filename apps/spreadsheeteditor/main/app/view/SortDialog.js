@@ -348,12 +348,12 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 props: me.sortOptions,
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
-                        me.sortOptions = settings;
                         me.lblColumn.text(settings.sortcol ? me.textColumn : me.textRow);
                         me.props.asc_setHasHeaders(settings.headers);
                         // me.props.asc_setCaseSensitive(settings.sensitive);
                         me.props.asc_setColumnSort(settings.sortcol);
-                        me.props.asc_updateSortList();
+                        me.props.asc_updateSortList(me.sortOptions.sortcol == settings.sortcol);
+                        me.sortOptions = settings;
                         me.updateSortValues();
                     }
                 }
@@ -554,24 +554,24 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         var range = dlg.getSettings();
                         var isvalid;
                         if (!_.isEmpty(range)) {
-                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.CustomSort, range, true, !this.sortOptions.sortcol);
+                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.CustomSort, range, true, !me.sortOptions.sortcol);
                         }
 
                         if (isvalid == Asc.c_oAscError.ID.No) {
                             var index = me.props.asc_addBySortList(range);
                             me.fillSortValues();
-                            combo.setData(this.column_data);
+                            combo.setData(me.column_data);
                             combo.setValue(index);
                             item.set('columnIndex', index);
-                            this.levels[item.get('levelIndex')].levelProps = me.props.asc_getLevelProps(index);
+                            me.levels[item.get('levelIndex')].levelProps = me.props.asc_getLevelProps(index);
                             me.updateOrderList(item.get('levelIndex'));
                             return false;
                         } else if (isvalid == Asc.c_oAscError.ID.CustomSortMoreOneSelectedError)
-                            Common.UI.warning({msg: this.sortOptions.sortcol ? this.errorMoreOneCol: this.errorMoreOneRow});
+                            Common.UI.warning({msg: me.sortOptions.sortcol ? me.errorMoreOneCol: me.errorMoreOneRow});
                         else if (isvalid == Asc.c_oAscError.ID.CustomSortNotOriginalSelectError)
-                            Common.UI.warning({msg: this.sortOptions.sortcol ? this.errorNotOriginalCol : this.errorNotOriginalRow});
+                            Common.UI.warning({msg: me.sortOptions.sortcol ? me.errorNotOriginalCol : me.errorNotOriginalRow});
                         else
-                            Common.UI.warning({msg: this.txtInvalidRange});
+                            Common.UI.warning({msg: me.txtInvalidRange});
                         return true;
                     }
                 };
