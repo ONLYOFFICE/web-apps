@@ -205,7 +205,7 @@ define([
                     //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
-            this.spinners.push(this.spnLeft);
+            this.spinners.push(this.spnGutter);
 
             this.cmbGutterPosition = new Common.UI.ComboBox({
                 el          : $('#page-margins-spin-gutter-position'),
@@ -260,9 +260,12 @@ define([
                 if (record.value === 0) {
                     this.window.find('#margin-left-label').html(this.textLeft);
                     this.window.find('#margin-right-label').html(this.textRight);
+                    this.cmbGutterPosition.setDisabled(false);
                 } else {
                     this.window.find('#margin-left-label').html(this.textInside);
                     this.window.find('#margin-right-label').html(this.textOutside);
+                    this.cmbGutterPosition.setValue(0);
+                    this.cmbGutterPosition.setDisabled(true);
                 }
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
@@ -324,6 +327,18 @@ define([
                 this.spnRight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_RightMargin()), true);
                 this.cmbOrientation.setValue(props.get_Orientation());
 
+                this.spnGutter.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Gutter()), true);
+                this.cmbGutterPosition.setValue(props.get_GutterAtTop() ? 1 : 0);
+                var mirrorMargins = props.get_MirrorMargins();
+                this.cmbMultiplePages.setValue(mirrorMargins ? 1 : 0);
+
+                if (mirrorMargins) {
+                    this.window.find('#margin-left-label').html(this.textInside);
+                    this.window.find('#margin-right-label').html(this.textOutside);
+                    this.cmbGutterPosition.setValue(0);
+                }
+                this.cmbGutterPosition.setDisabled(mirrorMargins);
+
                 if (this.api) {
                     //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
@@ -337,6 +352,9 @@ define([
             props.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(this.spnLeft.getNumberValue()));
             props.put_RightMargin(Common.Utils.Metric.fnRecalcToMM(this.spnRight.getNumberValue()));
             props.put_Orientation(this.cmbOrientation.getValue());
+            props.put_Gutter(Common.Utils.Metric.fnRecalcToMM(this.spnGutter.getNumberValue()));
+            props.put_GutterAtTop(this.cmbGutterPosition.getValue() ? true : false);
+            props.put_MirrorMargins(this.cmbMultiplePages.getValue() ? true : false);
             return props;
         },
 
