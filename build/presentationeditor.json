@@ -119,7 +119,8 @@
                     "expand": true,
                     "cwd": "../apps/presentationeditor/main/resources/img/",
                     "src": [
-                        "**/*.{png,jpg,gif,ico}"
+                        "**/*.{png,jpg,gif,ico}",
+                        "!toolbar/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img/"
                 }
@@ -129,7 +130,8 @@
                     "expand": true,
                     "cwd": "../apps/common/main/resources/img/",
                     "src": [
-                        "**/*.{png,jpg,gif}"
+                        "**/*.{png,jpg,gif}",
+                        "!toolbar/*x/**/*"
                     ],
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img/"
                 }
