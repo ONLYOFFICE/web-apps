@@ -122,6 +122,9 @@ define([
         setLanguages: function (array) {
             this.languages = array;
             this._initSettings = true;
+            if (this.panelSpellcheck.cmbDictionaryLanguage.store.length > 0) {
+                this.panelSpellcheck.cmbDictionaryLanguage.store.reset();
+            }
         },
 
         loadLanguages: function () {
@@ -155,19 +158,25 @@ define([
             }
             this._initSettings = false;
 
-            return [this.allLangs, this.langs];
+            var change = this.panelSpellcheck.cmbDictionaryLanguage.store.length === 0;
+
+            return [this.allLangs, this.langs, change];
         },
 
         updateLanguages: function() {
             var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
-                value;
+                value,
+                isApply = false;
             if (sessionValue)
                 value = parseInt(sessionValue);
             else
                 value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
             var combo = this.panelSpellcheck.cmbDictionaryLanguage;
             if (this.langs && this.langs.length>0) {
-                combo.setData(this.langs);
+                if (combo.store.length === 0) {
+                    combo.setData(this.langs);
+                    isApply = true;
+                }
                 var item = combo.store.findWhere({value: value});
                 if (!item && this.allLangs[value]) {
                     value = this.allLangs[value][0].split(/[\-\_]/)[0];
@@ -181,11 +190,12 @@ define([
                 combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
                 combo.setDisabled(true);
             }
-            if (this.api) {
+            if (isApply && this.api) {
                 this.api.asc_setDefaultLanguage(value);
                 if (value !== parseInt(sessionValue)) {
                     Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
                 }
+                isApply = false;
             }
         },
 

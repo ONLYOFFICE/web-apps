@@ -233,6 +233,9 @@ define([
                 this.viewSettingsPicker.store.pop();
             this.generalSettings && this.generalSettings.setMode(this.mode);
             this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
+            if (!this.mode.isEdit) {
+                $(this.viewSettingsPicker.dataViewItems[2].el).hide();
+            }
         },
 
         setApi: function(api) {
@@ -1043,7 +1046,8 @@ define([
         updateSettings: function() {
             var arrLang = SSE.getController('Spellcheck').loadLanguages(),
                 allLangs = arrLang[0],
-                langs = arrLang[1];
+                langs = arrLang[1],
+                change = arrLang[2];
             var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
                 value;
             if (sessionValue)
@@ -1051,7 +1055,9 @@ define([
             else
                 value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
             if (langs && langs.length > 0) {
-                this.cmbDictionaryLanguage.setData(langs);
+                if (this.cmbDictionaryLanguage.store.length === 0 || change) {
+                    this.cmbDictionaryLanguage.setData(langs);
+                }
                 var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
                 if (!item && allLangs[value]) {
                     value = allLangs[value][0].split(/[\-\_]/)[0];
