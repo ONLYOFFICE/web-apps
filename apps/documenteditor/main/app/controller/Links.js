@@ -411,10 +411,11 @@ define([
         onShowDateActions: function(obj, x, y) {
             var props = obj.pr,
                 specProps = props.get_DateTimePr(),
-                id = props.get_InternalId(),
                 documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
                 controlsContainer = documentHolderView.cmpEl.find('#calendar-control-container'),
                 me = this;
+
+            this._state.dateObj = props;
 
             if (controlsContainer.length < 1) {
                 controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
@@ -433,6 +434,9 @@ define([
                     firstday: 1
                 });
                 this.cmpCalendar.on('date:click', function (cmp, date) {
+                    var props = me._state.dateObj,
+                        specProps = props.get_DateTimePr(),
+                        id = props.get_InternalId();
                     specProps.put_FullDate(new  Date(date));
                     me.api.asc_SetContentControlProperties(props, id);
                     controlsContainer.hide();
@@ -472,12 +476,13 @@ define([
         onShowListActions: function(obj, x, y) {
             var type = obj.type,
                 props = obj.pr,
-                id = props.get_InternalId(),
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
                 menu = this.view.listControlMenu,
                 documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
                 menuContainer = menu ? documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
+
+            this._state.listObj = props;
 
             this._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
@@ -489,7 +494,7 @@ define([
                 });
                 menu.on('item:click', function(menu, item) {
                     setTimeout(function(){
-                        me.api.asc_SelectContentControlListItem(item.value, id);
+                        me.api.asc_SelectContentControlListItem(item.value, me._state.listObj.get_InternalId());
                     }, 1);
                 });
 
