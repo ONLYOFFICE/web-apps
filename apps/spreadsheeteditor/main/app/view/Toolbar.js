@@ -1363,8 +1363,8 @@ define([
                     caption: me.capBtnScale,
                     lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
-                        items: [
-                        ]})
+                        items: [],
+                        cls: 'scale-menu'})
                 });
                 var menuWidthItem = new Common.UI.MenuItem({
                     caption: me.textWidth,

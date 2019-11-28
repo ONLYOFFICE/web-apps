@@ -109,7 +109,8 @@
                     goback: {
                         url: 'http://...',
                         text: 'Go to London',
-                        blank: true
+                        blank: true,
+                        requestClose: false // if true - goback send onRequestClose event instead opening url
                     },
                     chat: true,
                     comments: true,
@@ -207,6 +208,7 @@
         _config.editorConfig.canRequestSaveAs = _config.events && !!_config.events.onRequestSaveAs;
         _config.editorConfig.canRequestInsertImage = _config.events && !!_config.events.onRequestInsertImage;
         _config.editorConfig.canRequestMailMergeRecipients = _config.events && !!_config.events.onRequestMailMergeRecipients;
+        _config.editorConfig.canRequestCompareFile = _config.events && !!_config.events.onRequestCompareFile;
         _config.frameEditorId = placeholderId;
 
         var onMouseUp = function (evt) {
@@ -576,6 +578,13 @@
             });
         };
 
+        var _setRevisedFile = function(data) {
+            _sendCommand({
+                command: 'setRevisedFile',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -620,7 +629,8 @@
             showSharingSettings : _showSharingSettings,
             setSharingSettings  : _setSharingSettings,
             insertImage         : _insertImage,
-            setMailMergeRecipients: _setMailMergeRecipients
+            setMailMergeRecipients: _setMailMergeRecipients,
+            setRevisedFile      : _setRevisedFile
         }
     };
 
@@ -782,7 +792,14 @@
 
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
-        
+
+        if (config.editorConfig && config.editorConfig.mode == 'view' ||
+            config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review ))
+            params += "&mode=view";
+
+        if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
+            params += "&compact=true";
+
         return params;
     }
 

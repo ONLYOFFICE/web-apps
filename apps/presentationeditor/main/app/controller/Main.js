@@ -310,9 +310,10 @@ define([
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.canAnalytics    = false;
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.customization   = this.editorConfig.customization;
-                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object')
-                                                  && (typeof (this.editorConfig.customization.goback) == 'object') && !_.isEmpty(this.editorConfig.customization.goback.url);
+                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
+                                                  && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
@@ -447,11 +448,16 @@ define([
             goBack: function(current) {
                 var me = this;
                 if ( !Common.Controllers.Desktop.process('goback') ) {
-                    var href = me.appOptions.customization.goback.url;
-                    if (!current && me.appOptions.customization.goback.blank!==false) {
-                        window.open(href, "_blank");
+                    if (me.appOptions.customization.goback.requestClose && me.appOptions.canRequestClose) {
+                        Common.Gateway.requestClose();
+                        // Common.Controllers.Desktop.requestClose();
                     } else {
-                        parent.location.href = href;
+                        var href = me.appOptions.customization.goback.url;
+                        if (!current && me.appOptions.customization.goback.blank!==false) {
+                            window.open(href, "_blank");
+                        } else {
+                            parent.location.href = href;
+                        }
                     }
                 }
              },
@@ -899,7 +905,6 @@ define([
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                 /** coauthoring end **/
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
-                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
                                                  (this.editorConfig.canRequestEditRights || this.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
                 this.appOptions.isEdit         = this.appOptions.canLicense && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
