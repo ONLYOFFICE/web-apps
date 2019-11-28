@@ -352,8 +352,10 @@ define([
                 this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
                 this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
+                this.appOptions.canRequestCompareFile = this.editorConfig.canRequestCompareFile;
                 this.appOptions.canRequestMailMergeRecipients = this.editorConfig.canRequestMailMergeRecipients;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
+                this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -1392,6 +1394,18 @@ define([
                         config.msg = this.uploadImageFileCountMessage;
                         break;
 
+                    case Asc.c_oAscError.ID.UplDocumentSize:
+                        config.msg = this.uploadDocSizeMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentExt:
+                        config.msg = this.uploadDocExtMessage;
+                        break;
+
+                    case Asc.c_oAscError.ID.UplDocumentFileCount:
+                        config.msg = this.uploadDocFileCountMessage;
+                        break;
+
                     case Asc.c_oAscError.ID.SplitCellMaxRows:
                         config.msg = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
                         break;
@@ -2170,7 +2184,7 @@ define([
             uploadImageTextText: 'Uploading image...',
             savePreparingText: 'Preparing to save',
             savePreparingTitle: 'Preparing to save. Please wait...',
-            uploadImageSizeMessage: 'Maximium image size limit exceeded.',
+            uploadImageSizeMessage: 'Maximum image size limit exceeded.',
             uploadImageExtMessage: 'Unknown image format.',
             uploadImageFileCountMessage: 'No images uploaded.',
             reloadButtonText: 'Reload Page',
@@ -2486,6 +2500,9 @@ define([
             txtMainDocOnly: 'Error! Main Document Only.',
             txtNotValidBookmark: 'Error! Not a valid bookmark self-reference.',
             txtNoText: 'Error! No text of specified style in document.',
+            uploadDocSizeMessage: 'Maximum document size limit exceeded.',
+            uploadDocExtMessage: 'Unknown document format.',
+            uploadDocFileCountMessage: 'No documents uploaded.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), DE.Controllers.Main || {}))
