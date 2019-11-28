@@ -120,13 +120,15 @@ define([
                     me.fireEvent('reviewchange:reject', [menu, item]);
                 });
 
-                this.btnCompare.on('click', function (e) {
-                    me.fireEvent('reviewchange:compare', ['file']);
-                });
+                if (me.appConfig.canFeatureComparison) {
+                    this.btnCompare.on('click', function (e) {
+                        me.fireEvent('reviewchange:compare', ['file']);
+                    });
 
-                this.btnCompare.menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('reviewchange:compare', [item.value]);
-                });
+                    this.btnCompare.menu.on('item:click', function (menu, item, e) {
+                        me.fireEvent('reviewchange:compare', [item.value]);
+                    });
+                }
 
                 this.btnsTurnReview.forEach(function (button) {
                     button.on('click', _click_turnpreview.bind(me));
@@ -211,12 +213,13 @@ define([
                         iconCls: 'review-deny'
                     });
 
-                    this.btnCompare = new Common.UI.Button({
-                        cls         : 'btn-toolbar  x-huge icon-top',
-                        caption     : this.txtCompare,
-                        split       : true,
-                        iconCls: 'btn-compare'
-                    });
+                    if (this.appConfig.canFeatureComparison)
+                        this.btnCompare = new Common.UI.Button({
+                            cls         : 'btn-toolbar  x-huge icon-top',
+                            caption     : this.txtCompare,
+                            split       : true,
+                            iconCls: 'btn-compare'
+                        });
 
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -387,17 +390,19 @@ define([
                         );
                         me.btnReject.updateHint([me.tipRejectCurrent, me.txtRejectChanges]);
 
-                        me.btnCompare.setMenu(new Common.UI.Menu({
-                            items: [
-                                {caption: me.mniFromFile, value: 'file'},
-                                {caption: me.mniFromUrl, value: 'url'},
-                                {caption: me.mniFromStorage, value: 'storage'}
-                                // ,{caption: '--'},
-                                // {caption: me.mniSettings, value: 'settings'}
-                            ]
-                        }));
-                        me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
-                        me.btnCompare.updateHint(me.tipCompare);
+                        if (config.canFeatureComparison) {
+                            me.btnCompare.setMenu(new Common.UI.Menu({
+                                items: [
+                                    {caption: me.mniFromFile, value: 'file'},
+                                    {caption: me.mniFromUrl, value: 'url'},
+                                    {caption: me.mniFromStorage, value: 'storage'}
+                                    // ,{caption: '--'},
+                                    // {caption: me.mniSettings, value: 'settings'}
+                                ]
+                            }));
+                            me.btnCompare.menu.items[2].setVisible(me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
+                            me.btnCompare.updateHint(me.tipCompare);
+                        }
 
                         me.btnAccept.setDisabled(config.isReviewOnly);
                         me.btnReject.setDisabled(config.isReviewOnly);
@@ -473,7 +478,7 @@ define([
                     var separator_sharing = !(me.btnSharing || me.btnCoAuthMode) ? me.$el.find('.separator.sharing') : '.separator.sharing',
                         separator_comments = !(config.canComments && config.canCoAuthoring) ? me.$el.find('.separator.comments') : '.separator.comments',
                         separator_review = !(config.canReview || config.canViewReview) ? me.$el.find('.separator.review') : '.separator.review',
-                        separator_compare = !config.canReview ? me.$el.find('.separator.compare') : '.separator.compare',
+                        separator_compare = !(config.canReview && config.canFeatureComparison) ? me.$el.find('.separator.compare') : '.separator.compare',
                         separator_chat = !me.btnChat ? me.$el.find('.separator.chat') : '.separator.chat',
                         separator_last;
 
@@ -517,7 +522,7 @@ define([
                 if ( this.appConfig.canReview ) {
                     this.btnAccept.render(this.$el.find('#btn-change-accept'));
                     this.btnReject.render(this.$el.find('#btn-change-reject'));
-                    this.btnCompare.render(this.$el.find('#btn-compare'));
+                    this.appConfig.canFeatureComparison && this.btnCompare.render(this.$el.find('#btn-compare'));
                     this.btnTurnOn.render(this.$el.find('#btn-review-on'));
                 }
                 this.btnPrev && this.btnPrev.render(this.$el.find('#btn-change-prev'));
