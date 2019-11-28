@@ -378,8 +378,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 if (values[i]==undefined) continue;
                 this.column_data.push({ value: i, displayValue: values[i] });
             }
-            if (this.column_data.length>500)
-                this.column_data.push({ value: -1, displayValue: '(' + (this.sortOptions.sortcol ? this.textMoreCols : this.textMoreRows) + '...)' });
+            if (this.column_data.length>=500)
+                this.column_data.push({ value: -1, displayValue: this.sortOptions.sortcol ? this.textMoreCols : this.textMoreRows });
         },
 
         updateSortValues: function() {
@@ -633,8 +633,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         errorMoreOneRow: 'More than one row is selected.',
         errorMoreOneCol: 'More than one column is selected.',
         txtInvalidRange: 'Invalid cells range.',
-        textMoreRows: 'More rows',
-        textMoreCols: 'More columns'
+        textMoreRows: '(More rows...)',
+        textMoreCols: '(More columns...)'
 
     }, SSE.Views.SortDialog || {}));
 });
