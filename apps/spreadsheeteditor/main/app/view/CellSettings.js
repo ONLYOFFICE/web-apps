@@ -75,7 +75,7 @@ define([
                 CellAngle: undefined,
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 CellColor: 'transparent',
-                FillType: Asc.c_oAscFill.FILL_TYPE_SOLID,
+                FillType: Asc.c_oAscFill.FILL_TYPE_NOFILL,
                 FGColor: '000000',
                 BGColor: 'ffffff',
                 GradColor: '000000'
