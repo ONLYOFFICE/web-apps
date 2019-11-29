@@ -724,7 +724,7 @@ define([
                 me.btnInsertSymbol = new Common.UI.Button({
                     id: 'tlbtn-insertsymbol',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-symbol',
+                    iconCls: 'toolbar__icon btn-symbol',
                     caption: me.capBtnInsSymbol,
                     lock: [_set.selImage, _set.selChart, _set.selShape, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
                 });

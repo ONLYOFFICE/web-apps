@@ -553,7 +553,7 @@ define([
                     me.btnInsertSymbol = new Common.UI.Button({
                         id: 'tlbtn-insertsymbol',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-symbol',
+                        iconCls: 'toolbar__icon btn-symbol',
                         caption: me.capBtnInsSymbol,
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected]
                     });

@@ -218,7 +218,7 @@ define([
                             cls         : 'btn-toolbar  x-huge icon-top',
                             caption     : this.txtCompare,
                             split       : true,
-                            iconCls: 'btn-compare'
+                            iconCls: 'toolbar__icon btn-compare'
                         });
 
                     this.btnTurnOn = new Common.UI.Button({
@@ -329,7 +329,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentRemove,
                         split: true,
-                        iconCls: 'btn-rem-comment'
+                        iconCls: 'toolbar__icon btn-rem-comment'
                     });
                 }
 
