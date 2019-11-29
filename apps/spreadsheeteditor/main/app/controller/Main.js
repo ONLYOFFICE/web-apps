@@ -342,17 +342,21 @@ define([
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
                                 .setUserName(this.appOptions.user.fullname);
 
-                var value = Common.localStorage.getItem("sse-settings-reg-settings");
-                if (value!==null)
-                    this.api.asc_setLocale(parseInt(value));
+                var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
+                    decimal = Common.localStorage.getItem("sse-settings-decimal-separator"),
+                    group = Common.localStorage.getItem("sse-settings-group-separator");
+                decimal = decimal === 'undefined' ? undefined : decimal;
+                group = group === 'undefined' ? undefined : group;
+                if (reg!==null)
+                    this.api.asc_setLocale(parseInt(reg), decimal, group);
                 else {
-                    value = this.appOptions.region;
-                    value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
-                    if (value!==null)
-                        value = parseInt(value);
+                    reg = this.appOptions.region;
+                    reg = Common.util.LanguageInfo.getLanguages().hasOwnProperty(reg) ? reg : Common.util.LanguageInfo.getLocalLanguageCode(reg);
+                    if (reg!==null)
+                        reg = parseInt(reg);
                     else
-                        value = (this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409;
-                    this.api.asc_setLocale(value);
+                        reg = (this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409;
+                    this.api.asc_setLocale(reg, decimal, group);
                 }
 
                 value = Common.localStorage.getBool("sse-settings-r1c1");

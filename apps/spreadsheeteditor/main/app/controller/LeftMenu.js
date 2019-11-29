@@ -386,8 +386,12 @@ define([
                 this.api.asc_setAutoSaveGap(value);
             }
 
-            value = Common.localStorage.getItem("sse-settings-reg-settings");
-            if (value!==null) this.api.asc_setLocale(parseInt(value));
+            var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
+                decimal = Common.localStorage.getItem("sse-settings-decimal-separator"),
+                group = Common.localStorage.getItem("sse-settings-group-separator");
+            decimal = decimal === 'undefined' ? undefined : decimal;
+            group = group === 'undefined' ? undefined : group;
+            if (reg!==null) this.api.asc_setLocale(parseInt(reg), decimal, group);
 
             menu.hide();
 

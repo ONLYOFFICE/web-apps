@@ -769,7 +769,11 @@ define([
             this.chSeparator = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-separator-settings'),
                 labelText: this.strUseSeparatorsBasedOnRegionalSettings
-            });
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = field.getValue() === 'checked';
+                this.inputDecimalSeparator.setDisabled(checked);
+                this.inputThousandsSeparator.setDisabled(checked);
+            }, this));
 
             var keyDown = function(event){
                 var key = event.key,
@@ -887,6 +891,17 @@ define([
                 this.cmbRegSettings.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
             }
             this.updateRegionalExample(value);
+
+            var decimal = this.api.asc_getDecimalSeparator();
+            this.inputDecimalSeparator.setValue(decimal ? decimal : '');
+
+            var group = this.api.asc_getGroupSeparator();
+            this.inputThousandsSeparator.setValue(group ? group : '');
+
+            var isBaseSettings = _.isUndefined(decimal) && _.isUndefined(group);
+            this.chSeparator.setValue(isBaseSettings);
+            this.inputDecimalSeparator.setDisabled(isBaseSettings);
+            this.inputThousandsSeparator.setDisabled(isBaseSettings);
         },
 
         applySettings: function() {
@@ -907,6 +922,18 @@ define([
             Common.localStorage.setItem("sse-settings-func-locale", this.cmbFuncLocale.getValue());
             if (this.cmbRegSettings.getSelectedRecord())
                 Common.localStorage.setItem("sse-settings-reg-settings", this.cmbRegSettings.getValue());
+
+            var decimal,
+                group;
+            if (this.chSeparator.isChecked()) {
+                decimal = undefined;
+                group = undefined;
+            } else {
+                decimal = this.inputDecimalSeparator.getValue();
+                group = this.inputThousandsSeparator.getValue();
+            }
+            Common.localStorage.setItem("sse-settings-decimal-separator", decimal);
+            Common.localStorage.setItem("sse-settings-group-separator", group);
 
             Common.localStorage.save();
             if (this.menu) {
