@@ -93,8 +93,7 @@ define([
             initialize: function() {
                 this.addListeners({
                     'FileMenu': {
-                        'settings:apply': _.bind(this.applySettings, this),
-                        'spellcheck:apply': _.bind(this.applySpellcheckSettings, this)
+                        'settings:apply': _.bind(this.applySettings, this)
                     },
                     'Common.Views.ReviewChanges': {
                         'settings:apply': _.bind(this.applySettings, this)
@@ -2047,19 +2046,6 @@ define([
                     this.appOptions.forcesave = Common.localStorage.getBool("sse-settings-forcesave", this.appOptions.canForcesave);
                     Common.Utils.InternalSettings.set("sse-settings-forcesave", this.appOptions.forcesave);
                     this.api.asc_setIsForceSaveOnUserSave(this.appOptions.forcesave);
-                }
-            },
-
-            applySpellcheckSettings: function() {
-                if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring && this.api) {
-                    var value = Common.localStorage.getBool("sse-spellcheck-ignore-uppercase-words");
-                    this.api.asc_ignoreUppercase(value);
-                    value = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words");
-                    this.api.asc_ignoreNumbers(value);
-                    value = Common.localStorage.getItem("sse-spellcheck-locale");
-                    if (value) {
-                        this.api.asc_setDefaultLanguage(parseInt(value));
-                    }
                 }
             },
 

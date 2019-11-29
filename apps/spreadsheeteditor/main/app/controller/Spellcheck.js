@@ -61,7 +61,12 @@ define([
                     'hide': function() {
                         me.api && me.api.asc_cancelSpellCheck();
                     }
-                }
+                },
+                'LeftMenu': {
+                    'spellcheck:update': function () {
+                        me.updateLanguages();
+                    }
+                },
             });
         },
 
