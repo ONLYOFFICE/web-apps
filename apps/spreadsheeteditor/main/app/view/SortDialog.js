@@ -295,7 +295,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     } else {
                         item.set('columnIndex', record.value);
                         level.levelProps = me.props.asc_getLevelProps(record.value);
-                        me.updateOrderList(i);
+                        me.updateOrderList(i, item);
                     }
                 });
             var val = item.get('columnIndex');
@@ -310,7 +310,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 data        : this.sort_data
             }).on('selected', function(combo, record) {
                 item.set('sort', record.value);
-                me.updateOrderList(i);
+                me.updateOrderList(i, item);
             });
             val = item.get('sort');
             (val!==null) && combo.setValue(val);
@@ -329,6 +329,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 });
                 val = item.get('color');
                 combo.setValue(val ? Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b()).toLocaleUpperCase() : -1);
+                var rec = combo.getSelectedRecord();
+                rec && item.set('color', rec.color);
                 level.cmbColor = combo;
             }
 
@@ -393,7 +395,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 item.set('color', null, {silent: true} );
                 me.levels[levelIndex].levelProps = (columnIndex!==null) ? me.props.asc_getLevelProps(columnIndex) : undefined;
                 me.addControls(null, null, item);
-                me.updateOrderList(levelIndex);
+                me.updateOrderList(levelIndex, item);
             });
         },
 
@@ -415,9 +417,17 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
         onCopyLevel: function() {
             var store = this.sortList.store,
-                rec = this.sortList.getSelectedRec();
+                rec = this.sortList.getSelectedRec(),
+                levelIndex = this.levels.length,
+                copyLevel = this.levels[rec ? rec.get('levelIndex') : null];
+
+            this.levels[levelIndex] = {
+                levelProps: copyLevel ? copyLevel.levelProps : null,
+                order_data: copyLevel ? copyLevel.order_data : null,
+                color_data: copyLevel ? copyLevel.color_data : null
+            };
             rec = store.add({
-                levelIndex: this.levels.length,
+                levelIndex: levelIndex,
                 columnIndex: rec ? rec.get('columnIndex') : null,
                 sort: rec ? rec.get('sort') : Asc.c_oAscSortOptions.ByValue,
                 order: rec ? rec.get('order') : Asc.c_oAscSortOptions.Ascending,
@@ -461,7 +471,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.updateMoveButtons();
         },
 
-        updateOrderList: function(levelIndex) {
+        updateOrderList: function(levelIndex, storeItem) {
             var level = this.levels[levelIndex],
                 istext = level.levelProps ? level.levelProps.asc_getIsTextData() : true,
                 iscolor = (level.cmbSort.getValue() !== Asc.c_oAscSortOptions.ByValue),
@@ -489,10 +499,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 level.cmbColor.setDisabled(level.color_data.length<1);
                 (level.color_data.length>0) && level.cmbColor.setValue(level.color_data[0].value);
 
-                var item = this.sortList.store.at(levelIndex);
-                if (item) {
-                    item.set('color', null);
-                }
+                storeItem && storeItem.set('color', null);
             }
         },
 
@@ -605,7 +612,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                             combo.setValue(index);
                             item.set('columnIndex', index);
                             me.levels[item.get('levelIndex')].levelProps = me.props.asc_getLevelProps(index);
-                            me.updateOrderList(item.get('levelIndex'));
+                            me.updateOrderList(item.get('levelIndex'), item);
                             return false;
                         } else if (isvalid == Asc.c_oAscError.ID.CustomSortMoreOneSelectedError)
                             Common.UI.warning({msg: me.sortOptions.sortcol ? me.errorMoreOneCol: me.errorMoreOneRow});
