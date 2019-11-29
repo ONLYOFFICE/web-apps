@@ -161,7 +161,7 @@
   "DE.Controllers.LeftMenu.newDocumentTitle": "Neimenovan dokument",
   "DE.Controllers.LeftMenu.notcriticalErrorTitle": "Warning",
   "DE.Controllers.LeftMenu.requestEditRightsText": "Zahtevanje urejevalnih pravic...",
-  "DE.Controllers.LeftMenu.textLoadHistory": "Loading versions history...",
+  "DE.Controllers.LeftMenu.textLoadHistory": "Loading version history...",
   "DE.Controllers.LeftMenu.textNoTextFound": "Podatkov, katere iščete, ni bilo mogoče najti. Prosim nastavite svoje možnosti iskanja.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Nadomestek je bil izdelan. {0} dogodki so bili preskočeni.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Iskanje je bilo storjeno. Dogodki nadomeščeni: {0}",

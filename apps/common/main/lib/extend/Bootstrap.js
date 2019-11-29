@@ -205,10 +205,15 @@ function clearMenus(isFromInputControl) {
     })
 }
 
+function toggle() {
+    $('.dropdown-backdrop').remove();
+}
+
 $(document)
     .off('keydown.bs.dropdown.data-api')
     .on('keydown.bs.dropdown.data-api', '[data-toggle=dropdown], [role=menu]' , onDropDownKeyDown);
 
+('ontouchstart' in document.documentElement) && $(document).on('click.bs.dropdown.data-api', '[data-toggle=dropdown]', toggle);
 /*
 *      workaround closing menu by right click
 * */

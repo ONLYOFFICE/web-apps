@@ -311,7 +311,7 @@
   "DE.Controllers.LeftMenu.newDocumentTitle": "Documento senza nome",
   "DE.Controllers.LeftMenu.notcriticalErrorTitle": "Avviso",
   "DE.Controllers.LeftMenu.requestEditRightsText": "Richiesta di autorizzazione di modifica...",
-  "DE.Controllers.LeftMenu.textLoadHistory": "Loading versions history...",
+  "DE.Controllers.LeftMenu.textLoadHistory": "Loading version history...",
   "DE.Controllers.LeftMenu.textNoTextFound": "I dati da cercare non sono stati trovati. Modifica i parametri di ricerca.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "La sostituzione è stata effettuata. {0} occorrenze sono state saltate.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "La ricerca è stata effettuata. Occorrenze sostituite: {0}",

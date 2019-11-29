@@ -496,6 +496,8 @@ define([
             },
 
             onRefreshHistory: function(opts) {
+                if (!this.appOptions.canUseHistory) return;
+
                 this.loadMask && this.loadMask.hide();
                 if (opts.data.error || !opts.data.history) {
                     var historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions');
