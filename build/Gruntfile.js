@@ -316,9 +316,13 @@ module.exports = function(grunt) {
             },
 
             inline: {
-                dist: {
+                'index-page': {
                     src: packageFile.main.copy['index-page'][0].dest,
                     dest: packageFile.main.copy['index-page'][0].dest
+                },
+                'old-loader-page': {
+                    src: packageFile.main.copy['index-page'][1].dest,
+                    dest: packageFile.main.copy['index-page'][1].dest
                 }
             },
 
@@ -548,7 +552,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
-                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
+                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline:index-page', 'inline:old-loader-page', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
