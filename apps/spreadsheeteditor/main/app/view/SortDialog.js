@@ -529,6 +529,37 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             var rec = this.sortList.store.findWhere({columnIndex: null});
             if (rec)
                 Common.UI.warning({msg: this.errorEmpty});
+            else {
+                var store = this.sortList.store,
+                    len = store.length;
+                for (var index=0; index<len; index++) {
+                    var item = store.at(index),
+                        levelProp = this.levels[item.get('levelIndex')],
+                        sort = levelProp.cmbSort.getValue(),
+                        color = (sort == Asc.c_oAscSortOptions.ByColorFill || sort==Asc.c_oAscSortOptions.ByColorFont) ? levelProp.cmbColor.getSelectedRecord() : null;
+                    for (var i=index-1; i>=0; i--) {
+                        var itemcheck = store.at(i),
+                            levelcheck = this.levels[itemcheck.get('levelIndex')];
+                        if (item.get('columnIndex') == itemcheck.get('columnIndex') && sort == levelcheck.cmbSort.getValue()) {
+                            if (sort == Asc.c_oAscSortOptions.ByColorFill || sort==Asc.c_oAscSortOptions.ByColorFont) {
+                                var colorcheck = levelcheck.cmbColor.getSelectedRecord();
+                                if (color && colorcheck && color.value == colorcheck.value) {
+                                    rec = levelProp.cmbColumn.getSelectedRecord().displayValue;
+                                    rec = this.errorSameColumnColor.replace('%1', rec);
+                                    break;
+                                }
+                            } else {
+                                rec = levelProp.cmbColumn.getSelectedRecord().displayValue;
+                                rec = this.errorSameColumnValue.replace('%1', rec);
+                                break;
+                            }
+                        }
+                    }
+                    if (rec)
+                        break;
+                }
+                rec && Common.UI.warning({msg: rec});
+            }
             return !rec;
         },
 
@@ -634,7 +665,9 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         errorMoreOneCol: 'More than one column is selected.',
         txtInvalidRange: 'Invalid cells range.',
         textMoreRows: '(More rows...)',
-        textMoreCols: '(More columns...)'
+        textMoreCols: '(More columns...)',
+        errorSameColumnValue: "%1 is being sorted by values more than once.<br>Delete the duplicate sort criteria and try again.",
+        errorSameColumnColor: "%1 is being sorted by the same color more than once.<br>Delete the duplicate sort criteria and try again."
 
     }, SSE.Views.SortDialog || {}));
 });

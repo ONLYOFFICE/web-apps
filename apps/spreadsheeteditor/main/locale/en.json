@@ -2117,6 +2117,8 @@
   "SSE.Views.SortDialog.txtInvalidRange": "Invalid cells range.",
   "SSE.Views.SortDialog.textMoreRows": "(More rows...)",
   "SSE.Views.SortDialog.textMoreCols": "(More columns...)",
+  "SSE.Views.SortDialog.errorSameColumnValue": "%1 is being sorted by values more than once.<br>Delete the duplicate sort criteria and try again.",
+  "SSE.Views.SortDialog.errorSameColumnColor": "%1 is being sorted by the same color more than once.<br>Delete the duplicate sort criteria and try again.",
   "SSE.Views.Statusbar.CopyDialog.itemCopyToEnd": "(Copy to end)",
   "SSE.Views.Statusbar.CopyDialog.itemMoveToEnd": "(Move to end)",
   "SSE.Views.Statusbar.CopyDialog.textCopyBefore": "Copy before sheet",
