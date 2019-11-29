@@ -1087,9 +1087,11 @@ define([
             Common.localStorage.setBool("sse-spellcheck-ignore-numbers-words", value);
             Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", value);
 
-            value = this.cmbDictionaryLanguage.getValue();
-            Common.localStorage.setItem("sse-spellcheck-locale", value);
-            Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+            if (!this.cmbDictionaryLanguage.isDisabled()) {
+                value = this.cmbDictionaryLanguage.getValue();
+                Common.localStorage.setItem("sse-spellcheck-locale", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+            }
 
             Common.localStorage.save();
             if (this.menu) {

@@ -2056,8 +2056,10 @@ define([
                     this.api.asc_ignoreUppercase(value);
                     value = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words");
                     this.api.asc_ignoreNumbers(value);
-                    value = parseInt(Common.localStorage.getItem("sse-spellcheck-locale"));
-                    this.api.asc_setDefaultLanguage(value);
+                    value = Common.localStorage.getItem("sse-spellcheck-locale");
+                    if (value) {
+                        this.api.asc_setDefaultLanguage(parseInt(value));
+                    }
                 }
             },
 
