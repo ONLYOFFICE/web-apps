@@ -182,7 +182,7 @@ define([
 
             this.btnFirst = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'mmerge-first',
+                iconCls: 'toolbar__icon btn-firstitem',
                 disabled: true,
                 value: 0,
                 hint: this.txtFirst,
@@ -194,7 +194,7 @@ define([
 
             this.btnPrev = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'mmerge-prev',
+                iconCls: 'toolbar__icon btn-previtem',
                 disabled: true,
                 value: 1,
                 hint: this.txtPrev,
@@ -206,7 +206,7 @@ define([
 
             this.btnNext = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'mmerge-next',
+                iconCls: 'toolbar__icon btn-nextitem',
                 value: 2,
                 hint: this.txtNext,
                 lock: [_set.noRecipients, _set.lostConnect]
@@ -217,7 +217,7 @@ define([
 
             this.btnLast = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'mmerge-last',
+                iconCls: 'toolbar__icon btn-lastitem',
                 value: 3,
                 hint: this.txtLast,
                 lock: [_set.noRecipients, _set.lostConnect]

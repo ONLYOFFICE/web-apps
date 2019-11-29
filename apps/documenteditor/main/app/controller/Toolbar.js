@@ -266,7 +266,6 @@ define([
             toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, 2));
             toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, 0));
             toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, 3));
-            toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onMenuHorizontalAlignSelect, this));
             toolbar.btnDecLeftOffset.on('click',                        _.bind(this.onDecOffset, this));
             toolbar.btnIncLeftOffset.on('click',                        _.bind(this.onIncOffset, this));
             toolbar.btnMarkers.on('click',                              _.bind(this.onMarkers, this));
@@ -546,18 +545,6 @@ define([
                     case 2: index = 1; align = 'btn-align-center'; break;
                     case 3: index = 3; align = 'btn-align-just'; break;
                     default:  index = -255; align = 'btn-align-left'; break;
-                }
-                if (!(index < 0)) {
-                    this.toolbar.btnHorizontalAlign.menu.items[index].setChecked(true);
-                } else if (index == -255) {
-                    this.toolbar.btnHorizontalAlign.menu.clearAll();
-                }
-
-                var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-
-                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
-                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
-                    btnHorizontalAlign.options.icls = align;
                 }
 
                 if (v === null || v===undefined) {
@@ -1015,7 +1002,7 @@ define([
             var toolbar = this.toolbar;
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
+                var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
                 if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
                     return;
 
@@ -1173,20 +1160,6 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Align');
         },
 
-        onMenuHorizontalAlignSelect: function(menu, item) {
-            this._state.pralign = undefined;
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-
-            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
-            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
-
-            if (this.api && item.checked)
-                this.api.put_PrAlign(item.value);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
-        },
 
         onMarkers: function(btn, e) {
             var record = {
@@ -2944,7 +2917,7 @@ define([
             me.appOptions = config;
 
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', this.toolbar.capBtnComment);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment);
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
                     this.btnsComment.forEach(function (btn) {

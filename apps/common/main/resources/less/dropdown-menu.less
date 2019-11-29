@@ -47,7 +47,7 @@
             background-color: @dropdown-link-hover-bg;
         }
 
-        .checked {
+        .checked:not(.no-checkmark) {
             &:before {
                 content: '';
                 width: 16px;
@@ -62,14 +62,26 @@
             }
         }
 
+        &.disabled {
+            .menu-item-icon {
+                opacity: .4;
+            }
+        }
+
         .menu-item-icon {
             display: inline-block;
             float: left;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             margin: -3px 5px 0 -15px;
-            .background-ximage('@{app-image-path}/popupmenu-btns.png', '@{app-image-path}/popupmenu-btns@2x.png', 66px);
             background-repeat: no-repeat;
+        }
+
+        .no-checkmark.checked {
+            .menu-item-icon {
+                background-color: @primary;
+                border-radius: 2px;
+            }
         }
     }
 }

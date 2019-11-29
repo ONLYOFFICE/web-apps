@@ -171,20 +171,20 @@ define([
             me.btnCopy = new Common.UI.Button({
                 id          : 'id-toolbar-btn-copy',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-copy'
+                iconCls     : 'toolbar__icon btn-copy'
             });
 
             me.btnPaste = new Common.UI.Button({
                 id          : 'id-toolbar-btn-paste',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-paste',
+                iconCls     : 'toolbar__icon btn-paste',
                 lock        : [/*_set.editCell,*/ _set.coAuth, _set.lostConnect]
             });
 
             me.btnUndo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-undo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-undo',
+                iconCls     : 'toolbar__icon btn-undo',
                 disabled    : true,
                 lock        : [_set.lostConnect],
                 signals     : ['disabled']
@@ -193,7 +193,7 @@ define([
             me.btnRedo = new Common.UI.Button({
                 id          : 'id-toolbar-btn-redo',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-redo',
+                iconCls     : 'toolbar__icon btn-redo',
                 disabled    : true,
                 lock        : [_set.lostConnect],
                 signals     : ['disabled']
@@ -205,7 +205,7 @@ define([
                 me.btnInsertFormula = new Common.UI.Button({
                     id          : 'id-toolbar-btn-insertformula',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-formula',
+                    iconCls     : 'toolbar__icon btn-formula',
                     split       : true,
                     lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
@@ -227,14 +227,14 @@ define([
                 me.btnDecDecimal = new Common.UI.Button({
                     id          : 'id-toolbar-btn-decdecimal',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-decdecimal',
+                    iconCls     : 'toolbar__icon btn-decdecimal',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
 
                 me.btnIncDecimal = new Common.UI.Button({
                     id          : 'id-toolbar-btn-incdecimal',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-incdecimal',
+                    iconCls     : 'toolbar__icon btn-incdecimal',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
 
@@ -274,28 +274,28 @@ define([
                 me.btnSearch = new Common.UI.Button({
                     id          : 'id-toolbar-btn-search',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-search',
+                    iconCls     : 'toolbar__icon btn-menu-search',
                     lock        : [_set.lostConnect]
                 });
 
                 me.btnSortDown = new Common.UI.Button({
                     id          : 'id-toolbar-btn-sort-down',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-sort-down',
+                    iconCls     : 'toolbar__icon btn-sort-down',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot]
                 });
 
                 me.btnSortUp = new Common.UI.Button({
                     id          : 'id-toolbar-btn-sort-up',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-sort-up',
+                    iconCls     : 'toolbar__icon btn-sort-up',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot]
                 });
 
                 me.btnSetAutofilter = new Common.UI.Button({
                     id          : 'id-toolbar-btn-setautofilter',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-autofilter',
+                    iconCls     : 'toolbar__icon btn-autofilter',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot],
                     enableToggle: true
                 });
@@ -303,7 +303,7 @@ define([
                 me.btnClearAutofilter = new Common.UI.Button({
                     id          : 'id-toolbar-btn-clearfilter',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-clear-filter',
+                    iconCls     : 'toolbar__icon btn-clear-filter',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleDelFilter, _set.editPivot]
                 });
             } else
@@ -358,7 +358,7 @@ define([
                 me.btnPrint = new Common.UI.Button({
                     id          : 'id-toolbar-btn-print',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-print no-mask',
+                    iconCls     : 'toolbar__icon btn-print no-mask',
                     lock        : [_set.editCell, _set.cantPrint, _set.disableOnStart],
                     signals: ['disabled']
                 });
@@ -366,7 +366,7 @@ define([
                 me.btnSave = new Common.UI.Button({
                     id          : 'id-toolbar-btn-save',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'no-mask ' + me.btnSaveCls,
+                    iconCls     : 'toolbar__icon no-mask ' + me.btnSaveCls,
                     signals     : ['disabled']
                 });
                 me.btnCollabChanges = me.btnSave;
@@ -374,21 +374,21 @@ define([
                 me.btnIncFontSize = new Common.UI.Button({
                     id          : 'id-toolbar-btn-incfont',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-incfont',
+                    iconCls     : 'toolbar__icon btn-incfont',
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
                 });
 
                 me.btnDecFontSize = new Common.UI.Button({
                     id          : 'id-toolbar-btn-decfont',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-decfont',
+                    iconCls     : 'toolbar__icon btn-decfont',
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
                 });
 
                 me.btnBold = new Common.UI.Button({
                     id          : 'id-toolbar-btn-bold',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-bold',
+                    iconCls     : 'toolbar__icon btn-bold',
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     enableToggle: true
                 });
@@ -396,7 +396,7 @@ define([
                 me.btnItalic = new Common.UI.Button({
                     id          : 'id-toolbar-btn-italic',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-italic',
+                    iconCls     : 'toolbar__icon btn-italic',
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     enableToggle: true
                 });
@@ -404,7 +404,7 @@ define([
                 me.btnUnderline = new Common.UI.Button({
                     id          : 'id-toolbar-btn-underline',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-underline',
+                    iconCls     : 'toolbar__icon btn-underline',
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     enableToggle: true
                 });
@@ -412,7 +412,7 @@ define([
                 me.btnStrikeout = new Common.UI.Button({
                     id: 'id-toolbar-btn-strikeout',
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-strikeout',
+                    iconCls: 'toolbar__icon btn-strikeout',
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     enableToggle: true
                 });
@@ -420,7 +420,7 @@ define([
                 me.btnSubscript = new Common.UI.Button({
                     id          : 'id-toolbar-btn-subscript',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-subscript',
+                    iconCls     : 'toolbar__icon btn-subscript',
                     icls     : 'btn-subscript',
                     split       : true,
                     enableToggle: true,
@@ -429,18 +429,20 @@ define([
                         items: [
                             {
                                 caption     : me.textSuperscript,
-                                iconCls     : 'mnu-text-superscript',
+                                iconCls     : 'menu__icon btn-superscript',
                                 icls        : 'btn-superscript',
                                 checkable   : true,
+                                checkmark   : false,
                                 allowDepress: true,
                                 toggleGroup : 'textsubscriptgroup',
                                 value       : 'super'
                             },
                             {
                                 caption     : me.textSubscript,
-                                iconCls     : 'mnu-text-subscript',
+                                iconCls     : 'menu__icon btn-subscript',
                                 icls        : 'btn-subscript',
                                 checkable   : true,
+                                checkmark   : false,
                                 allowDepress: true,
                                 toggleGroup : 'textsubscriptgroup',
                                 value       : 'sub'
@@ -453,7 +455,7 @@ define([
                 me.btnTextColor = new Common.UI.Button({
                     id          : 'id-toolbar-btn-fontcolor',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-fontcolor',
+                    iconCls     : 'toolbar__icon btn-fontcolor',
                     split       : true,
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
@@ -468,7 +470,7 @@ define([
                 me.btnBackColor = new Common.UI.Button({
                     id          : 'id-toolbar-btn-fillparag',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-fillparag',
+                    iconCls     : 'toolbar__icon btn-paracolor',
                     split       : true,
                     lock        : [_set.selImage, _set.editCell, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
@@ -482,7 +484,7 @@ define([
                 me.btnBorders = new Common.UI.Button({
                     id          : 'id-toolbar-btn-borders',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-border-out',
+                    iconCls     : 'toolbar__icon btn-border-out',
                     icls        : 'btn-border-out',
                     borderId    : 'outer',
                     borderswidth: Asc.c_oAscBorderStyles.Thin,
@@ -494,7 +496,7 @@ define([
                 me.btnAlignLeft = new Common.UI.Button({
                     id          : 'id-toolbar-btn-align-left',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-align-left',
+                    iconCls     : 'toolbar__icon btn-align-left',
                     enableToggle: true,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     toggleGroup : 'alignGroup'
@@ -503,7 +505,7 @@ define([
                 me.btnAlignCenter = new Common.UI.Button({
                     id          : 'id-toolbar-btn-align-center',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-align-center',
+                    iconCls     : 'toolbar__icon btn-align-center',
                     enableToggle: true,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     toggleGroup : 'alignGroup'
@@ -512,7 +514,7 @@ define([
                 me.btnAlignRight = new Common.UI.Button({
                     id          : 'id-toolbar-btn-align-right',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-align-right',
+                    iconCls     : 'toolbar__icon btn-align-right',
                     enableToggle: true,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     toggleGroup : 'alignGroup'
@@ -521,7 +523,7 @@ define([
                 me.btnAlignJust = new Common.UI.Button({
                     id          : 'id-toolbar-btn-align-just',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-align-just',
+                    iconCls     : 'toolbar__icon btn-align-just',
                     enableToggle: true,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     toggleGroup: 'alignGroup'
@@ -530,7 +532,7 @@ define([
                 me.btnMerge = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-merge',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-merge',
+                    iconCls     : 'toolbar__icon btn-merge',
                     enableToggle: true,
                     allowDepress: true,
                     split       : true,
@@ -560,7 +562,7 @@ define([
                 me.btnAlignTop = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-valign-top',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-valign-top',
+                    iconCls     : 'toolbar__icon btn-align-top',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     enableToggle: true,
                     toggleGroup : 'vAlignGroup'
@@ -569,7 +571,7 @@ define([
                 me.btnAlignMiddle = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-valign-middle',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-valign-middle',
+                    iconCls     : 'toolbar__icon btn-align-middle',
                     enableToggle: true,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     toggleGroup : 'vAlignGroup'
@@ -578,7 +580,7 @@ define([
                 me.btnAlignBottom = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-valign-bottom',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-valign-bottom',
+                    iconCls     : 'toolbar__icon btn-align-bottom',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     enableToggle: true,
                     toggleGroup : 'vAlignGroup'
@@ -587,7 +589,7 @@ define([
                 me.btnWrap = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-wrap',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-wrap',
+                    iconCls     : 'toolbar__icon btn-wrap',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     enableToggle: true,
                     allowDepress: true
@@ -596,42 +598,47 @@ define([
                 me.btnTextOrient = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-textorient',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-text-orient',
+                    iconCls     : 'toolbar__icon text-orient-ccw',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
                                 caption     : me.textHorizontal,
-                                iconCls     : 'mnu-direct-horiz',
+                                iconCls     : 'menu__icon text-orient-hor',
                                 checkable   : true,
+                                checkmark   : false,
                                 toggleGroup : 'textorientgroup',
                                 value       : 'horiz'
                             },
                             {
                                 caption     : me.textCounterCw,
-                                iconCls     : 'mnu-direct-ccw',
+                                iconCls     : 'menu__icon text-orient-ccw',
                                 checkable   : true,
+                                checkmark   : false,
                                 toggleGroup : 'textorientgroup',
                                 value       : 'countcw'
                             },
                             {
                                 caption     : me.textClockwise,
-                                iconCls     : 'mnu-direct-cw',
+                                iconCls     : 'menu__icon text-orient-cw',
                                 checkable   : true,
+                                checkmark   : false,
                                 toggleGroup : 'textorientgroup',
                                 value       : 'clockwise'
                             },
                             {
                                 caption     : me.textRotateUp,
-                                iconCls     : 'mnu-direct-rup',
+                                iconCls     : 'menu__icon text-orient-rup',
                                 checkable   : true,
+                                checkmark   : false,
                                 toggleGroup : 'textorientgroup',
                                 value       : 'rotateup'
                             },
                             {
                                 caption     : me.textRotateDown,
-                                iconCls     : 'mnu-direct-rdown',
+                                iconCls     : 'menu__icon text-orient-rdown',
                                 checkable   : true,
+                                checkmark   : false,
                                 toggleGroup : 'textorientgroup',
                                 value       : 'rotatedown'
                             }
@@ -642,7 +649,7 @@ define([
                 me.btnInsertImage = new Common.UI.Button({
                     id          : 'tlbtn-insertimage',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-insertimage',
+                    iconCls     : 'toolbar__icon btn-insertimage',
                     caption     : me.capInsertImage,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
@@ -657,7 +664,7 @@ define([
                 me.btnInsertHyperlink = new Common.UI.Button({
                     id          : 'tlbtn-insertlink',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-inserthyperlink',
+                    iconCls     : 'toolbar__icon btn-inserthyperlink',
                     caption     : me.capInsertHyperlink,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.multiselect, _set.lostConnect, _set.coAuth, _set.editPivot]
                 });
@@ -665,7 +672,7 @@ define([
                 me.btnInsertChart = new Common.UI.Button({
                     id          : 'tlbtn-insertchart',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-insertchart',
+                    iconCls     : 'toolbar__icon btn-insertchart',
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     caption     : me.capInsertChart,
                     menu        : true
@@ -674,7 +681,7 @@ define([
                 me.btnInsertShape = new Common.UI.Button({
                     id          : 'tlbtn-insertshape',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-insertshape',
+                    iconCls     : 'toolbar__icon btn-insertshape',
                     enableToggle: true,
                     caption     : me.capInsertShape,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
@@ -684,7 +691,7 @@ define([
                 me.btnInsertText = new Common.UI.Button({
                     id          : 'tlbtn-inserttext',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-text',
+                    iconCls     : 'toolbar__icon btn-text',
                     caption     : me.capInsertText,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     enableToggle: true
@@ -693,7 +700,7 @@ define([
                 me.btnInsertTextArt = new Common.UI.Button({
                     id          : 'tlbtn-inserttextart',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-textart',
+                    iconCls     : 'toolbar__icon btn-textart',
                     caption     : me.capInsertTextart,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
@@ -707,7 +714,7 @@ define([
                 me.btnInsertEquation = new Common.UI.Button({
                     id          : 'tlbtn-insertequation',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-insertequation',
+                    iconCls     : 'toolbar__icon btn-insertequation',
                     caption     : me.capInsertEquation,
                     split       : true,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
@@ -725,7 +732,7 @@ define([
                 me.btnTableTemplate = new Common.UI.Button({
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-ttempl',
+                    iconCls     : 'toolbar__icon btn-menu-table',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter],
                     menu        : new Common.UI.Menu({
                         items: [
@@ -737,7 +744,7 @@ define([
                 me.btnInsertTable = new Common.UI.Button({
                     id          : 'tlbtn-inserttable',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-inserttable',
+                    iconCls     : 'toolbar__icon btn-inserttable',
                     caption     : me.capInsertTable,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter, _set.ruleMerge, _set.editPivot]
                 });
@@ -804,7 +811,7 @@ define([
                 me.btnPercentStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-percent-style',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-percent-style',
+                    iconCls     : 'toolbar__icon btn-percent-style',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     styleName   : 'Percent'
                 });
@@ -812,7 +819,7 @@ define([
                 me.btnCurrencyStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-accounting-style',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-currency-style',
+                    iconCls     : 'toolbar__icon btn-currency-style',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     styleName    : 'Currency',
                     split       : true,
@@ -850,21 +857,21 @@ define([
                 me.btnDecDecimal = new Common.UI.Button({
                     id          : 'id-toolbar-btn-decdecimal',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-decdecimal',
+                    iconCls     : 'toolbar__icon btn-decdecimal',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
 
                 me.btnIncDecimal = new Common.UI.Button({
                     id          : 'id-toolbar-btn-incdecimal',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-incdecimal',
+                    iconCls     : 'toolbar__icon btn-incdecimal',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
 
                 me.btnInsertFormula = new Common.UI.Button({
                     id          : 'id-toolbar-btn-insertformula',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-formula',
+                    iconCls     : 'toolbar__icon btn-formula',
                     split       : true,
                     lock        : [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
@@ -886,7 +893,7 @@ define([
                 me.btnNamedRange = new Common.UI.Button({
                     id          : 'id-toolbar-btn-insertrange',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-named-range',
+                    iconCls     : 'toolbar__icon btn-named-range',
                     lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
                     menu        : new Common.UI.Menu({
                         style : 'min-width: 110px',
@@ -912,7 +919,7 @@ define([
                 me.btnClearStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-clear',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-clearstyle',
+                    iconCls     : 'toolbar__icon btn-clearstyle',
                     lock        : [_set.lostConnect, _set.coAuth, _set.selRangeEdit],
                     menu        : new Common.UI.Menu({
                         style : 'min-width: 110px',
@@ -949,7 +956,7 @@ define([
                 me.btnCopyStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-copystyle',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-copystyle',
+                    iconCls     : 'toolbar__icon btn-copystyle',
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.selChart],
                     enableToggle: true
                 });
@@ -957,7 +964,7 @@ define([
                 me.btnAddCell = new Common.UI.Button({
                     id          : 'id-toolbar-btn-addcell',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-addcell',
+                    iconCls     : 'toolbar__icon btn-addcell',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items : [
@@ -984,7 +991,7 @@ define([
                 me.btnDeleteCell = new Common.UI.Button({
                     id          : 'id-toolbar-btn-delcell',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-delcell',
+                    iconCls     : 'toolbar__icon btn-delcell',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items : [
@@ -1011,102 +1018,11 @@ define([
                 me.btnColorSchemas = new Common.UI.Button({
                     id          : 'id-toolbar-btn-colorschemas',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-colorschemas',
+                    iconCls     : 'toolbar__icon toolbar__icon btn-colorschemas',
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [],
                         restoreHeight: true
-                    })
-                });
-
-                // Is unique for the short view
-
-                me.btnHorizontalAlign = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-halign',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-align-left',
-                    icls        : 'btn-align-left',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth, _set.coAuthText],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            {
-                                caption     : me.tipAlignLeft,
-                                iconCls     : 'mnu-align-left',
-                                icls        : 'btn-align-left',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'halignGroup',
-                                checked     : true,
-                                value       : AscCommon.align_Left
-                            },
-                            {
-                                caption     : me.tipAlignCenter,
-                                iconCls     : 'mnu-align-center',
-                                icls        : 'btn-align-center',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'halignGroup',
-                                value       : AscCommon.align_Center
-                            },
-                            {
-                                caption     : me.tipAlignRight,
-                                iconCls     : 'mnu-align-right',
-                                icls        : 'btn-align-right',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'halignGroup',
-                                value       : AscCommon.align_Right
-                            },
-                            {
-                                caption     : me.tipAlignJust,
-                                iconCls     : 'mnu-align-just',
-                                icls        : 'btn-align-just',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'halignGroup',
-                                value       : AscCommon.align_Justify
-                            }
-                        ]
-                    })
-                });
-
-                me.btnVerticalAlign = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-valign',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'btn-valign-bottom',
-                    icls        : 'btn-valign-bottom',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.lostConnect, _set.coAuth, _set.coAuthText],
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            {
-                                caption     : me.tipAlignTop,
-                                iconCls     : 'mnu-valign-top',
-                                icls        : 'btn-valign-top',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'valignGroup',
-                                value       : Asc.c_oAscVAlign.Top
-                            },
-                            {
-                                caption     : me.tipAlignMiddle,
-                                iconCls     : 'mnu-valign-middle',
-                                icls        : 'btn-valign-middle',
-                                checkable   : true,
-                                allowDepress: true,
-                                toggleGroup : 'valignGroup',
-                                value       : Asc.c_oAscVAlign.Center
-                            },
-                            {
-                                caption     : me.tipAlignBottom,
-                                iconCls     : 'mnu-valign-bottom',
-                                icls        : 'btn-valign-bottom',
-                                checkable   : true,
-                                allowDepress: true,
-                                checked     : true,
-                                toggleGroup : 'valignGroup',
-                                value       : Asc.c_oAscVAlign.Bottom
-                            }
-                        ]
                     })
                 });
 
@@ -1117,7 +1033,7 @@ define([
                 me.btnPageOrient = new Common.UI.Button({
                     id: 'tlbtn-pageorient',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-pageorient',
+                    iconCls: 'toolbar__icon btn-pageorient',
                     caption: me.capBtnPageOrient,
                     lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
@@ -1125,15 +1041,17 @@ define([
                         items: [
                             {
                                 caption: me.textPortrait,
-                                iconCls: 'mnu-orient-portrait',
+                                iconCls: 'menu__icon page-portrait',
                                 checkable: true,
+                                checkmark: false,
                                 toggleGroup: 'menuOrient',
                                 value: Asc.c_oAscPageOrientation.PagePortrait
                             },
                             {
                                 caption: me.textLandscape,
-                                iconCls: 'mnu-orient-landscape',
+                                iconCls: 'menu__icon page-landscape',
                                 checkable: true,
+                                checkmark: false,
                                 toggleGroup: 'menuOrient',
                                 value: Asc.c_oAscPageOrientation.PageLandscape
                             }
@@ -1152,7 +1070,7 @@ define([
                 me.btnPageMargins = new Common.UI.Button({
                     id: 'tlbtn-pagemargins',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-pagemargins',
+                    iconCls: 'toolbar__icon btn-pagemargins',
                     caption: me.capBtnMargins,
                     lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
@@ -1197,7 +1115,7 @@ define([
                 me.btnPageSize = new Common.UI.Button({
                     id: 'tlbtn-pagesize',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-pagesize',
+                    iconCls: 'toolbar__icon btn-pagesize',
                     caption: me.capBtnPageSize,
                     lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
@@ -1316,7 +1234,7 @@ define([
                 me.btnPrintArea = new Common.UI.Button({
                     id: 'tlbtn-printarea',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-print-area',
+                    iconCls: 'toolbar__icon btn-print-area',
                     caption: me.capBtnPrintArea,
                     lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.editCell, _set.selRangeEdit, _set.printAreaLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
@@ -1347,9 +1265,9 @@ define([
                         'data-stopPropagation="true"',
                         '<% } %>', '>',
                         '<label class="title" style="padding-top: 3px;">' + me.textScale + '</label>',
-                        '<button id="custom-scale-up" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon btn-zoomin">&nbsp;</i></button>',
+                        '<button id="custom-scale-up" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
                         '<label id="value-custom-scale" style="float:right;padding: 3px 3px;min-width: 40px; text-align: center;"></label>',
-                        '<button id="custom-scale-down" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon btn-zoomout">&nbsp;</i></button>',
+                        '<button id="custom-scale-down" type="button" style="float:right;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
                         '</div>'
                     ].join('')),
                     stopPropagation: true,
@@ -1359,7 +1277,7 @@ define([
                 me.btnScale = new Common.UI.Button({
                     id: 'tlbtn-scale',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-scale',
+                    iconCls: 'toolbar__icon btn-scale',
                     caption: me.capBtnScale,
                     lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
@@ -1421,7 +1339,7 @@ define([
 
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-align',
+                    iconCls: 'toolbar__icon btn-img-align',
                     caption: me.capImgAlign,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth, _set.coAuthText],
                     menu: true
@@ -1429,14 +1347,14 @@ define([
 
                 me.btnImgGroup = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-group',
+                    iconCls: 'toolbar__icon btn-img-group',
                     caption: me.capImgGroup,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroupUngroup, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     menu: true
                 });
                 me.btnImgForward = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-frwd',
+                    iconCls: 'toolbar__icon btn-img-frwd',
                     caption: me.capImgForward,
                     split: true,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText],
@@ -1444,7 +1362,7 @@ define([
                 });
                 me.btnImgBackward = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-img-bkwd',
+                    iconCls: 'toolbar__icon btn-img-bkwd',
                     caption: me.capImgBackward,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     split: true,
@@ -1464,8 +1382,8 @@ define([
             if (config.isEdit) {
                 me.lockControls = [
                     me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
-                    me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnHorizontalAlign, me.btnAlignLeft,
-                    me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnVerticalAlign, me.btnAlignTop,
+                    me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
+                    me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
@@ -1674,12 +1592,9 @@ define([
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
             _injectComponent('#slot-btn-scale',         this.btnScale);
-            this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'btn-editheader', this.capBtnInsHeader,
+            this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
                                 [SSE.enumLock.editCell, SSE.enumLock.selRangeEdit, SSE.enumLock.headerLock, SSE.enumLock.lostConnect, SSE.enumLock.coAuth]);
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
-
-            // replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                this.btnHorizontalAlign);
-            // replacePlacholder('#id-toolbar-short-placeholder-btn-valign',                this.btnVerticalAlign);
 
             return $host;
         },
@@ -1744,8 +1659,6 @@ define([
             _updateHint(this.btnAddCell, this.tipInsertOpt);
             _updateHint(this.btnDeleteCell, this.tipDeleteOpt);
             _updateHint(this.btnColorSchemas, this.tipColorSchemas);
-            _updateHint(this.btnHorizontalAlign, this.tipHAligh);
-            _updateHint(this.btnVerticalAlign, this.tipVAligh);
             _updateHint(this.btnPageOrient, this.tipPageOrient);
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
@@ -1761,74 +1674,74 @@ define([
                     items: [
                         {
                             caption     : this.textOutBorders,
-                            iconCls     : 'mnu-border-out',
+                            iconCls     : 'menu__icon btn-border-out',
                             icls        : 'btn-border-out',
                             borderId    : 'outer'
                         },
                         {
                             caption     : this.textAllBorders,
-                            iconCls     : 'mnu-border-all',
+                            iconCls     : 'menu__icon btn-border-all',
                             icls        : 'btn-border-all',
                             borderId    : 'all'
                         },
                         {
                             caption     : this.textTopBorders,
-                            iconCls     : 'mnu-border-top',
+                            iconCls     : 'menu__icon btn-border-top',
                             icls        : 'btn-border-top',
                             borderId    : Asc.c_oAscBorderOptions.Top
                         },
                         {
                             caption     : this.textBottomBorders,
-                            iconCls     : 'mnu-border-bottom',
+                            iconCls     : 'menu__icon btn-border-bottom',
                             icls        : 'btn-border-bottom',
                             borderId    : Asc.c_oAscBorderOptions.Bottom
                         },
                         {
                             caption     : this.textLeftBorders,
-                            iconCls     : 'mnu-border-left',
+                            iconCls     : 'menu__icon btn-border-left',
                             icls        : 'btn-border-left',
                             borderId    : Asc.c_oAscBorderOptions.Left
                         },
                         {
                             caption     : this.textRightBorders,
-                            iconCls     : 'mnu-border-right',
+                            iconCls     : 'menu__icon btn-border-right',
                             icls        : 'btn-border-right',
                             borderId    : Asc.c_oAscBorderOptions.Right
                         },
                         {
                             caption     : this.textNoBorders,
-                            iconCls     : 'mnu-border-no',
+                            iconCls     : 'menu__icon btn-border-no',
                             icls        : 'btn-border-no',
                             borderId    : 'none'
                         },
                         {caption: '--'},
                         {
                             caption     : this.textInsideBorders,
-                            iconCls     : 'mnu-border-center',
+                            iconCls     : 'menu__icon btn-border-inside',
                             icls        : 'btn-border-center',
                             borderId    : 'inner'
                         },
                         {
                             caption     : this.textCenterBorders,
-                            iconCls     : 'mnu-border-vmiddle',
+                            iconCls     : 'menu__icon btn-border-insidevert',
                             icls        : 'btn-border-vmiddle',
                             borderId    : Asc.c_oAscBorderOptions.InnerV
                         },
                         {
                             caption     : this.textMiddleBorders,
-                            iconCls     : 'mnu-border-hmiddle',
+                            iconCls     : 'menu__icon btn-border-insidehor',
                             icls        : 'btn-border-hmiddle',
                             borderId    : Asc.c_oAscBorderOptions.InnerH
                         },
                         {
                             caption     : this.textDiagUpBorder,
-                            iconCls     : 'mnu-border-diagup',
+                            iconCls     : 'menu__icon btn-border-diagup',
                             icls        : 'btn-border-diagup',
                             borderId    : Asc.c_oAscBorderOptions.DiagU
                         },
                         {
                             caption     : this.textDiagDownBorder,
-                            iconCls     : 'mnu-border-diagdown',
+                            iconCls     : 'menu__icon btn-border-diagdown',
                             icls        : 'btn-border-diagdown',
                             borderId    : Asc.c_oAscBorderOptions.DiagD
                         },
@@ -1836,8 +1749,8 @@ define([
                         {
                             id          : 'id-toolbar-mnu-item-border-width',
                             caption     : this.textBordersStyle,
-                            iconCls     : 'mnu-icon-item mnu-border-width',
-                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px;"></span><%= caption %></a>'),
+                            iconCls     : 'menu__icon btn-border-style',
+                            // template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px;"></span><%= caption %></a>'),
                             menu        : (function(){
                                 var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item" style="background-position: 0 -<%= options.offsety %>px;"></div></a>');
 
@@ -2086,7 +1999,7 @@ define([
             }
 
             this._state.hasCollaborativeChanges = true;
-            this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
+            this.btnCollabChanges.cmpEl.addClass('notify');
 
             if (this.showSynchTip){
                 this.btnCollabChanges.updateHint('');
@@ -2123,8 +2036,8 @@ define([
             if (this.btnCollabChanges.rendered) {
                 var me = this;
 
-                if ( me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
-                    me.btnCollabChanges.$icon.removeClass('btn-synch').addClass(this.btnSaveCls);
+                if ( me.btnCollabChanges.cmpEl.hasClass('notify') ) {
+                    me.btnCollabChanges.cmpEl.removeClass('notify');
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnCollabChanges.updateHint(this.btnSaveTip);
@@ -2146,11 +2059,8 @@ define([
             var cls = (length>1) ? 'btn-save-coauth' : 'btn-save';
             if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
                 this.btnSaveTip = ((length>1) ? this.tipSaveCoauth : this.tipSave )+ Common.Utils.String.platformKey('Ctrl+S');
-
-                if ( !this.btnCollabChanges.$icon.hasClass('btn-synch') ) {
-                    this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
-                    this.btnCollabChanges.updateHint(this.btnSaveTip);
-                }
+                this.btnCollabChanges.updateHint(this.btnSaveTip);
+                this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
                 this.btnSaveCls = cls;
             }
         },
@@ -2164,11 +2074,11 @@ define([
             me.btnImgForward.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textArrangeFront,
-                    iconCls : 'mnu-arrange-front',
+                    iconCls : 'menu__icon arrange-front',
                     value  : Asc.c_oAscDrawingLayerType.BringToFront
                 }, {
                     caption : _holder_view.textArrangeForward,
-                    iconCls : 'mnu-arrange-forward',
+                    iconCls : 'menu__icon arrange-forward',
                     value  : Asc.c_oAscDrawingLayerType.BringForward
                 }
                 ]})
@@ -2178,11 +2088,11 @@ define([
             me.btnImgBackward.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textArrangeBack,
-                    iconCls : 'mnu-arrange-back',
+                    iconCls : 'menu__icon arrange-back',
                     value  : Asc.c_oAscDrawingLayerType.SendToBack
                 }, {
                     caption : _holder_view.textArrangeBackward,
-                    iconCls : 'mnu-arrange-backward',
+                    iconCls : 'menu__icon arrange-backward',
                     value  : Asc.c_oAscDrawingLayerType.SendBackward
                 }]
             }));
@@ -2191,38 +2101,38 @@ define([
             me.btnImgAlign.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.textShapeAlignLeft,
-                    iconCls : 'mnu-img-align-left',
+                    iconCls : 'menu__icon shape-align-left',
                     value   : 0
                 }, {
                     caption : _holder_view.textShapeAlignCenter,
-                    iconCls : 'mnu-img-align-center',
+                    iconCls : 'menu__icon shape-align-center',
                     value   : 4
                 }, {
                     caption : _holder_view.textShapeAlignRight,
-                    iconCls : 'mnu-img-align-right',
+                    iconCls : 'menu__icon shape-align-right',
                     value   : 1
                 }, {
                     caption : _holder_view.textShapeAlignTop,
-                    iconCls : 'mnu-img-align-top',
+                    iconCls : 'menu__icon shape-align-top',
                     value   : 3
                 }, {
                     caption : _holder_view.textShapeAlignMiddle,
-                    iconCls : 'mnu-img-align-middle',
+                    iconCls : 'menu__icon shape-align-middle',
                     value   : 5
                 }, {
                     caption : _holder_view.textShapeAlignBottom,
-                    iconCls : 'mnu-img-align-bottom',
+                    iconCls : 'menu__icon shape-align-bottom',
                     value   : 2
                 },
                 {caption: '--'},
                 {
                     caption: _holder_view.txtDistribHor,
-                    iconCls: 'mnu-distrib-hor',
+                    iconCls: 'menu__icon shape-distribute-hor',
                     value: 6
                 },
                 {
                     caption: _holder_view.txtDistribVert,
-                    iconCls: 'mnu-distrib-vert',
+                    iconCls: 'menu__icon shape-distribute-vert',
                     value: 7
                 }]
             }));
@@ -2231,11 +2141,11 @@ define([
             me.btnImgGroup.setMenu(new Common.UI.Menu({
                 items: [{
                     caption : _holder_view.txtGroup,
-                    iconCls : 'mnu-group',
+                    iconCls : 'menu__icon shape-group',
                     value: 'grouping'
                 }, {
                     caption : _holder_view.txtUngroup,
-                    iconCls : 'mnu-ungroup',
+                    iconCls : 'menu__icon shape-ungroup',
                     value: 'ungrouping'
                 }]
             }));
@@ -2263,8 +2173,6 @@ define([
         tipClearStyle:      'Clear',
         tipCopyStyle:       'Copy Style',
         tipBack:            'Back',
-        tipHAligh:          'Horizontal Align',
-        tipVAligh:          'Vertical Align',
         tipAlignLeft:       'Align Left',
         tipAlignRight:      'Align Right',
         tipAlignCenter:     'Align Center',

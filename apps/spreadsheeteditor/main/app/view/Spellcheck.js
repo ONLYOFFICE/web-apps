@@ -82,7 +82,7 @@ define([
             this.buttonNext = new Common.UI.Button({
                 style: 'margin-left: 5px; width: 22px; height: 22px; border: 1px solid #cfcfcf;',
                 cls: 'btn-toolbar bg-white',
-                iconCls: 'btn-spellcheck-next',
+                iconCls: 'toolbar__icon btn-nextitem',
                 hint: this.txtNextTip
             });
             this.buttonNext.render($('#spellcheck-next'));
