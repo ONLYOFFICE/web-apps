@@ -410,7 +410,7 @@ define([
 
                 me.btnOptions = new Common.UI.Button({
                     cls: 'btn-header no-caret',
-                    iconCls: 'toolbar__icon icon--inverse btn-options',
+                    iconCls: 'toolbar__icon icon--inverse btn-ic-options',
                     menu: true
                 });
 
