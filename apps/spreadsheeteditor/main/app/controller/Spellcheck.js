@@ -66,7 +66,7 @@ define([
                     'spellcheck:update': function () {
                         me.updateLanguages();
                     }
-                },
+                }
             });
         },
 
