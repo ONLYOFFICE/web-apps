@@ -238,36 +238,18 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             });
 
             // Check Box
-            this.txtChecked = new Common.UI.InputField({
-                el          : $('#control-settings-input-checked'),
-                allowBlank  : true,
-                validateOnChange: false,
-                validateOnBlur: false,
-                style       : 'width: 30px;',
-                value       : ''
-            });
-            this.txtChecked._input.attr('disabled', true);
-            this.txtChecked._input.css({'text-align': 'center', 'font-size': '16px'});
-
-            this.txtUnchecked = new Common.UI.InputField({
-                el          : $('#control-settings-input-unchecked'),
-                allowBlank  : true,
-                validateOnChange: false,
-                validateOnBlur: false,
-                style       : 'width: 30px;',
-                value       : ''
-            });
-            this.txtUnchecked._input.attr('disabled', true);
-            this.txtUnchecked._input.css({'text-align': 'center', 'font-size': '16px'});
-
             this.btnEditChecked = new Common.UI.Button({
-                el: $('#control-settings-btn-checked-edit')
+                el: $('#control-settings-btn-checked-edit'),
+                hint: this.tipChange
             });
+            this.btnEditChecked.cmpEl.css({'font-size': '16px', 'line-height': '16px'});
             this.btnEditChecked.on('click', _.bind(this.onEditCheckbox, this, true));
 
             this.btnEditUnchecked = new Common.UI.Button({
-                el: $('#control-settings-btn-unchecked-edit')
+                el: $('#control-settings-btn-unchecked-edit'),
+                hint: this.tipChange
             });
+            this.btnEditUnchecked.cmpEl.css({'font-size': '16px', 'line-height': '16px'});
             this.btnEditUnchecked.on('click', _.bind(this.onEditCheckbox, this, false));
 
             this.afterRender();
@@ -388,14 +370,14 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     if (specProps) {
                         var code = specProps.get_CheckedSymbol(),
                             font = specProps.get_CheckedFont();
-                        font && this.txtChecked.cmpEl.css('font-family', font);
-                        code && this.txtChecked.setValue(String.fromCharCode(code));
+                        font && this.btnEditChecked.cmpEl.css('font-family', font);
+                        code && this.btnEditChecked.setCaption(String.fromCharCode(code));
                         this.checkedBox = {code: code, font: font};
 
                         code = specProps.get_UncheckedSymbol();
                         font = specProps.get_UncheckedFont();
-                        font && this.txtUnchecked.cmpEl.css('font-family', font);
-                        code && this.txtUnchecked.setValue(String.fromCharCode(code));
+                        font && this.btnEditUnchecked.cmpEl.css('font-family', font);
+                        code && this.btnEditUnchecked.setCaption(String.fromCharCode(code));
                         this.uncheckedBox = {code: code, font: font};
                     }
                 }
@@ -599,14 +581,14 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             if (this.api) {
                 var me = this,
                     props = (checked) ? me.checkedBox : me.uncheckedBox,
-                    cmp = (checked) ? me.txtChecked : me.txtUnchecked,
+                    cmp = (checked) ? me.btnEditChecked : me.btnEditUnchecked,
                     handler = function(dlg, result, settings) {
                         if (result == 'ok') {
                             props.changed = true;
                             props.code = settings.code;
                             props.font = settings.font;
                             props.font && cmp.cmpEl.css('font-family', props.font);
-                            settings.symbol && cmp.setValue(settings.symbol);
+                            settings.symbol && cmp.setCaption(settings.symbol);
                         }
                     },
                     win = new Common.Views.SymbolTableDialog({
@@ -657,7 +639,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textFormat: 'Display the date like this',
         textCheckbox: 'Check box',
         textChecked: 'Checked symbol',
-        textUnchecked: 'Unchecked symbol'
+        textUnchecked: 'Unchecked symbol',
+        tipChange: 'Change symbol'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

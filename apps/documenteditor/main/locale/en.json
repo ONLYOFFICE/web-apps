@@ -1160,6 +1160,7 @@
   "DE.Views.ControlSettingsDialog.textCheckbox": "Check box",
   "DE.Views.ControlSettingsDialog.textChecked": "Checked symbol",
   "DE.Views.ControlSettingsDialog.textUnchecked": "Unchecked symbol",
+  "DE.Views.ControlSettingsDialog.tipChange": "Change symbol",
   "DE.Views.CustomColumnsDialog.textColumns": "Number of columns",
   "DE.Views.CustomColumnsDialog.textSeparator": "Column divider",
   "DE.Views.CustomColumnsDialog.textSpacing": "Spacing between columns",
