@@ -119,7 +119,9 @@ define([
                         'Date': this.txtDate,
                         'Time': this.txtTime,
                         'Tab': this.txtTab,
-                        'File': this.txtFile
+                        'File': this.txtFile,
+                        'Column': this.txtColumn,
+                        'Row': this.txtRow
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2459,6 +2461,8 @@ define([
             txtTab: 'Tab',
             txtFile: 'File',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            txtColumn: 'Column',
+            txtRow: 'Row',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), SSE.Controllers.Main || {}))

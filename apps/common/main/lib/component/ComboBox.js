@@ -217,6 +217,11 @@ define([
                         });
                     }
 
+                    var $list = el.find('.dropdown-menu');
+                    if ($list.hasClass('menu-absolute')) {
+                        $list.css('min-width', el.outerWidth());
+                    }
+
                     el.on('show.bs.dropdown',             _.bind(me.onBeforeShowMenu, me));
                     el.on('shown.bs.dropdown',            _.bind(me.onAfterShowMenu, me));
                     el.on('hide.bs.dropdown',             _.bind(me.onBeforeHideMenu, me));
@@ -291,6 +296,12 @@ define([
                             tip.dontShow = true;
                         tip.hide();
                     }
+                }
+
+                var $list = this.cmpEl.find('ul');
+                if ($list.hasClass('menu-absolute')) {
+                    var offset = this.cmpEl.offset();
+                    $list.css({left: offset.left, top: offset.top + this.cmpEl.outerHeight() + 2});
                 }
             },
 
