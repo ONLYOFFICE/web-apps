@@ -162,7 +162,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
             this.btnUp = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-incfont',
+                iconCls: 'caret-up',
                 hint: this.textUp
             });
             this.btnUp.render($('#sort-dialog-btn-up')) ;
@@ -170,7 +170,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
             this.btnDown = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-decfont',
+                iconCls: 'caret-down',
                 hint: this.textDown
             });
             this.btnDown.render($('#sort-dialog-btn-down')) ;

@@ -111,6 +111,52 @@
             }
         }
     }
+
+    .icon {
+        &.caret-up, &.caret-down {
+            &::after {
+                content: '';
+                position: absolute;
+                left: 6px;
+                width: 8px;
+                height: 8px;
+                background-color: transparent;
+                border: solid 1px @gray-deep;
+                border-bottom: none;
+                border-right: none;
+            }
+        }
+
+        &.caret-up {
+            &::after {
+                top: 8px;
+                -moz-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                -o-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+        }
+        &.caret-down {
+            &::after {
+                top: 4px;
+                -moz-transform: rotate(225deg);
+                -ms-transform: rotate(225deg);
+                -webkit-transform: rotate(225deg);
+                -o-transform: rotate(225deg);
+                transform: rotate(225deg);
+            }
+        }
+    }
+
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
+        .caret-up, .caret-down {
+            &::after {
+                border-color: #FFFFFF;
+            }
+        }
+    }
 }
 
 .btn.icon-top, .btn-group.icon-top {
