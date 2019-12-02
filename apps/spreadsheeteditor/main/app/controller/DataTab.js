@@ -221,11 +221,11 @@ define([
                 if (res) {
                     var config = {
                         width: 500,
-                        title: this.txtSorting,
-                        msg: this.txtExpandSort,
+                        title: this.toolbar.txtSorting,
+                        msg: this.toolbar.txtExpandSort,
 
-                        buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                            {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                        buttons: [  {caption: this.toolbar.txtExpand, primary: true, value: 'expand'},
+                            {caption: this.toolbar.txtSortSelected, primary: true, value: 'sort'},
                             'cancel'],
                         callback: function(btn){
                             if (btn == 'expand' || btn == 'sort') {
@@ -273,11 +273,7 @@ define([
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
         },
 
-        textWizard: 'Text to Columns Wizard',
-        txtExpandSort: 'The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?',
-        txtExpand: 'Expand and sort',
-        txtSorting: 'Sorting',
-        txtSortSelected: 'Sort selected'
+        textWizard: 'Text to Columns Wizard'
 
     }, SSE.Controllers.DataTab || {}));
 });
