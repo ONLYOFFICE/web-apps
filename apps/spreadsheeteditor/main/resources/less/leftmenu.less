@@ -189,22 +189,8 @@
                             .settings-icon {
                                 width: 20px;
                                 height: 20px;
-                                background-repeat: no-repeat;
-                                .background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
                                 margin: 0 5px 3px 0;
                                 vertical-align: middle;
-
-                                &.mnu-print {
-                                    background-position: 0 -220px;
-                                }
-
-                                &.mnu-settings-general {
-                                    background-position: 0 -1141px;
-                                }
-
-                                &.mu-settings-spellcheck {
-                                    background-position: 0px -1860px;
-                                }
                             }
                         }
 
@@ -218,17 +204,8 @@
                             color: @dropdown-link-active-color;
 
                             .settings-icon {
-                                &.mnu-print {
-                                    background-position: -20px -220px;
-                                }
-
-                                &.mnu-settings-general {
-                                    background-position: -20px -1141px;
-                                }
-
-                                &.mu-settings-spellcheck {
-                                    background-position: -20px -1860px;
-                                }
+                                background-position-x: -20px;
+                                --bgX: -20px;
                             }
                         }
                     }
