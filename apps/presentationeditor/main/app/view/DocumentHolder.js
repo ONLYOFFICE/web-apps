@@ -3751,7 +3751,7 @@ define([
         txtPrintSelection: 'Print Selection',
         addToLayoutText: 'Add to Layout',
         txtResetLayout: 'Reset Slide',
-        mniCustomTable: 'Insert custom table'
+        mniCustomTable: 'Insert Custom Table'
 
     }, PE.Views.DocumentHolder || {}));
 });

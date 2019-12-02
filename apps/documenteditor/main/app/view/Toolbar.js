@@ -2285,8 +2285,8 @@ define([
             capBtnAddComment: 'Add Comment',
             capBtnInsSymbol: 'Symbol',
             tipInsertSymbol: 'Insert symbol',
-            mniDrawTable: 'Draw table',
-            mniEraseTable: 'Erase table'
+            mniDrawTable: 'Draw Table',
+            mniEraseTable: 'Erase Table'
         }
     })(), DE.Views.Toolbar || {}));
 });
