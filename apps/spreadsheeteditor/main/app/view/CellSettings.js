@@ -193,7 +193,7 @@ define([
 
             this.numGradientAngle = new Common.UI.MetricSpinner({
                 el: $('#cell-spin-gradient-angle'),
-                step: 1,
+                step: 10,
                 width: 90,
                 defaultUnit : "°",
                 value: '0 °',
