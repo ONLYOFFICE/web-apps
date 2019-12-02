@@ -64,7 +64,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             me.listenTo(me.model, 'change:selected', function() {
                 var el = me.$el || $(me.el);
                 el.toggleClass('selected', me.model.get('selected') && me.model.get('allowSelected'));
-                me.onSelectChange();
+                me.onSelectChange(me.model, me.model.get('selected') && me.model.get('allowSelected'));
             });
             me.listenTo(me.model, 'remove',             me.remove);
         }
