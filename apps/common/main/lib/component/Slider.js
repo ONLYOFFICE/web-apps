@@ -354,6 +354,7 @@ define([
                         return;
                     }
                     me.trigger('removethumb', me, _.findIndex(me.thumbs, {index: index}));
+                    me.trigger('change', me, value, lastValue);
                     me.trigger('changecomplete', me, value, lastValue);
                 } else {
                     me.setThumbPosition(index, pos);
