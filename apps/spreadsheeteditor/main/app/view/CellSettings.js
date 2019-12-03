@@ -465,7 +465,6 @@ define([
                     this.pattern = this.fill.asc_getPatternFill();
                     this.gradient = this.fill.asc_getGradientFill();
                     if (this.pattern === null && this.gradient === null) {
-                        this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                         this.CellColor = {Value: 0, Color: 'transparent'};
                         this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
                         this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -476,6 +475,7 @@ define([
                         this.GradColor.colors[1] = 'ffffff';
                         this.GradColor.values = [0, 100];
                         this.GradColor.currentIdx = 0;
+                        this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     } else if (this.pattern !== null) {
                         if (this.pattern.asc_getType() === -1) {
                             var color = this.pattern.asc_getFgColor();
