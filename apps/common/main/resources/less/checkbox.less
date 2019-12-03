@@ -3,37 +3,58 @@
     margin-bottom: 0;
     .font-size-normal();
     font-weight: normal;
+    position: relative;
 
     input[type=button] {
-        background-color: transparent;
         background-position: @checkbox-offset-x @checkbox-offset-y;
-        border: none;
         margin-left: -22px;
         margin-right: 6px;
-        padding-bottom: 4px;
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
         cursor: default;
         vertical-align: top;
         margin-top: -1px;
+        background: #fff;
+        border: 1px solid @gray;
 
         &.checked {
-            background-position: @checkbox-offset-x @checkbox-offset-y - 16px;
+            + span {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    border: solid @gray-deep;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                    width: 6px;
+                    height: 10px;
+                    left: 4px;
+                    top: -1px;
+                }
+            }
         }
 
         &.indeterminate {
-            background-position: @checkbox-offset-x @checkbox-offset-y - 48px;
+            + span {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    border: 1px solid @gray-deep;
+                    background: @gray-soft;
+                    width: 10px;
+                    height: 10px;
+                    left: 3px;
+                    top: 2px;
+                }
+            }
         }
 
         &.disabled {
-            background-position: @checkbox-offset-x - 48px @checkbox-offset-y;
+            opacity: .4;
 
-            &.checked {
-                background-position: @checkbox-offset-x - 48px @checkbox-offset-y - 16px;
-            }
-
-            &.indeterminate {
-                background-position: @checkbox-offset-x - 48px @checkbox-offset-y - 48px;
+            + span {
+                &::before {
+                    opacity: .4;
+                }
             }
         }
     }
