@@ -3493,7 +3493,7 @@ define([
 
             menu.alignPosition();
             _.delay(function() {
-                menu.cmpEl.focus();
+                menu.cmpEl.find('.dataview').focus();
             }, 10);
             this._fromShowPlaceholder = false;
         },
