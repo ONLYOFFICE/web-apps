@@ -853,7 +853,7 @@ define([
         tipInnerVert:       'Set Vertical Inner Lines Only',
         tipInnerHor:        'Set Horizontal Inner Lines Only',
         tipOuter:           'Set Outer Border Only',
-        textCellSize: 'Cell Size',
+        textCellSize: 'Rows & Columns Size',
         textHeight: 'Height',
         textWidth: 'Width',
         textDistributeRows: 'Distribute rows',
