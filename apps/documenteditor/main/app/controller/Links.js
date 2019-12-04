@@ -441,6 +441,7 @@ define([
                     me.api.asc_SetContentControlProperties(props, id);
                     controlsContainer.hide();
                     me.api.asc_UncheckContentControlButtons();
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 });
                 this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
                     if (e.keyCode==Common.UI.Keys.ESC) {
