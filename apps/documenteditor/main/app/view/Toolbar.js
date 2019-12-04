@@ -1605,7 +1605,12 @@ define([
                     new Common.UI.Menu({
                         style: 'min-width: 139px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 5px;"></div>')},
+                            this.mnuMarkerSettings = new Common.UI.MenuItem({
+                                caption: this.textBulletSettings,
+                                // disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
+                                value: 'settings'
+                            })
                         ]
                     })
                 );
@@ -2286,7 +2291,8 @@ define([
             capBtnInsSymbol: 'Symbol',
             tipInsertSymbol: 'Insert symbol',
             mniDrawTable: 'Draw Table',
-            mniEraseTable: 'Erase Table'
+            mniEraseTable: 'Erase Table',
+            textBulletSettings: 'Define New Bullet'
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -58,7 +58,8 @@ define([
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
-    'documenteditor/main/app/view/CompareSettingsDialog'
+    'documenteditor/main/app/view/CompareSettingsDialog',
+    'documenteditor/main/app/view/BulletSettingsDialog'
 ], function () {
     'use strict';
 
@@ -285,6 +286,7 @@ define([
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
+            toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -1309,6 +1311,37 @@ define([
 
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onMarkerSettingsClick: function(type) {
+            var me      = this,
+                props;
+
+            var selectedElements = me.api.getSelectedElements();
+            if (selectedElements && _.isArray(selectedElements)) {
+                for (var i = 0; i< selectedElements.length; i++) {
+                    if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                        props = selectedElements[i].get_ObjectValue();
+                        break;
+                    }
+                }
+            }
+            if (props) {
+                (new DE.Views.BulletSettingsDialog({
+                    api: me.api,
+                    props: props,
+                    type: type,
+                    interfaceLang: me.mode.lang,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                // me.api.paraApply(value);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            }
         },
 
         onLineSpaceToggle: function(menu, item, state, e) {
