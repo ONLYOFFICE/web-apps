@@ -527,7 +527,6 @@ define([
             documentHolderView._preventClick = true;
             menu.show();
 
-            menu.alignPosition();
             _.delay(function() {
                 menu.cmpEl.focus();
             }, 10);
