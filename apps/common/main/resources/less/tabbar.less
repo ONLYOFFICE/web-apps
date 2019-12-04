@@ -27,6 +27,13 @@
             padding-top: 0;
             padding-bottom: 0;
             white-space: pre-wrap;
+            text-align: center;
+
+            &::after {
+                content: attr(title);
+                font-weight: bold;
+                display: block;
+            }
 
             &:hover, &:focus {
                 background-color: #7a7a7a;

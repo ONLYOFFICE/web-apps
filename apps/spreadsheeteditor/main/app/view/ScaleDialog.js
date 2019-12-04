@@ -169,10 +169,10 @@ define([
         },
 
         _handleInput: function(state) {
-            if (this.options.handler) {
-                this.options.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
+            if (this.options.handler && state === 'ok') {
+                this.options.handler.call(this, 'ok', this.getSettings());
             }
-            this.close();
+            this.close(state);
         },
 
         onBtnClick: function(event) {
@@ -228,8 +228,8 @@ define([
                 this._state.width = (width !== null && width !== 0) ? width : null;
                 this._state.height = (height !== null && height !== 0) ? height : null;
 
-                width = (width !== null) ? width : 0;
-                height = (height !== null) ? height : 0;
+                width = (width !== null && width !== undefined) ? width : 0;
+                height = (height !== null && height !== undefined) ? height : 0;
 
                 if (width === 0 && height === 0) {
                     this.radioScaleTo.setValue(true,true);
@@ -248,7 +248,7 @@ define([
                     this.cmbScaleHeight.setRawValue(height.toString() + ' ' + this.getTextPages(height));
                 }
 
-                this.spnScale.setValue((scale !== null) ? scale : '', true);
+                this.spnScale.setValue((scale !== null && scale !== undefined) ? scale : '', true);
             }
         },
 
@@ -314,6 +314,13 @@ define([
                 }
                 me._state.height = value;
             }
+        },
+
+        close: function(state) {
+            if (this.options.handler && state !== 'ok') {
+                this.options.handler.call(this, 'cancel', undefined);
+            }
+            Common.UI.Window.prototype.close.call(this);
         },
 
         textTitle: 'Scale Settings',

@@ -82,7 +82,7 @@ define([
 
                 this.btnFinancial = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-finance',
+                    iconCls: 'toolbar__icon btn-finance',
                     caption: formulaDialog.sCategoryFinancial,
                     hint: formulaDialog.sCategoryFinancial,
                     menu: true,
@@ -95,7 +95,7 @@ define([
 
                 this.btnLogical = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-logic',
+                    iconCls: 'toolbar__icon btn-logic',
                     caption: formulaDialog.sCategoryLogical,
                     hint: formulaDialog.sCategoryLogical,
                     menu: true,
@@ -108,7 +108,7 @@ define([
 
                 this.btnTextData = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-func-text',
+                    iconCls: 'toolbar__icon btn-func-text',
                     caption: formulaDialog.sCategoryTextAndData,
                     hint: formulaDialog.sCategoryTextAndData,
                     menu: true,
@@ -121,7 +121,7 @@ define([
 
                 this.btnDateTime = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-datetime',
+                    iconCls: 'toolbar__icon btn-datetime',
                     caption: formulaDialog.sCategoryDateAndTime,
                     hint: formulaDialog.sCategoryDateAndTime,
                     menu: true,
@@ -134,7 +134,7 @@ define([
 
                 this.btnReference = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-lookup',
+                    iconCls: 'toolbar__icon btn-lookup',
                     caption: formulaDialog.sCategoryLookupAndReference,
                     hint: formulaDialog.sCategoryLookupAndReference,
                     menu: true,
@@ -147,7 +147,7 @@ define([
 
                 this.btnMath = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-func-math',
+                    iconCls: 'toolbar__icon btn-func-math',
                     caption: formulaDialog.sCategoryMathematic,
                     hint: formulaDialog.sCategoryMathematic,
                     menu: true,
@@ -160,7 +160,7 @@ define([
 
                 this.btnRecent = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-recent',
+                    iconCls: 'toolbar__icon btn-recent',
                     caption: this.txtRecent,
                     hint: this.txtRecent,
                     menu: true,
@@ -173,7 +173,7 @@ define([
 
                 this.btnAutosum = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-autosum',
+                    iconCls: 'toolbar__icon btn-autosum',
                     caption: this.txtAutosum,
                     hint: this.txtAutosumTip,
                     split: true,
@@ -198,7 +198,7 @@ define([
 
                 this.btnFormula = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ins-formula',
+                    iconCls: 'toolbar__icon btn-ins-formula',
                     caption: this.txtFormula,
                     hint: this.txtFormulaTip,
                     disabled: true,
@@ -209,7 +209,7 @@ define([
 
                 this.btnMore = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-more',
+                    iconCls: 'toolbar__icon btn-more',
                     caption: this.txtMore,
                     hint: this.txtMore,
                     menu: true,
@@ -222,7 +222,7 @@ define([
 
                 this.btnCalculate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-calculation',
+                    iconCls: 'toolbar__icon btn-calculation',
                     caption: this.txtCalculation,
                     split: true,
                     menu: true,

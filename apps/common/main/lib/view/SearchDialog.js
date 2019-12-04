@@ -131,7 +131,7 @@
             this.btnOptions = new Common.UI.Button({
                 id          : 'search-btn-options',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-settings',
+                iconCls     : 'toolbar__icon btn-settings',
 //                hint        : me.tipMerge,
                 menu        : new Common.UI.Menu({
                     items   : [

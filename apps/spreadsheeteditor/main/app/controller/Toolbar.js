@@ -44,6 +44,7 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
@@ -308,8 +309,6 @@ define([
                 toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, AscCommon.align_Center));
                 toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, AscCommon.align_Right));
                 toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Justify));
-                toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
-                toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
                 toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Top));
@@ -323,6 +322,7 @@ define([
                 toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
+                toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -362,7 +362,9 @@ define([
                 toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
                 toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
                 toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
-                toolbar.mnuScale.on('item:click',                           _.bind(this.onScaleClick, this));
+                toolbar.mnuScale.on('item:click',                           _.bind(this.onScaleClick, this, 'scale'));
+                toolbar.menuWidthScale.on('item:click',                     _.bind(this.onScaleClick, this, 'width'));
+                toolbar.menuHeightScale.on('item:click',                    _.bind(this.onScaleClick, this, 'height'));
                 toolbar.btnPrintArea.menu.on('item:click',                  _.bind(this.onPrintAreaClick, this));
                 toolbar.btnPrintArea.menu.on('show:after',                  _.bind(this.onPrintAreaMenuOpen, this));
                 toolbar.btnImgGroup.menu.on('item:click',                   _.bind(this.onImgGroupSelect, this));
@@ -385,18 +387,21 @@ define([
             this.api = api;
 
             var config = SSE.getController('Main').appOptions;
-            if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
-                this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
-                this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
-                this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
-            }
+            if (config.isEdit) {
+                if ( !config.isEditDiagram  && !config.isEditMailMerge ) {
+                    this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
+                    this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
+                    this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+                }
+                this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
+                Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
+                this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
+                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+            } else if (config.isRestrictedEdit)
+                this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChangedRestricted, this));
 
-            this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
-            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
-            Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
-            this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
-            this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
-            Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
         },
 
         // onNewDocument: function(btn, e) {
@@ -428,7 +433,7 @@ define([
         onSave: function(e) {
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = this.toolbar.btnCollabChanges && this.toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
+                var isSyncButton = this.toolbar.btnCollabChanges && this.toolbar.btnCollabChanges.cmpEl.hasClass('notify');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
@@ -713,38 +718,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Horizontal align');
-        },
-
-        onHorizontalAlignMenu: function(menu, item) {
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-
-            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
-            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
-
-            this._state.pralign = undefined;
-            if (this.api)
-                this.api.asc_setCellAlign(!item.checked ? null : item.value);
-
-            this.toolbar.btnWrap.allowDepress = !(item.value == AscCommon.align_Justify);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
-        },
-
-        onVerticalAlignMenu: function(menu, item) {
-            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
-
-            btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls);
-            btnVerticalAlign.options.icls = !item.checked ? 'btn-valign-bottom' : item.options.icls;
-            btnVerticalAlign.$icon.addClass(btnVerticalAlign.options.icls);
-
-            this._state.valign = undefined;
-            if (this.api)
-                this.api.asc_setCellVertAlign(!item.checked ? Asc.c_oAscVAlign.Bottom : item.value);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Vertical Align');
         },
 
         onVerticalAlign: function(type, btn, e) {
@@ -1845,33 +1818,54 @@ define([
         },
 
         onChangeScaleSettings: function(width, height, scale) {
-            var me = this;
             if (this.toolbar.btnScale.menu) {
-                this.toolbar.btnScale.menu.clearAll();
                 if (width !== undefined) {
-                    if ((width === 0 || width === null) && (height === 0 || height === null) && scale === 100) {
-                        this._state.scale = 0;
-                    } else if (width === 1 && height === 1) {
-                        this._state.scale = 1;
-                    } else if (width === 1 && (height === 0 || height === null)) {
-                        this._state.scale = 2;
-                    } else if ((width === 0 || width === null) && height === 1) {
-                        this._state.scale = 3;
-                    } else if ((width === 0 || width === null) && (height === 0 || height === null)) {
-                        this._state.scale = 4;
+                    var isWidth = false,
+                        isHeight = false;
+                    var width = width || 0,
+                        height = height || 0;
+                    if (scale !== undefined) {
+                        this.toolbar.setValueCustomScale(scale);
                     } else {
-                        this._state.scale = 5;
+                        this.toolbar.setValueCustomScale(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
                     }
-                    this.toolbar.setValueCustomScale(scale);
-                } else if (scale === undefined) {
-                    this.toolbar.setValueCustomScale(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
+                    this.toolbar.menuWidthScale.clearAll();
+                    this.toolbar.menuWidthScale.items.forEach(function (item) {
+                        if (item.value === width) {
+                            item.setChecked(true);
+                            isWidth = true;
+                            return false;
+                        }
+                    });
+                    if (!isWidth) {
+                        this.toolbar.menuWidthScale.items[11].setChecked(true);
+                    }
+                    this.toolbar.menuHeightScale.clearAll();
+                    this.toolbar.menuHeightScale.items.forEach(function (item) {
+                        if (item.value === height) {
+                            item.setChecked(true);
+                            isHeight = true;
+                            return false;
+                        }
+                    });
+                    if (!isHeight) {
+                        this.toolbar.menuHeightScale.items[11].setChecked(true);
+                    }
+                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
+                        this.toolbar.btnCustomScaleUp.setDisabled(!(!width && !height));
+                        this.toolbar.btnCustomScaleDown.setDisabled(!(!width && !height));
+                        this.toolbar.mnuCustomScale.setDisabled(!(!width && !height));
+                    }
+                    this._state.scaleWidth = width;
+                    this._state.scaleHeight = height;
+                    this._state.scale = scale;
+                } else {
+                    if (this.toolbar.btnCustomScaleUp && this.toolbar.btnCustomScaleDown) {
+                        this.toolbar.btnCustomScaleUp.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
+                        this.toolbar.btnCustomScaleDown.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
+                        this.toolbar.mnuCustomScale.setDisabled(!(!this._state.scaleWidth && !this._state.scaleHeight));
+                    }
                 }
-                _.each(this.toolbar.btnScale.menu.items, function(item){
-                    if (item.value === me._state.scale) {
-                        item.setChecked(true);
-                        return false;
-                    }
-                }, this);
             }
         },
 
@@ -2210,20 +2204,11 @@ define([
                             toolbar.btnAlignLeft.toggle(index===0, true);
                             toolbar.btnAlignCenter.toggle(index===1, true);
                             toolbar.btnAlignJust.toggle(index===3, true);
-                            toolbar.btnHorizontalAlign.menu.items[index].setChecked(true, false);
                         } else if (index == -255) {
                             toolbar.btnAlignRight.toggle(false, true);
                             toolbar.btnAlignLeft.toggle(false, true);
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
-
-                            toolbar.btnHorizontalAlign.menu.clearAll();
-                        }
-
-                        var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-                        if ( btnHorizontalAlign.rendered ) {
-                            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
-                            btnHorizontalAlign.options.icls = align;
                         }
                     }
 
@@ -2248,13 +2233,6 @@ define([
                             toolbar.btnAlignTop.toggle(index===0, true);
                             toolbar.btnAlignMiddle.toggle(index===1, true);
                             toolbar.btnAlignBottom.toggle(index===2, true);
-                            toolbar.btnVerticalAlign.menu.items[index].setChecked(true, false);
-
-                            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
-                            if ( btnVerticalAlign.rendered ) {
-                                btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls).addClass(align);
-                                btnVerticalAlign.options.icls = align;
-                            }
                         }
                     }
 
@@ -2285,7 +2263,7 @@ define([
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnTableTemplate, toolbar.btnInsertTable) });
+                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable) });
 
                 val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
@@ -2315,10 +2293,10 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsClearAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable)});
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsClearAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable)});
 
                 need_disable = !this.appConfig.canModifyFilter;
-                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2],
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2],
                                                                                     toolbar.btnInsertTable)});
 
             }
@@ -2397,10 +2375,18 @@ define([
                 toolbar.btnDeleteCell.menu.items[1].setDisabled(this._state.controlsdisabled.cells_down);
             }
 
-            toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()),
+            toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
+                                                          this.toolbar.mode.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
                                 { array: this.btnsComment });
 
             toolbar.lockToolbar(SSE.enumLock.headerLock, info.asc_getLockedHeaderFooter(), {array: this.toolbar.btnsEditHeader});
+        },
+
+        onApiSelectionChangedRestricted: function(info) {
+            var selectionType = info.asc_getFlags().asc_getSelectionType();
+            this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
+                                    this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
+                                    { array: this.btnsComment });
         },
 
         onApiSelectionChanged_DiagramEditor: function(info) {
@@ -2737,6 +2723,28 @@ define([
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Equation');
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnInsertEquation);
+        },
+
+        onInsertSymbolClick: function() {
+            if (this.api) {
+                var me = this,
+                    win = new Common.Views.SymbolTableDialog({
+                        api: me.api,
+                        lang: me.toolbar.mode.lang,
+                        type: 1,
+                        buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        handler: function(dlg, result, settings) {
+                            if (result == 'ok') {
+                                me.api.asc_insertSymbol(settings.font, settings.code);
+                            } else
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                win.show();
+                win.on('symbol:dblclick', function(cmp, result, settings) {
+                    me.api.asc_insertSymbol(settings.font, settings.code);
+                });
+            }
         },
 
         onApiMathTypes: function(equation) {
@@ -3127,71 +3135,73 @@ define([
                     compactview = true;
             }
 
-            setTimeout(function () {
-                me.toolbar.render(_.extend({isCompactView: compactview}, config));
-                if ( config.isEdit ) {
-                    me.toolbar.setMode(config);
+            me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-                    me.toolbar.btnSave && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-                    me.toolbar.btnUndo && me.toolbar.btnUndo.on('disabled', _.bind(me.onBtnChangeState, me, 'undo:disabled'));
-                    me.toolbar.btnRedo && me.toolbar.btnRedo.on('disabled', _.bind(me.onBtnChangeState, me, 'redo:disabled'));
-                    me.toolbar.btnPrint && me.toolbar.btnPrint.on('disabled', _.bind(me.onBtnChangeState, me, 'print:disabled'));
-                    me.toolbar.setApi(me.api);
+            if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
+                var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ($panel)
+                    me.toolbar.addTab(tab, $panel, 6);
+            }
 
-                    if ( !config.isEditDiagram && !config.isEditMailMerge ) {
-                        var datatab = me.getApplication().getController('DataTab');
-                        datatab.setApi(me.api).setConfig({toolbar: me});
+            if ( config.isEdit ) {
+                me.toolbar.setMode(config);
 
-                        datatab = datatab.getView('DataTab');
-                        Array.prototype.push.apply(me.toolbar.lockControls, datatab.getButtons());
-                        me.toolbar.btnsSortDown = datatab.getButtons('sort-down');
-                        me.toolbar.btnsSortUp = datatab.getButtons('sort-up');
-                        me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
-                        me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
+                me.toolbar.btnSave && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+                me.toolbar.btnUndo && me.toolbar.btnUndo.on('disabled', _.bind(me.onBtnChangeState, me, 'undo:disabled'));
+                me.toolbar.btnRedo && me.toolbar.btnRedo.on('disabled', _.bind(me.onBtnChangeState, me, 'redo:disabled'));
+                me.toolbar.btnPrint && me.toolbar.btnPrint.on('disabled', _.bind(me.onBtnChangeState, me, 'print:disabled'));
+                me.toolbar.setApi(me.api);
 
-                        var formulatab = me.getApplication().getController('FormulaDialog');
-                        formulatab.setConfig({toolbar: me});
-                        formulatab = formulatab.getView('FormulaTab');
-                        me.toolbar.btnsFormula = formulatab.getButtons('formula');
-                        Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
+                if ( !config.isEditDiagram && !config.isEditMailMerge ) {
+                    var datatab = me.getApplication().getController('DataTab');
+                    datatab.setApi(me.api).setConfig({toolbar: me});
 
-                        if ( !config.isOffline ) {
-                            tab = {action: 'pivot', caption: me.textPivot};
-                            $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
-                            if ($panel) {
-                                me.toolbar.addTab(tab, $panel, 5);
-                                me.toolbar.setVisible('pivot', true);
-                            }
+                    datatab = datatab.getView('DataTab');
+                    Array.prototype.push.apply(me.toolbar.lockControls, datatab.getButtons());
+                    me.toolbar.btnsSortDown = datatab.getButtons('sort-down');
+                    me.toolbar.btnsSortUp = datatab.getButtons('sort-up');
+                    me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
+                    me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
+                    me.toolbar.btnCustomSort = datatab.getButtons('sort-custom');
+
+                    var formulatab = me.getApplication().getController('FormulaDialog');
+                    formulatab.setConfig({toolbar: me});
+                    formulatab = formulatab.getView('FormulaTab');
+                    me.toolbar.btnsFormula = formulatab.getButtons('formula');
+                    Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
+
+                    if ( !config.isOffline ) {
+                        var tab = {action: 'pivot', caption: me.textPivot};
+                        var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                        if ($panel) {
+                            me.toolbar.addTab(tab, $panel, 5);
+                            me.toolbar.setVisible('pivot', true);
                         }
+                    }
 
-                        var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
-                        var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                        if ( $panel )
-                            me.toolbar.addTab(tab, $panel, 6);
+                    if (!(config.customization && config.customization.compactHeader)) {
+                        // hide 'print' and 'save' buttons group and next separator
+                        me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
-                        if (!(config.customization && config.customization.compactHeader)) {
-                            // hide 'print' and 'save' buttons group and next separator
-                            me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+                        // hide 'undo' and 'redo' buttons and get container
+                        var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
 
-                            // hide 'undo' and 'redo' buttons and get container
-                            var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+                        // move 'paste' button to the container instead of 'undo' and 'redo'
+                        me.toolbar.btnPaste.$el.detach().appendTo($box);
+                        me.toolbar.btnCopy.$el.removeClass('split');
+                    }
 
-                            // move 'paste' button to the container instead of 'undo' and 'redo'
-                            me.toolbar.btnPaste.$el.detach().appendTo($box);
-                            me.toolbar.btnCopy.$el.removeClass('split');
-                        }
-
-                        if ( config.isDesktopApp ) {
-                            if ( config.canProtect ) {
-                                tab = {action: 'protect', caption: me.toolbar.textTabProtect};
-                                $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
-                                if ($panel)
-                                    me.toolbar.addTab(tab, $panel, 7);
-                            }
+                    if ( config.isDesktopApp ) {
+                        if ( config.canProtect ) {
+                            var tab = {action: 'protect', caption: me.toolbar.textTabProtect};
+                            var $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                            if ($panel)
+                                me.toolbar.addTab(tab, $panel, 7);
                         }
                     }
                 }
-            }, 0);
+            }
         },
 
         onAppReady: function (config) {
@@ -3201,7 +3211,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = SSE.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', this.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock, _set.editCell]);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock, _set.editCell]);
 
                 if ( this.btnsComment.length ) {
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();
@@ -3211,6 +3221,8 @@ define([
                         btn.on('click', function (btn, e) {
                             Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
                         });
+                        if (btn.cmpEl.closest('#review-changes-panel').length>0)
+                            btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
                 }
             }
@@ -3390,50 +3402,40 @@ define([
             }
         },
 
-        onScaleClick: function(menu, item, event, scale) {
+        onScaleClick: function(type, menu, item, event, scale) {
             var me = this;
             if (me.api) {
-                if (scale !== undefined) {
-                    me.api.asc_SetPrintScale(0, 0, scale);
-                    me._state.scale = 4;
-                } else {
-                    switch (item.value) {
-                        case 0:
-                            me.api.asc_SetPrintScale(0, 0, 100);
-                            me._state.scale = 0;
-                            break;
-                        case 1:
-                            me.api.asc_SetPrintScale(1, 1, 100);
-                            me._state.scale = 1;
-                            break;
-                        case 2:
-                            me.api.asc_SetPrintScale(1, 0, 100);
-                            me._state.scale = 2;
-                            break;
-                        case 3:
-                            me.api.asc_SetPrintScale(0, 1, 100);
-                            me._state.scale = 3;
-                            break;
-                        case 5:
-                            var win = new SSE.Views.ScaleDialog({
-                                api: me.api,
-                                props: null,
-                                handler: function (dlg, result) {
-                                    if (dlg == 'ok') {
-                                        if (me.api && result) {
-                                            me.api.asc_SetPrintScale(result.width, result.height, result.scale);
-                                            me.onChangeScaleSettings(result.width, result.height, result.scale);
-                                        }
-                                        me._state.scale = 5;
-                                    } else {
-                                        me.onChangeScaleSettings();
-                                    }
-                                    Common.NotificationCenter.trigger('edit:complete');
-                                }
-                            });
-                            win.show();
-                            break;
+                if (type === 'width' && item.value !== 'more') {
+                    if (me._state.scaleHeight === undefined || me._state.scaleHeight === null) {
+                        me._state.scaleHeight = 0;
                     }
+                    me.api.asc_SetPrintScale(item.value, me._state.scaleHeight, 100);
+                    me.onChangeScaleSettings(item.value, me._state.scaleHeight, 100);
+                } else if (type === 'height' && item.value !== 'more') {
+                    if (me._state.scaleWidth === undefined || me._state.scaleWidth === null) {
+                        me._state.scaleWidth = 0;
+                    }
+                    me.api.asc_SetPrintScale(me._state.scaleWidth, item.value, 100);
+                    me.onChangeScaleSettings(me._state.scaleWidth, item.value, 100);
+                } else if (type === 'scale' && scale !== undefined) {
+                    me.api.asc_SetPrintScale(0, 0, scale);
+                } else if (item.value === 'custom' || item.value === 'more') {
+                    var win = new SSE.Views.ScaleDialog({
+                        api: me.api,
+                        props: null,
+                        handler: function (dlg, result) {
+                            if (dlg == 'ok') {
+                                if (me.api && result) {
+                                    me.api.asc_SetPrintScale(result.width, result.height, result.scale);
+                                    me.onChangeScaleSettings(result.width, result.height, result.scale);
+                                }
+                            } else {
+                                me.onChangeScaleSettings(me._state.scaleWidth, me._state.scaleHeight, me._state.scale);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete');
+                        }
+                    });
+                    win.show();
                 }
             }
 
@@ -3798,7 +3800,8 @@ define([
         textPivot: 'Pivot Table',
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
-        txtTable_TableStyleLight: 'Table Style Light'
+        txtTable_TableStyleLight: 'Table Style Light',
+        textInsert: 'Insert'
 
     }, SSE.Controllers.Toolbar || {}));
 });

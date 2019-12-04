@@ -1,4 +1,6 @@
 @x-huge-btn-height: 46px;
+@btn-disabled-opacity: .4;
+@x-huge-btn-icon-size: 28px;
 
 .btn {
     border-radius: 1px;
@@ -31,10 +33,7 @@
     }
 
     &[disabled] {
-        opacity: 1;
-        .caption {
-            opacity: 0.65;
-        }
+        opacity: @btn-disabled-opacity;
     }
     
     &:focus {
@@ -85,6 +84,79 @@
             padding: 0 4px;
         }
     }
+
+    &.notify {
+        .icon {
+            &::after {
+                content: ' ';
+                position: absolute;
+                border: 1px solid #000;
+                border-left: 0 none;
+                border-right: 0 none;
+                width: 6px;
+                height: 3px;
+                bottom: 4px;
+                right: 2px;
+            }
+
+            &::before {
+                content: ' ';
+                position: absolute;
+                width: 10px;
+                height: 7px;
+                bottom: 2px;
+                background-color: #ffd112;
+                border-radius: 2px;
+                right: 0;
+            }
+        }
+    }
+
+    .icon {
+        &.caret-up, &.caret-down {
+            &::after {
+                content: '';
+                position: absolute;
+                left: 6px;
+                width: 8px;
+                height: 8px;
+                background-color: transparent;
+                border: solid 1px @gray-deep;
+                border-bottom: none;
+                border-right: none;
+            }
+        }
+
+        &.caret-up {
+            &::after {
+                top: 8px;
+                -moz-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                -o-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+        }
+        &.caret-down {
+            &::after {
+                top: 4px;
+                -moz-transform: rotate(225deg);
+                -ms-transform: rotate(225deg);
+                -webkit-transform: rotate(225deg);
+                -o-transform: rotate(225deg);
+                transform: rotate(225deg);
+            }
+        }
+    }
+
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
+        .caret-up, .caret-down {
+            &::after {
+                border-color: #FFFFFF;
+            }
+        }
+    }
 }
 
 .btn.icon-top, .btn-group.icon-top {
@@ -101,7 +173,7 @@
     }
 
     &.x-huge {
-        @icon-size: 26px;
+        @icon-size: 28px;
 
         min-width: 45px;
         height: @x-huge-btn-height;
@@ -123,10 +195,23 @@
             }
         }
 
-        .icon {
-            width: @icon-size;
-            height: @icon-size;
+        .icon:not(svg) {
+            width: @x-huge-btn-icon-size;
+            height: @x-huge-btn-icon-size;
             min-width: 0;
+        }
+
+        svg.icon {
+            width: 28px;
+            height: 28px;
+
+            @media
+            only screen and (-webkit-min-device-pixel-ratio: 1.5),
+            only screen and (min-resolution: 1.5dppx),
+            only screen and (min-resolution: 144dpi) {
+                width:calc(~"40px/1.5");
+                height:calc(~"40px/1.5");
+            }
         }
 
         button.small .icon {
@@ -175,10 +260,8 @@
 
 .icon-top {
     &.x-huge  {
-        @icon-size: 26px;
-
         .btn&, .btn-group& .btn-toolbar {
-            .mx-button-otherstates-icon2(@icon-size);
+            .mx-button-otherstates-icon2(@x-huge-btn-icon-size);
         }
 
         .btn.small {
@@ -238,21 +321,16 @@
             height: 20px;
             line-height: 20px;
 
-            &:not(svg) {
-                .background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
+        }
+
+        svg.icon {
+            @media
+            only screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+            only screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+            only screen and (min-resolution: 144dpi) and (max-resolution: 143dpi) {
+                width:calc(~"28px/1.5");
+                height:calc(~"28px/1.5");
             }
-        }
-    }
-
-    &.x-huge, .btn-group.x-huge > & {
-        :not(svg).icon {
-            .background-ximage('@{common-image-path}/controls/toolbarbig.png', '@{common-image-path}/controls/toolbarbig@2x.png', 78px);
-        }
-    }
-
-    &:not(.x-huge) {
-        .icon {
-            //.background-ximage('@{app-image-path}/toolbar-menu.png', '@{app-image-path}/toolbar-menu@2x.png', 60px);
         }
     }
 
@@ -276,7 +354,7 @@
         pointer-events: none;
         position: absolute;
         left: 3px;
-        bottom: 2px;
+        bottom: 1px;
         width: 14px;
         height: 3px;
         background-color: red;
@@ -315,7 +393,7 @@
     &[disabled],
     &.disabled {
         color: #000;
-        opacity: 0.4;
+        opacity: @btn-disabled-opacity;
     }
 }
 
@@ -396,6 +474,13 @@
                     .caret {
                         float: right;
                     }
+                }
+            }
+        }
+        .dropdown-menu {
+            &.scale-menu {
+                li.disabled {
+                    opacity: 0.65;
                 }
             }
         }
@@ -502,10 +587,17 @@
         background-repeat: no-repeat;
     }
 
+    box-shadow: inset 0 0 0 1px @gray;
+    .border-radius(@border-radius-small);
+
     &:hover,
-    .over,
+    &.over {
+        background-color: @secondary;
+    }
+
     &:active,
     &.active {
+        background-color: @primary;
     }
 }
 
@@ -716,5 +808,45 @@
     &.custom {
         width: auto;
         min-width: 86px;
+    }
+}
+
+@class100: zoom-int;
+@class150: zoom-grit;
+svg.icon {
+    .@{class150} {
+        display: none;
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 1.5),
+    only screen and (-webkit-min-device-pixel-ratio: 2.5),
+    only screen and (min-resolution: 1.5dppx),
+    only screen and (min-resolution: 2.5dppx),
+    only screen and (min-resolution: 144dpi),
+    only screen and (min-resolution: 240dpi) {
+        .@{class100} {
+            display: none;
+        }
+
+        .@{class150} {
+            display: block;
+        }
+    }
+
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: 2) and (-webkit-max-device-pixel-ratio: 2.4),
+    only screen and (-webkit-min-device-pixel-ratio: 4),
+    only screen and (min-resolution: 2dppx) and (max-resolution: 2.4dppx),
+    only screen and (min-resolution: 4dppx),
+    only screen and (min-resolution: 192dpi) and (max-resolution: 239dpi),
+    only screen and (min-resolution: 384dpi) {
+        .@{class100} {
+            display: block;
+        }
+
+        .@{class150} {
+            display: none;
+        }
     }
 }

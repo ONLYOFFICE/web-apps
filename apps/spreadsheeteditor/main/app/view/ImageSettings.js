@@ -142,7 +142,7 @@ define([
 
             this.btnRatio = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'advanced-btn-ratio',
+                iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -199,6 +199,7 @@ define([
 
             this.lblReplace = $('#image-lbl-replace');
 
+            var w = this.btnOriginalSize.cmpEl.outerWidth();
             this.btnCrop = new Common.UI.Button({
                 cls: 'btn-text-split-default',
                 caption: this.textCrop,
@@ -206,9 +207,9 @@ define([
                 enableToggle: true,
                 allowDepress: true,
                 pressed: this._state.cropMode,
-                width: 100,
+                width: w,
                 menu        : new Common.UI.Menu({
-                    style       : 'min-width: 100px;',
+                    style       : 'min-width:' + w + 'px;',
                     items: [
                         {
                             caption: this.textCrop,
@@ -234,7 +235,7 @@ define([
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-270',
+                iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
                 hint: this.textHint270
             });
@@ -244,7 +245,7 @@ define([
 
             this.btnRotate90 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-90',
+                iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
                 hint: this.textHint90
             });
@@ -254,7 +255,7 @@ define([
 
             this.btnFlipV = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-vert',
+                iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
                 hint: this.textHintFlipV
             });
@@ -264,7 +265,7 @@ define([
 
             this.btnFlipH = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-hor',
+                iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
                 hint: this.textHintFlipH
             });
@@ -514,7 +515,7 @@ define([
         textSize:       'Size',
         textWidth:      'Width',
         textHeight:     'Height',
-        textOriginalSize: 'Default Size',
+        textOriginalSize: 'Actual Size',
         textInsert:     'Replace Image',
         textFromUrl:    'From URL',
         textFromFile:   'From File',

@@ -117,11 +117,11 @@ define([
                                 url += '/';
                             }
                             if (Common.SharedSettings.get('sailfish')) {
-                                url+='mobile-applications/documents/sailfish/index.aspx';
+                                url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
                             } else if (Common.SharedSettings.get('android')) {
-                                url+='mobile-applications/documents/android/index.aspx';
+                                url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
                             } else {
-                                url+='mobile-applications/documents/index.aspx';
+                                url+='mobile-applications/documents/mobile-web-editors/ios/index.aspx';
                             }
                             window.open(url, "_blank");
                             this.hideModal();

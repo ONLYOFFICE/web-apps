@@ -76,7 +76,7 @@ PE.ApplicationController = new(function(){
             $('#editor_sdk').addClass('top');
         }
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url)) {
+        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose))) {
             $('#id-btn-close').hide();
 
             // Hide last separator
@@ -111,8 +111,6 @@ PE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
-            if (!embedConfig.saveUrl && permissions.print === false)
-                $('#idt-copy').hide();
         }
     }
 
@@ -225,6 +223,9 @@ PE.ApplicationController = new(function(){
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -1);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
+        if (!embedConfig.saveUrl && permissions.print === false)
+            $('#idt-download').hide();
+
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
@@ -233,6 +234,9 @@ PE.ApplicationController = new(function(){
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
+
+        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+            $('#box-tools').addClass('hidden');
 
         common.controller.modals.attach({
             share: '#idt-share',
@@ -310,8 +314,12 @@ PE.ApplicationController = new(function(){
         });
 
         $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback && config.customization.goback.url)
-                window.parent.location.href = config.customization.goback.url;
+            if (config.customization && config.customization.goback) {
+                if (config.customization.goback.requestClose && config.canRequestClose)
+                    Common.Gateway.requestClose();
+                else if (config.customization.goback.url)
+                    window.parent.location.href = config.customization.goback.url;
+            }
         });
 
         $('#btn-left').on('click', function(){
@@ -502,6 +510,10 @@ PE.ApplicationController = new(function(){
                 message = me.errorFileSizeExceed;
                 break;
 
+            case Asc.c_oAscError.ID.UpdateVersion:
+                message = me.errorUpdateVersionOnDisconnect;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -629,6 +641,7 @@ PE.ApplicationController = new(function(){
         waitText: 'Please, wait...',
         textLoadingDocument: 'Loading presentation',
         txtClose: 'Close',
-        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.'
+        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
     }
 })();

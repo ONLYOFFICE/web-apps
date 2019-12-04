@@ -1,0 +1,8 @@
+{
+  "name": "sprites",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "grunt-spritesmith": "^6.8.0"
+  }
+}

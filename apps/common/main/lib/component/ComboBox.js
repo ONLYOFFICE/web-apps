@@ -217,6 +217,11 @@ define([
                         });
                     }
 
+                    var $list = el.find('.dropdown-menu');
+                    if ($list.hasClass('menu-absolute')) {
+                        $list.css('min-width', el.outerWidth());
+                    }
+
                     el.on('show.bs.dropdown',             _.bind(me.onBeforeShowMenu, me));
                     el.on('shown.bs.dropdown',            _.bind(me.onAfterShowMenu, me));
                     el.on('hide.bs.dropdown',             _.bind(me.onBeforeHideMenu, me));
@@ -292,6 +297,12 @@ define([
                         tip.hide();
                     }
                 }
+
+                var $list = this.cmpEl.find('ul');
+                if ($list.hasClass('menu-absolute')) {
+                    var offset = this.cmpEl.offset();
+                    $list.css({left: offset.left, top: offset.top + this.cmpEl.outerHeight() + 2});
+                }
             },
 
             onAfterShowMenu: function(e) {
@@ -300,11 +311,13 @@ define([
 
                 if ($selected.length) {
                     var itemTop = $selected.position().top,
-                        itemHeight = $selected.height(),
-                        listHeight = $list.height();
+                        itemHeight = $selected.outerHeight(),
+                        listHeight = $list.outerHeight();
 
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                        $list.scrollTop($list.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                        var height = $list.scrollTop() + itemTop + (itemHeight - listHeight)/2;
+                        height = (Math.floor(height/itemHeight) * itemHeight);
+                        $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
                 }
@@ -346,6 +359,8 @@ define([
                     this.onAfterHideMenu(e);
                     return false;
                 }  else if (this.search && e.keyCode > 64 && e.keyCode < 91 && e.key){
+                    if (typeof this._search !== 'object') return;
+
                     var me = this;
                     clearTimeout(this._search.timer);
                     this._search.timer = setTimeout(function () { me._search = {}; }, 1000);
@@ -389,10 +404,12 @@ define([
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                         var $list = $(this.el).find('ul');
                         var itemTop = item.position().top,
-                            itemHeight = item.height(),
-                            listHeight = $list.height();
+                            itemHeight = item.outerHeight(),
+                            listHeight = $list.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
-                            $list.scrollTop($list.scrollTop() + itemTop + itemHeight - (listHeight/2));
+                            var height = $list.scrollTop() + itemTop;
+                            height = (Math.floor(height/itemHeight) * itemHeight);
+                            $list.scrollTop(height);
                         }
                     }
                     item.focus();

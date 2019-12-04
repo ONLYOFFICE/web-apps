@@ -266,7 +266,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             this.btnBold = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             });
@@ -275,7 +275,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             this.btnItalic = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             });
@@ -293,7 +293,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             this.btnStrikeout = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-strikeout',
+                iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             });
@@ -318,7 +318,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             };
             this.btnTextColor = new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-fontcolor',
+                iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 menu        : new Common.UI.Menu({
                     items: [

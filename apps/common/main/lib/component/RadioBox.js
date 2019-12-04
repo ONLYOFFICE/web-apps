@@ -71,7 +71,7 @@ define([
         disabled    : false,
         rendered    : false,
 
-        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="img-commonctrl"><span><%= labelText %></span></label>'),
+        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="button__radiobox"><span><%= labelText %></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -111,6 +111,7 @@ define([
                 return;
 
             if (disabled !== this.disabled) {
+                this.$label.toggleClass('disabled', disabled);
                 this.$radio.toggleClass('disabled', disabled);
                 (disabled) ? this.$radio.attr({disabled: disabled}) : this.$radio.removeAttr('disabled');
             }

@@ -449,18 +449,18 @@
 			"t": "Totals"
 		},
 		"CONST_TRUE_FALSE": {
-			"t": "TRUE",
-			"f": "FALSE"
+			"t": "VERO",
+			"f": "FALSO"
 		},
 		"CONST_ERROR": {
-			"nil": "#NULL!",
+			"nil": "#NULLO!",
 			"div": "#DIV/0!",
-			"value": "#VALUE!",
-			"ref": "#REF!",
-			"name": "#NAME\\?",
+			"value": "#VALORE!",
+			"ref": "#RIF!",
+			"name": "#NOME\\?",
 			"num": "#NUM!",
-			"na": "#N/A",
-			"getdata": "#GETTING_DATA",
+			"na": "#N/D",
+			"getdata": "#ESTRAZIONE_DATI_IN_CORSO",
 			"uf": "#UNSUPPORTED_FUNCTION!"
 		}
 	}

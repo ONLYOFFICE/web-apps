@@ -174,11 +174,11 @@ define([
                 this.lblCompanyUrl = _$l.findById('#id-about-company-url');
                 this.lblCompanyLic = _$l.findById('#id-about-company-lic');
 
-                if ( this.licData )
-                    this.setLicInfo(this.licData);
-
                 this.$el.html(_$l);
                 this.$el.addClass('about-dlg');
+
+                if ( this.licData )
+                    this.setLicInfo(this.licData);
 
                 if (_.isUndefined(this.scroller)) {
                     this.scroller = new Common.UI.Scroller({

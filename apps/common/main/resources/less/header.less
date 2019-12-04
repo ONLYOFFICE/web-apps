@@ -70,15 +70,19 @@
     .btn-users,
     .btn-header {
         &:hover {
-            &:not(.disabled) {
+            &:not(.disabled):not(.icon) {
                 background-color: rgba(255,255,255,0.2);
             }
         }
 
         &:active, &.active {
-            &:not(.disabled) {
+            &:not(.disabled):not(.icon) {
                 background-color: rgba(0,0,0,0.2);
             }
+        }
+
+        &.icon {
+            pointer-events:none;
         }
     }
 
@@ -142,14 +146,14 @@
             display: inline-block;
             vertical-align: middle;
 
-            background-image: url('@{common-image-path}/header/header-logo.png');
+            background-image: ~"url('@{common-image-const-path}/header/header-logo.png')";
             background-repeat: no-repeat;
 
             @media
             only screen and (-webkit-min-device-pixel-ratio: 2),
             only screen and (min-resolution: 2dppx),
             only screen and (min-resolution: 192dpi) {
-                background-image: url('@{common-image-path}/header/header-logo@2x.png');
+                background-image: ~"url('@{common-image-const-path}/header/header-logo@2x.png')";
                 background-size: 86px auto;
             }
 
@@ -183,6 +187,12 @@
         display: inline-block;
         width: 20px;
         height: 20px;
+        background-repeat: no-repeat;
+        padding: 0;
+
+        &.icon--inverse {
+            background-position-x: -20px;
+        }
     }
 
     .caption {
@@ -286,11 +296,24 @@
     .icon {
         width: 20px;
         height: 20px;
+        display: inline-block;
+        position: relative;
+
+        &.icon--inverse {
+            background-position-x: -20px;
+        }
     }
 
     svg.icon {
-        display: inline-block;
         vertical-align: middle;
+
+        @media
+        only screen and (-webkit-min-device-pixel-ratio: 1.5),
+        only screen and (min-resolution: 1.5dppx),
+        only screen and (min-resolution: 144dpi) {
+            width:calc(~"28px/1.5");
+            height:calc(~"28px/1.5");
+        }
     }
 
     .btn&[disabled],

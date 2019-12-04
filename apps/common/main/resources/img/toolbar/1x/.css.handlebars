@@ -1,0 +1,31 @@
+{{#spritesheet}}
+.btn {
+    &.active, &:active {
+        &:not(:disabled):not(.disabled) {
+            .toolbar__icon {
+                @btn-active-icon-offset: -20px;
+                background-position-x: @btn-active-icon-offset;
+                --bgX: @btn-active-icon-offset;
+            }
+        }
+    }
+}
+.menu__icon {
+    .no-checkmark.checked & {
+        @btn-active-icon-offset: -20px;
+        background-position-x: @btn-active-icon-offset;
+        --bgX: @btn-active-icon-offset;
+    }
+}
+.toolbar__icon, .menu__icon {
+    background-image: url(resources/{{{escaped_image}}});
+}
+{{/spritesheet}}
+{{#sprites}}
+{{#parselang name}}.{{name}}{{/parselang}} {
+    background-position: {{px.offset_x}} {{px.offset_y}};
+
+    --bgX: {{px.offset_x}};
+    background-position: var(--bgX) {{px.offset_y}};
+}
+{{/sprites}}
